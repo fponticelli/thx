@@ -19,11 +19,27 @@ class UHash
 	{
 		for (k in from.keys())
 			to.set(k, from.get(k));
+		return to;
+	}
+	
+	public static function clone<T>(src : Hash<T>)
+	{
+		var h = new Hash();
+		UHash.copyTo(src, h);
+		return h;
 	}
 	
 	public static inline function arrayOfKeys(hash : Hash<Dynamic>)
 	{
 		return UIterator.array(hash.keys());
+	}     
+	
+	public static function setOfKeys(hash : Hash<Dynamic>) : Set<String>
+	{
+		var set = new Set();
+		for(k in hash.keys())
+			set.add(k);
+		return set;
 	}
 	
 	public static function count(hash : Hash<Dynamic>)
