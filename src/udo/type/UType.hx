@@ -28,6 +28,17 @@ class UType
 			case TObject  : "Object";
 			case TUnknown : "Unknown";
 		}
+	}   
+	
+	public static function hasSuperClass(type : Class<Dynamic>, sup : Class<Dynamic>)
+	{
+		while(null != type)
+		{
+			if(type == sup)
+				return true;
+			type = Type.getSuperClass(type);
+		} 
+		return false;
 	}
 	
 	public static inline function isAnonymous(v : Dynamic) : Bool

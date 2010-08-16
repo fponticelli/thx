@@ -5,11 +5,13 @@
 
 package udo.text;
 
+import udo.error.Error;
+
 class UString
 {
 	static var _re = new EReg("[{](\\d+)(?::[^}]*)?[}]", "m");
 	inline public static function format(pattern : String, params : Array<Dynamic>)
-	{
+	{                  
 #if hxculture
 		return hxculture.Format.string(pattern, params, hxculture.Culture.defaultCulture);
 #else
@@ -22,7 +24,7 @@ class UString
 		return _re.customReplace(pattern, function(ereg : EReg) {
 			var index = Std.parseInt(ereg.matched(1));
 			if (index >= params.length || index < 0)
-				throw "format index " + index + " out of range";
+				throw new Error("format index {0} out of range", index);
 			return "" + params[index];
 		});
 	}

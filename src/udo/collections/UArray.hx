@@ -3,7 +3,7 @@
  * @author Franco Ponticelli
  */
 
-package uform.util;
+package udo.collections;
 
 class UArray
 {
@@ -21,6 +21,12 @@ class UArray
 	public static function pushR<T>(arr : Array<T>, value : T) : Array<T>
 	{
 		arr.push(value);
+		return arr;
+	} 
+	
+	public static function removeR<T>(arr : Array<T>, value : T) : Array<T>
+	{
+		arr.remove(value);
 		return arr;
 	}
 }
