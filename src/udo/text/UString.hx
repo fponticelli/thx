@@ -147,7 +147,7 @@ class UString
 	}
 	
 	/**
-	 * Like ucwords but uses only white spaces as limites
+	 * Like ucwords but uses only white spaces as boundaries
 	 * @param	value
 	 * @return
 	 */

@@ -46,7 +46,7 @@ class UType
 		return Reflect.isObject(v) && null == Type.getClass(v);
 	}
 	
-	static public inline function as<T1, T2>(value : T1, type : Class<T2>) : T2
+	static public inline function as<T1, T2>(value : T1, type : Class<T2>) : Null<T2>
 	{
 		return (Std.is(value, type) ? cast value : null);
 	}
