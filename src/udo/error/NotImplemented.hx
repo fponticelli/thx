@@ -4,8 +4,9 @@
  */
 
 package udo.error;
+import haxe.PosInfos;
 
-class NotImplemented
+class NotImplemented extends Error
 {
 	public function new(?posInfo : PosInfos)
 	{
