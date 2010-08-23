@@ -1,3 +1,0 @@
--cp ./src  
--js bin/udo.js
-ImportAll
