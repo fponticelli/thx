@@ -3,7 +3,7 @@
  * @author Franco Ponticelli
  */
 
-package udo.util;
+package thx.util;
 
 import utest.Runner;
 import utest.ui.Report;

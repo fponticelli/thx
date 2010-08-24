@@ -3,7 +3,7 @@
  * @author Franco Ponticelli
  */
 
-package udo.type;
+package thx.type;
 
 import utest.Assert;
 import utest.Runner;

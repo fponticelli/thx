@@ -3,13 +3,13 @@
  * @author Franco Ponticelli
  */
 
-package udo.text;
+package thx.text;
 
 import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
 
-using udo.text.UString;
+using thx.text.UString;
 
 class TestUString
 {

@@ -3,13 +3,13 @@
  * @author Franco Ponticelli
  */
 
-package udo.type;
+package thx.type;
 
 import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
 
-using udo.type.UType;
+using thx.type.UType;
 
 class TestUType
 {
@@ -56,13 +56,13 @@ class TestUType
 	
 	public function testFullName()
 	{
-		Assert.equals("udo.type.TestUType", UType.fullName(this));
+		Assert.equals("thx.type.TestUType", UType.fullName(this));
 	}
 	
 	public function testTypeName()
 	{
 		Assert.equals("null", UType.typeName(null));
-		Assert.equals("udo.type.TestUType", UType.typeName(this));
+		Assert.equals("thx.type.TestUType", UType.typeName(this));
 		Assert.equals("Int", UType.typeName(1));
 		Assert.equals("Bool", UType.typeName(true));
 	}

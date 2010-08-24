@@ -3,13 +3,13 @@
  * @author Franco Ponticelli
  */
 
-package udo.util;
+package thx.util;
 
 import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
 
-using udo.util.UValue;
+using thx.util.UValue;
 
 class TestUValue
 {

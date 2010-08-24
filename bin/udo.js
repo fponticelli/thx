@@ -1,63 +1,4 @@
 $estr = function() { return js.Boot.__string_rec(this,''); }
-if(typeof udo=='undefined') udo = {}
-if(!udo.collections) udo.collections = {}
-udo.collections.UHash = function() { }
-udo.collections.UHash.__name__ = ["udo","collections","UHash"];
-udo.collections.UHash.createHash = function(datas) {
-	var hash = new Hash();
-	{
-		var _g = 0, _g1 = Reflect.fields(datas);
-		while(_g < _g1.length) {
-			var field = _g1[_g];
-			++_g;
-			hash.set(field,Reflect.field(datas,field));
-		}
-	}
-	return hash;
-}
-udo.collections.UHash.copyTo = function(from,to) {
-	{ var $it0 = from.keys();
-	while( $it0.hasNext() ) { var k = $it0.next();
-	to.set(k,from.get(k));
-	}}
-	return to;
-}
-udo.collections.UHash.clone = function(src) {
-	var h = new Hash();
-	udo.collections.UHash.copyTo(src,h);
-	return h;
-}
-udo.collections.UHash.arrayOfKeys = function(hash) {
-	return udo.collections.UIterator.array(hash.keys());
-}
-udo.collections.UHash.setOfKeys = function(hash) {
-	var set = new udo.collections.Set();
-	{ var $it0 = hash.keys();
-	while( $it0.hasNext() ) { var k = $it0.next();
-	set.add(k);
-	}}
-	return set;
-}
-udo.collections.UHash.count = function(hash) {
-	var i = 0;
-	{ var $it0 = hash.iterator();
-	while( $it0.hasNext() ) { var _ = $it0.next();
-	i++;
-	}}
-	return i;
-}
-udo.collections.UHash.clear = function(hash) {
-	var _hash = hash;
-	{
-		_hash.h = {}
-		if(_hash.h.__proto__ != null) {
-			_hash.h.__proto__ = null;
-			delete(_hash.h.__proto__);
-		}
-		else null;
-	}
-}
-udo.collections.UHash.prototype.__class__ = udo.collections.UHash;
 StringTools = function() { }
 StringTools.__name__ = ["StringTools"];
 StringTools.urlEncode = function(s) {
@@ -155,178 +96,6 @@ StringTools.hex = function(n,digits) {
 	return s;
 }
 StringTools.prototype.__class__ = StringTools;
-if(!udo.util) udo.util = {}
-udo.util.Message = function(message,params,param) { if( message === $_ ) return; {
-	this.message = message;
-	if(null == params) this.params = [];
-	else this.params = params;
-	if(null != param) this.params.push(param);
-}}
-udo.util.Message.__name__ = ["udo","util","Message"];
-udo.util.Message.prototype.message = null;
-udo.util.Message.prototype.params = null;
-udo.util.Message.prototype.toString = function() {
-	return udo.text.UString.plainFormat(this.message,this.params);
-}
-udo.util.Message.prototype.__class__ = udo.util.Message;
-Hash = function(p) { if( p === $_ ) return; {
-	this.h = {}
-	if(this.h.__proto__ != null) {
-		this.h.__proto__ = null;
-		delete(this.h.__proto__);
-	}
-	else null;
-}}
-Hash.__name__ = ["Hash"];
-Hash.prototype.exists = function(key) {
-	try {
-		key = "$" + key;
-		return this.hasOwnProperty.call(this.h,key);
-	}
-	catch( $e0 ) {
-		{
-			var e = $e0;
-			{
-				
-				for(var i in this.h)
-					if( i == key ) return true;
-			;
-				return false;
-			}
-		}
-	}
-}
-Hash.prototype.get = function(key) {
-	return this.h["$" + key];
-}
-Hash.prototype.h = null;
-Hash.prototype.iterator = function() {
-	return { ref : this.h, it : this.keys(), hasNext : function() {
-		return this.it.hasNext();
-	}, next : function() {
-		var i = this.it.next();
-		return this.ref["$" + i];
-	}}
-}
-Hash.prototype.keys = function() {
-	var a = new Array();
-	
-			for(var i in this.h)
-				a.push(i.substr(1));
-		;
-	return a.iterator();
-}
-Hash.prototype.remove = function(key) {
-	if(!this.exists(key)) return false;
-	delete(this.h["$" + key]);
-	return true;
-}
-Hash.prototype.set = function(key,value) {
-	this.h["$" + key] = value;
-}
-Hash.prototype.toString = function() {
-	var s = new StringBuf();
-	s.b[s.b.length] = "{";
-	var it = this.keys();
-	{ var $it0 = it;
-	while( $it0.hasNext() ) { var i = $it0.next();
-	{
-		s.b[s.b.length] = i;
-		s.b[s.b.length] = " => ";
-		s.b[s.b.length] = Std.string(this.get(i));
-		if(it.hasNext()) s.b[s.b.length] = ", ";
-	}
-	}}
-	s.b[s.b.length] = "}";
-	return s.b.join("");
-}
-Hash.prototype.__class__ = Hash;
-udo.collections.HashDecorator = function(decorated) { if( decorated === $_ ) return; {
-	if(null == decorated) throw new udo.error.NullArgument("decorated",{ fileName : "HashDecorator.hx", lineNumber : 56, className : "udo.collections.HashDecorator", methodName : "new"});
-	this._d = decorated;
-}}
-udo.collections.HashDecorator.__name__ = ["udo","collections","HashDecorator"];
-udo.collections.HashDecorator.prototype._d = null;
-udo.collections.HashDecorator.prototype.exists = function(key) {
-	return this._d.exists(key);
-}
-udo.collections.HashDecorator.prototype.get = function(key) {
-	return this._d.get(key);
-}
-udo.collections.HashDecorator.prototype.h = null;
-udo.collections.HashDecorator.prototype.iterator = function() {
-	return this._d.iterator();
-}
-udo.collections.HashDecorator.prototype.keys = function() {
-	return this._d.keys();
-}
-udo.collections.HashDecorator.prototype.remove = function(key) {
-	return this._d.remove(key);
-}
-udo.collections.HashDecorator.prototype.set = function(key,value) {
-	this._d.set(key,value);
-}
-udo.collections.HashDecorator.prototype.toString = function() {
-	return this._d.toString();
-}
-udo.collections.HashDecorator.prototype.__class__ = udo.collections.HashDecorator;
-udo.collections.HashDecorator.__interfaces__ = [Hash];
-udo.collections.CascadeHash = function(current,inner) { if( current === $_ ) return; {
-	udo.collections.HashDecorator.apply(this,[current]);
-	if(null == inner) throw new udo.error.NullArgument("innerHash",{ fileName : "CascadeHash.hx", lineNumber : 30, className : "udo.collections.CascadeHash", methodName : "new"});
-	this._ih = inner;
-}}
-udo.collections.CascadeHash.__name__ = ["udo","collections","CascadeHash"];
-udo.collections.CascadeHash.__super__ = udo.collections.HashDecorator;
-for(var k in udo.collections.HashDecorator.prototype ) udo.collections.CascadeHash.prototype[k] = udo.collections.HashDecorator.prototype[k];
-udo.collections.CascadeHash.create = function(arr) {
-	if(2 > arr.length) throw new udo.error.Error("to create a cascading hash sequence you need at least 2 hash objects",null,null,{ fileName : "CascadeHash.hx", lineNumber : 15, className : "udo.collections.CascadeHash", methodName : "create"});
-	var inner = arr.pop();
-	var current = arr.pop();
-	var hash = new udo.collections.CascadeHash(current,inner);
-	while(arr.length > 0) {
-		hash = new udo.collections.CascadeHash(arr.pop(),hash);
-	}
-	return hash;
-}
-udo.collections.CascadeHash.prototype._ih = null;
-udo.collections.CascadeHash.prototype.exists = function(key) {
-	if(udo.collections.HashDecorator.prototype.exists.apply(this,[key])) return udo.collections.HashDecorator.prototype.exists.apply(this,[key]);
-	else return this._ih.exists(key);
-}
-udo.collections.CascadeHash.prototype.get = function(key) {
-	if(udo.collections.HashDecorator.prototype.exists.apply(this,[key])) return udo.collections.HashDecorator.prototype.get.apply(this,[key]);
-	else return this._ih.get(key);
-}
-udo.collections.CascadeHash.prototype.iterator = function() {
-	var list = new List();
-	{ var $it0 = this.keys();
-	while( $it0.hasNext() ) { var k = $it0.next();
-	list.push(this.get(k));
-	}}
-	return list.iterator();
-}
-udo.collections.CascadeHash.prototype.keys = function() {
-	var s = new udo.collections.Set();
-	{ var $it0 = udo.collections.HashDecorator.prototype.keys.apply(this,[]);
-	while( $it0.hasNext() ) { var k = $it0.next();
-	s.add(k);
-	}}
-	{ var $it1 = this._ih.keys();
-	while( $it1.hasNext() ) { var k = $it1.next();
-	s.add(k);
-	}}
-	return s.iterator();
-}
-udo.collections.CascadeHash.prototype.toString = function() {
-	var arr = [];
-	{ var $it0 = this.keys();
-	while( $it0.hasNext() ) { var k = $it0.next();
-	arr.push((k + ": ") + this.get(k));
-	}}
-	return ("{" + arr.join(", ")) + "}";
-}
-udo.collections.CascadeHash.prototype.__class__ = udo.collections.CascadeHash;
 Reflect = function() { }
 Reflect.__name__ = ["Reflect"];
 Reflect.hasField = function(o,field) {
@@ -437,171 +206,135 @@ Reflect.makeVarArgs = function(f) {
 	}
 }
 Reflect.prototype.__class__ = Reflect;
-if(!udo.error) udo.error = {}
-udo.error.Error = function(message,params,param,pos) { if( message === $_ ) return; {
-	udo.util.Message.apply(this,[message,params,param]);
-	this.pos = pos;
-}}
-udo.error.Error.__name__ = ["udo","error","Error"];
-udo.error.Error.__super__ = udo.util.Message;
-for(var k in udo.util.Message.prototype ) udo.error.Error.prototype[k] = udo.util.Message.prototype[k];
-udo.error.Error.prototype.inner = null;
-udo.error.Error.prototype.pos = null;
-udo.error.Error.prototype.setInner = function(inner) {
-	this.inner = inner;
-	return this;
+if(typeof thx=='undefined') thx = {}
+if(!thx.collections) thx.collections = {}
+thx.collections.UHash = function() { }
+thx.collections.UHash.__name__ = ["thx","collections","UHash"];
+thx.collections.UHash.createHash = function(datas) {
+	var hash = new Hash();
+	{
+		var _g = 0, _g1 = Reflect.fields(datas);
+		while(_g < _g1.length) {
+			var field = _g1[_g];
+			++_g;
+			hash.set(field,Reflect.field(datas,field));
+		}
+	}
+	return hash;
 }
-udo.error.Error.prototype.toString = function() {
+thx.collections.UHash.copyTo = function(from,to) {
+	{ var $it0 = from.keys();
+	while( $it0.hasNext() ) { var k = $it0.next();
+	to.set(k,from.get(k));
+	}}
+	return to;
+}
+thx.collections.UHash.clone = function(src) {
+	var h = new Hash();
+	thx.collections.UHash.copyTo(src,h);
+	return h;
+}
+thx.collections.UHash.arrayOfKeys = function(hash) {
+	return thx.collections.UIterator.array(hash.keys());
+}
+thx.collections.UHash.setOfKeys = function(hash) {
+	var set = new thx.collections.Set();
+	{ var $it0 = hash.keys();
+	while( $it0.hasNext() ) { var k = $it0.next();
+	set.add(k);
+	}}
+	return set;
+}
+thx.collections.UHash.count = function(hash) {
+	var i = 0;
+	{ var $it0 = hash.iterator();
+	while( $it0.hasNext() ) { var _ = $it0.next();
+	i++;
+	}}
+	return i;
+}
+thx.collections.UHash.clear = function(hash) {
+	var _hash = hash;
+	{
+		_hash.h = {}
+		if(_hash.h.__proto__ != null) {
+			_hash.h.__proto__ = null;
+			delete(_hash.h.__proto__);
+		}
+		else null;
+	}
+}
+thx.collections.UHash.prototype.__class__ = thx.collections.UHash;
+if(!thx.util) thx.util = {}
+thx.util.Message = function(message,params,param) { if( message === $_ ) return; {
+	this.message = message;
+	if(null == params) this.params = [];
+	else this.params = params;
+	if(null != param) this.params.push(param);
+}}
+thx.util.Message.__name__ = ["thx","util","Message"];
+thx.util.Message.prototype.message = null;
+thx.util.Message.prototype.params = null;
+thx.util.Message.prototype.toString = function() {
+	return thx.text.UString.plainFormat(this.message,this.params);
+}
+thx.util.Message.prototype.__class__ = thx.util.Message;
+Hash = function(p) { if( p === $_ ) return; {
+	this.h = {}
+	if(this.h.__proto__ != null) {
+		this.h.__proto__ = null;
+		delete(this.h.__proto__);
+	}
+	else null;
+}}
+Hash.__name__ = ["Hash"];
+Hash.prototype.exists = function(key) {
 	try {
-		return udo.text.UString.plainFormat(this.message,this.params);
+		key = "$" + key;
+		return this.hasOwnProperty.call(this.h,key);
 	}
 	catch( $e0 ) {
 		{
 			var e = $e0;
 			{
-				var ps = ((((this.pos.className + ".") + this.pos.methodName) + "(") + this.pos.lineNumber) + ")";
-				var pa;
-				if(0 == this.params.length) pa = "no parameters passed";
-				else pa = "wrong parameters passed ({0})";
-				throw new udo.error.Error(pa + " for pattern '{1}' at {2}",[this.params.join(", "),this.message,ps],null,{ fileName : "Error.hx", lineNumber : 39, className : "udo.error.Error", methodName : "toString"});
+				
+				for(var i in this.h)
+					if( i == key ) return true;
+			;
+				return false;
 			}
 		}
 	}
 }
-udo.error.Error.prototype.__class__ = udo.error.Error;
-udo.collections.Set = function(p) { if( p === $_ ) return; {
-	this._v = [];
-}}
-udo.collections.Set.__name__ = ["udo","collections","Set"];
-udo.collections.Set.prototype._v = null;
-udo.collections.Set.prototype.add = function(v) {
-	this._v.remove(v);
-	this._v.push(v);
+Hash.prototype.get = function(key) {
+	return this.h["$" + key];
 }
-udo.collections.Set.prototype.array = function() {
-	return this._v.copy();
-}
-udo.collections.Set.prototype.exists = function(v) {
-	{
-		var _g = 0, _g1 = this._v;
-		while(_g < _g1.length) {
-			var t = _g1[_g];
-			++_g;
-			if(t == v) return true;
-		}
-	}
-	return false;
-}
-udo.collections.Set.prototype.iterator = function() {
-	return this._v.iterator();
-}
-udo.collections.Set.prototype.remove = function(v) {
-	return this._v.remove(v);
-}
-udo.collections.Set.prototype.toString = function() {
-	return ("{" + this._v.join(", ")) + "}";
-}
-udo.collections.Set.prototype.__class__ = udo.collections.Set;
-udo.collections.UIterator = function() { }
-udo.collections.UIterator.__name__ = ["udo","collections","UIterator"];
-udo.collections.UIterator.indexOf = function(it,v,f) {
-	if(null == f) f = function(v2) {
-		return v == v2;
-	}
-	var c = 0;
-	{ var $it0 = it;
-	while( $it0.hasNext() ) { var i = $it0.next();
-	if(f(i)) return c;
-	else c++;
+Hash.prototype.h = null;
+Hash.prototype.iterator = function() {
+	return { ref : this.h, it : this.keys(), hasNext : function() {
+		return this.it.hasNext();
+	}, next : function() {
+		var i = this.it.next();
+		return this.ref["$" + i];
 	}}
-	return -1;
 }
-udo.collections.UIterator.contains = function(it,v,f) {
-	if(null == f) f = function(v2) {
-		return v == v2;
-	}
-	var c = 0;
-	{ var $it0 = it;
-	while( $it0.hasNext() ) { var i = $it0.next();
-	if(f(i)) return true;
-	}}
-	return false;
+Hash.prototype.keys = function() {
+	var a = new Array();
+	
+			for(var i in this.h)
+				a.push(i.substr(1));
+		;
+	return a.iterator();
 }
-udo.collections.UIterator.array = function(it) {
-	var result = [];
-	{ var $it0 = it;
-	while( $it0.hasNext() ) { var v = $it0.next();
-	result.push(v);
-	}}
-	return result;
+Hash.prototype.remove = function(key) {
+	if(!this.exists(key)) return false;
+	delete(this.h["$" + key]);
+	return true;
 }
-udo.collections.UIterator.prototype.__class__ = udo.collections.UIterator;
-udo.collections.IntHashList = function(p) { if( p === $_ ) return; {
-	this.length = 0;
-	this.__keys = [];
-	this.__hash = new IntHash();
-}}
-udo.collections.IntHashList.__name__ = ["udo","collections","IntHashList"];
-udo.collections.IntHashList.prototype.__hash = null;
-udo.collections.IntHashList.prototype.__keys = null;
-udo.collections.IntHashList.prototype.array = function() {
-	var values = [];
-	{
-		var _g = 0, _g1 = this.__keys;
-		while(_g < _g1.length) {
-			var k = _g1[_g];
-			++_g;
-			values.push(this.__hash.get(k));
-		}
-	}
-	return values;
+Hash.prototype.set = function(key,value) {
+	this.h["$" + key] = value;
 }
-udo.collections.IntHashList.prototype.clear = function() {
-	this.__hash = new IntHash();
-	this.__keys = [];
-	this.length = 0;
-}
-udo.collections.IntHashList.prototype.exists = function(key) {
-	return this.__hash.exists(key);
-}
-udo.collections.IntHashList.prototype.get = function(key) {
-	return this.__hash.get(key);
-}
-udo.collections.IntHashList.prototype.getAt = function(index) {
-	return this.__hash.get(this.__keys[index]);
-}
-udo.collections.IntHashList.prototype.iterator = function() {
-	return this.array().iterator();
-}
-udo.collections.IntHashList.prototype.keys = function() {
-	return this.__keys.iterator();
-}
-udo.collections.IntHashList.prototype.length = null;
-udo.collections.IntHashList.prototype.remove = function(key) {
-	var item = this.__hash.get(key);
-	if(item == null) return null;
-	this.__hash.remove(key);
-	this.__keys.remove(key);
-	this.length--;
-	return item;
-}
-udo.collections.IntHashList.prototype.removeAt = function(index) {
-	if(index < 0 || index >= this.length) return null;
-	var key = this.__keys[index];
-	var item = this.__hash.get(key);
-	this.__hash.remove(key);
-	this.__keys.remove(key);
-	this.length--;
-	return item;
-}
-udo.collections.IntHashList.prototype.set = function(key,value) {
-	if(!this.__hash.exists(key)) {
-		this.__keys.push(key);
-		this.length++;
-	}
-	this.__hash.set(key,value);
-}
-udo.collections.IntHashList.prototype.toString = function() {
+Hash.prototype.toString = function() {
 	var s = new StringBuf();
 	s.b[s.b.length] = "{";
 	var it = this.keys();
@@ -617,7 +350,125 @@ udo.collections.IntHashList.prototype.toString = function() {
 	s.b[s.b.length] = "}";
 	return s.b.join("");
 }
-udo.collections.IntHashList.prototype.__class__ = udo.collections.IntHashList;
+Hash.prototype.__class__ = Hash;
+thx.collections.HashDecorator = function(decorated) { if( decorated === $_ ) return; {
+	if(null == decorated) throw new thx.error.NullArgument("decorated",{ fileName : "HashDecorator.hx", lineNumber : 56, className : "thx.collections.HashDecorator", methodName : "new"});
+	this._d = decorated;
+}}
+thx.collections.HashDecorator.__name__ = ["thx","collections","HashDecorator"];
+thx.collections.HashDecorator.prototype._d = null;
+thx.collections.HashDecorator.prototype.exists = function(key) {
+	return this._d.exists(key);
+}
+thx.collections.HashDecorator.prototype.get = function(key) {
+	return this._d.get(key);
+}
+thx.collections.HashDecorator.prototype.h = null;
+thx.collections.HashDecorator.prototype.iterator = function() {
+	return this._d.iterator();
+}
+thx.collections.HashDecorator.prototype.keys = function() {
+	return this._d.keys();
+}
+thx.collections.HashDecorator.prototype.remove = function(key) {
+	return this._d.remove(key);
+}
+thx.collections.HashDecorator.prototype.set = function(key,value) {
+	this._d.set(key,value);
+}
+thx.collections.HashDecorator.prototype.toString = function() {
+	return this._d.toString();
+}
+thx.collections.HashDecorator.prototype.__class__ = thx.collections.HashDecorator;
+thx.collections.HashDecorator.__interfaces__ = [Hash];
+thx.collections.CascadeHash = function(current,inner) { if( current === $_ ) return; {
+	thx.collections.HashDecorator.apply(this,[current]);
+	if(null == inner) throw new thx.error.NullArgument("innerHash",{ fileName : "CascadeHash.hx", lineNumber : 30, className : "thx.collections.CascadeHash", methodName : "new"});
+	this._ih = inner;
+}}
+thx.collections.CascadeHash.__name__ = ["thx","collections","CascadeHash"];
+thx.collections.CascadeHash.__super__ = thx.collections.HashDecorator;
+for(var k in thx.collections.HashDecorator.prototype ) thx.collections.CascadeHash.prototype[k] = thx.collections.HashDecorator.prototype[k];
+thx.collections.CascadeHash.create = function(arr) {
+	if(2 > arr.length) throw new thx.error.Error("to create a cascading hash sequence you need at least 2 hash objects",null,null,{ fileName : "CascadeHash.hx", lineNumber : 15, className : "thx.collections.CascadeHash", methodName : "create"});
+	var inner = arr.pop();
+	var current = arr.pop();
+	var hash = new thx.collections.CascadeHash(current,inner);
+	while(arr.length > 0) {
+		hash = new thx.collections.CascadeHash(arr.pop(),hash);
+	}
+	return hash;
+}
+thx.collections.CascadeHash.prototype._ih = null;
+thx.collections.CascadeHash.prototype.exists = function(key) {
+	if(thx.collections.HashDecorator.prototype.exists.apply(this,[key])) return thx.collections.HashDecorator.prototype.exists.apply(this,[key]);
+	else return this._ih.exists(key);
+}
+thx.collections.CascadeHash.prototype.get = function(key) {
+	if(thx.collections.HashDecorator.prototype.exists.apply(this,[key])) return thx.collections.HashDecorator.prototype.get.apply(this,[key]);
+	else return this._ih.get(key);
+}
+thx.collections.CascadeHash.prototype.iterator = function() {
+	var list = new List();
+	{ var $it0 = this.keys();
+	while( $it0.hasNext() ) { var k = $it0.next();
+	list.push(this.get(k));
+	}}
+	return list.iterator();
+}
+thx.collections.CascadeHash.prototype.keys = function() {
+	var s = new thx.collections.Set();
+	{ var $it0 = thx.collections.HashDecorator.prototype.keys.apply(this,[]);
+	while( $it0.hasNext() ) { var k = $it0.next();
+	s.add(k);
+	}}
+	{ var $it1 = this._ih.keys();
+	while( $it1.hasNext() ) { var k = $it1.next();
+	s.add(k);
+	}}
+	return s.iterator();
+}
+thx.collections.CascadeHash.prototype.toString = function() {
+	var arr = [];
+	{ var $it0 = this.keys();
+	while( $it0.hasNext() ) { var k = $it0.next();
+	arr.push((k + ": ") + this.get(k));
+	}}
+	return ("{" + arr.join(", ")) + "}";
+}
+thx.collections.CascadeHash.prototype.__class__ = thx.collections.CascadeHash;
+if(!thx.error) thx.error = {}
+thx.error.Error = function(message,params,param,pos) { if( message === $_ ) return; {
+	thx.util.Message.apply(this,[message,params,param]);
+	this.pos = pos;
+}}
+thx.error.Error.__name__ = ["thx","error","Error"];
+thx.error.Error.__super__ = thx.util.Message;
+for(var k in thx.util.Message.prototype ) thx.error.Error.prototype[k] = thx.util.Message.prototype[k];
+thx.error.Error.prototype.inner = null;
+thx.error.Error.prototype.pos = null;
+thx.error.Error.prototype.setInner = function(inner) {
+	this.inner = inner;
+	return this;
+}
+thx.error.Error.prototype.toString = function() {
+	try {
+		return thx.text.UString.plainFormat(this.message,this.params);
+	}
+	catch( $e0 ) {
+		{
+			var e = $e0;
+			{
+				var ps = ((((this.pos.className + ".") + this.pos.methodName) + "(") + this.pos.lineNumber) + ")";
+				var pa;
+				if(0 == this.params.length) pa = "no parameters passed";
+				else pa = "wrong parameters passed ({0})";
+				throw new thx.error.Error(pa + " for pattern '{1}' at {2}",[this.params.join(", "),this.message,ps],null,{ fileName : "Error.hx", lineNumber : 39, className : "thx.error.Error", methodName : "toString"});
+			}
+		}
+	}
+}
+thx.error.Error.prototype.__class__ = thx.error.Error;
 StringBuf = function(p) { if( p === $_ ) return; {
 	this.b = new Array();
 }}
@@ -636,33 +487,82 @@ StringBuf.prototype.toString = function() {
 	return this.b.join("");
 }
 StringBuf.prototype.__class__ = StringBuf;
-udo.collections.UArray = function() { }
-udo.collections.UArray.__name__ = ["udo","collections","UArray"];
-udo.collections.UArray.pushIf = function(arr,condition,value) {
-	if(null != condition) {
-		if(condition) arr.push(value);
+thx.collections.UIterator = function() { }
+thx.collections.UIterator.__name__ = ["thx","collections","UIterator"];
+thx.collections.UIterator.indexOf = function(it,v,f) {
+	if(null == f) f = function(v2) {
+		return v == v2;
 	}
-	else if(null != value) arr.push(value);
-	return arr;
+	var c = 0;
+	{ var $it0 = it;
+	while( $it0.hasNext() ) { var i = $it0.next();
+	if(f(i)) return c;
+	else c++;
+	}}
+	return -1;
 }
-udo.collections.UArray.pushR = function(arr,value) {
-	arr.push(value);
-	return arr;
+thx.collections.UIterator.contains = function(it,v,f) {
+	if(null == f) f = function(v2) {
+		return v == v2;
+	}
+	var c = 0;
+	{ var $it0 = it;
+	while( $it0.hasNext() ) { var i = $it0.next();
+	if(f(i)) return true;
+	}}
+	return false;
 }
-udo.collections.UArray.removeR = function(arr,value) {
-	arr.remove(value);
-	return arr;
+thx.collections.UIterator.array = function(it) {
+	var result = [];
+	{ var $it0 = it;
+	while( $it0.hasNext() ) { var v = $it0.next();
+	result.push(v);
+	}}
+	return result;
 }
-udo.collections.UArray.prototype.__class__ = udo.collections.UArray;
-udo.collections.HashList = function(p) { if( p === $_ ) return; {
+thx.collections.UIterator.prototype.__class__ = thx.collections.UIterator;
+thx.collections.Set = function(p) { if( p === $_ ) return; {
+	this._v = [];
+}}
+thx.collections.Set.__name__ = ["thx","collections","Set"];
+thx.collections.Set.prototype._v = null;
+thx.collections.Set.prototype.add = function(v) {
+	this._v.remove(v);
+	this._v.push(v);
+}
+thx.collections.Set.prototype.array = function() {
+	return this._v.copy();
+}
+thx.collections.Set.prototype.exists = function(v) {
+	{
+		var _g = 0, _g1 = this._v;
+		while(_g < _g1.length) {
+			var t = _g1[_g];
+			++_g;
+			if(t == v) return true;
+		}
+	}
+	return false;
+}
+thx.collections.Set.prototype.iterator = function() {
+	return this._v.iterator();
+}
+thx.collections.Set.prototype.remove = function(v) {
+	return this._v.remove(v);
+}
+thx.collections.Set.prototype.toString = function() {
+	return ("{" + this._v.join(", ")) + "}";
+}
+thx.collections.Set.prototype.__class__ = thx.collections.Set;
+thx.collections.IntHashList = function(p) { if( p === $_ ) return; {
 	this.length = 0;
 	this.__keys = [];
-	this.__hash = new Hash();
+	this.__hash = new IntHash();
 }}
-udo.collections.HashList.__name__ = ["udo","collections","HashList"];
-udo.collections.HashList.prototype.__hash = null;
-udo.collections.HashList.prototype.__keys = null;
-udo.collections.HashList.prototype.array = function() {
+thx.collections.IntHashList.__name__ = ["thx","collections","IntHashList"];
+thx.collections.IntHashList.prototype.__hash = null;
+thx.collections.IntHashList.prototype.__keys = null;
+thx.collections.IntHashList.prototype.array = function() {
 	var values = [];
 	{
 		var _g = 0, _g1 = this.__keys;
@@ -674,46 +574,28 @@ udo.collections.HashList.prototype.array = function() {
 	}
 	return values;
 }
-udo.collections.HashList.prototype.clear = function() {
-	this.__hash = new Hash();
+thx.collections.IntHashList.prototype.clear = function() {
+	this.__hash = new IntHash();
 	this.__keys = [];
 	this.length = 0;
 }
-udo.collections.HashList.prototype.exists = function(key) {
+thx.collections.IntHashList.prototype.exists = function(key) {
 	return this.__hash.exists(key);
 }
-udo.collections.HashList.prototype.get = function(key) {
+thx.collections.IntHashList.prototype.get = function(key) {
 	return this.__hash.get(key);
 }
-udo.collections.HashList.prototype.getAt = function(index) {
+thx.collections.IntHashList.prototype.getAt = function(index) {
 	return this.__hash.get(this.__keys[index]);
 }
-udo.collections.HashList.prototype.indexOf = function(key) {
-	if(!this.__hash.exists(key)) return -1;
-	{
-		var _g1 = 0, _g = this.__keys.length;
-		while(_g1 < _g) {
-			var i = _g1++;
-			if(this.__keys[i] == key) return i;
-		}
-	}
-	return (function($this) {
-		var $r;
-		throw "this should never happen";
-		return $r;
-	}(this));
-}
-udo.collections.HashList.prototype.iterator = function() {
+thx.collections.IntHashList.prototype.iterator = function() {
 	return this.array().iterator();
 }
-udo.collections.HashList.prototype.keyAt = function(index) {
-	return this.__keys[index];
-}
-udo.collections.HashList.prototype.keys = function() {
+thx.collections.IntHashList.prototype.keys = function() {
 	return this.__keys.iterator();
 }
-udo.collections.HashList.prototype.length = null;
-udo.collections.HashList.prototype.remove = function(key) {
+thx.collections.IntHashList.prototype.length = null;
+thx.collections.IntHashList.prototype.remove = function(key) {
 	var item = this.__hash.get(key);
 	if(item == null) return null;
 	this.__hash.remove(key);
@@ -721,29 +603,23 @@ udo.collections.HashList.prototype.remove = function(key) {
 	this.length--;
 	return item;
 }
-udo.collections.HashList.prototype.removeAt = function(index) {
+thx.collections.IntHashList.prototype.removeAt = function(index) {
+	if(index < 0 || index >= this.length) return null;
 	var key = this.__keys[index];
-	if(key == null) return null;
 	var item = this.__hash.get(key);
 	this.__hash.remove(key);
 	this.__keys.remove(key);
 	this.length--;
 	return item;
 }
-udo.collections.HashList.prototype.set = function(key,value) {
+thx.collections.IntHashList.prototype.set = function(key,value) {
 	if(!this.__hash.exists(key)) {
 		this.__keys.push(key);
 		this.length++;
 	}
 	this.__hash.set(key,value);
 }
-udo.collections.HashList.prototype.setAt = function(index,key,value) {
-	this.remove(key);
-	this.__keys.insert(index,key);
-	this.__hash.set(key,value);
-	this.length++;
-}
-udo.collections.HashList.prototype.toString = function() {
+thx.collections.IntHashList.prototype.toString = function() {
 	var s = new StringBuf();
 	s.b[s.b.length] = "{";
 	var it = this.keys();
@@ -759,19 +635,25 @@ udo.collections.HashList.prototype.toString = function() {
 	s.b[s.b.length] = "}";
 	return s.b.join("");
 }
-udo.collections.HashList.prototype.__class__ = udo.collections.HashList;
-udo.collections.UIterable = function() { }
-udo.collections.UIterable.__name__ = ["udo","collections","UIterable"];
-udo.collections.UIterable.indexOf = function(it,v,f) {
-	return udo.collections.UIterator.indexOf(it.iterator(),v,f);
+thx.collections.IntHashList.prototype.__class__ = thx.collections.IntHashList;
+thx.collections.UArray = function() { }
+thx.collections.UArray.__name__ = ["thx","collections","UArray"];
+thx.collections.UArray.pushIf = function(arr,condition,value) {
+	if(null != condition) {
+		if(condition) arr.push(value);
+	}
+	else if(null != value) arr.push(value);
+	return arr;
 }
-udo.collections.UIterable.contains = function(it,v,f) {
-	return udo.collections.UIterator.contains(it.iterator(),v,f);
+thx.collections.UArray.pushR = function(arr,value) {
+	arr.push(value);
+	return arr;
 }
-udo.collections.UIterable.array = function(it) {
-	return udo.collections.UIterator.array(it.iterator());
+thx.collections.UArray.removeR = function(arr,value) {
+	arr.remove(value);
+	return arr;
 }
-udo.collections.UIterable.prototype.__class__ = udo.collections.UIterable;
+thx.collections.UArray.prototype.__class__ = thx.collections.UArray;
 IntIter = function(min,max) { if( min === $_ ) return; {
 	this.min = min;
 	this.max = max;
@@ -786,6 +668,112 @@ IntIter.prototype.next = function() {
 	return this.min++;
 }
 IntIter.prototype.__class__ = IntIter;
+thx.collections.HashList = function(p) { if( p === $_ ) return; {
+	this.length = 0;
+	this.__keys = [];
+	this.__hash = new Hash();
+}}
+thx.collections.HashList.__name__ = ["thx","collections","HashList"];
+thx.collections.HashList.prototype.__hash = null;
+thx.collections.HashList.prototype.__keys = null;
+thx.collections.HashList.prototype.array = function() {
+	var values = [];
+	{
+		var _g = 0, _g1 = this.__keys;
+		while(_g < _g1.length) {
+			var k = _g1[_g];
+			++_g;
+			values.push(this.__hash.get(k));
+		}
+	}
+	return values;
+}
+thx.collections.HashList.prototype.clear = function() {
+	this.__hash = new Hash();
+	this.__keys = [];
+	this.length = 0;
+}
+thx.collections.HashList.prototype.exists = function(key) {
+	return this.__hash.exists(key);
+}
+thx.collections.HashList.prototype.get = function(key) {
+	return this.__hash.get(key);
+}
+thx.collections.HashList.prototype.getAt = function(index) {
+	return this.__hash.get(this.__keys[index]);
+}
+thx.collections.HashList.prototype.indexOf = function(key) {
+	if(!this.__hash.exists(key)) return -1;
+	{
+		var _g1 = 0, _g = this.__keys.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			if(this.__keys[i] == key) return i;
+		}
+	}
+	return (function($this) {
+		var $r;
+		throw "this should never happen";
+		return $r;
+	}(this));
+}
+thx.collections.HashList.prototype.iterator = function() {
+	return this.array().iterator();
+}
+thx.collections.HashList.prototype.keyAt = function(index) {
+	return this.__keys[index];
+}
+thx.collections.HashList.prototype.keys = function() {
+	return this.__keys.iterator();
+}
+thx.collections.HashList.prototype.length = null;
+thx.collections.HashList.prototype.remove = function(key) {
+	var item = this.__hash.get(key);
+	if(item == null) return null;
+	this.__hash.remove(key);
+	this.__keys.remove(key);
+	this.length--;
+	return item;
+}
+thx.collections.HashList.prototype.removeAt = function(index) {
+	var key = this.__keys[index];
+	if(key == null) return null;
+	var item = this.__hash.get(key);
+	this.__hash.remove(key);
+	this.__keys.remove(key);
+	this.length--;
+	return item;
+}
+thx.collections.HashList.prototype.set = function(key,value) {
+	if(!this.__hash.exists(key)) {
+		this.__keys.push(key);
+		this.length++;
+	}
+	this.__hash.set(key,value);
+}
+thx.collections.HashList.prototype.setAt = function(index,key,value) {
+	this.remove(key);
+	this.__keys.insert(index,key);
+	this.__hash.set(key,value);
+	this.length++;
+}
+thx.collections.HashList.prototype.toString = function() {
+	var s = new StringBuf();
+	s.b[s.b.length] = "{";
+	var it = this.keys();
+	{ var $it0 = it;
+	while( $it0.hasNext() ) { var i = $it0.next();
+	{
+		s.b[s.b.length] = i;
+		s.b[s.b.length] = " => ";
+		s.b[s.b.length] = Std.string(this.get(i));
+		if(it.hasNext()) s.b[s.b.length] = ", ";
+	}
+	}}
+	s.b[s.b.length] = "}";
+	return s.b.join("");
+}
+thx.collections.HashList.prototype.__class__ = thx.collections.HashList;
 Std = function() { }
 Std.__name__ = ["Std"];
 Std["is"] = function(v,t) {
@@ -810,13 +798,18 @@ Std.random = function(x) {
 	return Math.floor(Math.random() * x);
 }
 Std.prototype.__class__ = Std;
-udo.error.NotImplemented = function(posInfo) { if( posInfo === $_ ) return; {
-	udo.error.Error.apply(this,["method {0}.{1}() needs to be implemented",[posInfo.className,posInfo.methodName],posInfo,{ fileName : "NotImplemented.hx", lineNumber : 13, className : "udo.error.NotImplemented", methodName : "new"}]);
-}}
-udo.error.NotImplemented.__name__ = ["udo","error","NotImplemented"];
-udo.error.NotImplemented.__super__ = udo.error.Error;
-for(var k in udo.error.Error.prototype ) udo.error.NotImplemented.prototype[k] = udo.error.Error.prototype[k];
-udo.error.NotImplemented.prototype.__class__ = udo.error.NotImplemented;
+thx.collections.UIterable = function() { }
+thx.collections.UIterable.__name__ = ["thx","collections","UIterable"];
+thx.collections.UIterable.indexOf = function(it,v,f) {
+	return thx.collections.UIterator.indexOf(it.iterator(),v,f);
+}
+thx.collections.UIterable.contains = function(it,v,f) {
+	return thx.collections.UIterator.contains(it.iterator(),v,f);
+}
+thx.collections.UIterable.array = function(it) {
+	return thx.collections.UIterator.array(it.iterator());
+}
+thx.collections.UIterable.prototype.__class__ = thx.collections.UIterable;
 List = function(p) { if( p === $_ ) return; {
 	this.length = 0;
 }}
@@ -932,6 +925,13 @@ List.prototype.toString = function() {
 	return s.b.join("");
 }
 List.prototype.__class__ = List;
+thx.error.NotImplemented = function(posInfo) { if( posInfo === $_ ) return; {
+	thx.error.Error.apply(this,["method {0}.{1}() needs to be implemented",[posInfo.className,posInfo.methodName],posInfo,{ fileName : "NotImplemented.hx", lineNumber : 13, className : "thx.error.NotImplemented", methodName : "new"}]);
+}}
+thx.error.NotImplemented.__name__ = ["thx","error","NotImplemented"];
+thx.error.NotImplemented.__super__ = thx.error.Error;
+for(var k in thx.error.Error.prototype ) thx.error.NotImplemented.prototype[k] = thx.error.Error.prototype[k];
+thx.error.NotImplemented.prototype.__class__ = thx.error.NotImplemented;
 if(typeof js=='undefined') js = {}
 js.Lib = function() { }
 js.Lib.__name__ = ["js","Lib"];
@@ -941,6 +941,12 @@ js.Lib.document = null;
 js.Lib.window = null;
 js.Lib.alert = function(v) {
 	alert(js.Boot.__string_rec(v,""));
+}
+js.Lib.print = function(v) {
+	js.Lib.alert(v);
+}
+js.Lib.println = function(v) {
+	null;
 }
 js.Lib.eval = function(code) {
 	return eval(code);
@@ -1159,140 +1165,6 @@ js.Boot.__init = function() {
 	$closure = js.Boot.__closure;
 }
 js.Boot.prototype.__class__ = js.Boot;
-EReg = function(r,opt) { if( r === $_ ) return; {
-	opt = opt.split("u").join("");
-	this.r = new RegExp(r,opt);
-}}
-EReg.__name__ = ["EReg"];
-EReg.prototype.customReplace = function(s,f) {
-	var buf = new StringBuf();
-	while(true) {
-		if(!this.match(s)) break;
-		buf.b[buf.b.length] = this.matchedLeft();
-		buf.b[buf.b.length] = f(this);
-		s = this.matchedRight();
-	}
-	buf.b[buf.b.length] = s;
-	return buf.b.join("");
-}
-EReg.prototype.match = function(s) {
-	this.r.m = this.r.exec(s);
-	this.r.s = s;
-	this.r.l = RegExp.leftContext;
-	this.r.r = RegExp.rightContext;
-	return (this.r.m != null);
-}
-EReg.prototype.matched = function(n) {
-	return (this.r.m != null && n >= 0 && n < this.r.m.length?this.r.m[n]:(function($this) {
-		var $r;
-		throw "EReg::matched";
-		return $r;
-	}(this)));
-}
-EReg.prototype.matchedLeft = function() {
-	if(this.r.m == null) throw "No string matched";
-	if(this.r.l == null) return this.r.s.substr(0,this.r.m.index);
-	return this.r.l;
-}
-EReg.prototype.matchedPos = function() {
-	if(this.r.m == null) throw "No string matched";
-	return { pos : this.r.m.index, len : this.r.m[0].length}
-}
-EReg.prototype.matchedRight = function() {
-	if(this.r.m == null) throw "No string matched";
-	if(this.r.r == null) {
-		var sz = this.r.m.index + this.r.m[0].length;
-		return this.r.s.substr(sz,this.r.s.length - sz);
-	}
-	return this.r.r;
-}
-EReg.prototype.r = null;
-EReg.prototype.replace = function(s,by) {
-	return s.replace(this.r,by);
-}
-EReg.prototype.split = function(s) {
-	var d = "#__delim__#";
-	return s.replace(this.r,d).split(d);
-}
-EReg.prototype.__class__ = EReg;
-if(!udo.text) udo.text = {}
-udo.text.UString = function() { }
-udo.text.UString.__name__ = ["udo","text","UString"];
-udo.text.UString.format = function(pattern,params) {
-	return udo.text.UString.plainFormat(pattern,params);
-}
-udo.text.UString.plainFormat = function(pattern,params) {
-	return udo.text.UString._re.customReplace(pattern,function(ereg) {
-		var index = Std.parseInt(ereg.matched(1));
-		if(index >= params.length || index < 0) throw new udo.error.Error("format index {0} out of range",null,index,{ fileName : "UString.hx", lineNumber : 27, className : "udo.text.UString", methodName : "plainFormat"});
-		return "" + params[index];
-	});
-}
-udo.text.UString.upTo = function(value,searchFor) {
-	var pos = value.indexOf(searchFor);
-	if(pos < 0) return value;
-	else return value.substr(0,pos);
-}
-udo.text.UString.startFrom = function(value,searchFor) {
-	var pos = value.indexOf(searchFor);
-	if(pos < 0) return value;
-	else return value.substr(pos + searchFor.length);
-}
-udo.text.UString.rtrim = function(value,charlist) {
-	var len = value.length;
-	while(len > 0) {
-		var c = value.substr(len - 1,1);
-		if(charlist.indexOf(c) < 0) break;
-		len--;
-	}
-	return value.substr(0,len);
-}
-udo.text.UString.ltrim = function(value,charlist) {
-	var start = 0;
-	while(start < value.length) {
-		var c = value.substr(start,1);
-		if(charlist.indexOf(c) < 0) break;
-		start++;
-	}
-	return value.substr(start);
-}
-udo.text.UString.trim = function(value,charlist) {
-	var len = value.length;
-	var pos;
-	while(len > 0) {
-		var c = value.substr(len - 1,1);
-		if(charlist.indexOf(c) < 0) break;
-		len--;
-	}
-	return udo.text.UString.rtrim(udo.text.UString.ltrim(value,charlist),charlist);
-}
-udo.text.UString.ucfirst = function(value) {
-	return ((value == null?null:value.charAt(0).toUpperCase() + value.substr(1)));
-}
-udo.text.UString.lcfirst = function(value) {
-	return ((value == null?null:value.charAt(0).toLowerCase() + value.substr(1)));
-}
-udo.text.UString.empty = function(value) {
-	if(value == null || value == "") return true;
-	else if(StringTools.trim(value) == "") return true;
-	else return false;
-}
-udo.text.UString.isAlphaNum = function(value) {
-	return ((value == null?false:udo.text.UString.__alphaNumPattern.match(value)));
-}
-udo.text.UString.digitsOnly = function(value) {
-	return ((value == null?false:udo.text.UString.__digitsPattern.match(value)));
-}
-udo.text.UString.ucwords = function(value) {
-	return udo.text.UString.__ucwordsPattern.customReplace(((value == null?null:value.charAt(0).toUpperCase() + value.substr(1))),$closure(udo.text.UString,"__upperMatch"));
-}
-udo.text.UString.ucwordsws = function(value) {
-	return udo.text.UString.__ucwordswsPattern.customReplace(((value == null?null:value.charAt(0).toUpperCase() + value.substr(1))),$closure(udo.text.UString,"__upperMatch"));
-}
-udo.text.UString.__upperMatch = function(re) {
-	return re.matched(0).toUpperCase();
-}
-udo.text.UString.prototype.__class__ = udo.text.UString;
 IntHash = function(p) { if( p === $_ ) return; {
 	this.h = {}
 	if(this.h.__proto__ != null) {
@@ -1350,23 +1222,157 @@ IntHash.prototype.toString = function() {
 	return s.b.join("");
 }
 IntHash.prototype.__class__ = IntHash;
-udo.error.AbstractMethod = function(posInfo) { if( posInfo === $_ ) return; {
-	udo.error.Error.apply(this,["method {0}.{1}() is abstract",[posInfo.className,posInfo.methodName],posInfo,{ fileName : "AbstractMethod.hx", lineNumber : 14, className : "udo.error.AbstractMethod", methodName : "new"}]);
+EReg = function(r,opt) { if( r === $_ ) return; {
+	opt = opt.split("u").join("");
+	this.r = new RegExp(r,opt);
 }}
-udo.error.AbstractMethod.__name__ = ["udo","error","AbstractMethod"];
-udo.error.AbstractMethod.__super__ = udo.error.Error;
-for(var k in udo.error.Error.prototype ) udo.error.AbstractMethod.prototype[k] = udo.error.Error.prototype[k];
-udo.error.AbstractMethod.prototype.__class__ = udo.error.AbstractMethod;
-udo.error.NullArgument = function(argumentName,posInfo) { if( argumentName === $_ ) return; {
-	udo.error.Error.apply(this,["invalid null argument '{0}'",null,argumentName,posInfo]);
-}}
-udo.error.NullArgument.__name__ = ["udo","error","NullArgument"];
-udo.error.NullArgument.__super__ = udo.error.Error;
-for(var k in udo.error.Error.prototype ) udo.error.NullArgument.prototype[k] = udo.error.Error.prototype[k];
-udo.error.NullArgument.throwIfNull = function(value,name,posInfo) {
-	if(null == value) throw new udo.error.NullArgument(name,posInfo);
+EReg.__name__ = ["EReg"];
+EReg.prototype.customReplace = function(s,f) {
+	var buf = new StringBuf();
+	while(true) {
+		if(!this.match(s)) break;
+		buf.b[buf.b.length] = this.matchedLeft();
+		buf.b[buf.b.length] = f(this);
+		s = this.matchedRight();
+	}
+	buf.b[buf.b.length] = s;
+	return buf.b.join("");
 }
-udo.error.NullArgument.prototype.__class__ = udo.error.NullArgument;
+EReg.prototype.match = function(s) {
+	this.r.m = this.r.exec(s);
+	this.r.s = s;
+	this.r.l = RegExp.leftContext;
+	this.r.r = RegExp.rightContext;
+	return (this.r.m != null);
+}
+EReg.prototype.matched = function(n) {
+	return (this.r.m != null && n >= 0 && n < this.r.m.length?this.r.m[n]:(function($this) {
+		var $r;
+		throw "EReg::matched";
+		return $r;
+	}(this)));
+}
+EReg.prototype.matchedLeft = function() {
+	if(this.r.m == null) throw "No string matched";
+	if(this.r.l == null) return this.r.s.substr(0,this.r.m.index);
+	return this.r.l;
+}
+EReg.prototype.matchedPos = function() {
+	if(this.r.m == null) throw "No string matched";
+	return { pos : this.r.m.index, len : this.r.m[0].length}
+}
+EReg.prototype.matchedRight = function() {
+	if(this.r.m == null) throw "No string matched";
+	if(this.r.r == null) {
+		var sz = this.r.m.index + this.r.m[0].length;
+		return this.r.s.substr(sz,this.r.s.length - sz);
+	}
+	return this.r.r;
+}
+EReg.prototype.r = null;
+EReg.prototype.replace = function(s,by) {
+	return s.replace(this.r,by);
+}
+EReg.prototype.split = function(s) {
+	var d = "#__delim__#";
+	return s.replace(this.r,d).split(d);
+}
+EReg.prototype.__class__ = EReg;
+if(!thx.text) thx.text = {}
+thx.text.UString = function() { }
+thx.text.UString.__name__ = ["thx","text","UString"];
+thx.text.UString.format = function(pattern,params) {
+	return thx.text.UString.plainFormat(pattern,params);
+}
+thx.text.UString.plainFormat = function(pattern,params) {
+	return thx.text.UString._re.customReplace(pattern,function(ereg) {
+		var index = Std.parseInt(ereg.matched(1));
+		if(index >= params.length || index < 0) throw new thx.error.Error("format index {0} out of range",null,index,{ fileName : "UString.hx", lineNumber : 27, className : "thx.text.UString", methodName : "plainFormat"});
+		return "" + params[index];
+	});
+}
+thx.text.UString.upTo = function(value,searchFor) {
+	var pos = value.indexOf(searchFor);
+	if(pos < 0) return value;
+	else return value.substr(0,pos);
+}
+thx.text.UString.startFrom = function(value,searchFor) {
+	var pos = value.indexOf(searchFor);
+	if(pos < 0) return value;
+	else return value.substr(pos + searchFor.length);
+}
+thx.text.UString.rtrim = function(value,charlist) {
+	var len = value.length;
+	while(len > 0) {
+		var c = value.substr(len - 1,1);
+		if(charlist.indexOf(c) < 0) break;
+		len--;
+	}
+	return value.substr(0,len);
+}
+thx.text.UString.ltrim = function(value,charlist) {
+	var start = 0;
+	while(start < value.length) {
+		var c = value.substr(start,1);
+		if(charlist.indexOf(c) < 0) break;
+		start++;
+	}
+	return value.substr(start);
+}
+thx.text.UString.trim = function(value,charlist) {
+	var len = value.length;
+	var pos;
+	while(len > 0) {
+		var c = value.substr(len - 1,1);
+		if(charlist.indexOf(c) < 0) break;
+		len--;
+	}
+	return thx.text.UString.rtrim(thx.text.UString.ltrim(value,charlist),charlist);
+}
+thx.text.UString.ucfirst = function(value) {
+	return ((value == null?null:value.charAt(0).toUpperCase() + value.substr(1)));
+}
+thx.text.UString.lcfirst = function(value) {
+	return ((value == null?null:value.charAt(0).toLowerCase() + value.substr(1)));
+}
+thx.text.UString.empty = function(value) {
+	if(value == null || value == "") return true;
+	else if(StringTools.trim(value) == "") return true;
+	else return false;
+}
+thx.text.UString.isAlphaNum = function(value) {
+	return ((value == null?false:thx.text.UString.__alphaNumPattern.match(value)));
+}
+thx.text.UString.digitsOnly = function(value) {
+	return ((value == null?false:thx.text.UString.__digitsPattern.match(value)));
+}
+thx.text.UString.ucwords = function(value) {
+	return thx.text.UString.__ucwordsPattern.customReplace(((value == null?null:value.charAt(0).toUpperCase() + value.substr(1))),$closure(thx.text.UString,"__upperMatch"));
+}
+thx.text.UString.ucwordsws = function(value) {
+	return thx.text.UString.__ucwordswsPattern.customReplace(((value == null?null:value.charAt(0).toUpperCase() + value.substr(1))),$closure(thx.text.UString,"__upperMatch"));
+}
+thx.text.UString.__upperMatch = function(re) {
+	return re.matched(0).toUpperCase();
+}
+thx.text.UString.prototype.__class__ = thx.text.UString;
+thx.error.AbstractMethod = function(posInfo) { if( posInfo === $_ ) return; {
+	thx.error.Error.apply(this,["method {0}.{1}() is abstract",[posInfo.className,posInfo.methodName],posInfo,{ fileName : "AbstractMethod.hx", lineNumber : 14, className : "thx.error.AbstractMethod", methodName : "new"}]);
+}}
+thx.error.AbstractMethod.__name__ = ["thx","error","AbstractMethod"];
+thx.error.AbstractMethod.__super__ = thx.error.Error;
+for(var k in thx.error.Error.prototype ) thx.error.AbstractMethod.prototype[k] = thx.error.Error.prototype[k];
+thx.error.AbstractMethod.prototype.__class__ = thx.error.AbstractMethod;
+thx.error.NullArgument = function(argumentName,posInfo) { if( argumentName === $_ ) return; {
+	thx.error.Error.apply(this,["invalid null argument '{0}'",null,argumentName,posInfo]);
+}}
+thx.error.NullArgument.__name__ = ["thx","error","NullArgument"];
+thx.error.NullArgument.__super__ = thx.error.Error;
+for(var k in thx.error.Error.prototype ) thx.error.NullArgument.prototype[k] = thx.error.Error.prototype[k];
+thx.error.NullArgument.throwIfNull = function(value,name,posInfo) {
+	if(null == value) throw new thx.error.NullArgument(name,posInfo);
+}
+thx.error.NullArgument.prototype.__class__ = thx.error.NullArgument;
 $_ = {}
 js.Boot.__res = {}
 js.Boot.__init();
@@ -1407,8 +1413,8 @@ js.Boot.__init();
 	}
 }
 js.Lib.onerror = null;
-udo.text.UString._re = new EReg("[{](\\d+)(?::[^}]*)?[}]","m");
-udo.text.UString.__ucwordsPattern = new EReg("[^a-zA-Z]([a-z])","");
-udo.text.UString.__ucwordswsPattern = new EReg("\\s([a-z])","");
-udo.text.UString.__alphaNumPattern = new EReg("^[a-z0-9]+$","i");
-udo.text.UString.__digitsPattern = new EReg("^[0-9]+$","");
+thx.text.UString._re = new EReg("[{](\\d+)(?::[^}]*)?[}]","m");
+thx.text.UString.__ucwordsPattern = new EReg("[^a-zA-Z]([a-z])","");
+thx.text.UString.__ucwordswsPattern = new EReg("\\s([a-z])","");
+thx.text.UString.__alphaNumPattern = new EReg("^[a-z0-9]+$","i");
+thx.text.UString.__digitsPattern = new EReg("^[0-9]+$","");

@@ -10,11 +10,11 @@ class UdoTestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		udo.collections.TestAll.addTests(runner);
-		udo.error.TestAll.addTests(runner);
-		udo.text.TestAll.addTests(runner);
-		udo.type.TestAll.addTests(runner);
-		udo.util.TestAll.addTests(runner);
+		thx.collections.TestAll.addTests(runner);
+		thx.error.TestAll.addTests(runner);
+		thx.text.TestAll.addTests(runner);
+		thx.type.TestAll.addTests(runner);
+		thx.util.TestAll.addTests(runner);
 	}
 	
 	public static function main()

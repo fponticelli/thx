@@ -3,13 +3,13 @@
  * @author Franco Ponticelli
  */
 
-package udo.collections;
+package thx.collections;
 
 import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
 
-using udo.collections.UHash;
+using thx.collections.UHash;
 
 class TestUHash
 {

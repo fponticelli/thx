@@ -3,7 +3,7 @@
  * @author Franco Ponticelli
  */
 
-package udo.collections;
+package thx.collections;
 
 import utest.Assert;
 import utest.Runner;
