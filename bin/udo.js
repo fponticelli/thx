@@ -942,12 +942,6 @@ js.Lib.window = null;
 js.Lib.alert = function(v) {
 	alert(js.Boot.__string_rec(v,""));
 }
-js.Lib.print = function(v) {
-	js.Lib.alert(v);
-}
-js.Lib.println = function(v) {
-	null;
-}
 js.Lib.eval = function(code) {
 	return eval(code);
 }
