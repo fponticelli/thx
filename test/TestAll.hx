@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ...
  * @author Franco Ponticelli
  */
@@ -6,7 +6,7 @@
 import utest.Runner;
 import utest.ui.Report;
 
-class UdoTestAll
+class TestAll
 {
 	public static function addTests(runner : Runner)
 	{

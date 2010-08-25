@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ...
  * @author Franco Ponticelli
  */
@@ -12,7 +12,7 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		TestUValue.addTests(runner);
+
 	}
 	
 	public static function main()
