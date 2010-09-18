@@ -6,6 +6,7 @@
 package thx.text;
 
 import thx.error.Error;
+using StringTools;
 
 class UString
 {
@@ -169,5 +170,41 @@ class UString
 	static var __ucwordswsPattern = new EReg('\\s([a-z])', '');
 	static var __alphaNumPattern = new EReg('^[a-z0-9]+$', 'i');
 	static var __digitsPattern = new EReg('^[0-9]+$', '');
-#end
+#end 
+    
+	/**
+	*  Replaces undescores with space, finds UC characters, turns them into LC and prepends them with a space.
+	*  More than one UC in sequence is left untouched. 
+	**/
+	public static function humanize(s : String)
+	{
+		return underscore(s).replace('_', ' ');
+	}
+
+	// TO TEST	
+	public static function capitalize(s : String)
+	{
+		return s.substr(0, 1).toUpperCase() + s.substr(1);
+	}
+	
+	// TO TEST
+	public static function succ(s : String)
+	{
+		return s.substr(0, -1) + String.fromCharCode(s.substr(-1).charCodeAt(0)+1);
+	}                                                                              
+	
+	// TO TEST
+	public static function underscore(s : String)
+	{  
+		s = (~/::/g).replace(s, '/');
+		s =	(~/([A-Z]+)([A-Z][a-z])/g).replace(s, '$1_$2');
+		s = (~/([a-z\d])([A-Z])/g).replace(s, '$1_$2');
+		s = (~/-/g).replace(s, '_');
+		return s.toLowerCase(); 
+	}
+	
+	public static function dasherize(s : String)
+	{
+		return s.replace('_', '-');
+	}	
 }

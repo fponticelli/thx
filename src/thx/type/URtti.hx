@@ -118,6 +118,11 @@ class URtti
 		}
 		return h;
 	}
+    
+	public static function hasInfo(cls : Class<Dynamic>) : Bool
+	{
+		return null != untyped cls.__rtti;
+	}
 
 	public static function getClassDef(cls : Class<Dynamic>)
 	{

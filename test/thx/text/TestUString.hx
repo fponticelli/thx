@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ...
  * @author Franco Ponticelli
  */
@@ -79,5 +79,12 @@ class TestUString
 		Assert.equals("X.", UString.format("{0:T,1,.}", ["XYZ"]));
 		Assert.equals("{0INVALIDMODIFIER}", UString.format("{0INVALIDMODIFIER}", ["X"]));
 #end
+	}  
+	
+	public function testHumanize()
+	{
+		Assert.equals("hello world", UString.humanize("helloWorld"));
+		Assert.equals("my long string", UString.humanize("my_long_string"));
+		Assert.equals("ignore many", UString.humanize("ignoreMANY"));
 	}
 }
