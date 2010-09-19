@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/ImportAll.hx</string>
+	<string>test/thx/text/TestUString.hx</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -79,6 +79,20 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>src/thx/text/UString.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>188</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>171</integer>
+		</dict>
 		<key>test/TestAll.hx</key>
 		<dict>
 			<key>caret</key>
@@ -92,6 +106,20 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+		</dict>
+		<key>test/thx/text/TestUString.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>28</integer>
+				<key>line</key>
+				<integer>87</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>52</integer>
 		</dict>
 		<key>test/thx/util/TestAll.hx</key>
 		<dict>
@@ -125,6 +153,8 @@
 	<key>openDocuments</key>
 	<array>
 		<string>src/ImportAll.hx</string>
+		<string>test/thx/text/TestUString.hx</string>
+		<string>src/thx/text/UString.hx</string>
 		<string>test/TestAll.hx</string>
 		<string>test/thx/util/TestAll.hx</string>
 		<string>core.hxml</string>
@@ -133,6 +163,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{912, 286}, {923, 739}}</string>
+	<string>{{1114, 392}, {923, 739}}</string>
 </dict>
 </plist>
