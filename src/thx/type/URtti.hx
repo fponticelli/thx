@@ -139,4 +139,13 @@ class URtti
 		}
 		return cd;
 	}
+	
+	public static function isMethod(field : ClassField) 
+	{
+		return switch(field.type)
+		{
+			case CFunction(_, _): true; 
+			default: false;
+		}
+	}
 }
