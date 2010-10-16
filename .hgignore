@@ -4,3 +4,5 @@ bin/lib
 bin/test.bat
 bin/test.n
 .DS_Store
+.hgignore
+.tmbuild

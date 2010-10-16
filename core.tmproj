@@ -3,32 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>test/thx/text/TestUString.hx</string>
+	<string>src/thx/type/UType.hx</string>
 	<key>documents</key>
 	<array>
 		<dict>
-			<key>expanded</key>
-			<true/>
-			<key>name</key>
-			<string>src</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>src</string>
-		</dict>
-		<dict>
 			<key>name</key>
 			<string>bin</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|bundle))$</string>
 			<key>sourceDirectory</key>
 			<string>bin</string>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>thx.hxml</string>
-			<key>lastUsed</key>
-			<date>2010-08-25T06:47:16Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -40,11 +24,27 @@
 			<key>expanded</key>
 			<true/>
 			<key>name</key>
+			<string>src</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>src</string>
+		</dict>
+		<dict>
+			<key>expanded</key>
+			<true/>
+			<key>name</key>
 			<string>test</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
 			<key>sourceDirectory</key>
 			<string>test</string>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>thx.hxml</string>
+			<key>lastUsed</key>
+			<date>2010-08-25T06:47:16Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
@@ -92,6 +92,48 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>171</integer>
+		</dict>
+		<key>src/thx/type/UMeta.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>36</integer>
+				<key>line</key>
+				<integer>6</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/thx/type/URtti.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>60</integer>
+				<key>line</key>
+				<integer>121</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>83</integer>
+		</dict>
+		<key>src/thx/type/UType.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>15</integer>
+				<key>line</key>
+				<integer>13</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>15</integer>
 		</dict>
 		<key>test/TestAll.hx</key>
 		<dict>
@@ -154,6 +196,9 @@
 	<array>
 		<string>src/ImportAll.hx</string>
 		<string>test/thx/text/TestUString.hx</string>
+		<string>src/thx/type/UMeta.hx</string>
+		<string>src/thx/type/URtti.hx</string>
+		<string>src/thx/type/UType.hx</string>
 		<string>src/thx/text/UString.hx</string>
 		<string>test/TestAll.hx</string>
 		<string>test/thx/util/TestAll.hx</string>
@@ -161,8 +206,43 @@
 		<string>thx.hxml</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
+	<false/>
+	<key>showFileHierarchyPanel</key>
 	<true/>
+	<key>treeState</key>
+	<dict>
+		<key>src</key>
+		<dict>
+			<key>isExpanded</key>
+			<true/>
+			<key>subItems</key>
+			<dict>
+				<key>thx</key>
+				<dict>
+					<key>isExpanded</key>
+					<true/>
+					<key>subItems</key>
+					<dict>
+						<key>type</key>
+						<dict>
+							<key>isExpanded</key>
+							<true/>
+							<key>subItems</key>
+							<dict/>
+						</dict>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
+		<key>test</key>
+		<dict>
+			<key>isExpanded</key>
+			<true/>
+			<key>subItems</key>
+			<dict/>
+		</dict>
+	</dict>
 	<key>windowFrame</key>
-	<string>{{1114, 392}, {923, 739}}</string>
+	<string>{{1465, 247}, {923, 739}}</string>
 </dict>
 </plist>
