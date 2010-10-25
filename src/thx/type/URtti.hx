@@ -61,7 +61,7 @@ class URtti
 		switch(field.type)
 		{
 			case CFunction(args, _):
-			    return args;
+			    return Lambda.array(args);
 			default:
 				return null;
 		}
