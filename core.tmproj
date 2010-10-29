@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>currentDocument</key>
+	<string>src/thx/util/UObject.hx</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -44,7 +46,26 @@
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>200</integer>
 	<key>metaData</key>
-	<dict/>
+	<dict>
+		<key>src/thx/util/UObject.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>22</integer>
+				<key>line</key>
+				<integer>4</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>openDocuments</key>
+	<array>
+		<string>src/thx/util/UObject.hx</string>
+	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
 	<key>showFileHierarchyPanel</key>
@@ -98,6 +119,13 @@
 							<key>subItems</key>
 							<dict/>
 						</dict>
+						<key>util</key>
+						<dict>
+							<key>isExpanded</key>
+							<true/>
+							<key>subItems</key>
+							<dict/>
+						</dict>
 					</dict>
 				</dict>
 			</dict>
@@ -134,6 +162,6 @@
 		</dict>
 	</dict>
 	<key>windowFrame</key>
-	<string>{{1462, 342}, {999, 941}}</string>
+	<string>{{664, 148}, {999, 941}}</string>
 </dict>
 </plist>
