@@ -28,10 +28,7 @@ class Error extends Message
 	override public function toString()
 	{   
 		try {
-			var r = message.format(params);
-			if(null != inner)
-				r += ";\n" + inner.toString();
-			return r;
+			return message.format(params);
 		} catch(e : Dynamic) {   
 			var ps = pos.className + "." + pos.methodName + "(" + pos.lineNumber + ")";  
 			var pa;
