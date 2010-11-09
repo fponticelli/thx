@@ -3,6 +3,8 @@
  * @author Franco Ponticelli
  */
 
+package thx.xml;
+
 import utest.Runner;
 import utest.ui.Report;
 
@@ -10,12 +12,7 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		thx.collections.TestAll.addTests(runner);
-		thx.error.TestAll.addTests(runner);
-		thx.text.TestAll.addTests(runner);
-		thx.xml.TestAll.addTests(runner);
-		thx.type.TestAll.addTests(runner);
-		thx.util.TestAll.addTests(runner);
+    	runner.addCase(new TestXmlWriter());
 	}
 	
 	public static function main()

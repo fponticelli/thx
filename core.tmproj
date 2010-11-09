@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/thx/util/UObject.hx</string>
+	<string>test/thx/xml/TestXmlWriter.hx</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -47,6 +47,20 @@
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
+		<key>src/thx/text/UString.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>75</integer>
+				<key>line</key>
+				<integer>226</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>206</integer>
+		</dict>
 		<key>src/thx/util/UObject.hx</key>
 		<dict>
 			<key>caret</key>
@@ -61,10 +75,103 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>src/thx/xml/HtmlWriter.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>16</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+		</dict>
+		<key>src/thx/xml/XmlWriter.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>79</integer>
+				<key>line</key>
+				<integer>169</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>128</integer>
+		</dict>
+		<key>test/thx/text/TestUString.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>23</integer>
+				<key>line</key>
+				<integer>129</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>90</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>22</integer>
+				<key>line</key>
+				<integer>129</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>23</integer>
+				<key>line</key>
+				<integer>129</integer>
+			</dict>
+		</dict>
+		<key>test/thx/xml/TestXmlWriter.hx</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>17</integer>
+				<key>line</key>
+				<integer>90</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>55</integer>
+		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
 		<string>src/thx/util/UObject.hx</string>
+		<string>src/thx/xml/HtmlWriter.hx</string>
+		<string>src/thx/xml/XmlWriter.hx</string>
+		<string>src/thx/text/UString.hx</string>
+		<string>test/thx/text/TestUString.hx</string>
+		<string>test/thx/xml/TestXmlWriter.hx</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
@@ -126,6 +233,13 @@
 							<key>subItems</key>
 							<dict/>
 						</dict>
+						<key>xml</key>
+						<dict>
+							<key>isExpanded</key>
+							<true/>
+							<key>subItems</key>
+							<dict/>
+						</dict>
 					</dict>
 				</dict>
 			</dict>
@@ -156,12 +270,33 @@
 							<key>subItems</key>
 							<dict/>
 						</dict>
+						<key>text</key>
+						<dict>
+							<key>isExpanded</key>
+							<true/>
+							<key>subItems</key>
+							<dict/>
+						</dict>
+						<key>util</key>
+						<dict>
+							<key>isExpanded</key>
+							<true/>
+							<key>subItems</key>
+							<dict/>
+						</dict>
+						<key>xml</key>
+						<dict>
+							<key>isExpanded</key>
+							<true/>
+							<key>subItems</key>
+							<dict/>
+						</dict>
 					</dict>
 				</dict>
 			</dict>
 		</dict>
 	</dict>
 	<key>windowFrame</key>
-	<string>{{664, 148}, {999, 941}}</string>
+	<string>{{900, 92}, {1226, 1176}}</string>
 </dict>
 </plist>

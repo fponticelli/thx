@@ -10,7 +10,9 @@ using StringTools;
 
 class UString
 {
-	static var _re = new EReg("[{](\\d+)(?::[^}]*)?[}]", "m");
+	static var _re = new EReg("[{](\\d+)(?::[^}]*)?[}]", "m");   
+	static var _reSplitWC = ~/(\r\n|\n\r|\n|\r)/g;
+	static var _reReduceWS = ~/\s+/;
 	inline public static function format(pattern : String, params : Array<Dynamic>)
 	{                  
 #if hxculture
@@ -206,5 +208,63 @@ class UString
 	public static function dasherize(s : String)
 	{
 		return s.replace('_', '-');
-	}	
+	}
+	
+	public static function repeat(s : String, times : Int)
+	{
+		var b = [];
+		for(i in 0...times)
+			b.push(s);
+		return b.join('');
+	}
+	
+	public static function wrapColumns(s : String, columns = 78, indent = "", newline = "\n")
+	{
+		var parts = _reSplitWC.split(s);
+		var result = [];
+		for(part in parts)
+		{
+			result.push(_wrapColumns(StringTools.trim(_reReduceWS.replace(part, " ")), columns, indent, newline));
+		}
+		return result.join(newline);
+	}
+	
+	static function _wrapColumns(s : String, columns : Int, indent : String, newline : String)
+	{
+		var parts = [];
+		var pos = 0;  
+		var len = s.length;
+		var ilen = indent.length;
+		columns -= ilen;
+		while(true)
+		{
+			if(pos + columns >= len - ilen)
+			{
+				parts.push(s.substr(pos));
+				break;
+			}
+			
+			var i = 0;
+			while(!StringTools.isSpace(s, pos + columns - i) && i < columns)
+			{
+				i++;
+			}
+			if(i == columns)
+			{
+				// search ahead
+				i = 0;
+				while(!StringTools.isSpace(s, pos + columns + i) && pos + columns + i < len)
+				{
+					i++;
+				}
+				parts.push(s.substr(pos, columns + i));
+				pos += columns + i + 1;
+			} else {
+				parts.push(s.substr(pos, columns - i));
+				pos += columns - i + 1;
+			}
+		}
+		
+		return indent + parts.join(newline + indent);
+	}
 }
