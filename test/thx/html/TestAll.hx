@@ -15,7 +15,6 @@ class TestAll
 		runner.addCase(new TestHtmlParser());
 		runner.addCase(new TestHtmlFormat());
 		runner.addCase(new TestXHtmlFormat());
-		runner.addCase(new TestHtml5Format());
 	}
 	
 	public static function main()
