@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <project>
   <!-- Output SWF options -->
   <output>
@@ -20,7 +20,7 @@
   <build>
     <option directives="" />
     <option flashStrict="False" />
-    <option mainClass="UdoTestAll" />
+    <option mainClass="TestAll" />
     <option enabledebug="False" />
     <option additional="" />
   </build>
@@ -34,7 +34,7 @@
   </compileTargets>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
-    <!-- example: <hidden path="..." /> -->
+    <hidden path=".hg" />
   </hiddenPaths>
   <!-- Executed before build -->
   <preBuildCommand />

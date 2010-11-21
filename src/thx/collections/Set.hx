@@ -7,6 +7,13 @@ package thx.collections;
 
 class Set<T>
 {
+	public static function ofArray<T>(arr : Array<T>) : Set<T>
+	{
+		var set = new Set();
+		for (item in arr)
+			set.add(item);
+		return set;
+	}
 	var _v : Array<T>;
 	public function new()
 	{
