@@ -9,15 +9,15 @@ class NormalizeWhitespaceValueFormat extends ValueFormat
 	public function new()
 	{
 		super();
-		_wsReplace   = ~/(\s+)/m;
-		_wsTestStart = ~/^(\s)/;
-		_wsTestEnd   = ~/(\s)$/;
+		_wsReplace = ~/(\s|\n|\r)+/g;
 	}
 	
 	override public function format(value : String)
 	{
-		var sws = _wsTestStart.match(value) ? " " : "";
-		var ews = _wsTestEnd.match(value) ? " " : "";
-		return sws + _wsReplace.replace(value, " ").trim() + ews;
+		var v = _wsReplace.replace(value, " ");
+		if (v == " ")
+			return "";
+		else
+			return v;
 	}
 }

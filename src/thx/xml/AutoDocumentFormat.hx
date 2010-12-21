@@ -56,7 +56,7 @@ class AutoDocumentFormat extends DocumentFormat
 	}
 	
 	override function formatOpenElement(node : Xml)
-	{
+	{   
 		return indentWrap(super.formatOpenElement(node));
 	}
 	

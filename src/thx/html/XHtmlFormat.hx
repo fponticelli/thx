@@ -1,6 +1,7 @@
 package thx.html;
 import thx.xml.DocumentFormat;
 import thx.xml.XmlFormat;
+import thx.html.HtmlDocumentFormat;
 
 class XHtmlFormat extends XmlFormat
 {
@@ -10,6 +11,7 @@ class XHtmlFormat extends XmlFormat
 		if(autoformat)
 		{
 			var doc = new HtmlDocumentFormat();
+			doc.specialElementContentFormat = AsCData;
 		    if(null != indent)
 		    	doc.indent = indent;
 	  		if(null != newline)

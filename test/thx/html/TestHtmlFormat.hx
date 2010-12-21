@@ -14,7 +14,7 @@ class TestHtmlFormat
 	{
 		format = new HtmlFormat();
 	}
-	
+
 	public function testEmptyElement()
 	{
 		assertProcessed("<br>", "<br>doomed to be lost</br>");

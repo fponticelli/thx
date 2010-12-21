@@ -7,6 +7,7 @@ class HtmlDocumentFormat extends DocumentFormat
 	public var indent : String;
 	public var newline : String;
 	public var wrapColumns : Int;
+	public var specialElementContentFormat : SpecialElementContentFormat;
     
 	var _level : Int;
 	var _begin : Bool;
@@ -17,6 +18,7 @@ class HtmlDocumentFormat extends DocumentFormat
 		indent = "  ";
 		newline = "\n";
 		wrapColumns = 78;
+		specialElementContentFormat = AsCommentedText;
 		_level = 0;
 		_begin = true;
 	}
@@ -69,6 +71,39 @@ class HtmlDocumentFormat extends DocumentFormat
 		}   
 	}
 	
+	function contentIsEmpty(node : Xml)
+	{
+		for (c in node)
+		{
+			if (c.nodeType != Xml.PCData || StringTools.trim(c.nodeValue) != "")
+				return false;
+		}
+		return true;
+	}
+	
+	function formatSpecialElement(node : Xml)
+	{
+		if (contentIsEmpty(node))
+		{
+			return indentWrap(formatInlineOpenElement(node) + formatInlineCloseElement(node));
+		} else {
+			return formatOpenElement(node) + wrapSpecialElementContent(formatChildren(node)) + formatCloseElement(node);
+		}
+	}
+	
+	function wrapSpecialElementContent(content : String)
+	{
+		switch(specialElementContentFormat)
+		{
+			case AsPlainText:
+				return content;
+			case AsCData:
+				return indentWrap("<![CDATA[" + content + newline + "]]>");
+			case AsCommentedText:
+				return indentWrap("<!--" + content + newline + "// -->");
+		}
+	}
+	
 	override function formatElement(node : Xml)
 	{   
 		if(isEmpty(node))
@@ -84,6 +119,8 @@ class HtmlDocumentFormat extends DocumentFormat
 					  formatInlineOpenElement(node)
 					+ formatInlineChildren(node)
 					+ formatInlineCloseElement(node);
+			} else if (Element.isSpecial(node.nodeName)) {
+				return formatSpecialElement(node);
 			} else if(inlineContent(node)){
 				var open    = formatInlineOpenElement(node);
 				var content = formatInlineChildren(node);
@@ -217,4 +254,11 @@ class HtmlDocumentFormat extends DocumentFormat
 	{
 		return super.formatCData(node);
 	}
+}
+
+enum SpecialElementContentFormat
+{
+	AsPlainText;
+	AsCData;
+	AsCommentedText;
 }

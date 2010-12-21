@@ -18,7 +18,13 @@
 			<key>filename</key>
 			<string>core.hxml</string>
 			<key>lastUsed</key>
-			<date>2010-10-17T11:14:02Z</date>
+			<date>2010-11-22T10:16:49Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>core.php.hxml</string>
+			<key>lastUsed</key>
+			<date>2010-11-22T10:16:49Z</date>
 		</dict>
 		<dict>
 			<key>expanded</key>
@@ -42,7 +48,7 @@
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>200</integer>
+	<integer>303</integer>
 	<key>metaData</key>
 	<dict/>
 	<key>showFileHierarchyDrawer</key>
@@ -63,17 +69,63 @@
 			<key>isExpanded</key>
 			<true/>
 			<key>subItems</key>
-			<dict/>
+			<dict>
+				<key>thx</key>
+				<dict>
+					<key>isExpanded</key>
+					<true/>
+					<key>subItems</key>
+					<dict>
+						<key>html</key>
+						<dict>
+							<key>isExpanded</key>
+							<true/>
+							<key>subItems</key>
+							<dict/>
+						</dict>
+						<key>xml</key>
+						<dict>
+							<key>isExpanded</key>
+							<true/>
+							<key>subItems</key>
+							<dict/>
+						</dict>
+					</dict>
+				</dict>
+			</dict>
 		</dict>
 		<key>test</key>
 		<dict>
 			<key>isExpanded</key>
 			<true/>
 			<key>subItems</key>
-			<dict/>
+			<dict>
+				<key>thx</key>
+				<dict>
+					<key>isExpanded</key>
+					<true/>
+					<key>subItems</key>
+					<dict>
+						<key>html</key>
+						<dict>
+							<key>isExpanded</key>
+							<true/>
+							<key>subItems</key>
+							<dict/>
+						</dict>
+						<key>xml</key>
+						<dict>
+							<key>isExpanded</key>
+							<true/>
+							<key>subItems</key>
+							<dict/>
+						</dict>
+					</dict>
+				</dict>
+			</dict>
 		</dict>
 	</dict>
 	<key>windowFrame</key>
-	<string>{{242, 136}, {1226, 1176}}</string>
+	<string>{{867, 225}, {1226, 1176}}</string>
 </dict>
 </plist>

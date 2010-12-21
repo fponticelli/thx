@@ -56,7 +56,7 @@ class UString
 	public static function rtrim(value : String, charlist : String) : String
 	{
 #if php
-		return untyped __call__("rtrim", charlist);
+		return untyped __call__("rtrim", value, charlist);
 #else
 		var len = value.length;
 		while (len > 0)
@@ -74,7 +74,7 @@ class UString
 	public static function ltrim(value : String, charlist : String) : String
 	{
 #if php
-		return untyped __call__("ltrim", charlist);
+		return untyped __call__("ltrim", value, charlist);
 #else
 		var start = 0;
 		while (start < value.length)
@@ -91,17 +91,8 @@ class UString
 	public static inline function trim(value : String, charlist : String) : String
 	{
 #if php
-		return untyped __call__("trim", charlist);
+		return untyped __call__("trim", value, charlist);
 #else
-		var len = value.length;
-		var pos;
-		while (len > 0)
-		{
-			var c = value.substr(len - 1, 1);
-			if (charlist.indexOf(c) < 0)
-				break;
-			len--;
-		}
 		return rtrim(ltrim(value, charlist), charlist);
 #end
 	}

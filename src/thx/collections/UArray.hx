@@ -29,4 +29,13 @@ class UArray
 		arr.remove(value);
 		return arr;
 	}
+	
+	public static function filter<T>(arr : Array<T>, f : T -> Bool) : Array<T>
+	{
+		var result = [];
+		for (i in arr)
+			if (f(i))
+				result.push(i);
+		return result;
+	}
 }
