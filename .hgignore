@@ -6,3 +6,5 @@ bin/test.n
 .DS_Store
 .hgignore
 .tmbuild
+core.php.hxml
+bin/index.php
