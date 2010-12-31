@@ -17,7 +17,7 @@ class HtmlDocumentFormat extends DocumentFormat
 		super();
 		indent = "  ";
 		newline = "\n";
-		wrapColumns = 78;
+		wrapColumns = 80;
 		specialElementContentFormat = AsCommentedText;
 		_level = 0;
 		_begin = true;
@@ -98,30 +98,32 @@ class HtmlDocumentFormat extends DocumentFormat
 			case AsPlainText:
 				return content;
 			case AsCData:
-				return indentWrap("<![CDATA[" + content + newline + "]]>");
+				return "<![CDATA[" + newline + content + newline + "]]>";
 			case AsCommentedText:
-				return indentWrap("<!--" + content + newline + "// -->");
+				return "<!--" + newline + content + newline + "// -->";
 		}
 	}
 	
 	override function formatElement(node : Xml)
 	{   
-		if(isEmpty(node))
+		if (Element.isSpecial(node.nodeName)) {
+			return formatSpecialElement(node);
+		} else if (Element.shouldPreserve(node.nodeName))
+		{
+			var open = formatOpenElement(node);
+			var content = "";
+			for (child in node)
+				content += child.toString();
+			var close = formatInlineCloseElement(node);
+			return open + content + close;
+		} else if(isEmpty(node))
 		{
 			if(Element.isInline(node.nodeName))
 				return formatInlineEmptyElement(node);
 			else
 				return formatEmptyElement(node);
 		} else {
-			if(Element.isInline(node.nodeName))
-			{
-				return 
-					  formatInlineOpenElement(node)
-					+ formatInlineChildren(node)
-					+ formatInlineCloseElement(node);
-			} else if (Element.isSpecial(node.nodeName)) {
-				return formatSpecialElement(node);
-			} else if(inlineContent(node)){
+			if (Element.isBlock(node.nodeName) && inlineContent(node)){
 				var open    = formatInlineOpenElement(node);
 				var content = formatInlineChildren(node);
 				var close   = formatInlineCloseElement(node);
@@ -138,6 +140,11 @@ class HtmlDocumentFormat extends DocumentFormat
 						+ content
 						+ indentWrap(close);
 				}					  				
+			} else if(Element.isInline(node.nodeName)) {
+				return 
+					  formatInlineOpenElement(node)
+					+ formatInlineChildren(node)
+					+ formatInlineCloseElement(node);
 			} else {
 				return 
 					  formatOpenElement(node)

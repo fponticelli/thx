@@ -191,24 +191,6 @@ class HtmlParser {
 	}
 }
 
-class Html
-{
-	public static function toXml(html : String)
-	{
-		var handler = new DomHandler();
-		var parser = new HtmlParser(html);
-		parser.process(handler);
-		return handler.document;
-	}
-	
-	public static function toXmlString(html : String) {
-		var handler = new TextHandler();
-		var parser = new HtmlParser(html);
-		parser.process(handler);
-		return handler.results;
-	}
-}
-
 /*
 this.HTMLtoDOM = function(html, doc) {
 	// There can be only one of these elements

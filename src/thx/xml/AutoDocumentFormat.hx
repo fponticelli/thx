@@ -17,7 +17,7 @@ class AutoDocumentFormat extends DocumentFormat
 		super();
 		indent = "  ";
 		newline = "\n";
-		wrapColumns = 78;
+		wrapColumns = 80;
 		_level = 0;
 		_begin = true;
 	}

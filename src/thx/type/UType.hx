@@ -46,9 +46,16 @@ class UType
 		return Reflect.isObject(v) && null == Type.getClass(v);
 	}
 	
-	static public inline function as<T1, T2>(value : T1, type : Class<T2>) : Null<T2>
+	static public #if !php inline #end function as<T1, T2>(value : T1, type : Class<T2>) : Null<T2>
 	{
 		return (Std.is(value, type) ? cast value : null);
+	}
+	
+	static public function ifIs<T1, T2>(value : T1, type : Class<T2>, handler : T2 -> Void) : T1
+	{
+		if (Std.is(value, type))
+			handler(cast value);
+		return value;
 	}
 	
 	static public inline function of<T>(type : Class<T>, value : Dynamic) : Null<T>

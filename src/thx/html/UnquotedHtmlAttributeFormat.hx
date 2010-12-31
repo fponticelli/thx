@@ -21,7 +21,7 @@ class UnquotedHtmlAttributeFormat extends AttributeFormat
 	
 	function quote(value : String)
 	{
-		if (!_containsWS.match(value))
+		if ("" != value && !_containsWS.match(value))
 			return value;
 		else
 			return '"' + value + '"';		
