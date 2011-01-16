@@ -12,7 +12,7 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-
+		TestInjector.addTests(runner);
 	}
 	
 	public static function main()

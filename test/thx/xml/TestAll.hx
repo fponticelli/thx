@@ -13,6 +13,7 @@ class TestAll
 	public static function addTests(runner : Runner)
 	{
     	runner.addCase(new TestXmlFormat());
+		runner.addCase(new TestXmlWriter());
 	}
 	
 	public static function main()

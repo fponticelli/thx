@@ -4,6 +4,11 @@ import Type;
 
 class UType
 {
+	public static function isAnonymousObject(o : Dynamic)
+	{
+		return Reflect.isObject(o) && null == Type.getClass(o);
+	}
+	
 	inline public static function className(o : Dynamic)
 	{
 		return fullName(o).split('.').pop();
