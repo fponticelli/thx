@@ -13,6 +13,11 @@ class Injector
 		_binders = new Hash();
 	}
 	
+	public function instance<T>(cls : Class<T>, o : T)
+	{
+		return bind(cls, function() return o);
+	}
+	
 	public function bind<T>(cls : Class<T>, f : Void -> T)
 	{
 		_binders.set(Type.getClassName(cls), f);
@@ -29,11 +34,16 @@ class Injector
 		});
 	}
 	
+	public dynamic function unbinded(cls : Class<Dynamic>)
+	{
+		return null;
+	}
+	
 	public function get<T>(cls : Class<T>) : Null<T>
 	{
 		var f = _binders.get(Type.getClassName(cls));
 		if (null == f)
-			return null;
+			return unbinded(cls);
 		else
 			return f();
 	}

@@ -23,6 +23,34 @@ class TestInjector
 		Assert.equals("hi", o.sayHello());
 	}
 	
+	public function testUnbinded()
+	{
+		var i = new Injector();
+		Assert.isNull(i.get(ITest));
+		i.unbinded = function(cls : Class<Dynamic>)
+		{
+			try
+			{
+				return Type.createInstance(cls, []);
+			} catch (e : Dynamic) {
+				return null;
+			}
+		}
+		Assert.isNull(i.get(ITest));
+		Assert.notNull(i.get(TestImplementation));
+		Assert.is(i.get(TestImplementation), TestImplementation);
+	}
+	
+	public function testInstance()
+	{
+		var i = new Injector().instance(ITest, new TestImplementation());
+		var o = i.get(ITest);
+		Assert.equals(0, o.counter);
+		o.counter++;
+		o = i.get(ITest);
+		Assert.equals(1, o.counter);
+	}
+	
 	public function testMultipleInstances()
 	{
 		var i = new Injector().bind(ITest, function() return new TestImplementation() );
