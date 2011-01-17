@@ -14,6 +14,7 @@ class TestAll
 	public static function addTests(runner : Runner)
 	{
 		TestUType.addTests(runner);
+		TestFactory.addTests(runner);
 	}
 	
 	public static function main()

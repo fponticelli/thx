@@ -9,7 +9,7 @@ import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
 
-using thx.collections.UHash;
+using thx.util.UDynamicT;
 
 class TestUHash
 {
@@ -30,7 +30,7 @@ class TestUHash
 	
 	public function testCreate()
 	{
-		var hash = { name : "haxe", author : "nicolas" }.createHash();
+		var hash = { name : "haxe", author : "nicolas" }.toHash();
 		Assert.equals("haxe", hash.get("name"));
 		Assert.equals("nicolas", hash.get("author"));
 	}

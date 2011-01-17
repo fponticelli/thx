@@ -7,14 +7,6 @@ package thx.collections;
 
 class UHash
 {
-	public static function createHash<T>(datas : Dynamic<T>) : Hash<T>
-	{
-		var hash = new Hash();
-		for (field in Reflect.fields(datas))
-			hash.set(field, Reflect.field(datas, field));
-		return hash;
-	}
-	
 	public static function copyTo<T>(from : Hash<T>, to : Hash<T>)
 	{
 		for (k in from.keys())
