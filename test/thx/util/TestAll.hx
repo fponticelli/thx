@@ -12,7 +12,8 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		
+		TestTypeFactory.addTests(runner);
+		TestTypeServiceLocator.addTests(runner);
 	}
 	
 	public static function main()
