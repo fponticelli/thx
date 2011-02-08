@@ -27,4 +27,9 @@ class Message
 	{
 		return message.format(params);
 	}
+	
+	public function translate(translator : String -> String)
+	{
+		return translator(message).format(params);
+	}
 }

@@ -5,8 +5,15 @@
 
 package thx.collections;
 
+import thx.util.UDynamicT;
+
 class UHash
 {
+	public static function importObject<T>(hash : Hash<T>, ob : Dynamic<T>) : Hash<T>
+	{
+		return UDynamicT.copyToHash(ob, hash);
+	}
+	
 	public static function copyTo<T>(from : Hash<T>, to : Hash<T>)
 	{
 		for (k in from.keys())

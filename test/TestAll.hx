@@ -11,9 +11,11 @@ class TestAll
 	public static function addTests(runner : Runner)
 	{
 		thx.collections.TestAll.addTests(runner);
+		thx.color.TestAll.addTests(runner);
 		thx.error.TestAll.addTests(runner);
 		thx.text.TestAll.addTests(runner);
 		thx.html.TestAll.addTests(runner);
+		thx.math.TestAll.addTests(runner);
 		thx.xml.TestAll.addTests(runner);
 		thx.type.TestAll.addTests(runner);
 		thx.util.TestAll.addTests(runner);
