@@ -3,7 +3,7 @@ import thx.collections.HashDecorator;
 import thx.collections.HashList;
 import thx.collections.IntHashList;
 import thx.collections.Set;
-import thx.collections.UArray;
+import thx.collections.Arrays;
 import thx.collections.UHash;
 import thx.collections.UIterable;
 import thx.collections.UIterator;

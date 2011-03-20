@@ -5,7 +5,7 @@
 
 package thx.collections;
 
-import thx.util.UDynamicT;
+import thx.util.DynamicsT;
 
 class Hashes
 {
@@ -19,7 +19,7 @@ class Hashes
 	
 	public static function importObject<T>(hash : Hash<T>, ob : Dynamic<T>) : Hash<T>
 	{
-		return UDynamicT.copyToHash(ob, hash);
+		return DynamicsT.copyToHash(ob, hash);
 	}
 	
 	public static function copyTo<T>(from : Hash<T>, to : Hash<T>)
@@ -32,13 +32,13 @@ class Hashes
 	public static function clone<T>(src : Hash<T>)
 	{
 		var h = new Hash();
-		UHash.copyTo(src, h);
+		Hashes.copyTo(src, h);
 		return h;
 	}
 	
 	public static inline function arrayOfKeys(hash : Hash<Dynamic>)
 	{
-		return UIterator.array(hash.keys());
+		return Iterators.array(hash.keys());
 	}
 	
 	public static function setOfKeys(hash : Hash<Dynamic>) : Set<String>

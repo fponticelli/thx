@@ -6,7 +6,7 @@
 package thx.util;
 import haxe.macro.Context;
 import haxe.macro.Expr;
-import thx.macro.UMacro;
+//import thx.macro.Macros;
 
 class Imports
 {

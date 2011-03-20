@@ -2,7 +2,7 @@ package thx.validation;
 import uform.util.DateGranularity;
 import thx.util.Result;
 import uform.model.value.DateType;
-using thx.util.UResult;
+using thx.util.Results;
 
 /**
  * ...
