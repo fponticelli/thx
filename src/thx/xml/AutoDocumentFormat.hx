@@ -1,6 +1,6 @@
 package thx.xml;
 
-using thx.text.UString;
+using thx.text.Strings;
 import StringTools;
 
 class AutoDocumentFormat extends DocumentFormat
@@ -8,12 +8,12 @@ class AutoDocumentFormat extends DocumentFormat
 	public var indent : String;
 	public var newline : String;
 	public var wrapColumns : Int;
-    
+
 	var _level : Int;
 	var _begin : Bool;
 
 	public function new()
-	{   
+	{
 		super();
 		indent = "  ";
 		newline = "\n";
@@ -23,9 +23,9 @@ class AutoDocumentFormat extends DocumentFormat
 	}
 	
 	function indentWrap(content : String)
-	{          
+	{
 		return newline + content.wrapColumns(wrapColumns, indent.repeat(_level), newline);
-	} 
+	}
 	
 	override function format(node : Xml)
 	{
@@ -56,7 +56,7 @@ class AutoDocumentFormat extends DocumentFormat
 	}
 	
 	override function formatOpenElement(node : Xml)
-	{   
+	{
 		return indentWrap(super.formatOpenElement(node));
 	}
 	
@@ -66,7 +66,7 @@ class AutoDocumentFormat extends DocumentFormat
 	}
 	
 	override function formatChildren(node : Xml)
-	{                
+	{
 		_level++;
 		var content = super.formatChildren(node);
 		_level--;

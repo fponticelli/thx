@@ -11,9 +11,11 @@ class XmlWriter
 {
 	var _stack : Array<Xml>;
 	var _current : Xml;
-	public function new()
+	public function new(?xml : Xml)
 	{
-		_stack = [Xml.createDocument()];
+		if (null == xml)
+			xml = Xml.createDocument();
+		_stack = [xml];
 		_current = _stack[0];
 	}
 	

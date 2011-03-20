@@ -13,8 +13,8 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		TestUIterator.addTests(runner);
-		TestUHash.addTests(runner);
+		TestIterators.addTests(runner);
+		TestHashes.addTests(runner);
 	}
 	
 	public static function main()

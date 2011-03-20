@@ -3,7 +3,7 @@ import thx.xml.NodeFormat;
 import thx.xml.AttributeFormat;
 import thx.xml.XmlFormat;
 import thx.html.HtmlDocumentFormat;
-using thx.type.UType;
+using thx.type.Types;
 
 class HtmlFormat extends XHtmlFormat
 {
@@ -26,7 +26,7 @@ class HtmlFormat extends XHtmlFormat
 	}
 	
 	override function createNodeFormat() : NodeFormat
-	{        
+	{
 		if(useCloseSelf)
 		    return new CloseSelfHtmlNodeFormat();
 		else

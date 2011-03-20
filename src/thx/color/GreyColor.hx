@@ -5,8 +5,8 @@
 
 package thx.color;
 
-import thx.math.UNumber;
-using thx.math.UNumber;
+import thx.math.Numbers;
+using thx.math.Numbers;
 
 class GreyColor extends RGBColor
 {
@@ -34,7 +34,7 @@ class GreyColor extends RGBColor
 	public static function interpolate(a : GreyColor, b : GreyColor, t : Float, ?interpolator : Float -> Float -> Float -> Float)
 	{
 		if (null == interpolator)
-			interpolator = UNumber.linearInterpolationFloat;
+			interpolator = Numbers.linearInterpolationFloat;
 		return new GreyColor(interpolator(t, a.grey, b.grey));
 	}
 }

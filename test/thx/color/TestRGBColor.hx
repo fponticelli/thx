@@ -7,24 +7,24 @@ package thx.color;
 
 import utest.Assert;
 
-class TestRGBColor 
+class TestRGBColor
 {
 	public function testBasics()
 	{
-		Assert.equals(0, Colors.black.red);
-		Assert.equals(0, Colors.black.green);
-		Assert.equals(0, Colors.black.blue);
+		Assert.equals(0, NamedColors.black.red);
+		Assert.equals(0, NamedColors.black.green);
+		Assert.equals(0, NamedColors.black.blue);
 		
-		Assert.equals(255, Colors.white.red);
-		Assert.equals(255, Colors.white.green);
-		Assert.equals(255, Colors.white.blue);
+		Assert.equals(255, NamedColors.white.red);
+		Assert.equals(255, NamedColors.white.green);
+		Assert.equals(255, NamedColors.white.blue);
 		
-		Assert.equals(255, Colors.red.red);
-		Assert.equals(0, Colors.red.green);
-		Assert.equals(0, Colors.red.blue);
+		Assert.equals(255, NamedColors.red.red);
+		Assert.equals(0, NamedColors.red.green);
+		Assert.equals(0, NamedColors.red.blue);
 		
 		var red = RGBColor.fromInt(0xFF0000);
-		Assert.isTrue(RGBColor.equals(red, Colors.red));
+		Assert.isTrue(RGBColor.equals(red, NamedColors.red));
 	}
 	
 	public function new();

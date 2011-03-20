@@ -5,7 +5,7 @@
 
 package thx.error;
 
-using thx.text.UString;
+using thx.text.Strings;
 import haxe.PosInfos;
 import thx.util.Message;
 
@@ -26,13 +26,13 @@ class Error extends Message
 	}
 	
 	override public function toString()
-	{   
+	{
 		try {
 			return message.format(params);
-		} catch(e : Dynamic) {   
-			var ps = pos.className + "." + pos.methodName + "(" + pos.lineNumber + ")";  
+		} catch(e : Dynamic) {
+			var ps = pos.className + "." + pos.methodName + "(" + pos.lineNumber + ")";
 			var pa;
-			if(0 == params.length)              
+			if(0 == params.length)
 				pa = "no parameters passed";
 			else
 				pa = "wrong parameters passed ({0})";

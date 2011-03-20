@@ -10,8 +10,6 @@
 package thx.html;
 import thx.collections.Set;
 import thx.html.HtmlHandler;
-import thx.html.DomHandler;
-import thx.html.TextHandler;
 import thx.error.NullArgument;
 
 class HtmlParser {

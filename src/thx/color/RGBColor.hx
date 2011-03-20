@@ -5,7 +5,7 @@
 
 package thx.color;
 
-import thx.math.UNumber;
+import thx.math.Numbers;
 
 class RGBColor
 {
@@ -105,7 +105,7 @@ class RGBColor
 	public static function darker(color : RGBColor, t : Float, ?interpolator : Float -> Int -> Int -> Int) : RGBColor
 	{
 		if (null == interpolator)
-			interpolator = UNumber.linearInterpolation;
+			interpolator = Numbers.linearInterpolation;
 		return new RGBColor(
 			interpolator(t * color.red,   0, 255),
 			interpolator(t * color.green, 0, 255),
@@ -116,7 +116,7 @@ class RGBColor
 	public static function interpolate(a : RGBColor, b : RGBColor, t : Float, ?interpolator : Float -> Int -> Int -> Int)
 	{
 		if (null == interpolator)
-			interpolator = UNumber.linearInterpolation;
+			interpolator = Numbers.linearInterpolation;
 		return new RGBColor(
 			interpolator(t, a.red, b.red),
 			interpolator(t, a.green, b.green),

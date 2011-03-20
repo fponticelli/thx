@@ -13,7 +13,7 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		TestUType.addTests(runner);
+		TestTypes.addTests(runner);
 	}
 	
 	public static function main()

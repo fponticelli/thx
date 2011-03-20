@@ -5,7 +5,7 @@
 
 package thx.util;
 
-using thx.text.UString;
+using thx.text.Strings;
 import haxe.PosInfos;
 
 class Message

@@ -13,8 +13,11 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		TestUPath.addTests(runner);
-		TestUString.addTests(runner);
+		TestPaths.addTests(runner);
+		TestStrings.addTests(runner);
+		TestInflections.addTests(runner);
+		
+		runner.addCase(new thx.text.json.TestJson());
 	}
 	
 	public static function main()

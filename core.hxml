@@ -1,7 +1,5 @@
-# @tm-preview
 -cp src
 -cp test
 -lib utest
 -neko bin/test.n
--main TestAll          
--cmd neko bin/test.n
+-main TestAll

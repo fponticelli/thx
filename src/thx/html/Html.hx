@@ -1,13 +1,14 @@
 package thx.html;
 import thx.error.Error;
 import thx.html.HtmlDocumentFormat;
+import thx.html.HtmlVersion;
 
 /**
  * ...
  * @author Franco Ponticelli
  */
 
-class Html 
+class Html
 {
 	public static function getFormatter(version) : XHtmlFormat
 	{
@@ -93,7 +94,7 @@ class Html
 				return getTemplateXHtml10Strict();
 			case XHtml11:
 				return getTemplateXHtml11();
-		}   
+		}
 	}
 	
 	static function getTemplateHtml4Strict()
@@ -150,16 +151,4 @@ class Html
 		parser.process(handler);
 		return handler.results;
 	}
-}
-
-enum HtmlVersion
-{
-	Html401Strict;
-	Html401Transitional;
-	Html401Frameset;
-	Html5;
-	XHtml10Transitional;
-	XHtml10Strict;
-	XHtml10Frameset;
-	XHtml11;
 }

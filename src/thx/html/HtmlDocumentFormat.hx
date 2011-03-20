@@ -1,5 +1,5 @@
 package thx.html;
-using thx.text.UString;
+using thx.text.Strings;
 import thx.xml.DocumentFormat;
 
 class HtmlDocumentFormat extends DocumentFormat
@@ -8,12 +8,12 @@ class HtmlDocumentFormat extends DocumentFormat
 	public var newline : String;
 	public var wrapColumns : Int;
 	public var specialElementContentFormat : SpecialElementContentFormat;
-    
+
 	var _level : Int;
 	var _begin : Bool;
 
 	public function new()
-	{   
+	{
 		super();
 		indent = "  ";
 		newline = "\n";
@@ -64,11 +64,11 @@ class HtmlDocumentFormat extends DocumentFormat
 		{
 			return formatInlineEmptyElement(node);
 		} else {
-			return 
+			return
 				  formatInlineOpenElement(node)
 				+ formatInlineChildren(node)
 				+ formatInlineCloseElement(node);
-		}   
+		}
 	}
 	
 	function contentIsEmpty(node : Xml)
@@ -105,7 +105,7 @@ class HtmlDocumentFormat extends DocumentFormat
 	}
 	
 	override function formatElement(node : Xml)
-	{   
+	{
 		if (Element.isSpecial(node.nodeName)) {
 			return formatSpecialElement(node);
 		} else if (Element.shouldPreserve(node.nodeName))
@@ -135,18 +135,18 @@ class HtmlDocumentFormat extends DocumentFormat
 					_level++;
 					content = indentWrap(content);
 					_level--;
-					return 
+					return
 						  indentWrap(open)
 						+ content
 						+ indentWrap(close);
-				}					  				
+				}
 			} else if(Element.isInline(node.nodeName)) {
-				return 
+				return
 					  formatInlineOpenElement(node)
 					+ formatInlineChildren(node)
 					+ formatInlineCloseElement(node);
 			} else {
-				return 
+				return
 					  formatOpenElement(node)
 					+ formatChildren(node)
 					+ formatCloseElement(node);
@@ -155,7 +155,7 @@ class HtmlDocumentFormat extends DocumentFormat
 	}
 	
 	function inlineContent(node : Xml)
-	{   
+	{
 		for(child in node)
 		{
 			if(child.nodeType == Xml.PCData || (child.nodeType == Xml.Element && Element.isInline(child.nodeName)))
@@ -166,7 +166,7 @@ class HtmlDocumentFormat extends DocumentFormat
 	}
 	
 	override function formatChildren(node : Xml)
-	{                    
+	{
 		_level++;
 		var content = super.formatChildren(node);
 		_level--;
@@ -174,10 +174,10 @@ class HtmlDocumentFormat extends DocumentFormat
 	}
 	
 	function formatInlineChildren(node : Xml)
-	{               
+	{
 		var buf = new StringBuf();
 	   	for(child in node)
-			buf.add(formatInlineNode(child));		
+			buf.add(formatInlineNode(child));
 		return buf.toString();
 	}
 	

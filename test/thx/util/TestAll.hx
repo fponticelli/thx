@@ -5,6 +5,7 @@
 
 package thx.util;
 
+import thx.util.TestResults;
 import utest.Runner;
 import utest.ui.Report;
 
@@ -14,6 +15,7 @@ class TestAll
 	{
 		TestTypeFactory.addTests(runner);
 		TestTypeServiceLocator.addTests(runner);
+		runner.addCase(new TestResults());
 	}
 	
 	public static function main()

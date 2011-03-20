@@ -5,8 +5,8 @@
 
 package thx.color;
 
-import thx.math.UNumber;
-using thx.math.UNumber;
+import thx.math.Numbers;
+using thx.math.Numbers;
 
 class CMYKColor extends RGBColor
 {
@@ -54,7 +54,7 @@ class CMYKColor extends RGBColor
 	public static function interpolate(a : CMYKColor, b : CMYKColor, t : Float, ?interpolator : Float -> Float -> Float -> Float) : CMYKColor
 	{
 		if (null == interpolator)
-			interpolator = UNumber.linearInterpolationFloat;
+			interpolator = Numbers.linearInterpolationFloat;
 		return new CMYKColor(
 			interpolator(t, a.cyan,    b.cyan),
 			interpolator(t, a.magenta, b.magenta),
