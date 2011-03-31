@@ -3,7 +3,7 @@
  * @author Franco Ponticelli
  */
 
-package thx.text;
+package thx.js;
 
 import utest.Assert;
 import utest.Runner;
@@ -13,10 +13,8 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		TestPaths.addTests(runner);
-		TestInflections.addTests(runner);
-		
-		runner.addCase(new thx.text.json.TestJson());
+		TestDom.addTests(runner);
+		TestSizzle.addTests(runner);
 	}
 	
 	public static function main()

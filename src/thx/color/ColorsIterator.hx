@@ -6,17 +6,17 @@ package thx.color;
  */
 
 import thx.math.UNumber;
- 
-class ColorIterator
+
+class ColorsIterator
 {
-	public var start(default, null) : RGBColor;
-	public var end(default, null) : RGBColor;
+	public var start(default, null) : Rgb;
+	public var end(default, null) : Rgb;
 	public var steps(default, null) : Int;
 	public var interpolator(default, null) : Float -> Int -> Int -> Int;
 	
 	var step = 0;
 
-	public function new(start : RGBColor, end : RGBColor, steps : Int, ?interpolator : Float -> Int -> Int -> Int) 
+	public function new(start : Rgb, end : Rgb, steps : Int, ?interpolator : Float -> Int -> Int -> Int)
 	{
 		this.start = start;
 		this.end = end;
@@ -32,6 +32,6 @@ class ColorIterator
 	
 	public function next()
 	{
-		RGBColor.interpolate(start, end, step++ / steps, interpolator);
+		Rgb.interpolate(start, end, step++ / steps, interpolator);
 	}
 }

@@ -1,0 +1,5 @@
+-cp src
+-cp test
+-lib utest
+-js bin/core.js
+-main TestAll

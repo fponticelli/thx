@@ -3,8 +3,6 @@
  * @author Franco Ponticelli
  */
 
-package thx.collections;
-
 import thx.util.DynamicsT;
 
 class Hashes

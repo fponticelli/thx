@@ -3,8 +3,6 @@
  * @author Franco Ponticelli
  */
 
-package thx.collections;
-
 import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;

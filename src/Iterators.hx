@@ -3,8 +3,6 @@
  * @author Franco Ponticelli
  */
 
-package thx.collections;
-
 class Iterators
 {
 	public static function indexOf<T>(it : Iterator<T>, ?v : T, ?f : T -> Bool) : Int
@@ -36,6 +34,14 @@ class Iterators
 		var result = [];
 		for (v in it)
 			result.push(v);
+		return result;
+	}
+	
+	public static function map<TIn,TOut>(it : Iterator<TIn>, f : TIn -> Int -> TOut) : Array<TOut>
+	{
+		var result = [], i = 0;
+		for (v in it)
+			result.push(f(v, i++));
 		return result;
 	}
 }

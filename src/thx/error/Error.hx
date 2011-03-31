@@ -5,7 +5,7 @@
 
 package thx.error;
 
-using thx.text.Strings;
+using Strings;
 import haxe.PosInfos;
 import thx.util.Message;
 

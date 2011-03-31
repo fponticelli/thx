@@ -13,8 +13,8 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		TestIterators.addTests(runner);
-		TestHashes.addTests(runner);
+//		TestIterators.addTests(runner);
+//		TestHashes.addTests(runner);
 	}
 	
 	public static function main()

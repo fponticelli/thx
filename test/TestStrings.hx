@@ -3,13 +3,11 @@
  * @author Franco Ponticelli
  */
 
-package thx.text;
-
 import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
 
-using thx.text.Strings;
+using Strings;
 
 class TestStrings
 {

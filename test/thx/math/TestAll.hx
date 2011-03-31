@@ -14,7 +14,7 @@ class TestAll
 	public static function addTests(runner : Runner)
 	{
 		runner.addCase(new TestRandom());
-    	runner.addCase(new TestNumbers());
+    	runner.addCase(new TestEquations());
 	}
 	
 	public static function main()

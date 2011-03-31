@@ -3,8 +3,6 @@
  * @author Franco Ponticelli
  */
 
-package thx.text;
-
 import thx.error.Error;
 using StringTools;
 

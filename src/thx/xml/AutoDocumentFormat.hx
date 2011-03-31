@@ -1,6 +1,6 @@
 package thx.xml;
 
-using thx.text.Strings;
+using Strings;
 import StringTools;
 
 class AutoDocumentFormat extends DocumentFormat

@@ -12,13 +12,16 @@ class TestNullArgument
 	}
 	
 	public function testNullArgument()
-	{   
+	{
 		try
 		{
 			throwMe(null);
-		} catch(e : Error) {
-			var s = e.toString(); 
+		} catch(e : NullArgument) {
+			var s = e.toString();
 			Assert.stringContains("XXX", s, "string '" + s +"' does not contain 'XXX'");
+			return; // prevent bug 395
+		} catch (e : Dynamic) {
+			Assert.fail("wrong exception type: " + Std.string(e));
 		}
 	}
 }

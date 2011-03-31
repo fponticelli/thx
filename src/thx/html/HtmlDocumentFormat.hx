@@ -1,5 +1,5 @@
 package thx.html;
-using thx.text.Strings;
+using Strings;
 import thx.xml.DocumentFormat;
 
 class HtmlDocumentFormat extends DocumentFormat

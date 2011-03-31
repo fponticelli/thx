@@ -5,15 +5,15 @@ package thx.util;
  * @author Franco Ponticelli
  */
 
-import utest.Runner; 
-import utest.Assert; 
+import utest.Runner;
+import utest.Assert;
 import utest.ui.Report;
 
 import thx.util.type.ITest;
 import thx.util.type.TestImplementation;
 
 class TestTypeServiceLocator
-{   
+{
 	public function testBind()
 	{
 		var locator = new TypeServiceLocator().bind(ITest, function() return new TestImplementation() );
@@ -29,6 +29,8 @@ class TestTypeServiceLocator
 		Assert.isNull(locator.get(ITest));
 		locator.unbinded = function(cls : Class<Dynamic>)
 		{
+			if ('thx.util.type.ITest' == Type.getClassName(cls)) // prevent js from instantiating a interface ob
+				return null;
 			try
 			{
 				return Type.createInstance(cls, []);

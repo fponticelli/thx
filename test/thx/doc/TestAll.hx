@@ -14,7 +14,7 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		runner.addCase(new TestHtmlDoc());
+//		runner.addCase(new TestHtmlDoc());
 //		runner.addCase(new TestMarkdownDoc());
 	}
 	

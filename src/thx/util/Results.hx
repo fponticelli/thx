@@ -5,7 +5,7 @@
 
 package thx.util;
 import haxe.PosInfos;
-using thx.text.Strings;
+using Strings;
 
 class Results
 {

@@ -10,6 +10,9 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
+#if js
+		thx.js.TestAll.addTests(runner);
+#end
 		thx.collections.TestAll.addTests(runner);
 		thx.color.TestAll.addTests(runner);
 		thx.doc.TestAll.addTests(runner);
@@ -23,6 +26,14 @@ class TestAll
 		thx.type.TestAll.addTests(runner);
 		thx.util.TestAll.addTests(runner);
 		thx.validation.TestAll.addTests(runner);
+		
+		TestArrays.addTests(runner);
+		TestFloats.addTests(runner);
+		TestInts.addTests(runner);
+		TestIterators.addTests(runner);
+		TestHashes.addTests(runner);
+		TestObjects.addTests(runner);
+		TestStrings.addTests(runner);
 	}
 	
 	public static function main()
