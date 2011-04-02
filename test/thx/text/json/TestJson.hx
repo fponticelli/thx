@@ -1,7 +1,7 @@
 package thx.text.json;
 
 import utest.Assert;
-import thx.config.ConfigExpr;
+import thx.data.DataExpr;
 
 class TestJson
 {

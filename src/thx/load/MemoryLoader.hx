@@ -1,4 +1,4 @@
-package thx.data;
+package thx.load;
 
 import utest.Assert;
 

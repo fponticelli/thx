@@ -1,12 +1,12 @@
-package thx.config;
+package thx.data;
 
-import thx.config.ConfigExpr;
+import thx.data.DataExpr;
 import thx.error.Error;
 
-class Configs
+class Data
 {
 
-	public static function toConfigExpr(o : Dynamic) : ConfigExpr
+	public static function toConfigExpr(o : Dynamic) : DataExpr
 	{
 		switch(Type.typeof(o))
 		{
@@ -52,7 +52,7 @@ class Configs
 		}
 	}
 	
-	public static function toDynamic(ce : ConfigExpr) : Dynamic
+	public static function toDynamic(ce : DataExpr) : Dynamic
 	{
 		switch(ce)
 		{
@@ -85,18 +85,18 @@ class Configs
 	public static function stringToDate(s : String) : Date
 	{
 		var parts = s.split(".");
-		var d = Date.fromString(StringTools.replace(parts[0], "T", " "));
-		if (parts.length == 1 || parts[1] == '0')
-			return d;
-		var t = d.getTime();
-		t += Std.int(Std.parseFloat("0." + parts[1]) * 100);
-		return Date.fromTime(t);
+		var date = Date.fromString(StringTools.replace(parts[0], "T", " "));
+		if (parts.length > 1)
+			date = Date.fromTime(date.getTime() + Std.parseInt(parts[1]));
+		return date;
 	}
 	
 	public static function dateToString(d : Date) : String
 	{
-		var t = d.getTime() / 1000;
-		var m = ("" + (t - Std.int(t))).substr(1);
-		return DateTools.format(d, "%Y-%m-%dT%H:%M:%S" + m);
+		var v = d.getTime() % 1000;
+		var m = "";
+		if (v > 0)
+			m = "." + StringTools.lpad("" + v, "0", 3);
+		return DateTools.format(d, "%Y-%m-%dT%H:%M:%S") + m;
 	}
 }

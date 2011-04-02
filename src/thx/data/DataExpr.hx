@@ -1,14 +1,14 @@
-package thx.config;
+package thx.data;
 
 /**
  * ...
  * @author Franco Ponticelli
  */
 
-enum ConfigExpr
+enum DataExpr
 {
 	CEObject(o : Array<CEPair>);
-	CEArray(a : Array<ConfigExpr>);
+	CEArray(a : Array<DataExpr>);
 	CEString(s : String);
 	CEFloat(f : Float);
 	CEInt(i : Int);
@@ -19,5 +19,5 @@ enum ConfigExpr
 
 typedef CEPair = {
 	k : String,
-	v : ConfigExpr
+	v : DataExpr
 }

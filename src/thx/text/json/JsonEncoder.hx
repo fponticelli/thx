@@ -1,6 +1,6 @@
 package thx.text.json;
 
-import thx.config.ConfigExpr;
+import thx.data.DataExpr;
 import thx.error.Error;
 
 using Lambda;
@@ -19,13 +19,13 @@ class JsonEncoder
 		this.newline = newline;
 	}
 	
-	public function encode(value : ConfigExpr)
+	public function encode(value : DataExpr)
 	{
 		lvl = 0;
 		return _encode(value);
 	}
 	
-	function _encode(value : ConfigExpr)
+	function _encode(value : DataExpr)
 	{
 		switch(value)
 		{

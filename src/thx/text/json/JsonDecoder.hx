@@ -1,5 +1,5 @@
 package thx.text.json;
-import thx.config.ConfigExpr;
+import thx.data.DataExpr;
 import thx.error.Error;
 
 #if neko
@@ -26,7 +26,7 @@ class JsonDecoder
 		this.tabsize = tabsize;
 	}
 	
-	public function decode(s : String) : ConfigExpr
+	public function decode(s : String) : DataExpr
 	{
 		col = 0;
 		line = 0;

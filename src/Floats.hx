@@ -117,21 +117,21 @@ class Floats
 	public static function formatf(?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		params = FormatParams.params(param, params, 'D');
-		var length : Null<Int> = params.length > 0 ? Std.parseInt(params[0]) : null;
 		var format = params.shift();
+		var decimals : Null<Int> = params.length > 0 ? Std.parseInt(params[0]) : null;
 		switch(format)
 		{
 			case 'D':
-				return function(v) return FormatNumber.decimal(v, length, culture);
+				return function(v) return FormatNumber.decimal(v, decimals, culture);
 			case 'I':
 				return function(v) return FormatNumber.int(v, culture);
 			case 'C':
 				var s = params.length > 1 ? params[1] : null;
-				return function(v) return FormatNumber.currency(v, s, length, culture);
+				return function(v) return FormatNumber.currency(v, s, decimals, culture);
 			case 'P':
-				return function(v) return FormatNumber.percent(v, length, culture);
+				return function(v) return FormatNumber.percent(v, decimals, culture);
 			case 'M':
-				return function(v) return FormatNumber.permille(v, length, culture);
+				return function(v) return FormatNumber.permille(v, decimals, culture);
 			default:
 				return throw new Error("Unsupported number format: {0}", format);
 		}

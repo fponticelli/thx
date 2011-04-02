@@ -3,7 +3,7 @@
  * @author Franco Ponticelli
  */
 
-package thx.data;
+package thx.load;
 
 import utest.Assert;
 import utest.Runner;

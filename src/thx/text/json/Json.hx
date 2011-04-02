@@ -1,11 +1,11 @@
 package thx.text.json;
 
-import thx.config.ConfigExpr;
-import thx.config.Configs;
+import thx.data.DataExpr;
+import thx.data.Data;
 
 class Json
 {
-	public static function encode(value : ConfigExpr)
+	public static function encode(value : DataExpr)
 	{
 		return new JsonEncoder().encode(value);
 	}
@@ -17,11 +17,11 @@ class Json
 	
 	public static function encodeObject(o : Dynamic)
 	{
-		return encode(Configs.toConfigExpr(o));
+		return encode(Data.toConfigExpr(o));
 	}
 	
 	public static function decodeObject(s : String)
 	{
-		return Configs.toDynamic(decode(s));
+		return Data.toDynamic(decode(s));
 	}
 }

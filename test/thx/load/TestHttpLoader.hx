@@ -1,21 +1,21 @@
-package thx.data;
+package thx.load;
 
 import utest.Assert;
 
-class TestMemoryLoader
+class TestHttpLoader
 {
 	public function testLoad()
 	{
-		var loader = new MemoryLoader("my test");
+		var loader = new HttpLoader("http://www.google.com/");
 		var f = Assert.createEvent(function(s) {
-			Assert.stringContains("test", s);
+			Assert.stringContains("google", s);
 		});
 		loader.load(f);
 	}
 	
 	public function testError()
 	{
-		var loader = new MemoryLoader(null);
+		var loader = new HttpLoader("http://fakefake.google.com/");
 		var e = Assert.createEvent(function(s) {
 			Assert.isTrue(true);
 		});

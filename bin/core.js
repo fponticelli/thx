@@ -1381,15 +1381,6 @@ Dynamics.interpolatef = function(a,b,interpolator) {
 	$s.pop();
 }
 Dynamics.prototype.__class__ = Dynamics;
-if(!thx.data) thx.data = {}
-thx.data.ILoader = function() { }
-thx.data.ILoader.__name__ = ["thx","data","ILoader"];
-thx.data.ILoader.prototype.load = function(completeHandler,errorHandler) {
-	$s.push("thx.data.ILoader::load");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.data.ILoader.prototype.__class__ = thx.data.ILoader;
 if(!thx.validation) thx.validation = {}
 thx.validation.TestAll = function() { }
 thx.validation.TestAll.__name__ = ["thx","validation","TestAll"];
@@ -1450,6 +1441,15 @@ thx.validation.TestSingleLine.prototype.testValidation = function() {
 	$s.pop();
 }
 thx.validation.TestSingleLine.prototype.__class__ = thx.validation.TestSingleLine;
+if(!thx.load) thx.load = {}
+thx.load.ILoader = function() { }
+thx.load.ILoader.__name__ = ["thx","load","ILoader"];
+thx.load.ILoader.prototype.load = function(completeHandler,errorHandler) {
+	$s.push("thx.load.ILoader::load");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.load.ILoader.prototype.__class__ = thx.load.ILoader;
 if(!thx.js) thx.js = {}
 thx.js.Node = function(dom) {
 	if( dom === $_ ) return;
@@ -6851,6 +6851,18 @@ thx.validation.TestStringLength.prototype.testValidation = function() {
 	$s.pop();
 }
 thx.validation.TestStringLength.prototype.__class__ = thx.validation.TestStringLength;
+if(!thx.data) thx.data = {}
+thx.data.DataExpr = { __ename__ : ["thx","data","DataExpr"], __constructs__ : ["CEObject","CEArray","CEString","CEFloat","CEInt","CEDate","CEBool","CENull"] }
+thx.data.DataExpr.CEObject = function(o) { var $x = ["CEObject",0,o]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CEArray = function(a) { var $x = ["CEArray",1,a]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CEString = function(s) { var $x = ["CEString",2,s]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CEFloat = function(f) { var $x = ["CEFloat",3,f]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CEInt = function(i) { var $x = ["CEInt",4,i]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CEDate = function(s) { var $x = ["CEDate",5,s]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CEBool = function(b) { var $x = ["CEBool",6,b]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CENull = ["CENull",7];
+thx.data.DataExpr.CENull.toString = $estr;
+thx.data.DataExpr.CENull.__enum__ = thx.data.DataExpr;
 utest.ui.common.ResultStats = function(p) {
 	if( p === $_ ) return;
 	$s.push("utest.ui.common.ResultStats::new");
@@ -7296,45 +7308,6 @@ thx.util.TypeFactory.prototype.get = function(cls) {
 	$s.pop();
 }
 thx.util.TypeFactory.prototype.__class__ = thx.util.TypeFactory;
-thx.data.TestMemoryLoader = function(p) {
-	$s.push("thx.data.TestMemoryLoader::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.data.TestMemoryLoader.__name__ = ["thx","data","TestMemoryLoader"];
-thx.data.TestMemoryLoader.prototype.testLoad = function() {
-	$s.push("thx.data.TestMemoryLoader::testLoad");
-	var $spos = $s.length;
-	var loader = new thx.data.MemoryLoader("my test");
-	var f = utest.Assert.createEvent(function(s) {
-		$s.push("thx.data.TestMemoryLoader::testLoad@10");
-		var $spos = $s.length;
-		utest.Assert.stringContains("test",s,null,{ fileName : "TestMemoryLoader.hx", lineNumber : 11, className : "thx.data.TestMemoryLoader", methodName : "testLoad"});
-		$s.pop();
-	});
-	loader.load(f);
-	$s.pop();
-}
-thx.data.TestMemoryLoader.prototype.testError = function() {
-	$s.push("thx.data.TestMemoryLoader::testError");
-	var $spos = $s.length;
-	var loader = new thx.data.MemoryLoader(null);
-	var e = utest.Assert.createEvent(function(s) {
-		$s.push("thx.data.TestMemoryLoader::testError@19");
-		var $spos = $s.length;
-		utest.Assert.isTrue(true,null,{ fileName : "TestMemoryLoader.hx", lineNumber : 20, className : "thx.data.TestMemoryLoader", methodName : "testError"});
-		$s.pop();
-	});
-	var h = function(_) {
-		$s.push("thx.data.TestMemoryLoader::testError@22");
-		var $spos = $s.length;
-		haxe.Log.trace("should never reach this point",{ fileName : "TestMemoryLoader.hx", lineNumber : 23, className : "thx.data.TestMemoryLoader", methodName : "testError"});
-		$s.pop();
-	};
-	loader.load(h,e);
-	$s.pop();
-}
-thx.data.TestMemoryLoader.prototype.__class__ = thx.data.TestMemoryLoader;
 utest.ui.common.ClassResult = function(className,setupName,teardownName) {
 	if( className === $_ ) return;
 	$s.push("utest.ui.common.ClassResult::new");
@@ -7551,6 +7524,45 @@ haxe.Stack.makeStack = function(s) {
 	$s.pop();
 }
 haxe.Stack.prototype.__class__ = haxe.Stack;
+thx.load.TestMemoryLoader = function(p) {
+	$s.push("thx.load.TestMemoryLoader::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.load.TestMemoryLoader.__name__ = ["thx","load","TestMemoryLoader"];
+thx.load.TestMemoryLoader.prototype.testLoad = function() {
+	$s.push("thx.load.TestMemoryLoader::testLoad");
+	var $spos = $s.length;
+	var loader = new thx.load.MemoryLoader("my test");
+	var f = utest.Assert.createEvent(function(s) {
+		$s.push("thx.load.TestMemoryLoader::testLoad@10");
+		var $spos = $s.length;
+		utest.Assert.stringContains("test",s,null,{ fileName : "TestMemoryLoader.hx", lineNumber : 11, className : "thx.load.TestMemoryLoader", methodName : "testLoad"});
+		$s.pop();
+	});
+	loader.load(f);
+	$s.pop();
+}
+thx.load.TestMemoryLoader.prototype.testError = function() {
+	$s.push("thx.load.TestMemoryLoader::testError");
+	var $spos = $s.length;
+	var loader = new thx.load.MemoryLoader(null);
+	var e = utest.Assert.createEvent(function(s) {
+		$s.push("thx.load.TestMemoryLoader::testError@19");
+		var $spos = $s.length;
+		utest.Assert.isTrue(true,null,{ fileName : "TestMemoryLoader.hx", lineNumber : 20, className : "thx.load.TestMemoryLoader", methodName : "testError"});
+		$s.pop();
+	});
+	var h = function(_) {
+		$s.push("thx.load.TestMemoryLoader::testError@22");
+		var $spos = $s.length;
+		haxe.Log.trace("should never reach this point",{ fileName : "TestMemoryLoader.hx", lineNumber : 23, className : "thx.load.TestMemoryLoader", methodName : "testError"});
+		$s.pop();
+	};
+	loader.load(h,e);
+	$s.pop();
+}
+thx.load.TestMemoryLoader.prototype.__class__ = thx.load.TestMemoryLoader;
 thx.xml.TestXmlFormat = function(p) {
 	$s.push("thx.xml.TestXmlFormat::new");
 	var $spos = $s.length;
@@ -8281,14 +8293,14 @@ Floats.formatf = function(param,params,culture) {
 	$s.push("Floats::formatf");
 	var $spos = $s.length;
 	params = thx.culture.FormatParams.params(param,params,"D");
-	var length = params.length > 0?Std.parseInt(params[0]):null;
 	var format = params.shift();
+	var decimals = params.length > 0?Std.parseInt(params[0]):null;
 	switch(format) {
 	case "D":
 		var $tmp = function(v) {
 			$s.push("Floats::formatf@125");
 			var $spos = $s.length;
-			var $tmp = thx.culture.FormatNumber.decimal(v,length,culture);
+			var $tmp = thx.culture.FormatNumber.decimal(v,decimals,culture);
 			$s.pop();
 			return $tmp;
 			$s.pop();
@@ -8311,7 +8323,7 @@ Floats.formatf = function(param,params,culture) {
 		var $tmp = function(v) {
 			$s.push("Floats::formatf@130");
 			var $spos = $s.length;
-			var $tmp = thx.culture.FormatNumber.currency(v,s,length,culture);
+			var $tmp = thx.culture.FormatNumber.currency(v,s,decimals,culture);
 			$s.pop();
 			return $tmp;
 			$s.pop();
@@ -8322,7 +8334,7 @@ Floats.formatf = function(param,params,culture) {
 		var $tmp = function(v) {
 			$s.push("Floats::formatf@132");
 			var $spos = $s.length;
-			var $tmp = thx.culture.FormatNumber.percent(v,length,culture);
+			var $tmp = thx.culture.FormatNumber.percent(v,decimals,culture);
 			$s.pop();
 			return $tmp;
 			$s.pop();
@@ -8333,7 +8345,7 @@ Floats.formatf = function(param,params,culture) {
 		var $tmp = function(v) {
 			$s.push("Floats::formatf@134");
 			var $spos = $s.length;
-			var $tmp = thx.culture.FormatNumber.permille(v,length,culture);
+			var $tmp = thx.culture.FormatNumber.permille(v,decimals,culture);
 			$s.pop();
 			return $tmp;
 			$s.pop();
@@ -8520,7 +8532,7 @@ thx.text.json.JsonDecoder.prototype.parseObject = function() {
 		var v = this.parse();
 		pairs.push({ k : k, v : v});
 	}
-	var $tmp = thx.config.ConfigExpr.CEObject(pairs);
+	var $tmp = thx.data.DataExpr.CEObject(pairs);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -8536,7 +8548,7 @@ thx.text.json.JsonDecoder.prototype.parseArray = function() {
 		if(this.expect("]")) break; else if(first) first = false; else if(this.expect(",")) this.ignoreWhiteSpace(); else this.error("expected ','");
 		arr.push(this.parse());
 	}
-	var $tmp = thx.config.ConfigExpr.CEArray(arr);
+	var $tmp = thx.data.DataExpr.CEArray(arr);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -8545,15 +8557,15 @@ thx.text.json.JsonDecoder.prototype.parseValue = function() {
 	$s.push("thx.text.json.JsonDecoder::parseValue");
 	var $spos = $s.length;
 	if(this.expect("true")) {
-		var $tmp = thx.config.ConfigExpr.CEBool(true);
+		var $tmp = thx.data.DataExpr.CEBool(true);
 		$s.pop();
 		return $tmp;
 	} else if(this.expect("false")) {
-		var $tmp = thx.config.ConfigExpr.CEBool(false);
+		var $tmp = thx.data.DataExpr.CEBool(false);
 		$s.pop();
 		return $tmp;
 	} else if(this.expect("null")) {
-		var $tmp = thx.config.ConfigExpr.CENull;
+		var $tmp = thx.data.DataExpr.CENull;
 		$s.pop();
 		return $tmp;
 	} else {
@@ -8566,7 +8578,7 @@ thx.text.json.JsonDecoder.prototype.parseValue = function() {
 thx.text.json.JsonDecoder.prototype.parseString = function() {
 	$s.push("thx.text.json.JsonDecoder::parseString");
 	var $spos = $s.length;
-	var $tmp = thx.config.ConfigExpr.CEString(this._parseString());
+	var $tmp = thx.data.DataExpr.CEString(this._parseString());
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -8666,7 +8678,7 @@ thx.text.json.JsonDecoder.prototype.parseFloat = function() {
 			$e = [];
 			while($s.length >= $spos) $e.unshift($s.pop());
 			$s.push($e[0]);
-			var $tmp = thx.config.ConfigExpr.CEInt(Std.parseInt(v));
+			var $tmp = thx.data.DataExpr.CEInt(Std.parseInt(v));
 			$s.pop();
 			return $tmp;
 		} else ;
@@ -8674,7 +8686,7 @@ thx.text.json.JsonDecoder.prototype.parseFloat = function() {
 	}
 	try {
 		if(this.expect(".")) v += "." + this.parseDigits(1); else {
-			var $tmp = thx.config.ConfigExpr.CEInt(Std.parseInt(v));
+			var $tmp = thx.data.DataExpr.CEInt(Std.parseInt(v));
 			$s.pop();
 			return $tmp;
 		}
@@ -8689,13 +8701,13 @@ thx.text.json.JsonDecoder.prototype.parseFloat = function() {
 			$e = [];
 			while($s.length >= $spos) $e.unshift($s.pop());
 			$s.push($e[0]);
-			var $tmp = thx.config.ConfigExpr.CEFloat(Std.parseFloat(v));
+			var $tmp = thx.data.DataExpr.CEFloat(Std.parseFloat(v));
 			$s.pop();
 			return $tmp;
 		} else ;
 		throw(e);
 	}
-	var $tmp = thx.config.ConfigExpr.CEFloat(Std.parseFloat(v));
+	var $tmp = thx.data.DataExpr.CEFloat(Std.parseFloat(v));
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -9114,8 +9126,8 @@ TestAll.addTests = function(runner) {
 	thx.collections.TestAll.addTests(runner);
 	thx.color.TestAll.addTests(runner);
 	thx.doc.TestAll.addTests(runner);
-	runner.addCase(new thx.config.TestConfigs());
-	thx.data.TestAll.addTests(runner);
+	runner.addCase(new thx.data.TestData());
+	thx.load.TestAll.addTests(runner);
 	thx.error.TestAll.addTests(runner);
 	thx.text.TestAll.addTests(runner);
 	thx.html.TestAll.addTests(runner);
@@ -10452,11 +10464,10 @@ thx.text.json.JsonEncoder.prototype._encodeInlineObject = function(a) {
 	$s.pop();
 }
 thx.text.json.JsonEncoder.prototype.__class__ = thx.text.json.JsonEncoder;
-if(!thx.config) thx.config = {}
-thx.config.Configs = function() { }
-thx.config.Configs.__name__ = ["thx","config","Configs"];
-thx.config.Configs.toConfigExpr = function(o) {
-	$s.push("thx.config.Configs::toConfigExpr");
+thx.data.Data = function() { }
+thx.data.Data.__name__ = ["thx","data","Data"];
+thx.data.Data.toConfigExpr = function(o) {
+	$s.push("thx.data.Data::toConfigExpr");
 	var $spos = $s.length;
 	var $e = Type["typeof"](o);
 	switch( $e[1] ) {
@@ -10465,7 +10476,7 @@ thx.config.Configs.toConfigExpr = function(o) {
 	case 5:
 		var $tmp = (function($this) {
 			var $r;
-			throw new thx.error.Error("unsupported type '{0}'",null,Std.string(o),{ fileName : "Configs.hx", lineNumber : 14, className : "thx.config.Configs", methodName : "toConfigExpr"});
+			throw new thx.error.Error("unsupported type '{0}'",null,Std.string(o),{ fileName : "Data.hx", lineNumber : 14, className : "thx.data.Data", methodName : "toConfigExpr"});
 			return $r;
 		}(this));
 		$s.pop();
@@ -10479,9 +10490,9 @@ thx.config.Configs.toConfigExpr = function(o) {
 			while(_g < a.length) {
 				var v = a[_g];
 				++_g;
-				arr.push(thx.config.Configs.toConfigExpr(v));
+				arr.push(thx.data.Data.toConfigExpr(v));
 			}
-			var $tmp = thx.config.ConfigExpr.CEArray(arr);
+			var $tmp = thx.data.DataExpr.CEArray(arr);
 			$s.pop();
 			return $tmp;
 		} else if(Std["is"](o,Hash)) {
@@ -10490,25 +10501,25 @@ thx.config.Configs.toConfigExpr = function(o) {
 			var $it0 = h.keys();
 			while( $it0.hasNext() ) {
 				var k = $it0.next();
-				arr.push({ k : k, v : thx.config.Configs.toConfigExpr(h.get(k))});
+				arr.push({ k : k, v : thx.data.Data.toConfigExpr(h.get(k))});
 			}
-			var $tmp = thx.config.ConfigExpr.CEObject(arr);
+			var $tmp = thx.data.DataExpr.CEObject(arr);
 			$s.pop();
 			return $tmp;
 		}
 		switch(Type.getClassName(c)) {
 		case "String":
-			var $tmp = thx.config.ConfigExpr.CEString(o);
+			var $tmp = thx.data.DataExpr.CEString(o);
 			$s.pop();
 			return $tmp;
 		case "Date":
-			var $tmp = thx.config.ConfigExpr.CEDate(thx.config.Configs.dateToString(o));
+			var $tmp = thx.data.DataExpr.CEDate(thx.data.Data.dateToString(o));
 			$s.pop();
 			return $tmp;
 		default:
 			var $tmp = (function($this) {
 				var $r;
-				throw new thx.error.Error("unsupported class '{0}'",null,c,{ fileName : "Configs.hx", lineNumber : 37, className : "thx.config.Configs", methodName : "toConfigExpr"});
+				throw new thx.error.Error("unsupported class '{0}'",null,c,{ fileName : "Data.hx", lineNumber : 37, className : "thx.data.Data", methodName : "toConfigExpr"});
 				return $r;
 			}(this));
 			$s.pop();
@@ -10516,19 +10527,19 @@ thx.config.Configs.toConfigExpr = function(o) {
 		}
 		break;
 	case 0:
-		var $tmp = thx.config.ConfigExpr.CENull;
+		var $tmp = thx.data.DataExpr.CENull;
 		$s.pop();
 		return $tmp;
 	case 3:
-		var $tmp = thx.config.ConfigExpr.CEBool(o);
+		var $tmp = thx.data.DataExpr.CEBool(o);
 		$s.pop();
 		return $tmp;
 	case 1:
-		var $tmp = thx.config.ConfigExpr.CEInt(o);
+		var $tmp = thx.data.DataExpr.CEInt(o);
 		$s.pop();
 		return $tmp;
 	case 2:
-		var $tmp = thx.config.ConfigExpr.CEFloat(o);
+		var $tmp = thx.data.DataExpr.CEFloat(o);
 		$s.pop();
 		return $tmp;
 	case 4:
@@ -10537,16 +10548,16 @@ thx.config.Configs.toConfigExpr = function(o) {
 		while(_g < _g1.length) {
 			var k = _g1[_g];
 			++_g;
-			arr.push({ k : k, v : thx.config.Configs.toConfigExpr(Reflect.field(o,k))});
+			arr.push({ k : k, v : thx.data.Data.toConfigExpr(Reflect.field(o,k))});
 		}
-		var $tmp = thx.config.ConfigExpr.CEObject(arr);
+		var $tmp = thx.data.DataExpr.CEObject(arr);
 		$s.pop();
 		return $tmp;
 	}
 	$s.pop();
 }
-thx.config.Configs.toDynamic = function(ce) {
-	$s.push("thx.config.Configs::toDynamic");
+thx.data.Data.toDynamic = function(ce) {
+	$s.push("thx.data.Data::toDynamic");
 	var $spos = $s.length;
 	switch( ce[1] ) {
 	case 0:
@@ -10556,7 +10567,7 @@ thx.config.Configs.toDynamic = function(ce) {
 		while(_g < o.length) {
 			var pair = o[_g];
 			++_g;
-			obj[pair.k] = thx.config.Configs.toDynamic(pair.v);
+			obj[pair.k] = thx.data.Data.toDynamic(pair.v);
 		}
 		$s.pop();
 		return obj;
@@ -10567,7 +10578,7 @@ thx.config.Configs.toDynamic = function(ce) {
 		while(_g < a.length) {
 			var v = a[_g];
 			++_g;
-			arr.push(thx.config.Configs.toDynamic(v));
+			arr.push(thx.data.Data.toDynamic(v));
 		}
 		$s.pop();
 		return arr;
@@ -10585,7 +10596,7 @@ thx.config.Configs.toDynamic = function(ce) {
 		return i;
 	case 5:
 		var d = ce[2];
-		var $tmp = thx.config.Configs.stringToDate(d);
+		var $tmp = thx.data.Data.stringToDate(d);
 		$s.pop();
 		return $tmp;
 	case 6:
@@ -10600,33 +10611,28 @@ thx.config.Configs.toDynamic = function(ce) {
 	return null;
 	$s.pop();
 }
-thx.config.Configs.stringToDate = function(s) {
-	$s.push("thx.config.Configs::stringToDate");
+thx.data.Data.stringToDate = function(s) {
+	$s.push("thx.data.Data::stringToDate");
 	var $spos = $s.length;
 	var parts = s.split(".");
-	var d = Date.fromString(StringTools.replace(parts[0],"T"," "));
-	if(parts.length == 1 || parts[1] == "0") {
-		$s.pop();
-		return d;
-	}
-	var t = d.getTime();
-	t += Std["int"](Std.parseFloat("0." + parts[1]) * 100);
-	var $tmp = Date.fromTime(t);
+	var date = Date.fromString(StringTools.replace(parts[0],"T"," "));
+	if(parts.length > 1) date = Date.fromTime(date.getTime() + Std.parseInt(parts[1]));
 	$s.pop();
-	return $tmp;
+	return date;
 	$s.pop();
 }
-thx.config.Configs.dateToString = function(d) {
-	$s.push("thx.config.Configs::dateToString");
+thx.data.Data.dateToString = function(d) {
+	$s.push("thx.data.Data::dateToString");
 	var $spos = $s.length;
-	var t = d.getTime() / 1000;
-	var m = ("" + (t - Std["int"](t))).substr(1);
-	var $tmp = DateTools.format(d,"%Y-%m-%dT%H:%M:%S" + m);
+	var v = d.getTime() % 1000;
+	var m = "";
+	if(v > 0) m = "." + StringTools.lpad("" + v,"0",3);
+	var $tmp = DateTools.format(d,"%Y-%m-%dT%H:%M:%S") + m;
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.config.Configs.prototype.__class__ = thx.config.Configs;
+thx.data.Data.prototype.__class__ = thx.data.Data;
 thx.html.Element = function() { }
 thx.html.Element.__name__ = ["thx","html","Element"];
 thx.html.Element.shouldPreserve = function(el) {
@@ -11559,68 +11565,6 @@ thx.xml.NormalizeNewlineValueFormat.prototype.format = function(value) {
 	$s.pop();
 }
 thx.xml.NormalizeNewlineValueFormat.prototype.__class__ = thx.xml.NormalizeNewlineValueFormat;
-thx.data.TestAll = function(p) {
-	$s.push("thx.data.TestAll::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.data.TestAll.__name__ = ["thx","data","TestAll"];
-thx.data.TestAll.addTests = function(runner) {
-	$s.push("thx.data.TestAll::addTests");
-	var $spos = $s.length;
-	runner.addCase(new thx.data.TestMemoryLoader());
-	$s.pop();
-}
-thx.data.TestAll.main = function() {
-	$s.push("thx.data.TestAll::main");
-	var $spos = $s.length;
-	var runner = new utest.Runner();
-	thx.data.TestAll.addTests(runner);
-	utest.ui.Report.create(runner);
-	runner.run();
-	$s.pop();
-}
-thx.data.TestAll.prototype.__class__ = thx.data.TestAll;
-thx.config.ConfigExpr = { __ename__ : ["thx","config","ConfigExpr"], __constructs__ : ["CEObject","CEArray","CEString","CEFloat","CEInt","CEDate","CEBool","CENull"] }
-thx.config.ConfigExpr.CEObject = function(o) { var $x = ["CEObject",0,o]; $x.__enum__ = thx.config.ConfigExpr; $x.toString = $estr; return $x; }
-thx.config.ConfigExpr.CEArray = function(a) { var $x = ["CEArray",1,a]; $x.__enum__ = thx.config.ConfigExpr; $x.toString = $estr; return $x; }
-thx.config.ConfigExpr.CEString = function(s) { var $x = ["CEString",2,s]; $x.__enum__ = thx.config.ConfigExpr; $x.toString = $estr; return $x; }
-thx.config.ConfigExpr.CEFloat = function(f) { var $x = ["CEFloat",3,f]; $x.__enum__ = thx.config.ConfigExpr; $x.toString = $estr; return $x; }
-thx.config.ConfigExpr.CEInt = function(i) { var $x = ["CEInt",4,i]; $x.__enum__ = thx.config.ConfigExpr; $x.toString = $estr; return $x; }
-thx.config.ConfigExpr.CEDate = function(s) { var $x = ["CEDate",5,s]; $x.__enum__ = thx.config.ConfigExpr; $x.toString = $estr; return $x; }
-thx.config.ConfigExpr.CEBool = function(b) { var $x = ["CEBool",6,b]; $x.__enum__ = thx.config.ConfigExpr; $x.toString = $estr; return $x; }
-thx.config.ConfigExpr.CENull = ["CENull",7];
-thx.config.ConfigExpr.CENull.toString = $estr;
-thx.config.ConfigExpr.CENull.__enum__ = thx.config.ConfigExpr;
-thx.config.TestConfigs = function(p) {
-	$s.push("thx.config.TestConfigs::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.config.TestConfigs.__name__ = ["thx","config","TestConfigs"];
-thx.config.TestConfigs.prototype.testDynamicToConfigExpr = function() {
-	$s.push("thx.config.TestConfigs::testDynamicToConfigExpr");
-	var $spos = $s.length;
-	var _g = 0, _g1 = thx.config.TestConfigs.tests;
-	while(_g < _g1.length) {
-		var test = _g1[_g];
-		++_g;
-		utest.Assert.same(test.ce,thx.config.Configs.toConfigExpr(test.v),null,null,{ fileName : "TestConfigs.hx", lineNumber : 28, className : "thx.config.TestConfigs", methodName : "testDynamicToConfigExpr"});
-	}
-	$s.pop();
-}
-thx.config.TestConfigs.prototype.testConfigExprToDynamic = function() {
-	$s.push("thx.config.TestConfigs::testConfigExprToDynamic");
-	var $spos = $s.length;
-	var _g = 0, _g1 = thx.config.TestConfigs.tests;
-	while(_g < _g1.length) {
-		var test = _g1[_g];
-		++_g;
-		utest.Assert.same(test.v,thx.config.Configs.toDynamic(test.ce),null,null,{ fileName : "TestConfigs.hx", lineNumber : 34, className : "thx.config.TestConfigs", methodName : "testConfigExprToDynamic"});
-	}
-	$s.pop();
-}
-thx.config.TestConfigs.prototype.__class__ = thx.config.TestConfigs;
 thx.xml.XmlWriter = function(xml) {
 	if( xml === $_ ) return;
 	$s.push("thx.xml.XmlWriter::new");
@@ -11735,6 +11679,65 @@ thx.xml.XmlWriter.prototype._t = function() {
 	$s.pop();
 }
 thx.xml.XmlWriter.prototype.__class__ = thx.xml.XmlWriter;
+thx.data.TestData = function(p) {
+	$s.push("thx.data.TestData::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.data.TestData.__name__ = ["thx","data","TestData"];
+thx.data.TestData.prototype.testDynamicToDataExpr = function() {
+	$s.push("thx.data.TestData::testDynamicToDataExpr");
+	var $spos = $s.length;
+	var _g = 0, _g1 = thx.data.TestData.tests;
+	while(_g < _g1.length) {
+		var test = _g1[_g];
+		++_g;
+		utest.Assert.same(test.ce,thx.data.Data.toConfigExpr(test.v),null,null,{ fileName : "TestData.hx", lineNumber : 28, className : "thx.data.TestData", methodName : "testDynamicToDataExpr"});
+	}
+	$s.pop();
+}
+thx.data.TestData.prototype.testDataExprToDynamic = function() {
+	$s.push("thx.data.TestData::testDataExprToDynamic");
+	var $spos = $s.length;
+	var _g = 0, _g1 = thx.data.TestData.tests;
+	while(_g < _g1.length) {
+		var test = _g1[_g];
+		++_g;
+		utest.Assert.same(test.v,thx.data.Data.toDynamic(test.ce),null,null,{ fileName : "TestData.hx", lineNumber : 34, className : "thx.data.TestData", methodName : "testDataExprToDynamic"});
+	}
+	$s.pop();
+}
+thx.data.TestData.prototype.testDate = function() {
+	$s.push("thx.data.TestData::testDate");
+	var $spos = $s.length;
+	var date = Date.now();
+	var s = thx.data.Data.dateToString(date);
+	utest.Assert.same(date,thx.data.Data.stringToDate(s),null,null,{ fileName : "TestData.hx", lineNumber : 41, className : "thx.data.TestData", methodName : "testDate"});
+	$s.pop();
+}
+thx.data.TestData.prototype.__class__ = thx.data.TestData;
+thx.load.TestAll = function(p) {
+	$s.push("thx.load.TestAll::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.load.TestAll.__name__ = ["thx","load","TestAll"];
+thx.load.TestAll.addTests = function(runner) {
+	$s.push("thx.load.TestAll::addTests");
+	var $spos = $s.length;
+	runner.addCase(new thx.load.TestMemoryLoader());
+	$s.pop();
+}
+thx.load.TestAll.main = function() {
+	$s.push("thx.load.TestAll::main");
+	var $spos = $s.length;
+	var runner = new utest.Runner();
+	thx.load.TestAll.addTests(runner);
+	utest.ui.Report.create(runner);
+	runner.run();
+	$s.pop();
+}
+thx.load.TestAll.prototype.__class__ = thx.load.TestAll;
 thx.validation.TestUrl = function(p) {
 	$s.push("thx.validation.TestUrl::new");
 	var $spos = $s.length;
@@ -12845,29 +12848,6 @@ thx.html.SpecialElementContentFormat.AsCData.__enum__ = thx.html.SpecialElementC
 thx.html.SpecialElementContentFormat.AsCommentedText = ["AsCommentedText",2];
 thx.html.SpecialElementContentFormat.AsCommentedText.toString = $estr;
 thx.html.SpecialElementContentFormat.AsCommentedText.__enum__ = thx.html.SpecialElementContentFormat;
-thx.data.MemoryLoader = function(data) {
-	if( data === $_ ) return;
-	$s.push("thx.data.MemoryLoader::new");
-	var $spos = $s.length;
-	this.data = data;
-	$s.pop();
-}
-thx.data.MemoryLoader.__name__ = ["thx","data","MemoryLoader"];
-thx.data.MemoryLoader.prototype.data = null;
-thx.data.MemoryLoader.prototype.load = function(completeHandler,errorHandler) {
-	$s.push("thx.data.MemoryLoader::load");
-	var $spos = $s.length;
-	if(null != this.data) {
-		completeHandler(this.data);
-		$s.pop();
-		return;
-	}
-	var error = "data is null";
-	if(null != errorHandler) errorHandler(error); else throw error;
-	$s.pop();
-}
-thx.data.MemoryLoader.prototype.__class__ = thx.data.MemoryLoader;
-thx.data.MemoryLoader.__interfaces__ = [thx.data.ILoader];
 thx.html.HtmlAttributeFormat = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.html.HtmlAttributeFormat::new");
@@ -12931,6 +12911,29 @@ thx.util.TestResults.prototype.testToString = function() {
 	$s.pop();
 }
 thx.util.TestResults.prototype.__class__ = thx.util.TestResults;
+thx.load.MemoryLoader = function(data) {
+	if( data === $_ ) return;
+	$s.push("thx.load.MemoryLoader::new");
+	var $spos = $s.length;
+	this.data = data;
+	$s.pop();
+}
+thx.load.MemoryLoader.__name__ = ["thx","load","MemoryLoader"];
+thx.load.MemoryLoader.prototype.data = null;
+thx.load.MemoryLoader.prototype.load = function(completeHandler,errorHandler) {
+	$s.push("thx.load.MemoryLoader::load");
+	var $spos = $s.length;
+	if(null != this.data) {
+		completeHandler(this.data);
+		$s.pop();
+		return;
+	}
+	var error = "data is null";
+	if(null != errorHandler) errorHandler(error); else throw error;
+	$s.pop();
+}
+thx.load.MemoryLoader.prototype.__class__ = thx.load.MemoryLoader;
+thx.load.MemoryLoader.__interfaces__ = [thx.load.ILoader];
 haxe.Timer = function(time_ms) {
 	if( time_ms === $_ ) return;
 	$s.push("haxe.Timer::new");
@@ -13527,7 +13530,7 @@ thx.text.json.Json.decode = function(value) {
 thx.text.json.Json.encodeObject = function(o) {
 	$s.push("thx.text.json.Json::encodeObject");
 	var $spos = $s.length;
-	var $tmp = thx.text.json.Json.encode(thx.config.Configs.toConfigExpr(o));
+	var $tmp = thx.text.json.Json.encode(thx.data.Data.toConfigExpr(o));
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -13535,7 +13538,7 @@ thx.text.json.Json.encodeObject = function(o) {
 thx.text.json.Json.decodeObject = function(s) {
 	$s.push("thx.text.json.Json::decodeObject");
 	var $spos = $s.length;
-	var $tmp = thx.config.Configs.toDynamic(thx.text.json.Json.decode(s));
+	var $tmp = thx.data.Data.toDynamic(thx.text.json.Json.decode(s));
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -14297,7 +14300,7 @@ utest.Assert.sameAs = function(expected,value,status) {
 	}
 	if(Std["is"](expected,Date)) {
 		if(expected.getTime() != value.getTime()) {
-			status.error = "expected " + utest.Assert.q(expected) + " but it is " + utest.Assert.q(value) + (status.path == ""?"":" for field " + status.path);
+			status.error = "expected " + utest.Assert.q(expected) + " (" + expected.getTime() + ") but it is " + utest.Assert.q(value) + " (" + value.getTime() + ")" + (status.path == ""?"":" for field " + status.path);
 			$s.pop();
 			return false;
 		}
@@ -17876,12 +17879,12 @@ thx.html.Element._inline = thx.collections.Set.ofArray("a,abbr,acronym,b,basefon
 thx.html.Element._break = thx.collections.Set.ofArray("br,hr".split(","));
 thx.html.Element._closeSelf = thx.collections.Set.ofArray("colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr".split(","));
 thx.html.Element._special = thx.collections.Set.ofArray("script,style".split(","));
-thx.config.TestConfigs.tests = [{ v : 1, ce : thx.config.ConfigExpr.CEInt(1)},{ v : "hello", ce : thx.config.ConfigExpr.CEString("hello")},{ v : null, ce : thx.config.ConfigExpr.CENull},{ v : true, ce : thx.config.ConfigExpr.CEBool(true)},{ v : false, ce : thx.config.ConfigExpr.CEBool(false)},{ v : 0.1, ce : thx.config.ConfigExpr.CEFloat(0.1)},{ v : Date.fromString("1972-05-07"), ce : thx.config.ConfigExpr.CEDate("1972-05-07T00:00:00")},{ v : [1,"a"], ce : thx.config.ConfigExpr.CEArray([thx.config.ConfigExpr.CEInt(1),thx.config.ConfigExpr.CEString("a")])},{ v : { a : "b", c : "d"}, ce : thx.config.ConfigExpr.CEObject([{ k : "a", v : thx.config.ConfigExpr.CEString("b")},{ k : "c", v : thx.config.ConfigExpr.CEString("d")}])}];
+thx.data.TestData.tests = [{ v : 1, ce : thx.data.DataExpr.CEInt(1)},{ v : "hello", ce : thx.data.DataExpr.CEString("hello")},{ v : null, ce : thx.data.DataExpr.CENull},{ v : true, ce : thx.data.DataExpr.CEBool(true)},{ v : false, ce : thx.data.DataExpr.CEBool(false)},{ v : 0.1, ce : thx.data.DataExpr.CEFloat(0.1)},{ v : Date.fromString("1972-05-07 00:00:00"), ce : thx.data.DataExpr.CEDate("1972-05-07T00:00:00")},{ v : [1,"a"], ce : thx.data.DataExpr.CEArray([thx.data.DataExpr.CEInt(1),thx.data.DataExpr.CEString("a")])},{ v : { a : "b", c : "d"}, ce : thx.data.DataExpr.CEObject([{ k : "a", v : thx.data.DataExpr.CEString("b")},{ k : "c", v : thx.data.DataExpr.CEString("d")}])}];
 utest.TestHandler.POLLING_TIME = 10;
 haxe.Timer.arr = new Array();
 Objects._reCheckKeyIsColor = new EReg("color\\b|\\bbackground\\b|\\bstroke\\b|\\bfill\\b","");
 thx.validation.UrlValidator._reUrl = new EReg("^(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?$","");
-thx.text.json.TestJson.tests = [{ c : thx.config.ConfigExpr.CENull, s : "null"},{ c : thx.config.ConfigExpr.CEString("a\nb"), s : "\"a\\nb\""},{ c : thx.config.ConfigExpr.CEInt(1), s : "1"},{ c : thx.config.ConfigExpr.CEFloat(-0.1), s : "-0.1"},{ c : thx.config.ConfigExpr.CEFloat(-1.234e-100), s : "-1.234e-100"},{ c : thx.config.ConfigExpr.CEBool(true), s : "true"},{ c : thx.config.ConfigExpr.CEBool(false), s : "false"},{ c : thx.config.ConfigExpr.CEArray([]), s : "[]"},{ c : thx.config.ConfigExpr.CEArray([thx.config.ConfigExpr.CENull,thx.config.ConfigExpr.CEBool(true)]), s : "[null, true]"},{ c : thx.config.ConfigExpr.CEObject([{ k : "name", v : thx.config.ConfigExpr.CEString("haxe")},{ k : "stars", v : thx.config.ConfigExpr.CEInt(5)}]), s : "{\"name\":\"haxe\",\"stars\":5}"}];
+thx.text.json.TestJson.tests = [{ c : thx.data.DataExpr.CENull, s : "null"},{ c : thx.data.DataExpr.CEString("a\nb"), s : "\"a\\nb\""},{ c : thx.data.DataExpr.CEInt(1), s : "1"},{ c : thx.data.DataExpr.CEFloat(-0.1), s : "-0.1"},{ c : thx.data.DataExpr.CEFloat(-1.234e-100), s : "-1.234e-100"},{ c : thx.data.DataExpr.CEBool(true), s : "true"},{ c : thx.data.DataExpr.CEBool(false), s : "false"},{ c : thx.data.DataExpr.CEArray([]), s : "[]"},{ c : thx.data.DataExpr.CEArray([thx.data.DataExpr.CENull,thx.data.DataExpr.CEBool(true)]), s : "[null, true]"},{ c : thx.data.DataExpr.CEObject([{ k : "name", v : thx.data.DataExpr.CEString("haxe")},{ k : "stars", v : thx.data.DataExpr.CEInt(5)}]), s : "{\"name\":\"haxe\",\"stars\":5}"}];
 thx.html.HtmlParser.startTag = new EReg("^<(\\w+)((?:\\s+\\w+(?:\\s*=\\s*(?:(?:\"[^\"]*\")|(?:'[^']*')|[^>\\s]+))?)*)\\s*(/?)>","");
 thx.html.HtmlParser.endTag = new EReg("^</(\\w+)[^>]*>","");
 thx.html.HtmlParser.attr = new EReg("(\\w+)(?:\\s*=\\s*(?:(?:\"((?:\\\\.|[^\"])*)\")|(?:'((?:\\\\.|[^'])*)')|([^>\\s]+)))?","g");
