@@ -5,6 +5,8 @@
 
 package thx.js;
 
+import thx.color.NamedColors;
+import thx.color.Rgb;
 import thx.js.Dom;
 import js.Lib;
 import js.Dom;
@@ -18,9 +20,11 @@ using Arrays;
 
 class TestDom
 {
+/*
 	public function testBody()
 	{
-		var data = Ints.range(10).map(function(_,_) return Std.random(60));
+		var data = Ints.range(20);
+		var c = thx.color.Rgb.interpolatef(NamedColors.snow, NamedColors.black);
 		var chart = Dom.select("body")
 			.append("div")
 				.attr("class", "chart");
@@ -28,11 +32,14 @@ class TestDom
 			.data(data)
 			.enter()
 				.append("div")
-					.style("width", function(n,_) return n.data * 10 + "px")
+					.style("width", function(n, _) return n.data * 10 + "px")
+					.style("background-color", function(_, i) return c(i / data.length).toCss())
+					.style("color", function(_, i) return Rgb.contrast(c(i / data.length)).toCss())
+//					.style("color", function(_, i) return Rgb.contrastBW(c(i / data.length)).toCss())
+					.on("click", function(n, i) Lib.alert(i + ": " + n.data))
 					.text(function(n,_) return "" + n.data);
-		
 	}
-	
+*/
 	public static function addTests(runner : Runner)
 	{
 		runner.addCase(new TestDom());

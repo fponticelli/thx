@@ -3,8 +3,11 @@
  * @author Franco Ponticelli
  */
 
+import thx.culture.Culture;
 import thx.error.Error;
+import thx.culture.FormatParams;
 using StringTools;
+using Arrays;
 
 class Strings
 {
@@ -14,23 +17,195 @@ class Strings
 #if !php
 	static var _reStripTags = ~/(<[a-z]+[^>\/]*\/?>|<\/[a-z]+>)/i;
 #end
-	inline public static function format(pattern : String, params : Array<Dynamic>)
-	{
-#if hxculture
-		return hxculture.Format.string(pattern, params, hxculture.Culture.defaultCulture);
-#else
-		return plainFormat(pattern, params);
-#end
+
+	static var _reFormat = ~/{(\d+)(?::([a-zA-Z]+))?(?:,([^"',}]+|'[^']+'|"[^"]+"))?(?:,([^"',}]+|'[^']+'|"[^"]+"))?(?:,([^"',}]+|'[^']+'|"[^"]+"))?}/m;
+	/**
+	* Take a string pattern and replaces the placeholders with the value contained in values.
+	* The culture parameter is needed for proper localization of numeric and date values.
+	* Placeholders follows this schema:
+<pre>
+{pos[:format][,param]*}
+</pre>
+	* <em>pos</em> is the position in the array
+	* <em>format</em> is a string sequence that identifies a specific value format (see below)
+	* <em>param</em> is one or more optional parameters specific to certain format values.
+	*
+	* <pre>
+Numeric Formats
+---------------
+D (default) Decimal format. The default number of decimals is set by culture. This value can overriden
+            using the length parameter.
+I           Integer format.
+C           Currency format. The default number of decimals is set by culture. This value can overriden
+            using the length parameter. The symbol can be overridden appending a string value after C
+			Ei. "{0:C,3,USD}" will print something like "USD2.000" instead of "$2.00"
+P           Percent format.
+M           Permille format.
+
+Date Formats
+---------------
+D (default) Date format.
+DS          Short Date format.
+DST         Short date / long time format.
+DSTS        Short date / short time format.
+DT          Long date / long time format.
+DTS         Long date / short time format.
+Y           Year format.
+YM          Year Month format.
+M           Month format.
+MN          Month name format.
+MS          Short Month name format.
+MD          Month Day format.
+WD          Week day format.
+WDN         Week day name format.
+WDS         Short week day name format.
+R           RFC Date format.
+DT          Date Time format.
+U           Universal format.
+S           Sortable format.
+T           Time format.
+TS          Short Time format.
+C			Custom, second parameter is the format as described in FormatDate
+
+Boolean Formats
+---------------
+B			Normal bool (true, false)
+N			Numeric representation (1, 0)
+R			Replace values with first parameter for true and second for false
+
+String Formats
+---------------
+S			Normal text.
+T           Truncate. First parameter is the length to trim, second is the ellipsis
+			(optional parameter, defaults to '...')
+PL          Pad left. First parameter is the length, second is filling char
+			(optional parameter, defaults to ' ')
+PR          Pad right. First parameter is the length, second is filling char
+			(optional parameter, defaults to ' ')
+
+List Formats
+---------------
+J           Joins the elements of the list.
+			The first parameter is the format for individual items
+			The second parameter is what is shown when the list is empty (defaults to '[]')
+			The third is the separator.
+            The fourth is the maximum number of values to show (default to nolimit).
+			The fifth parameter the ellipsis for not included values (defaults to '...'),
+C			Counts the elements in the list
+			
+TODO:
+List Formats
+---------------
+C           Concats the elements of the list
+
+Other things to do. Nested placeholders
+</pre>
+	*/
+	public static function format(pattern : String, values : Array<Dynamic>, nullstring = 'null', ?culture : Culture) {
+		return formatf(pattern, nullstring, culture)(values);
+		if (null == values)
+			values = [];
+		var buf = new StringBuf();
+		while(true) {
+			if(!_reFormat.match(pattern)) {
+				buf.add(pattern);
+				break;
+			}
+
+			var pos = Std.parseInt(_reFormat.matched(1));
+			var f = _reFormat.matched(2);
+			if (f == '') // '' is for IE
+				f = null;
+			var p = null;
+			var params = [];
+			for (i in 3...20) // 20 is a guard limit, 5 is probably more than enough
+			{
+				p = _reFormat.matched(i);
+				if(p == null || p == '') // again IE
+					break;
+				params.push(FormatParams.cleanQuotes(p));
+			}
+			pattern = _reFormat.matchedRight();
+			buf.add(_reFormat.matchedLeft());
+			buf.add(Dynamics.format(values[pos], f, params, nullstring, culture));
+		}
+		return buf.toString();
 	}
 	
-	public static function plainFormat(pattern : String, params : Array<Dynamic>)
+	public static function formatf(pattern : String, nullstring = 'null', ?culture : Culture)
 	{
-		return _re.customReplace(pattern, function(ereg : EReg) {
-			var index = Std.parseInt(ereg.matched(1));
-			if (index >= params.length || index < 0)
-				throw new Error("format index {0} out of range", index);
-			return "" + params[index];
-		});
+		var buf = [];
+		while (true)
+		{
+			if (!_reFormat.match(pattern))
+			{
+				buf.push(function(_) return pattern);
+				break;
+			}
+
+			var pos = Std.parseInt(_reFormat.matched(1));
+			var f = _reFormat.matched(2);
+			if (f == '') // '' is for IE
+				f = null;
+			var p = null;
+			var params = [];
+			for (i in 3...20) // 20 is a guard limit, 5 is probably more than enough
+			{
+				p = _reFormat.matched(i);
+				if(p == null || p == '') // again IE
+					break;
+				params.push(FormatParams.cleanQuotes(p));
+			}
+			var left = _reFormat.matchedLeft();
+			buf.push(function(_) return left);
+			var df = Dynamics.formatf(f, params, nullstring, culture);
+			buf.push(callback(function(i : Int, v : Array<Dynamic>) return df(v[i]), pos));
+			pattern = _reFormat.matchedRight();
+		}
+		return function(values : Array<Dynamic>)
+		{
+			if (null == values)
+				values = [];
+			return buf.map(function(df,_) return df(values)).join("");
+		}
+	}
+	
+	public static function formatOne(v : String, ?param : String, ?params : Array<String>, ?culture : Culture)
+	{
+		return formatOnef(param, params, culture)(v);
+	}
+	
+	public static function formatOnef(?param : String, ?params : Array<String>, ?culture : Culture)
+	{
+		params = FormatParams.params(param, params, 'S');
+		var format = params.shift();
+		switch(format)
+		{
+			case 'S':
+				return function(v : String) return v;
+			case 'T':
+				var len = params.length < 1 ? 10 : Std.parseInt(params[0]);
+				var elipsis = params.length < 2 ? "..." : params[1];
+				return function(v : String)
+				{
+					if (v.length > len)
+					{
+						return v.substr(0, len) + elipsis;
+					} else {
+						return v;
+					}
+				};
+			case 'PR':
+				var len = params.length < 1 ? 10 : Std.parseInt(params[0]);
+				var pad = params.length < 2 ? " " : params[1];
+				return function(v : String) return StringTools.rpad(v, pad, len);
+			case 'PL':
+				var len = params.length < 1 ? 10 : Std.parseInt(params[0]);
+				var pad = params.length < 2 ? " " : params[1];
+				return function(v : String) return StringTools.lpad(v, pad, len);
+			default:
+				return throw "Unsupported string format: " + format;
+		}
 	}
 	
 	// TODO, test me
@@ -110,12 +285,7 @@ class Strings
 	
 	public static function empty(value : String)
 	{
-		if (value == null || value == '')
-			return true;
-		else if (StringTools.trim(value) == '')
-			return true;
-		else
-			return false;
+		return value == null || value == '';
 	}
 	
 	public static inline function isAlphaNum(value : String) : Bool
@@ -267,5 +437,81 @@ class Strings
 #else
 		return _reStripTags.replace(s, "");
 #end
+	}
+	
+	public static function ascending(a : String, b : String) return a < b ? -1 : a > b ? 1 : 0
+	public static function descending(a : String, b : String) return a > b ? -1 : a < b ? 1 : 0
+	
+	static var _reInterpolateNumber = ~/[-+]?(?:\d+\.\d+|\d+\.|\.\d+|\d+)(?:[eE][-]?\d+)?/;
+	public static function interpolate(v : Float, a : String, b : String, ?interpolator : Float -> Float)
+	{
+		return interpolatef(a, b, interpolator)(v);
+	}
+
+	public static function interpolatef(a : String, b : String, ?interpolator : Float -> Float)
+	{
+		function extract(value : String, s : Array<String>, f : Array<Null<Float>>)
+		{
+			while (_reInterpolateNumber.match(value))
+			{
+				var left = _reInterpolateNumber.matchedLeft();
+				if (!Strings.empty(left))
+				{
+					s.push(left);
+					f.push(null);
+				}
+				s.push(null);
+				f.push(Std.parseFloat(_reInterpolateNumber.matched(0)));
+				value = _reInterpolateNumber.matchedRight();
+			}
+			if (!Strings.empty(value))
+			{
+				s.push(value);
+				f.push(null);
+			}
+		}
+		var sa = [],
+			fa = [],
+			sb = [],
+			fb = [];
+		extract(a, sa, fa);
+		extract(b, sb, fb);
+		
+		var functions = [], i = 0;
+		var min = Ints.min(sa.length, sb.length);
+		while (i < min)
+		{
+			if (sa[i] != sb[i])
+				break;
+			if (null == sa[i])
+			{
+				if (fa[i] == fb[i]) // no need to interpolate
+				{
+					var s = "" + fa[i];
+					functions.push(function(_) return s);
+				} else {
+					var f = Floats.interpolatef(fa[i], fb[i], interpolator);
+					functions.push(function(t) return "" + f(t));
+				}
+			} else {
+				var s = sa[i];
+				functions.push(function(_) return s);
+			}
+			i++;
+		}
+		var rest = "";
+		while (i < sb.length)
+		{
+			if (null != sb[i])
+				rest += sb[i];
+			else
+				rest += fb[i];
+			i++;
+		}
+		if ("" != rest)
+			functions.push(function(_) return rest);
+		return function(t) {
+			return Arrays.map(functions, function(f,_) return f(t)).join("");
+		};
 	}
 }

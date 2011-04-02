@@ -2,6 +2,8 @@ import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
 
+using Floats;
+
 class TestFloats
 {
 	public function testNormalize()
@@ -87,6 +89,17 @@ class TestFloats
 		Assert.equals(100, Floats.interpolate(0.0, 100, 200));
 		Assert.equals(150, Floats.interpolate(0.5, 100, 200));
 		Assert.equals(200, Floats.interpolate(1.0, 100, 200));
+	}
+	
+	public function testFormat()
+	{
+		Assert.equals("0.10",	(0.1).format());
+		Assert.equals("0",		(0.1).format("I"));
+	}
+	
+	public function testFormatF()
+	{
+		Assert.equals("0.10", Floats.formatf()(0.1));
 	}
 
 	public static function addTests(runner : Runner)

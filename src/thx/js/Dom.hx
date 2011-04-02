@@ -23,4 +23,6 @@ class Dom
 	{
 		return doc.select(selector);
 	}
+	
+	public static var event : Event;
 }

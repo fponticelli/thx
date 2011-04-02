@@ -36,7 +36,9 @@ class Error extends Message
 				pa = "no parameters passed";
 			else
 				pa = "wrong parameters passed ({0})";
-			throw new Error(pa + " for pattern '{1}' at {2}", [params.join(", "), message, ps]);
+			trace("wrong parameters passed (" + params.join(", ") + ") for pattern '" + message + "' at " +  ps);
+			return "";
+//			throw new Error(pa + " for pattern '{1}' at {2}", [params.join(", "), message, ps]);
 		}
 	}
 }

@@ -3,6 +3,9 @@ import thx.error.Error;
  * ...
  * @author Franco Ponticelli
  */
+import thx.culture.Culture;
+import thx.culture.FormatParams;
+import thx.math.Equations;
 
 class Ints
 {
@@ -67,8 +70,31 @@ class Ints
 			return v;
 	}
 	
-	inline public static function interpolate(f : Float, ?interpolator : Float -> Float, min = 0.0, max = 100.0) : Int
+	inline public static function interpolate(f : Float, min = 0.0, max = 100.0, ?interpolator : Float -> Float) : Int
 	{
-		return Math.round(Floats.interpolate(f, interpolator, min, max));
+		if (null == interpolator)
+			interpolator = Equations.linear;
+		return Math.round(min + interpolator(f) * (max - min));
+	}
+
+	public static function interpolatef(min = 0.0, max = 1.0, ?interpolator : Float -> Float)
+	{
+		if (null == interpolator)
+			interpolator = Equations.linear;
+		var d = max - min;
+		return function(f) return Math.round(min + interpolator(f) * d);
+	}
+	
+	public static function ascending(a : Int, b : Int) return a < b ? -1 : a > b ? 1 : 0
+	public static function descending(a : Int, b : Int) return a > b ? -1 : a < b ? 1 : 0
+	
+	public static function format(v : Float, ?param : String, ?params : Array<String>, culture : Culture)
+	{
+		return formatf(param, params, culture)(v);
+	}
+	
+	public static function formatf(?param : String, ?params : Array<String>, culture : Culture)
+	{
+		return Floats.formatf(FormatParams.params(param, params, 'I'), culture);
 	}
 }

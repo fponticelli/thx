@@ -27,15 +27,15 @@ class DateRangeValidator extends Validator<Date>
 		if (null != min && ((minInclusive && value.getTime() < min.getTime()) || (!minInclusive && value.getTime() <= min.getTime())))
 		{
 			if (minInclusive)
-				return "value must be at least {0:C}".failure([min]);
+				return "value must be at least {0:D}".failure([min]);
 			else
-				return "value must be greater than {0:C}".failure([min]);
+				return "value must be greater than {0:D}".failure([min]);
 		} else if (null != max && ((maxInclusive && value.getTime() > max.getTime()) || (!maxInclusive && value.getTime() >= max.getTime())))
 		{
 			if (maxInclusive)
-				return "value must be at no more than {0:C}".failure([max]);
+				return "value must be at no more than {0:D}".failure([max]);
 			else
-				return "value must be lower than {0:C}".failure([max]);
+				return "value must be lower than {0:D}".failure([max]);
 		} else {
 			return Ok;
 		}

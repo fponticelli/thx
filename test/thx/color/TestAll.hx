@@ -16,6 +16,7 @@ class TestAll
 	public static function addTests(runner : Runner)
 	{
 		runner.addCase(new TestCmyk());
+		runner.addCase(new TestColors());
 		runner.addCase(new TestHsl());
     	runner.addCase(new TestRgb());
 	}

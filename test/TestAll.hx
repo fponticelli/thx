@@ -3,6 +3,7 @@
  * @author Franco Ponticelli
  */
 
+import thx.culture.Culture;
 import utest.Runner;
 import utest.ui.Report;
 
@@ -10,6 +11,7 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
+		Culture.defaultCulture = thx.cultures.EnUS.culture;
 #if js
 		thx.js.TestAll.addTests(runner);
 #end

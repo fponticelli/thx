@@ -8,6 +8,7 @@ extern class Sizzle
 	public static function matches(selector : String, ?set : Array<HtmlDom>) : Array<HtmlDom>;
 	public static function find(selector : String, context : HtmlDom, isXml : Bool) : { set : Array<HtmlDom>, expr : String };
 	public static function filter(selector : String, set : Array<HtmlDom>, inplace : Bool, not : Bool) : Array<HtmlDom>;
+	public static function uniqueSort(list : Array<HtmlDom>) : Array<HtmlDom>;
 	
 	public static var selectors : {
 		match		: Dynamic<String>,

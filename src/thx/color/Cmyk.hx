@@ -77,10 +77,10 @@ class Cmyk extends Rgb
 	public static function interpolate(a : Cmyk, b : Cmyk, t : Float, ?interpolator : Float -> Float) : Cmyk
 	{
 		return new Cmyk(
-			t.interpolate(interpolator, a.cyan,    b.cyan),
-			t.interpolate(interpolator, a.magenta, b.magenta),
-			t.interpolate(interpolator, a.yellow,  b.yellow),
-			t.interpolate(interpolator, a.black,   b.black)
+			t.interpolate(a.cyan,    b.cyan, interpolator),
+			t.interpolate(a.magenta, b.magenta, interpolator),
+			t.interpolate(a.yellow,  b.yellow, interpolator),
+			t.interpolate(a.black,   b.black, interpolator)
 		);
 	}
 }

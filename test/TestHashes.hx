@@ -7,7 +7,7 @@ import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
 
-using thx.util.DynamicsT;
+using DynamicsT;
 
 class TestHashes
 {

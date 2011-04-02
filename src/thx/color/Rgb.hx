@@ -39,6 +39,8 @@ class Rgb
 	{
 		return prefix + red.hex(2) + green.hex(2) + blue.hex(2);
 	}
+	
+	inline public function toCss() return hex('#')
 		
 	public function toRgbString()
 	{
@@ -71,18 +73,44 @@ class Rgb
 	public static function darker(color : Rgb, t : Float, ?interpolator : Float -> Float) : Rgb
 	{
 		return new Rgb(
-			(t * color.red).interpolate(interpolator, 0, 255),
-			(t * color.green).interpolate(interpolator, 0, 255),
-			(t * color.blue).interpolate(interpolator, 0, 255)
+			(t * color.red).interpolate(0, 255, interpolator),
+			(t * color.green).interpolate(0, 255, interpolator),
+			(t * color.blue).interpolate(0, 255, interpolator)
 		);
 	}
 	
 	public static function interpolate(a : Rgb, b : Rgb, t : Float, ?interpolator : Float -> Float)
 	{
 		return new Rgb(
-			t.interpolate(interpolator, a.red, b.red),
-			t.interpolate(interpolator, a.green, b.green),
-			t.interpolate(interpolator, a.blue, b.blue)
+			t.interpolate(a.red, b.red, interpolator),
+			t.interpolate(a.green, b.green, interpolator),
+			t.interpolate(a.blue, b.blue, interpolator)
 		);
+	}
+	
+	public static function interpolatef(a : Rgb, b : Rgb, ?interpolator : Float -> Float)
+	{
+		var r = Ints.interpolatef(a.red, b.red),
+			g = Ints.interpolatef(a.green, b.green),
+			b = Ints.interpolatef(a.blue, b.blue);
+		return function(t) return new Rgb(r(t), g(t), b(t));
+	}
+	
+	public static function contrast(c : Rgb)
+	{
+		var nc = Hsl.toHsl(c);
+		if (nc.lightness < .5)
+			return new Hsl(nc.hue, nc.saturation, nc.lightness + 0.5);
+		else
+			return new Hsl(nc.hue, nc.saturation, nc.lightness - 0.5);
+	}
+	
+	public static function contrastBW(c : Rgb)
+	{
+		var nc = Hsl.toHsl(c);
+		if (nc.lightness < .5)
+			return new Hsl(nc.hue, nc.saturation, 1.0);
+		else
+			return new Hsl(nc.hue, nc.saturation, 0);
 	}
 }

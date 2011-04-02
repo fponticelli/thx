@@ -12,8 +12,7 @@ class TestConfigs
 		{ v : true,		ce : CEBool(true) },
 		{ v : false,	ce : CEBool(false) },
 		{ v : 0.1,		ce : CEFloat(0.1) },
-		{ v : Date.fromString("2001-01-01"),	ce : CEDate("2001-01-01T00:00:00") },
-		{ v : Date.fromTime(123456000.0),		ce : CEDate("1970-01-02T10:17:36") },
+		{ v : Date.fromString("1972-05-07"),	ce : CEDate("1972-05-07T00:00:00") },
 		{ v : [1, "a"],	ce :  CEArray([CEInt(1), CEString("a")])},
 		{ v :
 			{ a : "b", c : "d" },

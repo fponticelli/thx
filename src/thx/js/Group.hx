@@ -35,6 +35,11 @@ class Group<TData>
 		return nodes[i];
 	}
 	
+	public function getDom(i : Int)
+	{
+		return null != nodes[i] ? nodes[i].dom : null;
+	}
+	
 	public function count()
 	{
 		return nodes.length;
@@ -44,28 +49,9 @@ class Group<TData>
 	{
 		nodes.push(node);
 	}
-/*
-	function getParentNode()
-	{
-		return null;
-	}
 	
-	function setParentNode(v)
+	public function sort(comparator : Node<TData> -> Node<TData> -> Int)
 	{
-		return v;
+		nodes.sort(comparator);
 	}
-	
-	function getParentData()
-	{
-		return null;
-	}
-	
-	function setParentData(v)
-	{
-		return v;
-	}
-*/
-//	public function filter(filterf)
-//	public function map(mapf)
-	
 }

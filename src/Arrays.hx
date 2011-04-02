@@ -2,6 +2,8 @@
  * ...
  * @author Franco Ponticelli
  */
+import thx.culture.Culture;
+import thx.culture.FormatParams;
 
 class Arrays
 {
@@ -119,5 +121,157 @@ class Arrays
 					return true;
 		}
 		return false;
+	}
+	
+	public static function format(v : Array<Dynamic>, ?param : String, ?params : Array<String>, ?culture : Culture)
+	{
+		params = FormatParams.params(param, params, 'J');
+		var format = params.shift();
+		switch(format)
+		{
+			case 'J':
+				
+				
+				if (v.length == 0)
+				{
+					var empty = null == params[1] ? '[]' : params[1];
+					return empty;
+				}
+				
+				var sep = null == params[2] ? ', ' : params[2];
+				var max : Null<Int> = params[3] == null ? null : ('' == params[3] ? null : Std.parseInt(params[3]));
+				if (null != max && max < v.length)
+				{
+					var elipsis = null == params[4] ? ' ...' : params[4];
+					return Arrays.map(v.copy().splice(0, max), function(d, i) return Dynamics.format(d, params[0], culture)).join(sep) + elipsis;
+				} else
+					return Arrays.map(v, function(d, i) return Dynamics.format(d, params[0], culture)).join(sep);
+			case 'C':
+				return Ints.format(v.length, 'I', [], culture);
+			default:
+				throw "Unsupported array format: " + format;
+		}
+	}
+	
+	public static function formatf(?param : String, ?params : Array<String>, ?culture : Culture)
+	{
+		params = FormatParams.params(param, params, 'J');
+		var format = params.shift();
+		switch(format)
+		{
+			case 'J':
+				return function(v : Array<Dynamic>)
+				{
+					if (v.length == 0)
+					{
+						var empty = null == params[1] ? '[]' : params[1];
+						return empty;
+					}
+					
+					var sep = null == params[2] ? ', ' : params[2];
+					var max : Null<Int> = params[3] == null ? null : ('' == params[3] ? null : Std.parseInt(params[3]));
+					if (null != max && max < v.length)
+					{
+						var elipsis = null == params[4] ? ' ...' : params[4];
+						return Arrays.map(v.copy().splice(0, max), function(d, i) return Dynamics.format(d, params[0], culture)).join(sep) + elipsis;
+					} else
+						return Arrays.map(v, function(d, i) return Dynamics.format(d, params[0], culture)).join(sep);
+				}
+			case 'C':
+				var f = Ints.formatf('I', [], culture);
+				return function(v) return f(v.length);
+			default:
+				throw "Unsupported array format: " + format;
+		}
+	}
+	
+	public static function interpolate(v : Float, a : Array<Float>, b : Array<Float>, ?interpolator : Float -> Float) : Array<Float>
+	{
+		return interpolatef(a, b, interpolator)(v);
+	}
+	
+	public static function interpolatef(a : Array<Float>, b : Array<Float>, ?interpolator : Float -> Float)
+	{
+		var functions = [],
+			i = 0,
+			min = Ints.min(a.length, b.length);
+			
+		while (i < min)
+		{
+			if (a[i] == b[i])
+			{
+				var v = b[i];
+				functions.push(function(_) return v);
+			} else
+				functions.push(Floats.interpolatef(a[i], b[i], interpolator));
+			i++;
+		}
+		while (i < b.length)
+		{
+			var v = b[i];
+			functions.push(function(_) return v);
+			i++;
+		}
+		return function(t) return Arrays.map(functions, function(f, _) return f(t));
+	}
+	
+	public static function interpolateStrings(v : Float, a : Array<String>, b : Array<String>, ?interpolator : Float -> Float) : Array<String>
+	{
+		return interpolateStringsf(a, b, interpolator)(v);
+	}
+	
+	public static function interpolateStringsf(a : Array<String>, b : Array<String>, ?interpolator : Float -> Float)
+	{
+		var functions = [],
+			i = 0,
+			min = Ints.min(a.length, b.length);
+			
+		while (i < min)
+		{
+			if (a[i] == b[i])
+			{
+				var v = b[i];
+				functions.push(function(_) return v);
+			} else
+				functions.push(Strings.interpolatef(a[i], b[i], interpolator));
+			i++;
+		}
+		while (i < b.length)
+		{
+			var v = b[i];
+			functions.push(function(_) return v);
+			i++;
+		}
+		return function(t) return Arrays.map(functions, function(f, _) return f(t));
+	}
+	
+	public static function interpolateInts(v : Float, a : Array<Int>, b : Array<Int>, ?interpolator : Float -> Float) : Array<Int>
+	{
+		return interpolateIntsf(a, b, interpolator)(v);
+	}
+	
+	public static function interpolateIntsf(a : Array<Int>, b : Array<Int>, ?interpolator : Float -> Float)
+	{
+		var functions = [],
+			i = 0,
+			min = Ints.min(a.length, b.length);
+			
+		while (i < min)
+		{
+			if (a[i] == b[i])
+			{
+				var v = b[i];
+				functions.push(function(_) return v);
+			} else
+				functions.push(Ints.interpolatef(a[i], b[i], interpolator));
+			i++;
+		}
+		while (i < b.length)
+		{
+			var v = b[i];
+			functions.push(function(_) return v);
+			i++;
+		}
+		return function(t) return Arrays.map(functions, function(f, _) return f(t));
 	}
 }

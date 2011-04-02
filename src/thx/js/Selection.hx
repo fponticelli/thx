@@ -22,35 +22,175 @@ class Selection<TData>
 	public function select(selector : String) : Selection<TData>
 	{
 		return _select(function(el) {
-			return new Node(Dom.selectionEngine.select(selector, el));
+			return new Node(Dom.selectionEngine.select(selector, el.dom));
 		});
 	}
 	
 	public function selectAll(selector : String) : Selection<TData>
 	{
 		return _selectAll(function(el) {
-			return Node.many(Dom.selectionEngine.selectAll(selector, el));
+			return Node.many(Dom.selectionEngine.selectAll(selector, el.dom));
 		});
 	}
 	
 	public function append(name : String) : Selection<TData>
 	{
 		var qname = Namespace.qualify(name);
-		function append(node : HtmlDom)
+		function append(node : Node<TData>)
 		{
 			var n : HtmlDom = Lib.document.createElement(name);
-			node.appendChild(n);
+			node.dom.appendChild(n);
 			return new Node(n);
 		}
 		
-		function appendNS(node : HtmlDom)
+		function appendNS(node : Node<TData>)
 		{
 			var n : HtmlDom = untyped Lib.document.createElementNS(qname.space, qname.local);
-			node.appendChild(n);
+			node.dom.appendChild(n);
 			return new Node(n);
 		}
 		
 		return _select(null == qname ? append : appendNS);
+	}
+	
+	public function insert(name : String, ?node : Node<TData>, ?dom : HtmlDom)
+	{
+		var qname = Namespace.qualify(name);
+		if (null == dom)
+			dom = node.dom;
+		function insertDom(node : Node<TData>) {
+			var n : HtmlDom = Lib.document.createElement(name);
+			node.dom.insertBefore(n, dom);
+			return new Node(n);
+		}
+		
+		function insertNsDom(node : Node<TData>) {
+			var n : HtmlDom = untyped Lib.document.createElementNs(qname.space, qname.local);
+			node.dom.insertBefore(n, dom);
+			return new Node(n);
+		}
+		
+		return _select(null == qname ? insertDom : insertNsDom);
+	}
+	
+	public function remove() : Selection<TData>
+	{
+		return _select(function(node : Node<TData>)  {
+			var parent = node.dom.parentNode;
+			parent.removeChild(node.dom);
+			return untyped (null != parent.__thxnode__) ? parent.__thxnode__ : new Node(parent);
+		});
+	}
+	
+	public function sort(comparator : Node<TData> -> Node<TData> -> Int)
+	{
+		var m = groups.length;
+		for (i in 0...m)
+		{
+			var group = groups[i];
+			group.sort(comparator);
+			var n = group.count();
+			var prev = group.getDom(0);
+			for (j in 1...n)
+			{
+				var node = group.getDom(j);
+				if (null != node && null != node)
+				{
+					if (null != prev && null != prev)
+						prev.insertBefore(node, prev.nextSibling);
+					prev = node;
+				}
+			}
+		}
+		return this;
+	}
+	
+	public function filter(f : Node<TData> -> Int -> Bool)
+	{
+		var subgroups = [];
+		for (group in groups)
+		{
+			var subgroup = [];
+			var sg = new Group(subgroup);
+			sg.parentData = group.parentData;
+			sg.parentNode = group.parentNode;
+			subgroups.push(sg);
+			var i = 0;
+			for (node in group)
+			{
+				if (null != node && f(node, i++)) // TODO: should this be null != node.dom ???
+				{
+					subgroup.push(node);
+				}
+			}
+			
+		}
+		return new Selection(subgroups);
+	}
+	
+	public function map<TOut>(f : Node<TData> -> Int -> TOut) : Selection<TOut>
+	{
+		for (group in groups)
+		{
+			var i = 0;
+			for (node in group)
+			{
+				if (null != node)
+					untyped node.data = f(node, i++); // TODO: this may not work with AS3, consider creating a copy of the selection
+			}
+		}
+		return cast this;
+	}
+	
+	public function first<T>(f : Node<TData> -> Int -> T) : T
+	{
+		for (group in groups)
+		{
+			var i = 0;
+			for (node in group)
+			{
+				if (null != node) // TODO: should this be null != node.dom ???
+					return f(node, i++);
+			}
+		}
+		return null;
+	}
+	
+	public function empty()
+	{
+		return !first(function(_,_) return true);
+	}
+	
+	public function node()
+	{
+		return first(function(n,_) return n);
+	}
+	
+	public function on(type : String, ?listener : Node<TData> -> Int -> Void)
+	{
+		var i = type.indexOf("."),
+			typo = i < 0 ? type : type.substr(0, i);
+		return each(function(n, i) {
+			function l(e) {
+				var o = Dom.event;
+				Dom.event = e;
+				try
+				{
+					listener(n, i);
+				} catch (e : Dynamic) { }
+				Dom.event = o;
+			}
+			if (n.events.exists(type))
+			{
+				untyped n.dom.removeEventListener(typo, n.events.get(type), false);
+				n.events.remove(type);
+			}
+			if (null != listener)
+			{
+				n.events.set(type, l);
+				untyped n.dom.addEventListener(typo, l, false);
+			}
+		});
 	}
 	
 	public function data(?d : Array<TData>, ?fd : Group<TData> -> Int -> Array<TData>) : DataSelection<TData>// TODO Join
@@ -143,6 +283,16 @@ class Selection<TData>
 		return each(null == f ? htmlConstant : htmlFunction);
 	}
 	
+	public function getHtml() : String
+	{
+		return first(function(n : Node<TData>, _) return n.dom.innerHTML);
+	}
+	
+	public function getText() : String
+	{
+		return first(function(n : Node<TData>, _) return untyped n.dom.textContent);
+	}
+	
 	public function text(?v : String, ?f : Node<TData> -> Int -> String) : Selection<TData>
 	{
 		function textNull(n : Node<TData>, _ : Int) {
@@ -160,6 +310,12 @@ class Selection<TData>
 		return each(null != f
 			? textFunction : (v != null
 			? textConstant : textNull));
+	}
+	
+	public function getAttr(name : String) : String
+	{
+		var qname = Namespace.qualify(name);
+		return first(function(n : Node<TData>, _) return qname == null ? n.dom.getAttribute(name) : untyped n.dom.getAttributeNS(qname.space, qname.local));
 	}
 	
 	public function attr(name : String, ?v : String, ?f : Node<TData> -> Int -> String) : Selection<TData>
@@ -193,16 +349,47 @@ class Selection<TData>
 			: (null != qname ? attrNullNS : attrNull)));
 	}
 	
+	public function getProperty(name : String)
+	{
+		return first(function(n, i) return Reflect.field(n.dom, name));
+	}
+	
+	public function property(name : String, ?v : String, ?f : Node<TData> -> Int -> String) : Selection<TData>
+	{
+		function propertyNull(n : Node<TData>, _ : Int) Reflect.deleteField(n.dom, name);
+		function propertyConstant(n : Node<TData>, _ : Int) Reflect.setField(n.dom, name, v);
+		function propertyFunction(n : Node<TData>, i : Int) {
+			var x = f(n,i);
+			if (x == null)
+				Reflect.deleteField(n.dom, name);
+			else
+				Reflect.setField(n.dom, name, x);
+		}
+
+		return each(f != null
+			? propertyFunction : (null != v
+			? propertyConstant
+			: propertyNull));
+	}
+	
+	public function getStyle(name : String)
+	{
+		return first(function(n, i) return untyped Lib.window.getComputedStyle(n.dom, null).getPropertyValue(name));
+	}
+	
 	public function style(name : String, ?v : String, ?f : Node<TData> -> Int -> String, ?priority : String) : Selection<TData>
 	{
+		if (null == priority)
+			priority = null; // fixes bug with Firefox
 		function styleNull(n : Node<TData>, _ : Int) untyped n.dom.style.removeProperty(name);
 		function styleConstant(n : Node<TData>, _ : Int) untyped n.dom.style.setProperty(name, v, priority);
 		function styleFunction(n : Node<TData>, i : Int) {
 			var x = f(n,i);
 			if (x == null)
 				untyped n.dom.style.removeProperty(name);
-			else
+			else {
 				untyped n.dom.style.setProperty(name, x, priority);
+			}
 		}
 		
 		return each(null != f
@@ -238,7 +425,7 @@ class Selection<TData>
 		return new Selection<TData>(groups);
 	}
 	
-	function _select(selectf : HtmlDom -> Node<TData>) : Selection<TData>
+	function _select(selectf : Node<TData> -> Node<TData>) : Selection<TData>
 	{
 		var subgroups = [],
 			subgroup,
@@ -253,7 +440,7 @@ class Selection<TData>
 			{
 				if (null != node)
 				{
-					subgroup.push(subnode = selectf(node.dom));
+					subgroup.push(subnode = selectf(node));
 					if (null != subnode && null != node.data)
 						subnode.data = node.data;
 				} else {
@@ -264,7 +451,7 @@ class Selection<TData>
 		return createSelection(subgroups);
 	}
 	
-	function _selectAll(selectallf : HtmlDom -> Array<Node<TData>>) : Selection<TData>
+	function _selectAll(selectallf : Node<TData> -> Array<Node<TData>>) : Selection<TData>
 	{
 		var subgroups = [],
 			subgroup;
@@ -274,7 +461,7 @@ class Selection<TData>
 			{
 				if (null != node)
 				{
-					subgroups.push(subgroup = new Group(selectallf(node.dom)));
+					subgroups.push(subgroup = new Group(selectallf(node)));
 					subgroup.parentNode = node;
 					subgroup.parentData = node.data;
 				}
