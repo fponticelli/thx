@@ -13,6 +13,7 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
+		thx.math.scale.TestAll.addTests(runner);
 		runner.addCase(new TestRandom());
     	runner.addCase(new TestEquations());
 	}

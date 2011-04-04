@@ -5,7 +5,7 @@
 
 package thx.math;
 
-class MathUtils
+class Const
 {
 	public static inline var TWO_PI : Float = 6.283185307179586477;
 
@@ -28,4 +28,6 @@ class MathUtils
 	* Constant used to convert degrees to radians.
 	*/
 	public static inline var TO_RADIAN : Float = 0.01745329251994329577; // Math.PI / 180
+	
+	public static inline var LN10 : Float = 2.302585092994046;
 }

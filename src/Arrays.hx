@@ -77,7 +77,7 @@ class Arrays
 		return r;
 	}
 	
-	public static function map<TIn,TOut>(arr : Array<TIn>, f : TIn -> Int -> TOut) : Array<TOut>
+	#if js inline #end public static function map<TIn,TOut>(arr : Array<TIn>, f : TIn -> Int -> TOut) : Array<TOut>
 	{
 		#if js
 		return untyped arr.map(f);
@@ -273,5 +273,30 @@ class Arrays
 			i++;
 		}
 		return function(t) return Arrays.map(functions, function(f, _) return f(t));
+	}
+	
+	#if js inline #end public static function indexOf<T>(arr : Array<T>, el : T)
+	{
+#if js
+		return untyped arr.indexOf(el);
+#else
+		var len = arr.length;
+		for (i in 0...len)
+			if (arr[i] == el)
+				return  i;
+		return -1;
+#end
+	}
+	
+	#if js inline #end public static function every<T>(arr : Array<T>, f : T -> Int -> Bool) : Bool
+	{
+#if js
+		return untyped arr.every(f);
+#else
+		for (i in 0...arr.length)
+			if (!f(arr[i], i))
+				return false;
+		return true;
+#end
 	}
 }

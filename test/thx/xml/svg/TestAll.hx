@@ -3,7 +3,7 @@
  * @author Franco Ponticelli
  */
 
-package thx.xml;
+package thx.xml.svg;
 
 import utest.Runner;
 import utest.ui.Report;
@@ -12,9 +12,9 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		thx.xml.svg.TestAll.addTests(runner);
-    	runner.addCase(new TestXmlFormat());
-		runner.addCase(new TestXmlWriter());
+    	runner.addCase(new TestArc());
+		runner.addCase(new TestArea());
+		runner.addCase(new TestLine());
 	}
 	
 	public static function main()

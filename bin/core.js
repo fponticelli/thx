@@ -1,4 +1,122 @@
 $estr = function() { return js.Boot.__string_rec(this,''); }
+if(typeof thx=='undefined') thx = {}
+if(!thx.util) thx.util = {}
+thx.util.TestTypeServiceLocator = function(p) {
+	$s.push("thx.util.TestTypeServiceLocator::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.util.TestTypeServiceLocator.__name__ = ["thx","util","TestTypeServiceLocator"];
+thx.util.TestTypeServiceLocator.addTests = function(runner) {
+	$s.push("thx.util.TestTypeServiceLocator::addTests");
+	var $spos = $s.length;
+	runner.addCase(new thx.util.TestTypeServiceLocator());
+	$s.pop();
+}
+thx.util.TestTypeServiceLocator.main = function() {
+	$s.push("thx.util.TestTypeServiceLocator::main");
+	var $spos = $s.length;
+	var runner = new utest.Runner();
+	thx.util.TestTypeServiceLocator.addTests(runner);
+	utest.ui.Report.create(runner);
+	runner.run();
+	$s.pop();
+}
+thx.util.TestTypeServiceLocator.prototype.testBind = function() {
+	$s.push("thx.util.TestTypeServiceLocator::testBind");
+	var $spos = $s.length;
+	var locator = new thx.util.TypeServiceLocator().bind(thx.util.type.ITest,function() {
+		$s.push("thx.util.TestTypeServiceLocator::testBind@19");
+		var $spos = $s.length;
+		var $tmp = new thx.util.type.TestImplementation();
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	var o = locator.get(thx.util.type.ITest);
+	utest.Assert["is"](o,thx.util.type.ITest,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 21, className : "thx.util.TestTypeServiceLocator", methodName : "testBind"});
+	utest.Assert["is"](o,thx.util.type.TestImplementation,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 22, className : "thx.util.TestTypeServiceLocator", methodName : "testBind"});
+	utest.Assert.equals("hi",o.sayHello(),null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 23, className : "thx.util.TestTypeServiceLocator", methodName : "testBind"});
+	$s.pop();
+}
+thx.util.TestTypeServiceLocator.prototype.testUnbinded = function() {
+	$s.push("thx.util.TestTypeServiceLocator::testUnbinded");
+	var $spos = $s.length;
+	var locator = new thx.util.TypeServiceLocator();
+	utest.Assert.isNull(locator.get(thx.util.type.ITest),null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 29, className : "thx.util.TestTypeServiceLocator", methodName : "testUnbinded"});
+	locator.unbinded = function(cls) {
+		$s.push("thx.util.TestTypeServiceLocator::testUnbinded@30");
+		var $spos = $s.length;
+		if("thx.util.type.ITest" == Type.getClassName(cls)) {
+			$s.pop();
+			return null;
+		}
+		try {
+			var $tmp = Type.createInstance(cls,[]);
+			$s.pop();
+			return $tmp;
+		} catch( e ) {
+			$e = [];
+			while($s.length >= $spos) $e.unshift($s.pop());
+			$s.push($e[0]);
+			$s.pop();
+			return null;
+		}
+		$s.pop();
+	};
+	utest.Assert.isNull(locator.get(thx.util.type.ITest),null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 41, className : "thx.util.TestTypeServiceLocator", methodName : "testUnbinded"});
+	utest.Assert.notNull(locator.get(thx.util.type.TestImplementation),null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 42, className : "thx.util.TestTypeServiceLocator", methodName : "testUnbinded"});
+	utest.Assert["is"](locator.get(thx.util.type.TestImplementation),thx.util.type.TestImplementation,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 43, className : "thx.util.TestTypeServiceLocator", methodName : "testUnbinded"});
+	$s.pop();
+}
+thx.util.TestTypeServiceLocator.prototype.testInstance = function() {
+	$s.push("thx.util.TestTypeServiceLocator::testInstance");
+	var $spos = $s.length;
+	var locator = new thx.util.TypeServiceLocator().instance(thx.util.type.ITest,new thx.util.type.TestImplementation());
+	var o = locator.get(thx.util.type.ITest);
+	utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 50, className : "thx.util.TestTypeServiceLocator", methodName : "testInstance"});
+	o.counter++;
+	o = locator.get(thx.util.type.ITest);
+	utest.Assert.equals(1,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 53, className : "thx.util.TestTypeServiceLocator", methodName : "testInstance"});
+	$s.pop();
+}
+thx.util.TestTypeServiceLocator.prototype.testMultipleInstances = function() {
+	$s.push("thx.util.TestTypeServiceLocator::testMultipleInstances");
+	var $spos = $s.length;
+	var locator = new thx.util.TypeServiceLocator().bind(thx.util.type.ITest,function() {
+		$s.push("thx.util.TestTypeServiceLocator::testMultipleInstances@58");
+		var $spos = $s.length;
+		var $tmp = new thx.util.type.TestImplementation();
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	var o = locator.get(thx.util.type.ITest);
+	utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 60, className : "thx.util.TestTypeServiceLocator", methodName : "testMultipleInstances"});
+	o.counter++;
+	o = locator.get(thx.util.type.ITest);
+	utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 63, className : "thx.util.TestTypeServiceLocator", methodName : "testMultipleInstances"});
+	$s.pop();
+}
+thx.util.TestTypeServiceLocator.prototype.testMemoize = function() {
+	$s.push("thx.util.TestTypeServiceLocator::testMemoize");
+	var $spos = $s.length;
+	var locator = new thx.util.TypeServiceLocator().memoize(thx.util.type.ITest,function() {
+		$s.push("thx.util.TestTypeServiceLocator::testMemoize@68");
+		var $spos = $s.length;
+		var $tmp = new thx.util.type.TestImplementation();
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	var o = locator.get(thx.util.type.ITest);
+	utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 70, className : "thx.util.TestTypeServiceLocator", methodName : "testMemoize"});
+	o.counter++;
+	o = locator.get(thx.util.type.ITest);
+	utest.Assert.equals(1,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 73, className : "thx.util.TestTypeServiceLocator", methodName : "testMemoize"});
+	$s.pop();
+}
+thx.util.TestTypeServiceLocator.prototype.__class__ = thx.util.TestTypeServiceLocator;
 EReg = function(r,opt) {
 	if( r === $_ ) return;
 	$s.push("EReg::new");
@@ -244,7 +362,7 @@ Strings.formatf = function(pattern,nullstring,culture) {
 		$s.push("Strings::formatf@165");
 		var $spos = $s.length;
 		if(null == values) values = [];
-		var $tmp = Arrays.map(buf,function(df,_) {
+		var $tmp = buf.map(function(df,_) {
 			$s.push("Strings::formatf@165@169");
 			var $spos = $s.length;
 			var $tmp = df(values);
@@ -706,7 +824,7 @@ Strings.interpolatef = function(a,b,interpolator) {
 	var $tmp = function(t) {
 		$s.push("Strings::interpolatef@513");
 		var $spos = $s.length;
-		var $tmp = Arrays.map(functions,function(f,_) {
+		var $tmp = functions.map(function(f,_) {
 			$s.push("Strings::interpolatef@513@514");
 			var $spos = $s.length;
 			var $tmp = f(t);
@@ -723,124 +841,6 @@ Strings.interpolatef = function(a,b,interpolator) {
 	$s.pop();
 }
 Strings.prototype.__class__ = Strings;
-if(typeof thx=='undefined') thx = {}
-if(!thx.util) thx.util = {}
-thx.util.TestTypeServiceLocator = function(p) {
-	$s.push("thx.util.TestTypeServiceLocator::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.util.TestTypeServiceLocator.__name__ = ["thx","util","TestTypeServiceLocator"];
-thx.util.TestTypeServiceLocator.addTests = function(runner) {
-	$s.push("thx.util.TestTypeServiceLocator::addTests");
-	var $spos = $s.length;
-	runner.addCase(new thx.util.TestTypeServiceLocator());
-	$s.pop();
-}
-thx.util.TestTypeServiceLocator.main = function() {
-	$s.push("thx.util.TestTypeServiceLocator::main");
-	var $spos = $s.length;
-	var runner = new utest.Runner();
-	thx.util.TestTypeServiceLocator.addTests(runner);
-	utest.ui.Report.create(runner);
-	runner.run();
-	$s.pop();
-}
-thx.util.TestTypeServiceLocator.prototype.testBind = function() {
-	$s.push("thx.util.TestTypeServiceLocator::testBind");
-	var $spos = $s.length;
-	var locator = new thx.util.TypeServiceLocator().bind(thx.util.type.ITest,function() {
-		$s.push("thx.util.TestTypeServiceLocator::testBind@19");
-		var $spos = $s.length;
-		var $tmp = new thx.util.type.TestImplementation();
-		$s.pop();
-		return $tmp;
-		$s.pop();
-	});
-	var o = locator.get(thx.util.type.ITest);
-	utest.Assert["is"](o,thx.util.type.ITest,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 21, className : "thx.util.TestTypeServiceLocator", methodName : "testBind"});
-	utest.Assert["is"](o,thx.util.type.TestImplementation,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 22, className : "thx.util.TestTypeServiceLocator", methodName : "testBind"});
-	utest.Assert.equals("hi",o.sayHello(),null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 23, className : "thx.util.TestTypeServiceLocator", methodName : "testBind"});
-	$s.pop();
-}
-thx.util.TestTypeServiceLocator.prototype.testUnbinded = function() {
-	$s.push("thx.util.TestTypeServiceLocator::testUnbinded");
-	var $spos = $s.length;
-	var locator = new thx.util.TypeServiceLocator();
-	utest.Assert.isNull(locator.get(thx.util.type.ITest),null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 29, className : "thx.util.TestTypeServiceLocator", methodName : "testUnbinded"});
-	locator.unbinded = function(cls) {
-		$s.push("thx.util.TestTypeServiceLocator::testUnbinded@30");
-		var $spos = $s.length;
-		if("thx.util.type.ITest" == Type.getClassName(cls)) {
-			$s.pop();
-			return null;
-		}
-		try {
-			var $tmp = Type.createInstance(cls,[]);
-			$s.pop();
-			return $tmp;
-		} catch( e ) {
-			$e = [];
-			while($s.length >= $spos) $e.unshift($s.pop());
-			$s.push($e[0]);
-			$s.pop();
-			return null;
-		}
-		$s.pop();
-	};
-	utest.Assert.isNull(locator.get(thx.util.type.ITest),null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 41, className : "thx.util.TestTypeServiceLocator", methodName : "testUnbinded"});
-	utest.Assert.notNull(locator.get(thx.util.type.TestImplementation),null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 42, className : "thx.util.TestTypeServiceLocator", methodName : "testUnbinded"});
-	utest.Assert["is"](locator.get(thx.util.type.TestImplementation),thx.util.type.TestImplementation,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 43, className : "thx.util.TestTypeServiceLocator", methodName : "testUnbinded"});
-	$s.pop();
-}
-thx.util.TestTypeServiceLocator.prototype.testInstance = function() {
-	$s.push("thx.util.TestTypeServiceLocator::testInstance");
-	var $spos = $s.length;
-	var locator = new thx.util.TypeServiceLocator().instance(thx.util.type.ITest,new thx.util.type.TestImplementation());
-	var o = locator.get(thx.util.type.ITest);
-	utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 50, className : "thx.util.TestTypeServiceLocator", methodName : "testInstance"});
-	o.counter++;
-	o = locator.get(thx.util.type.ITest);
-	utest.Assert.equals(1,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 53, className : "thx.util.TestTypeServiceLocator", methodName : "testInstance"});
-	$s.pop();
-}
-thx.util.TestTypeServiceLocator.prototype.testMultipleInstances = function() {
-	$s.push("thx.util.TestTypeServiceLocator::testMultipleInstances");
-	var $spos = $s.length;
-	var locator = new thx.util.TypeServiceLocator().bind(thx.util.type.ITest,function() {
-		$s.push("thx.util.TestTypeServiceLocator::testMultipleInstances@58");
-		var $spos = $s.length;
-		var $tmp = new thx.util.type.TestImplementation();
-		$s.pop();
-		return $tmp;
-		$s.pop();
-	});
-	var o = locator.get(thx.util.type.ITest);
-	utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 60, className : "thx.util.TestTypeServiceLocator", methodName : "testMultipleInstances"});
-	o.counter++;
-	o = locator.get(thx.util.type.ITest);
-	utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 63, className : "thx.util.TestTypeServiceLocator", methodName : "testMultipleInstances"});
-	$s.pop();
-}
-thx.util.TestTypeServiceLocator.prototype.testMemoize = function() {
-	$s.push("thx.util.TestTypeServiceLocator::testMemoize");
-	var $spos = $s.length;
-	var locator = new thx.util.TypeServiceLocator().memoize(thx.util.type.ITest,function() {
-		$s.push("thx.util.TestTypeServiceLocator::testMemoize@68");
-		var $spos = $s.length;
-		var $tmp = new thx.util.type.TestImplementation();
-		$s.pop();
-		return $tmp;
-		$s.pop();
-	});
-	var o = locator.get(thx.util.type.ITest);
-	utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 70, className : "thx.util.TestTypeServiceLocator", methodName : "testMemoize"});
-	o.counter++;
-	o = locator.get(thx.util.type.ITest);
-	utest.Assert.equals(1,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 73, className : "thx.util.TestTypeServiceLocator", methodName : "testMemoize"});
-	$s.pop();
-}
-thx.util.TestTypeServiceLocator.prototype.__class__ = thx.util.TestTypeServiceLocator;
 if(!thx.collections) thx.collections = {}
 thx.collections.Set = function(p) {
 	if( p === $_ ) return;
@@ -1465,7 +1465,7 @@ thx.js.Node.__name__ = ["thx","js","Node"];
 thx.js.Node.many = function(els) {
 	$s.push("thx.js.Node::many");
 	var $spos = $s.length;
-	var $tmp = Arrays.map(els,function(d,_) {
+	var $tmp = els.map(function(d,_) {
 		$s.push("thx.js.Node::many@30");
 		var $spos = $s.length;
 		var $tmp = new thx.js.Node(d);
@@ -1573,6 +1573,113 @@ thx.html.DomHandler.prototype.declaration = function(text) {
 }
 thx.html.DomHandler.prototype.__class__ = thx.html.DomHandler;
 thx.html.DomHandler.__interfaces__ = [thx.html.HtmlHandler];
+if(!thx.math) thx.math = {}
+if(!thx.math.scale) thx.math.scale = {}
+thx.math.scale.TestAll = function(p) {
+	$s.push("thx.math.scale.TestAll::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.math.scale.TestAll.__name__ = ["thx","math","scale","TestAll"];
+thx.math.scale.TestAll.addTests = function(runner) {
+	$s.push("thx.math.scale.TestAll::addTests");
+	var $spos = $s.length;
+	runner.addCase(new thx.math.scale.TestLinear());
+	runner.addCase(new thx.math.scale.TestLinearString());
+	runner.addCase(new thx.math.scale.TestLog());
+	runner.addCase(new thx.math.scale.TestOrdinal());
+	runner.addCase(new thx.math.scale.TestPow());
+	runner.addCase(new thx.math.scale.TestQuantile());
+	runner.addCase(new thx.math.scale.TestQuantize());
+	$s.pop();
+}
+thx.math.scale.TestAll.main = function() {
+	$s.push("thx.math.scale.TestAll::main");
+	var $spos = $s.length;
+	var runner = new utest.Runner();
+	thx.math.scale.TestAll.addTests(runner);
+	utest.ui.Report.create(runner);
+	runner.run();
+	$s.pop();
+}
+thx.math.scale.TestAll.prototype.assertScale = function(scalef,expected,values) {
+	$s.push("thx.math.scale.TestAll::assertScale");
+	var $spos = $s.length;
+	var _g1 = 0, _g = expected.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		utest.Assert.floatEquals(expected[i],scalef(values[i]),1e-3,null,{ fileName : "TestAll.hx", lineNumber : 36, className : "thx.math.scale.TestAll", methodName : "assertScale"});
+	}
+	$s.pop();
+}
+thx.math.scale.TestAll.prototype.__class__ = thx.math.scale.TestAll;
+thx.math.scale.TestLinear = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.TestLinear::new");
+	var $spos = $s.length;
+	thx.math.scale.TestAll.call(this);
+	$s.pop();
+}
+thx.math.scale.TestLinear.__name__ = ["thx","math","scale","TestLinear"];
+thx.math.scale.TestLinear.__super__ = thx.math.scale.TestAll;
+for(var k in thx.math.scale.TestAll.prototype ) thx.math.scale.TestLinear.prototype[k] = thx.math.scale.TestAll.prototype[k];
+thx.math.scale.TestLinear.prototype.testDomain = function() {
+	$s.push("thx.math.scale.TestLinear::testDomain");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Linear();
+	var expected = [-0.5,0.0,0.5,1.0,1.5];
+	var values = [-0.5,0.0,0.5,1.0,1.5];
+	this.assertScale($closure(scale,"scale"),expected,values);
+	$s.pop();
+}
+thx.math.scale.TestLinear.prototype.testDomain12 = function() {
+	$s.push("thx.math.scale.TestLinear::testDomain12");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Linear().domain(1,2);
+	var expected = [-0.5,0.0,0.5,1.0,1.5];
+	var values = [0.5,1.0,1.5,2.0,2.5];
+	this.assertScale($closure(scale,"scale"),expected,values);
+	$s.pop();
+}
+thx.math.scale.TestLinear.prototype.testTicks = function() {
+	$s.push("thx.math.scale.TestLinear::testTicks");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Linear();
+	utest.Assert.equals("0, 1",scale.ticks(1).map(function(d,_) {
+		$s.push("thx.math.scale.TestLinear::testTicks@36");
+		var $spos = $s.length;
+		var $tmp = (scale.tickFormat(1))(d);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 36, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
+	utest.Assert.equals("0.0, 0.5, 1.0",scale.ticks(2).map(function(d,_) {
+		$s.push("thx.math.scale.TestLinear::testTicks@37");
+		var $spos = $s.length;
+		var $tmp = (scale.tickFormat(2))(d);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 37, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
+	utest.Assert.equals("0.0, 0.2, 0.4, 0.6, 0.8, 1.0",scale.ticks(5).map(function(d,_) {
+		$s.push("thx.math.scale.TestLinear::testTicks@38");
+		var $spos = $s.length;
+		var $tmp = (scale.tickFormat(5))(d);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 38, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
+	utest.Assert.equals("0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0",scale.ticks(10).map(function(d,_) {
+		$s.push("thx.math.scale.TestLinear::testTicks@39");
+		var $spos = $s.length;
+		var $tmp = (scale.tickFormat(10))(d);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 39, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
+	$s.pop();
+}
+thx.math.scale.TestLinear.prototype.__class__ = thx.math.scale.TestLinear;
 List = function(p) {
 	if( p === $_ ) return;
 	$s.push("List::new");
@@ -1759,6 +1866,28 @@ List.prototype.map = function(f) {
 	$s.pop();
 }
 List.prototype.__class__ = List;
+if(!thx.xml) thx.xml = {}
+if(!thx.xml.svg) thx.xml.svg = {}
+thx.xml.svg.TestAll = function() { }
+thx.xml.svg.TestAll.__name__ = ["thx","xml","svg","TestAll"];
+thx.xml.svg.TestAll.addTests = function(runner) {
+	$s.push("thx.xml.svg.TestAll::addTests");
+	var $spos = $s.length;
+	runner.addCase(new thx.xml.svg.TestArc());
+	runner.addCase(new thx.xml.svg.TestArea());
+	runner.addCase(new thx.xml.svg.TestLine());
+	$s.pop();
+}
+thx.xml.svg.TestAll.main = function() {
+	$s.push("thx.xml.svg.TestAll::main");
+	var $spos = $s.length;
+	var runner = new utest.Runner();
+	thx.xml.svg.TestAll.addTests(runner);
+	utest.ui.Report.create(runner);
+	runner.run();
+	$s.pop();
+}
+thx.xml.svg.TestAll.prototype.__class__ = thx.xml.svg.TestAll;
 if(!utest._Dispatcher) utest._Dispatcher = {}
 utest._Dispatcher.EventException = { __ename__ : ["utest","_Dispatcher","EventException"], __constructs__ : ["StopPropagation"] }
 utest._Dispatcher.EventException.StopPropagation = ["StopPropagation",0];
@@ -2042,6 +2171,100 @@ IntIter.prototype.next = function() {
 	$s.pop();
 }
 IntIter.prototype.__class__ = IntIter;
+thx.xml.svg.TestLine = function(p) {
+	$s.push("thx.xml.svg.TestLine::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.xml.svg.TestLine.__name__ = ["thx","xml","svg","TestLine"];
+thx.xml.svg.TestLine.prototype.testDefault = function() {
+	$s.push("thx.xml.svg.TestLine::testDefault");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Line.pointArray();
+	utest.Assert.equals("M0,0",line.shape([[0.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 12, className : "thx.xml.svg.TestLine", methodName : "testDefault"});
+	utest.Assert.equals("M0,0L1,1",line.shape([[0.0,0.0],[1.0,1.0]]),null,{ fileName : "TestLine.hx", lineNumber : 13, className : "thx.xml.svg.TestLine", methodName : "testDefault"});
+	utest.Assert.equals("M0,0L1,1L2,0",line.shape([[0.0,0.0],[1.0,1.0],[2.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 14, className : "thx.xml.svg.TestLine", methodName : "testDefault"});
+	$s.pop();
+}
+thx.xml.svg.TestLine.prototype.testY = function() {
+	$s.push("thx.xml.svg.TestLine::testY");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Line.pointArray().y(function(_,_1) {
+		$s.push("thx.xml.svg.TestLine::testY@19");
+		var $spos = $s.length;
+		$s.pop();
+		return -1;
+		$s.pop();
+	});
+	utest.Assert.equals("M0,-1",line.shape([[0.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 21, className : "thx.xml.svg.TestLine", methodName : "testY"});
+	utest.Assert.equals("M0,-1L1,-1",line.shape([[0.0,0.0],[1.0,1.0]]),null,{ fileName : "TestLine.hx", lineNumber : 22, className : "thx.xml.svg.TestLine", methodName : "testY"});
+	utest.Assert.equals("M0,-1L1,-1L2,-1",line.shape([[0.0,0.0],[1.0,1.0],[2.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 23, className : "thx.xml.svg.TestLine", methodName : "testY"});
+	$s.pop();
+}
+thx.xml.svg.TestLine.prototype.testXY = function() {
+	$s.push("thx.xml.svg.TestLine::testXY");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Line.pointObject();
+	utest.Assert.equals("M0,0",line.shape([{ x : 0.0, y : 0.0}]),null,{ fileName : "TestLine.hx", lineNumber : 30, className : "thx.xml.svg.TestLine", methodName : "testXY"});
+	utest.Assert.equals("M0,0L1,1",line.shape([{ x : 0.0, y : 0.0},{ x : 1.0, y : 1.0}]),null,{ fileName : "TestLine.hx", lineNumber : 31, className : "thx.xml.svg.TestLine", methodName : "testXY"});
+	utest.Assert.equals("M0,0L1,1L2,0",line.shape([{ x : 0.0, y : 0.0},{ x : 1.0, y : 1.0},{ x : 2.0, y : 0.0}]),null,{ fileName : "TestLine.hx", lineNumber : 32, className : "thx.xml.svg.TestLine", methodName : "testXY"});
+	$s.pop();
+}
+thx.xml.svg.TestLine.prototype.testStepBefore = function() {
+	$s.push("thx.xml.svg.TestLine::testStepBefore");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Line.pointArray().interpolator(thx.xml.svg.LineInterpolator.StepBefore);
+	utest.Assert.equals("M0,0",line.shape([[0.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 39, className : "thx.xml.svg.TestLine", methodName : "testStepBefore"});
+	utest.Assert.equals("M0,0V1H1",line.shape([[0.0,0.0],[1.0,1.0]]),null,{ fileName : "TestLine.hx", lineNumber : 40, className : "thx.xml.svg.TestLine", methodName : "testStepBefore"});
+	utest.Assert.equals("M0,0V1H1V0H2",line.shape([[0.0,0.0],[1.0,1.0],[2.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 41, className : "thx.xml.svg.TestLine", methodName : "testStepBefore"});
+	$s.pop();
+}
+thx.xml.svg.TestLine.prototype.testStepAfter = function() {
+	$s.push("thx.xml.svg.TestLine::testStepAfter");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Line.pointArray().interpolator(thx.xml.svg.LineInterpolator.StepAfter);
+	utest.Assert.equals("M0,0",line.shape([[0.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 48, className : "thx.xml.svg.TestLine", methodName : "testStepAfter"});
+	utest.Assert.equals("M0,0H1V1",line.shape([[0.0,0.0],[1.0,1.0]]),null,{ fileName : "TestLine.hx", lineNumber : 49, className : "thx.xml.svg.TestLine", methodName : "testStepAfter"});
+	utest.Assert.equals("M0,0H1V1H2V0",line.shape([[0.0,0.0],[1.0,1.0],[2.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 50, className : "thx.xml.svg.TestLine", methodName : "testStepAfter"});
+	$s.pop();
+}
+thx.xml.svg.TestLine.prototype.testBasis = function() {
+	$s.push("thx.xml.svg.TestLine::testBasis");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Line.pointArray().interpolator(thx.xml.svg.LineInterpolator.Basis);
+	utest.Assert.equals("M0,0",line.shape([[0.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 57, className : "thx.xml.svg.TestLine", methodName : "testBasis"});
+	utest.Assert.equals("M0,0L1,1",line.shape([[0.0,0.0],[1.0,1.0]]),null,{ fileName : "TestLine.hx", lineNumber : 58, className : "thx.xml.svg.TestLine", methodName : "testBasis"});
+	utest.Assert.equals("M0,0C0,0,0,0,1,1C2,2,4,4,6,4C8,4,10,2,11,1C12,0,12,0,12,0",line.shape([[0.0,0.0],[6.0,6.0],[12.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 59, className : "thx.xml.svg.TestLine", methodName : "testBasis"});
+	$s.pop();
+}
+thx.xml.svg.TestLine.prototype.testBasisClosed = function() {
+	$s.push("thx.xml.svg.TestLine::testBasisClosed");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Line.pointArray().interpolator(thx.xml.svg.LineInterpolator.BasisClosed);
+	utest.Assert.equals("M0,0C0,0,0,0,0,0",line.shape([[0.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 66, className : "thx.xml.svg.TestLine", methodName : "testBasisClosed"});
+	utest.Assert.equals("M2,2C2,2,4,4,4,4C4,4,2,2,2,2",line.shape([[0.0,0.0],[6.0,6.0]]),null,{ fileName : "TestLine.hx", lineNumber : 67, className : "thx.xml.svg.TestLine", methodName : "testBasisClosed"});
+	utest.Assert.equals("M9,1C8,0,4,0,3,1C2,2,4,4,6,4C8,4,10,2,9,1",line.shape([[0.0,0.0],[6.0,6.0],[12.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 68, className : "thx.xml.svg.TestLine", methodName : "testBasisClosed"});
+	$s.pop();
+}
+thx.xml.svg.TestLine.prototype.testCardinal = function() {
+	$s.push("thx.xml.svg.TestLine::testCardinal");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Line.pointArray().interpolator(thx.xml.svg.LineInterpolator.Cardinal());
+	utest.Assert.equals("M0,0",line.shape([[0.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 75, className : "thx.xml.svg.TestLine", methodName : "testCardinal"});
+	utest.Assert.equals("M0,0L5,5",line.shape([[0.0,0.0],[5.0,5.0]]),null,{ fileName : "TestLine.hx", lineNumber : 76, className : "thx.xml.svg.TestLine", methodName : "testCardinal"});
+	utest.Assert.equals("M0,0Q4,5,5,5Q6,5,10,0",line.shape([[0.0,0.0],[5.0,5.0],[10.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 77, className : "thx.xml.svg.TestLine", methodName : "testCardinal"});
+	$s.pop();
+}
+thx.xml.svg.TestLine.prototype.testCardinalClosed = function() {
+	$s.push("thx.xml.svg.TestLine::testCardinalClosed");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Line.pointArray().interpolator(thx.xml.svg.LineInterpolator.CardinalClosed());
+	utest.Assert.equals("M0,0",line.shape([[0.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 84, className : "thx.xml.svg.TestLine", methodName : "testCardinalClosed"});
+	utest.Assert.equals("M0,0L5,5",line.shape([[0.0,0.0],[5.0,5.0]]),null,{ fileName : "TestLine.hx", lineNumber : 85, className : "thx.xml.svg.TestLine", methodName : "testCardinalClosed"});
+	utest.Assert.equals("M0,0C0,0,3.5,5,5,5S10,0,10,0",line.shape([[0.0,0.0],[5.0,5.0],[10.0,0.0]]),null,{ fileName : "TestLine.hx", lineNumber : 86, className : "thx.xml.svg.TestLine", methodName : "testCardinalClosed"});
+	$s.pop();
+}
+thx.xml.svg.TestLine.prototype.__class__ = thx.xml.svg.TestLine;
 if(!thx.text) thx.text = {}
 thx.text.Inflections = function() { }
 thx.text.Inflections.__name__ = ["thx","text","Inflections"];
@@ -3102,116 +3325,193 @@ thx.html.Html.toXmlString = function(html) {
 	$s.pop();
 }
 thx.html.Html.prototype.__class__ = thx.html.Html;
-Hash = function(p) {
+thx.math.scale.Pow = function(p) {
 	if( p === $_ ) return;
-	$s.push("Hash::new");
+	$s.push("thx.math.scale.Pow::new");
 	var $spos = $s.length;
-	this.h = {}
-	if(this.h.__proto__ != null) {
-		this.h.__proto__ = null;
-		delete(this.h.__proto__);
-	}
-	$s.pop();
-}
-Hash.__name__ = ["Hash"];
-Hash.prototype.h = null;
-Hash.prototype.set = function(key,value) {
-	$s.push("Hash::set");
-	var $spos = $s.length;
-	this.h["$" + key] = value;
-	$s.pop();
-}
-Hash.prototype.get = function(key) {
-	$s.push("Hash::get");
-	var $spos = $s.length;
-	var $tmp = this.h["$" + key];
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-Hash.prototype.exists = function(key) {
-	$s.push("Hash::exists");
-	var $spos = $s.length;
-	try {
-		key = "$" + key;
-		var $tmp = this.hasOwnProperty.call(this.h,key);
-		$s.pop();
-		return $tmp;
-	} catch( e ) {
-		$e = [];
-		while($s.length >= $spos) $e.unshift($s.pop());
-		$s.push($e[0]);
-		for(var i in this.h) if( i == key ) return true;
-		$s.pop();
-		return false;
-	}
-	$s.pop();
-}
-Hash.prototype.remove = function(key) {
-	$s.push("Hash::remove");
-	var $spos = $s.length;
-	if(!this.exists(key)) {
-		$s.pop();
-		return false;
-	}
-	delete(this.h["$" + key]);
-	$s.pop();
-	return true;
-	$s.pop();
-}
-Hash.prototype.keys = function() {
-	$s.push("Hash::keys");
-	var $spos = $s.length;
-	var a = new Array();
-	for(var i in this.h) a.push(i.substr(1));
-	var $tmp = a.iterator();
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-Hash.prototype.iterator = function() {
-	$s.push("Hash::iterator");
-	var $spos = $s.length;
-	var $tmp = { ref : this.h, it : this.keys(), hasNext : function() {
-		$s.push("Hash::iterator@75");
+	this.linear = new thx.math.scale.Linear();
+	this.tick = new thx.math.scale.Linear();
+	this._exponent = 1;
+	this.powb = this.powp = function(v) {
+		$s.push("thx.math.scale.Pow::new@24");
 		var $spos = $s.length;
-		var $tmp = this.it.hasNext();
 		$s.pop();
-		return $tmp;
+		return v;
 		$s.pop();
-	}, next : function() {
-		$s.push("Hash::iterator@76");
-		var $spos = $s.length;
-		var i = this.it.next();
-		var $tmp = this.ref["$" + i];
-		$s.pop();
-		return $tmp;
-		$s.pop();
-	}};
-	$s.pop();
-	return $tmp;
+	};
 	$s.pop();
 }
-Hash.prototype.toString = function() {
-	$s.push("Hash::toString");
+thx.math.scale.Pow.__name__ = ["thx","math","scale","Pow"];
+thx.math.scale.Pow.sqrt = function() {
+	$s.push("thx.math.scale.Pow::sqrt");
 	var $spos = $s.length;
-	var s = new StringBuf();
-	s.b[s.b.length] = "{";
-	var it = this.keys();
-	while( it.hasNext() ) {
-		var i = it.next();
-		s.b[s.b.length] = i;
-		s.b[s.b.length] = " => ";
-		s.b[s.b.length] = Std.string(this.get(i));
-		if(it.hasNext()) s.b[s.b.length] = ", ";
-	}
-	s.b[s.b.length] = "}";
-	var $tmp = s.b.join("");
+	var $tmp = new thx.math.scale.Pow().exponent(.5);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-Hash.prototype.__class__ = Hash;
+thx.math.scale.Pow._pow = function(e) {
+	$s.push("thx.math.scale.Pow::_pow");
+	var $spos = $s.length;
+	var $tmp = function(v) {
+		$s.push("thx.math.scale.Pow::_pow@109");
+		var $spos = $s.length;
+		var $tmp = Math.pow(v,e);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Pow._pown = function(e) {
+	$s.push("thx.math.scale.Pow::_pown");
+	var $spos = $s.length;
+	var $tmp = function(v) {
+		$s.push("thx.math.scale.Pow::_pown@114");
+		var $spos = $s.length;
+		var $tmp = -Math.pow(-v,e);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.linear = null;
+thx.math.scale.Pow.prototype.tick = null;
+thx.math.scale.Pow.prototype._exponent = null;
+thx.math.scale.Pow.prototype.powp = null;
+thx.math.scale.Pow.prototype.powb = null;
+thx.math.scale.Pow.prototype.scaleMap = function(x,i) {
+	$s.push("thx.math.scale.Pow::scaleMap");
+	var $spos = $s.length;
+	var $tmp = this.scale(x);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.scale = function(x) {
+	$s.push("thx.math.scale.Pow::scale");
+	var $spos = $s.length;
+	var $tmp = this.linear.scale(this.powp(x));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.invert = function(x) {
+	$s.push("thx.math.scale.Pow::invert");
+	var $spos = $s.length;
+	var $tmp = this.powb(this.linear.invert(x));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.getDomain = function() {
+	$s.push("thx.math.scale.Pow::getDomain");
+	var $spos = $s.length;
+	var me = this;
+	var $tmp = this.linear.getDomain().map(function(d,_) {
+		$s.push("thx.math.scale.Pow::getDomain@41");
+		var $spos = $s.length;
+		var $tmp = me.powb(d);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.domain = function(x0,x1) {
+	$s.push("thx.math.scale.Pow::domain");
+	var $spos = $s.length;
+	var pow = (x0 < x1?x0:x1) < 0?$closure(thx.math.scale.Pow,"_pown"):$closure(thx.math.scale.Pow,"_pow");
+	this.powp = pow(this._exponent);
+	this.powb = pow(1.0 / this._exponent);
+	this.linear.domain(this.powp(x0),this.powp(x1));
+	this.tick.domain(x0,x1);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.getRange = function() {
+	$s.push("thx.math.scale.Pow::getRange");
+	var $spos = $s.length;
+	var $tmp = this.linear.getRange();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.range = function(y0,y1) {
+	$s.push("thx.math.scale.Pow::range");
+	var $spos = $s.length;
+	this.linear.range(y0,y1);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.rangeRound = function(y0,y1) {
+	$s.push("thx.math.scale.Pow::rangeRound");
+	var $spos = $s.length;
+	this.linear.rangeRound(y0,y1);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.getInterpolate = function() {
+	$s.push("thx.math.scale.Pow::getInterpolate");
+	var $spos = $s.length;
+	var $tmp = this.linear.getInterpolate();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.interpolatef = function(x) {
+	$s.push("thx.math.scale.Pow::interpolatef");
+	var $spos = $s.length;
+	this.linear.interpolatef(x);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.ticks = function(m) {
+	$s.push("thx.math.scale.Pow::ticks");
+	var $spos = $s.length;
+	var $tmp = this.tick.ticks(m);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.tickFormatf = function(m) {
+	$s.push("thx.math.scale.Pow::tickFormatf");
+	var $spos = $s.length;
+	var $tmp = this.tick.tickFormat(m);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.getExponent = function() {
+	$s.push("thx.math.scale.Pow::getExponent");
+	var $spos = $s.length;
+	var $tmp = this._exponent;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.exponent = function(x) {
+	$s.push("thx.math.scale.Pow::exponent");
+	var $spos = $s.length;
+	var dom = this.getDomain();
+	this._exponent = x;
+	this.domain(dom[0],dom[1]);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Pow.prototype.__class__ = thx.math.scale.Pow;
 thx.util.TestTypeFactory = function(p) {
 	$s.push("thx.util.TestTypeFactory::new");
 	var $spos = $s.length;
@@ -3328,6 +3628,116 @@ thx.util.TestTypeFactory.prototype.testMemoize = function() {
 	$s.pop();
 }
 thx.util.TestTypeFactory.prototype.__class__ = thx.util.TestTypeFactory;
+Hash = function(p) {
+	if( p === $_ ) return;
+	$s.push("Hash::new");
+	var $spos = $s.length;
+	this.h = {}
+	if(this.h.__proto__ != null) {
+		this.h.__proto__ = null;
+		delete(this.h.__proto__);
+	}
+	$s.pop();
+}
+Hash.__name__ = ["Hash"];
+Hash.prototype.h = null;
+Hash.prototype.set = function(key,value) {
+	$s.push("Hash::set");
+	var $spos = $s.length;
+	this.h["$" + key] = value;
+	$s.pop();
+}
+Hash.prototype.get = function(key) {
+	$s.push("Hash::get");
+	var $spos = $s.length;
+	var $tmp = this.h["$" + key];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Hash.prototype.exists = function(key) {
+	$s.push("Hash::exists");
+	var $spos = $s.length;
+	try {
+		key = "$" + key;
+		var $tmp = this.hasOwnProperty.call(this.h,key);
+		$s.pop();
+		return $tmp;
+	} catch( e ) {
+		$e = [];
+		while($s.length >= $spos) $e.unshift($s.pop());
+		$s.push($e[0]);
+		for(var i in this.h) if( i == key ) return true;
+		$s.pop();
+		return false;
+	}
+	$s.pop();
+}
+Hash.prototype.remove = function(key) {
+	$s.push("Hash::remove");
+	var $spos = $s.length;
+	if(!this.exists(key)) {
+		$s.pop();
+		return false;
+	}
+	delete(this.h["$" + key]);
+	$s.pop();
+	return true;
+	$s.pop();
+}
+Hash.prototype.keys = function() {
+	$s.push("Hash::keys");
+	var $spos = $s.length;
+	var a = new Array();
+	for(var i in this.h) a.push(i.substr(1));
+	var $tmp = a.iterator();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Hash.prototype.iterator = function() {
+	$s.push("Hash::iterator");
+	var $spos = $s.length;
+	var $tmp = { ref : this.h, it : this.keys(), hasNext : function() {
+		$s.push("Hash::iterator@75");
+		var $spos = $s.length;
+		var $tmp = this.it.hasNext();
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}, next : function() {
+		$s.push("Hash::iterator@76");
+		var $spos = $s.length;
+		var i = this.it.next();
+		var $tmp = this.ref["$" + i];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Hash.prototype.toString = function() {
+	$s.push("Hash::toString");
+	var $spos = $s.length;
+	var s = new StringBuf();
+	s.b[s.b.length] = "{";
+	var it = this.keys();
+	while( it.hasNext() ) {
+		var i = it.next();
+		s.b[s.b.length] = i;
+		s.b[s.b.length] = " => ";
+		s.b[s.b.length] = Std.string(this.get(i));
+		if(it.hasNext()) s.b[s.b.length] = ", ";
+	}
+	s.b[s.b.length] = "}";
+	var $tmp = s.b.join("");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Hash.prototype.__class__ = Hash;
 thx.color.Hsl = function(h,s,l) {
 	if( h === $_ ) return;
 	$s.push("thx.color.Hsl::new");
@@ -3416,6 +3826,9 @@ thx.color.Hsl.prototype.toHslString = function() {
 	$s.pop();
 }
 thx.color.Hsl.prototype.__class__ = thx.color.Hsl;
+thx.math.Const = function() { }
+thx.math.Const.__name__ = ["thx","math","Const"];
+thx.math.Const.prototype.__class__ = thx.math.Const;
 IntHash = function(p) {
 	if( p === $_ ) return;
 	$s.push("IntHash::new");
@@ -3614,7 +4027,7 @@ TestArrays.prototype.testCreate = function() {
 TestArrays.prototype.testMap = function() {
 	$s.push("TestArrays::testMap");
 	var $spos = $s.length;
-	utest.Assert.same(["a","b","c"],Arrays.map([1,2,3],function(v,_) {
+	utest.Assert.same(["a","b","c"],[1,2,3].map(function(v,_) {
 		$s.push("TestArrays::testMap@16");
 		var $spos = $s.length;
 		var $tmp = String.fromCharCode(v + 96);
@@ -3622,7 +4035,7 @@ TestArrays.prototype.testMap = function() {
 		return $tmp;
 		$s.pop();
 	}),null,null,{ fileName : "TestArrays.hx", lineNumber : 16, className : "TestArrays", methodName : "testMap"});
-	utest.Assert.same([0,1,2],Arrays.map([null,null,null],function(_,i) {
+	utest.Assert.same([0,1,2],[null,null,null].map(function(_,i) {
 		$s.push("TestArrays::testMap@17");
 		var $spos = $s.length;
 		$s.pop();
@@ -4034,7 +4447,212 @@ TestStrings.prototype.testInterpolate = function() {
 	$s.pop();
 }
 TestStrings.prototype.__class__ = TestStrings;
-if(!thx.xml) thx.xml = {}
+thx.math.scale.Quantize = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.Quantize::new");
+	var $spos = $s.length;
+	this.x0 = 0;
+	this.x1 = 1;
+	this.kx = 2;
+	this.i = 1;
+	this._range = [0.0,1.0];
+	$s.pop();
+}
+thx.math.scale.Quantize.__name__ = ["thx","math","scale","Quantize"];
+thx.math.scale.Quantize.prototype.x0 = null;
+thx.math.scale.Quantize.prototype.x1 = null;
+thx.math.scale.Quantize.prototype.kx = null;
+thx.math.scale.Quantize.prototype.i = null;
+thx.math.scale.Quantize.prototype._range = null;
+thx.math.scale.Quantize.prototype.scaleMap = function(x,i) {
+	$s.push("thx.math.scale.Quantize::scaleMap");
+	var $spos = $s.length;
+	var $tmp = this.scale(x);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Quantize.prototype.scale = function(x) {
+	$s.push("thx.math.scale.Quantize::scale");
+	var $spos = $s.length;
+	var $tmp = this._range[Std["int"](Math.max(0,Math.min(this.i,Math.floor(this.kx * (x - this.x0)))))];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Quantize.prototype.getDomain = function() {
+	$s.push("thx.math.scale.Quantize::getDomain");
+	var $spos = $s.length;
+	var $tmp = [this.x0,this.x1];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Quantize.prototype.domain = function(x0,x1) {
+	$s.push("thx.math.scale.Quantize::domain");
+	var $spos = $s.length;
+	this.x0 = x0;
+	this.x1 = x1;
+	this.kx = this._range.length / (x1 - x0);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Quantize.prototype.getRange = function() {
+	$s.push("thx.math.scale.Quantize::getRange");
+	var $spos = $s.length;
+	var $tmp = $closure(this._range,"copy");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Quantize.prototype.range = function(x) {
+	$s.push("thx.math.scale.Quantize::range");
+	var $spos = $s.length;
+	this._range = x.copy();
+	this.kx = this._range.length / (this.x1 - this.x0);
+	this.i = this._range.length - 1;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Quantize.prototype.__class__ = thx.math.scale.Quantize;
+thx.collections.IntHashList = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.collections.IntHashList::new");
+	var $spos = $s.length;
+	this.length = 0;
+	this.__keys = [];
+	this.__hash = new IntHash();
+	$s.pop();
+}
+thx.collections.IntHashList.__name__ = ["thx","collections","IntHashList"];
+thx.collections.IntHashList.prototype.length = null;
+thx.collections.IntHashList.prototype.set = function(key,value) {
+	$s.push("thx.collections.IntHashList::set");
+	var $spos = $s.length;
+	if(!this.__hash.exists(key)) {
+		this.__keys.push(key);
+		this.length++;
+	}
+	this.__hash.set(key,value);
+	$s.pop();
+}
+thx.collections.IntHashList.prototype.get = function(key) {
+	$s.push("thx.collections.IntHashList::get");
+	var $spos = $s.length;
+	var $tmp = this.__hash.get(key);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collections.IntHashList.prototype.getAt = function(index) {
+	$s.push("thx.collections.IntHashList::getAt");
+	var $spos = $s.length;
+	var $tmp = this.__hash.get(this.__keys[index]);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collections.IntHashList.prototype.exists = function(key) {
+	$s.push("thx.collections.IntHashList::exists");
+	var $spos = $s.length;
+	var $tmp = this.__hash.exists(key);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collections.IntHashList.prototype.remove = function(key) {
+	$s.push("thx.collections.IntHashList::remove");
+	var $spos = $s.length;
+	var item = this.__hash.get(key);
+	if(item == null) {
+		$s.pop();
+		return null;
+	}
+	this.__hash.remove(key);
+	this.__keys.remove(key);
+	this.length--;
+	$s.pop();
+	return item;
+	$s.pop();
+}
+thx.collections.IntHashList.prototype.removeAt = function(index) {
+	$s.push("thx.collections.IntHashList::removeAt");
+	var $spos = $s.length;
+	if(index < 0 || index >= this.length) {
+		$s.pop();
+		return null;
+	}
+	var key = this.__keys[index];
+	var item = this.__hash.get(key);
+	this.__hash.remove(key);
+	this.__keys.remove(key);
+	this.length--;
+	$s.pop();
+	return item;
+	$s.pop();
+}
+thx.collections.IntHashList.prototype.keys = function() {
+	$s.push("thx.collections.IntHashList::keys");
+	var $spos = $s.length;
+	var $tmp = this.__keys.iterator();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collections.IntHashList.prototype.iterator = function() {
+	$s.push("thx.collections.IntHashList::iterator");
+	var $spos = $s.length;
+	var $tmp = this.array().iterator();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collections.IntHashList.prototype.clear = function() {
+	$s.push("thx.collections.IntHashList::clear");
+	var $spos = $s.length;
+	this.__hash = new IntHash();
+	this.__keys = [];
+	this.length = 0;
+	$s.pop();
+}
+thx.collections.IntHashList.prototype.array = function() {
+	$s.push("thx.collections.IntHashList::array");
+	var $spos = $s.length;
+	var values = [];
+	var _g = 0, _g1 = this.__keys;
+	while(_g < _g1.length) {
+		var k = _g1[_g];
+		++_g;
+		values.push(this.__hash.get(k));
+	}
+	$s.pop();
+	return values;
+	$s.pop();
+}
+thx.collections.IntHashList.prototype.toString = function() {
+	$s.push("thx.collections.IntHashList::toString");
+	var $spos = $s.length;
+	var s = new StringBuf();
+	s.b[s.b.length] = "{";
+	var it = this.keys();
+	while( it.hasNext() ) {
+		var i = it.next();
+		s.b[s.b.length] = i;
+		s.b[s.b.length] = " => ";
+		s.b[s.b.length] = Std.string(this.get(i));
+		if(it.hasNext()) s.b[s.b.length] = ", ";
+	}
+	s.b[s.b.length] = "}";
+	var $tmp = s.b.join("");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collections.IntHashList.prototype.__keys = null;
+thx.collections.IntHashList.prototype.__hash = null;
+thx.collections.IntHashList.prototype.__class__ = thx.collections.IntHashList;
 thx.xml.Namespace = function() { }
 thx.xml.Namespace.__name__ = ["thx","xml","Namespace"];
 thx.xml.Namespace.qualify = function(name) {
@@ -4313,6 +4931,20 @@ utest.ui.common.ReportTools.hasOutput = function(report,stats) {
 	$s.pop();
 }
 utest.ui.common.ReportTools.prototype.__class__ = utest.ui.common.ReportTools;
+thx.xml.svg.TestArc = function(p) {
+	$s.push("thx.xml.svg.TestArc::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.xml.svg.TestArc.__name__ = ["thx","xml","svg","TestArc"];
+thx.xml.svg.TestArc.prototype.testDefault = function() {
+	$s.push("thx.xml.svg.TestArc::testDefault");
+	var $spos = $s.length;
+	var arc = new thx.xml.svg.Arc();
+	utest.Assert.equals("M6.123233995736766e-17,-1A1,1 0 1,1 6.123031769111886e-17,1L0,0Z",arc.shape(),null,{ fileName : "TestArc.hx", lineNumber : 15, className : "thx.xml.svg.TestArc", methodName : "testDefault"});
+	$s.pop();
+}
+thx.xml.svg.TestArc.prototype.__class__ = thx.xml.svg.TestArc;
 if(typeof haxe=='undefined') haxe = {}
 if(!haxe.io) haxe.io = {}
 haxe.io.Bytes = function(length,b) {
@@ -4533,6 +5165,62 @@ thx.util.TestAll.main = function() {
 	$s.pop();
 }
 thx.util.TestAll.prototype.__class__ = thx.util.TestAll;
+thx.math.scale.TestPow = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.TestPow::new");
+	var $spos = $s.length;
+	thx.math.scale.TestAll.call(this);
+	$s.pop();
+}
+thx.math.scale.TestPow.__name__ = ["thx","math","scale","TestPow"];
+thx.math.scale.TestPow.__super__ = thx.math.scale.TestAll;
+for(var k in thx.math.scale.TestAll.prototype ) thx.math.scale.TestPow.prototype[k] = thx.math.scale.TestAll.prototype[k];
+thx.math.scale.TestPow.prototype.testDomain = function() {
+	$s.push("thx.math.scale.TestPow::testDomain");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Pow().exponent(2);
+	var expected = [0.25,0.0,0.25,1.0,2.25];
+	var values = [-0.5,0.0,0.5,1.0,1.5];
+	this.assertScale($closure(scale,"scale"),expected,values);
+	$s.pop();
+}
+thx.math.scale.TestPow.prototype.testDomain12 = function() {
+	$s.push("thx.math.scale.TestPow::testDomain12");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Pow().exponent(2).domain(1,2);
+	var expected = [-0.25,0.0,0.417,1.0,1.75];
+	var values = [0.5,1.0,1.5,2.0,2.5];
+	this.assertScale($closure(scale,"scale"),expected,values);
+	$s.pop();
+}
+thx.math.scale.TestPow.prototype.testSqrtDomain = function() {
+	$s.push("thx.math.scale.TestPow::testSqrtDomain");
+	var $spos = $s.length;
+	var scale = thx.math.scale.Pow.sqrt();
+	var expected = [Math.NaN,0.0,0.5,0.707,1.0,2.0];
+	var values = [-0.5,0.0,0.25,0.5,1.0,4.0];
+	this.assertScale($closure(scale,"scale"),expected,values);
+	$s.pop();
+}
+thx.math.scale.TestPow.prototype.testSqrtDomain12 = function() {
+	$s.push("thx.math.scale.TestPow::testSqrtDomain12");
+	var $spos = $s.length;
+	var scale = thx.math.scale.Pow.sqrt().domain(1,2);
+	var expected = [-0.707,0.0,0.543,1.0,1.403];
+	var values = [0.5,1.0,1.5,2.0,2.5];
+	this.assertScale($closure(scale,"scale"),expected,values);
+	$s.pop();
+}
+thx.math.scale.TestPow.prototype.testSqrtDomain0n1 = function() {
+	$s.push("thx.math.scale.TestPow::testSqrtDomain0n1");
+	var $spos = $s.length;
+	var scale = thx.math.scale.Pow.sqrt().domain(0,-1);
+	var expected = [Math.NaN,0.0,0.5,0.707,1.0,2.0];
+	var values = [0.5,0.0,-0.25,-0.5,-1.0,-4.0];
+	this.assertScale($closure(scale,"scale"),expected,values);
+	$s.pop();
+}
+thx.math.scale.TestPow.prototype.__class__ = thx.math.scale.TestPow;
 if(!thx.doc) thx.doc = {}
 thx.doc.TestAll = function(p) {
 	$s.push("thx.doc.TestAll::new");
@@ -4606,7 +5294,7 @@ thx.culture.FormatParams.params = function(p,ps,alt) {
 	}
 	if(null == ps || ps.length == 0) {
 		var parts = p.split(":");
-		var $tmp = [parts[0]].concat(parts.length == 1?[]:Arrays.map(parts[1].split(","),function(s,i) {
+		var $tmp = [parts[0]].concat(parts.length == 1?[]:parts[1].split(",").map(function(s,i) {
 			$s.push("thx.culture.FormatParams::params@33");
 			var $spos = $s.length;
 			if(0 == i) {
@@ -4654,6 +5342,124 @@ thx.color.TestHsl.prototype.testBasics = function() {
 	$s.pop();
 }
 thx.color.TestHsl.prototype.__class__ = thx.color.TestHsl;
+thx.math.scale.LinearString = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.LinearString::new");
+	var $spos = $s.length;
+	this.x0 = 0;
+	this.x1 = 1;
+	this.y0 = "";
+	this.y1 = "";
+	this.kx = 1;
+	this.f = $closure(Strings,"interpolatef");
+	this.i = this.f(this.y0,this.y1,null);
+	$s.pop();
+}
+thx.math.scale.LinearString.__name__ = ["thx","math","scale","LinearString"];
+thx.math.scale.LinearString.prototype.x0 = null;
+thx.math.scale.LinearString.prototype.x1 = null;
+thx.math.scale.LinearString.prototype.y0 = null;
+thx.math.scale.LinearString.prototype.y1 = null;
+thx.math.scale.LinearString.prototype.kx = null;
+thx.math.scale.LinearString.prototype.f = null;
+thx.math.scale.LinearString.prototype.i = null;
+thx.math.scale.LinearString.prototype.scaleMap = function(x,i) {
+	$s.push("thx.math.scale.LinearString::scaleMap");
+	var $spos = $s.length;
+	var $tmp = this.scale(x);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.LinearString.prototype.scale = function(x) {
+	$s.push("thx.math.scale.LinearString::scale");
+	var $spos = $s.length;
+	var $tmp = this.i((x - this.x0) * this.kx);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.LinearString.prototype.getDomain = function() {
+	$s.push("thx.math.scale.LinearString::getDomain");
+	var $spos = $s.length;
+	var $tmp = [this.x0,this.x1];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.LinearString.prototype.domain = function(x0,x1) {
+	$s.push("thx.math.scale.LinearString::domain");
+	var $spos = $s.length;
+	this.x0 = x0;
+	this.x1 = x1;
+	this.kx = 1 / (x1 - x0);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.LinearString.prototype.getRange = function() {
+	$s.push("thx.math.scale.LinearString::getRange");
+	var $spos = $s.length;
+	var $tmp = [this.y0,this.y1];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.LinearString.prototype.range = function(y0,y1) {
+	$s.push("thx.math.scale.LinearString::range");
+	var $spos = $s.length;
+	this.y0 = y0;
+	this.y1 = y1;
+	this.i = this.f(y0,y1,null);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.LinearString.prototype.getInterpolate = function() {
+	$s.push("thx.math.scale.LinearString::getInterpolate");
+	var $spos = $s.length;
+	var $tmp = this.f;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.LinearString.prototype.interpolatef = function(x) {
+	$s.push("thx.math.scale.LinearString::interpolatef");
+	var $spos = $s.length;
+	this.i = (this.f = x)(this.y0,this.y1,null);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.LinearString.prototype.tickRange = function(m) {
+	$s.push("thx.math.scale.LinearString::tickRange");
+	var $spos = $s.length;
+	var start = Math.min(this.x0,this.x1), stop = Math.max(this.x0,this.x1), span = stop - start, step = Math.pow(10,Math.floor(Math.log(span / m) / 2.302585092994046)), err = m / (span / step);
+	if(err <= .15) step *= 10; else if(err <= .35) step *= 5; else if(err <= -75) step *= 2;
+	var $tmp = { start : Math.ceil(start / step) * step, stop : Math.floor(stop / step) * step + step * .5, step : step};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.LinearString.prototype.ticks = function(m) {
+	$s.push("thx.math.scale.LinearString::ticks");
+	var $spos = $s.length;
+	var range = this.tickRange(m);
+	var $tmp = Floats.range(range.start,range.stop,range.step);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.LinearString.prototype.tickFormat = function(m) {
+	$s.push("thx.math.scale.LinearString::tickFormat");
+	var $spos = $s.length;
+	var n = Math.max(0,-Math.floor(Math.log(this.tickRange(m).step) / 2.302585092994046 + .01));
+	var $tmp = Floats.formatf("D:" + n);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.LinearString.prototype.__class__ = thx.math.scale.LinearString;
 thx.validation.StringLengthValidator = function(minlength,maxlength) {
 	if( minlength === $_ ) return;
 	$s.push("thx.validation.StringLengthValidator::new");
@@ -5295,7 +6101,7 @@ Arrays.format = function(v,param,params,culture) {
 		var max = params[3] == null?null:"" == params[3]?null:Std.parseInt(params[3]);
 		if(null != max && max < v.length) {
 			var elipsis = null == params[4]?" ...":params[4];
-			var $tmp = Arrays.map(v.copy().splice(0,max),function(d,i) {
+			var $tmp = v.copy().splice(0,max).map(function(d,i) {
 				$s.push("Arrays::format@146");
 				var $spos = $s.length;
 				var $tmp = Dynamics.format(d,params[0],null,null,culture);
@@ -5306,7 +6112,7 @@ Arrays.format = function(v,param,params,culture) {
 			$s.pop();
 			return $tmp;
 		} else {
-			var $tmp = Arrays.map(v,function(d,i) {
+			var $tmp = v.map(function(d,i) {
 				$s.push("Arrays::format@148");
 				var $spos = $s.length;
 				var $tmp = Dynamics.format(d,params[0],null,null,culture);
@@ -5346,7 +6152,7 @@ Arrays.formatf = function(param,params,culture) {
 			var max = params[3] == null?null:"" == params[3]?null:Std.parseInt(params[3]);
 			if(null != max && max < v.length) {
 				var elipsis = null == params[4]?" ...":params[4];
-				var $tmp = Arrays.map(v.copy().splice(0,max),function(d,i) {
+				var $tmp = v.copy().splice(0,max).map(function(d,i) {
 					$s.push("Arrays::formatf@163@176");
 					var $spos = $s.length;
 					var $tmp = Dynamics.format(d,params[0],null,null,culture);
@@ -5357,7 +6163,7 @@ Arrays.formatf = function(param,params,culture) {
 				$s.pop();
 				return $tmp;
 			} else {
-				var $tmp = Arrays.map(v,function(d,i) {
+				var $tmp = v.map(function(d,i) {
 					$s.push("Arrays::formatf@163@178");
 					var $spos = $s.length;
 					var $tmp = Dynamics.format(d,params[0],null,null,culture);
@@ -5444,7 +6250,7 @@ Arrays.interpolatef = function(a,b,interpolator) {
 	var $tmp = function(t) {
 		$s.push("Arrays::interpolatef@215");
 		var $spos = $s.length;
-		var $tmp = Arrays.map(functions,function(f,_) {
+		var $tmp = functions.map(function(f,_) {
 			$s.push("Arrays::interpolatef@215@215");
 			var $spos = $s.length;
 			var $tmp = f(t);
@@ -5515,7 +6321,7 @@ Arrays.interpolateStringsf = function(a,b,interpolator) {
 	var $tmp = function(t) {
 		$s.push("Arrays::interpolateStringsf@245");
 		var $spos = $s.length;
-		var $tmp = Arrays.map(functions,function(f,_) {
+		var $tmp = functions.map(function(f,_) {
 			$s.push("Arrays::interpolateStringsf@245@245");
 			var $spos = $s.length;
 			var $tmp = f(t);
@@ -5586,7 +6392,7 @@ Arrays.interpolateIntsf = function(a,b,interpolator) {
 	var $tmp = function(t) {
 		$s.push("Arrays::interpolateIntsf@275");
 		var $spos = $s.length;
-		var $tmp = Arrays.map(functions,function(f,_) {
+		var $tmp = functions.map(function(f,_) {
 			$s.push("Arrays::interpolateIntsf@275@275");
 			var $spos = $s.length;
 			var $tmp = f(t);
@@ -5602,7 +6408,41 @@ Arrays.interpolateIntsf = function(a,b,interpolator) {
 	return $tmp;
 	$s.pop();
 }
+Arrays.indexOf = function(arr,el) {
+	$s.push("Arrays::indexOf");
+	var $spos = $s.length;
+	var $tmp = arr.indexOf(el);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Arrays.every = function(arr,f) {
+	$s.push("Arrays::every");
+	var $spos = $s.length;
+	var $tmp = arr.every(f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 Arrays.prototype.__class__ = Arrays;
+thx.math.scale.TestLinearString = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.TestLinearString::new");
+	var $spos = $s.length;
+	thx.math.scale.TestAll.call(this);
+	$s.pop();
+}
+thx.math.scale.TestLinearString.__name__ = ["thx","math","scale","TestLinearString"];
+thx.math.scale.TestLinearString.__super__ = thx.math.scale.TestAll;
+for(var k in thx.math.scale.TestAll.prototype ) thx.math.scale.TestLinearString.prototype[k] = thx.math.scale.TestAll.prototype[k];
+thx.math.scale.TestLinearString.prototype.testRange = function() {
+	$s.push("thx.math.scale.TestLinearString::testRange");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.LinearString().domain(Arrays.min(thx.math.scale.TestLinearString.data),Arrays.max(thx.math.scale.TestLinearString.data)).range("0px","120px");
+	utest.Assert.same(["0px","8px","24px","56px","120px"],thx.math.scale.TestLinearString.data.map($closure(scale,"scaleMap")),null,null,{ fileName : "TestLinearString.hx", lineNumber : 21, className : "thx.math.scale.TestLinearString", methodName : "testRange"});
+	$s.pop();
+}
+thx.math.scale.TestLinearString.prototype.__class__ = thx.math.scale.TestLinearString;
 if(!utest.ui.text) utest.ui.text = {}
 utest.ui.text.HtmlReport = function(runner,outputHandler,traceRedirected) {
 	if( runner === $_ ) return;
@@ -6299,6 +7139,201 @@ Ints.formatf = function(param,params,culture) {
 	$s.pop();
 }
 Ints.prototype.__class__ = Ints;
+thx.math.scale.Log = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.Log::new");
+	var $spos = $s.length;
+	this.linear = new thx.math.scale.Linear();
+	this.log = $closure(thx.math.scale.Log,"_log");
+	this.pow = $closure(thx.math.scale.Log,"_pow");
+	$s.pop();
+}
+thx.math.scale.Log.__name__ = ["thx","math","scale","Log"];
+thx.math.scale.Log._log = function(x) {
+	$s.push("thx.math.scale.Log::_log");
+	var $spos = $s.length;
+	var $tmp = Math.log(x) / 2.302585092994046;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Log._logn = function(x) {
+	$s.push("thx.math.scale.Log::_logn");
+	var $spos = $s.length;
+	var $tmp = -Math.log(-x) / 2.302585092994046;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Log._pow = function(x) {
+	$s.push("thx.math.scale.Log::_pow");
+	var $spos = $s.length;
+	var $tmp = Math.pow(10,x);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Log._pown = function(x) {
+	$s.push("thx.math.scale.Log::_pown");
+	var $spos = $s.length;
+	var $tmp = -Math.pow(10,-x);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.linear = null;
+thx.math.scale.Log.prototype.log = null;
+thx.math.scale.Log.prototype.pow = null;
+thx.math.scale.Log.prototype.scaleMap = function(x,i) {
+	$s.push("thx.math.scale.Log::scaleMap");
+	var $spos = $s.length;
+	var $tmp = this.scale(x);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.scale = function(x) {
+	$s.push("thx.math.scale.Log::scale");
+	var $spos = $s.length;
+	var $tmp = this.linear.scale(this.log(x));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.invert = function(x) {
+	$s.push("thx.math.scale.Log::invert");
+	var $spos = $s.length;
+	var $tmp = this.pow(this.linear.invert(x));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.getDomain = function() {
+	$s.push("thx.math.scale.Log::getDomain");
+	var $spos = $s.length;
+	var me = this;
+	var $tmp = this.linear.getDomain().map(function(d,_) {
+		$s.push("thx.math.scale.Log::getDomain@59");
+		var $spos = $s.length;
+		var $tmp = me.pow(d);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.domain = function(x0,x1) {
+	$s.push("thx.math.scale.Log::domain");
+	var $spos = $s.length;
+	if((x0 < x1?x0:x1) < 0) {
+		this.log = $closure(thx.math.scale.Log,"_logn");
+		this.pow = $closure(thx.math.scale.Log,"_pown");
+	} else {
+		this.log = $closure(thx.math.scale.Log,"_log");
+		this.pow = $closure(thx.math.scale.Log,"_pow");
+	}
+	this.linear.domain(this.log(x0),this.log(x1));
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.getRange = function() {
+	$s.push("thx.math.scale.Log::getRange");
+	var $spos = $s.length;
+	var $tmp = this.linear.getRange();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.range = function(y0,y1) {
+	$s.push("thx.math.scale.Log::range");
+	var $spos = $s.length;
+	this.linear.range(y0,y1);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.rangeRound = function(y0,y1) {
+	$s.push("thx.math.scale.Log::rangeRound");
+	var $spos = $s.length;
+	this.linear.rangeRound(y0,y1);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.getInterpolate = function() {
+	$s.push("thx.math.scale.Log::getInterpolate");
+	var $spos = $s.length;
+	var $tmp = this.linear.getInterpolate();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.interpolatef = function(x) {
+	$s.push("thx.math.scale.Log::interpolatef");
+	var $spos = $s.length;
+	this.linear.interpolatef(x);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.ticks = function() {
+	$s.push("thx.math.scale.Log::ticks");
+	var $spos = $s.length;
+	var d = this.linear.getDomain(), ticks = [];
+	if(d.every(function(d1,_) {
+		$s.push("thx.math.scale.Log::ticks@104");
+		var $spos = $s.length;
+		var $tmp = Math.isFinite(d1);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	})) {
+		var i = Math.floor(d[0]), j = Math.ceil(d[1]), u = this.pow(d[0]), v = this.pow(d[1]);
+		if(this.log == $closure(thx.math.scale.Log,"_logn")) {
+			ticks.push(this.pow(i));
+			while(i++ < j) {
+				var k = 9;
+				do ticks.push(this.pow(i) * k); while(k-- > 0);
+			}
+		} else {
+			do {
+				var _g = 1;
+				while(_g < 10) {
+					var k = _g++;
+					ticks.push(this.pow(i) * k);
+				}
+			} while(i++ < j);
+			ticks.push(this.pow(i));
+		}
+		i = 0;
+		while(ticks[i] < u) i++;
+		j = ticks.length;
+		while(ticks[j - 1] > v) j--;
+		ticks = ticks.slice(i,j);
+	}
+	$s.pop();
+	return ticks;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.tickFormatf = function() {
+	$s.push("thx.math.scale.Log::tickFormatf");
+	var $spos = $s.length;
+	var $tmp = function(d) {
+		$s.push("thx.math.scale.Log::tickFormatf@140");
+		var $spos = $s.length;
+		var $tmp = thx.culture.FormatNumber.decimal(d,1);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Log.prototype.__class__ = thx.math.scale.Log;
 thx.validation.DateRangeValidator = function(min,max,mininclusive,maxinclusive) {
 	if( min === $_ ) return;
 	$s.push("thx.validation.DateRangeValidator::new");
@@ -7654,6 +8689,17 @@ thx.xml.TestXmlFormat.prototype.testAutoWidthWithInlineElements = function() {
 	$s.pop();
 }
 thx.xml.TestXmlFormat.prototype.__class__ = thx.xml.TestXmlFormat;
+thx.math.scale.TestQuantize = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.TestQuantize::new");
+	var $spos = $s.length;
+	thx.math.scale.TestAll.call(this);
+	$s.pop();
+}
+thx.math.scale.TestQuantize.__name__ = ["thx","math","scale","TestQuantize"];
+thx.math.scale.TestQuantize.__super__ = thx.math.scale.TestAll;
+for(var k in thx.math.scale.TestAll.prototype ) thx.math.scale.TestQuantize.prototype[k] = thx.math.scale.TestAll.prototype[k];
+thx.math.scale.TestQuantize.prototype.__class__ = thx.math.scale.TestQuantize;
 ValueType = { __ename__ : ["ValueType"], __constructs__ : ["TNull","TInt","TFloat","TBool","TObject","TFunction","TClass","TEnum","TUnknown"] }
 ValueType.TNull = ["TNull",0];
 ValueType.TNull.toString = $estr;
@@ -8121,6 +9167,53 @@ thx.type.Types.sameAs = function(a,b) {
 	$s.pop();
 }
 thx.type.Types.prototype.__class__ = thx.type.Types;
+thx.math.scale.TestLog = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.TestLog::new");
+	var $spos = $s.length;
+	thx.math.scale.TestAll.call(this);
+	$s.pop();
+}
+thx.math.scale.TestLog.__name__ = ["thx","math","scale","TestLog"];
+thx.math.scale.TestLog.__super__ = thx.math.scale.TestAll;
+for(var k in thx.math.scale.TestAll.prototype ) thx.math.scale.TestLog.prototype[k] = thx.math.scale.TestAll.prototype[k];
+thx.math.scale.TestLog.prototype.testRange = function() {
+	$s.push("thx.math.scale.TestLog::testRange");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Log().domain(1,10).range(0,1);
+	var expected = [Math.NaN,Math.NEGATIVE_INFINITY,-2.0,-1.0,0,0.69897,1.0,2.0];
+	var values = [-5.0,0.0,0.01,0.1,1,5,10,100];
+	this.assertScale($closure(scale,"scale"),expected,values);
+	$s.pop();
+}
+thx.math.scale.TestLog.prototype.testInvert = function() {
+	$s.push("thx.math.scale.TestLog::testInvert");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Log().domain(1,10).range(0,1);
+	var expected = [1.0,1.023,1.258,3.162,10];
+	var values = [0.0,0.01,0.1,0.5,1];
+	this.assertScale($closure(scale,"invert"),expected,values);
+	$s.pop();
+}
+thx.math.scale.TestLog.prototype.testRange12 = function() {
+	$s.push("thx.math.scale.TestLog::testRange12");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Log().domain(1,2).range(0,1);
+	var expected = [-1,0.0,0.585,1.0,1.322];
+	var values = [0.5,1.0,1.5,2.0,2.5];
+	this.assertScale($closure(scale,"scale"),expected,values);
+	$s.pop();
+}
+thx.math.scale.TestLog.prototype.testInvert12 = function() {
+	$s.push("thx.math.scale.TestLog::testInvert12");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Log().domain(1,2).range(0,1);
+	var expected = [1.0,1.007,1.072,1.414,2];
+	var values = [0.0,0.01,0.1,0.5,1];
+	this.assertScale($closure(scale,"invert"),expected,values);
+	$s.pop();
+}
+thx.math.scale.TestLog.prototype.__class__ = thx.math.scale.TestLog;
 Floats = function() { }
 Floats.__name__ = ["Floats"];
 Floats.normalize = function(v) {
@@ -8235,28 +9328,28 @@ Floats.circularWrap = function(v,max) {
 	return v;
 	$s.pop();
 }
-Floats.interpolate = function(f,min,max,interpolator) {
+Floats.interpolate = function(f,a,b,interpolator) {
 	$s.push("Floats::interpolate");
 	var $spos = $s.length;
-	if(max == null) max = 1.0;
-	if(min == null) min = 0.0;
+	if(b == null) b = 1.0;
+	if(a == null) a = 0.0;
 	if(null == interpolator) interpolator = $closure(thx.math.Equations,"linear");
-	var $tmp = min + interpolator(f) * (max - min);
+	var $tmp = a + interpolator(f) * (b - a);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-Floats.interpolatef = function(min,max,interpolator) {
+Floats.interpolatef = function(a,b,interpolator) {
 	$s.push("Floats::interpolatef");
 	var $spos = $s.length;
-	if(max == null) max = 1.0;
-	if(min == null) min = 0.0;
+	if(b == null) b = 1.0;
+	if(a == null) a = 0.0;
 	if(null == interpolator) interpolator = $closure(thx.math.Equations,"linear");
-	var d = max - min;
+	var d = b - a;
 	var $tmp = function(f) {
 		$s.push("Floats::interpolatef@106");
 		var $spos = $s.length;
-		var $tmp = min + interpolator(f) * d;
+		var $tmp = a + interpolator(f) * d;
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -8868,6 +9961,210 @@ utest.Runner.prototype.testComplete = function(h) {
 	$s.pop();
 }
 utest.Runner.prototype.__class__ = utest.Runner;
+thx.xml.svg.Area = function(x,y0,y1,interpolator) {
+	if( x === $_ ) return;
+	$s.push("thx.xml.svg.Area::new");
+	var $spos = $s.length;
+	this._x = x;
+	this._y0 = y0;
+	this._y1 = y1;
+	this._interpolator = interpolator;
+	$s.pop();
+}
+thx.xml.svg.Area.__name__ = ["thx","xml","svg","Area"];
+thx.xml.svg.Area.pointArray = function(interpolator) {
+	$s.push("thx.xml.svg.Area::pointArray");
+	var $spos = $s.length;
+	var $tmp = new thx.xml.svg.Area(function(d,_) {
+		$s.push("thx.xml.svg.Area::pointArray@65");
+		var $spos = $s.length;
+		var $tmp = d[0];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},function(d,_) {
+		$s.push("thx.xml.svg.Area::pointArray@65");
+		var $spos = $s.length;
+		var $tmp = d[1];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},function(d,_) {
+		$s.push("thx.xml.svg.Area::pointArray@65");
+		var $spos = $s.length;
+		var $tmp = d[2];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},interpolator);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Area.pointObject = function(interpolator) {
+	$s.push("thx.xml.svg.Area::pointObject");
+	var $spos = $s.length;
+	var $tmp = new thx.xml.svg.Area(function(d,_) {
+		$s.push("thx.xml.svg.Area::pointObject@70");
+		var $spos = $s.length;
+		var $tmp = d.x;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},function(d,_) {
+		$s.push("thx.xml.svg.Area::pointObject@70");
+		var $spos = $s.length;
+		var $tmp = d.y0;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},function(d,_) {
+		$s.push("thx.xml.svg.Area::pointObject@70");
+		var $spos = $s.length;
+		var $tmp = d.y1;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},interpolator);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Area.pointArray2 = function(interpolator) {
+	$s.push("thx.xml.svg.Area::pointArray2");
+	var $spos = $s.length;
+	var $tmp = new thx.xml.svg.Area(function(d,_) {
+		$s.push("thx.xml.svg.Area::pointArray2@75");
+		var $spos = $s.length;
+		var $tmp = d[0];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},function(_,_1) {
+		$s.push("thx.xml.svg.Area::pointArray2@75");
+		var $spos = $s.length;
+		$s.pop();
+		return 0.0;
+		$s.pop();
+	},function(d,_) {
+		$s.push("thx.xml.svg.Area::pointArray2@75");
+		var $spos = $s.length;
+		var $tmp = d[1];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},interpolator);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Area.pointObjectXY = function(interpolator) {
+	$s.push("thx.xml.svg.Area::pointObjectXY");
+	var $spos = $s.length;
+	var $tmp = new thx.xml.svg.Area(function(d,_) {
+		$s.push("thx.xml.svg.Area::pointObjectXY@80");
+		var $spos = $s.length;
+		var $tmp = d.x;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},function(_,_1) {
+		$s.push("thx.xml.svg.Area::pointObjectXY@80");
+		var $spos = $s.length;
+		$s.pop();
+		return 0.0;
+		$s.pop();
+	},function(d,_) {
+		$s.push("thx.xml.svg.Area::pointObjectXY@80");
+		var $spos = $s.length;
+		var $tmp = d.y;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},interpolator);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Area.prototype._x = null;
+thx.xml.svg.Area.prototype._y0 = null;
+thx.xml.svg.Area.prototype._y1 = null;
+thx.xml.svg.Area.prototype._interpolator = null;
+thx.xml.svg.Area.prototype.shape = function(data) {
+	$s.push("thx.xml.svg.Area::shape");
+	var $spos = $s.length;
+	var second = thx.xml.svg.LineInternals.linePoints(data,this._x,this._y0);
+	second.reverse();
+	var $tmp = data.length < 1?null:"M" + thx.xml.svg.LineInternals.interpolatePoints(thx.xml.svg.LineInternals.linePoints(data,this._x,this._y1),this._interpolator) + "L" + thx.xml.svg.LineInternals.interpolatePoints(second,this._interpolator) + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Area.prototype.getInterpolator = function() {
+	$s.push("thx.xml.svg.Area::getInterpolator");
+	var $spos = $s.length;
+	var $tmp = this._interpolator;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Area.prototype.interpolator = function(type) {
+	$s.push("thx.xml.svg.Area::interpolator");
+	var $spos = $s.length;
+	this._interpolator = type;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.xml.svg.Area.prototype.getX = function() {
+	$s.push("thx.xml.svg.Area::getX");
+	var $spos = $s.length;
+	var $tmp = this._x;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Area.prototype.x = function(v) {
+	$s.push("thx.xml.svg.Area::x");
+	var $spos = $s.length;
+	this._x = v;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.xml.svg.Area.prototype.getY0 = function() {
+	$s.push("thx.xml.svg.Area::getY0");
+	var $spos = $s.length;
+	var $tmp = this._y0;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Area.prototype.y0 = function(v) {
+	$s.push("thx.xml.svg.Area::y0");
+	var $spos = $s.length;
+	this._y0 = v;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.xml.svg.Area.prototype.getY1 = function() {
+	$s.push("thx.xml.svg.Area::getY1");
+	var $spos = $s.length;
+	var $tmp = this._y1;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Area.prototype.y1 = function(v) {
+	$s.push("thx.xml.svg.Area::y1");
+	var $spos = $s.length;
+	this._y1 = v;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.xml.svg.Area.prototype.__class__ = thx.xml.svg.Area;
 Reflect = function() { }
 Reflect.__name__ = ["Reflect"];
 Reflect.hasField = function(o,field) {
@@ -9281,6 +10578,30 @@ thx.js.ExitDataSelection.prototype.exit = function() {
 	$s.pop();
 }
 thx.js.ExitDataSelection.prototype.__class__ = thx.js.ExitDataSelection;
+thx.validation.TestDateRange = function(p) {
+	$s.push("thx.validation.TestDateRange::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.validation.TestDateRange.__name__ = ["thx","validation","TestDateRange"];
+thx.validation.TestDateRange.__super__ = thx.validation.TestAll;
+for(var k in thx.validation.TestAll.prototype ) thx.validation.TestDateRange.prototype[k] = thx.validation.TestAll.prototype[k];
+thx.validation.TestDateRange.prototype.testValidation = function() {
+	$s.push("thx.validation.TestDateRange::testValidation");
+	var $spos = $s.length;
+	var validator = new thx.validation.DateRangeValidator(Date.fromString("2011-01-01"),Date.fromString("2011-01-31"));
+	this.assertValidation(validator.validate(Date.fromString("2011-01-01")),true,null,{ fileName : "TestDateRange.hx", lineNumber : 15, className : "thx.validation.TestDateRange", methodName : "testValidation"});
+	this.assertValidation(validator.validate(Date.fromString("2011-01-10")),true,null,{ fileName : "TestDateRange.hx", lineNumber : 16, className : "thx.validation.TestDateRange", methodName : "testValidation"});
+	this.assertValidation(validator.validate(Date.fromString("2011-01-31")),true,null,{ fileName : "TestDateRange.hx", lineNumber : 17, className : "thx.validation.TestDateRange", methodName : "testValidation"});
+	this.assertValidation(validator.validate(Date.fromString("2011-02-10")),false,null,{ fileName : "TestDateRange.hx", lineNumber : 18, className : "thx.validation.TestDateRange", methodName : "testValidation"});
+	var validator1 = new thx.validation.DateRangeValidator(Date.fromString("2011-01-01"),Date.fromString("2011-01-31"),false,false);
+	this.assertValidation(validator1.validate(Date.fromString("2011-01-01")),false,null,{ fileName : "TestDateRange.hx", lineNumber : 21, className : "thx.validation.TestDateRange", methodName : "testValidation"});
+	this.assertValidation(validator1.validate(Date.fromString("2011-01-10")),true,null,{ fileName : "TestDateRange.hx", lineNumber : 22, className : "thx.validation.TestDateRange", methodName : "testValidation"});
+	this.assertValidation(validator1.validate(Date.fromString("2011-01-31")),false,null,{ fileName : "TestDateRange.hx", lineNumber : 23, className : "thx.validation.TestDateRange", methodName : "testValidation"});
+	this.assertValidation(validator1.validate(Date.fromString("2011-02-10")),false,null,{ fileName : "TestDateRange.hx", lineNumber : 24, className : "thx.validation.TestDateRange", methodName : "testValidation"});
+	$s.pop();
+}
+thx.validation.TestDateRange.prototype.__class__ = thx.validation.TestDateRange;
 thx.xml.XmlFormat = function(autoformat,indent,newline) {
 	if( autoformat === $_ ) return;
 	$s.push("thx.xml.XmlFormat::new");
@@ -9365,30 +10686,6 @@ thx.xml.XmlFormat.prototype.createNodeFormat = function() {
 	$s.pop();
 }
 thx.xml.XmlFormat.prototype.__class__ = thx.xml.XmlFormat;
-thx.validation.TestDateRange = function(p) {
-	$s.push("thx.validation.TestDateRange::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.validation.TestDateRange.__name__ = ["thx","validation","TestDateRange"];
-thx.validation.TestDateRange.__super__ = thx.validation.TestAll;
-for(var k in thx.validation.TestAll.prototype ) thx.validation.TestDateRange.prototype[k] = thx.validation.TestAll.prototype[k];
-thx.validation.TestDateRange.prototype.testValidation = function() {
-	$s.push("thx.validation.TestDateRange::testValidation");
-	var $spos = $s.length;
-	var validator = new thx.validation.DateRangeValidator(Date.fromString("2011-01-01"),Date.fromString("2011-01-31"));
-	this.assertValidation(validator.validate(Date.fromString("2011-01-01")),true,null,{ fileName : "TestDateRange.hx", lineNumber : 15, className : "thx.validation.TestDateRange", methodName : "testValidation"});
-	this.assertValidation(validator.validate(Date.fromString("2011-01-10")),true,null,{ fileName : "TestDateRange.hx", lineNumber : 16, className : "thx.validation.TestDateRange", methodName : "testValidation"});
-	this.assertValidation(validator.validate(Date.fromString("2011-01-31")),true,null,{ fileName : "TestDateRange.hx", lineNumber : 17, className : "thx.validation.TestDateRange", methodName : "testValidation"});
-	this.assertValidation(validator.validate(Date.fromString("2011-02-10")),false,null,{ fileName : "TestDateRange.hx", lineNumber : 18, className : "thx.validation.TestDateRange", methodName : "testValidation"});
-	var validator1 = new thx.validation.DateRangeValidator(Date.fromString("2011-01-01"),Date.fromString("2011-01-31"),false,false);
-	this.assertValidation(validator1.validate(Date.fromString("2011-01-01")),false,null,{ fileName : "TestDateRange.hx", lineNumber : 21, className : "thx.validation.TestDateRange", methodName : "testValidation"});
-	this.assertValidation(validator1.validate(Date.fromString("2011-01-10")),true,null,{ fileName : "TestDateRange.hx", lineNumber : 22, className : "thx.validation.TestDateRange", methodName : "testValidation"});
-	this.assertValidation(validator1.validate(Date.fromString("2011-01-31")),false,null,{ fileName : "TestDateRange.hx", lineNumber : 23, className : "thx.validation.TestDateRange", methodName : "testValidation"});
-	this.assertValidation(validator1.validate(Date.fromString("2011-02-10")),false,null,{ fileName : "TestDateRange.hx", lineNumber : 24, className : "thx.validation.TestDateRange", methodName : "testValidation"});
-	$s.pop();
-}
-thx.validation.TestDateRange.prototype.__class__ = thx.validation.TestDateRange;
 thx.html.HtmlVersion = { __ename__ : ["thx","html","HtmlVersion"], __constructs__ : ["Html401Strict","Html401Transitional","Html401Frameset","Html5","XHtml10Transitional","XHtml10Strict","XHtml10Frameset","XHtml11"] }
 thx.html.HtmlVersion.Html401Strict = ["Html401Strict",0];
 thx.html.HtmlVersion.Html401Strict.toString = $estr;
@@ -9709,7 +11006,6 @@ utest.ui.text.PrintReport.prototype._trace = function(s) {
 	$s.pop();
 }
 utest.ui.text.PrintReport.prototype.__class__ = utest.ui.text.PrintReport;
-if(!thx.math) thx.math = {}
 thx.math.Random = function(seed) {
 	if( seed === $_ ) return;
 	$s.push("thx.math.Random::new");
@@ -9759,6 +11055,272 @@ thx.text.TestPaths.main = function() {
 	$s.pop();
 }
 thx.text.TestPaths.prototype.__class__ = thx.text.TestPaths;
+thx.xml.svg.TestArea = function(p) {
+	$s.push("thx.xml.svg.TestArea::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.xml.svg.TestArea.__name__ = ["thx","xml","svg","TestArea"];
+thx.xml.svg.TestArea.prototype.testArea = function() {
+	$s.push("thx.xml.svg.TestArea::testArea");
+	var $spos = $s.length;
+	var area = thx.xml.svg.Area.pointArray2();
+	utest.Assert.equals("M0,0L0,0Z",area.shape([[0.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 17, className : "thx.xml.svg.TestArea", methodName : "testArea"});
+	utest.Assert.equals("M0,0L1,1L1,0L0,0Z",area.shape([[0.0,0.0],[1.0,1.0]]),null,{ fileName : "TestArea.hx", lineNumber : 18, className : "thx.xml.svg.TestArea", methodName : "testArea"});
+	utest.Assert.equals("M0,0L1,1L2,0L2,0L1,0L0,0Z",area.shape([[0.0,0.0],[1.0,1.0],[2.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 19, className : "thx.xml.svg.TestArea", methodName : "testArea"});
+	$s.pop();
+}
+thx.xml.svg.TestArea.prototype.testArean1 = function() {
+	$s.push("thx.xml.svg.TestArea::testArean1");
+	var $spos = $s.length;
+	var area = thx.xml.svg.Area.pointArray2().y0(function(_,_1) {
+		$s.push("thx.xml.svg.TestArea::testArean1@24");
+		var $spos = $s.length;
+		$s.pop();
+		return -1;
+		$s.pop();
+	});
+	utest.Assert.equals("M0,0L0,-1Z",area.shape([[0.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 26, className : "thx.xml.svg.TestArea", methodName : "testArean1"});
+	utest.Assert.equals("M0,0L1,1L1,-1L0,-1Z",area.shape([[0.0,0.0],[1.0,1.0]]),null,{ fileName : "TestArea.hx", lineNumber : 27, className : "thx.xml.svg.TestArea", methodName : "testArean1"});
+	utest.Assert.equals("M0,0L1,1L2,0L2,-1L1,-1L0,-1Z",area.shape([[0.0,0.0],[1.0,1.0],[2.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 28, className : "thx.xml.svg.TestArea", methodName : "testArean1"});
+	$s.pop();
+}
+thx.xml.svg.TestArea.prototype.testXY = function() {
+	$s.push("thx.xml.svg.TestArea::testXY");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Area.pointObjectXY();
+	utest.Assert.equals("M0,0L0,0Z",line.shape([{ x : 0.0, y : 0.0}]),null,{ fileName : "TestArea.hx", lineNumber : 35, className : "thx.xml.svg.TestArea", methodName : "testXY"});
+	utest.Assert.equals("M0,0L1,1L1,0L0,0Z",line.shape([{ x : 0.0, y : 0.0},{ x : 1.0, y : 1.0}]),null,{ fileName : "TestArea.hx", lineNumber : 36, className : "thx.xml.svg.TestArea", methodName : "testXY"});
+	utest.Assert.equals("M0,0L1,1L2,0L2,0L1,0L0,0Z",line.shape([{ x : 0.0, y : 0.0},{ x : 1.0, y : 1.0},{ x : 2.0, y : 0.0}]),null,{ fileName : "TestArea.hx", lineNumber : 37, className : "thx.xml.svg.TestArea", methodName : "testXY"});
+	$s.pop();
+}
+thx.xml.svg.TestArea.prototype.testXYnY0 = function() {
+	$s.push("thx.xml.svg.TestArea::testXYnY0");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Area.pointObjectXY().y0(function(d,_) {
+		$s.push("thx.xml.svg.TestArea::testXYnY0@42");
+		var $spos = $s.length;
+		var $tmp = -d.y;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	utest.Assert.equals("M0,0L0,0Z",line.shape([{ x : 0.0, y : 0.0}]),null,{ fileName : "TestArea.hx", lineNumber : 44, className : "thx.xml.svg.TestArea", methodName : "testXYnY0"});
+	utest.Assert.equals("M0,0L1,1L1,-1L0,0Z",line.shape([{ x : 0.0, y : 0.0},{ x : 1.0, y : 1.0}]),null,{ fileName : "TestArea.hx", lineNumber : 45, className : "thx.xml.svg.TestArea", methodName : "testXYnY0"});
+	utest.Assert.equals("M0,0L1,1L2,0L2,0L1,-1L0,0Z",line.shape([{ x : 0.0, y : 0.0},{ x : 1.0, y : 1.0},{ x : 2.0, y : 0.0}]),null,{ fileName : "TestArea.hx", lineNumber : 46, className : "thx.xml.svg.TestArea", methodName : "testXYnY0"});
+	$s.pop();
+}
+thx.xml.svg.TestArea.prototype.testStepBefore = function() {
+	$s.push("thx.xml.svg.TestArea::testStepBefore");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Area.pointArray2().interpolator(thx.xml.svg.LineInterpolator.StepBefore);
+	utest.Assert.equals("M0,0L0,0Z",line.shape([[0.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 53, className : "thx.xml.svg.TestArea", methodName : "testStepBefore"});
+	utest.Assert.equals("M0,0V1H1L1,0V0H0Z",line.shape([[0.0,0.0],[1.0,1.0]]),null,{ fileName : "TestArea.hx", lineNumber : 54, className : "thx.xml.svg.TestArea", methodName : "testStepBefore"});
+	utest.Assert.equals("M0,0V1H1V0H2L2,0V0H1V0H0Z",line.shape([[0.0,0.0],[1.0,1.0],[2.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 55, className : "thx.xml.svg.TestArea", methodName : "testStepBefore"});
+	$s.pop();
+}
+thx.xml.svg.TestArea.prototype.testStepAfter = function() {
+	$s.push("thx.xml.svg.TestArea::testStepAfter");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Area.pointArray2().interpolator(thx.xml.svg.LineInterpolator.StepAfter);
+	utest.Assert.equals("M0,0L0,0Z",line.shape([[0.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 62, className : "thx.xml.svg.TestArea", methodName : "testStepAfter"});
+	utest.Assert.equals("M0,0H1V1L1,0H0V0Z",line.shape([[0.0,0.0],[1.0,1.0]]),null,{ fileName : "TestArea.hx", lineNumber : 63, className : "thx.xml.svg.TestArea", methodName : "testStepAfter"});
+	utest.Assert.equals("M0,0H1V1H2V0L2,0H1V0H0V0Z",line.shape([[0.0,0.0],[1.0,1.0],[2.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 64, className : "thx.xml.svg.TestArea", methodName : "testStepAfter"});
+	$s.pop();
+}
+thx.xml.svg.TestArea.prototype.testBasis = function() {
+	$s.push("thx.xml.svg.TestArea::testBasis");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Area.pointArray2().interpolator(thx.xml.svg.LineInterpolator.Basis);
+	utest.Assert.equals("M0,0L0,0Z",line.shape([[0.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 71, className : "thx.xml.svg.TestArea", methodName : "testBasis"});
+	utest.Assert.equals("M0,0L1,1L1,0L0,0Z",line.shape([[0.0,0.0],[1.0,1.0]]),null,{ fileName : "TestArea.hx", lineNumber : 72, className : "thx.xml.svg.TestArea", methodName : "testBasis"});
+	utest.Assert.equals("M0,0C0,0,0,0,1,1C2,2,4,4,6,4C8,4,10,2,11,1C12,0,12,0,12,0L12,0C12,0,12,0,11,0C10,0,8,0,6,0C4,0,2,0,1,0C0,0,0,0,0,0Z",line.shape([[0.0,0.0],[6.0,6.0],[12.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 73, className : "thx.xml.svg.TestArea", methodName : "testBasis"});
+	$s.pop();
+}
+thx.xml.svg.TestArea.prototype.testBasisClosed = function() {
+	$s.push("thx.xml.svg.TestArea::testBasisClosed");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Area.pointArray2().interpolator(thx.xml.svg.LineInterpolator.BasisClosed);
+	utest.Assert.equals("M0,0C0,0,0,0,0,0L0,0C0,0,0,0,0,0Z",line.shape([[0.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 80, className : "thx.xml.svg.TestArea", methodName : "testBasisClosed"});
+	utest.Assert.equals("M2,2C2,2,4,4,4,4C4,4,2,2,2,2L4,0C4,0,2,0,2,0C2,0,4,0,4,0Z",line.shape([[0.0,0.0],[6.0,6.0]]),null,{ fileName : "TestArea.hx", lineNumber : 81, className : "thx.xml.svg.TestArea", methodName : "testBasisClosed"});
+	utest.Assert.equals("M9,1C8,0,4,0,3,1C2,2,4,4,6,4C8,4,10,2,9,1L3,0C4,0,8,0,9,0C10,0,8,0,6,0C4,0,2,0,3,0Z",line.shape([[0.0,0.0],[6.0,6.0],[12.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 82, className : "thx.xml.svg.TestArea", methodName : "testBasisClosed"});
+	$s.pop();
+}
+thx.xml.svg.TestArea.prototype.testCardinal = function() {
+	$s.push("thx.xml.svg.TestArea::testCardinal");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Area.pointArray2().interpolator(thx.xml.svg.LineInterpolator.Cardinal());
+	utest.Assert.equals("M0,0L0,0Z",line.shape([[0.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 89, className : "thx.xml.svg.TestArea", methodName : "testCardinal"});
+	utest.Assert.equals("M0,0L5,5L5,0L0,0Z",line.shape([[0.0,0.0],[5.0,5.0]]),null,{ fileName : "TestArea.hx", lineNumber : 90, className : "thx.xml.svg.TestArea", methodName : "testCardinal"});
+	utest.Assert.equals("M0,0Q4,5,5,5Q6,5,10,0L10,0Q6,0,5,0Q4,0,0,0Z",line.shape([[0.0,0.0],[5.0,5.0],[10.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 91, className : "thx.xml.svg.TestArea", methodName : "testCardinal"});
+	$s.pop();
+}
+thx.xml.svg.TestArea.prototype.testCardinalClosed = function() {
+	$s.push("thx.xml.svg.TestArea::testCardinalClosed");
+	var $spos = $s.length;
+	var line = thx.xml.svg.Area.pointArray2().interpolator(thx.xml.svg.LineInterpolator.CardinalClosed());
+	utest.Assert.equals("M0,0L0,0Z",line.shape([[0.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 98, className : "thx.xml.svg.TestArea", methodName : "testCardinalClosed"});
+	utest.Assert.equals("M0,0L5,5L5,0L0,0Z",line.shape([[0.0,0.0],[5.0,5.0]]),null,{ fileName : "TestArea.hx", lineNumber : 99, className : "thx.xml.svg.TestArea", methodName : "testCardinalClosed"});
+	utest.Assert.equals("M0,0C0,0,3.5,5,5,5S10,0,10,0L10,0C10,0,6.5,0,5,0S0,0,0,0Z",line.shape([[0.0,0.0],[5.0,5.0],[10.0,0.0]]),null,{ fileName : "TestArea.hx", lineNumber : 100, className : "thx.xml.svg.TestArea", methodName : "testCardinalClosed"});
+	$s.pop();
+}
+thx.xml.svg.TestArea.prototype.__class__ = thx.xml.svg.TestArea;
+thx.math.scale.Linear = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.Linear::new");
+	var $spos = $s.length;
+	this.x0 = 0;
+	this.x1 = 1;
+	this.y0 = 0;
+	this.y1 = 1;
+	this.kx = 1;
+	this.ky = 1;
+	this.f = $closure(Floats,"interpolatef");
+	this.i = this.f(this.y0,this.y1,null);
+	$s.pop();
+}
+thx.math.scale.Linear.__name__ = ["thx","math","scale","Linear"];
+thx.math.scale.Linear.prototype.x0 = null;
+thx.math.scale.Linear.prototype.x1 = null;
+thx.math.scale.Linear.prototype.y0 = null;
+thx.math.scale.Linear.prototype.y1 = null;
+thx.math.scale.Linear.prototype.kx = null;
+thx.math.scale.Linear.prototype.ky = null;
+thx.math.scale.Linear.prototype.f = null;
+thx.math.scale.Linear.prototype.i = null;
+thx.math.scale.Linear.prototype.scaleMap = function(x,i) {
+	$s.push("thx.math.scale.Linear::scaleMap");
+	var $spos = $s.length;
+	var $tmp = this.scale(x);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.scale = function(x) {
+	$s.push("thx.math.scale.Linear::scale");
+	var $spos = $s.length;
+	var $tmp = this.i((x - this.x0) * this.kx);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.invertf = function() {
+	$s.push("thx.math.scale.Linear::invertf");
+	var $spos = $s.length;
+	var $tmp = $closure(this,"invert");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.invertMap = function(y,i) {
+	$s.push("thx.math.scale.Linear::invertMap");
+	var $spos = $s.length;
+	var $tmp = this.invert(y);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.invert = function(y) {
+	$s.push("thx.math.scale.Linear::invert");
+	var $spos = $s.length;
+	var $tmp = (y - this.y0) * this.ky + this.x0;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.getDomain = function() {
+	$s.push("thx.math.scale.Linear::getDomain");
+	var $spos = $s.length;
+	var $tmp = [this.x0,this.x1];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.domain = function(x0,x1) {
+	$s.push("thx.math.scale.Linear::domain");
+	var $spos = $s.length;
+	this.x0 = x0;
+	this.x1 = x1;
+	this.kx = 1 / (x1 - x0);
+	this.ky = (x1 - x0) / (this.y1 - this.y0);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.getRange = function() {
+	$s.push("thx.math.scale.Linear::getRange");
+	var $spos = $s.length;
+	var $tmp = [this.y0,this.y1];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.range = function(y0,y1) {
+	$s.push("thx.math.scale.Linear::range");
+	var $spos = $s.length;
+	this.y0 = y0;
+	this.y1 = y1;
+	this.ky = (this.x1 - this.x0) / (y1 - y0);
+	this.i = this.f(y0,y1,null);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.rangeRound = function(x0,x1) {
+	$s.push("thx.math.scale.Linear::rangeRound");
+	var $spos = $s.length;
+	this.x0 = x0;
+	this.x1 = x1;
+	var $tmp = this.range(x0,x1).interpolatef($closure(Ints,"interpolatef"));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.getInterpolate = function() {
+	$s.push("thx.math.scale.Linear::getInterpolate");
+	var $spos = $s.length;
+	var $tmp = this.f;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.interpolatef = function(x) {
+	$s.push("thx.math.scale.Linear::interpolatef");
+	var $spos = $s.length;
+	this.i = (this.f = x)(this.y0,this.y1,null);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.tickRange = function(m) {
+	$s.push("thx.math.scale.Linear::tickRange");
+	var $spos = $s.length;
+	var start = Math.min(this.x0,this.x1), stop = Math.max(this.x0,this.x1), span = stop - start, step = Math.pow(10,Math.floor(Math.log(span / m) / 2.302585092994046)), err = m / (span / step);
+	if(err <= .15) step *= 10; else if(err <= .35) step *= 5; else if(err <= .75) step *= 2;
+	var $tmp = { start : Math.ceil(start / step) * step, stop : Math.floor(stop / step) * step + step * .5, step : step};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.ticks = function(m) {
+	$s.push("thx.math.scale.Linear::ticks");
+	var $spos = $s.length;
+	var range = this.tickRange(m);
+	var $tmp = Floats.range(range.start,range.stop,range.step);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.tickFormat = function(m) {
+	$s.push("thx.math.scale.Linear::tickFormat");
+	var $spos = $s.length;
+	var n = Math.max(0,-Math.floor(Math.log(this.tickRange(m).step) / 2.302585092994046 + .01));
+	var $tmp = Floats.formatf("D:" + n);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Linear.prototype.__class__ = thx.math.scale.Linear;
 Lambda = function() { }
 Lambda.__name__ = ["Lambda"];
 Lambda.array = function(it) {
@@ -9970,6 +11532,114 @@ Lambda.concat = function(a,b) {
 	$s.pop();
 }
 Lambda.prototype.__class__ = Lambda;
+thx.math.scale.Ordinal = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.Ordinal::new");
+	var $spos = $s.length;
+	this._domain = [];
+	this._range = [];
+	this.rangeBand = 0.0;
+	$s.pop();
+}
+thx.math.scale.Ordinal.__name__ = ["thx","math","scale","Ordinal"];
+thx.math.scale.Ordinal.prototype._domain = null;
+thx.math.scale.Ordinal.prototype._range = null;
+thx.math.scale.Ordinal.prototype.rangeBand = null;
+thx.math.scale.Ordinal.prototype.scalef = function() {
+	$s.push("thx.math.scale.Ordinal::scalef");
+	var $spos = $s.length;
+	var $tmp = $closure(this,"scale");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Ordinal.prototype.scaleMap = function(x,i) {
+	$s.push("thx.math.scale.Ordinal::scaleMap");
+	var $spos = $s.length;
+	var $tmp = this.scale(x);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Ordinal.prototype.scale = function(x) {
+	$s.push("thx.math.scale.Ordinal::scale");
+	var $spos = $s.length;
+	var i = this._domain.indexOf(x);
+	if(i < 0) {
+		this._domain.push(x);
+		i = this._domain.length - 1;
+	}
+	var $tmp = this._range[i];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Ordinal.prototype.getDomain = function() {
+	$s.push("thx.math.scale.Ordinal::getDomain");
+	var $spos = $s.length;
+	var $tmp = this._domain.copy();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Ordinal.prototype.domain = function(x) {
+	$s.push("thx.math.scale.Ordinal::domain");
+	var $spos = $s.length;
+	this._domain = x.copy();
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Ordinal.prototype.getRange = function() {
+	$s.push("thx.math.scale.Ordinal::getRange");
+	var $spos = $s.length;
+	var $tmp = this._range.copy();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Ordinal.prototype.range = function(i,x) {
+	$s.push("thx.math.scale.Ordinal::range");
+	var $spos = $s.length;
+	if(null != i) this._range = i.copy(); else this._range = x.copy();
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Ordinal.prototype.rangePoints = function(start,stop,padding) {
+	$s.push("thx.math.scale.Ordinal::rangePoints");
+	var $spos = $s.length;
+	if(padding == null) padding = 0.0;
+	var step = (stop - start) / (this._domain.length - 1 + padding);
+	this._range = this._domain.length == 1?[(start + stop) / 2]:Floats.range(start + step * padding / 2,stop + step / 2,step);
+	this.rangeBand = 0;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Ordinal.prototype.rangeBands = function(start,stop,padding) {
+	$s.push("thx.math.scale.Ordinal::rangeBands");
+	var $spos = $s.length;
+	if(padding == null) padding = 0.0;
+	var step = (stop - start) / (this._domain.length + padding);
+	this._range = Floats.range(start + step * padding,stop,step);
+	this.rangeBand = step * (1 - padding);
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Ordinal.prototype.rangeRoundBands = function(start,stop,padding) {
+	$s.push("thx.math.scale.Ordinal::rangeRoundBands");
+	var $spos = $s.length;
+	if(padding == null) padding = 0.0;
+	var diff = stop - start, step = Math.floor(diff / (this._domain.length + padding)), err = diff - (this._domain.length - padding) * step;
+	this._range = Floats.range(start + Math.round(err / 2),stop,step);
+	this.rangeBand = Math.round(step * (1 - padding));
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Ordinal.prototype.__class__ = thx.math.scale.Ordinal;
 Dates = function() { }
 Dates.__name__ = ["Dates"];
 Dates.format = function(d,param,params,culture) {
@@ -10318,6 +11988,114 @@ thx.validation.TestCustomValidator.prototype.testValidation = function() {
 	$s.pop();
 }
 thx.validation.TestCustomValidator.prototype.__class__ = thx.validation.TestCustomValidator;
+thx.math.scale.Quantile = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.Quantile::new");
+	var $spos = $s.length;
+	this._domain = [];
+	this._range = [];
+	this._thresolds = [];
+	$s.pop();
+}
+thx.math.scale.Quantile.__name__ = ["thx","math","scale","Quantile"];
+thx.math.scale.Quantile.prototype._domain = null;
+thx.math.scale.Quantile.prototype._range = null;
+thx.math.scale.Quantile.prototype._thresolds = null;
+thx.math.scale.Quantile.prototype.rescale = function() {
+	$s.push("thx.math.scale.Quantile::rescale");
+	var $spos = $s.length;
+	var i = -1, n = this._range.length, k = this._domain.length / n;
+	if(this._thresolds.length > n) this._thresolds = this._thresolds.splice(0,n);
+	while(++i < n) this._thresolds[i] = this._domain[Std["int"](i * k)];
+	$s.pop();
+}
+thx.math.scale.Quantile.prototype._quantile = function(value) {
+	$s.push("thx.math.scale.Quantile::_quantile");
+	var $spos = $s.length;
+	if(Math.isNaN(value)) {
+		$s.pop();
+		return -1;
+	}
+	var low = 0, high = this._thresolds.length - 1;
+	while(low <= high) {
+		var mid = low + high >> 1, midValue = this._thresolds[mid];
+		if(midValue < value) low = mid + 1; else if(midValue > value) high = mid - 1; else {
+			$s.pop();
+			return mid;
+		}
+	}
+	var $tmp = high < 0?0:high;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Quantile.prototype.scaleMap = function(x,i) {
+	$s.push("thx.math.scale.Quantile::scaleMap");
+	var $spos = $s.length;
+	var $tmp = this.scale(x);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Quantile.prototype.scale = function(v) {
+	$s.push("thx.math.scale.Quantile::scale");
+	var $spos = $s.length;
+	var $tmp = this._range[this._quantile(v)];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Quantile.prototype.getDomain = function() {
+	$s.push("thx.math.scale.Quantile::getDomain");
+	var $spos = $s.length;
+	var $tmp = this._domain;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Quantile.prototype.domain = function(x) {
+	$s.push("thx.math.scale.Quantile::domain");
+	var $spos = $s.length;
+	this._domain = Arrays.filter(x,function(d) {
+		$s.push("thx.math.scale.Quantile::domain@64");
+		var $spos = $s.length;
+		var $tmp = !Math.isNaN(d);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	this._domain.sort($closure(Floats,"ascending"));
+	this.rescale();
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Quantile.prototype.getRange = function() {
+	$s.push("thx.math.scale.Quantile::getRange");
+	var $spos = $s.length;
+	var $tmp = this._range;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Quantile.prototype.range = function(x) {
+	$s.push("thx.math.scale.Quantile::range");
+	var $spos = $s.length;
+	this._range = x.copy();
+	this.rescale();
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.math.scale.Quantile.prototype.getQuantiles = function() {
+	$s.push("thx.math.scale.Quantile::getQuantiles");
+	var $spos = $s.length;
+	var $tmp = $closure(this._thresolds,"copy");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.Quantile.prototype.__class__ = thx.math.scale.Quantile;
 thx.text.json.JsonEncoder = function(formatted,indent,newline) {
 	if( formatted === $_ ) return;
 	$s.push("thx.text.json.JsonEncoder::new");
@@ -11328,6 +13106,64 @@ thx.validation.IncrementValidator.prototype.validate = function(value) {
 	$s.pop();
 }
 thx.validation.IncrementValidator.prototype.__class__ = thx.validation.IncrementValidator;
+if(!thx.util.type) thx.util.type = {}
+thx.util.type.ITest = function() { }
+thx.util.type.ITest.__name__ = ["thx","util","type","ITest"];
+thx.util.type.ITest.prototype.sayHello = null;
+thx.util.type.ITest.prototype.counter = null;
+thx.util.type.ITest.prototype.__class__ = thx.util.type.ITest;
+thx.util.type.TestImplementation = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.util.type.TestImplementation::new");
+	var $spos = $s.length;
+	this.counter = 0;
+	$s.pop();
+}
+thx.util.type.TestImplementation.__name__ = ["thx","util","type","TestImplementation"];
+thx.util.type.TestImplementation.prototype.counter = null;
+thx.util.type.TestImplementation.prototype.sayHello = function() {
+	$s.push("thx.util.type.TestImplementation::sayHello");
+	var $spos = $s.length;
+	$s.pop();
+	return "hi";
+	$s.pop();
+}
+thx.util.type.TestImplementation.prototype.__class__ = thx.util.type.TestImplementation;
+thx.util.type.TestImplementation.__interfaces__ = [thx.util.type.ITest];
+thx.util.Results = function() { }
+thx.util.Results.__name__ = ["thx","util","Results"];
+thx.util.Results.toString = function(value,glue) {
+	$s.push("thx.util.Results::toString");
+	var $spos = $s.length;
+	if(glue == null) glue = "\n";
+	switch( value[1] ) {
+	case 0:
+		$s.pop();
+		return "Ok";
+	case 1:
+		var messages = value[2];
+		var arr = [];
+		var _g = 0;
+		while(_g < messages.length) {
+			var msg = messages[_g];
+			++_g;
+			arr.push(msg.toString());
+		}
+		var $tmp = arr.join(glue);
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+thx.util.Results.failure = function(msg,params,param,pos) {
+	$s.push("thx.util.Results::failure");
+	var $spos = $s.length;
+	var $tmp = thx.util.Result.Failure([new thx.util.Message(msg,params,param)]);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.util.Results.prototype.__class__ = thx.util.Results;
 thx.culture.FormatNumber = function() { }
 thx.culture.FormatNumber.__name__ = ["thx","culture","FormatNumber"];
 thx.culture.FormatNumber.decimal = function(v,decimals,culture) {
@@ -11469,64 +13305,6 @@ thx.culture.FormatNumber.value = function(v,info,decimals,digits) {
 	$s.pop();
 }
 thx.culture.FormatNumber.prototype.__class__ = thx.culture.FormatNumber;
-thx.util.Results = function() { }
-thx.util.Results.__name__ = ["thx","util","Results"];
-thx.util.Results.toString = function(value,glue) {
-	$s.push("thx.util.Results::toString");
-	var $spos = $s.length;
-	if(glue == null) glue = "\n";
-	switch( value[1] ) {
-	case 0:
-		$s.pop();
-		return "Ok";
-	case 1:
-		var messages = value[2];
-		var arr = [];
-		var _g = 0;
-		while(_g < messages.length) {
-			var msg = messages[_g];
-			++_g;
-			arr.push(msg.toString());
-		}
-		var $tmp = arr.join(glue);
-		$s.pop();
-		return $tmp;
-	}
-	$s.pop();
-}
-thx.util.Results.failure = function(msg,params,param,pos) {
-	$s.push("thx.util.Results::failure");
-	var $spos = $s.length;
-	var $tmp = thx.util.Result.Failure([new thx.util.Message(msg,params,param)]);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.util.Results.prototype.__class__ = thx.util.Results;
-if(!thx.util.type) thx.util.type = {}
-thx.util.type.ITest = function() { }
-thx.util.type.ITest.__name__ = ["thx","util","type","ITest"];
-thx.util.type.ITest.prototype.sayHello = null;
-thx.util.type.ITest.prototype.counter = null;
-thx.util.type.ITest.prototype.__class__ = thx.util.type.ITest;
-thx.util.type.TestImplementation = function(p) {
-	if( p === $_ ) return;
-	$s.push("thx.util.type.TestImplementation::new");
-	var $spos = $s.length;
-	this.counter = 0;
-	$s.pop();
-}
-thx.util.type.TestImplementation.__name__ = ["thx","util","type","TestImplementation"];
-thx.util.type.TestImplementation.prototype.counter = null;
-thx.util.type.TestImplementation.prototype.sayHello = function() {
-	$s.push("thx.util.type.TestImplementation::sayHello");
-	var $spos = $s.length;
-	$s.pop();
-	return "hi";
-	$s.pop();
-}
-thx.util.type.TestImplementation.prototype.__class__ = thx.util.type.TestImplementation;
-thx.util.type.TestImplementation.__interfaces__ = [thx.util.type.ITest];
 thx.xml.ValueFormat = function(p) {
 	$s.push("thx.xml.ValueFormat::new");
 	var $spos = $s.length;
@@ -12872,29 +14650,6 @@ thx.html.HtmlAttributeFormat.prototype.formatAttribute = function(name,value) {
 	$s.pop();
 }
 thx.html.HtmlAttributeFormat.prototype.__class__ = thx.html.HtmlAttributeFormat;
-thx.math.TestAll = function(p) {
-	$s.push("thx.math.TestAll::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.math.TestAll.__name__ = ["thx","math","TestAll"];
-thx.math.TestAll.addTests = function(runner) {
-	$s.push("thx.math.TestAll::addTests");
-	var $spos = $s.length;
-	runner.addCase(new thx.math.TestRandom());
-	runner.addCase(new thx.math.TestEquations());
-	$s.pop();
-}
-thx.math.TestAll.main = function() {
-	$s.push("thx.math.TestAll::main");
-	var $spos = $s.length;
-	var runner = new utest.Runner();
-	thx.math.TestAll.addTests(runner);
-	utest.ui.Report.create(runner);
-	runner.run();
-	$s.pop();
-}
-thx.math.TestAll.prototype.__class__ = thx.math.TestAll;
 thx.util.TestResults = function(p) {
 	$s.push("thx.util.TestResults::new");
 	var $spos = $s.length;
@@ -12911,6 +14666,30 @@ thx.util.TestResults.prototype.testToString = function() {
 	$s.pop();
 }
 thx.util.TestResults.prototype.__class__ = thx.util.TestResults;
+thx.math.TestAll = function(p) {
+	$s.push("thx.math.TestAll::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.math.TestAll.__name__ = ["thx","math","TestAll"];
+thx.math.TestAll.addTests = function(runner) {
+	$s.push("thx.math.TestAll::addTests");
+	var $spos = $s.length;
+	thx.math.scale.TestAll.addTests(runner);
+	runner.addCase(new thx.math.TestRandom());
+	runner.addCase(new thx.math.TestEquations());
+	$s.pop();
+}
+thx.math.TestAll.main = function() {
+	$s.push("thx.math.TestAll::main");
+	var $spos = $s.length;
+	var runner = new utest.Runner();
+	thx.math.TestAll.addTests(runner);
+	utest.ui.Report.create(runner);
+	runner.run();
+	$s.pop();
+}
+thx.math.TestAll.prototype.__class__ = thx.math.TestAll;
 thx.load.MemoryLoader = function(data) {
 	if( data === $_ ) return;
 	$s.push("thx.load.MemoryLoader::new");
@@ -13002,6 +14781,17 @@ haxe.Timer.prototype.run = function() {
 	$s.pop();
 }
 haxe.Timer.prototype.__class__ = haxe.Timer;
+thx.math.scale.TestQuantile = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.TestQuantile::new");
+	var $spos = $s.length;
+	thx.math.scale.TestAll.call(this);
+	$s.pop();
+}
+thx.math.scale.TestQuantile.__name__ = ["thx","math","scale","TestQuantile"];
+thx.math.scale.TestQuantile.__super__ = thx.math.scale.TestAll;
+for(var k in thx.math.scale.TestAll.prototype ) thx.math.scale.TestQuantile.prototype[k] = thx.math.scale.TestAll.prototype[k];
+thx.math.scale.TestQuantile.prototype.__class__ = thx.math.scale.TestQuantile;
 thx.xml.NodeFormat = function(p) {
 	$s.push("thx.xml.NodeFormat::new");
 	var $spos = $s.length;
@@ -13208,6 +14998,24 @@ thx.html.TestXHtmlFormat.prototype.toHtml = function(s) {
 	$s.pop();
 }
 thx.html.TestXHtmlFormat.prototype.__class__ = thx.html.TestXHtmlFormat;
+thx.xml.svg.LineInterpolator = { __ename__ : ["thx","xml","svg","LineInterpolator"], __constructs__ : ["Linear","StepBefore","StepAfter","Basis","BasisClosed","Cardinal","CardinalClosed"] }
+thx.xml.svg.LineInterpolator.Linear = ["Linear",0];
+thx.xml.svg.LineInterpolator.Linear.toString = $estr;
+thx.xml.svg.LineInterpolator.Linear.__enum__ = thx.xml.svg.LineInterpolator;
+thx.xml.svg.LineInterpolator.StepBefore = ["StepBefore",1];
+thx.xml.svg.LineInterpolator.StepBefore.toString = $estr;
+thx.xml.svg.LineInterpolator.StepBefore.__enum__ = thx.xml.svg.LineInterpolator;
+thx.xml.svg.LineInterpolator.StepAfter = ["StepAfter",2];
+thx.xml.svg.LineInterpolator.StepAfter.toString = $estr;
+thx.xml.svg.LineInterpolator.StepAfter.__enum__ = thx.xml.svg.LineInterpolator;
+thx.xml.svg.LineInterpolator.Basis = ["Basis",3];
+thx.xml.svg.LineInterpolator.Basis.toString = $estr;
+thx.xml.svg.LineInterpolator.Basis.__enum__ = thx.xml.svg.LineInterpolator;
+thx.xml.svg.LineInterpolator.BasisClosed = ["BasisClosed",4];
+thx.xml.svg.LineInterpolator.BasisClosed.toString = $estr;
+thx.xml.svg.LineInterpolator.BasisClosed.__enum__ = thx.xml.svg.LineInterpolator;
+thx.xml.svg.LineInterpolator.Cardinal = function(tension) { var $x = ["Cardinal",5,tension]; $x.__enum__ = thx.xml.svg.LineInterpolator; $x.toString = $estr; return $x; }
+thx.xml.svg.LineInterpolator.CardinalClosed = function(tension) { var $x = ["CardinalClosed",6,tension]; $x.__enum__ = thx.xml.svg.LineInterpolator; $x.toString = $estr; return $x; }
 thx.error.TestAll = function(p) {
 	$s.push("thx.error.TestAll::new");
 	var $spos = $s.length;
@@ -13495,6 +15303,7 @@ thx.xml.TestAll.__name__ = ["thx","xml","TestAll"];
 thx.xml.TestAll.addTests = function(runner) {
 	$s.push("thx.xml.TestAll::addTests");
 	var $spos = $s.length;
+	thx.xml.svg.TestAll.addTests(runner);
 	runner.addCase(new thx.xml.TestXmlFormat());
 	runner.addCase(new thx.xml.TestXmlWriter());
 	$s.pop();
@@ -13544,6 +15353,104 @@ thx.text.json.Json.decodeObject = function(s) {
 	$s.pop();
 }
 thx.text.json.Json.prototype.__class__ = thx.text.json.Json;
+thx.xml.svg.Arc = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.xml.svg.Arc::new");
+	var $spos = $s.length;
+	this.r0 = 0;
+	this.r1 = 1;
+	this.a0 = 0;
+	this.a1 = Math.PI;
+	$s.pop();
+}
+thx.xml.svg.Arc.__name__ = ["thx","xml","svg","Arc"];
+thx.xml.svg.Arc.prototype.r0 = null;
+thx.xml.svg.Arc.prototype.r1 = null;
+thx.xml.svg.Arc.prototype.a0 = null;
+thx.xml.svg.Arc.prototype.a1 = null;
+thx.xml.svg.Arc.prototype.getInnerRadius = function() {
+	$s.push("thx.xml.svg.Arc::getInnerRadius");
+	var $spos = $s.length;
+	var $tmp = this.r0;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Arc.prototype.innerRadius = function(v) {
+	$s.push("thx.xml.svg.Arc::innerRadius");
+	var $spos = $s.length;
+	this.r0 = v;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.xml.svg.Arc.prototype.getOuterRadius = function() {
+	$s.push("thx.xml.svg.Arc::getOuterRadius");
+	var $spos = $s.length;
+	var $tmp = this.r0;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Arc.prototype.outerRadius = function(v) {
+	$s.push("thx.xml.svg.Arc::outerRadius");
+	var $spos = $s.length;
+	this.r1 = v;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.xml.svg.Arc.prototype.getStartAngle = function() {
+	$s.push("thx.xml.svg.Arc::getStartAngle");
+	var $spos = $s.length;
+	var $tmp = this.r0;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Arc.prototype.startAngle = function(v) {
+	$s.push("thx.xml.svg.Arc::startAngle");
+	var $spos = $s.length;
+	this.a0 = v;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.xml.svg.Arc.prototype.getEndAngle = function() {
+	$s.push("thx.xml.svg.Arc::getEndAngle");
+	var $spos = $s.length;
+	var $tmp = this.r0;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Arc.prototype.endAngle = function(v) {
+	$s.push("thx.xml.svg.Arc::endAngle");
+	var $spos = $s.length;
+	this.a1 = v;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.xml.svg.Arc.prototype.shape = function() {
+	$s.push("thx.xml.svg.Arc::shape");
+	var $spos = $s.length;
+	var a0 = this.a0 + thx.xml.svg.Arc._arcOffset, a1 = this.a1 + thx.xml.svg.Arc._arcOffset, da = a1 - a0, df = da < Math.PI?"0":"1", c0 = Math.cos(a0), s0 = Math.sin(a0), c1 = Math.cos(a1), s1 = Math.sin(a1);
+	var $tmp = da >= thx.xml.svg.Arc._arcMax?this.r0 != 0?"M0," + this.r1 + "A" + this.r1 + "," + this.r1 + " 0 1,1 0," + -this.r1 + "A" + this.r1 + "," + this.r1 + " 0 1,1 0," + this.r1 + "M0," + this.r0 + "A" + this.r0 + "," + this.r0 + " 0 1,1 0," + -this.r0 + "A" + this.r0 + "," + this.r0 + " 0 1,1 0," + this.r0 + "Z":"M0," + this.r1 + "A" + this.r1 + "," + this.r1 + " 0 1,1 0," + -this.r1 + "A" + this.r1 + "," + this.r1 + " 0 1,1 0," + this.r1 + "Z":this.r0 != 0?"M" + this.r1 * c0 + "," + this.r1 * s0 + "A" + this.r1 + "," + this.r1 + " 0 " + df + ",1 " + this.r1 * c1 + "," + this.r1 * s1 + "L" + this.r0 * c1 + "," + this.r0 * s1 + "A" + this.r0 + "," + this.r0 + " 0 " + df + ",0 " + this.r0 * c0 + "," + this.r0 * s0 + "Z":"M" + this.r1 * c0 + "," + this.r1 * s0 + "A" + this.r1 + "," + this.r1 + " 0 " + df + ",1 " + this.r1 * c1 + "," + this.r1 * s1 + "L0,0" + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Arc.prototype.centroid = function() {
+	$s.push("thx.xml.svg.Arc::centroid");
+	var $spos = $s.length;
+	var r = (this.r0 + this.r1) / 2, a = (this.a0 + this.a1) / 2 + thx.xml.svg.Arc._arcOffset;
+	var $tmp = [Math.cos(a) * r,Math.sin(a) * r];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Arc.prototype.__class__ = thx.xml.svg.Arc;
 thx.math.Equations = function() { }
 thx.math.Equations.__name__ = ["thx","math","Equations"];
 thx.math.Equations.linear = function(v) {
@@ -13683,6 +15590,38 @@ thx.math.Equations.createPolynomial = function(e) {
 	$s.pop();
 }
 thx.math.Equations.prototype.__class__ = thx.math.Equations;
+thx.math.scale.TestOrdinal = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.math.scale.TestOrdinal::new");
+	var $spos = $s.length;
+	thx.math.scale.TestAll.call(this);
+	$s.pop();
+}
+thx.math.scale.TestOrdinal.__name__ = ["thx","math","scale","TestOrdinal"];
+thx.math.scale.TestOrdinal.__super__ = thx.math.scale.TestAll;
+for(var k in thx.math.scale.TestAll.prototype ) thx.math.scale.TestOrdinal.prototype[k] = thx.math.scale.TestAll.prototype[k];
+thx.math.scale.TestOrdinal.prototype.testRange = function() {
+	$s.push("thx.math.scale.TestOrdinal::testRange");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Ordinal().domain(thx.math.scale.TestOrdinal.data).range([0,1,2,3,4]);
+	utest.Assert.same([0,1,2,3,4],thx.math.scale.TestOrdinal.data.map($closure(scale,"scaleMap")),null,null,{ fileName : "TestOrdinal.hx", lineNumber : 15, className : "thx.math.scale.TestOrdinal", methodName : "testRange"});
+	$s.pop();
+}
+thx.math.scale.TestOrdinal.prototype.testRangeBands = function() {
+	$s.push("thx.math.scale.TestOrdinal::testRangeBands");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Ordinal().domain(thx.math.scale.TestOrdinal.data).rangeBands(0,100);
+	utest.Assert.same([0,20,40,60,80],thx.math.scale.TestOrdinal.data.map($closure(scale,"scaleMap")),null,null,{ fileName : "TestOrdinal.hx", lineNumber : 23, className : "thx.math.scale.TestOrdinal", methodName : "testRangeBands"});
+	$s.pop();
+}
+thx.math.scale.TestOrdinal.prototype.testRangePoints = function() {
+	$s.push("thx.math.scale.TestOrdinal::testRangePoints");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Ordinal().domain(thx.math.scale.TestOrdinal.data).rangePoints(0,100);
+	utest.Assert.same([0,25,50,75,100],thx.math.scale.TestOrdinal.data.map($closure(scale,"scaleMap")),null,null,{ fileName : "TestOrdinal.hx", lineNumber : 31, className : "thx.math.scale.TestOrdinal", methodName : "testRangePoints"});
+	$s.pop();
+}
+thx.math.scale.TestOrdinal.prototype.__class__ = thx.math.scale.TestOrdinal;
 thx.text.TestInflections = function(p) {
 	$s.push("thx.text.TestInflections::new");
 	var $spos = $s.length;
@@ -14163,8 +16102,20 @@ utest.Assert._floatEquals = function(expected,value,approx) {
 		$s.pop();
 		return false;
 	}
+	if(!Math.isFinite(expected)) {
+		if(Math.isFinite(value)) {
+			$s.pop();
+			return false;
+		}
+		var $tmp = expected < 0 == value < 0;
+		$s.pop();
+		return $tmp;
+	} else if(!Math.isFinite(value)) {
+		$s.pop();
+		return false;
+	}
 	if(null == approx) approx = 1e-5;
-	var $tmp = Math.abs(value - expected) < approx;
+	var $tmp = Math.abs(Math.abs(value) - Math.abs(expected)) <= approx;
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -14377,7 +16328,7 @@ utest.Assert.sameAs = function(expected,value,status) {
 	if(Std["is"](expected,Hash) || Std["is"](expected,IntHash)) {
 		if(status.recursive || status.path == "") {
 			var keys = Lambda.array({ iterator : function() {
-				$s.push("utest.Assert::sameAs@300");
+				$s.push("utest.Assert::sameAs@307");
 				var $spos = $s.length;
 				var $tmp = expected.keys();
 				$s.pop();
@@ -14385,7 +16336,7 @@ utest.Assert.sameAs = function(expected,value,status) {
 				$s.pop();
 			}});
 			var vkeys = Lambda.array({ iterator : function() {
-				$s.push("utest.Assert::sameAs@301");
+				$s.push("utest.Assert::sameAs@308");
 				var $spos = $s.length;
 				var $tmp = value.keys();
 				$s.pop();
@@ -14421,14 +16372,14 @@ utest.Assert.sameAs = function(expected,value,status) {
 		}
 		if(status.recursive || status.path == "") {
 			var evalues = Lambda.array({ iterator : function() {
-				$s.push("utest.Assert::sameAs@326");
+				$s.push("utest.Assert::sameAs@333");
 				var $spos = $s.length;
 				$s.pop();
 				return expected;
 				$s.pop();
 			}});
 			var vvalues = Lambda.array({ iterator : function() {
-				$s.push("utest.Assert::sameAs@327");
+				$s.push("utest.Assert::sameAs@334");
 				var $spos = $s.length;
 				$s.pop();
 				return value;
@@ -14589,7 +16540,7 @@ utest.Assert.stringSequence = function(sequence,value,msg,pos) {
 	$s.push("utest.Assert::stringSequence");
 	var $spos = $s.length;
 	if(null == value) {
-		utest.Assert.fail(msg == null?"null argument value":msg,{ fileName : "Assert.hx", lineNumber : 520, className : "utest.Assert", methodName : "stringSequence"});
+		utest.Assert.fail(msg == null?"null argument value":msg,{ fileName : "Assert.hx", lineNumber : 527, className : "utest.Assert", methodName : "stringSequence"});
 		$s.pop();
 		return;
 	}
@@ -14605,7 +16556,7 @@ utest.Assert.stringSequence = function(sequence,value,msg,pos) {
 				var cut = value.substr(Std["int"](Math.max(0,value.length - 20)));
 				if(p > 0) msg += " '" + (cut.length != value.length?"...":"") + cut + "'"; else msg += " begin";
 			}
-			utest.Assert.fail(msg,{ fileName : "Assert.hx", lineNumber : 538, className : "utest.Assert", methodName : "stringSequence"});
+			utest.Assert.fail(msg,{ fileName : "Assert.hx", lineNumber : 545, className : "utest.Assert", methodName : "stringSequence"});
 			$s.pop();
 			return;
 		}
@@ -14631,7 +16582,7 @@ utest.Assert.createAsync = function(f,timeout) {
 	$s.push("utest.Assert::createAsync");
 	var $spos = $s.length;
 	var $tmp = function() {
-		$s.push("utest.Assert::createAsync@577");
+		$s.push("utest.Assert::createAsync@584");
 		var $spos = $s.length;
 		$s.pop();
 	};
@@ -14643,7 +16594,7 @@ utest.Assert.createEvent = function(f,timeout) {
 	$s.push("utest.Assert::createEvent");
 	var $spos = $s.length;
 	var $tmp = function(e) {
-		$s.push("utest.Assert::createEvent@588");
+		$s.push("utest.Assert::createEvent@595");
 		var $spos = $s.length;
 		$s.pop();
 	};
@@ -14711,6 +16662,181 @@ utest.Assert.typeToString = function(t) {
 	$s.pop();
 }
 utest.Assert.prototype.__class__ = utest.Assert;
+thx.xml.svg.LineInternals = function() { }
+thx.xml.svg.LineInternals.__name__ = ["thx","xml","svg","LineInternals"];
+thx.xml.svg.LineInternals.linePoints = function(data,x,y) {
+	$s.push("thx.xml.svg.LineInternals::linePoints");
+	var $spos = $s.length;
+	var points = [], i = -1, n = data.length, fx = null != x, fy = null != y, value;
+	while(++i < n) points.push([x(value = data[i],i),y(value,i)]);
+	$s.pop();
+	return points;
+	$s.pop();
+}
+thx.xml.svg.LineInternals.interpolatePoints = function(points,type) {
+	$s.push("thx.xml.svg.LineInternals::interpolatePoints");
+	var $spos = $s.length;
+	if(null == type) type = thx.xml.svg.LineInterpolator.Linear;
+	var path = [], i = 0, n = points.length, p = points[0];
+	switch( type[1] ) {
+	case 0:
+		path.push(p[0] + "," + p[1]);
+		while(++i < n) {
+			p = points[i];
+			path.push("L" + p[0] + "," + p[1]);
+		}
+		break;
+	case 1:
+		path.push(p[0] + "," + p[1]);
+		while(++i < n) {
+			p = points[i];
+			path.push("V" + p[1] + "H" + p[0]);
+		}
+		break;
+	case 2:
+		path.push(p[0] + "," + p[1]);
+		while(++i < n) {
+			p = points[i];
+			path.push("H" + p[0] + "V" + p[1]);
+		}
+		break;
+	case 3:
+		if(points.length < 3) {
+			var $tmp = thx.xml.svg.LineInternals.interpolatePoints(points,thx.xml.svg.LineInterpolator.Linear);
+			$s.pop();
+			return $tmp;
+		}
+		i = 1;
+		var x0 = p[0], y0 = p[1], px = [x0,x0,x0,(p = points[1])[0]], py = [y0,y0,y0,p[1]];
+		path.push(x0 + "," + y0);
+		thx.xml.svg.LineInternals._lineBasisBezier(path,px,py);
+		while(++i < n) {
+			p = points[i];
+			px.shift();
+			px.push(p[0]);
+			py.shift();
+			py.push(p[1]);
+			thx.xml.svg.LineInternals._lineBasisBezier(path,px,py);
+		}
+		i = -1;
+		while(++i < 2) {
+			px.shift();
+			px.push(p[0]);
+			py.shift();
+			py.push(p[1]);
+			thx.xml.svg.LineInternals._lineBasisBezier(path,px,py);
+		}
+		break;
+	case 4:
+		i = -1;
+		var m = n + 4, px = [], py = [];
+		while(++i < 4) {
+			p = points[i % n];
+			px.push(p[0]);
+			py.push(p[1]);
+		}
+		path.push(thx.xml.svg.LineInternals._lineDot4(thx.xml.svg.LineInternals._lineBasisBezier3,px) + "," + thx.xml.svg.LineInternals._lineDot4(thx.xml.svg.LineInternals._lineBasisBezier3,py));
+		--i;
+		while(++i < m) {
+			p = points[i % n];
+			px.shift();
+			px.push(p[0]);
+			py.shift();
+			py.push(p[1]);
+			thx.xml.svg.LineInternals._lineBasisBezier(path,px,py);
+		}
+		break;
+	case 5:
+		var tension = type[2];
+		if(null == tension) tension = .7;
+		if(points.length < 3) {
+			var $tmp = thx.xml.svg.LineInternals.interpolatePoints(points,thx.xml.svg.LineInterpolator.Linear);
+			$s.pop();
+			return $tmp;
+		} else {
+			var $tmp = points[0] + thx.xml.svg.LineInternals._lineHermite(points,thx.xml.svg.LineInternals._lineCardinalTangents(points,tension));
+			$s.pop();
+			return $tmp;
+		}
+		break;
+	case 6:
+		var tension = type[2];
+		if(null == tension) tension = .7;
+		var $tmp = points.length < 3?thx.xml.svg.LineInternals.interpolatePoints(points,thx.xml.svg.LineInterpolator.Linear):points[0] + thx.xml.svg.LineInternals._lineHermite(points,thx.xml.svg.LineInternals._lineCardinalTangents([points[points.length - 2]].concat(points).concat([points[1]]),tension));
+		$s.pop();
+		return $tmp;
+	}
+	var $tmp = path.join("");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.LineInternals._lineDot4 = function(a,b) {
+	$s.push("thx.xml.svg.LineInternals::_lineDot4");
+	var $spos = $s.length;
+	var $tmp = a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.LineInternals._lineBasisBezier = function(path,x,y) {
+	$s.push("thx.xml.svg.LineInternals::_lineBasisBezier");
+	var $spos = $s.length;
+	path.push("C" + thx.xml.svg.LineInternals._lineDot4(thx.xml.svg.LineInternals._lineBasisBezier1,x) + "," + thx.xml.svg.LineInternals._lineDot4(thx.xml.svg.LineInternals._lineBasisBezier1,y) + "," + thx.xml.svg.LineInternals._lineDot4(thx.xml.svg.LineInternals._lineBasisBezier2,x) + "," + thx.xml.svg.LineInternals._lineDot4(thx.xml.svg.LineInternals._lineBasisBezier2,y) + "," + thx.xml.svg.LineInternals._lineDot4(thx.xml.svg.LineInternals._lineBasisBezier3,x) + "," + thx.xml.svg.LineInternals._lineDot4(thx.xml.svg.LineInternals._lineBasisBezier3,y));
+	$s.pop();
+}
+thx.xml.svg.LineInternals._lineHermite = function(points,tangents) {
+	$s.push("thx.xml.svg.LineInternals::_lineHermite");
+	var $spos = $s.length;
+	if(tangents.length < 1 || points.length != tangents.length && points.length != tangents.length + 2) {
+		var $tmp = thx.xml.svg.LineInternals.interpolatePoints(points,thx.xml.svg.LineInterpolator.Linear);
+		$s.pop();
+		return $tmp;
+	}
+	var quad = points.length != tangents.length, path = "", p0 = points[0], p = points[1], t0 = tangents[0], t = t0, pi = 1;
+	if(quad) {
+		path += "Q" + (p[0] - t0[0] * 2 / 3) + "," + (p[1] - t0[1] * 2 / 3) + "," + p[0] + "," + p[1];
+		p0 = points[1];
+		pi = 2;
+	}
+	if(tangents.length > 1) {
+		t = tangents[1];
+		p = points[pi];
+		pi++;
+		path += "C" + (p0[0] + t0[0]) + "," + (p0[1] + t0[1]) + "," + (p[0] - t[0]) + "," + (p[1] - t[1]) + "," + p[0] + "," + p[1];
+		var _g1 = 2, _g = tangents.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			p = points[pi];
+			t = tangents[i];
+			path += "S" + (p[0] - t[0]) + "," + (p[1] - t[1]) + "," + p[0] + "," + p[1];
+			pi++;
+		}
+	}
+	if(quad) {
+		var lp = points[pi];
+		path += "Q" + (p[0] + t[0] * 2 / 3) + "," + (p[1] + t[1] * 2 / 3) + "," + lp[0] + "," + lp[1];
+	}
+	$s.pop();
+	return path;
+	$s.pop();
+}
+thx.xml.svg.LineInternals._lineCardinalTangents = function(points,tension) {
+	$s.push("thx.xml.svg.LineInternals::_lineCardinalTangents");
+	var $spos = $s.length;
+	var tangents = [], a = (1 - tension) / 2, p0 = points[0], p1 = points[1], p2 = points[2], i = 2, n = points.length;
+	while(++i < n) {
+		tangents.push([a * (p2[0] - p0[0]),a * (p2[1] - p0[1])]);
+		p0 = p1;
+		p1 = p2;
+		p2 = points[i];
+	}
+	tangents.push([a * (p2[0] - p0[0]),a * (p2[1] - p0[1])]);
+	$s.pop();
+	return tangents;
+	$s.pop();
+}
+thx.xml.svg.LineInternals.prototype.__class__ = thx.xml.svg.LineInternals;
 thx.text.json.TestJson = function(p) {
 	$s.push("thx.text.json.TestJson::new");
 	var $spos = $s.length;
@@ -15094,7 +17220,7 @@ thx.color.Colors.parse = function(s) {
 		}
 	}
 	var color = thx.color.Colors._reParse.matched(3);
-	if(color.length == 3) color = Arrays.map(color.split(""),function(d,_) {
+	if(color.length == 3) color = color.split("").map(function(d,_) {
 		$s.push("thx.color.Colors::parse@54");
 		var $spos = $s.length;
 		var $tmp = d + d;
@@ -15501,6 +17627,120 @@ thx.util.TypeServiceLocator.prototype.get = function(cls) {
 	$s.pop();
 }
 thx.util.TypeServiceLocator.prototype.__class__ = thx.util.TypeServiceLocator;
+thx.xml.svg.Line = function(x,y,interpolator) {
+	if( x === $_ ) return;
+	$s.push("thx.xml.svg.Line::new");
+	var $spos = $s.length;
+	this._x = x;
+	this._y = y;
+	this._interpolator = interpolator;
+	$s.pop();
+}
+thx.xml.svg.Line.__name__ = ["thx","xml","svg","Line"];
+thx.xml.svg.Line.pointArray = function(interpolator) {
+	$s.push("thx.xml.svg.Line::pointArray");
+	var $spos = $s.length;
+	var $tmp = new thx.xml.svg.Line(function(d,_) {
+		$s.push("thx.xml.svg.Line::pointArray@52");
+		var $spos = $s.length;
+		var $tmp = d[0];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},function(d,_) {
+		$s.push("thx.xml.svg.Line::pointArray@52");
+		var $spos = $s.length;
+		var $tmp = d[1];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},interpolator);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Line.pointObject = function(interpolator) {
+	$s.push("thx.xml.svg.Line::pointObject");
+	var $spos = $s.length;
+	var $tmp = new thx.xml.svg.Line(function(d,_) {
+		$s.push("thx.xml.svg.Line::pointObject@57");
+		var $spos = $s.length;
+		var $tmp = d.x;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},function(d,_) {
+		$s.push("thx.xml.svg.Line::pointObject@57");
+		var $spos = $s.length;
+		var $tmp = d.y;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	},interpolator);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Line.prototype._x = null;
+thx.xml.svg.Line.prototype._y = null;
+thx.xml.svg.Line.prototype._interpolator = null;
+thx.xml.svg.Line.prototype.shape = function(data) {
+	$s.push("thx.xml.svg.Line::shape");
+	var $spos = $s.length;
+	var $tmp = data.length < 1?null:"M" + thx.xml.svg.LineInternals.interpolatePoints(thx.xml.svg.LineInternals.linePoints(data,this._x,this._y),this._interpolator);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Line.prototype.getInterpolator = function() {
+	$s.push("thx.xml.svg.Line::getInterpolator");
+	var $spos = $s.length;
+	var $tmp = this._interpolator;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Line.prototype.interpolator = function(type) {
+	$s.push("thx.xml.svg.Line::interpolator");
+	var $spos = $s.length;
+	this._interpolator = type;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.xml.svg.Line.prototype.getX = function() {
+	$s.push("thx.xml.svg.Line::getX");
+	var $spos = $s.length;
+	var $tmp = this._x;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Line.prototype.x = function(v) {
+	$s.push("thx.xml.svg.Line::x");
+	var $spos = $s.length;
+	this._x = v;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.xml.svg.Line.prototype.getY = function() {
+	$s.push("thx.xml.svg.Line::getY");
+	var $spos = $s.length;
+	var $tmp = this._y;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.xml.svg.Line.prototype.y = function(v) {
+	$s.push("thx.xml.svg.Line::y");
+	var $spos = $s.length;
+	this._y = v;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.xml.svg.Line.prototype.__class__ = thx.xml.svg.Line;
 thx.xml.NormalizeWhitespaceValueFormat = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.xml.NormalizeWhitespaceValueFormat::new");
@@ -17855,6 +20095,12 @@ thx.js.Dom.doc = (function() {
 	$s.pop();
 })();
 thx.js.Dom.selectionEngine = new thx.js.SizzleEngine();
+thx.math.Const.TWO_PI = 6.283185307179586477;
+thx.math.Const.PI = 3.141592653589793238;
+thx.math.Const.HALF_PI = 1.570796326794896619;
+thx.math.Const.TO_DEGREE = 57.29577951308232088;
+thx.math.Const.TO_RADIAN = 0.01745329251994329577;
+thx.math.Const.LN10 = 2.302585092994046;
 thx.validation.EmailValidator._reEmail = new EReg("^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$","i");
 thx.validation.EmailValidator._reEmailDomain = new EReg("\\.(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$","i");
 thx.xml.Namespace.prefix = (function() {
@@ -17870,6 +20116,7 @@ thx.xml.Namespace.prefix = (function() {
 	return h;
 	$s.pop();
 })();
+thx.math.scale.TestLinearString.data = [4,8,16,32,64];
 utest.ui.text.HtmlReport.platform = "javascript";
 thx.validation.SingleLineValidator._re = new EReg("(\n|\r)","m");
 thx.html.Element._preserve = thx.collections.Set.ofArray("pre,textarea".split(","));
@@ -17883,7 +20130,13 @@ thx.data.TestData.tests = [{ v : 1, ce : thx.data.DataExpr.CEInt(1)},{ v : "hell
 utest.TestHandler.POLLING_TIME = 10;
 haxe.Timer.arr = new Array();
 Objects._reCheckKeyIsColor = new EReg("color\\b|\\bbackground\\b|\\bstroke\\b|\\bfill\\b","");
+thx.xml.svg.Arc._arcOffset = -Math.PI / 2;
+thx.xml.svg.Arc._arcMax = 2 * Math.PI - 1e-6;
+thx.math.scale.TestOrdinal.data = [4,8,16,32,64];
 thx.validation.UrlValidator._reUrl = new EReg("^(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?$","");
+thx.xml.svg.LineInternals._lineBasisBezier1 = [0,2 / 3,1 / 3,0];
+thx.xml.svg.LineInternals._lineBasisBezier2 = [0,1 / 3,2 / 3,0];
+thx.xml.svg.LineInternals._lineBasisBezier3 = [0,1 / 6,2 / 3,1 / 6];
 thx.text.json.TestJson.tests = [{ c : thx.data.DataExpr.CENull, s : "null"},{ c : thx.data.DataExpr.CEString("a\nb"), s : "\"a\\nb\""},{ c : thx.data.DataExpr.CEInt(1), s : "1"},{ c : thx.data.DataExpr.CEFloat(-0.1), s : "-0.1"},{ c : thx.data.DataExpr.CEFloat(-1.234e-100), s : "-1.234e-100"},{ c : thx.data.DataExpr.CEBool(true), s : "true"},{ c : thx.data.DataExpr.CEBool(false), s : "false"},{ c : thx.data.DataExpr.CEArray([]), s : "[]"},{ c : thx.data.DataExpr.CEArray([thx.data.DataExpr.CENull,thx.data.DataExpr.CEBool(true)]), s : "[null, true]"},{ c : thx.data.DataExpr.CEObject([{ k : "name", v : thx.data.DataExpr.CEString("haxe")},{ k : "stars", v : thx.data.DataExpr.CEInt(5)}]), s : "{\"name\":\"haxe\",\"stars\":5}"}];
 thx.html.HtmlParser.startTag = new EReg("^<(\\w+)((?:\\s+\\w+(?:\\s*=\\s*(?:(?:\"[^\"]*\")|(?:'[^']*')|[^>\\s]+))?)*)\\s*(/?)>","");
 thx.html.HtmlParser.endTag = new EReg("^</(\\w+)[^>]*>","");
