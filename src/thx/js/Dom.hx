@@ -24,5 +24,15 @@ class Dom
 		return doc.select(selector);
 	}
 	
+	public static function selectNode<TData>(node : Node<TData>)
+	{
+		return new Selection<TData>([new Group(node)]);
+	}
+	
+	public static function selectDom(dom : HtmlDom)
+	{
+		return new Selection([new Group(new Node(dom))]);
+	}
+	
 	public static var event : Event;
 }

@@ -299,4 +299,14 @@ class Arrays
 		return true;
 #end
 	}
+	
+	#if js inline #end public static function each<T>(arr : Array<T>, f : T -> Int -> Void) : Void
+	{
+#if js
+		untyped arr.forEach(f);
+#else
+		for (i in 0...arr.length)
+			!f(arr[i], i);
+#end
+	}
 }

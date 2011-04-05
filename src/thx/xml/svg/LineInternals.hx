@@ -9,6 +9,9 @@ import thx.xml.svg.LineInterpolator;
 
 class LineInternals
 {
+	public static var arcOffset = -Math.PI / 2;
+	public static var arcMax = 2 * Math.PI - 1e-6;
+	
 	public static function linePoints<TData>(data : Array<TData>, x : TData -> Int -> Float, y : TData -> Int -> Float)
 	{
 		var points = [],

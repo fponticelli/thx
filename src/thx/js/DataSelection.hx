@@ -29,6 +29,11 @@ class DataSelection<TData> extends Selection<TData>
 	{
 		return new InDataSelection(_enter, _exit);
 	}
+	
+	override public function exit() : Selection<TData>
+	{
+		return new Selection(_exit);
+	}
 }
 
 class InDataSelection<TData>

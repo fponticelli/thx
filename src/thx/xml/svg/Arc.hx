@@ -7,9 +7,6 @@ package thx.xml.svg;
 
 class Arc
 {
-	static var _arcOffset = -Math.PI / 2;
-	static var _arcMax = 2 * Math.PI - 1e-6;
-	
 	var r0 : Float;
 	var r1 : Float;
 	var a0 : Float;
@@ -52,8 +49,8 @@ class Arc
 	
 	public function shape()
 	{
-        var a0 = this.a0 + _arcOffset,
-			a1 = this.a1 + _arcOffset,
+        var a0 = this.a0 + LineInternals.arcOffset,
+			a1 = this.a1 + LineInternals.arcOffset,
 			da = a1 - a0,
 			df = da < Math.PI ? "0" : "1",
 			c0 = Math.cos(a0),
@@ -61,7 +58,7 @@ class Arc
 			c1 = Math.cos(a1),
 			s1 = Math.sin(a1);
 		
-		return da >= _arcMax
+		return da >= LineInternals.arcMax
 			? (r0 != 0
 			? "M0," + r1
 			+ "A" + r1 + "," + r1 + " 0 1,1 0," + (-r1)
@@ -89,7 +86,7 @@ class Arc
 	public function centroid()
 	{
 		var r = (r0 + r1) / 2,
-			a = (a0 + a1) / 2 + _arcOffset;
+			a = (a0 + a1) / 2 + LineInternals.arcOffset;
 		return [Math.cos(a) * r, Math.sin(a) * r];
 	}
 }

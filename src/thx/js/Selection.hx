@@ -193,7 +193,7 @@ class Selection<TData>
 		});
 	}
 	
-	public function data(?d : Array<TData>, ?fd : Group<TData> -> Int -> Array<TData>) : DataSelection<TData>// TODO Join
+	public function data(?d : Array<TData>, ?fd : TData -> Int -> Array<TData>) : DataSelection<TData>// TODO Join
 	{
 		var update = [], enter = [], exit = [];
 		
@@ -209,7 +209,49 @@ class Selection<TData>
 				node,
 				nodeData
 			;
-			
+/*
+if (null != join)
+			{
+				var nodeByKey = { },
+					keys = [],
+					key,
+					j = groupData.length;
+				for (i in 0...n)
+				{
+					var node = group.getNode(i);
+					key = join(node.data, i);
+					if (Reflect.hasField(nodeByKey, key))
+					{
+						exitNodes[j++] = node;
+					} else {
+						Reflect.setField(nodeByKey, key, node);
+						keys.push(key);
+					}
+				}
+				
+				for (i in 0...m)
+				{
+					node = Reflect.field(nodeByKey, key = join(nodeData = groupData[i], i));
+					if (null != node)
+					{
+						node.data = nodeData;
+						updateNodes[i] = node;
+						enterNodes[i] = exitNodes[i] = null;
+					} else {
+						node = new Node(null);
+						node.data = nodeData;
+						enterNodes[i] = node;
+						updateNodes[i] = exitNodes[i] = null;
+					}
+				}
+				
+				for (i in 0...n)
+				{
+					if (Reflect.hasField(nodeByKey, keys[i]))
+						exitNodes[i] = group.getNode(i);
+				}
+			} else {
+*/
 			for (i in 0...n0)
 			{
 				node = group.getNode(i);
@@ -233,12 +275,12 @@ class Selection<TData>
 				enterNodes[i] = node;
 				updateNodes[i] = exitNodes[i] = null;
 			}
-			
 			for (i in m...n1)
 			{
 				exitNodes[i] = group.getNode(i);
 				enterNodes[i] = updateNodes[i] = null;
 			}
+		
 			var enterGroup = new Group(enterNodes);
 			enterGroup.parentNode = group.parentNode;
 			enterGroup.parentData = group.parentData;
@@ -260,7 +302,7 @@ class Selection<TData>
 		} else if (null != fd) {
 			var i = 0;
 			for (group in groups)
-				bind(group, fd(group, i));
+				bind(group, fd(group.parentData, i));
 		} else
 			throw new Error("either data or datafunction must be passed to data()");
 		return new DataSelection(update, enter, exit);
@@ -271,132 +313,11 @@ class Selection<TData>
 		return groups.iterator();
 	}
 	
-	public function html(?v : String, ?f : Node<TData> -> Int -> String) : Selection<TData>
-	{
-		function htmlConstant(n : Node<TData>, _ : Int) {
-			n.dom.innerHTML = v;
-		}
-		
-		function htmlFunction(n : Node<TData>, i : Int) {
-			n.dom.innerHTML = f(n, i);
-		}
-		return each(null == f ? htmlConstant : htmlFunction);
-	}
-	
-	public function getHtml() : String
-	{
-		return first(function(n : Node<TData>, _) return n.dom.innerHTML);
-	}
-	
-	public function getText() : String
-	{
-		return first(function(n : Node<TData>, _) return untyped n.dom.textContent);
-	}
-	
-	public function text(?v : String, ?f : Node<TData> -> Int -> String) : Selection<TData>
-	{
-		function textNull(n : Node<TData>, _ : Int) {
-			while (null != n.dom.lastChild) n.dom.removeChild(n.dom.lastChild);
-		}
-		
-		function textConstant(n : Node<TData>, _ : Int) {
-			n.dom.appendChild(Lib.document.createTextNode(v));
-		}
-		
-		function textFunction(n : Node<TData>, i : Int) {
-			var x = f(n, i);
-			if(null != x) n.dom.appendChild(Lib.document.createTextNode(x));
-		}
-		return each(null != f
-			? textFunction : (v != null
-			? textConstant : textNull));
-	}
-	
-	public function getAttr(name : String) : String
-	{
-		var qname = Namespace.qualify(name);
-		return first(function(n : Node<TData>, _) return qname == null ? n.dom.getAttribute(name) : untyped n.dom.getAttributeNS(qname.space, qname.local));
-	}
-	
-	public function attr(name : String, ?v : String, ?f : Node<TData> -> Int -> String) : Selection<TData>
-	{
-		var qname = Namespace.qualify(name);
-
-
-		function attrNull(n : Node<TData>, _ : Int) untyped n.dom.removeAttribute(name);
-		function attrNullNS(n : Node<TData>, _ : Int)  untyped n.dom.removeAttributeNS(qname.space, qname.local);
-		function attrConstant(n : Node<TData>, _ : Int) untyped n.dom.setAttribute(name, v);
-		function attrConstantNS(n : Node<TData>, _ : Int) untyped n.dom.setAttributeNS(qname.space, qname.local, v);
-		function attrFunction(n : Node<TData>, i : Int) {
-			var x = f(n,i);
-			if (x == null)
-				untyped n.dom.removeAttribute(name);
-			else
-				untyped n.dom.setAttribute(name, x);
-		}
-
-		function attrFunctionNS(n : Node<TData>, i : Int) {
-			var x = f(n, i);
-			if (x == null)
-				untyped n.dom.removeAttributeNS(qname.space, qname.local);
-			else
-				untyped n.dom.setAttributeNS(qname.space, qname.local, x);
-		}
-
-		return each(f != null
-			? (null != qname ? attrFunctionNS : attrFunction) : (null != v
-			? (null != qname ? attrConstantNS : attrConstant)
-			: (null != qname ? attrNullNS : attrNull)));
-	}
-	
-	public function getProperty(name : String)
-	{
-		return first(function(n, i) return Reflect.field(n.dom, name));
-	}
-	
-	public function property(name : String, ?v : String, ?f : Node<TData> -> Int -> String) : Selection<TData>
-	{
-		function propertyNull(n : Node<TData>, _ : Int) Reflect.deleteField(n.dom, name);
-		function propertyConstant(n : Node<TData>, _ : Int) Reflect.setField(n.dom, name, v);
-		function propertyFunction(n : Node<TData>, i : Int) {
-			var x = f(n,i);
-			if (x == null)
-				Reflect.deleteField(n.dom, name);
-			else
-				Reflect.setField(n.dom, name, x);
-		}
-
-		return each(f != null
-			? propertyFunction : (null != v
-			? propertyConstant
-			: propertyNull));
-	}
-	
-	public function getStyle(name : String)
-	{
-		return first(function(n, i) return untyped Lib.window.getComputedStyle(n.dom, null).getPropertyValue(name));
-	}
-	
-	public function style(name : String, ?v : String, ?f : Node<TData> -> Int -> String, ?priority : String) : Selection<TData>
-	{
-		if (null == priority)
-			priority = null; // fixes bug with Firefox
-		function styleNull(n : Node<TData>, _ : Int) untyped n.dom.style.removeProperty(name);
-		function styleConstant(n : Node<TData>, _ : Int) untyped n.dom.style.setProperty(name, v, priority);
-		function styleFunction(n : Node<TData>, i : Int) {
-			var x = f(n,i);
-			if (x == null)
-				untyped n.dom.style.removeProperty(name);
-			else {
-				untyped n.dom.style.setProperty(name, x, priority);
-			}
-		}
-		
-		return each(null != f
-			? styleFunction : ( null != v
-			? styleConstant : styleNull
-			));
-	}
+	public function html() return new HtmlAccess(this)
+	public function text() return new TextAccess(this)
+	public function attr(name : String) return new AttributeAccess(name, this)
+	public function property(name : String) return new PropertyAccess(name, this)
+	public function style(name : String) return new StyleAccess(name, this)
 	
 	public function each(f : Node<TData> -> Int -> Void) : Selection<TData>
 	{

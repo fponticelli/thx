@@ -100,4 +100,10 @@ class Linear
 		var n = Math.max(0, -Math.floor(Math.log(tickRange(m).step) / Const.LN10 + .01));
 		return Floats.formatf("D:"+n);
 	}
+	
+	public function tickFormatMap(m : Float)
+	{
+		var f = tickFormat(m);
+		return function(d,_) return f(d);
+	}
 }

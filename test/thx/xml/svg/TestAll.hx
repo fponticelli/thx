@@ -14,6 +14,7 @@ class TestAll
 	{
     	runner.addCase(new TestArc());
 		runner.addCase(new TestArea());
+		runner.addCase(new TestChord());
 		runner.addCase(new TestLine());
 	}
 	
