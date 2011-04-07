@@ -95,10 +95,10 @@ class Selection<TData>
 			for (j in 1...n)
 			{
 				var node = group.getDom(j);
-				if (null != node && null != node)
+				if (null != node)
 				{
-					if (null != prev && null != prev)
-						prev.insertBefore(node, prev.nextSibling);
+					if (null != prev)
+						prev.parentNode.insertBefore(node, prev.nextSibling);
 					prev = node;
 				}
 			}

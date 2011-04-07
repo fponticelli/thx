@@ -1,4 +1,4 @@
-package thx.text.json;
+package thx.json;
 
 import utest.Assert;
 import thx.data.DataExpr;

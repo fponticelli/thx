@@ -1381,6 +1381,50 @@ Dynamics.interpolatef = function(a,b,interpolator) {
 	$s.pop();
 }
 Dynamics.prototype.__class__ = Dynamics;
+if(!thx.js) thx.js = {}
+thx.js.TransitionAccess = function(transition,tweens) {
+	if( transition === $_ ) return;
+	$s.push("thx.js.TransitionAccess::new");
+	var $spos = $s.length;
+	this.transition = transition;
+	this.tweens = tweens;
+	$s.pop();
+}
+thx.js.TransitionAccess.__name__ = ["thx","js","TransitionAccess"];
+thx.js.TransitionAccess.prototype.transition = null;
+thx.js.TransitionAccess.prototype.tweens = null;
+thx.js.TransitionAccess.prototype.transitionStringTween = function(value) {
+	$s.push("thx.js.TransitionAccess::transitionStringTween");
+	var $spos = $s.length;
+	var $tmp = function(d,i,a) {
+		$s.push("thx.js.TransitionAccess::transitionStringTween@20");
+		var $spos = $s.length;
+		var $tmp = Strings.interpolatef(a,value);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.TransitionAccess.prototype.string = function(value,priority) {
+	$s.push("thx.js.TransitionAccess::string");
+	var $spos = $s.length;
+	var $tmp = this.stringTween(this.transitionStringTween(value),priority);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.TransitionAccess.prototype.stringTween = function(tween,priority) {
+	$s.push("thx.js.TransitionAccess::stringTween");
+	var $spos = $s.length;
+	var $tmp = this.transition;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.TransitionAccess.prototype.__class__ = thx.js.TransitionAccess;
 if(!thx.validation) thx.validation = {}
 thx.validation.TestAll = function() { }
 thx.validation.TestAll.__name__ = ["thx","validation","TestAll"];
@@ -1450,7 +1494,6 @@ thx.load.ILoader.prototype.load = function(completeHandler,errorHandler) {
 	$s.pop();
 }
 thx.load.ILoader.prototype.__class__ = thx.load.ILoader;
-if(!thx.js) thx.js = {}
 thx.js.Node = function(dom) {
 	if( dom === $_ ) return;
 	$s.push("thx.js.Node::new");
@@ -1459,7 +1502,7 @@ thx.js.Node = function(dom) {
 	if(null != dom) dom.__thxnode__ = this;
 	this.data = null;
 	this.events = new Hash();
-	this.transition = { active : null, owner : null};
+	this.resetTransition();
 	$s.pop();
 }
 thx.js.Node.__name__ = ["thx","js","Node"];
@@ -1467,9 +1510,9 @@ thx.js.Node.many = function(els) {
 	$s.push("thx.js.Node::many");
 	var $spos = $s.length;
 	var $tmp = els.map(function(d,_) {
-		$s.push("thx.js.Node::many@31");
+		$s.push("thx.js.Node::many@36");
 		var $spos = $s.length;
-		var $tmp = new thx.js.Node(d);
+		var $tmp = thx.js.Node.create(d);
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -1478,10 +1521,30 @@ thx.js.Node.many = function(els) {
 	return $tmp;
 	$s.pop();
 }
+thx.js.Node.create = function(el) {
+	$s.push("thx.js.Node::create");
+	var $spos = $s.length;
+	if(null == el || null == el.__thxnode__) {
+		var $tmp = new thx.js.Node(el);
+		$s.pop();
+		return $tmp;
+	} else {
+		var $tmp = el.__thxnode__;
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
 thx.js.Node.prototype.data = null;
 thx.js.Node.prototype.dom = null;
 thx.js.Node.prototype.events = null;
 thx.js.Node.prototype.transition = null;
+thx.js.Node.prototype.resetTransition = function() {
+	$s.push("thx.js.Node::resetTransition");
+	var $spos = $s.length;
+	this.transition = { active : null, owner : null};
+	$s.pop();
+}
 thx.js.Node.prototype.__class__ = thx.js.Node;
 thx.color.TestColors = function(p) {
 	$s.push("thx.color.TestColors::new");
@@ -2410,7 +2473,8 @@ thx.js.Selection.prototype.select = function(selector) {
 	var $tmp = this._select(function(el) {
 		$s.push("thx.js.Selection::select@24");
 		var $spos = $s.length;
-		var $tmp = new thx.js.Node(thx.js.Dom.selectionEngine.select(selector,el.dom));
+		var dom = thx.js.Dom.selectionEngine.select(selector,el.dom);
+		var $tmp = thx.js.Node.create(dom);
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -2423,7 +2487,7 @@ thx.js.Selection.prototype.selectAll = function(selector) {
 	$s.push("thx.js.Selection::selectAll");
 	var $spos = $s.length;
 	var $tmp = this._selectAll(function(el) {
-		$s.push("thx.js.Selection::selectAll@31");
+		$s.push("thx.js.Selection::selectAll@32");
 		var $spos = $s.length;
 		var $tmp = thx.js.Node.many(thx.js.Dom.selectionEngine.selectAll(selector,el.dom));
 		$s.pop();
@@ -2439,21 +2503,21 @@ thx.js.Selection.prototype.append = function(name) {
 	var $spos = $s.length;
 	var qname = thx.xml.Namespace.qualify(name);
 	var append = function(node) {
-		$s.push("thx.js.Selection::append@39");
+		$s.push("thx.js.Selection::append@40");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name);
 		node.dom.appendChild(n);
-		var $tmp = new thx.js.Node(n);
+		var $tmp = thx.js.Node.create(n);
 		$s.pop();
 		return $tmp;
 		$s.pop();
 	};
 	var appendNS = function(node) {
-		$s.push("thx.js.Selection::append@46");
+		$s.push("thx.js.Selection::append@47");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNS(qname.space,qname.local);
 		node.dom.appendChild(n);
-		var $tmp = new thx.js.Node(n);
+		var $tmp = thx.js.Node.create(n);
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -2469,21 +2533,21 @@ thx.js.Selection.prototype.insert = function(name,node,dom) {
 	var qname = thx.xml.Namespace.qualify(name);
 	if(null == dom) dom = node.dom;
 	var insertDom = function(node1) {
-		$s.push("thx.js.Selection::insert@61");
+		$s.push("thx.js.Selection::insert@62");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name);
 		node1.dom.insertBefore(n,dom);
-		var $tmp = new thx.js.Node(n);
+		var $tmp = thx.js.Node.create(n);
 		$s.pop();
 		return $tmp;
 		$s.pop();
 	};
 	var insertNsDom = function(node1) {
-		$s.push("thx.js.Selection::insert@67");
+		$s.push("thx.js.Selection::insert@68");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNs(qname.space,qname.local);
 		node1.dom.insertBefore(n,dom);
-		var $tmp = new thx.js.Node(n);
+		var $tmp = thx.js.Node.create(n);
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -2497,7 +2561,7 @@ thx.js.Selection.prototype.remove = function() {
 	$s.push("thx.js.Selection::remove");
 	var $spos = $s.length;
 	var $tmp = this._select(function(node) {
-		$s.push("thx.js.Selection::remove@78");
+		$s.push("thx.js.Selection::remove@79");
 		var $spos = $s.length;
 		var parent = node.dom.parentNode;
 		parent.removeChild(node.dom);
@@ -2605,7 +2669,7 @@ thx.js.Selection.prototype.empty = function() {
 	$s.push("thx.js.Selection::empty");
 	var $spos = $s.length;
 	var $tmp = !this.first(function(_,_1) {
-		$s.push("thx.js.Selection::empty@161");
+		$s.push("thx.js.Selection::empty@162");
 		var $spos = $s.length;
 		$s.pop();
 		return true;
@@ -2619,7 +2683,7 @@ thx.js.Selection.prototype.node = function() {
 	$s.push("thx.js.Selection::node");
 	var $spos = $s.length;
 	var $tmp = this.first(function(n,_) {
-		$s.push("thx.js.Selection::node@166");
+		$s.push("thx.js.Selection::node@167");
 		var $spos = $s.length;
 		$s.pop();
 		return n;
@@ -2634,10 +2698,10 @@ thx.js.Selection.prototype.on = function(type,listener) {
 	var $spos = $s.length;
 	var i = type.indexOf("."), typo = i < 0?type:type.substr(0,i);
 	var $tmp = this.each(function(n,i1) {
-		$s.push("thx.js.Selection::on@173");
+		$s.push("thx.js.Selection::on@174");
 		var $spos = $s.length;
 		var l = function(e) {
-			$s.push("thx.js.Selection::on@173@174");
+			$s.push("thx.js.Selection::on@174@175");
 			var $spos = $s.length;
 			var o = thx.js.Dom.event;
 			thx.js.Dom.event = e;
@@ -2670,7 +2734,7 @@ thx.js.Selection.prototype.data = function(d,fd) {
 	var $spos = $s.length;
 	var update = [], enter = [], exit = [];
 	var bind = function(group,groupData) {
-		$s.push("thx.js.Selection::data@200");
+		$s.push("thx.js.Selection::data@201");
 		var $spos = $s.length;
 		var n = group.count(), m = groupData.length, n0 = n < m?n:m, n1 = n > m?n:m, updateNodes = [], exitNodes = [], enterNodes = [], node, nodeData;
 		var _g = 0;
@@ -2683,7 +2747,7 @@ thx.js.Selection.prototype.data = function(d,fd) {
 				updateNodes[i] = node;
 				enterNodes[i] = exitNodes[i] = null;
 			} else {
-				var node1 = new thx.js.Node(null);
+				var node1 = thx.js.Node.create(null);
 				node1.data = nodeData;
 				enterNodes[i] = node1;
 				updateNodes[i] = exitNodes[i] = null;
@@ -2692,7 +2756,7 @@ thx.js.Selection.prototype.data = function(d,fd) {
 		var _g = n0;
 		while(_g < m) {
 			var i = _g++;
-			var node1 = new thx.js.Node(null);
+			var node1 = thx.js.Node.create(null);
 			node1.data = groupData[i];
 			enterNodes[i] = node1;
 			updateNodes[i] = exitNodes[i] = null;
@@ -2732,7 +2796,7 @@ thx.js.Selection.prototype.data = function(d,fd) {
 			++_g;
 			bind(group,fd(group.parentData,i));
 		}
-	} else throw new thx.error.Error("either data or datafunction must be passed to data()",null,null,{ fileName : "Selection.hx", lineNumber : 307, className : "thx.js.Selection", methodName : "data"});
+	} else throw new thx.error.Error("either data or datafunction must be passed to data()",null,null,{ fileName : "Selection.hx", lineNumber : 308, className : "thx.js.Selection", methodName : "data"});
 	var $tmp = new thx.js.DataSelection(update,enter,exit);
 	$s.pop();
 	return $tmp;
@@ -2817,7 +2881,7 @@ thx.js.Selection.prototype.enter = function() {
 	var $spos = $s.length;
 	var $tmp = (function($this) {
 		var $r;
-		throw new thx.error.Error("enter can only be invoked after data() has been called",null,null,{ fileName : "Selection.hx", lineNumber : 341, className : "thx.js.Selection", methodName : "enter"});
+		throw new thx.error.Error("enter can only be invoked after data() has been called",null,null,{ fileName : "Selection.hx", lineNumber : 342, className : "thx.js.Selection", methodName : "enter"});
 		return $r;
 	}(this));
 	$s.pop();
@@ -2829,7 +2893,7 @@ thx.js.Selection.prototype.exit = function() {
 	var $spos = $s.length;
 	var $tmp = (function($this) {
 		var $r;
-		throw new thx.error.Error("exit can only be invoked after enter() has been called",null,null,{ fileName : "Selection.hx", lineNumber : 346, className : "thx.js.Selection", methodName : "exit"});
+		throw new thx.error.Error("exit can only be invoked after enter() has been called",null,null,{ fileName : "Selection.hx", lineNumber : 347, className : "thx.js.Selection", methodName : "exit"});
 		return $r;
 	}(this));
 	$s.pop();
@@ -2943,7 +3007,7 @@ thx.js.Dom.selectNode = function(node) {
 thx.js.Dom.selectDom = function(dom) {
 	$s.push("thx.js.Dom::selectDom");
 	var $spos = $s.length;
-	var $tmp = new thx.js.Selection([new thx.js.Group(new thx.js.Node(dom))]);
+	var $tmp = new thx.js.Selection([new thx.js.Group(thx.js.Node.create(dom))]);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -4905,6 +4969,153 @@ utest.ui.common.ReportTools.hasOutput = function(report,stats) {
 	$s.pop();
 }
 utest.ui.common.ReportTools.prototype.__class__ = utest.ui.common.ReportTools;
+if(!thx.json) thx.json = {}
+thx.json.JsonEncoder = function(formatted,indent,newline) {
+	if( formatted === $_ ) return;
+	$s.push("thx.json.JsonEncoder::new");
+	var $spos = $s.length;
+	if(newline == null) newline = "\n";
+	if(indent == null) indent = "\t";
+	if(formatted == null) formatted = false;
+	this.formatted = formatted;
+	this.indent = indent;
+	this.newline = newline;
+	$s.pop();
+}
+thx.json.JsonEncoder.__name__ = ["thx","json","JsonEncoder"];
+thx.json.JsonEncoder.prototype.formatted = null;
+thx.json.JsonEncoder.prototype.indent = null;
+thx.json.JsonEncoder.prototype.newline = null;
+thx.json.JsonEncoder.prototype.lvl = null;
+thx.json.JsonEncoder.prototype.encode = function(value) {
+	$s.push("thx.json.JsonEncoder::encode");
+	var $spos = $s.length;
+	this.lvl = 0;
+	var $tmp = this._encode(value);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.JsonEncoder.prototype._encode = function(value) {
+	$s.push("thx.json.JsonEncoder::_encode");
+	var $spos = $s.length;
+	switch( value[1] ) {
+	case 0:
+		var a = value[2];
+		if(this.formatted) {
+			this.lvl++;
+			var r = this._encodeObject(a);
+			this.lvl--;
+			$s.pop();
+			return r;
+		} else {
+			var $tmp = this._encodeInlineObject(a);
+			$s.pop();
+			return $tmp;
+		}
+		break;
+	case 1:
+		var arr = value[2];
+		var $tmp = "[" + Lambda.map(arr,$closure(this,"encode")).join(", ") + "]";
+		$s.pop();
+		return $tmp;
+	case 2:
+		var s = value[2];
+		var $tmp = this.quote(s);
+		$s.pop();
+		return $tmp;
+	case 3:
+		var f = value[2];
+		var $tmp = "" + f;
+		$s.pop();
+		return $tmp;
+	case 4:
+		var i = value[2];
+		var $tmp = "" + i;
+		$s.pop();
+		return $tmp;
+	case 6:
+		var b = value[2];
+		var $tmp = b?"true":"false";
+		$s.pop();
+		return $tmp;
+	case 7:
+		$s.pop();
+		return "null";
+	default:
+		var $tmp = (function($this) {
+			var $r;
+			throw new thx.error.Error("unsupported type {0}",null,Std.string(value),{ fileName : "JsonEncoder.hx", lineNumber : 55, className : "thx.json.JsonEncoder", methodName : "_encode"});
+			return $r;
+		}(this));
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+thx.json.JsonEncoder.prototype.quote = function(s) {
+	$s.push("thx.json.JsonEncoder::quote");
+	var $spos = $s.length;
+	var $tmp = "\"" + new EReg(".","").customReplace(new EReg("(\n)","g").replace(new EReg("(\"|\\\\)","g").replace(s,"\\$1"),"\\n"),function(r) {
+		$s.push("thx.json.JsonEncoder::quote@61");
+		var $spos = $s.length;
+		var c = r.matched(0).charCodeAt(0);
+		var $tmp = c >= 32 && c <= 127?String.fromCharCode(c):"\\u" + StringTools.hex(c,4);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}) + "\"";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.JsonEncoder.prototype._indent = function() {
+	$s.push("thx.json.JsonEncoder::_indent");
+	var $spos = $s.length;
+	var arr = [];
+	var _g1 = 0, _g = this.lvl;
+	while(_g1 < _g) {
+		var i = _g1++;
+		arr.push(this.indent);
+	}
+	var $tmp = arr.join("");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.JsonEncoder.prototype._encodeObject = function(a) {
+	$s.push("thx.json.JsonEncoder::_encodeObject");
+	var $spos = $s.length;
+	var me = this;
+	var $tmp = "{" + Lambda.map(a,function(p) {
+		$s.push("thx.json.JsonEncoder::_encodeObject@79");
+		var $spos = $s.length;
+		var $tmp = me.newline + me._indent() + me.quote(p.k) + "\t: " + me._encode(p.v);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}).join(",") + this.newline + "}";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.JsonEncoder.prototype._encodeInlineObject = function(a) {
+	$s.push("thx.json.JsonEncoder::_encodeInlineObject");
+	var $spos = $s.length;
+	var me = this;
+	var $tmp = "{" + Lambda.map(a,function(p) {
+		$s.push("thx.json.JsonEncoder::_encodeInlineObject@90");
+		var $spos = $s.length;
+		var $tmp = me.quote(p.k) + ":" + me._encode(p.v);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}).join(",") + "}";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.JsonEncoder.prototype.__class__ = thx.json.JsonEncoder;
 thx.xml.svg.TestArc = function(p) {
 	$s.push("thx.xml.svg.TestArc::new");
 	var $spos = $s.length;
@@ -5119,6 +5330,41 @@ thx.util.Message.prototype.translate = function(translator) {
 	$s.pop();
 }
 thx.util.Message.prototype.__class__ = thx.util.Message;
+thx.json.Json = function() { }
+thx.json.Json.__name__ = ["thx","json","Json"];
+thx.json.Json.encode = function(value) {
+	$s.push("thx.json.Json::encode");
+	var $spos = $s.length;
+	var $tmp = new thx.json.JsonEncoder().encode(value);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.Json.decode = function(value) {
+	$s.push("thx.json.Json::decode");
+	var $spos = $s.length;
+	var $tmp = new thx.json.JsonDecoder().decode(value);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.Json.encodeObject = function(o) {
+	$s.push("thx.json.Json::encodeObject");
+	var $spos = $s.length;
+	var $tmp = thx.json.Json.encode(thx.data.Data.toConfigExpr(o));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.Json.decodeObject = function(s) {
+	$s.push("thx.json.Json::decodeObject");
+	var $spos = $s.length;
+	var $tmp = thx.data.Data.toDynamic(thx.json.Json.decode(s));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.Json.prototype.__class__ = thx.json.Json;
 thx.util.TestAll = function() { }
 thx.util.TestAll.__name__ = ["thx","util","TestAll"];
 thx.util.TestAll.addTests = function(runner) {
@@ -5139,6 +5385,377 @@ thx.util.TestAll.main = function() {
 	$s.pop();
 }
 thx.util.TestAll.prototype.__class__ = thx.util.TestAll;
+thx.json.JsonDecoder = function(tabsize) {
+	if( tabsize === $_ ) return;
+	$s.push("thx.json.JsonDecoder::new");
+	var $spos = $s.length;
+	if(tabsize == null) tabsize = 4;
+	this.tabsize = tabsize;
+	$s.pop();
+}
+thx.json.JsonDecoder.__name__ = ["thx","json","JsonDecoder"];
+thx.json.JsonDecoder.prototype.col = null;
+thx.json.JsonDecoder.prototype.line = null;
+thx.json.JsonDecoder.prototype.tabsize = null;
+thx.json.JsonDecoder.prototype.rest = null;
+thx.json.JsonDecoder.prototype["char"] = null;
+thx.json.JsonDecoder.prototype.decode = function(s) {
+	$s.push("thx.json.JsonDecoder::decode");
+	var $spos = $s.length;
+	this.col = 0;
+	this.line = 0;
+	this.rest = s;
+	this["char"] = null;
+	this.ignoreWhiteSpace();
+	var p = null;
+	try {
+		p = this.parse();
+	} catch( e ) {
+		if( js.Boot.__instanceof(e,thx.json._JsonDecoder.StreamError) ) {
+			$e = [];
+			while($s.length >= $spos) $e.unshift($s.pop());
+			$s.push($e[0]);
+			this.error("unexpected end of stream");
+		} else ;
+		throw(e);
+	}
+	this.ignoreWhiteSpace();
+	if(this.rest.length > 0) this.error("the stream contains unrecognized characters at its end");
+	$s.pop();
+	return p;
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.ignoreWhiteSpace = function() {
+	$s.push("thx.json.JsonDecoder::ignoreWhiteSpace");
+	var $spos = $s.length;
+	while(this.rest.length > 0) {
+		var c = this.readChar();
+		switch(c) {
+		case " ":
+			this.col++;
+			break;
+		case "\n":
+			this.col = 0;
+			this.line++;
+			break;
+		case "\r":
+			break;
+		case "\t":
+			this.col += this.tabsize;
+			break;
+		default:
+			this["char"] = c;
+			$s.pop();
+			return;
+		}
+	}
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.parse = function() {
+	$s.push("thx.json.JsonDecoder::parse");
+	var $spos = $s.length;
+	var c = this.readChar();
+	switch(c) {
+	case "{":
+		this.col++;
+		this.ignoreWhiteSpace();
+		var $tmp = this.parseObject();
+		$s.pop();
+		return $tmp;
+	case "[":
+		this.col++;
+		this.ignoreWhiteSpace();
+		var $tmp = this.parseArray();
+		$s.pop();
+		return $tmp;
+	case "\"":
+		this["char"] = c;
+		var $tmp = this.parseString();
+		$s.pop();
+		return $tmp;
+	default:
+		this["char"] = c;
+		var $tmp = this.parseValue();
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.readChar = function() {
+	$s.push("thx.json.JsonDecoder::readChar");
+	var $spos = $s.length;
+	if(null == this["char"]) {
+		if(this.rest.length == 0) throw thx.json._JsonDecoder.StreamError.Eof;
+		var c = this.rest.substr(0,1);
+		this.rest = this.rest.substr(1);
+		$s.pop();
+		return c;
+	} else {
+		var c = this["char"];
+		this["char"] = null;
+		$s.pop();
+		return c;
+	}
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.expect = function(word) {
+	$s.push("thx.json.JsonDecoder::expect");
+	var $spos = $s.length;
+	var test = null == this["char"]?this.rest.substr(0,word.length):this["char"] + this.rest.substr(0,word.length - 1);
+	if(test == word) {
+		if(null == this["char"]) this.rest = this.rest.substr(word.length); else {
+			this.rest = this.rest.substr(word.length - 1);
+			this["char"] = null;
+		}
+		$s.pop();
+		return true;
+	} else {
+		$s.pop();
+		return false;
+	}
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.parseObject = function() {
+	$s.push("thx.json.JsonDecoder::parseObject");
+	var $spos = $s.length;
+	var pairs = [];
+	var first = true;
+	while(true) {
+		this.ignoreWhiteSpace();
+		if(this.expect("}")) break; else if(first) first = false; else if(this.expect(",")) this.ignoreWhiteSpace(); else this.error("expected ','");
+		var k = this._parseString();
+		this.ignoreWhiteSpace();
+		if(!this.expect(":")) this.error("expected ':'");
+		this.ignoreWhiteSpace();
+		var v = this.parse();
+		pairs.push({ k : k, v : v});
+	}
+	var $tmp = thx.data.DataExpr.CEObject(pairs);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.parseArray = function() {
+	$s.push("thx.json.JsonDecoder::parseArray");
+	var $spos = $s.length;
+	this.ignoreWhiteSpace();
+	var arr = [];
+	var first = true;
+	while(true) {
+		this.ignoreWhiteSpace();
+		if(this.expect("]")) break; else if(first) first = false; else if(this.expect(",")) this.ignoreWhiteSpace(); else this.error("expected ','");
+		arr.push(this.parse());
+	}
+	var $tmp = thx.data.DataExpr.CEArray(arr);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.parseValue = function() {
+	$s.push("thx.json.JsonDecoder::parseValue");
+	var $spos = $s.length;
+	if(this.expect("true")) {
+		var $tmp = thx.data.DataExpr.CEBool(true);
+		$s.pop();
+		return $tmp;
+	} else if(this.expect("false")) {
+		var $tmp = thx.data.DataExpr.CEBool(false);
+		$s.pop();
+		return $tmp;
+	} else if(this.expect("null")) {
+		var $tmp = thx.data.DataExpr.CENull;
+		$s.pop();
+		return $tmp;
+	} else {
+		var $tmp = this.parseFloat();
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.parseString = function() {
+	$s.push("thx.json.JsonDecoder::parseString");
+	var $spos = $s.length;
+	var $tmp = thx.data.DataExpr.CEString(this._parseString());
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype._parseString = function() {
+	$s.push("thx.json.JsonDecoder::_parseString");
+	var $spos = $s.length;
+	if(!this.expect("\"")) this.error("expected double quote");
+	var buf = "";
+	var esc = false;
+	try {
+		while(true) {
+			var c = this.readChar();
+			this.col++;
+			if(esc) {
+				switch(c) {
+				case "\"":
+					buf += "\"";
+					break;
+				case "\\":
+					buf += "\\";
+					break;
+				case "/":
+					buf += "/";
+					break;
+				case "b":
+					buf += String.fromCharCode(8);
+					break;
+				case "f":
+					buf += String.fromCharCode(12);
+					break;
+				case "n":
+					buf += "\n";
+					break;
+				case "r":
+					buf += "\r";
+					break;
+				case "t":
+					buf += "\t";
+					break;
+				case "u":
+					buf += String.fromCharCode(this.parseHexa());
+					break;
+				default:
+					this.error("unexpected char " + c);
+				}
+				esc = false;
+			} else switch(c) {
+			case "\\":
+				esc = true;
+				break;
+			case "\"":
+				throw "__break__";
+				break;
+			default:
+				buf += c;
+			}
+		}
+	} catch( e ) { if( e != "__break__" ) throw e; }
+	$s.pop();
+	return buf;
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.parseHexa = function() {
+	$s.push("thx.json.JsonDecoder::parseHexa");
+	var $spos = $s.length;
+	var v = [];
+	var _g = 0;
+	while(_g < 4) {
+		var i = _g++;
+		var c = this.readChar();
+		var i1 = c.toLowerCase().charCodeAt(0);
+		if(!(i1 >= 48 && i1 <= 57 || i1 >= 97 && i1 <= 102)) this.error("invalid hexadecimal value " + c);
+		v.push(c);
+	}
+	var $tmp = Std.parseInt("0x" + v.join(""));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.parseFloat = function() {
+	$s.push("thx.json.JsonDecoder::parseFloat");
+	var $spos = $s.length;
+	var v = "";
+	if(this.expect("-")) v = "-";
+	if(this.expect("0")) v += "0"; else {
+		var c = this.readChar();
+		var i = c.charCodeAt(0);
+		if(i < 49 || i > 57) this.error("expected digit between 1 and 9");
+		v += c;
+		this.col++;
+	}
+	try {
+		v += this.parseDigits();
+	} catch( e ) {
+		if( js.Boot.__instanceof(e,thx.json._JsonDecoder.StreamError) ) {
+			$e = [];
+			while($s.length >= $spos) $e.unshift($s.pop());
+			$s.push($e[0]);
+			var $tmp = thx.data.DataExpr.CEInt(Std.parseInt(v));
+			$s.pop();
+			return $tmp;
+		} else ;
+		throw(e);
+	}
+	try {
+		if(this.expect(".")) v += "." + this.parseDigits(1); else {
+			var $tmp = thx.data.DataExpr.CEInt(Std.parseInt(v));
+			$s.pop();
+			return $tmp;
+		}
+		if(this.expect("e") || this.expect("E")) {
+			v += "e";
+			if(this.expect("+")) {
+			} else if(this.expect("-")) v += "-";
+			v += this.parseDigits(1);
+		}
+	} catch( e ) {
+		if( js.Boot.__instanceof(e,thx.json._JsonDecoder.StreamError) ) {
+			$e = [];
+			while($s.length >= $spos) $e.unshift($s.pop());
+			$s.push($e[0]);
+			var $tmp = thx.data.DataExpr.CEFloat(Std.parseFloat(v));
+			$s.pop();
+			return $tmp;
+		} else ;
+		throw(e);
+	}
+	var $tmp = thx.data.DataExpr.CEFloat(Std.parseFloat(v));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.parseDigits = function(atleast) {
+	$s.push("thx.json.JsonDecoder::parseDigits");
+	var $spos = $s.length;
+	if(atleast == null) atleast = 0;
+	var buf = "";
+	while(true) {
+		var c = null;
+		try {
+			c = this.readChar();
+		} catch( e ) {
+			if( js.Boot.__instanceof(e,thx.json._JsonDecoder.StreamError) ) {
+				$e = [];
+				while($s.length >= $spos) $e.unshift($s.pop());
+				$s.push($e[0]);
+				if(buf.length < atleast) this.error("expected digit");
+				$s.pop();
+				return buf;
+			} else ;
+			throw(e);
+		}
+		var i = c.charCodeAt(0);
+		if(i < 48 || i > 57) {
+			if(buf.length < atleast) this.error("expected digit");
+			this.col += buf.length;
+			this["char"] = c;
+			$s.pop();
+			return buf;
+		} else buf += c;
+	}
+	$s.pop();
+	return null;
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.error = function(msg) {
+	$s.push("thx.json.JsonDecoder::error");
+	var $spos = $s.length;
+	var context = this.rest.length == 0?"":"\nrest: " + (null != this["char"]?this["char"]:"") + this.rest + "...";
+	throw new thx.error.Error("error at L {0} C {1}: {2}{3}",[this.line,this.col,msg,context],null,{ fileName : "JsonDecoder.hx", lineNumber : 348, className : "thx.json.JsonDecoder", methodName : "error"});
+	$s.pop();
+}
+thx.json.JsonDecoder.prototype.__class__ = thx.json.JsonDecoder;
+if(!thx.json._JsonDecoder) thx.json._JsonDecoder = {}
+thx.json._JsonDecoder.StreamError = { __ename__ : ["thx","json","_JsonDecoder","StreamError"], __constructs__ : ["Eof"] }
+thx.json._JsonDecoder.StreamError.Eof = ["Eof",0];
+thx.json._JsonDecoder.StreamError.Eof.toString = $estr;
+thx.json._JsonDecoder.StreamError.Eof.__enum__ = thx.json._JsonDecoder.StreamError;
 thx.math.scale.TestPow = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.math.scale.TestPow::new");
@@ -7522,6 +8139,55 @@ thx.type.TestTypes.prototype.testTypeName = function() {
 	$s.pop();
 }
 thx.type.TestTypes.prototype.__class__ = thx.type.TestTypes;
+if(!thx.data) thx.data = {}
+thx.data.DataExpr = { __ename__ : ["thx","data","DataExpr"], __constructs__ : ["CEObject","CEArray","CEString","CEFloat","CEInt","CEDate","CEBool","CENull"] }
+thx.data.DataExpr.CEObject = function(o) { var $x = ["CEObject",0,o]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CEArray = function(a) { var $x = ["CEArray",1,a]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CEString = function(s) { var $x = ["CEString",2,s]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CEFloat = function(f) { var $x = ["CEFloat",3,f]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CEInt = function(i) { var $x = ["CEInt",4,i]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CEDate = function(s) { var $x = ["CEDate",5,s]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CEBool = function(b) { var $x = ["CEBool",6,b]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
+thx.data.DataExpr.CENull = ["CENull",7];
+thx.data.DataExpr.CENull.toString = $estr;
+thx.data.DataExpr.CENull.__enum__ = thx.data.DataExpr;
+thx.json.TestJson = function(p) {
+	$s.push("thx.json.TestJson::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.json.TestJson.__name__ = ["thx","json","TestJson"];
+thx.json.TestJson.prototype.testEncode = function() {
+	$s.push("thx.json.TestJson::testEncode");
+	var $spos = $s.length;
+	var _g = 0, _g1 = thx.json.TestJson.tests;
+	while(_g < _g1.length) {
+		var test = _g1[_g];
+		++_g;
+		utest.Assert.equals(test.s,thx.json.Json.encode(test.c),null,{ fileName : "TestJson.hx", lineNumber : 29, className : "thx.json.TestJson", methodName : "testEncode"});
+	}
+	$s.pop();
+}
+thx.json.TestJson.prototype.testDecode = function() {
+	$s.push("thx.json.TestJson::testDecode");
+	var $spos = $s.length;
+	var _g = 0, _g1 = thx.json.TestJson.tests;
+	while(_g < _g1.length) {
+		var test = _g1[_g];
+		++_g;
+		try {
+			utest.Assert.same(test.c,thx.json.Json.decode(test.s),null,null,{ fileName : "TestJson.hx", lineNumber : 38, className : "thx.json.TestJson", methodName : "testDecode"});
+		} catch( e ) {
+			$e = [];
+			while($s.length >= $spos) $e.unshift($s.pop());
+			$s.push($e[0]);
+			utest.Assert.fail("error decoding: " + test.s + "\n" + Std.string(e),{ fileName : "TestJson.hx", lineNumber : 40, className : "thx.json.TestJson", methodName : "testDecode"});
+			break;
+		}
+	}
+	$s.pop();
+}
+thx.json.TestJson.prototype.__class__ = thx.json.TestJson;
 js.Boot = function() { }
 js.Boot.__name__ = ["js","Boot"];
 js.Boot.__unhtml = function(s) {
@@ -7866,18 +8532,6 @@ thx.validation.TestStringLength.prototype.testValidation = function() {
 	$s.pop();
 }
 thx.validation.TestStringLength.prototype.__class__ = thx.validation.TestStringLength;
-if(!thx.data) thx.data = {}
-thx.data.DataExpr = { __ename__ : ["thx","data","DataExpr"], __constructs__ : ["CEObject","CEArray","CEString","CEFloat","CEInt","CEDate","CEBool","CENull"] }
-thx.data.DataExpr.CEObject = function(o) { var $x = ["CEObject",0,o]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
-thx.data.DataExpr.CEArray = function(a) { var $x = ["CEArray",1,a]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
-thx.data.DataExpr.CEString = function(s) { var $x = ["CEString",2,s]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
-thx.data.DataExpr.CEFloat = function(f) { var $x = ["CEFloat",3,f]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
-thx.data.DataExpr.CEInt = function(i) { var $x = ["CEInt",4,i]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
-thx.data.DataExpr.CEDate = function(s) { var $x = ["CEDate",5,s]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
-thx.data.DataExpr.CEBool = function(b) { var $x = ["CEBool",6,b]; $x.__enum__ = thx.data.DataExpr; $x.toString = $estr; return $x; }
-thx.data.DataExpr.CENull = ["CENull",7];
-thx.data.DataExpr.CENull.toString = $estr;
-thx.data.DataExpr.CENull.__enum__ = thx.data.DataExpr;
 utest.ui.common.ResultStats = function(p) {
 	if( p === $_ ) return;
 	$s.push("utest.ui.common.ResultStats::new");
@@ -9472,378 +10126,6 @@ thx.type.TestAll.main = function() {
 	$s.pop();
 }
 thx.type.TestAll.prototype.__class__ = thx.type.TestAll;
-if(!thx.text.json) thx.text.json = {}
-thx.text.json.JsonDecoder = function(tabsize) {
-	if( tabsize === $_ ) return;
-	$s.push("thx.text.json.JsonDecoder::new");
-	var $spos = $s.length;
-	if(tabsize == null) tabsize = 4;
-	this.tabsize = tabsize;
-	$s.pop();
-}
-thx.text.json.JsonDecoder.__name__ = ["thx","text","json","JsonDecoder"];
-thx.text.json.JsonDecoder.prototype.col = null;
-thx.text.json.JsonDecoder.prototype.line = null;
-thx.text.json.JsonDecoder.prototype.tabsize = null;
-thx.text.json.JsonDecoder.prototype.rest = null;
-thx.text.json.JsonDecoder.prototype["char"] = null;
-thx.text.json.JsonDecoder.prototype.decode = function(s) {
-	$s.push("thx.text.json.JsonDecoder::decode");
-	var $spos = $s.length;
-	this.col = 0;
-	this.line = 0;
-	this.rest = s;
-	this["char"] = null;
-	this.ignoreWhiteSpace();
-	var p = null;
-	try {
-		p = this.parse();
-	} catch( e ) {
-		if( js.Boot.__instanceof(e,thx.text.json._JsonDecoder.StreamError) ) {
-			$e = [];
-			while($s.length >= $spos) $e.unshift($s.pop());
-			$s.push($e[0]);
-			this.error("unexpected end of stream");
-		} else ;
-		throw(e);
-	}
-	this.ignoreWhiteSpace();
-	if(this.rest.length > 0) this.error("the stream contains unrecognized characters at its end");
-	$s.pop();
-	return p;
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.ignoreWhiteSpace = function() {
-	$s.push("thx.text.json.JsonDecoder::ignoreWhiteSpace");
-	var $spos = $s.length;
-	while(this.rest.length > 0) {
-		var c = this.readChar();
-		switch(c) {
-		case " ":
-			this.col++;
-			break;
-		case "\n":
-			this.col = 0;
-			this.line++;
-			break;
-		case "\r":
-			break;
-		case "\t":
-			this.col += this.tabsize;
-			break;
-		default:
-			this["char"] = c;
-			$s.pop();
-			return;
-		}
-	}
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.parse = function() {
-	$s.push("thx.text.json.JsonDecoder::parse");
-	var $spos = $s.length;
-	var c = this.readChar();
-	switch(c) {
-	case "{":
-		this.col++;
-		this.ignoreWhiteSpace();
-		var $tmp = this.parseObject();
-		$s.pop();
-		return $tmp;
-	case "[":
-		this.col++;
-		this.ignoreWhiteSpace();
-		var $tmp = this.parseArray();
-		$s.pop();
-		return $tmp;
-	case "\"":
-		this["char"] = c;
-		var $tmp = this.parseString();
-		$s.pop();
-		return $tmp;
-	default:
-		this["char"] = c;
-		var $tmp = this.parseValue();
-		$s.pop();
-		return $tmp;
-	}
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.readChar = function() {
-	$s.push("thx.text.json.JsonDecoder::readChar");
-	var $spos = $s.length;
-	if(null == this["char"]) {
-		if(this.rest.length == 0) throw thx.text.json._JsonDecoder.StreamError.Eof;
-		var c = this.rest.substr(0,1);
-		this.rest = this.rest.substr(1);
-		$s.pop();
-		return c;
-	} else {
-		var c = this["char"];
-		this["char"] = null;
-		$s.pop();
-		return c;
-	}
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.expect = function(word) {
-	$s.push("thx.text.json.JsonDecoder::expect");
-	var $spos = $s.length;
-	var test = null == this["char"]?this.rest.substr(0,word.length):this["char"] + this.rest.substr(0,word.length - 1);
-	if(test == word) {
-		if(null == this["char"]) this.rest = this.rest.substr(word.length); else {
-			this.rest = this.rest.substr(word.length - 1);
-			this["char"] = null;
-		}
-		$s.pop();
-		return true;
-	} else {
-		$s.pop();
-		return false;
-	}
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.parseObject = function() {
-	$s.push("thx.text.json.JsonDecoder::parseObject");
-	var $spos = $s.length;
-	var pairs = [];
-	var first = true;
-	while(true) {
-		this.ignoreWhiteSpace();
-		if(this.expect("}")) break; else if(first) first = false; else if(this.expect(",")) this.ignoreWhiteSpace(); else this.error("expected ','");
-		var k = this._parseString();
-		this.ignoreWhiteSpace();
-		if(!this.expect(":")) this.error("expected ':'");
-		this.ignoreWhiteSpace();
-		var v = this.parse();
-		pairs.push({ k : k, v : v});
-	}
-	var $tmp = thx.data.DataExpr.CEObject(pairs);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.parseArray = function() {
-	$s.push("thx.text.json.JsonDecoder::parseArray");
-	var $spos = $s.length;
-	this.ignoreWhiteSpace();
-	var arr = [];
-	var first = true;
-	while(true) {
-		this.ignoreWhiteSpace();
-		if(this.expect("]")) break; else if(first) first = false; else if(this.expect(",")) this.ignoreWhiteSpace(); else this.error("expected ','");
-		arr.push(this.parse());
-	}
-	var $tmp = thx.data.DataExpr.CEArray(arr);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.parseValue = function() {
-	$s.push("thx.text.json.JsonDecoder::parseValue");
-	var $spos = $s.length;
-	if(this.expect("true")) {
-		var $tmp = thx.data.DataExpr.CEBool(true);
-		$s.pop();
-		return $tmp;
-	} else if(this.expect("false")) {
-		var $tmp = thx.data.DataExpr.CEBool(false);
-		$s.pop();
-		return $tmp;
-	} else if(this.expect("null")) {
-		var $tmp = thx.data.DataExpr.CENull;
-		$s.pop();
-		return $tmp;
-	} else {
-		var $tmp = this.parseFloat();
-		$s.pop();
-		return $tmp;
-	}
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.parseString = function() {
-	$s.push("thx.text.json.JsonDecoder::parseString");
-	var $spos = $s.length;
-	var $tmp = thx.data.DataExpr.CEString(this._parseString());
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype._parseString = function() {
-	$s.push("thx.text.json.JsonDecoder::_parseString");
-	var $spos = $s.length;
-	if(!this.expect("\"")) this.error("expected double quote");
-	var buf = "";
-	var esc = false;
-	try {
-		while(true) {
-			var c = this.readChar();
-			this.col++;
-			if(esc) {
-				switch(c) {
-				case "\"":
-					buf += "\"";
-					break;
-				case "\\":
-					buf += "\\";
-					break;
-				case "/":
-					buf += "/";
-					break;
-				case "b":
-					buf += String.fromCharCode(8);
-					break;
-				case "f":
-					buf += String.fromCharCode(12);
-					break;
-				case "n":
-					buf += "\n";
-					break;
-				case "r":
-					buf += "\r";
-					break;
-				case "t":
-					buf += "\t";
-					break;
-				case "u":
-					buf += String.fromCharCode(this.parseHexa());
-					break;
-				default:
-					this.error("unexpected char " + c);
-				}
-				esc = false;
-			} else switch(c) {
-			case "\\":
-				esc = true;
-				break;
-			case "\"":
-				throw "__break__";
-				break;
-			default:
-				buf += c;
-			}
-		}
-	} catch( e ) { if( e != "__break__" ) throw e; }
-	$s.pop();
-	return buf;
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.parseHexa = function() {
-	$s.push("thx.text.json.JsonDecoder::parseHexa");
-	var $spos = $s.length;
-	var v = [];
-	var _g = 0;
-	while(_g < 4) {
-		var i = _g++;
-		var c = this.readChar();
-		var i1 = c.toLowerCase().charCodeAt(0);
-		if(!(i1 >= 48 && i1 <= 57 || i1 >= 97 && i1 <= 102)) this.error("invalid hexadecimal value " + c);
-		v.push(c);
-	}
-	var $tmp = Std.parseInt("0x" + v.join(""));
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.parseFloat = function() {
-	$s.push("thx.text.json.JsonDecoder::parseFloat");
-	var $spos = $s.length;
-	var v = "";
-	if(this.expect("-")) v = "-";
-	if(this.expect("0")) v += "0"; else {
-		var c = this.readChar();
-		var i = c.charCodeAt(0);
-		if(i < 49 || i > 57) this.error("expected digit between 1 and 9");
-		v += c;
-		this.col++;
-	}
-	try {
-		v += this.parseDigits();
-	} catch( e ) {
-		if( js.Boot.__instanceof(e,thx.text.json._JsonDecoder.StreamError) ) {
-			$e = [];
-			while($s.length >= $spos) $e.unshift($s.pop());
-			$s.push($e[0]);
-			var $tmp = thx.data.DataExpr.CEInt(Std.parseInt(v));
-			$s.pop();
-			return $tmp;
-		} else ;
-		throw(e);
-	}
-	try {
-		if(this.expect(".")) v += "." + this.parseDigits(1); else {
-			var $tmp = thx.data.DataExpr.CEInt(Std.parseInt(v));
-			$s.pop();
-			return $tmp;
-		}
-		if(this.expect("e") || this.expect("E")) {
-			v += "e";
-			if(this.expect("+")) {
-			} else if(this.expect("-")) v += "-";
-			v += this.parseDigits(1);
-		}
-	} catch( e ) {
-		if( js.Boot.__instanceof(e,thx.text.json._JsonDecoder.StreamError) ) {
-			$e = [];
-			while($s.length >= $spos) $e.unshift($s.pop());
-			$s.push($e[0]);
-			var $tmp = thx.data.DataExpr.CEFloat(Std.parseFloat(v));
-			$s.pop();
-			return $tmp;
-		} else ;
-		throw(e);
-	}
-	var $tmp = thx.data.DataExpr.CEFloat(Std.parseFloat(v));
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.parseDigits = function(atleast) {
-	$s.push("thx.text.json.JsonDecoder::parseDigits");
-	var $spos = $s.length;
-	if(atleast == null) atleast = 0;
-	var buf = "";
-	while(true) {
-		var c = null;
-		try {
-			c = this.readChar();
-		} catch( e ) {
-			if( js.Boot.__instanceof(e,thx.text.json._JsonDecoder.StreamError) ) {
-				$e = [];
-				while($s.length >= $spos) $e.unshift($s.pop());
-				$s.push($e[0]);
-				if(buf.length < atleast) this.error("expected digit");
-				$s.pop();
-				return buf;
-			} else ;
-			throw(e);
-		}
-		var i = c.charCodeAt(0);
-		if(i < 48 || i > 57) {
-			if(buf.length < atleast) this.error("expected digit");
-			this.col += buf.length;
-			this["char"] = c;
-			$s.pop();
-			return buf;
-		} else buf += c;
-	}
-	$s.pop();
-	return null;
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.error = function(msg) {
-	$s.push("thx.text.json.JsonDecoder::error");
-	var $spos = $s.length;
-	var context = this.rest.length == 0?"":"\nrest: " + (null != this["char"]?this["char"]:"") + this.rest + "...";
-	throw new thx.error.Error("error at L {0} C {1}: {2}{3}",[this.line,this.col,msg,context],null,{ fileName : "JsonDecoder.hx", lineNumber : 348, className : "thx.text.json.JsonDecoder", methodName : "error"});
-	$s.pop();
-}
-thx.text.json.JsonDecoder.prototype.__class__ = thx.text.json.JsonDecoder;
-if(!thx.text.json._JsonDecoder) thx.text.json._JsonDecoder = {}
-thx.text.json._JsonDecoder.StreamError = { __ename__ : ["thx","text","json","_JsonDecoder","StreamError"], __constructs__ : ["Eof"] }
-thx.text.json._JsonDecoder.StreamError.Eof = ["Eof",0];
-thx.text.json._JsonDecoder.StreamError.Eof.toString = $estr;
-thx.text.json._JsonDecoder.StreamError.Eof.__enum__ = thx.text.json._JsonDecoder.StreamError;
 utest.Runner = function(p) {
 	if( p === $_ ) return;
 	$s.push("utest.Runner::new");
@@ -10425,6 +10707,7 @@ TestAll.addTests = function(runner) {
 	thx.color.TestAll.addTests(runner);
 	thx.doc.TestAll.addTests(runner);
 	runner.addCase(new thx.data.TestData());
+	runner.addCase(new thx.json.TestJson());
 	thx.load.TestAll.addTests(runner);
 	thx.error.TestAll.addTests(runner);
 	thx.text.TestAll.addTests(runner);
@@ -10688,7 +10971,7 @@ thx.js.InDataSelection.prototype.append = function(name) {
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name);
 		node.appendChild(n);
-		var $tmp = new thx.js.Node(n);
+		var $tmp = thx.js.Node.create(n);
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -10698,7 +10981,7 @@ thx.js.InDataSelection.prototype.append = function(name) {
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNS(qname.space,qname.local);
 		node.appendChild(n);
-		var $tmp = new thx.js.Node(n);
+		var $tmp = thx.js.Node.create(n);
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -12414,152 +12697,6 @@ thx.math.scale.Quantile.prototype.getQuantiles = function() {
 	$s.pop();
 }
 thx.math.scale.Quantile.prototype.__class__ = thx.math.scale.Quantile;
-thx.text.json.JsonEncoder = function(formatted,indent,newline) {
-	if( formatted === $_ ) return;
-	$s.push("thx.text.json.JsonEncoder::new");
-	var $spos = $s.length;
-	if(newline == null) newline = "\n";
-	if(indent == null) indent = "\t";
-	if(formatted == null) formatted = false;
-	this.formatted = formatted;
-	this.indent = indent;
-	this.newline = newline;
-	$s.pop();
-}
-thx.text.json.JsonEncoder.__name__ = ["thx","text","json","JsonEncoder"];
-thx.text.json.JsonEncoder.prototype.formatted = null;
-thx.text.json.JsonEncoder.prototype.indent = null;
-thx.text.json.JsonEncoder.prototype.newline = null;
-thx.text.json.JsonEncoder.prototype.lvl = null;
-thx.text.json.JsonEncoder.prototype.encode = function(value) {
-	$s.push("thx.text.json.JsonEncoder::encode");
-	var $spos = $s.length;
-	this.lvl = 0;
-	var $tmp = this._encode(value);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.JsonEncoder.prototype._encode = function(value) {
-	$s.push("thx.text.json.JsonEncoder::_encode");
-	var $spos = $s.length;
-	switch( value[1] ) {
-	case 0:
-		var a = value[2];
-		if(this.formatted) {
-			this.lvl++;
-			var r = this._encodeObject(a);
-			this.lvl--;
-			$s.pop();
-			return r;
-		} else {
-			var $tmp = this._encodeInlineObject(a);
-			$s.pop();
-			return $tmp;
-		}
-		break;
-	case 1:
-		var arr = value[2];
-		var $tmp = "[" + Lambda.map(arr,$closure(this,"encode")).join(", ") + "]";
-		$s.pop();
-		return $tmp;
-	case 2:
-		var s = value[2];
-		var $tmp = this.quote(s);
-		$s.pop();
-		return $tmp;
-	case 3:
-		var f = value[2];
-		var $tmp = "" + f;
-		$s.pop();
-		return $tmp;
-	case 4:
-		var i = value[2];
-		var $tmp = "" + i;
-		$s.pop();
-		return $tmp;
-	case 6:
-		var b = value[2];
-		var $tmp = b?"true":"false";
-		$s.pop();
-		return $tmp;
-	case 7:
-		$s.pop();
-		return "null";
-	default:
-		var $tmp = (function($this) {
-			var $r;
-			throw new thx.error.Error("unsupported type {0}",null,Std.string(value),{ fileName : "JsonEncoder.hx", lineNumber : 55, className : "thx.text.json.JsonEncoder", methodName : "_encode"});
-			return $r;
-		}(this));
-		$s.pop();
-		return $tmp;
-	}
-	$s.pop();
-}
-thx.text.json.JsonEncoder.prototype.quote = function(s) {
-	$s.push("thx.text.json.JsonEncoder::quote");
-	var $spos = $s.length;
-	var $tmp = "\"" + new EReg(".","").customReplace(new EReg("(\n)","g").replace(new EReg("(\"|\\\\)","g").replace(s,"\\$1"),"\\n"),function(r) {
-		$s.push("thx.text.json.JsonEncoder::quote@61");
-		var $spos = $s.length;
-		var c = r.matched(0).charCodeAt(0);
-		var $tmp = c >= 32 && c <= 127?String.fromCharCode(c):"\\u" + StringTools.hex(c,4);
-		$s.pop();
-		return $tmp;
-		$s.pop();
-	}) + "\"";
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.JsonEncoder.prototype._indent = function() {
-	$s.push("thx.text.json.JsonEncoder::_indent");
-	var $spos = $s.length;
-	var arr = [];
-	var _g1 = 0, _g = this.lvl;
-	while(_g1 < _g) {
-		var i = _g1++;
-		arr.push(this.indent);
-	}
-	var $tmp = arr.join("");
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.JsonEncoder.prototype._encodeObject = function(a) {
-	$s.push("thx.text.json.JsonEncoder::_encodeObject");
-	var $spos = $s.length;
-	var me = this;
-	var $tmp = "{" + Lambda.map(a,function(p) {
-		$s.push("thx.text.json.JsonEncoder::_encodeObject@79");
-		var $spos = $s.length;
-		var $tmp = me.newline + me._indent() + me.quote(p.k) + "\t: " + me._encode(p.v);
-		$s.pop();
-		return $tmp;
-		$s.pop();
-	}).join(",") + this.newline + "}";
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.JsonEncoder.prototype._encodeInlineObject = function(a) {
-	$s.push("thx.text.json.JsonEncoder::_encodeInlineObject");
-	var $spos = $s.length;
-	var me = this;
-	var $tmp = "{" + Lambda.map(a,function(p) {
-		$s.push("thx.text.json.JsonEncoder::_encodeInlineObject@90");
-		var $spos = $s.length;
-		var $tmp = me.quote(p.k) + ":" + me._encode(p.v);
-		$s.pop();
-		return $tmp;
-		$s.pop();
-	}).join(",") + "}";
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.JsonEncoder.prototype.__class__ = thx.text.json.JsonEncoder;
 thx.data.Data = function() { }
 thx.data.Data.__name__ = ["thx","data","Data"];
 thx.data.Data.toConfigExpr = function(o) {
@@ -13030,6 +13167,60 @@ thx.color.TestRgb.prototype.testBasics = function() {
 	$s.pop();
 }
 thx.color.TestRgb.prototype.__class__ = thx.color.TestRgb;
+thx.js.AttributeTweenAccess = function(name,transition,tweens) {
+	if( name === $_ ) return;
+	$s.push("thx.js.AttributeTweenAccess::new");
+	var $spos = $s.length;
+	thx.js.TransitionAccess.call(this,transition,tweens);
+	this.name = name;
+	this.qname = thx.xml.Namespace.qualify(name);
+	$s.pop();
+}
+thx.js.AttributeTweenAccess.__name__ = ["thx","js","AttributeTweenAccess"];
+thx.js.AttributeTweenAccess.__super__ = thx.js.TransitionAccess;
+for(var k in thx.js.TransitionAccess.prototype ) thx.js.AttributeTweenAccess.prototype[k] = thx.js.TransitionAccess.prototype[k];
+thx.js.AttributeTweenAccess.prototype.name = null;
+thx.js.AttributeTweenAccess.prototype.qname = null;
+thx.js.AttributeTweenAccess.prototype.stringTween = function(tween,priority) {
+	$s.push("thx.js.AttributeTweenAccess::stringTween");
+	var $spos = $s.length;
+	if(null == priority) priority = null;
+	var name = this.name;
+	var attrTween = function(d,i) {
+		$s.push("thx.js.AttributeTweenAccess::stringTween@26");
+		var $spos = $s.length;
+		var f = tween(d,i,d.dom.getAttribute(name));
+		var $tmp = function(t) {
+			$s.push("thx.js.AttributeTweenAccess::stringTween@26@29");
+			var $spos = $s.length;
+			d.dom.setAttribute(name,f(t));
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	var attrTweenNS = function(d,i) {
+		$s.push("thx.js.AttributeTweenAccess::stringTween@34");
+		var $spos = $s.length;
+		var f = tween(d,i,d.dom.getAttributeNS(name.space,name.local));
+		var $tmp = function(t) {
+			$s.push("thx.js.AttributeTweenAccess::stringTween@34@37");
+			var $spos = $s.length;
+			d.dom.setAttributeNS(name.space,name.local,f(t));
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	this.tweens.set("attr." + name,null == this.qname?attrTween:attrTweenNS);
+	var $tmp = this.transition;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AttributeTweenAccess.prototype.__class__ = thx.js.AttributeTweenAccess;
 TestInts = function(p) {
 	$s.push("TestInts::new");
 	var $spos = $s.length;
@@ -13104,7 +13295,7 @@ thx.js.Transition = function(selection) {
 		n.transition.owner = tid;
 		$s.pop();
 	});
-	this.delay(0).duration(250);
+	this.delay(null,0).duration(null,250);
 	$s.pop();
 }
 thx.js.Transition.__name__ = ["thx","js","Transition"];
@@ -13181,7 +13372,7 @@ thx.js.Transition.prototype.step = function(elapsed) {
 			if(tx.active == me._transitionId) {
 				var owner = tx.owner;
 				if(owner == me._transitionId) {
-					n.transition = null;
+					n.resetTransition();
 					if(me._remove) n.dom.parentNode.removeChild(n.dom);
 				}
 				thx.js.Transition._inheritid = me._transitionId;
@@ -13196,21 +13387,34 @@ thx.js.Transition.prototype.step = function(elapsed) {
 	return clear;
 	$s.pop();
 }
-thx.js.Transition.prototype.delay = function(v,f) {
+thx.js.Transition.prototype.stop = function() {
+	$s.push("thx.js.Transition::stop");
+	var $spos = $s.length;
+	var k = -1, me = this;
+	this.selection.each(function(n,i) {
+		$s.push("thx.js.Transition::stop@134");
+		var $spos = $s.length;
+		me._stage[++k] = 2;
+		n.resetTransition();
+		$s.pop();
+	});
+	$s.pop();
+}
+thx.js.Transition.prototype.delay = function(f,v) {
 	$s.push("thx.js.Transition::delay");
 	var $spos = $s.length;
 	if(v == null) v = 0.0;
 	var delayMin = Math.POSITIVE_INFINITY, k = -1, me = this;
 	if(null != f) this.selection.each(function(n,i) {
-		$s.push("thx.js.Transition::delay@137");
+		$s.push("thx.js.Transition::delay@147");
 		var $spos = $s.length;
-		var x = me._delay[++k] = f();
+		var x = me._delay[++k] = f(n,i);
 		if(x < delayMin) delayMin = x;
 		$s.pop();
 	}); else {
 		delayMin = v;
 		this.selection.each(function(n,i) {
-			$s.push("thx.js.Transition::delay@144");
+			$s.push("thx.js.Transition::delay@154");
 			var $spos = $s.length;
 			me._delay[++k] = delayMin;
 			$s.pop();
@@ -13221,7 +13425,7 @@ thx.js.Transition.prototype.delay = function(v,f) {
 	return this;
 	$s.pop();
 }
-thx.js.Transition.prototype.duration = function(v,f) {
+thx.js.Transition.prototype.duration = function(f,v) {
 	$s.push("thx.js.Transition::duration");
 	var $spos = $s.length;
 	if(v == null) v = 0.0;
@@ -13229,16 +13433,16 @@ thx.js.Transition.prototype.duration = function(v,f) {
 	if(null != f) {
 		this._durationMax = 0;
 		this.selection.each(function(n,i) {
-			$s.push("thx.js.Transition::duration@159");
+			$s.push("thx.js.Transition::duration@169");
 			var $spos = $s.length;
-			var x = me._duration[++k] = f();
+			var x = me._duration[++k] = f(n,i);
 			if(x > me._durationMax) me._durationMax = x;
 			$s.pop();
 		});
 	} else {
 		this._durationMax = v;
 		this.selection.each(function(n,i) {
-			$s.push("thx.js.Transition::duration@166");
+			$s.push("thx.js.Transition::duration@176");
 			var $spos = $s.length;
 			me._duration[++k] = me._durationMax;
 			$s.pop();
@@ -13248,57 +13452,92 @@ thx.js.Transition.prototype.duration = function(v,f) {
 	return this;
 	$s.pop();
 }
-thx.js.Transition.prototype.transitionTween = function(value) {
-	$s.push("thx.js.Transition::transitionTween");
-	var $spos = $s.length;
-	var $tmp = function(d,i,a) {
-		$s.push("thx.js.Transition::transitionTween@175");
-		var $spos = $s.length;
-		var $tmp = Strings.interpolatef(a,value);
-		$s.pop();
-		return $tmp;
-		$s.pop();
-	};
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.js.Transition.prototype.style = function(name,value,priority) {
+thx.js.Transition.prototype.style = function(name) {
 	$s.push("thx.js.Transition::style");
 	var $spos = $s.length;
-	var $tmp = this.styleTween(name,this.transitionTween(value),priority);
+	var $tmp = new thx.js.StyleTweenAccess(name,this,this._tweens);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.js.Transition.prototype.styleTween = function(name,tween,priority) {
-	$s.push("thx.js.Transition::styleTween");
+thx.js.Transition.prototype.attr = function(name) {
+	$s.push("thx.js.Transition::attr");
 	var $spos = $s.length;
-	if(null == priority) priority = null;
-	var _st = function(d,i) {
-		$s.push("thx.js.Transition::styleTween@188");
-		var $spos = $s.length;
-		var f = tween(d,i,js.Lib.window.getComputedStyle(d.dom,null).getPropertyValue(name));
-		var $tmp = function(t) {
-			$s.push("thx.js.Transition::styleTween@188@191");
-			var $spos = $s.length;
-			d.dom.style.setProperty(name,f(t),priority);
-			$s.pop();
-		};
-		$s.pop();
-		return $tmp;
-		$s.pop();
-	};
-	this._tweens.set("style." + name,_st);
+	var $tmp = new thx.js.AttributeTweenAccess(name,this,this._tweens);
 	$s.pop();
-	return this;
+	return $tmp;
 	$s.pop();
 }
 thx.js.Transition.prototype.ease = function(f,easemode) {
 	$s.push("thx.js.Transition::ease");
 	var $spos = $s.length;
 	this._ease = thx.math.Ease.mode(easemode,f);
-	this._ease = f;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.js.Transition.prototype.remove = function() {
+	$s.push("thx.js.Transition::remove");
+	var $spos = $s.length;
+	this._remove = true;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.js.Transition.prototype.select = function(selector) {
+	$s.push("thx.js.Transition::select");
+	var $spos = $s.length;
+	var k, t = new thx.js.Transition(this.selection.select(selector));
+	t._ease = this._ease;
+	var delay = this._delay;
+	var duration = this._duration;
+	k = -1;
+	t.delay(function(d,i) {
+		$s.push("thx.js.Transition::select@211");
+		var $spos = $s.length;
+		var $tmp = delay[++k];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	k = -1;
+	t.delay(function(d,i) {
+		$s.push("thx.js.Transition::select@212");
+		var $spos = $s.length;
+		var $tmp = duration[++k];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.js.Transition.prototype.selectAll = function(selector) {
+	$s.push("thx.js.Transition::selectAll");
+	var $spos = $s.length;
+	var k, t = new thx.js.Transition(this.selection.selectAll(selector));
+	t._ease = this._ease;
+	var delay = this._delay;
+	var duration = this._duration;
+	k = -1;
+	t.delay(function(d,i) {
+		$s.push("thx.js.Transition::selectAll@222");
+		var $spos = $s.length;
+		var $tmp = delay[i > 0?k:++k];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	k = -1;
+	t.delay(function(d,i) {
+		$s.push("thx.js.Transition::selectAll@223");
+		var $spos = $s.length;
+		var $tmp = duration[i > 0?k:++k];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
 	$s.pop();
 	return this;
 	$s.pop();
@@ -16028,41 +16267,6 @@ thx.math.Ease.mode = function(easemode,f) {
 	$s.pop();
 }
 thx.math.Ease.prototype.__class__ = thx.math.Ease;
-thx.text.json.Json = function() { }
-thx.text.json.Json.__name__ = ["thx","text","json","Json"];
-thx.text.json.Json.encode = function(value) {
-	$s.push("thx.text.json.Json::encode");
-	var $spos = $s.length;
-	var $tmp = new thx.text.json.JsonEncoder().encode(value);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.Json.decode = function(value) {
-	$s.push("thx.text.json.Json::decode");
-	var $spos = $s.length;
-	var $tmp = new thx.text.json.JsonDecoder().decode(value);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.Json.encodeObject = function(o) {
-	$s.push("thx.text.json.Json::encodeObject");
-	var $spos = $s.length;
-	var $tmp = thx.text.json.Json.encode(thx.data.Data.toConfigExpr(o));
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.Json.decodeObject = function(s) {
-	$s.push("thx.text.json.Json::decodeObject");
-	var $spos = $s.length;
-	var $tmp = thx.data.Data.toDynamic(thx.text.json.Json.decode(s));
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.text.json.Json.prototype.__class__ = thx.text.json.Json;
 thx.xml.svg.Arc = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.xml.svg.Arc::new");
@@ -16390,7 +16594,6 @@ thx.text.TestAll.addTests = function(runner) {
 	var $spos = $s.length;
 	thx.text.TestPaths.addTests(runner);
 	thx.text.TestInflections.addTests(runner);
-	runner.addCase(new thx.text.json.TestJson());
 	$s.pop();
 }
 thx.text.TestAll.main = function() {
@@ -16647,6 +16850,44 @@ thx.html.HtmlFormat.prototype.createDocumentFormat = function() {
 	$s.pop();
 }
 thx.html.HtmlFormat.prototype.__class__ = thx.html.HtmlFormat;
+thx.js.StyleTweenAccess = function(name,transition,tweens) {
+	if( name === $_ ) return;
+	$s.push("thx.js.StyleTweenAccess::new");
+	var $spos = $s.length;
+	thx.js.TransitionAccess.call(this,transition,tweens);
+	this.name = name;
+	$s.pop();
+}
+thx.js.StyleTweenAccess.__name__ = ["thx","js","StyleTweenAccess"];
+thx.js.StyleTweenAccess.__super__ = thx.js.TransitionAccess;
+for(var k in thx.js.TransitionAccess.prototype ) thx.js.StyleTweenAccess.prototype[k] = thx.js.TransitionAccess.prototype[k];
+thx.js.StyleTweenAccess.prototype.name = null;
+thx.js.StyleTweenAccess.prototype.stringTween = function(tween,priority) {
+	$s.push("thx.js.StyleTweenAccess::stringTween");
+	var $spos = $s.length;
+	if(null == priority) priority = null;
+	var name = this.name;
+	var styleTween = function(d,i) {
+		$s.push("thx.js.StyleTweenAccess::stringTween@22");
+		var $spos = $s.length;
+		var f = tween(d,i,js.Lib.window.getComputedStyle(d.dom,null).getPropertyValue(name));
+		var $tmp = function(t) {
+			$s.push("thx.js.StyleTweenAccess::stringTween@22@25");
+			var $spos = $s.length;
+			d.dom.style.setProperty(name,f(t),priority);
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	this.tweens.set("style." + name,styleTween);
+	var $tmp = this.transition;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.StyleTweenAccess.prototype.__class__ = thx.js.StyleTweenAccess;
 thx.js.HtmlAccess = function(selection) {
 	if( selection === $_ ) return;
 	$s.push("thx.js.HtmlAccess::new");
@@ -17661,43 +17902,6 @@ thx.xml.svg.LineInternals._lineCardinalTangents = function(points,tension) {
 	$s.pop();
 }
 thx.xml.svg.LineInternals.prototype.__class__ = thx.xml.svg.LineInternals;
-thx.text.json.TestJson = function(p) {
-	$s.push("thx.text.json.TestJson::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.text.json.TestJson.__name__ = ["thx","text","json","TestJson"];
-thx.text.json.TestJson.prototype.testEncode = function() {
-	$s.push("thx.text.json.TestJson::testEncode");
-	var $spos = $s.length;
-	var _g = 0, _g1 = thx.text.json.TestJson.tests;
-	while(_g < _g1.length) {
-		var test = _g1[_g];
-		++_g;
-		utest.Assert.equals(test.s,thx.text.json.Json.encode(test.c),null,{ fileName : "TestJson.hx", lineNumber : 29, className : "thx.text.json.TestJson", methodName : "testEncode"});
-	}
-	$s.pop();
-}
-thx.text.json.TestJson.prototype.testDecode = function() {
-	$s.push("thx.text.json.TestJson::testDecode");
-	var $spos = $s.length;
-	var _g = 0, _g1 = thx.text.json.TestJson.tests;
-	while(_g < _g1.length) {
-		var test = _g1[_g];
-		++_g;
-		try {
-			utest.Assert.same(test.c,thx.text.json.Json.decode(test.s),null,null,{ fileName : "TestJson.hx", lineNumber : 38, className : "thx.text.json.TestJson", methodName : "testDecode"});
-		} catch( e ) {
-			$e = [];
-			while($s.length >= $spos) $e.unshift($s.pop());
-			$s.push($e[0]);
-			utest.Assert.fail("error decoding: " + test.s + "\n" + Std.string(e),{ fileName : "TestJson.hx", lineNumber : 40, className : "thx.text.json.TestJson", methodName : "testDecode"});
-			break;
-		}
-	}
-	$s.pop();
-}
-thx.text.json.TestJson.prototype.__class__ = thx.text.json.TestJson;
 thx.js.Timer = function() { }
 thx.js.Timer.__name__ = ["thx","js","Timer"];
 thx.js.Timer.timer = function(f,delay) {
@@ -21047,8 +21251,8 @@ js.Lib.onerror = null;
 thx.js.Dom.doc = (function() {
 	$s.push("utest.ui.common.FixtureResult::add");
 	var $spos = $s.length;
-	var gs = new thx.js.Selection([new thx.js.Group(new thx.js.Node(js.Lib.document))]);
-	gs.parentNode = new thx.js.Node(js.Lib.document.documentElement);
+	var gs = new thx.js.Selection([new thx.js.Group(thx.js.Node.create(js.Lib.document))]);
+	gs.parentNode = thx.js.Node.create(js.Lib.document.documentElement);
 	$s.pop();
 	return gs;
 	$s.pop();
@@ -21077,6 +21281,7 @@ thx.xml.Namespace.prefix = (function() {
 })();
 thx.math.scale.TestLinearString.data = [4,8,16,32,64];
 utest.ui.text.HtmlReport.platform = "javascript";
+thx.json.TestJson.tests = [{ c : thx.data.DataExpr.CENull, s : "null"},{ c : thx.data.DataExpr.CEString("a\nb"), s : "\"a\\nb\""},{ c : thx.data.DataExpr.CEInt(1), s : "1"},{ c : thx.data.DataExpr.CEFloat(-0.1), s : "-0.1"},{ c : thx.data.DataExpr.CEFloat(-1.234e-100), s : "-1.234e-100"},{ c : thx.data.DataExpr.CEBool(true), s : "true"},{ c : thx.data.DataExpr.CEBool(false), s : "false"},{ c : thx.data.DataExpr.CEArray([]), s : "[]"},{ c : thx.data.DataExpr.CEArray([thx.data.DataExpr.CENull,thx.data.DataExpr.CEBool(true)]), s : "[null, true]"},{ c : thx.data.DataExpr.CEObject([{ k : "name", v : thx.data.DataExpr.CEString("haxe")},{ k : "stars", v : thx.data.DataExpr.CEInt(5)}]), s : "{\"name\":\"haxe\",\"stars\":5}"}];
 thx.validation.SingleLineValidator._re = new EReg("(\n|\r)","m");
 thx.html.Element._preserve = thx.collections.Set.ofArray("pre,textarea".split(","));
 thx.html.Element._empty = thx.collections.Set.ofArray("area,base,basefont,br,col,frame,hr,img,input,isindex,link,meta,param,embed".split(","));
@@ -21098,7 +21303,6 @@ thx.xml.svg.LineInternals.arcMax = 2 * Math.PI - 1e-6;
 thx.xml.svg.LineInternals._lineBasisBezier1 = [0,2 / 3,1 / 3,0];
 thx.xml.svg.LineInternals._lineBasisBezier2 = [0,1 / 3,2 / 3,0];
 thx.xml.svg.LineInternals._lineBasisBezier3 = [0,1 / 6,2 / 3,1 / 6];
-thx.text.json.TestJson.tests = [{ c : thx.data.DataExpr.CENull, s : "null"},{ c : thx.data.DataExpr.CEString("a\nb"), s : "\"a\\nb\""},{ c : thx.data.DataExpr.CEInt(1), s : "1"},{ c : thx.data.DataExpr.CEFloat(-0.1), s : "-0.1"},{ c : thx.data.DataExpr.CEFloat(-1.234e-100), s : "-1.234e-100"},{ c : thx.data.DataExpr.CEBool(true), s : "true"},{ c : thx.data.DataExpr.CEBool(false), s : "false"},{ c : thx.data.DataExpr.CEArray([]), s : "[]"},{ c : thx.data.DataExpr.CEArray([thx.data.DataExpr.CENull,thx.data.DataExpr.CEBool(true)]), s : "[null, true]"},{ c : thx.data.DataExpr.CEObject([{ k : "name", v : thx.data.DataExpr.CEString("haxe")},{ k : "stars", v : thx.data.DataExpr.CEInt(5)}]), s : "{\"name\":\"haxe\",\"stars\":5}"}];
 thx.js.Timer.timeout = 0;
 thx.js.Timer.queue = null;
 thx.js.Timer.interval = 0;

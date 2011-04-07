@@ -15,8 +15,6 @@ class TestAll
 	{
 		TestPaths.addTests(runner);
 		TestInflections.addTests(runner);
-		
-		runner.addCase(new thx.text.json.TestJson());
 	}
 	
 	public static function main()

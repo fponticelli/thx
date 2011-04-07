@@ -4,10 +4,12 @@ import thx.math.EaseMode;
 
 class Ease
 {
-	public static function mode(easemode : EaseMode, ?f : Float -> Float)
+	public static function mode(?easemode : EaseMode, ?f : Float -> Float)
 	{
 		if (null == f)
 			f = Equations.cubic;
+		if (null == easemode)
+			easemode = EaseIn;
 		switch(easemode)
 		{
 			case EaseIn:

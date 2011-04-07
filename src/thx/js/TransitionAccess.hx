@@ -1,4 +1,5 @@
 package thx.js;
+import thx.color.Rgb;
 
 /**
  * ...
@@ -15,18 +16,33 @@ class TransitionAccess<TData>
 		this.tweens = tweens;
 	}
 	
+	function transitionColorTween(value : Rgb)
+	{
+		return function(d : Node<TData>, i : Int, a : Rgb) return Rgb.interpolatef(a, value);
+	}
+	
+	function transitionColorTweenf(f : Node<TData> -> Int -> Rgb)
+	{
+		return function(d : Node<TData>, i : Int, a : Rgb) return Rgb.interpolatef(a, f(d,i));
+	}
+	
 	function transitionStringTween(value : String)
 	{
 		return function(d : Node<TData>, i : Int, a : String) return Strings.interpolatef(a, value);
 	}
 	
-	public function string(value : String, ?priority : String)
+	function transitionStringTweenf(f : Node<TData> -> Int -> String)
 	{
-		return stringTween(transitionStringTween(value), priority);
+		return function(d : Node<TData>, i : Int, a : String) return Strings.interpolatef(a, f(d,i));
 	}
 	
-	public function stringTween(tween : Node<TData> -> Int -> String -> (Float -> String), ?priority : String)
+	function transitionFloatTween(value : Float)
 	{
-		return transition;
+		return function(d : Node<TData>, i : Int, a : Float) return Floats.interpolatef(a, value);
+	}
+	
+	function transitionFloatTweenf(f : Node<TData> -> Int -> Float)
+	{
+		return function(d : Node<TData>, i : Int, a : Float) return Floats.interpolatef(a, f(d,i));
 	}
 }

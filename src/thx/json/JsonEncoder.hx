@@ -1,4 +1,4 @@
-package thx.text.json;
+package thx.json;
 
 import thx.data.DataExpr;
 import thx.error.Error;

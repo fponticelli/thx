@@ -19,6 +19,7 @@ class TestAll
 		thx.color.TestAll.addTests(runner);
 		thx.doc.TestAll.addTests(runner);
 		runner.addCase(new thx.data.TestData());
+		runner.addCase(new thx.json.TestJson());
 		thx.load.TestAll.addTests(runner);
 		thx.error.TestAll.addTests(runner);
 		thx.text.TestAll.addTests(runner);
