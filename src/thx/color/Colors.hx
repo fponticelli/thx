@@ -25,16 +25,18 @@ class Colors
 		return interpolatef(a, b, interpolator)(v);
 	}
 	
-	static var _reParse = ~/^\s*(?:(hsl|rgb|cmyk)\(([^)]+)\))|(?:(?:0x|#)([a-f0-9]{3,6}))\s*$/i;
+	static var _reParse = ~/^\s*(?:(hsl|rgb|rgba|cmyk)\(([^)]+)\))|(?:(?:0x|#)([a-f0-9]{3,6}))\s*$/i;
 	// TODO: RGBA?
 	public static function parse(s : String)
 	{
-		_reParse.match("");
 		if (!_reParse.match(s))
 		{
 			var v = NamedColors.byName.get(s);
-			if(null == v)
-				return throw new Error("invalid color: '{0}'", s);
+			if (null == v)
+				if ("transparent" == s)
+					return Rgb.fromInt(0xFFFFFF);
+				else
+					return throw new Error("invalid color: '{0}'", s);
 			else
 				return v;
 		}
@@ -44,7 +46,7 @@ class Colors
 			var values = _reParse.matched(2).split(",");
 			switch(type.toLowerCase())
 			{
-				case "rgb":		return new Rgb(_c(values[0]), _c(values[1]), _c(values[2]));
+				case "rgb", "rgba":		return new Rgb(_c(values[0]), _c(values[1]), _c(values[2]));
 				case "hsl": 	return new Hsl(_d(values[0]), _p(values[1]), _p(values[2]));
 				case "cmyk":	return new Cmyk(_p(values[0]), _p(values[1]), _p(values[2]), _p(values[3]));
 			}
