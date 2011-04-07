@@ -4,7 +4,7 @@ package thx.xml.svg;
  * ...
  * @author Franco Ponticelli
  */
-
+/*
 class Chord<TData>
 {
 	var _source : TData -> Int -> Float;
@@ -110,3 +110,4 @@ class Chord<TData>
 		);
 	}
 }
+*/

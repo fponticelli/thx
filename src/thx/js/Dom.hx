@@ -12,8 +12,8 @@ class Dom
 {
 
 	public static var doc = (function() {
-	var gs = new Selection<Dynamic>([new Group(new Node(Lib.document))]);
-		gs.parentNode = new Node(untyped Lib.document.documentElement);
+	var gs = new Selection<Dynamic>([new Group(Node.create(Lib.document))]);
+		gs.parentNode = Node.create(untyped Lib.document.documentElement);
 		return gs;
 	} )();
 	
@@ -31,7 +31,7 @@ class Dom
 	
 	public static function selectDom(dom : HtmlDom)
 	{
-		return new Selection([new Group(new Node(dom))]);
+		return new Selection([new Group(Node.create(dom))]);
 	}
 	
 	public static var event : Event;

@@ -19,12 +19,12 @@ class Equations
 	
 	public static function quadratic(t : Float) : Float
 	{
-		return polynomial(2, t);
+		return polynomial(t, 2);
 	}
 	
 	public static function cubic(t : Float) : Float
 	{
-		return polynomial(3, t);
+		return polynomial(t, 3);
 	}
 	
 	public static function sin(t : Float) : Float
@@ -56,7 +56,7 @@ class Equations
 		return 1 + a * Math.pow(2, 10 * -t) * Math.sin((t - s) * 2 * Math.PI / p);
 	}
 	
-	public static function createElastic(?a : Float, ?p : Float) : Float -> Float
+	public static function elasticf(?a : Float, ?p : Float) : Float -> Float
 	{
 		var s;
 		if (null == p)
@@ -77,7 +77,7 @@ class Equations
 		return t * t * ((s + 1) * t - s);
 	}
 	
-	public static function createBack(?s : Float) : Float -> Float
+	public static function backf(?s : Float) : Float -> Float
 	{
 		if (null == s) s = 1.70158;
 		return function(t : Float) return t * t * ((s + 1) * t - s);
@@ -91,7 +91,7 @@ class Equations
 			  : 7.5625 * (t -= 2.625 / 2.75) * t + .984375;
 	}
 	
-	public static function createPolynomial(e : Float)
+	public static function polynomialf(e : Float)
 	{
 		return function(t) polynomial(t, e);
 	}

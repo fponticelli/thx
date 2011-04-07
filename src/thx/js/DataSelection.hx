@@ -53,14 +53,14 @@ class InDataSelection<TData>
 		{
 			var n : HtmlDom = Lib.document.createElement(name);
 			node.appendChild(n);
-			return new Node(n);
+			return Node.create(n);
 		}
 		
 		function appendNS(node : HtmlDom)
 		{
 			var n : HtmlDom = untyped Lib.document.createElementNS(qname.space, qname.local);
 			node.appendChild(n);
-			return new Node(n);
+			return Node.create(n);
 		}
 		
 		return _select(null == qname ? append : appendNS);

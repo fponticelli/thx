@@ -22,7 +22,8 @@ class Selection<TData>
 	public function select(selector : String) : Selection<TData>
 	{
 		return _select(function(el) {
-			return new Node(Dom.selectionEngine.select(selector, el.dom));
+			var dom = Dom.selectionEngine.select(selector, el.dom);
+			return Node.create(dom);
 		});
 	}
 	
@@ -40,14 +41,14 @@ class Selection<TData>
 		{
 			var n : HtmlDom = Lib.document.createElement(name);
 			node.dom.appendChild(n);
-			return new Node(n);
+			return Node.create(n);
 		}
 		
 		function appendNS(node : Node<TData>)
 		{
 			var n : HtmlDom = untyped Lib.document.createElementNS(qname.space, qname.local);
 			node.dom.appendChild(n);
-			return new Node(n);
+			return Node.create(n);
 		}
 		
 		return _select(null == qname ? append : appendNS);
@@ -61,13 +62,13 @@ class Selection<TData>
 		function insertDom(node : Node<TData>) {
 			var n : HtmlDom = Lib.document.createElement(name);
 			node.dom.insertBefore(n, dom);
-			return new Node(n);
+			return Node.create(n);
 		}
 		
 		function insertNsDom(node : Node<TData>) {
 			var n : HtmlDom = untyped Lib.document.createElementNs(qname.space, qname.local);
 			node.dom.insertBefore(n, dom);
-			return new Node(n);
+			return Node.create(n);
 		}
 		
 		return _select(null == qname ? insertDom : insertNsDom);
@@ -149,7 +150,7 @@ class Selection<TData>
 			var i = 0;
 			for (node in group)
 			{
-				if (null != node) // TODO: should this be null != node.dom ???
+				if (null != node && null != node.dom) // TODO: should this be null != node.dom ???
 					return f(node, i++);
 			}
 		}
@@ -262,7 +263,7 @@ if (null != join)
 					updateNodes[i] = node;
 					enterNodes[i] = exitNodes[i] = null;
 				} else {
-					var node = new Node(null);
+					var node = Node.create(null);
 					node.data = nodeData;
 					enterNodes[i] = node;
 					updateNodes[i] = exitNodes[i] = null;
@@ -270,7 +271,7 @@ if (null != join)
 			}
 			for (i in n0...m)
 			{
-				var node = new Node(null);
+				var node = Node.create(null);
 				node.data = groupData[i];
 				enterNodes[i] = node;
 				updateNodes[i] = exitNodes[i] = null;
@@ -311,6 +312,11 @@ if (null != join)
 	public function iterator()
 	{
 		return groups.iterator();
+	}
+	
+	public function transition()
+	{
+		return new Transition(this);
 	}
 	
 	public function html() return new HtmlAccess(this)
