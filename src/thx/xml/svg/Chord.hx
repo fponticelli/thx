@@ -4,15 +4,15 @@ package thx.xml.svg;
  * ...
  * @author Franco Ponticelli
  */
-/*
-class Chord<TData>
+
+class Chord<TData, TChord>
 {
-	var _source : TData -> Int -> Float;
-	var _target : TData -> Int -> Float;
-	var _radius : TData -> Int -> Float;
-	var _startAngle : TData -> Int -> Float;
-	var _endAngle : TData -> Int -> Float;
-	public function new(source : TData -> Int -> Float, target : TData -> Int -> Float, radius : TData -> Int -> Float, startAngle : TData -> Int -> Float, endAngle : TData -> Int -> Float)
+	var _source : TData -> Int -> TChord;
+	var _target : TData -> Int -> TChord;
+	var _radius : TChord -> Int -> Float;
+	var _startAngle : TChord -> Int -> Float;
+	var _endAngle : TChord -> Int -> Float;
+	public function new(source : TData -> Int -> TChord, target : TData -> Int -> TChord, radius : TChord -> Int -> Float, startAngle : TChord -> Int -> Float, endAngle : TChord -> Int -> Float)
 	{
 		this._source = source;
 		this._target = target;
@@ -34,7 +34,7 @@ class Chord<TData>
 			+ "Z";
 	}
 	
-	function subgroup(f : TData -> Int -> Float, d, i)
+	function subgroup(f : TData -> Int -> TChord, d, i)
 	{
 		var sub = f(d, i),
 			r = _radius(sub, i),
@@ -54,46 +54,71 @@ class Chord<TData>
 		return a.a0 == b.a0 && a.a1 == b.a1;
 	}
 	
-	function arc(r, p)
+	function arc(r : Float, p : Array<Float>)
 	{
 		return "A" + r + "," + r + " 0 0,1 " + p;
 	}
 	
-	function curve(r0, p0, r1, p1)
+	function curve(r0 : Float, p0 : Array<Float>, r1 : Float, p1 : Array<Float>)
 	{
 		return "Q 0,0 " + p1;
 	}
 
 	public function getSource() return _source
-	public function source(v : TData -> Int -> Float)
+	public function source(v : TChord)
+	{
+		_source = function(_,_) return v;
+		return this;
+	}
+	public function sourcef(v : TData -> Int -> TChord)
 	{
 		_source = v;
 		return this;
 	}
 	
 	public function getTarget() return _target
-	public function target(v : TData -> Int -> Float)
+	public function target(v : TChord)
+	{
+		_target = function(_,_) return v;
+		return this;
+	}
+	public function targetf(v : TData -> Int -> TChord)
 	{
 		_target = v;
 		return this;
 	}
 	
 	public function getRadius() return _radius
-	public function radius(v : TData -> Int -> Float)
+	public function radius(v : Float)
+	{
+		_radius = function(_,_) return v;
+		return this;
+	}
+	public function radiusf(v : TChord -> Int -> Float)
 	{
 		_radius = v;
 		return this;
 	}
 	
 	public function getStartAngle() return _startAngle
-	public function startAngle(v : TData -> Int -> Float)
+	public function startAngle(v : Float)
+	{
+		_startAngle = function(_,_) return v;
+		return this;
+	}
+	public function startAnglef(v : TChord -> Int -> Float)
 	{
 		_startAngle = v;
 		return this;
 	}
 	
 	public function getEndAngle() return _endAngle
-	public function endAngle(v : TData -> Int -> Float)
+	public function endAngle(v : Float)
+	{
+		_endAngle = function(_,_) return v;
+		return this;
+	}
+	public function endAnglef(v : TChord -> Int -> Float)
 	{
 		_endAngle = v;
 		return this;
@@ -101,7 +126,7 @@ class Chord<TData>
 	
 	public static function pathObject()
 	{
-		return new Chord<{source:Float,target:Float,radius:Float,startAngle:Float,endAngle:Float}>(
+		return new Chord<{source:ChordType,target:ChordType,radius:Float,startAngle:Float,endAngle:Float},ChordType>(
 			function(d, _) return d.source,
 			function(d, _) return d.target,
 			function(d, _) return d.radius,
@@ -110,4 +135,10 @@ class Chord<TData>
 		);
 	}
 }
-*/
+
+private typedef ChordType =
+{
+	radius : Float,
+	startAngle : Float,
+	endAngle : Float,
+}

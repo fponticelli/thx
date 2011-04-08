@@ -5,7 +5,7 @@ package thx.xml.svg;
  * @author Franco Ponticelli
  */
 
-class Arc
+class Arc extends Shape
 {
 	var r0 : Float;
 	var r1 : Float;
@@ -47,8 +47,10 @@ class Arc
 		return this;
 	}
 	
-	public function shape()
+	override public function shape(?d : Dynamic, ?i : Int)
 	{
+		super.shape(d, i);
+		
         var a0 = this.a0 + LineInternals.arcOffset,
 			a1 = this.a1 + LineInternals.arcOffset,
 			da = a1 - a0,

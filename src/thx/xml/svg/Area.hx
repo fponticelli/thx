@@ -18,13 +18,8 @@ class Area<TData>
 		this._y1 = y1;
 		this._interpolator = interpolator;
 	}
-	
-	public function shapeMap(data : Array<TData>, _ : Int)
-	{
-		return shape(data);
-	}
-	
-	public function shape(data : Array<TData>)
+
+	public function shape(?data : Array<TData>, ?i : Int)
 	{
 		var second = LineInternals.linePoints(data, _x, _y0);
 		second.reverse();
