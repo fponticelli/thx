@@ -108,18 +108,18 @@ class Selection<TData>
 	
 	public function filter(f : Node<TData> -> Int -> Bool)
 	{
-		var subgroups = [];
+		var subgroups = [],
+			subgroup;
 		for (group in groups)
 		{
-			var subgroup = [];
-			var sg = new Group(subgroup);
+			var sg = new Group(subgroup = []);
 			sg.parentData = group.parentData;
 			sg.parentNode = group.parentNode;
 			subgroups.push(sg);
-			var i = 0;
+			var i = -1;
 			for (node in group)
 			{
-				if (null != node && f(node, i++)) // TODO: should this be null != node.dom ???
+				if (null != node && f(node, ++i)) // TODO: should this be null != node.dom ???
 				{
 					subgroup.push(node);
 				}
