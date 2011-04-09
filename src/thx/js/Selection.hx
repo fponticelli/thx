@@ -54,20 +54,20 @@ class Selection<TData>
 		return _select(null == qname ? append : appendNS);
 	}
 	
-	public function insert(name : String, ?node : Node<TData>, ?dom : HtmlDom)
+	public function insert(name : String, ?beforeNode : Node<TData>, ?before : HtmlDom, ?beforeSelector : String)
 	{
 		var qname = Namespace.qualify(name);
-		if (null == dom)
-			dom = node.dom;
+		if (null != beforeNode)
+			before = beforeNode.dom;
 		function insertDom(node : Node<TData>) {
 			var n : HtmlDom = Lib.document.createElement(name);
-			node.dom.insertBefore(n, dom);
+			node.dom.insertBefore(n, untyped __js__("Sizzle")(null != before ? before : beforeSelector, node, node)[0]);
 			return Node.create(n);
 		}
 		
 		function insertNsDom(node : Node<TData>) {
-			var n : HtmlDom = untyped Lib.document.createElementNs(qname.space, qname.local);
-			node.dom.insertBefore(n, dom);
+			var n : HtmlDom = untyped js.Lib.document.createElementNS(qname.space, qname.local);
+			node.dom.insertBefore(n, untyped __js__("Sizzle")(null != before ? before : beforeSelector, node, node)[0]);
 			return Node.create(n);
 		}
 		
@@ -194,7 +194,7 @@ class Selection<TData>
 		});
 	}
 	
-	public function data(?d : Array<TData>, ?fd : TData -> Int -> Array<TData>) : DataSelection<TData>// TODO Join
+	public function data(?d : Array<TData>, ?fd : TData -> Int -> Array<TData>, ?join : TData -> Int -> String) : DataSelection<TData>// TODO Join
 	{
 		var update = [], enter = [], exit = [];
 		
@@ -210,10 +210,9 @@ class Selection<TData>
 				node,
 				nodeData
 			;
-/*
-if (null != join)
+			if (null != join)
 			{
-				var nodeByKey = { },
+				var nodeByKey = new Hash(),
 					keys = [],
 					key,
 					j = groupData.length;
@@ -221,65 +220,66 @@ if (null != join)
 				{
 					var node = group.getNode(i);
 					key = join(node.data, i);
-					if (Reflect.hasField(nodeByKey, key))
+					if (nodeByKey.exists(key))
 					{
 						exitNodes[j++] = node;
 					} else {
-						Reflect.setField(nodeByKey, key, node);
+						nodeByKey.set(key, node);
 						keys.push(key);
 					}
 				}
 				
 				for (i in 0...m)
 				{
-					node = Reflect.field(nodeByKey, key = join(nodeData = groupData[i], i));
+					node = nodeByKey.get(key = join(nodeData = groupData[i], i));
 					if (null != node)
 					{
 						node.data = nodeData;
 						updateNodes[i] = node;
 						enterNodes[i] = exitNodes[i] = null;
 					} else {
-						node = new Node(null);
+						node = Node.create(null);
+						node.data = nodeData;
+						enterNodes[i] = node;
+						updateNodes[i] = exitNodes[i] = null;
+					}
+					nodeByKey.remove(key);
+				}
+				
+				for (i in 0...n)
+				{
+					if (nodeByKey.exists(keys[i]))
+						exitNodes[i] = group.getNode(i);
+				}
+			} else {
+				for (i in 0...n0)
+				{
+					node = group.getNode(i);
+					nodeData = groupData[i];
+					if (null != node)
+					{
+						node.data = nodeData;
+						updateNodes[i] = node;
+						enterNodes[i] = exitNodes[i] = null;
+					} else {
+						var node = Node.create(null);
 						node.data = nodeData;
 						enterNodes[i] = node;
 						updateNodes[i] = exitNodes[i] = null;
 					}
 				}
-				
-				for (i in 0...n)
+				for (i in n0...m)
 				{
-					if (Reflect.hasField(nodeByKey, keys[i]))
-						exitNodes[i] = group.getNode(i);
-				}
-			} else {
-*/
-			for (i in 0...n0)
-			{
-				node = group.getNode(i);
-				nodeData = groupData[i];
-				if (null != node)
-				{
-					node.data = nodeData;
-					updateNodes[i] = node;
-					enterNodes[i] = exitNodes[i] = null;
-				} else {
 					var node = Node.create(null);
-					node.data = nodeData;
+					node.data = groupData[i];
 					enterNodes[i] = node;
 					updateNodes[i] = exitNodes[i] = null;
 				}
-			}
-			for (i in n0...m)
-			{
-				var node = Node.create(null);
-				node.data = groupData[i];
-				enterNodes[i] = node;
-				updateNodes[i] = exitNodes[i] = null;
-			}
-			for (i in m...n1)
-			{
-				exitNodes[i] = group.getNode(i);
-				enterNodes[i] = updateNodes[i] = null;
+				for (i in m...n1)
+				{
+					exitNodes[i] = group.getNode(i);
+					enterNodes[i] = updateNodes[i] = null;
+				}
 			}
 		
 			var enterGroup = new Group(enterNodes);
@@ -331,7 +331,7 @@ if (null != join)
 		{
 			var i = 0;
 			for (node in group)
-				if (null != node)
+				if (null != node && null != node.dom)
 					f(node, i++);
 		}
 		return this;

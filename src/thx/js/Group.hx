@@ -3,6 +3,7 @@ package thx.js;
 import js.Dom;
 import js.Lib;
 import thx.xml.Namespace;
+using Arrays;
 /**
  * ...
  * @author Franco Ponticelli

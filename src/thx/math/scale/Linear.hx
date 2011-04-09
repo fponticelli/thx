@@ -24,15 +24,9 @@ class Linear
 		i = f(y0, y1, null);
 	}
 	
-	public function scaleMap(x : Float, i : Int) return scale(x)
+	public function scale(x : Float, ?_) return i((x - x0) * kx)
 	
-	public function scale(x : Float) return i((x - x0) * kx)
-
-	public function invertf() return invert
-	
-	public function invertMap(y : Float, i : Int) return invert(y)
-	
-	public function invert(y : Float) return (y - y0) * ky + x0
+	public function invert(y : Float, ?_) return (y - y0) * ky + x0
 
 	public function getDomain() return [x0, x1]
 	
@@ -104,6 +98,6 @@ class Linear
 	public function tickFormatMap(m : Float)
 	{
 		var f = tickFormat(m);
-		return function(d,_) return f(d);
+		return function(d,?_) return f(d);
 	}
 }

@@ -66,6 +66,26 @@ class InDataSelection<TData>
 		return _select(null == qname ? append : appendNS);
 	}
 	
+	public function insert(name : String, ?beforeNode : Node<TData>, ?before : HtmlDom, ?beforeSelector : String)
+	{
+		var qname = Namespace.qualify(name);
+		if (null != beforeNode)
+			before = beforeNode.dom;
+		function insertDom(node : HtmlDom) {
+			var n : HtmlDom = Lib.document.createElement(name);
+			node.insertBefore(n, untyped __js__("Sizzle")(null != before ? before : beforeSelector, node)[0]);
+			return Node.create(n);
+		}
+		
+		function insertNsDom(node : HtmlDom) {
+			var n : HtmlDom = untyped js.Lib.document.createElementNS(qname.space, qname.local);
+			node.insertBefore(n, untyped __js__("Sizzle")(null != before ? before : beforeSelector, node)[0]);
+			return Node.create(n);
+		}
+		
+		return _select(null == qname ? insertDom : insertNsDom);
+	}
+	
 	function createSelection(groups : Array<Group<TData>>) : Selection<TData>
 	{
 		return new ExitDataSelection(groups, _exit);

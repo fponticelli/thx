@@ -24,6 +24,11 @@ class Dom
 		return doc.select(selector);
 	}
 	
+	public static function selectAll(selector : String)
+	{
+		return doc.selectAll(selector);
+	}
+	
 	public static function selectNode<TData>(node : Node<TData>)
 	{
 		return new Selection<TData>([new Group(node)]);

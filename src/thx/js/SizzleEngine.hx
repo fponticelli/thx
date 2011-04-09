@@ -17,6 +17,11 @@ class SizzleEngine implements ISelectorEngine
 		return Sizzle.select(selector, node)[0];
 	}
 	
+	public function selectNode(n : HtmlDom, p : HtmlDom) : Null<HtmlDom>
+	{
+		return Sizzle.select(cast n, p)[0];
+	}
+	
 	public function selectAll(selector : String, node : HtmlDom) : Array<HtmlDom>
 	{
 		return Sizzle.uniqueSort(Sizzle.select(selector, node));
