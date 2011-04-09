@@ -54,6 +54,15 @@ class Arrays
 		}
 	}
 	
+	public static function floatMin<T>(arr : Array<T>, f : T -> Float) : Float
+	{
+		if (arr.length == 0)
+			return Math.NaN;
+		var a = f(arr[0]), b;
+		for(i in 0...arr.length) if(a > (b = f(arr[i]))) { a = b; }
+		return a;
+	}
+	
 	public static function max<T>(arr : Array<T>, ?f : T -> Float) : Null<T>
 	{
 		if (arr.length == 0)
@@ -69,6 +78,15 @@ class Arrays
 		}
 	}
 	
+	public static function floatMax<T>(arr : Array<T>, f : T -> Float) : Float
+	{
+		if (arr.length == 0)
+			return Math.NaN;
+		var a = f(arr[0]), b;
+		for(i in 0...arr.length) if(a < (b = f(arr[i]))) { a = b; }
+		return a;
+	}
+	
 	public static function flatten<T>(arr : Array<Array<T>>) : Array<T>
 	{
 		var r = [];
@@ -77,13 +95,22 @@ class Arrays
 		return r;
 	}
 	
-	#if js inline #end public static function map<TIn,TOut>(arr : Array<TIn>, f : TIn -> Int -> TOut) : Array<TOut>
+	inline public static function map<TIn,TOut>(arr : Array<TIn>, f : TIn -> Int -> TOut) : Array<TOut>
 	{
 		#if js
 		return untyped arr.map(f);
 		#else
 		return Iterables.map(arr, f);
 		#end
+	}
+	
+	inline public static function reduce<TIn,TOut>(arr : Array<TIn>, f : TOut -> TIn -> Int -> TOut, initialValue : TOut) : TOut
+	{
+	//	#if js
+	//	return untyped arr.reduce(f, initialValue);
+	//	#else
+		return Iterables.reduce(arr, f, initialValue);
+	//	#end
 	}
 	
 	inline public static function order<T>(arr : Array<T>, ?f : T -> T -> Int)

@@ -27,8 +27,8 @@ class Transition<TData>
 	var _ease : Float -> Float;
 	var _step : Float -> Bool; // fix for $closure issue
 	
-	public dynamic function onstart();
-	public dynamic function onend();
+	var _start : Node<TData> -> Int -> Void;
+	var _end : Node<TData> -> Int -> Void;
 	
 	var selection : Selection<TData>;
 	
@@ -89,7 +89,8 @@ class Transition<TData>
 				return;
 			} else {
 				me._stage[k] = 1;
-				me.onstart();
+				if (null != me._start)
+					me._start(n, i);
 				ik = me._interpolators[k] = new Hash();
 				tx.active = me._transitionId;
 				for (tk in me._tweens.keys())
@@ -118,13 +119,26 @@ class Transition<TData>
 							n.dom.parentNode.removeChild(n.dom);
 					}
 					_inheritid = me._transitionId;
-					me.onend();
+					if (null != me._end)
+					me._end(n, i);
 					_inheritid = 0;
 					tx.owner = owner;
 				}
 			}
 		});
 		return clear;
+	}
+	
+	public function start(f : Node<TData> -> Int -> Void)
+	{
+		_start = f;
+		return this;
+	}
+	
+	public function end(f : Node<TData> -> Int -> Void)
+	{
+		_end = f;
+		return this;
 	}
 	
 	public function stop()

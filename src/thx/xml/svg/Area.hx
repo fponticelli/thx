@@ -11,7 +11,7 @@ class Area<TData>
 	var _y0 : TData -> Int -> Float;
 	var _y1 : TData -> Int -> Float;
 	var _interpolator : LineInterpolator;
-	public function new(x : TData -> Int -> Float, y0 : TData -> Int -> Float, y1 : TData -> Int -> Float, ?interpolator : LineInterpolator)
+	public function new(?x : TData -> Int -> Float, ?y0 : TData -> Int -> Float, ?y1 : TData -> Int -> Float, ?interpolator : LineInterpolator)
 	{
 		this._x = x;
 		this._y0 = y0;

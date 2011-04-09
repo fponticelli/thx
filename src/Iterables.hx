@@ -25,4 +25,9 @@ class Iterables
 	{
 		return Iterators.map(it.iterator(), f);
 	}
+	
+	inline public static function reduce<TIn,TOut>(it : Iterable<TIn>, f : TOut -> TIn -> Int -> TOut, initialValue : TOut) : TOut
+	{
+		return Iterators.reduce(it.iterator(), f, initialValue);
+	}
 }

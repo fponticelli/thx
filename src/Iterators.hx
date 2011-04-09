@@ -44,4 +44,13 @@ class Iterators
 			result.push(f(v, i++));
 		return result;
 	}
+	
+	public static function reduce<TIn, TOut> (it : Iterator<TIn>, f : TOut -> TIn -> Int -> TOut, initialValue : TOut) : TOut
+	{
+		var accumulator = initialValue,
+			i = 0;
+		for (o in it)
+			accumulator = f(accumulator, o, i++);
+		return accumulator;
+	}
 }
