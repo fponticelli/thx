@@ -23,9 +23,7 @@ class LinearString
 		i = f(y0, y1, null);
 	}
 	
-	public function scaleMap(x : Float, i : Int) return scale(x)
-	
-	public function scale(x : Float) return i((x - x0) * kx)
+	public function scale(x : Float, ?i : Int) return i((x - x0) * kx)
 
 	public function getDomain() return [x0, x1]
 	

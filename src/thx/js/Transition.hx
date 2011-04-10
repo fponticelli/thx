@@ -224,7 +224,7 @@ class Transition<TData>
 		var duration = this._duration;
 		k = -1; t.delay(function(d, i) return delay[++k]);
 		k = -1; t.delay(function(d, i) return duration[++k]);
-		return this;
+		return t;
 	}
 	
 	public function selectAll(selector : String)
@@ -235,6 +235,6 @@ class Transition<TData>
 		var duration = this._duration;
 		k = -1; t.delay(function(d, i) return delay[i > 0 ? k : ++k]);
 		k = -1; t.delay(function(d, i) return duration[i > 0 ? k : ++k]);
-		return this;
+		return t;
 	}
 }

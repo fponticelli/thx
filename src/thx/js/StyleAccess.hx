@@ -16,7 +16,7 @@ class StyleAccess<TData> extends Access<TData>
 	public function get()
 	{
 		var n = name;
-		return selection.first(function(n, i) return untyped Lib.window.getComputedStyle(node.dom, null).getPropertyValue(n));
+		return selection.first(function(node, i) return untyped js.Lib.window.getComputedStyle(node.dom, null).getPropertyValue(n));
 	}
 
 	public function remove()
