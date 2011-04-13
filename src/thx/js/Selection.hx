@@ -83,7 +83,47 @@ class Selection<TData>
 		});
 	}
 	
-	public function sort(comparator : Node<TData> -> Node<TData> -> Int)
+	public function sort(comparator : TData -> TData -> Int)
+	{
+		return sortNode(function(a,b) return comparator(a.data, b.data));
+	}
+	
+	public function filter(f : TData -> Int -> Bool)
+	{
+		return filterNode(function(n,i) return f(n.data,i));
+	}
+	
+	public function map<TOut>(f : TData -> Int -> TOut) : Selection<TOut>
+	{
+		return mapNode(function(n,i) return f(n.data,i));
+	}
+	
+	public function first<T>(f : TData -> T) : T
+	{
+		return firstNode(function(n) return f(n.data));
+	}
+	
+	public function empty()
+	{
+		return !firstNode(function(_) return true);
+	}
+	
+	public function node()
+	{
+		return firstNode(function(n) return n);
+	}
+	
+	public function on(type : String, ?listener : TData -> Int -> Void)
+	{
+		return onNode(type, null == listener ? null : function(n,i) listener(n.data,i));
+	}
+	
+	public function each(f : TData -> Int -> Void) : Selection<TData>
+	{
+		return eachNode(function(n,i) f(n.data,i));
+	}
+	
+	public function sortNode(comparator : Node<TData> -> Node<TData> -> Int)
 	{
 		var m = groups.length;
 		for (i in 0...m)
@@ -106,7 +146,7 @@ class Selection<TData>
 		return this;
 	}
 	
-	public function filter(f : Node<TData> -> Int -> Bool)
+	public function filterNode(f : Node<TData> -> Int -> Bool)
 	{
 		var subgroups = [],
 			subgroup;
@@ -129,7 +169,7 @@ class Selection<TData>
 		return new Selection(subgroups);
 	}
 	
-	public function map<TOut>(f : Node<TData> -> Int -> TOut) : Selection<TOut>
+	public function mapNode<TOut>(f : Node<TData> -> Int -> TOut) : Selection<TOut>
 	{
 		for (group in groups)
 		{
@@ -143,35 +183,24 @@ class Selection<TData>
 		return cast this;
 	}
 	
-	public function first<T>(f : Node<TData> -> Int -> T) : T
+	public function firstNode<T>(f : Node<TData> -> T) : T
 	{
 		for (group in groups)
 		{
-			var i = 0;
 			for (node in group)
 			{
 				if (null != node && null != node.dom) // TODO: should this be null != node.dom ???
-					return f(node, i++);
+					return f(node);
 			}
 		}
 		return null;
 	}
-	
-	public function empty()
-	{
-		return !first(function(_,_) return true);
-	}
-	
-	public function node()
-	{
-		return first(function(n,_) return n);
-	}
-	
-	public function on(type : String, ?listener : Node<TData> -> Int -> Void)
+		
+	public function onNode(type : String, ?listener : Node<TData> -> Int -> Void)
 	{
 		var i = type.indexOf("."),
 			typo = i < 0 ? type : type.substr(0, i);
-		return each(function(n, i) {
+		return eachNode(function(n, i) {
 			function l(e) {
 				var o = Dom.event;
 				Dom.event = e;
@@ -194,7 +223,22 @@ class Selection<TData>
 		});
 	}
 	
-	public function data(?d : Array<TData>, ?fd : TData -> Int -> Array<TData>, ?join : TData -> Int -> String) : DataSelection<TData>// TODO Join
+	public function eachNode(f : Node<TData> -> Int -> Void) : Selection<TData>
+	{
+		for (group in groups)
+		{
+			var i = 0;
+			for (node in group)
+			{
+				if (null != node && null != node.dom)
+					f(node, i);
+				i++;
+			}
+		}
+		return this;
+	}
+	
+	public function data(d : Array<TData>, ?join : TData -> Int -> String) : DataSelection<TData>
 	{
 		var update = [], enter = [], exit = [];
 		
@@ -296,17 +340,79 @@ class Selection<TData>
 			exit.push(exitGroup);
 		}
 		
-		if (null != d)
-		{
-			for (group in groups)
-				bind(group, d);
-		} else if (null != fd) {
-			var i = 0;
-			for (group in groups)
-				bind(group, fd(group.parentData, i));
-		} else
-			throw new Error("either data or datafunction must be passed to data()");
+		for (group in groups)
+			bind(group, d);
+		
 		return new DataSelection(update, enter, exit);
+	}
+	
+	public function dataf<TOut>(fd : TData -> Int -> Array<TOut>) : DataSelection<TOut>// TODO Join
+	{
+		var update = [], enter = [], exit = [];
+		
+		function bind(group : Group<TData>, groupData : Array<TOut>)
+		{
+			var n = group.count(),
+				m = groupData.length,
+				n0 = Ints.min(n, m),
+				n1 = Ints.max(n, m),
+				updateNodes = [],
+				exitNodes = [],
+				enterNodes = [],
+				node,
+				nodeData
+			;
+			
+			for (i in 0...n0)
+			{
+				node = group.getNode(i);
+				nodeData = groupData[i];
+				if (null != node)
+				{
+					node.data = cast nodeData;
+					updateNodes[i] = node;
+					enterNodes[i] = exitNodes[i] = null;
+				} else {
+					var node = Node.create(null);
+					node.data = nodeData;
+					enterNodes[i] = node;
+					updateNodes[i] = null;
+					exitNodes[i] = null;
+				}
+			}
+			for (i in n0...m)
+			{
+				var node = Node.create(null);
+				node.data = groupData[i];
+				enterNodes[i] = node;
+				updateNodes[i] = null;
+				exitNodes[i] = null;
+			}
+			for (i in m...n1)
+			{
+				exitNodes[i] = cast group.getNode(i);
+				enterNodes[i] = null;
+				updateNodes[i] = null;
+			}
+		
+			var enterGroup = new Group(enterNodes);
+			enterGroup.parentNode = cast group.parentNode;
+			enterGroup.parentData = cast group.parentData;
+			enter.push(enterGroup);
+			var updateGroup = new Group(updateNodes);
+			updateGroup.parentNode = cast group.parentNode;
+			updateGroup.parentData = cast group.parentData;
+			update.push(updateGroup);
+			var exitGroup = new Group(exitNodes);
+			exitGroup.parentNode = cast group.parentNode;
+			exitGroup.parentData = cast group.parentData;
+			exit.push(exitGroup);
+		}
+		
+		var i = 0;
+		for (group in groups)
+			bind(group, fd(group.parentData, i));
+		return new DataSelection(cast update, cast enter, cast exit);
 	}
 	
 	public function iterator()
@@ -324,18 +430,6 @@ class Selection<TData>
 	public function attr(name : String) return new AttributeAccess(name, this)
 	public function property(name : String) return new PropertyAccess(name, this)
 	public function style(name : String) return new StyleAccess(name, this)
-	
-	public function each(f : Node<TData> -> Int -> Void) : Selection<TData>
-	{
-		for (group in groups)
-		{
-			var i = 0;
-			for (node in group)
-				if (null != node && null != node.dom)
-					f(node, i++);
-		}
-		return this;
-	}
 	
 	public function enter() : InDataSelection<TData>
 	{

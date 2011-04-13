@@ -9,30 +9,30 @@ class HtmlAccess<TData> extends Access<TData>
 {
 	public function get()
 	{
-		return selection.first(function(node : Node<TData>, _) return node.dom.innerHTML);
+		return selection.firstNode(function(node : Node<TData>) return node.dom.innerHTML);
 	}
 	
 	public function string(v : String)
 	{
-		selection.each(function(node, i) node.dom.innerHTML = v);
+		selection.eachNode(function(node, i) node.dom.innerHTML = v);
 		return selection;
 	}
 	
 	public function clear()
 	{
-		selection.each(function(node, i) node.dom.innerHTML = "");
+		selection.eachNode(function(node, i) node.dom.innerHTML = "");
 		return selection;
 	}
 	
 	public function float(v : Float)
 	{
-		selection.each(function(node, i) node.dom.innerHTML = "" + v);
+		selection.eachNode(function(node, i) node.dom.innerHTML = "" + v);
 		return selection;
 	}
 	
 	public function stringf(v : TData -> Int -> Null<String>)
 	{
-		selection.each(function(node, i) {
+		selection.eachNode(function(node, i) {
 			var s = v(node.data, i);
 			if (null == s)
 				s = "";
@@ -43,7 +43,7 @@ class HtmlAccess<TData> extends Access<TData>
 	
 	public function floatf(v : TData -> Int -> Null<Float>)
 	{
-		selection.each(function(node, i) {
+		selection.eachNode(function(node, i) {
 			var f = v(node.data, i);
 			if (null == f)
 				node.dom.innerHTML = "";

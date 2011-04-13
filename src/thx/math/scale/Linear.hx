@@ -7,6 +7,8 @@ package thx.math.scale;
 
 import thx.math.Const;
 
+using Arrays;
+
 class Linear
 {
 	var x0 : Float;
@@ -17,11 +19,13 @@ class Linear
 	var ky : Float;
 	var f : Float -> Float -> (Float -> Float) -> (Float -> Float);
 	var i : Float -> Float;
+	var m : Int;
 	public function new()
 	{
 		x0 = 0; x1 = 1; y0 = 0; y1 = 1; kx = 1; ky = 1;
 		f = Floats.interpolatef;
 		i = f(y0, y1, null);
+		m = 10;
 	}
 	
 	public function scale(x : Float, ?_) return i((x - x0) * kx)
@@ -29,7 +33,6 @@ class Linear
 	public function invert(y : Float, ?_) return (y - y0) * ky + x0
 
 	public function getDomain() return [x0, x1]
-	
 	public function domain(x0 : Float, x1 : Float)
 	{
 		this.x0 = x0; this.x1 = x1;
@@ -38,8 +41,14 @@ class Linear
 		return this;
 	}
 
-	public function getRange() return [y0, y1]
+	public function getModulo() return m
+	public function modulo(m : Int) : Linear
+	{
+		this.m = m;
+		return this;
+	}
 	
+	public function getRange() return [y0, y1]
 	public function range(y0 : Float, y1 : Float) : Linear
 	{
 		this.y0 = y0; this.y1 = y1;
@@ -55,14 +64,13 @@ class Linear
 	}
 
 	public function getInterpolate() return f
-	
 	public function interpolatef(x : Float -> Float -> (Float -> Float) -> (Float -> Float))
 	{
 		i = (f = x)(y0, y1, null);
 		return this;
 	}
 	
-	function tickRange(m : Float)
+	public function tickRange()
 	{
 		var start = Math.min(x0, x1),
 			stop = Math.max(x0, x1),
@@ -83,21 +91,23 @@ class Linear
 		};
 	}
 	
-	public function ticks(m : Float)
+	public function ticks()
 	{
-		var range = tickRange(m);
+		var range = tickRange();
 		return Floats.range(range.start, range.stop, range.step);
 	}
 
-	public function tickFormat(m : Float)
+	public function tickFormat(v : Float, ?i : Int)
 	{
-		var n = Math.max(0, -Math.floor(Math.log(tickRange(m).step) / Const.LN10 + .01));
-		return Floats.formatf("D:"+n);
+		var n = Math.max(0, -Math.floor(Math.log(tickRange().step) / Const.LN10 + .01));
+		return Floats.format(v, "D:"+n);
 	}
 	
-	public function tickFormatMap(m : Float)
+	public function transform(scale : Float, t : Float, a : Float, b : Float)
 	{
-		var f = tickFormat(m);
-		return function(d,?_) return f(d);
+		var range = getRange().map(function(v, _) return (v - t) / scale);
+		domain(a, b);
+		var r = range.map(invert);
+		domain(r[0], r[1]);
 	}
 }

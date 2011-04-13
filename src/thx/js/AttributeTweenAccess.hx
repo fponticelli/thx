@@ -17,9 +17,14 @@ class AttributeTweenAccess<TData> extends TransitionAccess<TData>
 		this.qname = Namespace.qualify(name);
 	}
 	
-	public function stringf(f : Node<TData> -> Int -> String)
+	public function stringfNode(f : Node<TData> -> Int -> String)
 	{
 		return stringTween(transitionStringTweenf(f));
+	}
+	
+	public function stringf(f : TData -> Int -> String)
+	{
+		return stringfNode(function(n,i) return f(n.data,i));
 	}
 	
 	public function string(value : String)
@@ -51,9 +56,14 @@ class AttributeTweenAccess<TData> extends TransitionAccess<TData>
 		return transition;
 	}
 	
-	public function floatf(f : Node<TData> -> Int -> Float)
+	public function floatfNode(f : Node<TData> -> Int -> Float)
 	{
 		return floatTween(transitionFloatTweenf(f));
+	}
+	
+	public function floatf(f : TData -> Int -> Float)
+	{
+		return floatfNode(function(n,i) return f(n.data,i));
 	}
 	
 	public function float(value : Float)

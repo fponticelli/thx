@@ -20,17 +20,17 @@ class AttributeAccess<TData> extends Access<TData>
 	{
 		var n = name,
 			q = qname;
-		return selection.first(function(node : Node<TData>, _) return q == null ? node.dom.getAttribute(n) : untyped node.dom.getAttributeNS(q.space, q.local));
+		return selection.firstNode(function(node : Node<TData>) return q == null ? node.dom.getAttribute(n) : untyped node.dom.getAttributeNS(q.space, q.local));
 	}
 	public function remove()
 	{
 		if (null == qname)
 		{
 			var n = name;
-			selection.each(function(node, i) untyped node.dom.removeAttribute(n));
+			selection.eachNode(function(node, i) untyped node.dom.removeAttribute(n));
 		} else {
 			var q = qname;
-			selection.each(function(node, i) untyped node.dom.removeAttributeNS(q.space, q.local));
+			selection.eachNode(function(node, i) untyped node.dom.removeAttributeNS(q.space, q.local));
 		}
 		return selection;
 	}
@@ -39,10 +39,10 @@ class AttributeAccess<TData> extends Access<TData>
 		if (null == qname)
 		{
 			var n = name;
-			selection.each(function(node, i) untyped node.dom.setAttribute(n, v));
+			selection.eachNode(function(node, i) untyped node.dom.setAttribute(n, v));
 		} else {
 			var q = qname;
-			selection.each(function(node, i) untyped node.dom.setAttributeNS(q.space, q.local, v));
+			selection.eachNode(function(node, i) untyped node.dom.setAttributeNS(q.space, q.local, v));
 		}
 		return selection;
 	}
@@ -52,10 +52,10 @@ class AttributeAccess<TData> extends Access<TData>
 		if (null == qname)
 		{
 			var n = name;
-			selection.each(function(node, i) untyped node.dom.setAttribute(n, s));
+			selection.eachNode(function(node, i) untyped node.dom.setAttribute(n, s));
 		} else {
 			var q = qname;
-			selection.each(function(node, i) untyped node.dom.setAttributeNS(q.space, q.local, s));
+			selection.eachNode(function(node, i) untyped node.dom.setAttributeNS(q.space, q.local, s));
 		}
 		return selection;
 	}
@@ -64,7 +64,7 @@ class AttributeAccess<TData> extends Access<TData>
 		if (null == qname)
 		{
 			var n = name;
-			selection.each(function(node, i) {
+			selection.eachNode(function(node, i) {
 				var s = v(node.data, i);
 				if (null == s)
 					untyped node.dom.removeAttribute(n);
@@ -73,7 +73,7 @@ class AttributeAccess<TData> extends Access<TData>
 			});
 		} else {
 			var q = qname;
-			selection.each(function(node, i) {
+			selection.eachNode(function(node, i) {
 				var s = v(node.data, i);
 				if (null == s)
 					untyped node.dom.removeAttributeNS(n);
@@ -88,7 +88,7 @@ class AttributeAccess<TData> extends Access<TData>
 		if (null == qname)
 		{
 			var n = name;
-			selection.each(function(node, i) {
+			selection.eachNode(function(node, i) {
 				var s = v(node.data, i);
 				if (null == s)
 					untyped node.dom.removeAttribute(n);
@@ -97,7 +97,7 @@ class AttributeAccess<TData> extends Access<TData>
 			});
 		} else {
 			var q = qname;
-			selection.each(function(node, i) {
+			selection.eachNode(function(node, i) {
 				var s = v(node.data, i);
 				if (null == s)
 					untyped node.dom.removeAttributeNS(n);

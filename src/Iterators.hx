@@ -45,6 +45,13 @@ class Iterators
 		return result;
 	}
 	
+	public static function each<T>(it : Iterator<T>, f : T -> Int -> Void) : Void
+	{
+		var i = 0;
+		for (o in it)
+			f(o, i++);
+	}
+	
 	public static function reduce<TIn, TOut> (it : Iterator<TIn>, f : TOut -> TIn -> Int -> TOut, initialValue : TOut) : TOut
 	{
 		var accumulator = initialValue,

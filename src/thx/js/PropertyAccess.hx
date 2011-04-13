@@ -16,32 +16,32 @@ class PropertyAccess<TData> extends Access<TData>
 	public function get()
 	{
 		var n = name;
-		return selection.first(function(node : Node<TData>, _) return Reflect.field(node.dom, n));
+		return selection.firstNode(function(node : Node<TData>) return Reflect.field(node.dom, n));
 	}
 
 	public function remove()
 	{
 		var n = name;
-		selection.each(function(node, i) Reflect.deleteField(node.dom, n));
+		selection.eachNode(function(node, i) Reflect.deleteField(node.dom, n));
 		return selection;
 	}
 	public function string(v : String)
 	{
 		var n = name;
-		selection.each(function(node, i) Reflect.setField(node.dom, n, v));
+		selection.eachNode(function(node, i) Reflect.setField(node.dom, n, v));
 		return selection;
 	}
 	public function float(v : Float)
 	{
 		var s = "" + v;
 		var n = name;
-		selection.each(function(node, i) Reflect.setField(node.dom, n, s));
+		selection.eachNode(function(node, i) Reflect.setField(node.dom, n, s));
 		return selection;
 	}
 	public function stringf(v : TData -> Int -> String)
 	{
 		var n = name;
-		selection.each(function(node, i) {
+		selection.eachNode(function(node, i) {
 			var s = v(node.data, i);
 			if (null == s)
 				untyped Reflect.deleteField(node.dom, n);
@@ -53,7 +53,7 @@ class PropertyAccess<TData> extends Access<TData>
 	public function floatf(v : TData -> Int -> Float)
 	{
 		var n = name;
-		selection.each(function(node, i) {
+		selection.eachNode(function(node, i) {
 			var s = v(node.data, i);
 			if (null == s)
 				untyped Reflect.deleteField(node.dom, n);

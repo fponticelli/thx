@@ -10,7 +10,7 @@ using Arrays;
 
 class TimeScale
 {
-	public static function guessGranularity(a : Float, b : Float, disc = 5)
+	public static function guessGranularity(a : Float, b : Float, disc = 3)
 	{
 		var delta = Math.abs(b - a);
 		if (delta >= DateTools.days(365 * disc))
@@ -54,13 +54,18 @@ class TimeScale
 	public function getDomain() return [x0, x1]
 	public function getDateDomain() return [Date.fromTime(x0), Date.fromTime(x1)]
 	
-	public function domain(x0 : Date, x1 : Date)
+	public function domain(x0 : Float, x1 : Float)
 	{
-		this.x0 = x0.getTime(); this.x1 = x1.getTime();
+		this.x0 = x0; this.x1 = x1;
 		kx = 1 / (this.x1 - this.x0);
 		ky = (this.x1 - this.x0) / (y1 - y0);
 		_granularity = guessGranularity(this.x0, this.x1);
 		return this;
+	}
+	
+	public function dateDomain(x0 : Date, x1 : Date)
+	{
+		return domain(x0.getTime(), x1.getTime());
 	}
 
 	public function getRange() return [y0, y1]
@@ -149,5 +154,13 @@ class TimeScale
 				return FormatDate.year(d);
 		};
 		return "invalid date granularity"; // should never happen
+	}
+	
+	public function transform(scale : Float, t : Float, a : Float, b : Float)
+	{
+		var range = getRange().map(function(v, _) return (v - t) / scale);
+		domain(a, b);
+		var r = range.map(invert);
+		domain(r[0], r[1]);
 	}
 }

@@ -123,32 +123,9 @@ class Zoom<TData>
 	var oldscale : Linear;
 	function dispatch(d, i)
 	{
-		var k = Math.pow(2, _z);
-		
-		function transform(scale : Linear, o : Float)
-		{
-			var domain = untyped (scale.__domain || (scale.__domain = scale.getDomain()));
-			var	range = scale.getRange().map(function(v,_) return (v - o) / k);
-
-			scale.domain(domain[0], domain[1]);
-			var r = range.map(scale.invert);
-			scale.domain(r[0], r[1]);
-		}
-		
-		var me = this;
-		Zoom.event = {
-			scale : k,
-			translate : [me._x, me._y],
-			transform : function(sx : Linear, sy : Linear) {
-				if (null != sx)
-					transform(sx, me._x);
-				if (null != sy)
-					transform(sy, me._y);
-			}
-		}
-		
 		if (null != _dispatch)
 		{
+			Zoom.event = new ZoomEvent(Math.pow(2, _z), _x, _y);
 			try
 			{
 				_dispatch(d, i);
@@ -164,17 +141,17 @@ class Zoom<TData>
 		
 		var container = (null != dom) ? Dom.selectDom(dom) : Dom.selectNode(node);
 		container
-			.on("mousedown", mousedown)
-			.on("mousewheel", mousewheel)
-			.on("DOMMouseScroll", mousewheel)
-			.on("dblclick", mousewheel);
+			.onNode("mousedown", mousedown)
+			.onNode("mousewheel", mousewheel)
+			.onNode("DOMMouseScroll", mousewheel)
+			.onNode("dblclick", mousewheel);
 		
 		Dom.selectDom(cast Lib.window)
-			.on("mousemove", mousemove)
-			.on("mouseup", mouseup);
+			.onNode("mousemove", mousemove)
+			.onNode("mouseup", mouseup);
 		
 		return this;
 	}
 	
-	public static var event;
+	public static var event : ZoomEvent;
 }

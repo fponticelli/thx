@@ -17,9 +17,14 @@ class StyleTweenAccess<TData> extends TransitionAccess<TData>
 		this.name = name;
 	}
 
-	public function stringf(f : Node<TData> -> Int -> String, ?priority : String)
+	public function stringfNode(f : Node<TData> -> Int -> String, ?priority : String)
 	{
 		return stringTween(transitionStringTweenf(f), priority);
+	}
+	
+	public function stringf(f : TData -> Int -> String, ?priority : String)
+	{
+		return stringfNode(function(n,i) return f(n.data,i), priority);
 	}
 	
 	public function string(value : String, ?priority : String)
@@ -44,9 +49,14 @@ class StyleTweenAccess<TData> extends TransitionAccess<TData>
 		return transition;
 	}
 	
-	public function colorf(f : Node<TData> -> Int -> Rgb, ?priority : String)
+	public function colorfNode(f : Node<TData> -> Int -> Rgb, ?priority : String)
 	{
 		return colorTween(transitionColorTweenf(f), priority);
+	}
+	
+	public function colorf(f : TData -> Int -> Rgb, ?priority : String)
+	{
+		return colorfNode(function(n,i) return f(n.data,i), priority);
 	}
 	
 	public function color(value : String, ?priority : String)

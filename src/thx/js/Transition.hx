@@ -44,7 +44,7 @@ class Transition<TData>
 		_duration = [];
 		_ease = Ease.mode(EaseInEaseOut, Equations.cubic);
 		_step = step;
-		selection.each(function(n, _) {
+		selection.eachNode(function(n, _) {
 			n.transition.owner = tid;
 		});
 		
@@ -56,7 +56,7 @@ class Transition<TData>
 		var clear = true,
 			k = -1,
 			me = this;
-		selection.each(function(n : Node<TData>, i : Int) {
+		selection.eachNode(function(n : Node<TData>, i : Int) {
 			if (2 == me._stage[++k])
 				return;
 			var t = (elapsed - me._delay[k]) / me._duration[k],
@@ -129,13 +129,23 @@ class Transition<TData>
 		return clear;
 	}
 	
-	public function start(f : Node<TData> -> Int -> Void)
+	public function start(f : TData -> Int -> Void)
+	{
+		return startNode(function(n,i) f(n.data, i));
+	}
+	
+	public function end(f : TData -> Int -> Void)
+	{
+		return endNode(function(n,i) f(n.data, i));
+	}
+	
+	public function startNode(f : Node<TData> -> Int -> Void)
 	{
 		_start = f;
 		return this;
 	}
 	
-	public function end(f : Node<TData> -> Int -> Void)
+	public function endNode(f : Node<TData> -> Int -> Void)
 	{
 		_end = f;
 		return this;
@@ -145,7 +155,7 @@ class Transition<TData>
 	{
 		var k = -1,
 			me = this;
-		selection.each(function(n, i) {
+		selection.eachNode(function(n, i) {
 			me._stage[++k] = 2;
 			n.resetTransition();
 		});
@@ -158,14 +168,14 @@ class Transition<TData>
 			me = this;
 		if (null != f)
 		{
-			selection.each(function(n, i) {
+			selection.eachNode(function(n, i) {
 				var x = me._delay[++k] = f(n, i);
 				if (x < delayMin)
 					delayMin = x;
 			});
 		} else {
 			delayMin = v;
-			selection.each(function(n, i) {
+			selection.eachNode(function(n, i) {
 				me._delay[++k] = delayMin;
 			});
 		}
@@ -180,14 +190,14 @@ class Transition<TData>
 		if (null != f)
 		{
 			_durationMax = 0;
-			selection.each(function(n, i) {
+			selection.eachNode(function(n, i) {
 				var x = me._duration[++k] = f(n, i);
 				if (x > me._durationMax)
 					me._durationMax = x;
 			});
 		} else {
 			_durationMax = v;
-			selection.each(function(n, i) {
+			selection.eachNode(function(n, i) {
 				me._duration[++k] = me._durationMax;
 			});
 		}
