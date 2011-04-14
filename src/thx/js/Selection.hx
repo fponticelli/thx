@@ -76,10 +76,10 @@ class Selection<TData>
 	
 	public function remove() : Selection<TData>
 	{
-		return _select(function(node : Node<TData>)  {
+		return eachNode(function(node : Node<TData>, i : Int)  {
 			var parent = node.dom.parentNode;
-			parent.removeChild(node.dom);
-			return untyped (null != parent.__thxnode__) ? parent.__thxnode__ : new Node(parent);
+			if(null != parent)
+				parent.removeChild(node.dom);
 		});
 	}
 	
@@ -153,7 +153,6 @@ class Selection<TData>
 		for (group in groups)
 		{
 			var sg = new Group(subgroup = []);
-			sg.parentData = group.parentData;
 			sg.parentNode = group.parentNode;
 			subgroups.push(sg);
 			var i = -1;
@@ -269,8 +268,8 @@ class Selection<TData>
 						exitNodes[j++] = node;
 					} else {
 						nodeByKey.set(key, node);
-						keys.push(key);
 					}
+					keys.push(key);
 				}
 				
 				for (i in 0...m)
@@ -328,15 +327,12 @@ class Selection<TData>
 		
 			var enterGroup = new Group(enterNodes);
 			enterGroup.parentNode = group.parentNode;
-			enterGroup.parentData = group.parentData;
 			enter.push(enterGroup);
 			var updateGroup = new Group(updateNodes);
 			updateGroup.parentNode = group.parentNode;
-			updateGroup.parentData = group.parentData;
 			update.push(updateGroup);
 			var exitGroup = new Group(exitNodes);
 			exitGroup.parentNode = group.parentNode;
-			exitGroup.parentData = group.parentData;
 			exit.push(exitGroup);
 		}
 		
@@ -397,21 +393,18 @@ class Selection<TData>
 		
 			var enterGroup = new Group(enterNodes);
 			enterGroup.parentNode = cast group.parentNode;
-			enterGroup.parentData = cast group.parentData;
 			enter.push(enterGroup);
 			var updateGroup = new Group(updateNodes);
 			updateGroup.parentNode = cast group.parentNode;
-			updateGroup.parentData = cast group.parentData;
 			update.push(updateGroup);
 			var exitGroup = new Group(exitNodes);
 			exitGroup.parentNode = cast group.parentNode;
-			exitGroup.parentData = cast group.parentData;
 			exit.push(exitGroup);
 		}
 		
 		var i = 0;
 		for (group in groups)
-			bind(group, fd(group.parentData, i));
+			bind(group, fd(group.parentNode.data, i));
 		return new DataSelection(cast update, cast enter, cast exit);
 	}
 	
@@ -456,7 +449,6 @@ class Selection<TData>
 		{
 			subgroups.push(subgroup = new Group<TData>());
 			subgroup.parentNode = group.parentNode;
-			subgroup.parentData = group.parentData;
 			for (node in group)
 			{
 				if (null != node)
@@ -484,7 +476,6 @@ class Selection<TData>
 				{
 					subgroups.push(subgroup = new Group(selectallf(node)));
 					subgroup.parentNode = node;
-					subgroup.parentData = node.data;
 				}
 			}
 		}

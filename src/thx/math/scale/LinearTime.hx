@@ -11,6 +11,13 @@ using Arrays;
 
 class LinearTime extends Linear
 {
+	var _usetimeticks : Bool;
+	public function new()
+	{
+		super();
+		_usetimeticks = false;
+	}
+	
 	public static function guessGranularity(a : Float, b : Float, disc = 3)
 	{
 		var delta = Math.abs(b - a);
@@ -63,5 +70,62 @@ class LinearTime extends Linear
 				return FormatDate.year(d);
 		};
 		return "invalid date granularity"; // should never happen
+	}
+
+	public function getUseTimeTicks() return _usetimeticks
+	public function useTimeTicks(v : Bool)
+	{
+		_usetimeticks = v;
+		return this;
+	}
+	
+	override public function ticks()
+	{
+		if (_usetimeticks)
+			return timeTicks();
+		else
+			return linearTicks();
+	}
+
+	public function linearTicks()
+	{
+		return super.ticks();
+	}
+	
+	public function timeTicks()
+	{
+		var start = x0;
+		var stop = x1;
+		var step = 0.0;
+		switch(_granularity)
+		{
+			case "minute":
+				step = 60000;
+			case "hour":
+				step = 60000 * 60;
+			case "day":
+				step = 60000 * 60 * 24;
+			case "week":
+				step = 60000 * 60 * 24 * 7;
+			case "month":
+				var range = [];
+				while (start <= stop)
+				{
+					range.push(start);
+					var d = Date.fromTime(start);
+					start = new Date(d.getFullYear(), d.getMonth() + 1, d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds()).getTime();
+				}
+				return range;
+			case "year":
+				var range = [];
+				while (start <= stop)
+				{
+					range.push(start);
+					var d = Date.fromTime(start);
+					start = new Date(d.getFullYear() + 1, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds()).getTime();
+				}
+				return range;
+		}
+		return Floats.range(start, stop + step, step);
 	}
 }

@@ -1,4 +1,4 @@
-package thx.xml.svg;
+package thx.svg;
 
 /**
  * ...

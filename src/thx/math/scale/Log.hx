@@ -4,6 +4,8 @@ import thx.math.Const;
 /**
  * ...
  * @author Franco Ponticelli
+ * @todo change implementation so that Linear, LinearTime, LinearString Log and Pow share a base class
+ * @todo add clamp/clampMin/clampMax
  */
 
 using Arrays;
@@ -106,7 +108,7 @@ class Log
 				j = Math.ceil(d[1]),
 				u = pow(d[0]),
 				v = pow(d[1]);
-			if (log == _logn)
+			if (Reflect.compareMethods(log, _logn))
 			{
 				ticks.push(pow(i));
 				while (i++ < j)

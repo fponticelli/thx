@@ -1,11 +1,11 @@
-package thx.xml.svg;
+package thx.svg;
 
 /**
  * ...
  * @author Franco Ponticelli
  */
 
-import thx.xml.svg.LineInterpolator;
+import thx.svg.LineInterpolator;
 
 class LineInternals
 {

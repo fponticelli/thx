@@ -12,7 +12,6 @@ using Arrays;
 class Group<TData>
 {
 	public var parentNode : Node<TData>;
-	public var parentData : TData;
 
 	var nodes : Array<Node<TData>>;
 	

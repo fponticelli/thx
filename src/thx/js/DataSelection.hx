@@ -101,7 +101,6 @@ class InDataSelection<TData>
 		{
 			subgroups.push(subgroup = new Group<TData>());
 			subgroup.parentNode = group.parentNode;
-			subgroup.parentData = group.parentData;
 			for (node in group)
 			{
 				if (null != node)

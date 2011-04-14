@@ -7,6 +7,7 @@ import thx.math.Equations;
 /**
  * ...
  * @author Franco Ponticelli
+ * @todo text()
  */
 
 using Arrays;

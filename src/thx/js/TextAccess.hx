@@ -17,20 +17,20 @@ class TextAccess<TData> extends Access<TData>
 	public function string(v : String)
 	{
 		clear();
-		selection.eachNode(function(node, _) node.dom.appendChild(Lib.document.createTextNode(v)));
+		selection.eachNode(function(node, _) untyped node.dom.textContent = v);
 		return selection;
 	}
 	
 	public function clear()
 	{
-		selection.eachNode(function(node, i) while (null != node.dom.lastChild) node.dom.removeChild(node.dom.lastChild));
+		selection.eachNode(function(node, i) untyped node.dom.textContent = "");
 		return selection;
 	}
 	
 	public function float(v : Float)
 	{
 		clear();
-		selection.eachNode(function(node, _) node.dom.appendChild(Lib.document.createTextNode("" + v)));
+		selection.eachNode(function(node, _) untyped node.dom.textContent = "" + v);
 		return selection;
 	}
 	
@@ -39,7 +39,7 @@ class TextAccess<TData> extends Access<TData>
 		clear();
 		selection.eachNode(function(node, i) {
 			var x = v(node.data, i);
-			if(null != x) node.dom.appendChild(Lib.document.createTextNode(x));
+			if (null != x) untyped node.dom.textContent = x;
 		});
 		return selection;
 	}
@@ -49,7 +49,7 @@ class TextAccess<TData> extends Access<TData>
 		clear();
 		selection.eachNode(function(node, i) {
 			var x = v(node.data, i);
-			if(null != x) node.dom.appendChild(Lib.document.createTextNode("" + x));
+			if(null != x) untyped node.dom.textContent = "" + x;
 		});
 		return selection;
 	}

@@ -1,11 +1,12 @@
-package thx.xml.svg;
+package thx.svg;
 
 /**
  * ...
  * @author Franco Ponticelli
+ * @todo complete line functions
  */
 
-import thx.xml.svg.LineInterpolator;
+import thx.svg.LineInterpolator;
 
 class Line<TData>
 {

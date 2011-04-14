@@ -20,15 +20,24 @@ class Linear
 	var f : Float -> Float -> (Float -> Float) -> (Float -> Float);
 	var i : Float -> Float;
 	var m : Int;
+	var _clamp : Bool;
+	var _clampmin : Float;
+	var _clampmax : Float;
 	public function new()
 	{
 		x0 = 0; x1 = 1; y0 = 0; y1 = 1; kx = 1; ky = 1;
 		f = Floats.interpolatef;
 		i = f(y0, y1, null);
 		m = 10;
+		_clamp = false;
+		_clampmin = 0.0;
+		_clampmax = 1.0;
 	}
 	
-	public function scale(x : Float, ?_) return i((x - x0) * kx)
+	public function scale(x : Float, ?_) {
+		x = (x - x0) * kx;
+		return i(_clamp ? Floats.clamp(x, _clampmin, _clampmax) : x);
+	}
 	
 	public function invert(y : Float, ?_) return (y - y0) * ky + x0
 
@@ -67,6 +76,27 @@ class Linear
 	public function interpolatef(x : Float -> Float -> (Float -> Float) -> (Float -> Float))
 	{
 		i = (f = x)(y0, y1, null);
+		return this;
+	}
+	
+	public function getClamp() return _clamp
+	public function clamp(v : Bool)
+	{
+		this._clamp = v;
+		return this;
+	}
+	
+	public function getClampMin() return _clampmin
+	public function clampMin(v : Float)
+	{
+		this._clampmin = v;
+		return this;
+	}
+	
+	public function getClampMax() return _clampmax
+	public function clampMax(v : Float)
+	{
+		this._clampmax = v;
 		return this;
 	}
 	

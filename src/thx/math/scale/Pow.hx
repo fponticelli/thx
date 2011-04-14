@@ -4,6 +4,8 @@ import thx.math.Const;
 /**
  * ...
  * @author Franco Ponticelli
+ * @todo change implementation so that Linear, LinearTime, Log and Pow share a base class
+ * @todo add clamp/clampMin/clampMax
  */
 
 using Arrays;
