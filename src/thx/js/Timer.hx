@@ -8,7 +8,7 @@ package thx.js;
 class Timer
 {
 	static var timeout : Int = 0;
-	static var queue : QueueNode = null;
+	static var queue : QueueHtmlDom = null;
 	static var interval : Int = 0;
 	public static function timer(f : Float -> Bool, ?delay : Float = 0.0)
 	{
@@ -107,10 +107,10 @@ class Timer
 	}
 }
 
-typedef QueueNode = {
+typedef QueueHtmlDom = {
 	f : Float -> Bool,
 	then : Float,
 	delay : Float,
-	next : Null<QueueNode>,
+	next : Null<QueueHtmlDom>,
 	flush : Bool
 }

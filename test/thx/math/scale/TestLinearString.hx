@@ -18,7 +18,7 @@ class TestLinearString extends TestAll
 			.domain(Arrays.min(data), Arrays.max(data))
 			.range("0px", "120px");
 
-		Assert.same(["0px", "8px", "24px", "56px", "120px"], data.map(scale.scaleMap));
+		Assert.same(["0px", "8px", "24px", "56px", "120px"], data.map(scale.scale));
 	}
 /*
 	

@@ -88,12 +88,12 @@ class Ints
 	public static function ascending(a : Int, b : Int) return a < b ? -1 : a > b ? 1 : 0
 	public static function descending(a : Int, b : Int) return a > b ? -1 : a < b ? 1 : 0
 	
-	public static function format(v : Float, ?param : String, ?params : Array<String>, culture : Culture)
+	public static function format(v : Float, ?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return formatf(param, params, culture)(v);
 	}
 	
-	public static function formatf(?param : String, ?params : Array<String>, culture : Culture)
+	public static function formatf(?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return Floats.formatf(FormatParams.params(param, params, 'I'), culture);
 	}

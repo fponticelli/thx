@@ -100,7 +100,7 @@ class Arrays
 		#if js
 		return untyped arr.map(f);
 		#else
-		return Iterables.map(arr, f);
+		return Iterators.map(arr.iterator(), f);
 		#end
 	}
 	
@@ -109,7 +109,7 @@ class Arrays
 	//	#if js
 	//	return untyped arr.reduce(f, initialValue);
 	//	#else
-		return Iterables.reduce(arr, f, initialValue);
+		return Iterators.reduce(arr.iterator(), f, initialValue);
 	//	#end
 	}
 	
@@ -335,5 +335,20 @@ class Arrays
 		for (i in 0...arr.length)
 			!f(arr[i], i);
 #end
+	}
+	
+	inline public static function any<T>(arr : Array<T>, f : T -> Bool) : Bool
+	{
+		return Iterators.any(arr.iterator(), f);
+	}
+	
+	inline public static function all<T>(arr : Array<T>, f : T -> Bool) : Bool
+	{
+		return Iterators.all(arr.iterator(), f);
+	}
+	
+	public static function random<T>(arr : Array<T>) : T
+	{
+		return arr[Std.random(arr.length)];
 	}
 }

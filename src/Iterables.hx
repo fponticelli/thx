@@ -35,4 +35,19 @@ class Iterables
 	{
 		return Iterators.reduce(it.iterator(), f, initialValue);
 	}
+	
+	inline public static function random<T>(it : Iterable<T>) : T
+	{
+		return Arrays.random(Iterables.array(it));
+	}
+	
+	inline public static function any<T>(it : Iterable<T>, f : T -> Bool) : Bool
+	{
+		return Iterators.any(it.iterator(), f);
+	}
+	
+	inline public static function all<T>(it : Iterable<T>, f : T -> Bool) : Bool
+	{
+		return Iterators.all(it.iterator(), f);
+	}
 }

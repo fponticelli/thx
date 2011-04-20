@@ -30,10 +30,10 @@ class TestAll
 		runner.run();
 	}
 	
-	function assertScale(scalef : Float -> Float, expected : Array<Float>, values : Array<Float>)
+	function assertScale(scalef : Float -> Int -> Float, expected : Array<Float>, values : Array<Float>)
 	{
 		for (i in 0...expected.length)
-			Assert.floatEquals(expected[i], scalef(values[i]), 1e-3);
+			Assert.floatEquals(expected[i], scalef(values[i], i), 1e-3);
 	}
 	
 	public function new();

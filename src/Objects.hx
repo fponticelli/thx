@@ -7,6 +7,11 @@ import thx.color.Colors;
 
 class Objects
 {
+	inline public static function field<T>(o : { }, fieldname : String, ?alt : Null<T> = null) : Null<T>
+	{
+		return Reflect.hasField(o, fieldname) ? Reflect.field(o, fieldname) : alt;
+	}
+	
 	inline public static function keys(o : { } ) : Array<String>
 	{
 		return Reflect.fields(o);

@@ -1,8 +1,14 @@
 package thx.js;
 import js.Lib;
+import js.Dom;
+import thx.error.AbstractMethod;
 import thx.math.Ease;
 import thx.math.EaseMode;
 import thx.math.Equations;
+import thx.js.Selection;
+import thx.js.Transition;
+import thx.js.AccessTweenAttribute;
+import thx.js.AccessTweenStyle;
 
 /**
  * ...
@@ -12,13 +18,13 @@ import thx.math.Equations;
 
 using Arrays;
 
-class Transition<TData>
+class BaseTransition<This : BaseTransition<Dynamic>>
 {
 	static var _id = 0;
 	static var _inheritid = 0;
 	
 	var _transitionId : Int;
-	var _tweens : Hash<Node<TData> -> Int -> (Float -> Void)>;
+	var _tweens : Hash<HtmlDom -> Int -> (Float -> Void)>;
 	var _interpolators : Array<Hash<Float -> Void>>;
 	var _remove : Bool;
 	var _stage : Array<Int>;
@@ -28,12 +34,12 @@ class Transition<TData>
 	var _ease : Float -> Float;
 	var _step : Float -> Bool; // fix for $closure issue
 	
-	var _start : Node<TData> -> Int -> Void;
-	var _end : Node<TData> -> Int -> Void;
+	var _start : HtmlDom -> Int -> Void;
+	var _end : HtmlDom -> Int -> Void;
 	
-	var selection : Selection<TData>;
+	var selection : BaseSelection<Dynamic>;
 	
-	public function new(selection : Selection<TData>)
+	public function new(selection : BaseSelection<Dynamic>)
 	{
 		this.selection = selection;
 		var tid = _transitionId = _inheritid > 0 ? _inheritid : ++_id;
@@ -46,10 +52,11 @@ class Transition<TData>
 		_ease = Ease.mode(EaseInEaseOut, Equations.cubic);
 		_step = step;
 		selection.eachNode(function(n, _) {
-			n.transition.owner = tid;
+			Access.setTransition(n, tid);
 		});
 		
-		delay(0).duration(250);
+		delay(0);
+		duration(250);
 	}
 	
 	function step(elapsed : Float)
@@ -57,11 +64,11 @@ class Transition<TData>
 		var clear = true,
 			k = -1,
 			me = this;
-		selection.eachNode(function(n : Node<TData>, i : Int) {
+		selection.eachNode(function(n : HtmlDom, i : Int) {
 			if (2 == me._stage[++k])
 				return;
 			var t = (elapsed - me._delay[k]) / me._duration[k],
-				tx = n.transition,
+				tx = Access.getTransition(n),
 				te, // ease(t)
 				tk, // tween key
 				ik = me._interpolators[k];
@@ -115,9 +122,9 @@ class Transition<TData>
 					var owner = tx.owner;
 					if (owner == me._transitionId)
 					{
-						n.resetTransition();
+						Access.resetTransition(n);
 						if (me._remove)
-							n.dom.parentNode.removeChild(n.dom);
+							n.parentNode.removeChild(n);
 					}
 					_inheritid = me._transitionId;
 					if (null != me._end)
@@ -129,40 +136,31 @@ class Transition<TData>
 		});
 		return clear;
 	}
-	
-	public function start(f : TData -> Int -> Void)
-	{
-		return startNode(function(n,i) f(n.data, i));
-	}
-	
-	public function end(f : TData -> Int -> Void)
-	{
-		return endNode(function(n,i) f(n.data, i));
-	}
-	
-	public function startNode(f : Node<TData> -> Int -> Void)
+
+	public function startNode(f : HtmlDom -> Int -> Void) : This
 	{
 		_start = f;
-		return this;
+		return _this();
 	}
 	
-	public function endNode(f : Node<TData> -> Int -> Void)
+	public function endNode(f : HtmlDom -> Int -> Void) : This
 	{
 		_end = f;
-		return this;
+		return _this();
 	}
 	
-	public function stop()
+	public function stop() : This
 	{
 		var k = -1,
 			me = this;
 		selection.eachNode(function(n, i) {
 			me._stage[++k] = 2;
-			n.resetTransition();
+			Access.resetTransition(n);
 		});
+		return _this();
 	}
 	
-	public function delay(?f : Node<TData> -> Int -> Float, ?v : Float = 0.0)
+	public function delay(?f : HtmlDom -> Int -> Float, ?v : Float = 0.0) : This
 	{
 		var delayMin = Math.POSITIVE_INFINITY,
 			k = -1,
@@ -181,10 +179,10 @@ class Transition<TData>
 			});
 		}
 		Timer.timer(_step, delayMin);
-		return this;
+		return _this();
 	}
 	
-	public function duration(?f : Node<TData> -> Int -> Float, ?v : Float = 0.0)
+	public function duration(?f : HtmlDom -> Int -> Float, ?v : Float = 0.0) : This
 	{
 		var k = -1,
 			me = this;
@@ -202,35 +200,25 @@ class Transition<TData>
 				me._duration[++k] = me._durationMax;
 			});
 		}
-		return this;
+		return _this();
 	}
 	
-	public function style(name : String)
-	{
-		return new StyleTweenAccess(name, this, _tweens);
-	}
-	
-	public function attr(name : String)
-	{
-		return new AttributeTweenAccess(name, this, _tweens);
-	}
-	
-	public function ease(?f : Float -> Float, ?easemode : EaseMode)
+	public function ease(?f : Float -> Float, ?easemode : EaseMode) : This
 	{
 		_ease = Ease.mode(easemode, f);
-		return this;
+		return _this();
 	}
 	
-	public function remove()
+	public function remove(v : Bool = true) : This
 	{
-		_remove = true;
-		return this;
+		_remove = v;
+		return _this();
 	}
 	
-	public function select(selector : String)
+	public function select(selector : String) : This
 	{
-		var k, t = new Transition(selection.select(selector));
-		t._ease = this._ease;
+		var k, t = createTransition(selection.select(selector));
+		untyped t._ease = this._ease;
 		var delay = this._delay;
 		var duration = this._duration;
 		k = -1; t.delay(function(d, i) return delay[++k]);
@@ -238,14 +226,58 @@ class Transition<TData>
 		return t;
 	}
 	
-	public function selectAll(selector : String)
+	public function selectAll(selector : String) : This
 	{
-		var k, t = new Transition(selection.selectAll(selector));
-		t._ease = this._ease;
+		var k, t = createTransition(selection.selectAll(selector));
+		untyped t._ease = this._ease;
 		var delay = this._delay;
 		var duration = this._duration;
 		k = -1; t.delay(function(d, i) return delay[i > 0 ? k : ++k]);
 		k = -1; t.delay(function(d, i) return duration[i > 0 ? k : ++k]);
 		return t;
+	}
+	
+	function createTransition(selection : BaseSelection<Dynamic>) : This
+	{
+		return throw new AbstractMethod();
+	}
+	
+	function _this() : This return cast this
+}
+
+class UnboundTransition extends BaseTransition<UnboundTransition>
+{
+	public function style(name : String) : AccessTweenStyle<UnboundTransition> return new AccessTweenStyle(name, this, _tweens)
+	public function attr(name : String) : AccessTweenAttribute<UnboundTransition> return new AccessTweenAttribute(name, this, _tweens)
+	
+	override function createTransition(selection : BaseSelection<Dynamic>)
+	{
+		return new UnboundTransition(selection);
+	}
+}
+
+class BoundTransition<T> extends BaseTransition<BoundTransition<T>>
+{
+	public function new(selection : BoundSelection<T, Dynamic>)
+	{
+		super(selection);
+	}
+	
+	public function style(name : String) : AccessDataTweenStyle<T, BoundTransition<T>> return new AccessDataTweenStyle(name, this, _tweens)
+	public function attr(name : String) : AccessDataTweenAttribute<T, BoundTransition<T>> return new AccessDataTweenAttribute(name, this, _tweens)
+	
+	public function start(f : T -> Int -> Void)
+	{
+		return startNode(function(n,i) f(Access.getData(n), i));
+	}
+	
+	public function end(f : T -> Int -> Void)
+	{
+		return endNode(function(n,i) f(Access.getData(n), i));
+	}
+	
+	override function createTransition(selection : BaseSelection<Dynamic>)
+	{
+		return new BoundTransition(cast selection);
 	}
 }

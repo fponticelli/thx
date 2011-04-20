@@ -17,7 +17,7 @@ class Svg
 		var point : {x : Float, y : Float} = untyped (null != dom.ownerSVGElement ? dom.ownerSVGElement : dom).createSVGPoint();
 		if (_usepage && untyped (js.Lib.window.scrollX || js.Lib.window.scrollY))
 		{
-			var svg = Dom.selectDom(Lib.document.body)
+			var svg = Dom.selectNode(Lib.document.body)
 				.append("svg:svg")
 					.style("position").string("absolute")
 					.style("top").float(0)

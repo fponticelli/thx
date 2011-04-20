@@ -82,4 +82,56 @@ class Dates
 		var f = Floats.interpolatef(a.getTime(), b.getTime(), interpolator);
 		return function(v) return Date.fromTime(f(v));
 	}
+	
+	public static function snap(time : Float, period : String) : Float
+	{
+		switch(period)
+		{
+			case "second":
+				return Math.round(time / 1000) * 1000;
+			case "minute":
+				return Math.round(time / 60000) * 60000;
+			case "hour":
+				return Math.round(time / 3600000) * 3600000;
+			case "day":
+				return Math.round(time / (24 * 3600000)) * (24 * 3600000);
+			case "week":
+				return Math.round(time / (7 * 24 * 3600000)) * (7 * 24 * 3600000);
+			case "month":
+				var d = Date.fromTime(time);
+				return new Date(d.getFullYear(), d.getMonth(), 1, 0, 0, 0).getTime();
+			case "year":
+				var d = Date.fromTime(time);
+				return new Date(d.getFullYear(), 0, 1, 0, 0, 0).getTime();
+			default:
+				return throw new Error("unknown period '{0}'", period);
+		}
+	}
+	
+	public static function snapToWeekDay(time : Float, day : String)
+	{
+		var d = Date.fromTime(time).getDay();
+		var s = 0;
+		switch(day.toLowerCase())
+		{
+			case "sunday":
+				s = 0;
+			case "monday":
+				s = 1;
+			case "tuesday":
+				s = 2;
+			case "wednesday":
+				s = 3;
+			case "thursday":
+				s = 4;
+			case "friday":
+				s = 5;
+			case "saturday":
+				s = 6;
+			default:
+				throw new Error("unknown week day '{0}'", day);
+		}
+		
+		return time - ((d - s) % 7) * 24 * 60 * 60 * 1000;
+	}
 }

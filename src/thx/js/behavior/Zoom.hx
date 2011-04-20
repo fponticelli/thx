@@ -7,7 +7,6 @@ package thx.js.behavior;
 
 import js.Lib;
 import thx.js.Selection;
-import thx.js.Node;
 import thx.js.Dom;
 import js.Dom;
 import thx.js.Svg;
@@ -22,7 +21,7 @@ class Zoom<TData>
 		x0 : Float,
 		y0 : Float,
 		target : HtmlDom,
-		data : Node<TData>,
+		data : HtmlDom,
 		index : Int
 	};
 	var _zoom : {
@@ -35,7 +34,7 @@ class Zoom<TData>
 	var _x : Float;
 	var _y : Float;
 	var _z : Float;
-	var _dispatch : Node<TData> -> Int -> Void;
+	var _dispatch : HtmlDom -> Int -> Void;
 	
 	public function new()
 	{
@@ -45,13 +44,13 @@ class Zoom<TData>
 		_z = 0;
 	}
 	
-	function mousedown(d : Node<TData>, i : Int)
+	function mousedown(d : HtmlDom, i : Int)
 	{
 		_pan = {
 			x0 : _x - Dom.event.clientX,
 			y0 : _y - Dom.event.clientY,
-			target : d.dom,
-			data : d,
+			target : d,
+			data : Access.getData(d),
 			index : i
 		};
 		untyped thx.js.Dom.event.preventDefault();
@@ -78,14 +77,13 @@ class Zoom<TData>
 		}
 	}
 	
-	function mousewheel(d : Node<TData>, i : Int)
+	function mousewheel(d : HtmlDom, i : Int)
 	{
 		var e = thx.js.Dom.event;
 		untyped e.preventDefault();
-		var dom = d.dom;
 		if (null == _zoom)
 		{
-			var p = Svg.mouse((null != (cast untyped dom.nearestViewportElement) ? (cast untyped dom.nearestViewportElement) : dom));
+			var p = Svg.mouse((null != (cast untyped d.nearestViewportElement) ? (cast untyped d.nearestViewportElement) : d));
 			_zoom = {
 				x0 : _x,
 				y0 : _y,
@@ -125,7 +123,10 @@ class Zoom<TData>
 	{
 		if (null != _dispatch)
 		{
-			Zoom.event = new ZoomEvent(Math.pow(2, _z), _x, _y);
+			var event = new ZoomEvent(Math.pow(2, _z), _x, _y);
+			if (null != Zoom.event && event.scale == Zoom.event.scale && event.tx == Zoom.event.tx && event.ty == Zoom.event.ty)
+				return;
+			Zoom.event = event;
 			try
 			{
 				_dispatch(d, i);
@@ -135,18 +136,18 @@ class Zoom<TData>
 		}
 	}
 	
-	public function zoom(f : Node<TData> -> Int -> Void, ?dom : HtmlDom, ?node : Node<TData>)
+	public function zoom(f : HtmlDom -> Int -> Void, dom : HtmlDom)
 	{
 		_dispatch = f;
 		
-		var container = (null != dom) ? Dom.selectDom(dom) : Dom.selectNode(node);
+		var container = Dom.selectNode(dom);
 		container
 			.onNode("mousedown", mousedown)
 			.onNode("mousewheel", mousewheel)
 			.onNode("DOMMouseScroll", mousewheel)
 			.onNode("dblclick", mousewheel);
 		
-		Dom.selectDom(cast Lib.window)
+		Dom.selectNode(cast Lib.window)
 			.onNode("mousemove", mousemove)
 			.onNode("mouseup", mouseup);
 		

@@ -13,8 +13,9 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		TestDom.addTests(runner);
-		TestSizzle.addTests(runner);
+		runner.addCase(new TestDom());
+		runner.addCase(new TestSizzle());
+		runner.addCase(new TestSelection());
 	}
 	
 	public static function main()

@@ -18,7 +18,7 @@ class LinearTime extends Linear
 		_usetimeticks = false;
 	}
 	
-	public static function guessGranularity(a : Float, b : Float, disc = 3)
+	public static function guessGranularity(a : Float, b : Float, disc = 2)
 	{
 		var delta = Math.abs(b - a);
 		if (delta >= DateTools.days(365 * disc))
@@ -61,7 +61,7 @@ class LinearTime extends Linear
 			case "minute":
 				return FormatDate.timeShort(d);
 			case "hour":
-				return FormatDate.monthDay(d) + " " + FormatDate.timeShort(d);
+				return FormatDate.timeShort(d);
 			case "day", "week":
 				return FormatDate.monthDay(d);
 			case "month":
@@ -109,6 +109,10 @@ class LinearTime extends Linear
 				step = 60000 * 60 * 24 * 7;
 			case "month":
 				var range = [];
+				var step1 = 60000 * 60 * 24 * DateTools.getMonthDays(Date.fromTime(start));
+				var step2 = 60000 * 60 * 24 * DateTools.getMonthDays(Date.fromTime(stop));
+				start = Math.ceil(start / step1) * step1;
+				stop = Math.floor(stop / step2) * step2 + step2 * .5;
 				while (start <= stop)
 				{
 					range.push(start);
@@ -118,6 +122,9 @@ class LinearTime extends Linear
 				return range;
 			case "year":
 				var range = [];
+				step = 60000 * 60 * 24 * 365;
+				start = Math.ceil(start / step) * step;
+				stop = Math.floor(stop / step) * step + step * .5;
 				while (start <= stop)
 				{
 					range.push(start);
@@ -126,6 +133,8 @@ class LinearTime extends Linear
 				}
 				return range;
 		}
-		return Floats.range(start, stop + step, step);
+		start = Math.ceil(start / step) * step;
+		stop = Math.floor(stop / step) * step + step * .5;
+		return Floats.range(start, stop, step);
 	}
 }

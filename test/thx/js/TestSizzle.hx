@@ -32,19 +32,6 @@ class TestSizzle
 		Assert.equals(1, selection.length);
 		Assert.equals(node, selection[0]);
 	}
-	
-	public static function addTests(runner : Runner)
-	{
-		runner.addCase(new TestSizzle());
-	}
-	
-	public static function main()
-	{
-		var runner = new Runner();
-		addTests(runner);
-		Report.create(runner);
-		runner.run();
-	}
-	
+
 	public function new();
 }

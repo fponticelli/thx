@@ -15,6 +15,7 @@ class TestAll
 #if js
 		thx.js.TestAll.addTests(runner);
 #end
+/*
 		thx.collections.TestAll.addTests(runner);
 		thx.color.TestAll.addTests(runner);
 		thx.doc.TestAll.addTests(runner);
@@ -25,6 +26,7 @@ class TestAll
 		thx.text.TestAll.addTests(runner);
 		thx.html.TestAll.addTests(runner);
 		thx.math.TestAll.addTests(runner);
+		thx.svg.TestAll.addTests(runner);
 		thx.xml.TestAll.addTests(runner);
 		thx.type.TestAll.addTests(runner);
 		thx.util.TestAll.addTests(runner);
@@ -37,6 +39,7 @@ class TestAll
 		TestHashes.addTests(runner);
 		TestObjects.addTests(runner);
 		TestStrings.addTests(runner);
+*/
 	}
 	
 	public static function main()

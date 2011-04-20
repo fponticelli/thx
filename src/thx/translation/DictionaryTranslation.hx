@@ -1,7 +1,7 @@
 package thx.translation;
 import thx.culture.Info;
-import thx.culture.ITranslation;
 import thx.culture.Culture;
+import thx.translation.ITranslation;
 import thx.translation.PluralForms;
 
 class DictionaryTranslation implements ITranslation

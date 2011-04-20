@@ -44,14 +44,12 @@ class Log
 		pow = _pow;
 	}
 	
-	public function scaleMap(x : Float, i : Int) return scale(x)
-	
-	public function scale(x : Float)
+	public function scale(x : Float, ?i : Int)
 	{
 		return linear.scale(log(x));
 	}
 	
-	public function invert(x : Float)
+	public function invert(x : Float, ?i : Int)
 	{
 		return pow(linear.invert(x));
 	}

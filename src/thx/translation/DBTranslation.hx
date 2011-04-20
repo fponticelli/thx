@@ -5,7 +5,7 @@
 
 package thx.translation;
 
-import thx.culture.ITranslation;
+import thx.translation.ITranslation;
 import thx.culture.Info;
 import thx.culture.Culture;
 

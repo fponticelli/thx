@@ -7,36 +7,37 @@ package thx.js;
 
 import js.Dom;
 import js.Lib;
+import thx.js.Selection;
 
 class Dom
 {
 
-	public static var doc = (function() {
-	var gs = new Selection<Dynamic>([new Group(Node.create(Lib.document))]);
-		gs.parentNode = Node.create(untyped Lib.document.documentElement);
+	public static var doc : Selection = (function() {
+	var gs = Selection.create([new Group([cast Lib.document])]);
+		gs.parentNode = untyped Lib.document.documentElement;
 		return gs;
 	} )();
 	
 	public static var selectionEngine = new SizzleEngine();
 
-	public static function select(selector : String)
+	public static function select(selector : String) : Selection
 	{
 		return doc.select(selector);
 	}
 	
-	public static function selectAll(selector : String)
+	public static function selectAll(selector : String) : Selection
 	{
 		return doc.selectAll(selector);
 	}
 	
-	public static function selectNode<TData>(node : Node<TData>)
+	public static function selectNode(node : HtmlDom) : Selection
 	{
-		return new Selection<TData>([new Group(node)]);
+		return Selection.create([new Group([node])]);
 	}
 	
-	public static function selectDom(dom : HtmlDom)
+	public static function selectNodeData<T>(node : HtmlDom) : ResumeSelection<T>
 	{
-		return new Selection([new Group(Node.create(dom))]);
+		return ResumeSelection.create([new Group([node])]);
 	}
 	
 	public static var event : Event;

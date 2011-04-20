@@ -60,4 +60,25 @@ class Iterators
 			accumulator = f(accumulator, o, i++);
 		return accumulator;
 	}
+	
+	inline public static function random<T>(it : Iterator<T>) : T
+	{
+		return Arrays.random(Iterators.array(it));
+	}
+	
+	public static function any<T>(it : Iterator<T>, f : T -> Bool) : Bool
+	{
+		for (v in it)
+			if (f(v))
+				return true;
+		return false;
+	}
+	
+	public static function all<T>(it : Iterator<T>, f : T -> Bool) : Bool
+	{
+		for (v in it)
+			if (!f(v))
+				return false;
+		return true;
+	}
 }

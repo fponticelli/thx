@@ -20,6 +20,11 @@ using Arrays;
 
 class TestDom
 {
+	public function testDocument()
+	{
+		Assert.isFalse(Dom.doc.empty());
+		Assert.equals(Lib.document, Dom.doc.node());
+	}
 /*
 	public function testBody()
 	{
@@ -40,18 +45,6 @@ class TestDom
 					.text(function(n,_) return "" + n.data);
 	}
 */
-	public static function addTests(runner : Runner)
-	{
-		runner.addCase(new TestDom());
-	}
-	
-	public static function main()
-	{
-		var runner = new Runner();
-		addTests(runner);
-		Report.create(runner);
-		runner.run();
-	}
 	
 	public function new();
 }

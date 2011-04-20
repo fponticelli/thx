@@ -207,13 +207,13 @@ class Chord
 	}
 }
 
-private typedef ChordType =
+typedef ChordType =
 {
 	source : ItemType,
 	target : ItemType
 }
 
-private typedef ItemType =
+typedef ItemType =
 {
 	index : Int,
 	subindex : Int,

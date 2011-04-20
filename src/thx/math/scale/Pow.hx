@@ -26,9 +26,7 @@ class Pow
 		powb = powp = function(v) return v;
 	}
 	
-	public function scaleMap(x : Float, i : Int) return scale(x)
-	
-	public function scale(x : Float)
+	public function scale(x : Float, ?i : Int)
 	{
 		return linear.scale(powp(x));
 	}
@@ -78,9 +76,9 @@ class Pow
 		return this;
 	}
 	
-	public function ticks(m : Float)
+	public function ticks()
 	{
-		return tick.ticks(m);
+		return tick.ticks();
 	}
 	
 	public function tickFormatf(m : Float)

@@ -9,49 +9,30 @@ using Arrays;
  * @author Franco Ponticelli
  */
 
-class Group<TData>
-{
-	public var parentNode : Node<TData>;
+// TODO inline
 
-	var nodes : Array<Node<TData>>;
+class Group
+{
+	public var parentNode : HtmlDom;
+
+	var nodes : Array<HtmlDom>;
 	
-	public function new(?node : Node<TData>, ?nodes : Array<Node<TData>>)
-	{
-		if (null != node)
-			this.nodes = [node];
-		else if (null != nodes)
-			this.nodes = nodes;
-		else
-			this.nodes = [];
-	}
+	public function new(nodes : Array<HtmlDom>) this.nodes = nodes
 	
-	public function iterator()
+	public function each(f : HtmlDom -> Int -> Void)
 	{
-		return nodes.iterator();
+		for (i in 0...nodes.length)
+			if (null != nodes[i])
+				f(nodes[i], i);
 	}
+
+	inline public function iterator() return nodes.iterator()
+
+	inline public function get(i : Int) return nodes[i]
+
+	inline public function count() return nodes.length
 	
-	public function getNode(i : Int)
-	{
-		return nodes[i];
-	}
-	
-	public function getDom(i : Int)
-	{
-		return null != nodes[i] ? nodes[i].dom : null;
-	}
-	
-	public function count()
-	{
-		return nodes.length;
-	}
-	
-	public function push(node : Node<TData>)
-	{
-		nodes.push(node);
-	}
-	
-	public function sort(comparator : Node<TData> -> Node<TData> -> Int)
-	{
-		nodes.sort(comparator);
-	}
+	inline public function push(node : HtmlDom) nodes.push(node)
+
+	inline public function sort(comparator : HtmlDom -> HtmlDom -> Int) nodes.sort(comparator)
 }
