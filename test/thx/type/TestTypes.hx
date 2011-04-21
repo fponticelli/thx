@@ -9,7 +9,7 @@ import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
 
-using thx.type.Types;
+using Types;
 
 class TestTypes
 {

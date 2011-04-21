@@ -3,7 +3,8 @@
  * @author Franco Ponticelli
  */
 
-import thx.util.DynamicsT;
+import DynamicsT;
+import thx.collections.Set;
 
 class Hashes
 {

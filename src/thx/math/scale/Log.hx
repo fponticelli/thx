@@ -10,9 +10,8 @@ import thx.math.Const;
 
 using Arrays;
 
-class Log
+class Log extends NumericScale<Log>
 {
-	var linear : Linear;
 	static function _log(x : Float)
 	{
 		return Math.log(x) / Const.LN10;
@@ -33,33 +32,32 @@ class Log
 		return -Math.pow(10, -x);
 	}
 	
-	
 	var log : Float -> Float;
 	var pow : Float -> Float;
 
 	public function new()
 	{
-		linear = new Linear();
+		super();
 		log = _log;
 		pow = _pow;
 	}
 	
-	public function scale(x : Float, ?i : Int)
+	override public function scale(x : Float, ?i : Int)
 	{
-		return linear.scale(log(x));
+		return super.scale(log(x));
 	}
 	
-	public function invert(x : Float, ?i : Int)
+	override public function invert(x : Float, ?i : Int)
 	{
-		return pow(linear.invert(x));
+		return pow(super.invert(x));
 	}
 	
-	public function getDomain() {
+	override public function getDomain() {
 		var me = this;
-		return linear.getDomain().map(function(d, _) return me.pow(d));
+		return super.getDomain().map(function(d, _) return me.pow(d));
 	}
 	
-	public function domain(x0 : Float, x1 : Float)
+	override public function domain(x0 : Float, x1 : Float)
 	{
 		if (Floats.min(x0, x1) < 0) {
 			log = _logn;
@@ -68,38 +66,12 @@ class Log
 			log = _log;
 			pow = _pow;
 		}
-		linear.domain(log(x0), log(x1));
-		return this;
+		return super.domain(log(x0), log(x1));
 	}
 	
-	public function getRange()
+	override public function ticks()
 	{
-		return linear.getRange();
-	}
-	
-	public function range(y0 : Float, y1 : Float)
-	{
-		linear.range(y0, y1);
-		return this;
-	}
-	
-	public function rangeRound(y0 : Float, y1 : Float)
-	{
-		linear.rangeRound(y0, y1);
-		return this;
-	}
-	
-	public function getInterpolate() return linear.getInterpolate()
-	
-	public function interpolatef(x : Float -> Float -> (Float -> Float) -> (Float -> Float))
-	{
-		linear.interpolatef(x);
-		return this;
-	}
-	
-	public function ticks()
-	{
-		var d = linear.getDomain(),
+		var d = super.getDomain(),
 			ticks = [];
 		if (d.every(function(d,_) return Math.isFinite(d))) {
 			var i = Math.floor(d[0]),

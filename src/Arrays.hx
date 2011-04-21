@@ -333,7 +333,7 @@ class Arrays
 		untyped arr.forEach(f);
 #else
 		for (i in 0...arr.length)
-			!f(arr[i], i);
+			f(arr[i], i);
 #end
 	}
 	

@@ -59,7 +59,6 @@ class Arc extends Shape
 			s0 = Math.sin(a0),
 			c1 = Math.cos(a1),
 			s1 = Math.sin(a1);
-		
 		return da >= LineInternals.arcMax
 			? (r0 != 0
 			? "M0," + r1

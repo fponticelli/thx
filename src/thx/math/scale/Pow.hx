@@ -10,9 +10,8 @@ import thx.math.Const;
 
 using Arrays;
 
-class Pow
+class Pow extends NumericScale<Pow>
 {
-	var linear : Linear;
 	var tick : Linear;
 	var _exponent : Float;
 	var powp : Float -> Float;
@@ -20,70 +19,52 @@ class Pow
 
 	public function new()
 	{
-		linear = new Linear();
+		super();
 		tick = new Linear();
 		_exponent = 1;
 		powb = powp = function(v) return v;
 	}
 	
-	public function scale(x : Float, ?i : Int)
+	override public function scale(x : Float, ?i : Int)
 	{
-		return linear.scale(powp(x));
+		return super.scale(powp(x));
 	}
 	
-	public function invert(x : Float)
+	override public function invert(x : Float, ?i : Int)
 	{
-		return powb(linear.invert(x));
+		return powb(super.invert(x));
 	}
 	
-	public function getDomain() {
+	override public function getDomain() {
 		var me = this;
-		return linear.getDomain().map(function(d, _) return me.powb(d));
+		return super.getDomain().map(function(d, _) return me.powb(d));
 	}
 	
-	public function domain(x0 : Float, x1 : Float)
+	override public function domain(x0 : Float, x1 : Float)
 	{
 		var pow : Float -> (Float -> Float) = (Floats.min(x0, x1) < 0 ? _pown : _pow);
 		powp = pow(_exponent);
 		powb = pow(1.0 / _exponent);
-		linear.domain(powp(x0), powp(x1));
+		super.domain(powp(x0), powp(x1));
 		tick.domain(x0, x1);
 		return this;
 	}
-	
-	public function getRange()
-	{
-		return linear.getRange();
-	}
-	
-	public function range(y0 : Float, y1 : Float)
-	{
-		linear.range(y0, y1);
-		return this;
-	}
-	
-	public function rangeRound(y0 : Float, y1 : Float)
-	{
-		linear.rangeRound(y0, y1);
-		return this;
-	}
-	
-	public function getInterpolate() return linear.getInterpolate()
-	
-	public function interpolatef(x : Float -> Float -> (Float -> Float) -> (Float -> Float))
-	{
-		linear.interpolatef(x);
-		return this;
-	}
-	
-	public function ticks()
+
+	override public function ticks()
 	{
 		return tick.ticks();
 	}
 	
-	public function tickFormatf(m : Float)
+	override public function tickFormat(v : Float, ?i : Int)
 	{
-		return tick.tickFormat(m);
+		return tick.tickFormat(v, i);
+	}
+	
+	public function getModulo() return tick.getModulo()
+	public function modulo(v : Int)
+	{
+		tick.modulo(v);
+		return this;
 	}
 	
 	public function getExponent()

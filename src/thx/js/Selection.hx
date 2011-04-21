@@ -352,7 +352,6 @@ class BaseSelection<This>
 	}
 
 	// SELECTION
-	
 	public function select(selector : String) : This
 	{
 		return _select(function(el) {
@@ -366,13 +365,10 @@ class BaseSelection<This>
 			return Dom.selectionEngine.selectAll(selector, el);
 		});
 	}
-	
-	
-	
+
 	inline function _this() : This return cast this
-	
+
 	// DOM MANIPULATION
-	
 	public function append(name : String) : This
 	{
 		var qname = Namespace.qualify(name);
@@ -451,7 +447,6 @@ class BaseSelection<This>
 	}
 	
 	// NODE QUERY
-	
 	public function firstNode<T>(f : HtmlDom -> T) : Null<T>
 	{
 		for (group in groups)
@@ -494,7 +489,6 @@ class BaseSelection<This>
 	}
 	
 	// NODE EVENT
-	
 	public function onNode(type : String, ?listener : HtmlDom -> Int -> Void)
 	{
 		var i = type.indexOf("."),
@@ -523,7 +517,6 @@ class BaseSelection<This>
 	}
 
 	// PRIVATE HELPERS
-	
 	function createSelection(groups : Array<Group>) : This
 	{
 		return throw new AbstractMethod();
