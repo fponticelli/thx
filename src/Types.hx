@@ -1,5 +1,3 @@
-package thx.type;
-
 import Type;
 
 class Types
