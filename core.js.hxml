@@ -1,5 +1,7 @@
 -cp src
 -cp test
+-cp src-exp
+-cp test-exp
 -lib utest
 -js bin/core.js
 -main TestAll

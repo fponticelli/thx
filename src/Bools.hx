@@ -47,4 +47,15 @@ class Bools
 			return function(v) return f(v) < 0.5 ? a : b;
 		}
 	}
+	
+	public static function canParse(s : String)
+	{
+		s = s.toLowerCase();
+		return s == 'true' || s == 'false';
+	}
+	
+	public static function parse(s : String)
+	{
+		return s.toLowerCase() == 'true';
+	}
 }

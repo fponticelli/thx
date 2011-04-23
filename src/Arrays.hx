@@ -351,4 +351,19 @@ class Arrays
 	{
 		return arr[Std.random(arr.length)];
 	}
+	
+	public static function toString<T>(arr : Array<T>)
+	{
+		return "[" + Arrays.map(arr, function(v, _) return Dynamics.toString(v)).join(", ") + "]";
+	}
+	
+	inline public static function last<T>(arr : Array<T>) : Null<T>
+	{
+		return arr[arr.length - 1];
+	}
+	
+	inline public static function first<T>(arr : Array<T>) : Null<T>
+	{
+		return arr[0];
+	}
 }

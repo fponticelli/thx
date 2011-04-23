@@ -81,4 +81,21 @@ class Iterators
 				return false;
 		return true;
 	}
+	
+	inline public static function last<T>(it : Iterator<T>) : Null<T>
+	{
+		var o = null;
+		while (it.hasNext()) o = it.next();
+		return o;
+	}
+	
+	inline public static function first<T>(it : Iterator<T>) : Null<T>
+	{
+		return it.next();
+	}
+	
+	inline public static function order<T>(it : Iterator<T>, ?f : T -> T -> Int) : Array<T>
+	{
+		return Arrays.order(Iterators.array(it), f);
+	}
 }

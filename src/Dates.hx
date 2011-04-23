@@ -134,4 +134,19 @@ class Dates
 		
 		return time - ((d - s) % 7) * 24 * 60 * 60 * 1000;
 	}
+	
+	static var _reparse = ~/^\d{4}-\d\d-\d-\d(( |T)\d\d:\d\d:\d\d(.\d{1,3})?)?$/;
+	public static function canParse(s : String)
+	{
+		return _reparse.match(s);
+	}
+	
+	public static function parse(s : String) : Date
+	{
+		var parts = s.split(".");
+		var date = Date.fromString(StringTools.replace(parts[0], "T", " "));
+		if (parts.length > 1)
+			date = Date.fromTime(date.getTime() + Std.parseInt(parts[1]));
+		return date;
+	}
 }

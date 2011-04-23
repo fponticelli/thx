@@ -17,10 +17,11 @@ class TestAll
 #end
 		thx.collections.TestAll.addTests(runner);
 		thx.color.TestAll.addTests(runner);
-		thx.doc.TestAll.addTests(runner);
-		runner.addCase(new thx.data.TestData());
+		runner.addCase(new thx.data.TestValueEncoder());
+		runner.addCase(new thx.data.TestValueHandler());
+		runner.addCase(new thx.csv.TestCsv());
 		runner.addCase(new thx.json.TestJson());
-		thx.load.TestAll.addTests(runner);
+		runner.addCase(new thx.ini.TestIni());
 		thx.error.TestAll.addTests(runner);
 		thx.text.TestAll.addTests(runner);
 		thx.html.TestAll.addTests(runner);
@@ -38,6 +39,8 @@ class TestAll
 		TestHashes.addTests(runner);
 		TestObjects.addTests(runner);
 		TestStrings.addTests(runner);
+		
+		TestAllExp.addTests(runner);
 	}
 	
 	public static function main()

@@ -1,5 +1,5 @@
 package thx.json;
-import thx.data.DataExpr;
+import thx.data.IDataHandler;
 import thx.error.Error;
 
 #if neko
@@ -21,12 +21,15 @@ class JsonDecoder
 	var rest : String;
 	var char : String;
 	
-	public function new(tabsize = 4)
+	var handler : IDataHandler;
+	
+	public function new(handler : IDataHandler, tabsize = 4)
 	{
+		this.handler = handler;
 		this.tabsize = tabsize;
 	}
 	
-	public function decode(s : String) : DataExpr
+	public function decode(s : String) : Void
 	{
 		col = 0;
 		line = 0;
@@ -35,6 +38,7 @@ class JsonDecoder
 		ignoreWhiteSpace();
 		
 		var p = null;
+		handler.start();
 		try
 		{
 			p = parse();
@@ -45,7 +49,7 @@ class JsonDecoder
 		ignoreWhiteSpace();
 		if (rest.length > 0)
 			error("the stream contains unrecognized characters at its end");
-		return p;
+		handler.end();
 	}
 	
 	function ignoreWhiteSpace()
@@ -128,8 +132,8 @@ class JsonDecoder
 	
 	function parseObject()
 	{
-		var pairs = [];
 		var first = true;
+		handler.startObject();
 		while (true)
 		{
 			ignoreWhiteSpace();
@@ -147,17 +151,18 @@ class JsonDecoder
 			if (!expect(":"))
 				error("expected ':'");
 			ignoreWhiteSpace();
-			var v = parse();
-			pairs.push( { k : k, v : v } );
+			handler.startField(k);
+			parse();
+			handler.endField();
 		}
-		return CEObject(pairs);
+		handler.endObject();
 	}
 	
 	function parseArray()
 	{
 		ignoreWhiteSpace();
-		var arr = [];
 		var first = true;
+		handler.startArray();
 		while (true)
 		{
 			ignoreWhiteSpace();
@@ -169,27 +174,28 @@ class JsonDecoder
 				ignoreWhiteSpace();
 			else
 				error("expected ','");
-			arr.push(parse());
+			handler.startItem();
+			parse();
+			handler.endItem();
 		}
-		
-		return CEArray(arr);
+		handler.endArray();
 	}
 	
 	function parseValue()
 	{
 		if (expect("true"))
-			return CEBool(true);
+			handler.bool(true);
 		else if (expect("false"))
-			return CEBool(false);
+			handler.bool(false);
 		else if (expect("null"))
-			return CENull;
+			handler.null();
 		else
-			return parseFloat();
+			parseFloat();
 	}
 	
 	function parseString()
 	{
-		return CEString(_parseString());
+		handler.string(_parseString());
 	}
 	
 	function _parseString()
@@ -260,6 +266,7 @@ class JsonDecoder
 				error("invalid hexadecimal value " + c);
 			v.push(c);
 		}
+		handler.int(Std.parseInt("0x" + v.join("")));
 		return Std.parseInt("0x" + v.join(""));
 	}
 	
@@ -284,7 +291,8 @@ class JsonDecoder
 		{
 			v += parseDigits();
 		} catch (e : StreamError) {
-			return CEInt(Std.parseInt(v));
+			handler.int(Std.parseInt(v));
+			return;
 		}
 
 		try
@@ -293,7 +301,8 @@ class JsonDecoder
 			{
 				v += "." + parseDigits(1);
 			} else {
-				return CEInt(Std.parseInt(v));
+				handler.int(Std.parseInt(v));
+				return;
 			}
 			
 			if (expect("e") || expect("E"))
@@ -309,9 +318,10 @@ class JsonDecoder
 			}
 		} catch (e : StreamError)
 		{
-			return CEFloat(Std.parseFloat(v));
+			handler.float(Std.parseFloat(v)); // TODO remove
+			return; // TODO remove
 		}
-		return CEFloat(Std.parseFloat(v));
+		handler.float(Std.parseFloat(v));
 	}
 	
 	function parseDigits(atleast = 0)

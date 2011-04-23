@@ -97,4 +97,18 @@ class Ints
 	{
 		return Floats.formatf(FormatParams.params(param, params, 'I'), culture);
 	}
+	
+	static var _reparse = ~/^(\+|-)?\d+$/;
+	public static function canParse(s : String)
+	{
+		return _reparse.match(s);
+	}
+	
+	// TODO add proper octal/hex/exp support
+	public static function parse(s : String)
+	{
+		if (s.substr(0, 1) == "+")
+			s = s.substr(1);
+		return Std.parseInt(s);
+	}
 }

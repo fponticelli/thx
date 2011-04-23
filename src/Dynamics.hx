@@ -70,4 +70,46 @@ class Dynamics
 			default: throw new Error("cannot interpolate on functions/enums/unknown");
 		}
 	}
+	
+	public static function toString(v : Dynamic)
+	{
+		switch(Type.typeof(v))
+		{
+			case TNull: return "null";
+			case TInt: return Ints.format(v);
+			case TFloat: return Floats.format(v);
+			case TBool: return Bools.format(v);
+			case TObject:
+				var keys = Objects.keys(v);
+				var result = [];
+				for (key in keys)
+					result.push(key + " : " + toString(Reflect.field(v, key)));
+				return "{" + result.join(", ") + "}";
+			case TClass(c):
+				var name = Type.getClassName(c);
+				switch(name)
+				{
+					case "Array":
+						return Arrays.toString(v);
+					case "String":
+						var s : String = v;
+						if (s.indexOf('"') < 0)
+							return '"' + s + '"';
+						else if (s.indexOf("'") < 0)
+							return "'" + s + "'";
+						else
+							return '"' + StringTools.replace(s, '"', '\\"') + '"';
+					case "Date":
+						return Dates.format(v);
+					default:
+						return Std.string(v);
+				}
+			case TEnum(e):
+				return Enums.toString(v);
+			case TUnknown:
+				return "<unknown>";
+			case TFunction:
+				return "<function>";
+		}
+	}
 }

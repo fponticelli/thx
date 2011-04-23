@@ -1,27 +1,21 @@
 package thx.json;
 
-import thx.data.DataExpr;
-import thx.data.Data;
+import thx.data.ValueEncoder;
+import thx.data.ValueHandler;
 
 class Json
 {
-	public static function encode(value : DataExpr)
+	public static function encode(value : Dynamic)
 	{
-		return new JsonEncoder().encode(value);
+		var handler = new JsonEncoder();
+		new ValueEncoder(handler).encode(value);
+		return handler.encodedString;
 	}
 	
 	public static function decode(value : String)
 	{
-		return new JsonDecoder().decode(value);
-	}
-	
-	public static function encodeObject(o : Dynamic)
-	{
-		return encode(Data.toConfigExpr(o));
-	}
-	
-	public static function decodeObject(s : String)
-	{
-		return Data.toDynamic(decode(s));
+		var handler = new ValueHandler();
+		var r = new JsonDecoder(handler).decode(value);
+		return handler.value;
 	}
 }

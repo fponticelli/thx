@@ -136,4 +136,17 @@ class Floats
 				return throw new Error("Unsupported number format: {0}", format);
 		}
 	}
+	
+	static var _reparse = ~/^(\+|-)?\d+(\.\d+)?(e-?\d+)?$/;
+	public static function canParse(s : String)
+	{
+		return _reparse.match(s);
+	}
+
+	public static function parse(s : String)
+	{
+		if (s.substr(0, 1) == "+")
+			s = s.substr(1);
+		return Std.parseFloat(s);
+	}
 }
