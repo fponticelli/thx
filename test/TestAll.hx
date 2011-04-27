@@ -34,6 +34,7 @@ class TestAll
 		
 		TestArrays.addTests(runner);
 		TestFloats.addTests(runner);
+		runner.addCase(new TestDates());
 		TestInts.addTests(runner);
 		TestIterators.addTests(runner);
 		TestHashes.addTests(runner);

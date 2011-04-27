@@ -135,7 +135,7 @@ class Dates
 		return time - ((d - s) % 7) * 24 * 60 * 60 * 1000;
 	}
 	
-	static var _reparse = ~/^\d{4}-\d\d-\d-\d(( |T)\d\d:\d\d:\d\d(.\d{1,3})?)?$/;
+	static var _reparse = ~/^\d{4}-\d\d-\d\d(( |T)\d\d:\d\d:\d\d(.\d{1,3})?)?$/;
 	public static function canParse(s : String)
 	{
 		return _reparse.match(s);

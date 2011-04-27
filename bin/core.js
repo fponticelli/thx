@@ -442,7 +442,11 @@ thx.xml.DocumentFormat.prototype.isEmpty = function(node) {
 }
 thx.xml.DocumentFormat.prototype.__class__ = thx.xml.DocumentFormat;
 if(!thx.svg) thx.svg = {}
-thx.svg.TestAll = function() { }
+thx.svg.TestAll = function(p) {
+	$s.push("thx.svg.TestAll::new");
+	var $spos = $s.length;
+	$s.pop();
+}
 thx.svg.TestAll.__name__ = ["thx","svg","TestAll"];
 thx.svg.TestAll.addTests = function(runner) {
 	$s.push("thx.svg.TestAll::addTests");
@@ -460,6 +464,28 @@ thx.svg.TestAll.main = function() {
 	thx.svg.TestAll.addTests(runner);
 	utest.ui.Report.create(runner);
 	runner.run();
+	$s.pop();
+}
+thx.svg.TestAll.prototype.split = function(s) {
+	$s.push("thx.svg.TestAll::split");
+	var $spos = $s.length;
+	var $tmp = Arrays.filter(new EReg("[, A-Z]","g").split(s),function(s1) {
+		$s.push("thx.svg.TestAll::split@32");
+		var $spos = $s.length;
+		var $tmp = "" != s1;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}).map(function(v,_) {
+		$s.push("thx.svg.TestAll::split@32");
+		var $spos = $s.length;
+		var $tmp = Floats.parse(v);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	$s.pop();
+	return $tmp;
 	$s.pop();
 }
 thx.svg.TestAll.prototype.__class__ = thx.svg.TestAll;
@@ -3009,6 +3035,22 @@ thx.culture.FormatNumber.value = function(v,info,decimals,digits) {
 	$s.pop();
 }
 thx.culture.FormatNumber.prototype.__class__ = thx.culture.FormatNumber;
+TestDates = function(p) {
+	$s.push("TestDates::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+TestDates.__name__ = ["TestDates"];
+TestDates.prototype.testCanParse = function() {
+	$s.push("TestDates::testCanParse");
+	var $spos = $s.length;
+	utest.Assert.isTrue(Dates.canParse("2010-10-01"),null,{ fileName : "TestDates.hx", lineNumber : 7, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05:05"),null,{ fileName : "TestDates.hx", lineNumber : 8, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01T05:05:05"),null,{ fileName : "TestDates.hx", lineNumber : 9, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05:05.005"),null,{ fileName : "TestDates.hx", lineNumber : 10, className : "TestDates", methodName : "testCanParse"});
+	$s.pop();
+}
+TestDates.prototype.__class__ = TestDates;
 thx.math.scale.TestAll = function(p) {
 	$s.push("thx.math.scale.TestAll::new");
 	var $spos = $s.length;
@@ -5870,16 +5912,22 @@ thx.math.scale.TestQuantile.__super__ = thx.math.scale.TestAll;
 for(var k in thx.math.scale.TestAll.prototype ) thx.math.scale.TestQuantile.prototype[k] = thx.math.scale.TestAll.prototype[k];
 thx.math.scale.TestQuantile.prototype.__class__ = thx.math.scale.TestQuantile;
 thx.svg.TestArc = function(p) {
+	if( p === $_ ) return;
 	$s.push("thx.svg.TestArc::new");
 	var $spos = $s.length;
+	thx.svg.TestAll.call(this);
 	$s.pop();
 }
 thx.svg.TestArc.__name__ = ["thx","svg","TestArc"];
+thx.svg.TestArc.__super__ = thx.svg.TestAll;
+for(var k in thx.svg.TestAll.prototype ) thx.svg.TestArc.prototype[k] = thx.svg.TestAll.prototype[k];
 thx.svg.TestArc.prototype.testDefault = function() {
 	$s.push("thx.svg.TestArc::testDefault");
 	var $spos = $s.length;
 	var arc = new thx.svg.Arc().innerRadius(0).outerRadius(1).startAngle(0).endAngle(Math.PI);
-	utest.Assert.equals("M6.123031769111886e-17,-1A1,1 0 1,1 6.123031769111886e-17,1L0,0Z",arc.shape(),null,{ fileName : "TestArc.hx", lineNumber : 15, className : "thx.svg.TestArc", methodName : "testDefault"});
+	var shape = arc.shape();
+	var expected = "M6.123031769111886e-17,-1A1,1 0 1,1 6.123031769111886e-17,1L0,0Z";
+	utest.Assert.same(this.split(expected),this.split(shape),null,null,{ fileName : "TestArc.hx", lineNumber : 19, className : "thx.svg.TestArc", methodName : "testDefault"});
 	$s.pop();
 }
 thx.svg.TestArc.prototype.__class__ = thx.svg.TestArc;
@@ -6131,6 +6179,29 @@ haxe.io.Bytes.prototype.toString = function() {
 	$s.push("haxe.io.Bytes::toString");
 	var $spos = $s.length;
 	var $tmp = this.readString(0,this.length);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+haxe.io.Bytes.prototype.toHex = function() {
+	$s.push("haxe.io.Bytes::toHex");
+	var $spos = $s.length;
+	var s = new StringBuf();
+	var chars = [];
+	var str = "0123456789abcdef";
+	var _g1 = 0, _g = str.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		chars.push(str.charCodeAt(i));
+	}
+	var _g1 = 0, _g = this.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		var c = this.b[i];
+		s.b[s.b.length] = String.fromCharCode(chars[c >> 4]);
+		s.b[s.b.length] = String.fromCharCode(chars[c & 15]);
+	}
+	var $tmp = s.b.join("");
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -11610,20 +11681,6 @@ Enums.toString = function(e) {
 	$s.pop();
 }
 Enums.prototype.__class__ = Enums;
-thx.js.TestDom = function(p) {
-	$s.push("thx.js.TestDom::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.js.TestDom.__name__ = ["thx","js","TestDom"];
-thx.js.TestDom.prototype.testDocument = function() {
-	$s.push("thx.js.TestDom::testDocument");
-	var $spos = $s.length;
-	utest.Assert.isFalse(thx.js.Dom.doc.empty(),null,{ fileName : "TestDom.hx", lineNumber : 25, className : "thx.js.TestDom", methodName : "testDocument"});
-	utest.Assert.equals(js.Lib.document,thx.js.Dom.doc.node(),null,{ fileName : "TestDom.hx", lineNumber : 26, className : "thx.js.TestDom", methodName : "testDocument"});
-	$s.pop();
-}
-thx.js.TestDom.prototype.__class__ = thx.js.TestDom;
 thx.html.TextHandler = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.html.TextHandler::new");
@@ -11677,6 +11734,20 @@ thx.html.TextHandler.prototype.declaration = function(text) {
 }
 thx.html.TextHandler.prototype.__class__ = thx.html.TextHandler;
 thx.html.TextHandler.__interfaces__ = [thx.html.HtmlHandler];
+thx.js.TestDom = function(p) {
+	$s.push("thx.js.TestDom::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.js.TestDom.__name__ = ["thx","js","TestDom"];
+thx.js.TestDom.prototype.testDocument = function() {
+	$s.push("thx.js.TestDom::testDocument");
+	var $spos = $s.length;
+	utest.Assert.isFalse(thx.js.Dom.doc.empty(),null,{ fileName : "TestDom.hx", lineNumber : 25, className : "thx.js.TestDom", methodName : "testDocument"});
+	utest.Assert.equals(js.Lib.document,thx.js.Dom.doc.node(),null,{ fileName : "TestDom.hx", lineNumber : 26, className : "thx.js.TestDom", methodName : "testDocument"});
+	$s.pop();
+}
+thx.js.TestDom.prototype.__class__ = thx.js.TestDom;
 thx.collections.IntHashList = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.collections.IntHashList::new");
@@ -19916,6 +19987,7 @@ TestAll.addTests = function(runner) {
 	thx.validation.TestAll.addTests(runner);
 	TestArrays.addTests(runner);
 	TestFloats.addTests(runner);
+	runner.addCase(new TestDates());
 	TestInts.addTests(runner);
 	TestIterators.addTests(runner);
 	TestHashes.addTests(runner);
@@ -24030,7 +24102,7 @@ window.Sizzle = Sizzle;
 }
 thx.csv.TestCsv.s = "Year,Make,Model,Description,Price\n1997,Ford,E350,\"ac, abs, moon\",3000.99\n1999,Chevy,\"Venture \"\"Extended Edition\"\"\",,4900.99\n1999,Chevy,\"Venture \"\"Extended Edition, Very Large\"\"\",,5000.99\n1996,Jeep,Grand Cherokee,\"MUST SELL!\nair, moon roof, loaded\",4799.99";
 thx.csv.TestCsv.v = [["Year","Make","Model","Description","Price"],[1997,"Ford","E350","ac, abs, moon",3000.99],[1999,"Chevy","Venture \"Extended Edition\"","",4900.99],[1999,"Chevy","Venture \"Extended Edition, Very Large\"","",5000.99],[1996,"Jeep","Grand Cherokee","MUST SELL!\nair, moon roof, loaded",4799.99]];
-Dates._reparse = new EReg("^\\d{4}-\\d\\d-\\d-\\d(( |T)\\d\\d:\\d\\d:\\d\\d(.\\d{1,3})?)?$","");
+Dates._reparse = new EReg("^\\d{4}-\\d\\d-\\d\\d(( |T)\\d\\d:\\d\\d:\\d\\d(.\\d{1,3})?)?$","");
 js.Lib.onerror = null;
 thx.js.Dom.doc = (function() {
 	$s.push("thx.math.Equations::polynomialf");

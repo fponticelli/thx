@@ -7,6 +7,7 @@ package thx.svg;
 
 import utest.Runner;
 import utest.ui.Report;
+using Arrays;
 
 class TestAll
 {
@@ -25,4 +26,11 @@ class TestAll
 		Report.create(runner);
 		runner.run();
 	}
+	
+	function split(s : String)
+	{
+		return (~/[, A-Z]/g).split(s).filter(function(s) return "" != s).map(function(v, _) return Floats.parse(v));
+	}
+	
+	public function new();
 }
