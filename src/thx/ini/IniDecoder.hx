@@ -109,13 +109,13 @@ class IniDecoder
 				return;
 		}
 		
-		var pos = -1;
+		var pos = 0;
 		do
 		{
 			pos = line.indexOf("=", pos);
-		} while (pos >= 0 && line.substr(pos - 1, 1) == '\\');
-		if (pos < 0)
-			throw new Error("invalid ini line: {0}", line);
+		} while (pos > 0 && line.substr(pos - 1, 1) == '\\');
+		if (pos <= 0)
+			throw new Error("invalid key pair (missing '=' symbol?): {0}", line);
 
 		var key = StringTools.trim(dec(line.substr(0, pos)));
 		var value = line.substr(pos + 1);

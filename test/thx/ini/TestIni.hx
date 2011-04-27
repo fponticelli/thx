@@ -58,7 +58,10 @@ organization=Acme Widgets Inc.';
 	
 	public function testEncode()
 	{
-		Assert.same(s2, Ini.encode(v));
+		// Neko doesn't preserve object fields declaration order
+		// for this reason the ini is encoded and decoded to test if
+		// it generates a correct output
+		Assert.same(v, Ini.decode(Ini.encode(v)));
 	}
 	
 	public function testDecode()

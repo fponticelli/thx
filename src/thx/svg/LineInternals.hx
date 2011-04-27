@@ -21,7 +21,10 @@ class LineInternals
 			fy = null != y,
 			value : TData;
 		while (++i < n)
-			points.push([ x(value = data[i], i), y(value, i) ]);
+		{
+			value = data[i];
+			points.push([ x(value, i), y(value, i) ]);
+		}
 		return points;
 	}
 	
@@ -106,13 +109,13 @@ class LineInternals
 				if (points.length < 3)
 					return interpolatePoints(points, Linear);
 				else
-					return points[0] + _lineHermite(points, _lineCardinalTangents(points, tension));
+					return points[0][0] + "," + points[0][1] + _lineHermite(points, _lineCardinalTangents(points, tension));
 			case CardinalClosed(tension):
 				if (null == tension)
 					tension = .7;
 				return points.length < 3
 					? interpolatePoints(points, Linear)
-					: points[0] + _lineHermite(points, _lineCardinalTangents([points[points.length - 2]].concat(points).concat([points[1]]), tension));
+					: points[0][0] + "," + points[0][1] + _lineHermite(points, _lineCardinalTangents([points[points.length - 2]].concat(points).concat([points[1]]), tension));
 		}
 		return path.join("");
 	}

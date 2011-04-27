@@ -5,6 +5,7 @@
 
 package thx.math.scale;
 
+import haxe.PosInfos;
 import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
@@ -30,10 +31,10 @@ class TestAll
 		runner.run();
 	}
 	
-	function assertScale(scalef : Float -> Int -> Float, expected : Array<Float>, values : Array<Float>)
+	function assertScale(scalef : Float -> Int -> Float, expected : Array<Float>, values : Array<Float>, ?pos : PosInfos)
 	{
 		for (i in 0...expected.length)
-			Assert.floatEquals(expected[i], scalef(values[i], i), 1e-3);
+			Assert.floatEquals(expected[i], scalef(values[i], i), 1e-3, pos);
 	}
 	
 	public function new();
