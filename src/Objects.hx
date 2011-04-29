@@ -91,6 +91,32 @@ class Objects
 	{
 		return Std.is(v, String) && _reCheckKeyIsColor.match(k) ? Colors.interpolatef : Dynamics.interpolatef;
 	}
+	
+	public static function applyTo(src : { }, dest : { } )
+	{
+		for (field in Reflect.fields(src))
+		{
+			if (!Reflect.hasField(dest, field))
+				continue;
+			if (Reflect.isObject(Reflect.field(src, field)) && Reflect.isObject(Reflect.field(dest, field)))
+				applyTo(Reflect.field(src, field), Reflect.field(dest, field))
+			else
+				Reflect.setField(dest, field, Reflect.field(src, field));
+		}
+		return dest;
+	}
+	
+	public static function copyTo(src : { }, dest : { } )
+	{
+		for (field in Reflect.fields(src))
+		{
+			if (Reflect.isObject(Reflect.field(src, field)) && Reflect.isObject(Reflect.field(dest, field)))
+				copyTo(Reflect.field(src, field), Reflect.field(dest, field))
+			else
+				Reflect.setField(dest, field, Reflect.field(src, field));
+		}
+		return dest;
+	}
 }
 
 typedef Entry = { key : String, value : Dynamic };

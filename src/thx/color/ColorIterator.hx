@@ -7,7 +7,7 @@ package thx.color;
 
 import thx.math.UNumber;
 
-class ColorsIterator
+class ColorIterator
 {
 	public var start(default, null) : Rgb;
 	public var end(default, null) : Rgb;

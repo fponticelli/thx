@@ -144,9 +144,9 @@ Other things to do. Nested placeholders
 			}
 
 			var pos = Std.parseInt(_reFormat.matched(1));
-			var f = _reFormat.matched(2);
-			if (f == '') // '' is for IE
-				f = null;
+			var format = _reFormat.matched(2);
+			if (format == '') // '' is for IE
+				format = null;
 			var p = null;
 			var params = [];
 			for (i in 3...20) // 20 is a guard limit, 5 is probably more than enough
@@ -158,7 +158,7 @@ Other things to do. Nested placeholders
 			}
 			var left = _reFormat.matchedLeft();
 			buf.push(function(_) return left);
-			var df = Dynamics.formatf(f, params, nullstring, culture);
+			var df = Dynamics.formatf(format, params, nullstring, culture);
 			buf.push(callback(function(i : Int, v : Array<Dynamic>) return df(v[i]), pos));
 			pattern = _reFormat.matchedRight();
 		}

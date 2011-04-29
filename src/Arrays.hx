@@ -7,7 +7,7 @@ import thx.culture.FormatParams;
 
 class Arrays
 {
-	public static function pushIf<T>(arr : Array<T>, ?condition : Bool, value : Null<T>) : Array<T>
+	public static function addIf<T>(arr : Array<T>, ?condition : Bool, value : Null<T>) : Array<T>
 	{
 		if (null != condition)
 		{
@@ -18,13 +18,13 @@ class Arrays
 		return arr;
 	}
 	
-	public static function pushR<T>(arr : Array<T>, value : T) : Array<T>
+	inline public static function add<T>(arr : Array<T>, value : T) : Array<T>
 	{
 		arr.push(value);
 		return arr;
 	}
 	
-	public static function removeR<T>(arr : Array<T>, value : T) : Array<T>
+	inline public static function delete<T>(arr : Array<T>, value : T) : Array<T>
 	{
 		arr.remove(value);
 		return arr;
