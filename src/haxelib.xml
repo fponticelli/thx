@@ -1,0 +1,7 @@
+<project name="thx" url="http://code.google.com/p/thx-core/" license="MIT">
+    <user name="fponticelli"/>
+    <tag v="cross"/>
+	<tag v="std"/>
+    <description>General purpose library</description>
+    <version name="0.1.0">Initial release</version>
+</project>
