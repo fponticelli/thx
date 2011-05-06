@@ -44,10 +44,10 @@ class LoLA extends Culture {
 		currencyIso = "LAK";
 		englishRegion = "Lao P.D.R.";
 		nativeRegion = "ສ.ປ.ປ. ລາວ";
-		iso2Region = "LA";
-		iso3Region = "LAO";
+		iso2 = "LA";
+		iso3 = "LAO";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new LoLA(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new LoLA(); return culture; }
 }

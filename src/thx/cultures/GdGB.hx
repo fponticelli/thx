@@ -42,10 +42,10 @@ class GdGB extends Culture {
 		currencyIso = "GBP";
 		englishRegion = "United Kingdom";
 		nativeRegion = "An Rìoghachd Aonaichte";
-		iso2Region = "GB";
-		iso3Region = "GBR";
+		iso2 = "GB";
+		iso3 = "GBR";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new GdGB(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new GdGB(); return culture; }
 }

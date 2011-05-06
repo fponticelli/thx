@@ -43,10 +43,10 @@ class NeNP extends Culture {
 		currencyIso = "NPR";
 		englishRegion = "Nepal";
 		nativeRegion = "नेपाल";
-		iso2Region = "NP";
-		iso3Region = "NPL";
+		iso2 = "NP";
+		iso3 = "NPL";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new NeNP(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new NeNP(); return culture; }
 }

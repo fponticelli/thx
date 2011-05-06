@@ -45,9 +45,9 @@ class Dates
 				return function(d) return FormatDate.monthDay(d, culture);
 			case 'WD':
 				return function(d) return FormatDate.weekDay(d, culture);
-			case 'WN':
+			case 'WDN':
 				return function(d) return FormatDate.weekDayName(d, culture);
-			case 'WS':
+			case 'WDS':
 				return function(d) return FormatDate.weekDayNameShort(d, culture);
 			case 'R':
 				return function(d) return FormatDate.dateRfc(d, culture);

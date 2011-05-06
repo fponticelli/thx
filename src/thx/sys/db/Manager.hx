@@ -1,7 +1,7 @@
 package thx.sys.db;
 
 #if php
-typedef Manager = php.db.Manager;
+typedef Manager<T : php.db.Object> = php.db.Manager<T>;
 #elseif neko
-typedef Manager = neko.db.Manager;
+typedef Manager<T : neko.db.Object> = neko.db.Manager<T>;
 #end

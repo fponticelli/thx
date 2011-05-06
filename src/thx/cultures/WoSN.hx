@@ -44,10 +44,10 @@ class WoSN extends Culture {
 		currencyIso = "XOF";
 		englishRegion = "Senegal";
 		nativeRegion = "Sénégal";
-		iso2Region = "SN";
-		iso3Region = "SEN";
+		iso2 = "SN";
+		iso3 = "SEN";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new WoSN(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new WoSN(); return culture; }
 }

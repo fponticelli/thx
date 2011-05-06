@@ -45,10 +45,10 @@ class PsAF extends Culture {
 		currencyIso = "AFN";
 		englishRegion = "Afghanistan";
 		nativeRegion = "افغانستان";
-		iso2Region = "AF";
-		iso3Region = "AFG";
+		iso2 = "AF";
+		iso3 = "AFG";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new PsAF(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new PsAF(); return culture; }
 }

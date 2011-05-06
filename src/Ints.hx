@@ -111,4 +111,6 @@ class Ints
 			s = s.substr(1);
 		return Std.parseInt(s);
 	}
+	
+	inline public static function compare(a : Int, b : Int) return a - b
 }

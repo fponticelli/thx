@@ -42,10 +42,10 @@ class SiLK extends Culture {
 		currencyIso = "LKR";
 		englishRegion = "Sri Lanka";
 		nativeRegion = "ශ්‍රී ලංකා";
-		iso2Region = "LK";
-		iso3Region = "LKA";
+		iso2 = "LK";
+		iso3 = "LKA";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new SiLK(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new SiLK(); return culture; }
 }

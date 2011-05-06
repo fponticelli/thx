@@ -44,10 +44,10 @@ class TkTM extends Culture {
 		currencyIso = "TMT";
 		englishRegion = "Turkmenistan";
 		nativeRegion = "Türkmenistan";
-		iso2Region = "TM";
-		iso3Region = "TKM";
+		iso2 = "TM";
+		iso3 = "TKM";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new TkTM(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new TkTM(); return culture; }
 }

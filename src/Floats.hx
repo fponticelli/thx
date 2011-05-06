@@ -149,4 +149,9 @@ class Floats
 			s = s.substr(1);
 		return Std.parseFloat(s);
 	}
+	
+	inline public static function compare(a : Float, b : Float)
+	{
+		return a < b ? -1 : (a > b ? 1 : 0);
+	}
 }

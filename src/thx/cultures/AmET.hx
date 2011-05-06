@@ -44,10 +44,10 @@ class AmET extends Culture {
 		currencyIso = "ETB";
 		englishRegion = "Ethiopia";
 		nativeRegion = "ኢትዮጵያ";
-		iso2Region = "ET";
-		iso3Region = "ETH";
+		iso2 = "ET";
+		iso3 = "ETH";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new AmET(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new AmET(); return culture; }
 }

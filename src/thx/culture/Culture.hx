@@ -43,11 +43,13 @@ class Culture extends Info
 		return cultures;
 	}
 	
-	public static function get(name : String) : Culture {
+	public static function get(name : String) : Culture
+	{
 		return cultures.get(name.toLowerCase());
 	}
 
-	public static function names() {
+	public static function names()
+	{
 		return cultures.keys();
 	}
 
@@ -67,11 +69,21 @@ class Culture extends Info
 		return _defaultCulture = culture;
 	}
 	
-	public static function add(culture : Culture) {
+	public static function add(culture : Culture)
+	{
 		if (null == _defaultCulture)
 			_defaultCulture = culture;
-		var name = (culture.iso2 + culture.language.iso2).toLowerCase();
+		var name = culture.name.toLowerCase();
 		if(!cultures.exists(name))
 			cultures.set(name, culture);
+	}
+
+	public static function loadAll()
+	{
+#if php
+		var dir = php.Sys.getCwd() + "lib/thx/cultures/";
+		for (file in php.FileSystem.readDirectory(dir))
+			untyped __call__("require_once", dir + file);
+#end
 	}
 }

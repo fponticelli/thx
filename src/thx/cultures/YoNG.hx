@@ -35,10 +35,10 @@ class YoNG extends Culture {
 		currencyIso = "NIO";
 		englishRegion = "Nigeria";
 		nativeRegion = "Nigeria";
-		iso2Region = "NG";
-		iso3Region = "NGA";
+		iso2 = "NG";
+		iso3 = "NGA";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new YoNG(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new YoNG(); return culture; }
 }

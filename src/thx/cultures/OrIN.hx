@@ -43,10 +43,10 @@ class OrIN extends Culture {
 		currencyIso = "INR";
 		englishRegion = "India";
 		nativeRegion = "ଭାରତ";
-		iso2Region = "IN";
-		iso3Region = "IND";
+		iso2 = "IN";
+		iso3 = "IND";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new OrIN(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new OrIN(); return culture; }
 }

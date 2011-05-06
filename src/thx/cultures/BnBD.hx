@@ -43,10 +43,10 @@ class BnBD extends Culture {
 		currencyIso = "BDT";
 		englishRegion = "Bangladesh";
 		nativeRegion = "বাংলাদেশ";
-		iso2Region = "BD";
-		iso3Region = "BGD";
+		iso2 = "BD";
+		iso3 = "BGD";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new BnBD(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new BnBD(); return culture; }
 }

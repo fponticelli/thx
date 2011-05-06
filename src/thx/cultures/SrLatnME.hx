@@ -44,10 +44,10 @@ class SrLatnME extends Culture {
 		currencyIso = "EUR";
 		englishRegion = "Montenegro";
 		nativeRegion = "Crna Gora";
-		iso2Region = "ME";
-		iso3Region = "MNE";
+		iso2 = "ME";
+		iso3 = "MNE";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new SrLatnME(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new SrLatnME(); return culture; }
 }

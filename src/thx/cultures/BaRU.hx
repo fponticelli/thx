@@ -44,10 +44,10 @@ class BaRU extends Culture {
 		currencyIso = "RUB";
 		englishRegion = "Russia";
 		nativeRegion = "Россия";
-		iso2Region = "RU";
-		iso3Region = "RUS";
+		iso2 = "RU";
+		iso3 = "RUS";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new BaRU(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new BaRU(); return culture; }
 }

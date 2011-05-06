@@ -42,10 +42,10 @@ class UgCN extends Culture {
 		currencyIso = "CNY";
 		englishRegion = "People's Republic of China";
 		nativeRegion = "جۇڭخۇا خەلق جۇمھۇرىيىتى";
-		iso2Region = "CN";
-		iso3Region = "CHN";
+		iso2 = "CN";
+		iso3 = "CHN";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new UgCN(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new UgCN(); return culture; }
 }

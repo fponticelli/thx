@@ -44,10 +44,10 @@ class TgCyrlTJ extends Culture {
 		currencyIso = "TJS";
 		englishRegion = "Tajikistan";
 		nativeRegion = "Тоҷикистон";
-		iso2Region = "TJ";
-		iso3Region = "TAJ";
+		iso2 = "TJ";
+		iso3 = "TAJ";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new TgCyrlTJ(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new TgCyrlTJ(); return culture; }
 }

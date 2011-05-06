@@ -44,10 +44,10 @@ class SrCyrlME extends Culture {
 		currencyIso = "EUR";
 		englishRegion = "Montenegro";
 		nativeRegion = "Црна Гора";
-		iso2Region = "ME";
-		iso3Region = "MNE";
+		iso2 = "ME";
+		iso3 = "MNE";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new SrCyrlME(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new SrCyrlME(); return culture; }
 }

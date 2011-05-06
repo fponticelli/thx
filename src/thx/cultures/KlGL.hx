@@ -44,10 +44,10 @@ class KlGL extends Culture {
 		currencyIso = "DKK";
 		englishRegion = "Greenland";
 		nativeRegion = "Kalaallit Nunaat";
-		iso2Region = "GL";
-		iso3Region = "GRL";
+		iso2 = "GL";
+		iso3 = "GRL";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new KlGL(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new KlGL(); return culture; }
 }

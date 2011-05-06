@@ -44,10 +44,10 @@ class BrFR extends Culture {
 		currencyIso = "EUR";
 		englishRegion = "France";
 		nativeRegion = "Frañs";
-		iso2Region = "FR";
-		iso3Region = "FRA";
+		iso2 = "FR";
+		iso3 = "FRA";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new BrFR(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new BrFR(); return culture; }
 }

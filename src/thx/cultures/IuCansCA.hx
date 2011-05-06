@@ -34,10 +34,10 @@ class IuCansCA extends Culture {
 		currencyIso = "CAD";
 		englishRegion = "Canada";
 		nativeRegion = "ᑲᓇᑕ";
-		iso2Region = "CA";
-		iso3Region = "CAN";
+		iso2 = "CA";
+		iso3 = "CAN";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new IuCansCA(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new IuCansCA(); return culture; }
 }

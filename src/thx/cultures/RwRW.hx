@@ -37,10 +37,10 @@ class RwRW extends Culture {
 		currencyIso = "RWF";
 		englishRegion = "Rwanda";
 		nativeRegion = "Rwanda";
-		iso2Region = "RW";
-		iso3Region = "RWA";
+		iso2 = "RW";
+		iso3 = "RWA";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new RwRW(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new RwRW(); return culture; }
 }

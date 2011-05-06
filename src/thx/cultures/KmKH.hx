@@ -44,10 +44,10 @@ class KmKH extends Culture {
 		currencyIso = "KHR";
 		englishRegion = "Cambodia";
 		nativeRegion = "កម្ពុជា";
-		iso2Region = "KH";
-		iso3Region = "KHM";
+		iso2 = "KH";
+		iso3 = "KHM";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new KmKH(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new KmKH(); return culture; }
 }

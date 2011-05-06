@@ -43,10 +43,10 @@ class MlIN extends Culture {
 		currencyIso = "INR";
 		englishRegion = "India";
 		nativeRegion = "ഭാരതം";
-		iso2Region = "IN";
-		iso3Region = "IND";
+		iso2 = "IN";
+		iso3 = "IND";
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = return new MlIN(); return culture; }
+	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new MlIN(); return culture; }
 }
