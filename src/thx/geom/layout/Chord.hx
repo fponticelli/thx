@@ -1,7 +1,7 @@
 package thx.geom.layout;
 
 /**
- * ...
+ * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
  */
 

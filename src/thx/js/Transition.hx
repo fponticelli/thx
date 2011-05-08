@@ -11,7 +11,7 @@ import thx.js.AccessTweenAttribute;
 import thx.js.AccessTweenStyle;
 
 /**
- * ...
+ * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
  * @todo text()
  */

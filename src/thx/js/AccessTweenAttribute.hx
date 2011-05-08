@@ -5,7 +5,7 @@ import thx.js.Selection;
 import thx.js.Transition;
 
 /**
- * ...
+ * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
  */
 

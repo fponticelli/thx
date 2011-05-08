@@ -3,7 +3,7 @@ import thx.color.Rgb;
 import js.Dom;
 import thx.js.Transition;
 /**
- * ...
+ * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
  */
 

@@ -5,7 +5,7 @@ import js.Lib;
 import thx.xml.Namespace;
 using Arrays;
 /**
- * ...
+ * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
  */
 

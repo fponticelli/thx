@@ -4,7 +4,7 @@ import js.Dom;
 import thx.xml.Namespace;
 import thx.js.Selection;
 /**
- * ...
+ * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
  */
 
