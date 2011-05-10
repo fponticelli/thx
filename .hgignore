@@ -8,3 +8,5 @@ bin/test.n
 .tmbuild
 core.php.hxml
 bin/index.php
+doc/tmp
+doc/html
