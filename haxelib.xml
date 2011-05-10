@@ -1,4 +1,4 @@
-<project name="thx" url="http://code.google.com/p/thx-core/" license="MIT">
+<project name="thx" url="http://code.google.com/p/thx-core/" license="BSD">
     <user name="fponticelli"/>
     <tag v="cross"/>
 	<tag v="std"/>

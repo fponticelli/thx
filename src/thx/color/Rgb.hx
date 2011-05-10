@@ -18,10 +18,9 @@ class Rgb
 
 	/**
 	 *
-	 * @param red	an Int value between 0 and 255
-	 * @param green	an Int value between 0 and 255
-	 * @param blue	an Int value between 0 and 255
-	 * @param alpha	an Int value between 0 and 255
+	 * @param r	an Int value between 0 and 255 for the red channel
+	 * @param g	an Int value between 0 and 255 for the green channel
+	 * @param b	an Int value between 0 and 255 for the blue channel
 	 */
 	public function new(r : Int, g : Int, b : Int)
 	{

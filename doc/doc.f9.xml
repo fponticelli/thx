@@ -2395,22 +2395,22 @@
 		<new set="method" line="6"><f a=""><e path="Void"/></f></new>
 	</class>
 	<class path="thx.color.Rgb" params="" file="src/thx/color/Rgb.hx">
-		<fromFloats public="1" set="method" line="55" static="1"><f a="r:g:b">
+		<fromFloats public="1" set="method" line="54" static="1"><f a="r:g:b">
 	<c path="Float"/>
 	<c path="Float"/>
 	<c path="Float"/>
 	<c path="thx.color.Rgb"/>
 </f></fromFloats>
-		<fromInt public="1" set="method" line="63" static="1"><f a="v">
+		<fromInt public="1" set="method" line="62" static="1"><f a="v">
 	<c path="Int"/>
 	<c path="thx.color.Rgb"/>
 </f></fromInt>
-		<equals public="1" set="method" line="68" static="1"><f a="a:b">
+		<equals public="1" set="method" line="67" static="1"><f a="a:b">
 	<c path="thx.color.Rgb"/>
 	<c path="thx.color.Rgb"/>
 	<e path="Bool"/>
 </f></equals>
-		<darker public="1" set="method" line="73" static="1"><f a="color:t:?equation">
+		<darker public="1" set="method" line="72" static="1"><f a="color:t:?equation">
 	<c path="thx.color.Rgb"/>
 	<c path="Float"/>
 	<f a="">
@@ -2419,7 +2419,7 @@
 	</f>
 	<c path="thx.color.Rgb"/>
 </f></darker>
-		<interpolate public="1" set="method" line="82" static="1"><f a="a:b:t:?equation">
+		<interpolate public="1" set="method" line="81" static="1"><f a="a:b:t:?equation">
 	<c path="thx.color.Rgb"/>
 	<c path="thx.color.Rgb"/>
 	<c path="Float"/>
@@ -2429,7 +2429,7 @@
 	</f>
 	<c path="thx.color.Rgb"/>
 </f></interpolate>
-		<interpolatef public="1" set="method" line="91" static="1"><f a="a:b:?equation">
+		<interpolatef public="1" set="method" line="90" static="1"><f a="a:b:?equation">
 	<c path="thx.color.Rgb"/>
 	<c path="thx.color.Rgb"/>
 	<f a="">
@@ -2441,26 +2441,26 @@
 		<c path="thx.color.Rgb"/>
 	</f>
 </f></interpolatef>
-		<contrast public="1" set="method" line="99" static="1"><f a="c">
+		<contrast public="1" set="method" line="98" static="1"><f a="c">
 	<c path="thx.color.Rgb"/>
 	<c path="thx.color.Hsl"/>
 </f></contrast>
-		<contrastBW public="1" set="method" line="108" static="1"><f a="c">
+		<contrastBW public="1" set="method" line="107" static="1"><f a="c">
 	<c path="thx.color.Rgb"/>
 	<c path="thx.color.Hsl"/>
 </f></contrastBW>
 		<blue public="1" set="null"><c path="Int"/></blue>
 		<green public="1" set="null"><c path="Int"/></green>
 		<red public="1" set="null"><c path="Int"/></red>
-		<int public="1" set="method" line="33"><f a=""><c path="Int"/></f></int>
-		<hex public="1" set="method" line="38"><f a="?prefix">
+		<int public="1" set="method" line="32"><f a=""><c path="Int"/></f></int>
+		<hex public="1" set="method" line="37"><f a="?prefix">
 	<c path="String"/>
 	<c path="String"/>
 </f></hex>
-		<toCss public="1" get="inline" set="null" line="43"><f a=""><c path="String"/></f></toCss>
-		<toRgbString public="1" set="method" line="45"><f a=""><c path="String"/></f></toRgbString>
-		<toString public="1" set="method" line="50"><f a=""><c path="String"/></f></toString>
-		<new public="1" set="method" line="26">
+		<toCss public="1" get="inline" set="null" line="42"><f a=""><c path="String"/></f></toCss>
+		<toRgbString public="1" set="method" line="44"><f a=""><c path="String"/></f></toRgbString>
+		<toString public="1" set="method" line="49"><f a=""><c path="String"/></f></toString>
+		<new public="1" set="method" line="25">
 			<f a="r:g:b">
 				<c path="Int"/>
 				<c path="Int"/>
@@ -2469,10 +2469,9 @@
 			</f>
 			<haxe_doc>
 	 *
-	 * @param red	an Int value between 0 and 255
-	 * @param green	an Int value between 0 and 255
-	 * @param blue	an Int value between 0 and 255
-	 * @param alpha	an Int value between 0 and 255
+	 * @param r	an Int value between 0 and 255 for the red channel
+	 * @param g	an Int value between 0 and 255 for the green channel
+	 * @param b	an Int value between 0 and 255 for the blue channel
 	 </haxe_doc>
 		</new>
 		<haxe_doc>
