@@ -32,18 +32,18 @@ class Bools
 		}
 	}
 	
-	public static function interpolate(v : Float, a : Bool, b : Bool, ?interpolator : Float -> Float)
+	public static function interpolate(v : Float, a : Bool, b : Bool, ?equation : Float -> Float)
 	{
-		return interpolatef(a, b, interpolator)(v);
+		return interpolatef(a, b, equation)(v);
 	}
 	
-	public static function interpolatef(a : Bool, b : Bool, ?interpolator : Float -> Float)
+	public static function interpolatef(a : Bool, b : Bool, ?equation : Float -> Float)
 	{
 		if (a == b)
 			return function(_) return a;
 		else
 		{
-			var f = Floats.interpolatef(0, 1, interpolator);
+			var f = Floats.interpolatef(0, 1, equation);
 			return function(v) return f(v) < 0.5 ? a : b;
 		}
 	}

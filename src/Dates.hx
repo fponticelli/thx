@@ -72,14 +72,14 @@ class Dates
 		}
 	}
 	
-	inline public static function interpolate(f : Float, a : Date, b : Date, ?interpolator : Float -> Float) : Date
+	inline public static function interpolate(f : Float, a : Date, b : Date, ?equation : Float -> Float) : Date
 	{
-		return interpolatef(a, b, interpolator)(f);
+		return interpolatef(a, b, equation)(f);
 	}
 
-	public static function interpolatef(a : Date, b : Date, ?interpolator : Float -> Float)
+	public static function interpolatef(a : Date, b : Date, ?equation : Float -> Float)
 	{
-		var f = Floats.interpolatef(a.getTime(), b.getTime(), interpolator);
+		var f = Floats.interpolatef(a.getTime(), b.getTime(), equation);
 		return function(v) return Date.fromTime(f(v));
 	}
 	

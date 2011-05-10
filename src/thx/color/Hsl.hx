@@ -76,22 +76,22 @@ class Hsl extends Rgb
 		return a.hue == b.hue && a.saturation == b.saturation && a.lightness == b.lightness;
 	}
 	
-	public static function darker(color : Hsl, t : Float, ?interpolator : Float -> Float -> Float -> Float) : Hsl
+	public static function darker(color : Hsl, t : Float, ?equation : Float -> Float) : Hsl
 	{
 		var v = color.lightness / t;
 		return new Hsl(
 			color.hue,
 			color.saturation,
-			null == interpolator ? v : interpolator(v, 0, 1)
+			Floats.interpolate(v, 0, 1, equation)
 		);
 	}
 	
-	public static function interpolate(a : Hsl, b : Hsl, t : Float, ?interpolator : Float -> Float) : Hsl
+	public static function interpolate(a : Hsl, b : Hsl, t : Float, ?equation : Float -> Float) : Hsl
 	{
 		return new Hsl(
-			t.interpolate(a.hue,    b.hue, interpolator),
-			t.interpolate(a.saturation, b.saturation, interpolator),
-			t.interpolate(a.lightness,  b.lightness, interpolator)
+			t.interpolate(a.hue,		b.hue,			equation),
+			t.interpolate(a.saturation,	b.saturation,	equation),
+			t.interpolate(a.lightness,	b.lightness,	equation)
 		);
 	}
 }

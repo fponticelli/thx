@@ -1,4 +1,6 @@
 package thx.validation;
+
+#if uform
 import uform.util.DateGranularity;
 import thx.util.Result;
 import uform.model.value.DateType;
@@ -71,3 +73,4 @@ class DateGranularityRangeValidator extends Validator<Date>
 		}
 	}
 }
+#end

@@ -70,29 +70,29 @@ class Rgb
 		return a.red == b.red && a.green == b.green && a.blue == b.blue;
 	}
 	
-	public static function darker(color : Rgb, t : Float, ?interpolator : Float -> Float) : Rgb
+	public static function darker(color : Rgb, t : Float, ?equation : Float -> Float) : Rgb
 	{
 		return new Rgb(
-			(t * color.red).interpolate(0, 255, interpolator),
-			(t * color.green).interpolate(0, 255, interpolator),
-			(t * color.blue).interpolate(0, 255, interpolator)
+			(t * color.red).interpolate(0, 255, equation),
+			(t * color.green).interpolate(0, 255, equation),
+			(t * color.blue).interpolate(0, 255, equation)
 		);
 	}
 	
-	public static function interpolate(a : Rgb, b : Rgb, t : Float, ?interpolator : Float -> Float)
+	public static function interpolate(a : Rgb, b : Rgb, t : Float, ?equation : Float -> Float)
 	{
 		return new Rgb(
-			t.interpolate(a.red, b.red, interpolator),
-			t.interpolate(a.green, b.green, interpolator),
-			t.interpolate(a.blue, b.blue, interpolator)
+			t.interpolate(a.red, b.red, equation),
+			t.interpolate(a.green, b.green, equation),
+			t.interpolate(a.blue, b.blue, equation)
 		);
 	}
 	
-	public static function interpolatef(a : Rgb, b : Rgb, ?interpolator : Float -> Float)
+	public static function interpolatef(a : Rgb, b : Rgb, ?equation : Float -> Float)
 	{
-		var r = Ints.interpolatef(a.red, b.red),
-			g = Ints.interpolatef(a.green, b.green),
-			b = Ints.interpolatef(a.blue, b.blue);
+		var r = Ints.interpolatef(a.red, b.red, equation),
+			g = Ints.interpolatef(a.green, b.green, equation),
+			b = Ints.interpolatef(a.blue, b.blue, equation);
 		return function(t) return new Rgb(r(t), g(t), b(t));
 	}
 	

@@ -36,7 +36,7 @@ class Paths
 		var p = path.substr(0, pos);
 		if (p == '/')
 			return p;
-		var p = TextTools.rtrim(p, '/\\');
+		var p = Strings.rtrim(p, '/\\');
 		return (~/(\\\/)+/).replace(p, '/');
 #end
 	}

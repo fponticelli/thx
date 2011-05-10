@@ -443,12 +443,12 @@ Other things to do. Nested placeholders
 	public static function descending(a : String, b : String) return a > b ? -1 : a < b ? 1 : 0
 	
 	static var _reInterpolateNumber = ~/[-+]?(?:\d+\.\d+|\d+\.|\.\d+|\d+)(?:[eE][-]?\d+)?/;
-	public static function interpolate(v : Float, a : String, b : String, ?interpolator : Float -> Float)
+	public static function interpolate(v : Float, a : String, b : String, ?equation : Float -> Float)
 	{
-		return interpolatef(a, b, interpolator)(v);
+		return interpolatef(a, b, equation)(v);
 	}
 
-	public static function interpolatef(a : String, b : String, ?interpolator : Float -> Float)
+	public static function interpolatef(a : String, b : String, ?equation : Float -> Float)
 	{
 		function extract(value : String, s : Array<String>, f : Array<Null<Float>>)
 		{
@@ -490,7 +490,7 @@ Other things to do. Nested placeholders
 					var s = "" + fa[i];
 					functions.push(function(_) return s);
 				} else {
-					var f = Floats.interpolatef(fa[i], fb[i], interpolator);
+					var f = Floats.interpolatef(fa[i], fb[i], equation);
 					functions.push(function(t) return "" + f(t));
 				}
 			} else {

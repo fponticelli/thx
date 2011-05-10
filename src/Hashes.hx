@@ -64,6 +64,10 @@ class Hashes
 	
 	public static function clear(hash : Hash<Dynamic>)
 	{
+		#if cpp
+		var _hash : { private var __Internal : Dynamic; } = hash;
+		_hash.__Internal = {};
+		#else
 		var _hash : FriendHash = hash;
 		#if flash9
 		_hash.h = new flash.utils.Dictionary();
@@ -79,10 +83,9 @@ class Hashes
 				__js__("delete")(_hash.h.__proto__);
 			}
 		}
-		#elseif cpp
-		_hash.h = {};
 		#elseif php
 		_hash.h = untyped __call__('array');
+		#end
 		#end
 	}
 }

@@ -5,23 +5,21 @@ package thx.color;
  * @author Franco Ponticelli
  */
 
-import thx.math.UNumber;
-
 class ColorIterator
 {
 	public var start(default, null) : Rgb;
 	public var end(default, null) : Rgb;
 	public var steps(default, null) : Int;
-	public var interpolator(default, null) : Float -> Int -> Int -> Int;
+	public var equation(default, null) : Float -> Float;
 	
-	var step = 0;
+	var step : Int;
 
-	public function new(start : Rgb, end : Rgb, steps : Int, ?interpolator : Float -> Int -> Int -> Int)
+	public function new(start : Rgb, end : Rgb, steps : Int, ?equation : Float -> Float)
 	{
 		this.start = start;
 		this.end = end;
 		this.steps = steps;
-		this.interpolator = null == interpolator ? UNumber.linearInterpolation : interpolator;
+		this.equation = equation;
 		step = 0;
 	}
 	
@@ -32,6 +30,6 @@ class ColorIterator
 	
 	public function next()
 	{
-		Rgb.interpolate(start, end, step++ / steps, interpolator);
+		Rgb.interpolate(start, end, step++ / steps, equation);
 	}
 }

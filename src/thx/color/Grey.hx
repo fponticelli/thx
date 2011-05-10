@@ -7,8 +7,7 @@ package thx.color;
 
 import Floats;
 using Floats;
-using thx.math.Interpolations;
-import thx.math.Interpolations;
+using thx.math.Equations;
 
 class Grey extends Rgb
 {
@@ -17,7 +16,7 @@ class Grey extends Rgb
 	public function new( value : Float )
 	{
 		grey = value.normalize();
-		var c = grey.linearRound(0, 255);
+		var c = Ints.interpolate(grey, 0, 255);
 		super(c, c, c);
 	}
 	
@@ -45,17 +44,15 @@ class Grey extends Rgb
 		return a.grey == b.grey;
 	}
 	
-	public static function darker(color : Grey, t : Float, ?interpolator : Float -> Float -> Float -> Float) : Grey
+	public static function darker(color : Grey, t : Float, ?equation : Float -> Float) : Grey
 	{
 		var v = t * color.grey;
-		return new Grey(null == interpolator ? v : interpolator(v, 0, 1));
+		return new Grey(Floats.interpolate(v, 0, 1, equation));
 	}
 	
-	public static function interpolate(a : Grey, b : Grey, t : Float, ?interpolator : Float -> Float -> Float -> Float)
+	public static function interpolate(a : Grey, b : Grey, t : Float, ?equation : Float -> Float)
 	{
-		if (null == interpolator)
-			interpolator = Interpolations.linear;
-		return new Grey(interpolator(t, a.grey, b.grey));
+		return new Grey(Floats.interpolate(t, a.grey, b.grey, equation));
 	}
 }
 

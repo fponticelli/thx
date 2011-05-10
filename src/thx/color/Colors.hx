@@ -12,17 +12,17 @@ using Arrays;
 
 class Colors
 {
-	public static function interpolatef(a : String, b : String, ?interpolator : Float -> Float)
+	public static function interpolatef(a : String, b : String, ?equation : Float -> Float)
 	{
 		var ca = parse(a);
 		var cb = parse(b);
-		var f = Rgb.interpolatef(ca, cb, interpolator);
+		var f = Rgb.interpolatef(ca, cb, equation);
 		return function(v) return f(v).toString();
 	}
 	
-	public static function interpolate(v : Float, a : String, b : String, ?interpolator : Float -> Float)
+	public static function interpolate(v : Float, a : String, b : String, ?equation : Float -> Float)
 	{
-		return interpolatef(a, b, interpolator)(v);
+		return interpolatef(a, b, equation)(v);
 	}
 	
 	static var _reParse = ~/^\s*(?:(hsl|rgb|rgba|cmyk)\(([^)]+)\))|(?:(?:0x|#)([a-f0-9]{3,6}))\s*$/i;

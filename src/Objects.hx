@@ -52,12 +52,12 @@ class Objects
 		return hash;
 	}
 	
-	public static function interpolate<T>(v : Float, a : T, b : T, ?interpolator : Float -> Float) : T
+	public static function interpolate<T>(v : Float, a : T, b : T, ?equation : Float -> Float) : T
 	{
-		return interpolatef(a, b, interpolator)(v);
+		return interpolatef(a, b, equation)(v);
 	}
 	
-	public static function interpolatef<T>(a : T, b : T, ?interpolator : Float -> Float) : Float -> T
+	public static function interpolatef<T>(a : T, b : T, ?equation : Float -> Float) : Float -> T
 	{
 		var i : Dynamic = { },
 			c : Dynamic = { },

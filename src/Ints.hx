@@ -70,19 +70,19 @@ class Ints
 			return v;
 	}
 	
-	inline public static function interpolate(f : Float, min = 0.0, max = 100.0, ?interpolator : Float -> Float) : Int
+	inline public static function interpolate(f : Float, min = 0.0, max = 100.0, ?equation : Float -> Float) : Int
 	{
-		if (null == interpolator)
-			interpolator = Equations.linear;
-		return Math.round(min + interpolator(f) * (max - min));
+		if (null == equation)
+			equation = Equations.linear;
+		return Math.round(min + equation(f) * (max - min));
 	}
 
-	public static function interpolatef(min = 0.0, max = 1.0, ?interpolator : Float -> Float)
+	public static function interpolatef(min = 0.0, max = 1.0, ?equation : Float -> Float)
 	{
-		if (null == interpolator)
-			interpolator = Equations.linear;
+		if (null == equation)
+			equation = Equations.linear;
 		var d = max - min;
-		return function(f) return Math.round(min + interpolator(f) * d);
+		return function(f) return Math.round(min + equation(f) * d);
 	}
 	
 	public static function ascending(a : Int, b : Int) return a < b ? -1 : a > b ? 1 : 0

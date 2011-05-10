@@ -47,7 +47,7 @@ class Macros
 			case ETernary( econd : Expr, eif : Expr, eelse : Expr )
 */
 			default:
-				return "ERROR";
+				"ERROR";
 		}
 	}
 	
@@ -109,7 +109,7 @@ class Macros
 		return switch(o)
 		{
 			case OpIncrement:	"++";
-			case OpIDecrement:	"--";
+			case OpDecrement:	"--";
 			case OpNot:			"!";
 			case OpNeg:			"-";
 			case OpNegBits:		"~";

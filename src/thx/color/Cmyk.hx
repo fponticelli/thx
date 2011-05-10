@@ -63,24 +63,24 @@ class Cmyk extends Rgb
 		return a.black == b.black && a.cyan == b.cyan && a.magenta == b.magenta && a.yellow == b.yellow;
 	}
 	
-	public static function darker(color : Cmyk, t : Float, ?interpolator : Float -> Float -> Float -> Float) : Cmyk
+	public static function darker(color : Cmyk, t : Float, ?equation : Float -> Float) : Cmyk
 	{
 		var v = t * color.black;
 		return new Cmyk(
 			color.cyan,
 			color.magenta,
 			color.yellow,
-			null == interpolator ? v : interpolator(v, 0, 1)
+			Floats.interpolate(v, 0, 1, equation)
 		);
 	}
 	
-	public static function interpolate(a : Cmyk, b : Cmyk, t : Float, ?interpolator : Float -> Float) : Cmyk
+	public static function interpolate(a : Cmyk, b : Cmyk, t : Float, ?equation : Float -> Float) : Cmyk
 	{
 		return new Cmyk(
-			t.interpolate(a.cyan,    b.cyan, interpolator),
-			t.interpolate(a.magenta, b.magenta, interpolator),
-			t.interpolate(a.yellow,  b.yellow, interpolator),
-			t.interpolate(a.black,   b.black, interpolator)
+			t.interpolate(a.cyan,    b.cyan, equation),
+			t.interpolate(a.magenta, b.magenta, equation),
+			t.interpolate(a.yellow,  b.yellow, equation),
+			t.interpolate(a.black,   b.black, equation)
 		);
 	}
 }

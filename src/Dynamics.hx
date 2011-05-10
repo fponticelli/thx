@@ -42,12 +42,12 @@ class Dynamics
 		}
 	}
 	
-	public static function interpolate(v : Float, a : Dynamic, b : Dynamic, ?interpolator : Float -> Float)
+	public static function interpolate(v : Float, a : Dynamic, b : Dynamic, ?equation : Float -> Float)
 	{
-		return interpolatef(a, b, interpolator)(v);
+		return interpolatef(a, b, equation)(v);
 	}
 	
-	public static function interpolatef(a : Dynamic, b : Dynamic, ?interpolator : Float -> Float) : Float -> Dynamic
+	public static function interpolatef(a : Dynamic, b : Dynamic, ?equation : Float -> Float) : Float -> Dynamic
 	{
 		var ta = Type.typeof(a);
 		if (!Type.enumEq(ta, Type.typeof(b)))
@@ -55,16 +55,16 @@ class Dynamics
 		switch(ta)
 		{
 			case TNull: return function(_) return null;
-			case TInt: return Ints.interpolatef(a, b, interpolator);
-			case TFloat: return Floats.interpolatef(a, b, interpolator);
-			case TBool: return Bools.interpolatef(a, b, interpolator);
-			case TObject: return Dynamics.interpolatef(a, b, interpolator);
+			case TInt: return Ints.interpolatef(a, b, equation);
+			case TFloat: return Floats.interpolatef(a, b, equation);
+			case TBool: return Bools.interpolatef(a, b, equation);
+			case TObject: return Dynamics.interpolatef(a, b, equation);
 			case TClass(c):
 				var name = Type.getClassName(c);
 				switch(name)
 				{
-					case "String": return Strings.interpolatef(a, b, interpolator);
-					case "Date": return Dates.interpolatef(a, b, interpolator);
+					case "String": return Strings.interpolatef(a, b, equation);
+					case "Date": return Dates.interpolatef(a, b, equation);
 					default: throw new Error("cannot interpolate on instances of {0}", name);
 				}
 			default: throw new Error("cannot interpolate on functions/enums/unknown");

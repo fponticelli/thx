@@ -212,12 +212,12 @@ class Arrays
 		}
 	}
 	
-	public static function interpolate(v : Float, a : Array<Float>, b : Array<Float>, ?interpolator : Float -> Float) : Array<Float>
+	public static function interpolate(v : Float, a : Array<Float>, b : Array<Float>, ?equation : Float -> Float) : Array<Float>
 	{
-		return interpolatef(a, b, interpolator)(v);
+		return interpolatef(a, b, equation)(v);
 	}
 	
-	public static function interpolatef(a : Array<Float>, b : Array<Float>, ?interpolator : Float -> Float)
+	public static function interpolatef(a : Array<Float>, b : Array<Float>, ?equation : Float -> Float)
 	{
 		var functions = [],
 			i = 0,
@@ -230,7 +230,7 @@ class Arrays
 				var v = b[i];
 				functions.push(function(_) return v);
 			} else
-				functions.push(Floats.interpolatef(a[i], b[i], interpolator));
+				functions.push(Floats.interpolatef(a[i], b[i], equation));
 			i++;
 		}
 		while (i < b.length)
@@ -242,12 +242,12 @@ class Arrays
 		return function(t) return Arrays.map(functions, function(f, _) return f(t));
 	}
 	
-	public static function interpolateStrings(v : Float, a : Array<String>, b : Array<String>, ?interpolator : Float -> Float) : Array<String>
+	public static function interpolateStrings(v : Float, a : Array<String>, b : Array<String>, ?equation : Float -> Float) : Array<String>
 	{
-		return interpolateStringsf(a, b, interpolator)(v);
+		return interpolateStringsf(a, b, equation)(v);
 	}
 	
-	public static function interpolateStringsf(a : Array<String>, b : Array<String>, ?interpolator : Float -> Float)
+	public static function interpolateStringsf(a : Array<String>, b : Array<String>, ?equation : Float -> Float)
 	{
 		var functions = [],
 			i = 0,
@@ -260,7 +260,7 @@ class Arrays
 				var v = b[i];
 				functions.push(function(_) return v);
 			} else
-				functions.push(Strings.interpolatef(a[i], b[i], interpolator));
+				functions.push(Strings.interpolatef(a[i], b[i], equation));
 			i++;
 		}
 		while (i < b.length)
@@ -272,12 +272,12 @@ class Arrays
 		return function(t) return Arrays.map(functions, function(f, _) return f(t));
 	}
 	
-	public static function interpolateInts(v : Float, a : Array<Int>, b : Array<Int>, ?interpolator : Float -> Float) : Array<Int>
+	public static function interpolateInts(v : Float, a : Array<Int>, b : Array<Int>, ?equation : Float -> Float) : Array<Int>
 	{
-		return interpolateIntsf(a, b, interpolator)(v);
+		return interpolateIntsf(a, b, equation)(v);
 	}
 	
-	public static function interpolateIntsf(a : Array<Int>, b : Array<Int>, ?interpolator : Float -> Float)
+	public static function interpolateIntsf(a : Array<Int>, b : Array<Int>, ?equation : Float -> Float)
 	{
 		var functions = [],
 			i = 0,
@@ -290,7 +290,7 @@ class Arrays
 				var v = b[i];
 				functions.push(function(_) return v);
 			} else
-				functions.push(Ints.interpolatef(a[i], b[i], interpolator));
+				functions.push(Ints.interpolatef(a[i], b[i], equation));
 			i++;
 		}
 		while (i < b.length)

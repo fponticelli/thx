@@ -91,19 +91,19 @@ class Floats
 		return v;
 	}
 	
-	public static function interpolate(f : Float, a = 0.0, b = 1.0, ?interpolator : Float -> Float)
+	public static function interpolate(f : Float, a = 0.0, b = 1.0, ?equation : Float -> Float)
 	{
-		if (null == interpolator)
-			interpolator = Equations.linear;
-		return a + interpolator(f) * (b - a);
+		if (null == equation)
+			equation = Equations.linear;
+		return a + equation(f) * (b - a);
 	}
 	
-	public static function interpolatef(a = 0.0, b = 1.0, ?interpolator : Float -> Float)
+	public static function interpolatef(a = 0.0, b = 1.0, ?equation : Float -> Float)
 	{
-		if (null == interpolator)
-			interpolator = Equations.linear;
+		if (null == equation)
+			equation = Equations.linear;
 		var d = b - a;
-		return function(f) return a + interpolator(f) * d;
+		return function(f) return a + equation(f) * d;
 	}
 	
 	public static function ascending(a : Float, b : Float) return a < b ? -1 : a > b ? 1 : 0

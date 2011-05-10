@@ -1833,6 +1833,11 @@ thx.culture.Culture.add = function(culture) {
 	if(!thx.culture.Culture.getCultures().exists(name)) thx.culture.Culture.getCultures().set(name,culture);
 	$s.pop();
 }
+thx.culture.Culture.loadAll = function() {
+	$s.push("thx.culture.Culture::loadAll");
+	var $spos = $s.length;
+	$s.pop();
+}
 thx.culture.Culture.prototype.language = null;
 thx.culture.Culture.prototype.date = null;
 thx.culture.Culture.prototype.englishCurrency = null;
@@ -2293,7 +2298,7 @@ Dates.formatf = function(param,params,culture) {
 		};
 		$s.pop();
 		return $tmp;
-	case "WN":
+	case "WDN":
 		var $tmp = function(d) {
 			$s.push("Dates::formatf@49");
 			var $spos = $s.length;
@@ -2304,7 +2309,7 @@ Dates.formatf = function(param,params,culture) {
 		};
 		$s.pop();
 		return $tmp;
-	case "WS":
+	case "WDS":
 		var $tmp = function(d) {
 			$s.push("Dates::formatf@51");
 			var $spos = $s.length;
