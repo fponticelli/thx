@@ -1,7 +1,7 @@
 package thx.math.scale;
 
 /**
- * ...
+ * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
  */
 using Arrays;

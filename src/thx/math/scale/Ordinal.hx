@@ -1,3 +1,6 @@
+/**
+ * Based on D3.js by Michael Bostock
+ */
 package thx.math.scale;
 
 import thx.collections.IntHashList;

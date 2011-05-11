@@ -1,0 +1,2 @@
+thx is a general purpose library for haxe.
+The thx.js has mostly be inspired by d3.js (http://mbostock.github.com/d3/) and many of its classes and some in other packages too are ported from there.

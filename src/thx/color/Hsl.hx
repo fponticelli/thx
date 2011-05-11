@@ -25,6 +25,7 @@ class Hsl extends Rgb
 			Ints.interpolate(_c(h - 120, s, l), 0, 255));
 	}
 	
+	// Based on D3.js by Michael Bostock
 	static function _c(d : Float, s : Float, l : Float) {
 		var m2 = l <= 0.5 ? l * (1 + s) : l + s - l * s;
 		var m1 = 2 * l - m2;
@@ -45,7 +46,7 @@ class Hsl extends Rgb
 		return "hsl(" + hue + "," + (saturation*100) + "%," + (lightness*100) + "%)";
 	}
 	
-	public static function toHsl(c : Rgb)
+	public static function ofRgb(c : Rgb)
 	{
 		var	r : Float = c.red / 255.0;
 		var	g = c.green / 255.0,

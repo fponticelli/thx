@@ -2,7 +2,7 @@ package thx.xml;
 import thx.error.Error;
 
 /**
- * ...
+ * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
  */
 

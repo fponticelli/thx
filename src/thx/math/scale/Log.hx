@@ -2,9 +2,8 @@ package thx.math.scale;
 import thx.math.Const;
 
 /**
- * ...
+ * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
- * @todo change implementation so that Linear, LinearTime, LinearString Log and Pow share a base class
  * @todo add clamp/clampMin/clampMax
  */
 
