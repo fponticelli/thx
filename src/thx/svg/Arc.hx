@@ -26,21 +26,21 @@ class Arc extends Shape
 		return this;
 	}
 	
-	public function getOuterRadius() return r0
+	public function getOuterRadius() return r1
 	public function outerRadius(v : Float)
 	{
 		r1 = v;
 		return this;
 	}
 	
-	public function getStartAngle() return r0
+	public function getStartAngle() return a0
 	public function startAngle(v : Float)
 	{
 		a0 = v;
 		return this;
 	}
 	
-	public function getEndAngle() return r0
+	public function getEndAngle() return a1
 	public function endAngle(v : Float)
 	{
 		a1 = v;
