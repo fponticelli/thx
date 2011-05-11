@@ -184,17 +184,9 @@ Other things to do. Nested placeholders
 			case 'S':
 				return function(v : String) return v;
 			case 'T':
-				var len = params.length < 1 ? 10 : Std.parseInt(params[0]);
-				var elipsis = params.length < 2 ? "..." : params[1];
-				return function(v : String)
-				{
-					if (v.length > len)
-					{
-						return v.substr(0, len) + elipsis;
-					} else {
-						return v;
-					}
-				};
+				var len = params.length < 1 ? 20 : Std.parseInt(params[0]);
+				var ellipsis = params.length < 2 ? "..." : params[1];
+				return ellipsisf(len, ellipsis);
 			case 'PR':
 				var len = params.length < 1 ? 10 : Std.parseInt(params[0]);
 				var pad = params.length < 2 ? " " : params[1];
@@ -513,5 +505,24 @@ Other things to do. Nested placeholders
 		return function(t) {
 			return Arrays.map(functions, function(f,_) return f(t)).join("");
 		};
+	}
+	
+	public static function ellipsis(s : String, maxlen = 20, symbol = "...")
+	{
+		if (s.length > maxlen)
+			return s.substr(0, Ints.max(symbol.length, maxlen - symbol.length)) + symbol;
+		else
+			return s;
+	}
+	
+	public static function ellipsisf(maxlen = 20, symbol = "...")
+	{
+		return function(s : String)
+		{
+			if (s.length > maxlen)
+				return s.substr(0, Ints.max(symbol.length, maxlen - symbol.length)) + symbol;
+			else
+				return s;
+		}
 	}
 }

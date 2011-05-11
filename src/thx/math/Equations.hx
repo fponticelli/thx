@@ -42,7 +42,7 @@ class Equations
 		return 1 - Math.sqrt(1 - t * t);
 	}
 	
-	public static function elastic(?t : Float, a : Float, ?p : Float) : Float
+	public static function elastic(t : Float, ?a : Float, ?p : Float) : Float
 	{
 		var s;
 		if (null == p)
