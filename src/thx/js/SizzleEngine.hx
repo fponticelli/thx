@@ -10,7 +10,7 @@ import js.Dom;
 class SizzleEngine implements ISelectorEngine
 {
 
-	public function new();
+	public function new(){}
 	
 	public function select(selector : String, node : HtmlDom) : Null<HtmlDom>
 	{

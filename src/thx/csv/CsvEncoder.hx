@@ -47,9 +47,9 @@ class CsvEncoder implements IDataHandler
 	{
 		throw new Error("objects cannot be encoded to CSV");
 	}
-	public function startField(name : String) : Void;
-	public function endField() : Void;
-	public function endObject() : Void;
+	public function startField(name : String) : Void {}
+	public function endField() : Void {}
+	public function endObject() : Void {}
 	
 	public function startArray()
 	{
