@@ -112,4 +112,20 @@ class Dynamics
 				return "<function>";
 		}
 	}
+	
+	#if js inline #end public static function number(v : Dynamic) : Float
+	{
+#if js
+		return untyped __js__("Number")(v);
+#else
+		if (Std.is(v, Bool))
+			return v == true ? 1 : 0;
+		else if (Std.is(v, Date))
+			return v.getTime();
+		else if (Std.is(v, String))
+			return Std.parseFloat(v);
+		else
+			return Math.NaN;
+#end
+	}
 }
