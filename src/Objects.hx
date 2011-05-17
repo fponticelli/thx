@@ -106,16 +106,25 @@ class Objects
 		return dest;
 	}
 	
+	// @todo: add support for Array
 	public static function copyTo(src : { }, dest : { } )
 	{
 		for (field in Reflect.fields(src))
 		{
-			if (Reflect.isObject(Reflect.field(src, field)) && Reflect.isObject(Reflect.field(dest, field)))
-				copyTo(Reflect.field(src, field), Reflect.field(dest, field))
+			var value = Reflect.field(src, field);
+			if (Reflect.isObject(value) && Reflect.isObject(Reflect.field(dest, field)))
+				copyTo(value, Reflect.field(dest, field))
 			else
-				Reflect.setField(dest, field, Reflect.field(src, field));
+				Reflect.setField(dest, field, value);
 		}
 		return dest;
+	}
+	
+	public static function clone<T>(src : T) : T
+	{
+		var dest = { };
+		copyTo(src, dest);
+		return cast dest;
 	}
 }
 

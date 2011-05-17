@@ -26,7 +26,7 @@ class TestStrings
 		runner.run();
 	}
 	
-	public function new();
+	public function new(){}
 	
 	public function testUcwordsws()
 	{

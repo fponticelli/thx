@@ -37,5 +37,5 @@ class TestAll
 			Assert.floatEquals(expected[i], scalef(values[i], i), 1e-3, pos);
 	}
 	
-	public function new();
+	public function new(){}
 }

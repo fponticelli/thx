@@ -26,7 +26,7 @@ class TestAll
 		runner.run();
 	}
 	
-	public function new();
+	public function new(){}
 	
 	function p(s : String)
 	{

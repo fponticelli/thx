@@ -20,17 +20,17 @@ class AccessTweenStyle<That : BaseTransition<Dynamic>> extends AccessTween<That>
 		this.name = name;
 	}
 
-	public function floatfNode(f : HtmlDom -> Int -> Float, ?priority : String)
+	public function floatNodef(f : HtmlDom -> Int -> Float, ?priority : String)
 	{
-		return floatTween(transitionFloatTweenf(f), priority);
+		return floatTweenNodef(transitionFloatTweenf(f), priority);
 	}
 
 	public function float(value : Float, ?priority : String)
 	{
-		return floatTween(transitionFloatTween(value), priority);
+		return floatTweenNodef(transitionFloatTween(value), priority);
 	}
 	
-	public function floatTween(tween : HtmlDom -> Int -> Float -> (Float -> Float), ?priority : String)
+	public function floatTweenNodef(tween : HtmlDom -> Int -> Float -> (Float -> Float), ?priority : String)
 	{
 		if (null == priority)
 			priority = null; // FF fix
@@ -47,17 +47,17 @@ class AccessTweenStyle<That : BaseTransition<Dynamic>> extends AccessTween<That>
 		return _that();
 	}
 	
-	public function stringfNode(f : HtmlDom -> Int -> String, ?priority : String)
+	public function stringNodef(f : HtmlDom -> Int -> String, ?priority : String)
 	{
-		return stringTween(transitionStringTweenf(f), priority);
+		return stringTweenNodef(transitionStringTweenf(f), priority);
 	}
 
 	public function string(value : String, ?priority : String)
 	{
-		return stringTween(transitionStringTween(value), priority);
+		return stringTweenNodef(transitionStringTween(value), priority);
 	}
 	
-	public function stringTween(tween : HtmlDom -> Int -> String -> (Float -> String), ?priority : String)
+	public function stringTweenNodef(tween : HtmlDom -> Int -> String -> (Float -> String), ?priority : String)
 	{
 		if (null == priority)
 			priority = null; // FF fix
@@ -74,17 +74,17 @@ class AccessTweenStyle<That : BaseTransition<Dynamic>> extends AccessTween<That>
 		return _that();
 	}
 	
-	public function colorfNode(f : HtmlDom -> Int -> Rgb, ?priority : String)
+	public function colorNodef(f : HtmlDom -> Int -> Rgb, ?priority : String)
 	{
-		return colorTween(transitionColorTweenf(f), priority);
+		return colorTweenNodef(transitionColorTweenf(f), priority);
 	}
 
 	public function color(value : String, ?priority : String)
 	{
-		return colorTween(transitionColorTween(Colors.parse(value)), priority);
+		return colorTweenNodef(transitionColorTween(Colors.parse(value)), priority);
 	}
 	
-	public function colorTween(tween : HtmlDom -> Int -> Rgb -> (Float -> Rgb), ?priority : String)
+	public function colorTweenNodef(tween : HtmlDom -> Int -> Rgb -> (Float -> Rgb), ?priority : String)
 	{
 		if (null == priority)
 			priority = null; // FF fix
@@ -111,16 +111,67 @@ class AccessDataTweenStyle<T, That : BaseTransition<Dynamic>> extends AccessTwee
 	
 	public function floatf(f : T -> Int -> Float, ?priority : String)
 	{
-		return floatfNode(function(n,i) return f(Access.getData(n),i), priority);
+		return floatNodef(function(n,i) return f(Access.getData(n),i), priority);
+	}
+	
+	public function floatTweenf(tween : T -> Int -> Float -> (Float -> Float), ?priority : String)
+	{
+		if (null == priority)
+			priority = null; // FF fix
+		var name = this.name;
+		function styleTween(d : HtmlDom, i : Int) : Float -> Void
+		{
+			var f = tween(Access.getData(d), i, Std.parseFloat(untyped js.Lib.window.getComputedStyle(d, null).getPropertyValue(name)));
+			return function(t)
+			{
+				untyped d.style.setProperty(name, "" + f(t), priority);
+			}
+		}
+		tweens.set("style." + name, styleTween);
+		return _that();
 	}
 	
 	public function stringf(f : T -> Int -> String, ?priority : String)
 	{
-		return stringfNode(function(n,i) return f(Access.getData(n),i), priority);
+		return stringNodef(function(n,i) return f(Access.getData(n),i), priority);
+	}
+	
+	public function stringTweenf(tween : T -> Int -> String -> (Float -> String), ?priority : String)
+	{
+		if (null == priority)
+			priority = null; // FF fix
+		var name = this.name;
+		function styleTween(d : HtmlDom, i : Int) : Float -> Void
+		{
+			var f = tween(Access.getData(d), i, untyped js.Lib.window.getComputedStyle(d, null).getPropertyValue(name));
+			return function(t)
+			{
+				untyped d.style.setProperty(name, f(t), priority);
+			}
+		}
+		tweens.set("style." + name, styleTween);
+		return _that();
 	}
 	
 	public function colorf(f : T -> Int -> Rgb, ?priority : String)
 	{
-		return colorfNode(function(n,i) return f(Access.getData(n),i), priority);
+		return colorNodef(function(n,i) return f(Access.getData(n),i), priority);
+	}
+	
+	public function colorTweenf(tween : T -> Int -> Rgb -> (Float -> Rgb), ?priority : String)
+	{
+		if (null == priority)
+			priority = null; // FF fix
+		var name = this.name;
+		function styleTween(d : HtmlDom, i : Int) : Float -> Void
+		{
+			var f = tween(Access.getData(d), i, Colors.parse(untyped js.Lib.window.getComputedStyle(d, null).getPropertyValue(name)));
+			return function(t)
+			{
+				untyped d.style.setProperty(name, f(t).toRgbString(), priority);
+			}
+		}
+		tweens.set("style." + name, styleTween);
+		return _that();
 	}
 }

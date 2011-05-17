@@ -16,5 +16,5 @@ class TestResults
 		Assert.equals("b B", Results.toString(Result.Failure(cast [error])));
 	}
 	
-	public function new();
+	public function new(){}
 }

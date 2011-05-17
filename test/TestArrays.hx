@@ -75,5 +75,5 @@ class TestArrays
 		runner.run();
 	}
 	
-	public function new();
+	public function new(){}
 }

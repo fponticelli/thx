@@ -10,5 +10,5 @@ class TestDates
 		Assert.isTrue(Dates.canParse("2010-10-01 05:05:05.005"));
 	}
 	
-	public function new();
+	public function new(){}
 }

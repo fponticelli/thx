@@ -33,5 +33,5 @@ class TestSizzle
 		Assert.equals(node, selection[0]);
 	}
 
-	public function new();
+	public function new(){}
 }

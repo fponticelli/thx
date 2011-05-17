@@ -9,7 +9,7 @@ import thx.html.Element;
 
 class HtmlDocReader
 {
-	public function new();
+	public function new(){}
 	
 	public function readString(html : String) : Array<Fragment>
 	{

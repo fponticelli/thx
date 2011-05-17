@@ -24,5 +24,5 @@ class TestDateRange extends TestAll
 		assertValidation(validator.validate(Date.fromString("2011-02-10")), false);
 	}
 	
-	public function new();
+	public function new(){}
 }

@@ -15,5 +15,5 @@ class TestSingleLine extends TestAll
 		assertValidation(validator.validate("a b"), true);
 		assertValidation(validator.validate("a\nb"), false);
 	}
-	public function new();
+	public function new(){}
 }

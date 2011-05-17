@@ -146,5 +146,5 @@ class TestSelection
 		sel.remove();
 	}
 	
-	public function new();
+	public function new(){}
 }

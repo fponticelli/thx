@@ -13,5 +13,5 @@ class TestStringLength extends TestAll
 		assertValidation(validator.validate("abcdef"), false);
 	}
 		
-	public function new();
+	public function new(){}
 }

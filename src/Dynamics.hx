@@ -50,15 +50,20 @@ class Dynamics
 	public static function interpolatef(a : Dynamic, b : Dynamic, ?equation : Float -> Float) : Float -> Dynamic
 	{
 		var ta = Type.typeof(a);
-		if (!Type.enumEq(ta, Type.typeof(b)))
-			throw new Error("arguments a {0} and b {0} differ in types", [ta, Type.typeof(b)]);
+		var tb = Type.typeof(b);
+		if (!(Floats.isNumeric(a) && Floats.isNumeric(b)) && !Type.enumEq(ta, tb))
+			throw new Error("arguments a ({0}) and b ({0}) have different types", [a, b]);
 		switch(ta)
 		{
 			case TNull: return function(_) return null;
-			case TInt: return Ints.interpolatef(a, b, equation);
+			case TInt: 
+				if (Std.is(b, Int))
+					return Ints.interpolatef(a, b, equation);
+				else
+					return Floats.interpolatef(a, b, equation);
 			case TFloat: return Floats.interpolatef(a, b, equation);
 			case TBool: return Bools.interpolatef(a, b, equation);
-			case TObject: return Dynamics.interpolatef(a, b, equation);
+			case TObject: return Objects.interpolatef(a, b, equation);
 			case TClass(c):
 				var name = Type.getClassName(c);
 				switch(name)

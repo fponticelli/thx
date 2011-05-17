@@ -20,5 +20,5 @@ class TestRange extends TestAll
 		assertValidation(validator.validate( 6.0), false);
 	}
 	
-	public function new();
+	public function new(){}
 }

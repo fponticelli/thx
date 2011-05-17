@@ -44,7 +44,7 @@ class TestXmlWriter
 		return new XmlWriter();
 	}
 	
-	public function new();
+	public function new(){}
 	
 	public static function addTests(runner : Runner)
 	{

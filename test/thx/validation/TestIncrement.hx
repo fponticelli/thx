@@ -24,5 +24,5 @@ class TestIncrement extends TestAll
 		assertValidation(validator.validate( -3), true);
 		assertValidation(validator.validate(66.6), true);
 	}
-	public function new();
+	public function new(){}
 }

@@ -25,5 +25,5 @@ class TestUrl extends TestAll
 			assertValidation(validator.validate(url), false, url + " should NOT be valid");
 	}
 	
-	public function new();
+	public function new(){}
 }

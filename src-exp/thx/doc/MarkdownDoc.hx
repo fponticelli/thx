@@ -11,7 +11,7 @@ using StringTools;
 
 class MarkdownDoc
 {
-	public function new();
+	public function new(){}
 	
 	public function ofDoc(doc : Document) : String
 	{

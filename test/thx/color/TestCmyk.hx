@@ -27,5 +27,5 @@ class TestCmyk
 		}
 	}
 	
-	public function new();
+	public function new(){}
 }

@@ -40,5 +40,5 @@ class TestCustomValidator
 		Assert.same(Ok, validator.validate("AA"));
 	}
 	
-	public function new();
+	public function new(){}
 }

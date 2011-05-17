@@ -31,5 +31,5 @@ class TestHsl
 		}
 	}
 	
-	public function new();
+	public function new(){}
 }

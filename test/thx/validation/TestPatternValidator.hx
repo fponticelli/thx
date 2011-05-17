@@ -18,5 +18,5 @@ class TestPatternValidator extends TestAll
 		assertValidation(validator.validate("UiU"), true);
 	}
 	
-	public function new();
+	public function new(){}
 }

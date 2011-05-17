@@ -46,5 +46,5 @@ class TestDom
 	}
 */
 	
-	public function new();
+	public function new(){}
 }

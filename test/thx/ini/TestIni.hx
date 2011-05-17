@@ -70,5 +70,5 @@ organization=Acme Widgets Inc.';
 		Assert.same(v, t);
 	}
 	
-	public function new();
+	public function new(){}
 }

@@ -37,7 +37,6 @@ class Area<TData>
 	}
 	
 	public function getX() return _x
-	
 	public function x(v : TData -> Int -> Float)
 	{
 		_x = v;
@@ -45,7 +44,6 @@ class Area<TData>
 	}
 	
 	public function getY0() return _y0
-	
 	public function y0(v : TData -> Int -> Float)
 	{
 		_y0 = v;
@@ -53,7 +51,6 @@ class Area<TData>
 	}
 	
 	public function getY1() return _y1
-	
 	public function y1(v : TData -> Int -> Float)
 	{
 		_y1 = v;

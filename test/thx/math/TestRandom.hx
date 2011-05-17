@@ -20,5 +20,5 @@ class TestRandom
 			Assert.equals(v, r.int());
 	}
 	
-	public function new();	
+	public function new(){}	
 }

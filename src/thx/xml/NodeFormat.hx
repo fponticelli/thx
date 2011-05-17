@@ -4,7 +4,7 @@ class NodeFormat
 {   
 	public var valueFormat : ValueFormat;
 	public var attributeFormat : AttributeFormat;    
-	public function new();
+	public function new(){}
 	
 	public function formatEmptyElement(node : Xml)
 	{

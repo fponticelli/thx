@@ -18,5 +18,5 @@ class TestRgb
 		Assert.isTrue(NamedColors.red.equals(Rgb.fromInt(0xFF0000)));
 	}
 	
-	public function new();
+	public function new(){}
 }

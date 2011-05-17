@@ -44,5 +44,5 @@ class TestCsv
 		Assert.same(expected, test, "expected " + Dynamics.toString(expected) + " but was " + Dynamics.toString(test), pos);
 	}
 	
-	public function new();
+	public function new(){}
 }

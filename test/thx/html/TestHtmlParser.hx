@@ -14,7 +14,7 @@ using thx.html.TestHtmlParser;
 
 class TestHtmlParser
 {
-	public function new();
+	public function new(){}
 	
 	public function testMain()
 	{

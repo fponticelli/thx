@@ -45,12 +45,12 @@ class TestValueEncoder
 		], handler.result);
 	}
 	
-	public function new();
+	public function new(){}
 }
 
 class CustomerEncoder implements IDataHandler
 {
-	public function new();
+	public function new(){}
 	public var result : Array<String>;
 	
 	public function start() result = ["start"]

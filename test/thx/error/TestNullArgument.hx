@@ -4,7 +4,7 @@ import utest.Assert;
 
 class TestNullArgument
 {
-	public function new();
+	public function new(){}
 	
 	public static function throwMe(XXX : String)
 	{

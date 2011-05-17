@@ -31,12 +31,7 @@ class Error extends Message
 			return message.format(params);
 		} catch(e : Dynamic) {
 			var ps = pos.className + "." + pos.methodName + "(" + pos.lineNumber + ")";
-			var pa;
-			if(0 == params.length)
-				pa = "no parameters passed";
-			else
-				pa = "wrong parameters passed ({0})";
-			trace("wrong parameters (" + params.join(", ") + ") passed for pattern '" + message + "' at " +  ps + ": " + e);
+			trace("wrong parameters passed for pattern '" + message + "' at " +  ps);
 			return "";
 //			throw new Error(pa + " for pattern '{1}' at {2}", [params.join(", "), message, ps]);
 		}

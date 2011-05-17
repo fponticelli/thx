@@ -6,7 +6,7 @@ import utest.Assert;
 
 class TestHtmlFormat
 {
-	public function new();
+	public function new(){}
 	
 	var format : HtmlFormat;
 	

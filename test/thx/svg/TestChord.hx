@@ -4,5 +4,5 @@ import thx.svg.Chord;
 
 class TestChord
 {
-	public function new();
+	public function new(){}
 }

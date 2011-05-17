@@ -11,7 +11,7 @@ import utest.ui.Report;
 
 class TestXmlFormat
 {   
-	public function new();
+	public function new(){}
 	
 	public static function createCompleteDom()
 	{

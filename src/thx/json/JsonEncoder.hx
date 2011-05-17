@@ -41,7 +41,7 @@ class JsonEncoder implements IDataHandler
 			buf.add(",");
 		buf.add(quote(name) + ":");
 	}
-	public function endField();
+	public function endField(){}
 
 	public function endObject()
 	{
@@ -59,7 +59,7 @@ class JsonEncoder implements IDataHandler
 		if (count[count.length - 1]++ > 0)
 			buf.add(",");
 	}
-	public function endItem() : Void;
+	public function endItem(){}
 	public function endArray()
 	{
 		buf.add("]");

@@ -7,5 +7,5 @@ package thx.load;
 
 class ILoader<TValue, TError>
 {
-	public function load(completeHandler : TValue -> Void, ?errorHandler : TError -> Void) : Void;
+	public function load(completeHandler : TValue -> Void, ?errorHandler : TError -> Void) {}
 }

@@ -25,5 +25,5 @@ class TestAll
 		runner.run();
 	}
 	
-	public function new();
+	public function new(){}
 }

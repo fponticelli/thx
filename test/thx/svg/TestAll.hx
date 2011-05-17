@@ -81,5 +81,5 @@ class TestAll
 		return (~/[, A-Z]/g).split(s).filter(function(s) return "" != s).map(function(v, _) return Floats.parse(v));
 	}
 */
-	public function new();
+	public function new(){}
 }

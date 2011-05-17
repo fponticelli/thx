@@ -20,5 +20,5 @@ class TestOptionValidator extends TestAll
 		assertValidation(validator.validate("aa"), false);
 	}
 	
-	public function new();
+	public function new(){}
 }

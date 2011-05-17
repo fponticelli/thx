@@ -154,4 +154,9 @@ class Floats
 	{
 		return a < b ? -1 : (a > b ? 1 : 0);
 	}
+	
+	inline public static function isNumeric(v : Dynamic)
+	{
+		return Std.is(v, Float) || Std.is(v, Int);
+	}
 }

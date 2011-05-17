@@ -64,9 +64,7 @@ thx.error.Error.prototype.toString = function() {
 		while($s.length >= $spos) $e.unshift($s.pop());
 		$s.push($e[0]);
 		var ps = this.pos.className + "." + this.pos.methodName + "(" + this.pos.lineNumber + ")";
-		var pa;
-		if(0 == this.params.length) pa = "no parameters passed"; else pa = "wrong parameters passed ({0})";
-		haxe.Log.trace("wrong parameters (" + this.params.join(", ") + ") passed for pattern '" + this.message + "' at " + ps + ": " + e,{ fileName : "Error.hx", lineNumber : 39, className : "thx.error.Error", methodName : "toString"});
+		haxe.Log.trace("wrong parameters passed for pattern '" + this.message + "' at " + ps,{ fileName : "Error.hx", lineNumber : 34, className : "thx.error.Error", methodName : "toString"});
 		$s.pop();
 		return "";
 	}
@@ -752,28 +750,28 @@ thx.color.Rgb.equals = function(a,b) {
 	return $tmp;
 	$s.pop();
 }
-thx.color.Rgb.darker = function(color,t,interpolator) {
+thx.color.Rgb.darker = function(color,t,equation) {
 	$s.push("thx.color.Rgb::darker");
 	var $spos = $s.length;
-	var $tmp = new thx.color.Rgb(Ints.interpolate(t * color.red,0,255,interpolator),Ints.interpolate(t * color.green,0,255,interpolator),Ints.interpolate(t * color.blue,0,255,interpolator));
+	var $tmp = new thx.color.Rgb(Ints.interpolate(t * color.red,0,255,equation),Ints.interpolate(t * color.green,0,255,equation),Ints.interpolate(t * color.blue,0,255,equation));
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.color.Rgb.interpolate = function(a,b,t,interpolator) {
+thx.color.Rgb.interpolate = function(a,b,t,equation) {
 	$s.push("thx.color.Rgb::interpolate");
 	var $spos = $s.length;
-	var $tmp = new thx.color.Rgb(Ints.interpolate(t,a.red,b.red,interpolator),Ints.interpolate(t,a.green,b.green,interpolator),Ints.interpolate(t,a.blue,b.blue,interpolator));
+	var $tmp = new thx.color.Rgb(Ints.interpolate(t,a.red,b.red,equation),Ints.interpolate(t,a.green,b.green,equation),Ints.interpolate(t,a.blue,b.blue,equation));
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.color.Rgb.interpolatef = function(a,b,interpolator) {
+thx.color.Rgb.interpolatef = function(a,b,equation) {
 	$s.push("thx.color.Rgb::interpolatef");
 	var $spos = $s.length;
-	var r = Ints.interpolatef(a.red,b.red), g = Ints.interpolatef(a.green,b.green), b1 = Ints.interpolatef(a.blue,b.blue);
+	var r = Ints.interpolatef(a.red,b.red,equation), g = Ints.interpolatef(a.green,b.green,equation), b1 = Ints.interpolatef(a.blue,b.blue,equation);
 	var $tmp = function(t) {
-		$s.push("thx.color.Rgb::interpolatef@96");
+		$s.push("thx.color.Rgb::interpolatef@95");
 		var $spos = $s.length;
 		var $tmp = new thx.color.Rgb(r(t),g(t),b1(t));
 		$s.pop();
@@ -787,7 +785,7 @@ thx.color.Rgb.interpolatef = function(a,b,interpolator) {
 thx.color.Rgb.contrast = function(c) {
 	$s.push("thx.color.Rgb::contrast");
 	var $spos = $s.length;
-	var nc = thx.color.Hsl.toHsl(c);
+	var nc = thx.color.Hsl.ofRgb(c);
 	if(nc.lightness < .5) {
 		var $tmp = new thx.color.Hsl(nc.hue,nc.saturation,nc.lightness + 0.5);
 		$s.pop();
@@ -802,7 +800,7 @@ thx.color.Rgb.contrast = function(c) {
 thx.color.Rgb.contrastBW = function(c) {
 	$s.push("thx.color.Rgb::contrastBW");
 	var $spos = $s.length;
-	var nc = thx.color.Hsl.toHsl(c);
+	var nc = thx.color.Hsl.ofRgb(c);
 	if(nc.lightness < .5) {
 		var $tmp = new thx.color.Hsl(nc.hue,nc.saturation,1.0);
 		$s.pop();
@@ -1672,7 +1670,7 @@ thx.math.scale.Log.prototype.getDomain = function() {
 	var $spos = $s.length;
 	var me = this;
 	var $tmp = thx.math.scale.NumericScale.prototype.getDomain.call(this).map(function(d,_) {
-		$s.push("thx.math.scale.Log::getDomain@57");
+		$s.push("thx.math.scale.Log::getDomain@56");
 		var $spos = $s.length;
 		var $tmp = me.pow(d);
 		$s.pop();
@@ -1703,7 +1701,7 @@ thx.math.scale.Log.prototype.ticks = function() {
 	var $spos = $s.length;
 	var d = thx.math.scale.NumericScale.prototype.getDomain.call(this), ticks = [];
 	if(d.every(function(d1,_) {
-		$s.push("thx.math.scale.Log::ticks@76");
+		$s.push("thx.math.scale.Log::ticks@75");
 		var $spos = $s.length;
 		var $tmp = Math.isFinite(d1);
 		$s.pop();
@@ -1741,7 +1739,7 @@ thx.math.scale.Log.prototype.tickFormatf = function() {
 	$s.push("thx.math.scale.Log::tickFormatf");
 	var $spos = $s.length;
 	var $tmp = function(d) {
-		$s.push("thx.math.scale.Log::tickFormatf@112");
+		$s.push("thx.math.scale.Log::tickFormatf@111");
 		var $spos = $s.length;
 		var $tmp = thx.culture.FormatNumber.decimal(d,1);
 		$s.pop();
@@ -2417,18 +2415,18 @@ Dates.formatf = function(param,params,culture) {
 	}
 	$s.pop();
 }
-Dates.interpolate = function(f,a,b,interpolator) {
+Dates.interpolate = function(f,a,b,equation) {
 	$s.push("Dates::interpolate");
 	var $spos = $s.length;
-	var $tmp = (Dates.interpolatef(a,b,interpolator))(f);
+	var $tmp = (Dates.interpolatef(a,b,equation))(f);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-Dates.interpolatef = function(a,b,interpolator) {
+Dates.interpolatef = function(a,b,equation) {
 	$s.push("Dates::interpolatef");
 	var $spos = $s.length;
-	var f = Floats.interpolatef(a.getTime(),b.getTime(),interpolator);
+	var f = Floats.interpolatef(a.getTime(),b.getTime(),equation);
 	var $tmp = function(v) {
 		$s.push("Dates::interpolatef@83");
 		var $spos = $s.length;
@@ -5932,7 +5930,7 @@ thx.color.TestHsl.prototype.testBasics = function() {
 		var test = tests[_g];
 		++_g;
 		utest.Assert.isTrue(thx.color.Rgb.equals(test.rgb,test.hsl),"expected " + test.rgb + " but was " + test.hsl + " for " + test.hsl.toHslString(),{ fileName : "TestHsl.hx", lineNumber : 28, className : "thx.color.TestHsl", methodName : "testBasics"});
-		var c = thx.color.Hsl.toHsl(test.rgb);
+		var c = thx.color.Hsl.ofRgb(test.rgb);
 		utest.Assert.isTrue(thx.color.Rgb.equals(c,test.hsl),"expected " + c + " but was " + test.hsl + " for " + test.hsl.toHslString(),{ fileName : "TestHsl.hx", lineNumber : 30, className : "thx.color.TestHsl", methodName : "testBasics"});
 	}
 	$s.pop();
@@ -6419,28 +6417,28 @@ Floats.circularWrap = function(v,max) {
 	return v;
 	$s.pop();
 }
-Floats.interpolate = function(f,a,b,interpolator) {
+Floats.interpolate = function(f,a,b,equation) {
 	$s.push("Floats::interpolate");
 	var $spos = $s.length;
 	if(b == null) b = 1.0;
 	if(a == null) a = 0.0;
-	if(null == interpolator) interpolator = thx.math.Equations.linear;
-	var $tmp = a + interpolator(f) * (b - a);
+	if(null == equation) equation = thx.math.Equations.linear;
+	var $tmp = a + equation(f) * (b - a);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-Floats.interpolatef = function(a,b,interpolator) {
+Floats.interpolatef = function(a,b,equation) {
 	$s.push("Floats::interpolatef");
 	var $spos = $s.length;
 	if(b == null) b = 1.0;
 	if(a == null) a = 0.0;
-	if(null == interpolator) interpolator = thx.math.Equations.linear;
+	if(null == equation) equation = thx.math.Equations.linear;
 	var d = b - a;
 	var $tmp = function(f) {
 		$s.push("Floats::interpolatef@106");
 		var $spos = $s.length;
-		var $tmp = a + interpolator(f) * d;
+		var $tmp = a + equation(f) * d;
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -6568,6 +6566,14 @@ Floats.compare = function(a,b) {
 	$s.push("Floats::compare");
 	var $spos = $s.length;
 	var $tmp = a < b?-1:a > b?1:0;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Floats.isNumeric = function(v) {
+	$s.push("Floats::isNumeric");
+	var $spos = $s.length;
+	var $tmp = Std["is"](v,Float) || Std["is"](v,Int);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -7336,24 +7342,25 @@ Dynamics.formatf = function(param,params,nullstring,culture) {
 	return $tmp;
 	$s.pop();
 }
-Dynamics.interpolate = function(v,a,b,interpolator) {
+Dynamics.interpolate = function(v,a,b,equation) {
 	$s.push("Dynamics::interpolate");
 	var $spos = $s.length;
-	var $tmp = (Dynamics.interpolatef(a,b,interpolator))(v);
+	var $tmp = (Dynamics.interpolatef(a,b,equation))(v);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-Dynamics.interpolatef = function(a,b,interpolator) {
+Dynamics.interpolatef = function(a,b,equation) {
 	$s.push("Dynamics::interpolatef");
 	var $spos = $s.length;
 	var ta = Type["typeof"](a);
-	if(!Type.enumEq(ta,Type["typeof"](b))) throw new thx.error.Error("arguments a {0} and b {0} differ in types",[ta,Type["typeof"](b)],null,{ fileName : "Dynamics.hx", lineNumber : 54, className : "Dynamics", methodName : "interpolatef"});
+	var tb = Type["typeof"](b);
+	if(!((Std["is"](a,Float) || Std["is"](a,Int)) && (Std["is"](b,Float) || Std["is"](b,Int))) && !Type.enumEq(ta,tb)) throw new thx.error.Error("arguments a ({0}) and b ({0}) have different types",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 55, className : "Dynamics", methodName : "interpolatef"});
 	var $e = (ta);
 	switch( $e[1] ) {
 	case 0:
 		var $tmp = function(_) {
-			$s.push("Dynamics::interpolatef@57");
+			$s.push("Dynamics::interpolatef@58");
 			var $spos = $s.length;
 			$s.pop();
 			return null;
@@ -7362,19 +7369,26 @@ Dynamics.interpolatef = function(a,b,interpolator) {
 		$s.pop();
 		return $tmp;
 	case 1:
-		var $tmp = Ints.interpolatef(a,b,interpolator);
-		$s.pop();
-		return $tmp;
+		if(Std["is"](b,Int)) {
+			var $tmp = Ints.interpolatef(a,b,equation);
+			$s.pop();
+			return $tmp;
+		} else {
+			var $tmp = Floats.interpolatef(a,b,equation);
+			$s.pop();
+			return $tmp;
+		}
+		break;
 	case 2:
-		var $tmp = Floats.interpolatef(a,b,interpolator);
+		var $tmp = Floats.interpolatef(a,b,equation);
 		$s.pop();
 		return $tmp;
 	case 3:
-		var $tmp = Bools.interpolatef(a,b,interpolator);
+		var $tmp = Bools.interpolatef(a,b,equation);
 		$s.pop();
 		return $tmp;
 	case 4:
-		var $tmp = Dynamics.interpolatef(a,b,interpolator);
+		var $tmp = Objects.interpolatef(a,b,equation);
 		$s.pop();
 		return $tmp;
 	case 6:
@@ -7382,19 +7396,19 @@ Dynamics.interpolatef = function(a,b,interpolator) {
 		var name = Type.getClassName(c);
 		switch(name) {
 		case "String":
-			var $tmp = Strings.interpolatef(a,b,interpolator);
+			var $tmp = Strings.interpolatef(a,b,equation);
 			$s.pop();
 			return $tmp;
 		case "Date":
-			var $tmp = Dates.interpolatef(a,b,interpolator);
+			var $tmp = Dates.interpolatef(a,b,equation);
 			$s.pop();
 			return $tmp;
 		default:
-			throw new thx.error.Error("cannot interpolate on instances of {0}",null,name,{ fileName : "Dynamics.hx", lineNumber : 68, className : "Dynamics", methodName : "interpolatef"});
+			throw new thx.error.Error("cannot interpolate on instances of {0}",null,name,{ fileName : "Dynamics.hx", lineNumber : 73, className : "Dynamics", methodName : "interpolatef"});
 		}
 		break;
 	default:
-		throw new thx.error.Error("cannot interpolate on functions/enums/unknown",null,null,{ fileName : "Dynamics.hx", lineNumber : 70, className : "Dynamics", methodName : "interpolatef"});
+		throw new thx.error.Error("cannot interpolate on functions/enums/unknown",null,null,{ fileName : "Dynamics.hx", lineNumber : 75, className : "Dynamics", methodName : "interpolatef"});
 	}
 	$s.pop();
 }
@@ -7476,6 +7490,14 @@ Dynamics.toString = function(v) {
 		$s.pop();
 		return "<function>";
 	}
+	$s.pop();
+}
+Dynamics.number = function(v) {
+	$s.push("Dynamics::number");
+	var $spos = $s.length;
+	var $tmp = Number(v);
+	$s.pop();
+	return $tmp;
 	$s.pop();
 }
 Dynamics.prototype.__class__ = Dynamics;
@@ -7805,10 +7827,10 @@ thx.js.AccessTweenStyle.__name__ = ["thx","js","AccessTweenStyle"];
 thx.js.AccessTweenStyle.__super__ = thx.js.AccessTween;
 for(var k in thx.js.AccessTween.prototype ) thx.js.AccessTweenStyle.prototype[k] = thx.js.AccessTween.prototype[k];
 thx.js.AccessTweenStyle.prototype.name = null;
-thx.js.AccessTweenStyle.prototype.floatfNode = function(f,priority) {
-	$s.push("thx.js.AccessTweenStyle::floatfNode");
+thx.js.AccessTweenStyle.prototype.floatNodef = function(f,priority) {
+	$s.push("thx.js.AccessTweenStyle::floatNodef");
 	var $spos = $s.length;
-	var $tmp = this.floatTween(this.transitionFloatTweenf(f),priority);
+	var $tmp = this.floatTweenNodef(this.transitionFloatTweenf(f),priority);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -7816,22 +7838,22 @@ thx.js.AccessTweenStyle.prototype.floatfNode = function(f,priority) {
 thx.js.AccessTweenStyle.prototype["float"] = function(value,priority) {
 	$s.push("thx.js.AccessTweenStyle::float");
 	var $spos = $s.length;
-	var $tmp = this.floatTween(this.transitionFloatTween(value),priority);
+	var $tmp = this.floatTweenNodef(this.transitionFloatTween(value),priority);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.js.AccessTweenStyle.prototype.floatTween = function(tween,priority) {
-	$s.push("thx.js.AccessTweenStyle::floatTween");
+thx.js.AccessTweenStyle.prototype.floatTweenNodef = function(tween,priority) {
+	$s.push("thx.js.AccessTweenStyle::floatTweenNodef");
 	var $spos = $s.length;
 	if(null == priority) priority = null;
 	var name = this.name;
 	var styleTween = function(d,i) {
-		$s.push("thx.js.AccessTweenStyle::floatTween@38");
+		$s.push("thx.js.AccessTweenStyle::floatTweenNodef@38");
 		var $spos = $s.length;
 		var f = tween(d,i,Std.parseFloat(js.Lib.window.getComputedStyle(d,null).getPropertyValue(name)));
 		var $tmp = function(t) {
-			$s.push("thx.js.AccessTweenStyle::floatTween@38@41");
+			$s.push("thx.js.AccessTweenStyle::floatTweenNodef@38@41");
 			var $spos = $s.length;
 			d.style.setProperty(name,"" + f(t),priority);
 			$s.pop();
@@ -7846,10 +7868,10 @@ thx.js.AccessTweenStyle.prototype.floatTween = function(tween,priority) {
 	return $tmp;
 	$s.pop();
 }
-thx.js.AccessTweenStyle.prototype.stringfNode = function(f,priority) {
-	$s.push("thx.js.AccessTweenStyle::stringfNode");
+thx.js.AccessTweenStyle.prototype.stringNodef = function(f,priority) {
+	$s.push("thx.js.AccessTweenStyle::stringNodef");
 	var $spos = $s.length;
-	var $tmp = this.stringTween(this.transitionStringTweenf(f),priority);
+	var $tmp = this.stringTweenNodef(this.transitionStringTweenf(f),priority);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -7857,22 +7879,22 @@ thx.js.AccessTweenStyle.prototype.stringfNode = function(f,priority) {
 thx.js.AccessTweenStyle.prototype.string = function(value,priority) {
 	$s.push("thx.js.AccessTweenStyle::string");
 	var $spos = $s.length;
-	var $tmp = this.stringTween(this.transitionStringTween(value),priority);
+	var $tmp = this.stringTweenNodef(this.transitionStringTween(value),priority);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.js.AccessTweenStyle.prototype.stringTween = function(tween,priority) {
-	$s.push("thx.js.AccessTweenStyle::stringTween");
+thx.js.AccessTweenStyle.prototype.stringTweenNodef = function(tween,priority) {
+	$s.push("thx.js.AccessTweenStyle::stringTweenNodef");
 	var $spos = $s.length;
 	if(null == priority) priority = null;
 	var name = this.name;
 	var styleTween = function(d,i) {
-		$s.push("thx.js.AccessTweenStyle::stringTween@65");
+		$s.push("thx.js.AccessTweenStyle::stringTweenNodef@65");
 		var $spos = $s.length;
 		var f = tween(d,i,js.Lib.window.getComputedStyle(d,null).getPropertyValue(name));
 		var $tmp = function(t) {
-			$s.push("thx.js.AccessTweenStyle::stringTween@65@68");
+			$s.push("thx.js.AccessTweenStyle::stringTweenNodef@65@68");
 			var $spos = $s.length;
 			d.style.setProperty(name,f(t),priority);
 			$s.pop();
@@ -7887,10 +7909,10 @@ thx.js.AccessTweenStyle.prototype.stringTween = function(tween,priority) {
 	return $tmp;
 	$s.pop();
 }
-thx.js.AccessTweenStyle.prototype.colorfNode = function(f,priority) {
-	$s.push("thx.js.AccessTweenStyle::colorfNode");
+thx.js.AccessTweenStyle.prototype.colorNodef = function(f,priority) {
+	$s.push("thx.js.AccessTweenStyle::colorNodef");
 	var $spos = $s.length;
-	var $tmp = this.colorTween(this.transitionColorTweenf(f),priority);
+	var $tmp = this.colorTweenNodef(this.transitionColorTweenf(f),priority);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -7898,22 +7920,22 @@ thx.js.AccessTweenStyle.prototype.colorfNode = function(f,priority) {
 thx.js.AccessTweenStyle.prototype.color = function(value,priority) {
 	$s.push("thx.js.AccessTweenStyle::color");
 	var $spos = $s.length;
-	var $tmp = this.colorTween(this.transitionColorTween(thx.color.Colors.parse(value)),priority);
+	var $tmp = this.colorTweenNodef(this.transitionColorTween(thx.color.Colors.parse(value)),priority);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.js.AccessTweenStyle.prototype.colorTween = function(tween,priority) {
-	$s.push("thx.js.AccessTweenStyle::colorTween");
+thx.js.AccessTweenStyle.prototype.colorTweenNodef = function(tween,priority) {
+	$s.push("thx.js.AccessTweenStyle::colorTweenNodef");
 	var $spos = $s.length;
 	if(null == priority) priority = null;
 	var name = this.name;
 	var styleTween = function(d,i) {
-		$s.push("thx.js.AccessTweenStyle::colorTween@92");
+		$s.push("thx.js.AccessTweenStyle::colorTweenNodef@92");
 		var $spos = $s.length;
 		var f = tween(d,i,thx.color.Colors.parse(js.Lib.window.getComputedStyle(d,null).getPropertyValue(name)));
 		var $tmp = function(t) {
-			$s.push("thx.js.AccessTweenStyle::colorTween@92@95");
+			$s.push("thx.js.AccessTweenStyle::colorTweenNodef@92@95");
 			var $spos = $s.length;
 			d.style.setProperty(name,f(t).toRgbString(),priority);
 			$s.pop();
@@ -7942,7 +7964,7 @@ for(var k in thx.js.AccessTweenStyle.prototype ) thx.js.AccessDataTweenStyle.pro
 thx.js.AccessDataTweenStyle.prototype.floatf = function(f,priority) {
 	$s.push("thx.js.AccessDataTweenStyle::floatf");
 	var $spos = $s.length;
-	var $tmp = this.floatfNode(function(n,i) {
+	var $tmp = this.floatNodef(function(n,i) {
 		$s.push("thx.js.AccessDataTweenStyle::floatf@114");
 		var $spos = $s.length;
 		var $tmp = f(Reflect.field(n,"__data__"),i);
@@ -7954,11 +7976,36 @@ thx.js.AccessDataTweenStyle.prototype.floatf = function(f,priority) {
 	return $tmp;
 	$s.pop();
 }
+thx.js.AccessDataTweenStyle.prototype.floatTweenf = function(tween,priority) {
+	$s.push("thx.js.AccessDataTweenStyle::floatTweenf");
+	var $spos = $s.length;
+	if(null == priority) priority = null;
+	var name = this.name;
+	var styleTween = function(d,i) {
+		$s.push("thx.js.AccessDataTweenStyle::floatTweenf@122");
+		var $spos = $s.length;
+		var f = tween(Reflect.field(d,"__data__"),i,Std.parseFloat(js.Lib.window.getComputedStyle(d,null).getPropertyValue(name)));
+		var $tmp = function(t) {
+			$s.push("thx.js.AccessDataTweenStyle::floatTweenf@122@125");
+			var $spos = $s.length;
+			d.style.setProperty(name,"" + f(t),priority);
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	this.tweens.set("style." + name,styleTween);
+	var $tmp = this.transition;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 thx.js.AccessDataTweenStyle.prototype.stringf = function(f,priority) {
 	$s.push("thx.js.AccessDataTweenStyle::stringf");
 	var $spos = $s.length;
-	var $tmp = this.stringfNode(function(n,i) {
-		$s.push("thx.js.AccessDataTweenStyle::stringf@119");
+	var $tmp = this.stringNodef(function(n,i) {
+		$s.push("thx.js.AccessDataTweenStyle::stringf@136");
 		var $spos = $s.length;
 		var $tmp = f(Reflect.field(n,"__data__"),i);
 		$s.pop();
@@ -7969,17 +8016,67 @@ thx.js.AccessDataTweenStyle.prototype.stringf = function(f,priority) {
 	return $tmp;
 	$s.pop();
 }
+thx.js.AccessDataTweenStyle.prototype.stringTweenf = function(tween,priority) {
+	$s.push("thx.js.AccessDataTweenStyle::stringTweenf");
+	var $spos = $s.length;
+	if(null == priority) priority = null;
+	var name = this.name;
+	var styleTween = function(d,i) {
+		$s.push("thx.js.AccessDataTweenStyle::stringTweenf@144");
+		var $spos = $s.length;
+		var f = tween(Reflect.field(d,"__data__"),i,js.Lib.window.getComputedStyle(d,null).getPropertyValue(name));
+		var $tmp = function(t) {
+			$s.push("thx.js.AccessDataTweenStyle::stringTweenf@144@147");
+			var $spos = $s.length;
+			d.style.setProperty(name,f(t),priority);
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	this.tweens.set("style." + name,styleTween);
+	var $tmp = this.transition;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 thx.js.AccessDataTweenStyle.prototype.colorf = function(f,priority) {
 	$s.push("thx.js.AccessDataTweenStyle::colorf");
 	var $spos = $s.length;
-	var $tmp = this.colorfNode(function(n,i) {
-		$s.push("thx.js.AccessDataTweenStyle::colorf@124");
+	var $tmp = this.colorNodef(function(n,i) {
+		$s.push("thx.js.AccessDataTweenStyle::colorf@158");
 		var $spos = $s.length;
 		var $tmp = f(Reflect.field(n,"__data__"),i);
 		$s.pop();
 		return $tmp;
 		$s.pop();
 	},priority);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessDataTweenStyle.prototype.colorTweenf = function(tween,priority) {
+	$s.push("thx.js.AccessDataTweenStyle::colorTweenf");
+	var $spos = $s.length;
+	if(null == priority) priority = null;
+	var name = this.name;
+	var styleTween = function(d,i) {
+		$s.push("thx.js.AccessDataTweenStyle::colorTweenf@166");
+		var $spos = $s.length;
+		var f = tween(Reflect.field(d,"__data__"),i,thx.color.Colors.parse(js.Lib.window.getComputedStyle(d,null).getPropertyValue(name)));
+		var $tmp = function(t) {
+			$s.push("thx.js.AccessDataTweenStyle::colorTweenf@166@169");
+			var $spos = $s.length;
+			d.style.setProperty(name,f(t).toRgbString(),priority);
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	this.tweens.set("style." + name,styleTween);
+	var $tmp = this.transition;
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -8959,28 +9056,16 @@ Strings.formatOnef = function(param,params,culture) {
 		$s.pop();
 		return $tmp;
 	case "T":
-		var len = params.length < 1?10:Std.parseInt(params[0]);
-		var elipsis = params.length < 2?"...":params[1];
-		var $tmp = function(v) {
-			$s.push("Strings::formatOnef@189");
-			var $spos = $s.length;
-			if(v.length > len) {
-				var $tmp = v.substr(0,len) + elipsis;
-				$s.pop();
-				return $tmp;
-			} else {
-				$s.pop();
-				return v;
-			}
-			$s.pop();
-		};
+		var len = params.length < 1?20:Std.parseInt(params[0]);
+		var ellipsis = params.length < 2?"...":params[1];
+		var $tmp = Strings.ellipsisf(len,ellipsis);
 		$s.pop();
 		return $tmp;
 	case "PR":
 		var len = params.length < 1?10:Std.parseInt(params[0]);
 		var pad = params.length < 2?" ":params[1];
 		var $tmp = function(v) {
-			$s.push("Strings::formatOnef@201");
+			$s.push("Strings::formatOnef@193");
 			var $spos = $s.length;
 			var $tmp = StringTools.rpad(v,pad,len);
 			$s.pop();
@@ -8993,7 +9078,7 @@ Strings.formatOnef = function(param,params,culture) {
 		var len = params.length < 1?10:Std.parseInt(params[0]);
 		var pad = params.length < 2?" ":params[1];
 		var $tmp = function(v) {
-			$s.push("Strings::formatOnef@205");
+			$s.push("Strings::formatOnef@197");
 			var $spos = $s.length;
 			var $tmp = StringTools.lpad(v,pad,len);
 			$s.pop();
@@ -9272,19 +9357,19 @@ Strings.descending = function(a,b) {
 	return $tmp;
 	$s.pop();
 }
-Strings.interpolate = function(v,a,b,interpolator) {
+Strings.interpolate = function(v,a,b,equation) {
 	$s.push("Strings::interpolate");
 	var $spos = $s.length;
-	var $tmp = (Strings.interpolatef(a,b,interpolator))(v);
+	var $tmp = (Strings.interpolatef(a,b,equation))(v);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-Strings.interpolatef = function(a,b,interpolator) {
+Strings.interpolatef = function(a,b,equation) {
 	$s.push("Strings::interpolatef");
 	var $spos = $s.length;
 	var extract = function(value,s,f) {
-		$s.push("Strings::interpolatef@453");
+		$s.push("Strings::interpolatef@445");
 		var $spos = $s.length;
 		while(Strings._reInterpolateNumber.match(value)) {
 			var left = Strings._reInterpolateNumber.matchedLeft();
@@ -9313,10 +9398,10 @@ Strings.interpolatef = function(a,b,interpolator) {
 			if(fa[i] == fb[i]) {
 				var s = ["" + fa[i]];
 				functions.push((function(s) {
-					$s.push("Strings::interpolatef@491");
+					$s.push("Strings::interpolatef@483");
 					var $spos = $s.length;
 					var $tmp = function(_) {
-						$s.push("Strings::interpolatef@491@491");
+						$s.push("Strings::interpolatef@483@483");
 						var $spos = $s.length;
 						var $tmp = s[0];
 						$s.pop();
@@ -9328,12 +9413,12 @@ Strings.interpolatef = function(a,b,interpolator) {
 					$s.pop();
 				})(s));
 			} else {
-				var f = [Floats.interpolatef(fa[i],fb[i],interpolator)];
+				var f = [Floats.interpolatef(fa[i],fb[i],equation)];
 				functions.push((function(f) {
-					$s.push("Strings::interpolatef@494");
+					$s.push("Strings::interpolatef@486");
 					var $spos = $s.length;
 					var $tmp = function(t) {
-						$s.push("Strings::interpolatef@494@494");
+						$s.push("Strings::interpolatef@486@486");
 						var $spos = $s.length;
 						var $tmp = "" + f[0](t);
 						$s.pop();
@@ -9348,10 +9433,10 @@ Strings.interpolatef = function(a,b,interpolator) {
 		} else {
 			var s = [sa[i]];
 			functions.push((function(s) {
-				$s.push("Strings::interpolatef@498");
+				$s.push("Strings::interpolatef@490");
 				var $spos = $s.length;
 				var $tmp = function(_) {
-					$s.push("Strings::interpolatef@498@498");
+					$s.push("Strings::interpolatef@490@490");
 					var $spos = $s.length;
 					var $tmp = s[0];
 					$s.pop();
@@ -9371,17 +9456,17 @@ Strings.interpolatef = function(a,b,interpolator) {
 		i++;
 	}
 	if("" != rest) functions.push(function(_) {
-		$s.push("Strings::interpolatef@512");
+		$s.push("Strings::interpolatef@504");
 		var $spos = $s.length;
 		$s.pop();
 		return rest;
 		$s.pop();
 	});
 	var $tmp = function(t) {
-		$s.push("Strings::interpolatef@513");
+		$s.push("Strings::interpolatef@505");
 		var $spos = $s.length;
 		var $tmp = functions.map(function(f,_) {
-			$s.push("Strings::interpolatef@513@514");
+			$s.push("Strings::interpolatef@505@506");
 			var $spos = $s.length;
 			var $tmp = f(t);
 			$s.pop();
@@ -9390,6 +9475,43 @@ Strings.interpolatef = function(a,b,interpolator) {
 		}).join("");
 		$s.pop();
 		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Strings.ellipsis = function(s,maxlen,symbol) {
+	$s.push("Strings::ellipsis");
+	var $spos = $s.length;
+	if(symbol == null) symbol = "...";
+	if(maxlen == null) maxlen = 20;
+	if(s.length > maxlen) {
+		var $tmp = s.substr(0,Ints.max(symbol.length,maxlen - symbol.length)) + symbol;
+		$s.pop();
+		return $tmp;
+	} else {
+		$s.pop();
+		return s;
+	}
+	$s.pop();
+}
+Strings.ellipsisf = function(maxlen,symbol) {
+	$s.push("Strings::ellipsisf");
+	var $spos = $s.length;
+	if(symbol == null) symbol = "...";
+	if(maxlen == null) maxlen = 20;
+	var $tmp = function(s) {
+		$s.push("Strings::ellipsisf@520");
+		var $spos = $s.length;
+		if(s.length > maxlen) {
+			var $tmp = s.substr(0,Ints.max(symbol.length,maxlen - symbol.length)) + symbol;
+			$s.pop();
+			return $tmp;
+		} else {
+			$s.pop();
+			return s;
+		}
 		$s.pop();
 	};
 	$s.pop();
@@ -10008,31 +10130,33 @@ thx.math.scale.LinearString.prototype.tickFormat = function(m) {
 	$s.pop();
 }
 thx.math.scale.LinearString.prototype.__class__ = thx.math.scale.LinearString;
-thx.csv.CsvDecoder = function(handler,delimiter,trimvalues,emptytonull) {
+thx.csv.CsvDecoder = function(handler,delimiter,emptytonull) {
 	if( handler === $_ ) return;
 	$s.push("thx.csv.CsvDecoder::new");
 	var $spos = $s.length;
 	if(emptytonull == null) emptytonull = false;
-	if(trimvalues == null) trimvalues = false;
 	if(delimiter == null) delimiter = ",";
 	this.handler = handler;
 	this.delimiter = delimiter;
-	this.trimvalues = trimvalues;
 	this.emptytonull = emptytonull;
 	this._end = new EReg("(" + thx.text.ERegs.escapeERegChars(delimiter) + "|\n\r|\n|\r|$)","");
 	$s.pop();
 }
 thx.csv.CsvDecoder.__name__ = ["thx","csv","CsvDecoder"];
 thx.csv.CsvDecoder.prototype.delimiter = null;
-thx.csv.CsvDecoder.prototype.trimvalues = null;
 thx.csv.CsvDecoder.prototype.emptytonull = null;
+thx.csv.CsvDecoder.prototype.line = null;
+thx.csv.CsvDecoder.prototype.column = null;
 thx.csv.CsvDecoder.prototype.handler = null;
 thx.csv.CsvDecoder.prototype._s = null;
 thx.csv.CsvDecoder.prototype._end = null;
+thx.csv.CsvDecoder.prototype._typers = null;
 thx.csv.CsvDecoder.prototype.decode = function(s) {
 	$s.push("thx.csv.CsvDecoder::decode");
 	var $spos = $s.length;
 	this._s = s;
+	this._typers = [];
+	this.line = 1;
 	this.handler.start();
 	this.handler.startArray();
 	while(this._s.length > 0) this.parseLine();
@@ -10044,10 +10168,11 @@ thx.csv.CsvDecoder.prototype.parseLine = function() {
 	$s.push("thx.csv.CsvDecoder::parseLine");
 	var $spos = $s.length;
 	this.handler.startItem();
+	this.column = 1;
 	this.handler.startArray();
-	while(this.parseValue()) {
-	}
+	while(this.parseValue()) this.column++;
 	this.handler.endArray();
+	this.line++;
 	this.handler.endItem();
 	$s.pop();
 }
@@ -10059,16 +10184,19 @@ thx.csv.CsvDecoder.prototype.parseValue = function() {
 		while(this._s.substr(pos + 1,1) == "\"") pos = this._s.indexOf("\"",pos + 2);
 		var v = this._s.substr(1,pos - 1);
 		this._s = this._s.substr(pos + 1);
-		this.typeToken(StringTools.replace(v,"\"\"","\""),false);
-		if(!this._end.match(this._s)) throw new thx.error.Error("invalid string value '{0}'",null,this._s,{ fileName : "CsvDecoder.hx", lineNumber : 61, className : "thx.csv.CsvDecoder", methodName : "parseValue"});
+		this.typeString(StringTools.replace(v,"\"\"","\""));
+		if(!this._end.match(this._s)) this.error(this._s);
 		this._s = this._end.matchedRight();
 		var $tmp = this._end.matched(0) == this.delimiter;
 		$s.pop();
 		return $tmp;
 	}
-	if(!this._end.match(this._s)) throw new thx.error.Error("invalid string value '{0}'",null,this._s,{ fileName : "CsvDecoder.hx", lineNumber : 68, className : "thx.csv.CsvDecoder", methodName : "parseValue"});
+	if(!this._end.match(this._s)) this.error(this._s);
 	this._s = this._end.matchedRight();
-	this.typeToken(this._end.matchedLeft(),this.trimvalues);
+	if(this.line == 1) this.typeToken(this._end.matchedLeft()); else {
+		var v = this._end.matchedLeft();
+		(this.getTyper(v))(v);
+	}
 	if(this._end.matched(0) == this.delimiter) {
 		$s.pop();
 		return true;
@@ -10079,12 +10207,77 @@ thx.csv.CsvDecoder.prototype.parseValue = function() {
 	}
 	$s.pop();
 }
-thx.csv.CsvDecoder.prototype.typeToken = function(s,trim) {
+thx.csv.CsvDecoder.prototype.error = function(e) {
+	$s.push("thx.csv.CsvDecoder::error");
+	var $spos = $s.length;
+	var $tmp = (function($this) {
+		var $r;
+		throw new thx.error.Error("invalid string value '{0}' at line {1}, column {2}",[Strings.ellipsis(e,50),$this.line,$this.column],null,{ fileName : "CsvDecoder.hx", lineNumber : 97, className : "thx.csv.CsvDecoder", methodName : "error"});
+		return $r;
+	}(this));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.csv.CsvDecoder.prototype.getTyper = function(s) {
+	$s.push("thx.csv.CsvDecoder::getTyper");
+	var $spos = $s.length;
+	var typer = this._typers[this.column];
+	if(null == typer) {
+		if(s == "") {
+			var $tmp = $closure(this,"typeToken");
+			$s.pop();
+			return $tmp;
+		}
+		if(Ints.canParse(s)) typer = this._typers[this.column] = $closure(this,"typeInt"); else if(Floats.canParse(s)) typer = this._typers[this.column] = $closure(this,"typeFloat"); else if(Bools.canParse(s)) typer = this._typers[this.column] = $closure(this,"typeBool"); else if(Dates.canParse(s)) typer = this._typers[this.column] = $closure(this,"typeDate"); else typer = this._typers[this.column] = $closure(this,"typeString");
+	}
+	$s.pop();
+	return typer;
+	$s.pop();
+}
+thx.csv.CsvDecoder.prototype.typeToken = function(s) {
 	$s.push("thx.csv.CsvDecoder::typeToken");
 	var $spos = $s.length;
-	if(trim) s = StringTools.trim(s);
+	if(Ints.canParse(s)) this.typeInt(s); else if(Floats.canParse(s)) this.typeFloat(s); else if(Bools.canParse(s)) this.typeBool(s); else if(Dates.canParse(s)) this.typeDate(s); else this.typeString(s);
+	$s.pop();
+}
+thx.csv.CsvDecoder.prototype.typeInt = function(s) {
+	$s.push("thx.csv.CsvDecoder::typeInt");
+	var $spos = $s.length;
 	this.handler.startItem();
-	if(Ints.canParse(s)) this.handler["int"](Ints.parse(s)); else if(Floats.canParse(s)) this.handler["float"](Floats.parse(s)); else if(Bools.canParse(s)) this.handler.bool(Bools.parse(s)); else if(Dates.canParse(s)) this.handler.date(Dates.parse(s)); else if(this.emptytonull && "" == s) this.handler["null"](); else this.handler.string(s);
+	this.handler["int"](Ints.parse(s));
+	this.handler.endItem();
+	$s.pop();
+}
+thx.csv.CsvDecoder.prototype.typeFloat = function(s) {
+	$s.push("thx.csv.CsvDecoder::typeFloat");
+	var $spos = $s.length;
+	this.handler.startItem();
+	this.handler["float"](Floats.parse(s));
+	this.handler.endItem();
+	$s.pop();
+}
+thx.csv.CsvDecoder.prototype.typeBool = function(s) {
+	$s.push("thx.csv.CsvDecoder::typeBool");
+	var $spos = $s.length;
+	this.handler.startItem();
+	this.handler.bool(Bools.parse(s));
+	this.handler.endItem();
+	$s.pop();
+}
+thx.csv.CsvDecoder.prototype.typeDate = function(s) {
+	$s.push("thx.csv.CsvDecoder::typeDate");
+	var $spos = $s.length;
+	this.handler.startItem();
+	this.handler.date(Dates.parse(s));
+	this.handler.endItem();
+	$s.pop();
+}
+thx.csv.CsvDecoder.prototype.typeString = function(s) {
+	$s.push("thx.csv.CsvDecoder::typeString");
+	var $spos = $s.length;
+	this.handler.startItem();
+	if(s == "" && this.emptytonull) this.handler["null"](); else this.handler.string(s);
 	this.handler.endItem();
 	$s.pop();
 }
@@ -10486,53 +10679,108 @@ thx.util.TestTypeFactory.prototype.testMemoize = function() {
 	$s.pop();
 }
 thx.util.TestTypeFactory.prototype.__class__ = thx.util.TestTypeFactory;
-thx.svg.Shape = function() { }
-thx.svg.Shape.__name__ = ["thx","svg","Shape"];
-thx.svg.Shape.prototype.apply = function(o,d) {
-	$s.push("thx.svg.Shape::apply");
-	var $spos = $s.length;
-	if(null != d) {
-		var _g = 0, _g1 = Reflect.fields(d);
-		while(_g < _g1.length) {
-			var field = _g1[_g];
-			++_g;
-			var f = Reflect.field(this,field);
-			if(null == f) continue;
-			if(Reflect.isFunction(f)) f.apply(o,[Reflect.field(d,field)]); else o[field] = Reflect.field(d,field);
-		}
-	}
-	$s.pop();
-}
-thx.svg.Shape.prototype.shape = function(d,i) {
-	$s.push("thx.svg.Shape::shape");
-	var $spos = $s.length;
-	this.apply(this,d);
-	$s.pop();
-	return "";
-	$s.pop();
-}
-thx.svg.Shape.prototype.__class__ = thx.svg.Shape;
 thx.svg.Arc = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.svg.Arc::new");
 	var $spos = $s.length;
-	this.r0 = 0;
-	this.r1 = 1;
-	this.a0 = 0;
-	this.a1 = Math.PI;
+	this._r0 = function(_,_1) {
+		$s.push("thx.svg.Arc::new@16");
+		var $spos = $s.length;
+		$s.pop();
+		return 0;
+		$s.pop();
+	};
+	this._r1 = function(_,_1) {
+		$s.push("thx.svg.Arc::new@17");
+		var $spos = $s.length;
+		$s.pop();
+		return 1;
+		$s.pop();
+	};
+	this._a0 = function(_,_1) {
+		$s.push("thx.svg.Arc::new@18");
+		var $spos = $s.length;
+		$s.pop();
+		return 0;
+		$s.pop();
+	};
+	this._a1 = function(_,_1) {
+		$s.push("thx.svg.Arc::new@19");
+		var $spos = $s.length;
+		var $tmp = Math.PI;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
 	$s.pop();
 }
 thx.svg.Arc.__name__ = ["thx","svg","Arc"];
-thx.svg.Arc.__super__ = thx.svg.Shape;
-for(var k in thx.svg.Shape.prototype ) thx.svg.Arc.prototype[k] = thx.svg.Shape.prototype[k];
-thx.svg.Arc.prototype.r0 = null;
-thx.svg.Arc.prototype.r1 = null;
-thx.svg.Arc.prototype.a0 = null;
-thx.svg.Arc.prototype.a1 = null;
+thx.svg.Arc.fromObject = function() {
+	$s.push("thx.svg.Arc::fromObject");
+	var $spos = $s.length;
+	var $tmp = new thx.svg.Arc().innerRadiusf(function(d,_) {
+		$s.push("thx.svg.Arc::fromObject@102");
+		var $spos = $s.length;
+		var $tmp = d.innerRadius;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}).outerRadiusf(function(d,_) {
+		$s.push("thx.svg.Arc::fromObject@103");
+		var $spos = $s.length;
+		var $tmp = d.outerRadius;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}).startAnglef(function(d,_) {
+		$s.push("thx.svg.Arc::fromObject@104");
+		var $spos = $s.length;
+		var $tmp = d.startAngle;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}).endAnglef(function(d,_) {
+		$s.push("thx.svg.Arc::fromObject@105");
+		var $spos = $s.length;
+		var $tmp = d.endAngle;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Arc.fromAngleObject = function() {
+	$s.push("thx.svg.Arc::fromAngleObject");
+	var $spos = $s.length;
+	var $tmp = new thx.svg.Arc().startAnglef(function(d,_) {
+		$s.push("thx.svg.Arc::fromAngleObject@112");
+		var $spos = $s.length;
+		var $tmp = d.startAngle;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}).endAnglef(function(d,_) {
+		$s.push("thx.svg.Arc::fromAngleObject@113");
+		var $spos = $s.length;
+		var $tmp = d.endAngle;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Arc.prototype._r0 = null;
+thx.svg.Arc.prototype._r1 = null;
+thx.svg.Arc.prototype._a0 = null;
+thx.svg.Arc.prototype._a1 = null;
 thx.svg.Arc.prototype.getInnerRadius = function() {
 	$s.push("thx.svg.Arc::getInnerRadius");
 	var $spos = $s.length;
-	var $tmp = this.r0;
+	var $tmp = this._r0;
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -10540,7 +10788,21 @@ thx.svg.Arc.prototype.getInnerRadius = function() {
 thx.svg.Arc.prototype.innerRadius = function(v) {
 	$s.push("thx.svg.Arc::innerRadius");
 	var $spos = $s.length;
-	this.r0 = v;
+	var $tmp = this.innerRadiusf(function(_,_1) {
+		$s.push("thx.svg.Arc::innerRadius@23");
+		var $spos = $s.length;
+		$s.pop();
+		return v;
+		$s.pop();
+	});
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Arc.prototype.innerRadiusf = function(v) {
+	$s.push("thx.svg.Arc::innerRadiusf");
+	var $spos = $s.length;
+	this._r0 = v;
 	$s.pop();
 	return this;
 	$s.pop();
@@ -10548,7 +10810,7 @@ thx.svg.Arc.prototype.innerRadius = function(v) {
 thx.svg.Arc.prototype.getOuterRadius = function() {
 	$s.push("thx.svg.Arc::getOuterRadius");
 	var $spos = $s.length;
-	var $tmp = this.r0;
+	var $tmp = this._r1;
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -10556,7 +10818,21 @@ thx.svg.Arc.prototype.getOuterRadius = function() {
 thx.svg.Arc.prototype.outerRadius = function(v) {
 	$s.push("thx.svg.Arc::outerRadius");
 	var $spos = $s.length;
-	this.r1 = v;
+	var $tmp = this.outerRadiusf(function(_,_1) {
+		$s.push("thx.svg.Arc::outerRadius@31");
+		var $spos = $s.length;
+		$s.pop();
+		return v;
+		$s.pop();
+	});
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Arc.prototype.outerRadiusf = function(v) {
+	$s.push("thx.svg.Arc::outerRadiusf");
+	var $spos = $s.length;
+	this._r1 = v;
 	$s.pop();
 	return this;
 	$s.pop();
@@ -10564,7 +10840,7 @@ thx.svg.Arc.prototype.outerRadius = function(v) {
 thx.svg.Arc.prototype.getStartAngle = function() {
 	$s.push("thx.svg.Arc::getStartAngle");
 	var $spos = $s.length;
-	var $tmp = this.r0;
+	var $tmp = this._a0;
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -10572,7 +10848,21 @@ thx.svg.Arc.prototype.getStartAngle = function() {
 thx.svg.Arc.prototype.startAngle = function(v) {
 	$s.push("thx.svg.Arc::startAngle");
 	var $spos = $s.length;
-	this.a0 = v;
+	var $tmp = this.startAnglef(function(_,_1) {
+		$s.push("thx.svg.Arc::startAngle@39");
+		var $spos = $s.length;
+		$s.pop();
+		return v;
+		$s.pop();
+	});
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Arc.prototype.startAnglef = function(v) {
+	$s.push("thx.svg.Arc::startAnglef");
+	var $spos = $s.length;
+	this._a0 = v;
 	$s.pop();
 	return this;
 	$s.pop();
@@ -10580,7 +10870,7 @@ thx.svg.Arc.prototype.startAngle = function(v) {
 thx.svg.Arc.prototype.getEndAngle = function() {
 	$s.push("thx.svg.Arc::getEndAngle");
 	var $spos = $s.length;
-	var $tmp = this.r0;
+	var $tmp = this._a1;
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -10588,7 +10878,21 @@ thx.svg.Arc.prototype.getEndAngle = function() {
 thx.svg.Arc.prototype.endAngle = function(v) {
 	$s.push("thx.svg.Arc::endAngle");
 	var $spos = $s.length;
-	this.a1 = v;
+	var $tmp = this.endAnglef(function(_,_1) {
+		$s.push("thx.svg.Arc::endAngle@47");
+		var $spos = $s.length;
+		$s.pop();
+		return v;
+		$s.pop();
+	});
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Arc.prototype.endAnglef = function(v) {
+	$s.push("thx.svg.Arc::endAnglef");
+	var $spos = $s.length;
+	this._a1 = v;
 	$s.pop();
 	return this;
 	$s.pop();
@@ -10596,17 +10900,16 @@ thx.svg.Arc.prototype.endAngle = function(v) {
 thx.svg.Arc.prototype.shape = function(d,i) {
 	$s.push("thx.svg.Arc::shape");
 	var $spos = $s.length;
-	thx.svg.Shape.prototype.shape.call(this,d,i);
-	var a0 = this.a0 + thx.svg.LineInternals.arcOffset, a1 = this.a1 + thx.svg.LineInternals.arcOffset, da = a1 - a0, df = da < Math.PI?"0":"1", c0 = Math.cos(a0), s0 = Math.sin(a0), c1 = Math.cos(a1), s1 = Math.sin(a1);
-	var $tmp = da >= thx.svg.LineInternals.arcMax?this.r0 != 0?"M0," + this.r1 + "A" + this.r1 + "," + this.r1 + " 0 1,1 0," + -this.r1 + "A" + this.r1 + "," + this.r1 + " 0 1,1 0," + this.r1 + "M0," + this.r0 + "A" + this.r0 + "," + this.r0 + " 0 1,1 0," + -this.r0 + "A" + this.r0 + "," + this.r0 + " 0 1,1 0," + this.r0 + "Z":"M0," + this.r1 + "A" + this.r1 + "," + this.r1 + " 0 1,1 0," + -this.r1 + "A" + this.r1 + "," + this.r1 + " 0 1,1 0," + this.r1 + "Z":this.r0 != 0?"M" + this.r1 * c0 + "," + this.r1 * s0 + "A" + this.r1 + "," + this.r1 + " 0 " + df + ",1 " + this.r1 * c1 + "," + this.r1 * s1 + "L" + this.r0 * c1 + "," + this.r0 * s1 + "A" + this.r0 + "," + this.r0 + " 0 " + df + ",0 " + this.r0 * c0 + "," + this.r0 * s0 + "Z":"M" + this.r1 * c0 + "," + this.r1 * s0 + "A" + this.r1 + "," + this.r1 + " 0 " + df + ",1 " + this.r1 * c1 + "," + this.r1 * s1 + "L0,0" + "Z";
+	var a0 = this._a0(d,i) + thx.svg.LineInternals.arcOffset, a1 = this._a1(d,i) + thx.svg.LineInternals.arcOffset, da = a1 - a0, df = da < Math.PI?"0":"1", c0 = Math.cos(a0), s0 = Math.sin(a0), c1 = Math.cos(a1), s1 = Math.sin(a1), r0 = this._r0(d,i), r1 = this._r1(d,i);
+	var $tmp = da >= thx.svg.LineInternals.arcMax?r0 != 0?"M0," + r1 + "A" + r1 + "," + r1 + " 0 1,1 0," + -r1 + "A" + r1 + "," + r1 + " 0 1,1 0," + r1 + "M0," + r0 + "A" + r0 + "," + r0 + " 0 1,1 0," + -r0 + "A" + r0 + "," + r0 + " 0 1,1 0," + r0 + "Z":"M0," + r1 + "A" + r1 + "," + r1 + " 0 1,1 0," + -r1 + "A" + r1 + "," + r1 + " 0 1,1 0," + r1 + "Z":r0 != 0?"M" + r1 * c0 + "," + r1 * s0 + "A" + r1 + "," + r1 + " 0 " + df + ",1 " + r1 * c1 + "," + r1 * s1 + "L" + r0 * c1 + "," + r0 * s1 + "A" + r0 + "," + r0 + " 0 " + df + ",0 " + r0 * c0 + "," + r0 * s0 + "Z":"M" + r1 * c0 + "," + r1 * s0 + "A" + r1 + "," + r1 + " 0 " + df + ",1 " + r1 * c1 + "," + r1 * s1 + "L0,0" + "Z";
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.svg.Arc.prototype.centroid = function() {
+thx.svg.Arc.prototype.centroid = function(d,i) {
 	$s.push("thx.svg.Arc::centroid");
 	var $spos = $s.length;
-	var r = (this.r0 + this.r1) / 2, a = (this.a0 + this.a1) / 2 + thx.svg.LineInternals.arcOffset;
+	var r = (this._r0(d,i) + this._r1(d,i)) / 2, a = (this._a0(d,i) + this._a1(d,i)) / 2 + thx.svg.LineInternals.arcOffset;
 	var $tmp = [Math.cos(a) * r,Math.sin(a) * r];
 	$s.pop();
 	return $tmp;
@@ -11829,6 +12132,20 @@ Enums.toString = function(e) {
 	$s.pop();
 }
 Enums.prototype.__class__ = Enums;
+thx.js.TestDom = function(p) {
+	$s.push("thx.js.TestDom::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.js.TestDom.__name__ = ["thx","js","TestDom"];
+thx.js.TestDom.prototype.testDocument = function() {
+	$s.push("thx.js.TestDom::testDocument");
+	var $spos = $s.length;
+	utest.Assert.isFalse(thx.js.Dom.doc.empty(),null,{ fileName : "TestDom.hx", lineNumber : 25, className : "thx.js.TestDom", methodName : "testDocument"});
+	utest.Assert.equals(js.Lib.document,thx.js.Dom.doc.node(),null,{ fileName : "TestDom.hx", lineNumber : 26, className : "thx.js.TestDom", methodName : "testDocument"});
+	$s.pop();
+}
+thx.js.TestDom.prototype.__class__ = thx.js.TestDom;
 thx.html.TextHandler = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.html.TextHandler::new");
@@ -11882,20 +12199,6 @@ thx.html.TextHandler.prototype.declaration = function(text) {
 }
 thx.html.TextHandler.prototype.__class__ = thx.html.TextHandler;
 thx.html.TextHandler.__interfaces__ = [thx.html.HtmlHandler];
-thx.js.TestDom = function(p) {
-	$s.push("thx.js.TestDom::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.js.TestDom.__name__ = ["thx","js","TestDom"];
-thx.js.TestDom.prototype.testDocument = function() {
-	$s.push("thx.js.TestDom::testDocument");
-	var $spos = $s.length;
-	utest.Assert.isFalse(thx.js.Dom.doc.empty(),null,{ fileName : "TestDom.hx", lineNumber : 25, className : "thx.js.TestDom", methodName : "testDocument"});
-	utest.Assert.equals(js.Lib.document,thx.js.Dom.doc.node(),null,{ fileName : "TestDom.hx", lineNumber : 26, className : "thx.js.TestDom", methodName : "testDocument"});
-	$s.pop();
-}
-thx.js.TestDom.prototype.__class__ = thx.js.TestDom;
 thx.collections.IntHashList = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.collections.IntHashList::new");
@@ -13148,15 +13451,15 @@ Bools.formatf = function(param,params,culture) {
 	}
 	$s.pop();
 }
-Bools.interpolate = function(v,a,b,interpolator) {
+Bools.interpolate = function(v,a,b,equation) {
 	$s.push("Bools::interpolate");
 	var $spos = $s.length;
-	var $tmp = (Bools.interpolatef(a,b,interpolator))(v);
+	var $tmp = (Bools.interpolatef(a,b,equation))(v);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-Bools.interpolatef = function(a,b,interpolator) {
+Bools.interpolatef = function(a,b,equation) {
 	$s.push("Bools::interpolatef");
 	var $spos = $s.length;
 	if(a == b) {
@@ -13170,7 +13473,7 @@ Bools.interpolatef = function(a,b,interpolator) {
 		$s.pop();
 		return $tmp;
 	} else {
-		var f = Floats.interpolatef(0,1,interpolator);
+		var f = Floats.interpolatef(0,1,equation);
 		var $tmp = function(v) {
 			$s.push("Bools::interpolatef@47");
 			var $spos = $s.length;
@@ -14742,15 +15045,15 @@ Arrays.formatf = function(param,params,culture) {
 	}
 	$s.pop();
 }
-Arrays.interpolate = function(v,a,b,interpolator) {
+Arrays.interpolate = function(v,a,b,equation) {
 	$s.push("Arrays::interpolate");
 	var $spos = $s.length;
-	var $tmp = (Arrays.interpolatef(a,b,interpolator))(v);
+	var $tmp = (Arrays.interpolatef(a,b,equation))(v);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-Arrays.interpolatef = function(a,b,interpolator) {
+Arrays.interpolatef = function(a,b,equation) {
 	$s.push("Arrays::interpolatef");
 	var $spos = $s.length;
 	var functions = [], i = 0, min = Ints.min(a.length,b.length);
@@ -14772,7 +15075,7 @@ Arrays.interpolatef = function(a,b,interpolator) {
 				return $tmp;
 				$s.pop();
 			})(v));
-		} else functions.push(Floats.interpolatef(a[i],b[i],interpolator));
+		} else functions.push(Floats.interpolatef(a[i],b[i],equation));
 		i++;
 	}
 	while(i < b.length) {
@@ -14813,15 +15116,15 @@ Arrays.interpolatef = function(a,b,interpolator) {
 	return $tmp;
 	$s.pop();
 }
-Arrays.interpolateStrings = function(v,a,b,interpolator) {
+Arrays.interpolateStrings = function(v,a,b,equation) {
 	$s.push("Arrays::interpolateStrings");
 	var $spos = $s.length;
-	var $tmp = (Arrays.interpolateStringsf(a,b,interpolator))(v);
+	var $tmp = (Arrays.interpolateStringsf(a,b,equation))(v);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-Arrays.interpolateStringsf = function(a,b,interpolator) {
+Arrays.interpolateStringsf = function(a,b,equation) {
 	$s.push("Arrays::interpolateStringsf");
 	var $spos = $s.length;
 	var functions = [], i = 0, min = Ints.min(a.length,b.length);
@@ -14843,7 +15146,7 @@ Arrays.interpolateStringsf = function(a,b,interpolator) {
 				return $tmp;
 				$s.pop();
 			})(v));
-		} else functions.push(Strings.interpolatef(a[i],b[i],interpolator));
+		} else functions.push(Strings.interpolatef(a[i],b[i],equation));
 		i++;
 	}
 	while(i < b.length) {
@@ -14884,15 +15187,15 @@ Arrays.interpolateStringsf = function(a,b,interpolator) {
 	return $tmp;
 	$s.pop();
 }
-Arrays.interpolateInts = function(v,a,b,interpolator) {
+Arrays.interpolateInts = function(v,a,b,equation) {
 	$s.push("Arrays::interpolateInts");
 	var $spos = $s.length;
-	var $tmp = (Arrays.interpolateIntsf(a,b,interpolator))(v);
+	var $tmp = (Arrays.interpolateIntsf(a,b,equation))(v);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-Arrays.interpolateIntsf = function(a,b,interpolator) {
+Arrays.interpolateIntsf = function(a,b,equation) {
 	$s.push("Arrays::interpolateIntsf");
 	var $spos = $s.length;
 	var functions = [], i = 0, min = Ints.min(a.length,b.length);
@@ -14914,7 +15217,7 @@ Arrays.interpolateIntsf = function(a,b,interpolator) {
 				return $tmp;
 				$s.pop();
 			})(v));
-		} else functions.push(Ints.interpolatef(a[i],b[i],interpolator));
+		} else functions.push(Ints.interpolatef(a[i],b[i],equation));
 		i++;
 	}
 	while(i < b.length) {
@@ -16859,19 +17162,19 @@ thx.color.Cmyk.equals = function(a,b) {
 	return $tmp;
 	$s.pop();
 }
-thx.color.Cmyk.darker = function(color,t,interpolator) {
+thx.color.Cmyk.darker = function(color,t,equation) {
 	$s.push("thx.color.Cmyk::darker");
 	var $spos = $s.length;
 	var v = t * color.black;
-	var $tmp = new thx.color.Cmyk(color.cyan,color.magenta,color.yellow,null == interpolator?v:interpolator(v,0,1));
+	var $tmp = new thx.color.Cmyk(color.cyan,color.magenta,color.yellow,Floats.interpolate(v,0,1,equation));
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.color.Cmyk.interpolate = function(a,b,t,interpolator) {
+thx.color.Cmyk.interpolate = function(a,b,t,equation) {
 	$s.push("thx.color.Cmyk::interpolate");
 	var $spos = $s.length;
-	var $tmp = new thx.color.Cmyk(Floats.interpolate(t,a.cyan,b.cyan,interpolator),Floats.interpolate(t,a.magenta,b.magenta,interpolator),Floats.interpolate(t,a.yellow,b.yellow,interpolator),Floats.interpolate(t,a.black,b.black,interpolator));
+	var $tmp = new thx.color.Cmyk(Floats.interpolate(t,a.cyan,b.cyan,equation),Floats.interpolate(t,a.magenta,b.magenta,equation),Floats.interpolate(t,a.yellow,b.yellow,equation),Floats.interpolate(t,a.black,b.black,equation));
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -16920,7 +17223,7 @@ thx.math.scale.Pow = function(p) {
 	this.tick = new thx.math.scale.Linear();
 	this._exponent = 1;
 	this.powb = this.powp = function(v) {
-		$s.push("thx.math.scale.Pow::new@25");
+		$s.push("thx.math.scale.Pow::new@24");
 		var $spos = $s.length;
 		$s.pop();
 		return v;
@@ -16943,7 +17246,7 @@ thx.math.scale.Pow._pow = function(e) {
 	$s.push("thx.math.scale.Pow::_pow");
 	var $spos = $s.length;
 	var $tmp = function(v) {
-		$s.push("thx.math.scale.Pow::_pow@90");
+		$s.push("thx.math.scale.Pow::_pow@89");
 		var $spos = $s.length;
 		var $tmp = Math.pow(v,e);
 		$s.pop();
@@ -16958,7 +17261,7 @@ thx.math.scale.Pow._pown = function(e) {
 	$s.push("thx.math.scale.Pow::_pown");
 	var $spos = $s.length;
 	var $tmp = function(v) {
-		$s.push("thx.math.scale.Pow::_pown@95");
+		$s.push("thx.math.scale.Pow::_pown@94");
 		var $spos = $s.length;
 		var $tmp = -Math.pow(-v,e);
 		$s.pop();
@@ -16994,7 +17297,7 @@ thx.math.scale.Pow.prototype.getDomain = function() {
 	var $spos = $s.length;
 	var me = this;
 	var $tmp = thx.math.scale.NumericScale.prototype.getDomain.call(this).map(function(d,_) {
-		$s.push("thx.math.scale.Pow::getDomain@40");
+		$s.push("thx.math.scale.Pow::getDomain@39");
 		var $spos = $s.length;
 		var $tmp = me.powb(d);
 		$s.pop();
@@ -17251,8 +17554,8 @@ thx.color.Hsl._c = function(d,s,l) {
 	}
 	$s.pop();
 }
-thx.color.Hsl.toHsl = function(c) {
-	$s.push("thx.color.Hsl::toHsl");
+thx.color.Hsl.ofRgb = function(c) {
+	$s.push("thx.color.Hsl::ofRgb");
 	var $spos = $s.length;
 	var r = c.red / 255.0;
 	var g = c.green / 255.0, b = c.blue / 255.0, min = Floats.min(r < g?r:g,b), max = Floats.max(r > g?r:g,b), delta = max - min, h, s, l = (max + min) / 2;
@@ -17274,19 +17577,19 @@ thx.color.Hsl.equals = function(a,b) {
 	return $tmp;
 	$s.pop();
 }
-thx.color.Hsl.darker = function(color,t,interpolator) {
+thx.color.Hsl.darker = function(color,t,equation) {
 	$s.push("thx.color.Hsl::darker");
 	var $spos = $s.length;
 	var v = color.lightness / t;
-	var $tmp = new thx.color.Hsl(color.hue,color.saturation,null == interpolator?v:interpolator(v,0,1));
+	var $tmp = new thx.color.Hsl(color.hue,color.saturation,Floats.interpolate(v,0,1,equation));
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.color.Hsl.interpolate = function(a,b,t,interpolator) {
+thx.color.Hsl.interpolate = function(a,b,t,equation) {
 	$s.push("thx.color.Hsl::interpolate");
 	var $spos = $s.length;
-	var $tmp = new thx.color.Hsl(Floats.interpolate(t,a.hue,b.hue,interpolator),Floats.interpolate(t,a.saturation,b.saturation,interpolator),Floats.interpolate(t,a.lightness,b.lightness,interpolator));
+	var $tmp = new thx.color.Hsl(Floats.interpolate(t,a.hue,b.hue,equation),Floats.interpolate(t,a.saturation,b.saturation,equation),Floats.interpolate(t,a.lightness,b.lightness,equation));
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -18663,28 +18966,28 @@ Ints.clampSym = function(v,max) {
 	}
 	$s.pop();
 }
-Ints.interpolate = function(f,min,max,interpolator) {
+Ints.interpolate = function(f,min,max,equation) {
 	$s.push("Ints::interpolate");
 	var $spos = $s.length;
 	if(max == null) max = 100.0;
 	if(min == null) min = 0.0;
-	if(null == interpolator) interpolator = thx.math.Equations.linear;
-	var $tmp = Math.round(min + interpolator(f) * (max - min));
+	if(null == equation) equation = thx.math.Equations.linear;
+	var $tmp = Math.round(min + equation(f) * (max - min));
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-Ints.interpolatef = function(min,max,interpolator) {
+Ints.interpolatef = function(min,max,equation) {
 	$s.push("Ints::interpolatef");
 	var $spos = $s.length;
 	if(max == null) max = 1.0;
 	if(min == null) min = 0.0;
-	if(null == interpolator) interpolator = thx.math.Equations.linear;
+	if(null == equation) equation = thx.math.Equations.linear;
 	var d = max - min;
 	var $tmp = function(f) {
 		$s.push("Ints::interpolatef@85");
 		var $spos = $s.length;
-		var $tmp = Math.round(min + interpolator(f) * d);
+		var $tmp = Math.round(min + equation(f) * d);
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -19557,21 +19860,21 @@ thx.svg.Area.pointArray = function(interpolator) {
 	$s.push("thx.svg.Area::pointArray");
 	var $spos = $s.length;
 	var $tmp = new thx.svg.Area(function(d,_) {
-		$s.push("thx.svg.Area::pointArray@65");
+		$s.push("thx.svg.Area::pointArray@62");
 		var $spos = $s.length;
 		var $tmp = d[0];
 		$s.pop();
 		return $tmp;
 		$s.pop();
 	},function(d,_) {
-		$s.push("thx.svg.Area::pointArray@65");
+		$s.push("thx.svg.Area::pointArray@62");
 		var $spos = $s.length;
 		var $tmp = d[1];
 		$s.pop();
 		return $tmp;
 		$s.pop();
 	},function(d,_) {
-		$s.push("thx.svg.Area::pointArray@65");
+		$s.push("thx.svg.Area::pointArray@62");
 		var $spos = $s.length;
 		var $tmp = d[2];
 		$s.pop();
@@ -19586,21 +19889,21 @@ thx.svg.Area.pointObject = function(interpolator) {
 	$s.push("thx.svg.Area::pointObject");
 	var $spos = $s.length;
 	var $tmp = new thx.svg.Area(function(d,_) {
-		$s.push("thx.svg.Area::pointObject@70");
+		$s.push("thx.svg.Area::pointObject@67");
 		var $spos = $s.length;
 		var $tmp = d.x;
 		$s.pop();
 		return $tmp;
 		$s.pop();
 	},function(d,_) {
-		$s.push("thx.svg.Area::pointObject@70");
+		$s.push("thx.svg.Area::pointObject@67");
 		var $spos = $s.length;
 		var $tmp = d.y0;
 		$s.pop();
 		return $tmp;
 		$s.pop();
 	},function(d,_) {
-		$s.push("thx.svg.Area::pointObject@70");
+		$s.push("thx.svg.Area::pointObject@67");
 		var $spos = $s.length;
 		var $tmp = d.y1;
 		$s.pop();
@@ -19615,20 +19918,20 @@ thx.svg.Area.pointArray2 = function(interpolator) {
 	$s.push("thx.svg.Area::pointArray2");
 	var $spos = $s.length;
 	var $tmp = new thx.svg.Area(function(d,_) {
-		$s.push("thx.svg.Area::pointArray2@75");
+		$s.push("thx.svg.Area::pointArray2@72");
 		var $spos = $s.length;
 		var $tmp = d[0];
 		$s.pop();
 		return $tmp;
 		$s.pop();
 	},function(_,_1) {
-		$s.push("thx.svg.Area::pointArray2@75");
+		$s.push("thx.svg.Area::pointArray2@72");
 		var $spos = $s.length;
 		$s.pop();
 		return 0.0;
 		$s.pop();
 	},function(d,_) {
-		$s.push("thx.svg.Area::pointArray2@75");
+		$s.push("thx.svg.Area::pointArray2@72");
 		var $spos = $s.length;
 		var $tmp = d[1];
 		$s.pop();
@@ -19643,20 +19946,20 @@ thx.svg.Area.pointObjectXY = function(interpolator) {
 	$s.push("thx.svg.Area::pointObjectXY");
 	var $spos = $s.length;
 	var $tmp = new thx.svg.Area(function(d,_) {
-		$s.push("thx.svg.Area::pointObjectXY@80");
+		$s.push("thx.svg.Area::pointObjectXY@77");
 		var $spos = $s.length;
 		var $tmp = d.x;
 		$s.pop();
 		return $tmp;
 		$s.pop();
 	},function(_,_1) {
-		$s.push("thx.svg.Area::pointObjectXY@80");
+		$s.push("thx.svg.Area::pointObjectXY@77");
 		var $spos = $s.length;
 		$s.pop();
 		return 0.0;
 		$s.pop();
 	},function(d,_) {
-		$s.push("thx.svg.Area::pointObjectXY@80");
+		$s.push("thx.svg.Area::pointObjectXY@77");
 		var $spos = $s.length;
 		var $tmp = d.y;
 		$s.pop();
@@ -20507,18 +20810,19 @@ thx.color.TestColors.prototype.testParse = function() {
 	var $spos = $s.length;
 	var ab = thx.color.NamedColors.aliceblue;
 	utest.Assert.isTrue(thx.color.Rgb.equals(ab,thx.color.Colors.parse("aliceblue")),null,{ fileName : "TestColors.hx", lineNumber : 17, className : "thx.color.TestColors", methodName : "testParse"});
-	utest.Assert.isTrue(thx.color.Rgb.equals(ab,thx.color.Colors.parse("#F0F8FF")),null,{ fileName : "TestColors.hx", lineNumber : 18, className : "thx.color.TestColors", methodName : "testParse"});
-	utest.Assert.isTrue(thx.color.Rgb.equals(ab,thx.color.Colors.parse("rgb(240,248,255)")),null,{ fileName : "TestColors.hx", lineNumber : 19, className : "thx.color.TestColors", methodName : "testParse"});
-	utest.Assert.isTrue(thx.color.Rgb.equals(thx.color.Rgb.fromInt(11189196),thx.color.Colors.parse("#ABC")),null,{ fileName : "TestColors.hx", lineNumber : 20, className : "thx.color.TestColors", methodName : "testParse"});
-	utest.Assert.isTrue(thx.color.Rgb.equals(thx.color.Rgb.fromInt(11189196),thx.color.Colors.parse("#abc")),null,{ fileName : "TestColors.hx", lineNumber : 21, className : "thx.color.TestColors", methodName : "testParse"});
-	utest.Assert.isTrue(thx.color.Rgb.equals(new thx.color.Hsl(120,0.5,0.75),thx.color.Colors.parse("hsl(120,50%,75%)")),null,{ fileName : "TestColors.hx", lineNumber : 22, className : "thx.color.TestColors", methodName : "testParse"});
-	utest.Assert.isTrue(thx.color.Rgb.equals(new thx.color.Hsl(120,0.5,0.75),thx.color.Colors.parse("hsl(120,0.5,0.75)")),null,{ fileName : "TestColors.hx", lineNumber : 23, className : "thx.color.TestColors", methodName : "testParse"});
+	utest.Assert.isTrue(thx.color.Rgb.equals(ab,thx.color.Colors.parse("alice blue")),null,{ fileName : "TestColors.hx", lineNumber : 18, className : "thx.color.TestColors", methodName : "testParse"});
+	utest.Assert.isTrue(thx.color.Rgb.equals(ab,thx.color.Colors.parse("#F0F8FF")),null,{ fileName : "TestColors.hx", lineNumber : 19, className : "thx.color.TestColors", methodName : "testParse"});
+	utest.Assert.isTrue(thx.color.Rgb.equals(ab,thx.color.Colors.parse("rgb(240,248,255)")),null,{ fileName : "TestColors.hx", lineNumber : 20, className : "thx.color.TestColors", methodName : "testParse"});
+	utest.Assert.isTrue(thx.color.Rgb.equals(thx.color.Rgb.fromInt(11189196),thx.color.Colors.parse("#ABC")),null,{ fileName : "TestColors.hx", lineNumber : 21, className : "thx.color.TestColors", methodName : "testParse"});
+	utest.Assert.isTrue(thx.color.Rgb.equals(thx.color.Rgb.fromInt(11189196),thx.color.Colors.parse("#abc")),null,{ fileName : "TestColors.hx", lineNumber : 22, className : "thx.color.TestColors", methodName : "testParse"});
+	utest.Assert.isTrue(thx.color.Rgb.equals(new thx.color.Hsl(120,0.5,0.75),thx.color.Colors.parse("hsl(120,50%,75%)")),null,{ fileName : "TestColors.hx", lineNumber : 23, className : "thx.color.TestColors", methodName : "testParse"});
+	utest.Assert.isTrue(thx.color.Rgb.equals(new thx.color.Hsl(120,0.5,0.75),thx.color.Colors.parse("hsl(120,0.5,0.75)")),null,{ fileName : "TestColors.hx", lineNumber : 24, className : "thx.color.TestColors", methodName : "testParse"});
 	utest.Assert.raises(function() {
-		$s.push("thx.color.TestColors::testParse@25");
+		$s.push("thx.color.TestColors::testParse@26");
 		var $spos = $s.length;
-		thx.color.Colors.parse("alice blue");
+		thx.color.Colors.parse("!alice blue");
 		$s.pop();
-	},Dynamic,null,null,{ fileName : "TestColors.hx", lineNumber : 25, className : "thx.color.TestColors", methodName : "testParse"});
+	},Dynamic,null,null,{ fileName : "TestColors.hx", lineNumber : 26, className : "thx.color.TestColors", methodName : "testParse"});
 	$s.pop();
 }
 thx.color.TestColors.prototype.__class__ = thx.color.TestColors;
@@ -20942,10 +21246,10 @@ thx.js.AccessTweenAttribute.__super__ = thx.js.AccessTween;
 for(var k in thx.js.AccessTween.prototype ) thx.js.AccessTweenAttribute.prototype[k] = thx.js.AccessTween.prototype[k];
 thx.js.AccessTweenAttribute.prototype.name = null;
 thx.js.AccessTweenAttribute.prototype.qname = null;
-thx.js.AccessTweenAttribute.prototype.stringfNode = function(f) {
-	$s.push("thx.js.AccessTweenAttribute::stringfNode");
+thx.js.AccessTweenAttribute.prototype.stringNodef = function(f) {
+	$s.push("thx.js.AccessTweenAttribute::stringNodef");
 	var $spos = $s.length;
-	var $tmp = this.stringTween(this.transitionStringTweenf(f));
+	var $tmp = this.stringTweenNodef(this.transitionStringTweenf(f));
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -20953,21 +21257,21 @@ thx.js.AccessTweenAttribute.prototype.stringfNode = function(f) {
 thx.js.AccessTweenAttribute.prototype.string = function(value) {
 	$s.push("thx.js.AccessTweenAttribute::string");
 	var $spos = $s.length;
-	var $tmp = this.stringTween(this.transitionStringTween(value));
+	var $tmp = this.stringTweenNodef(this.transitionStringTween(value));
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.js.AccessTweenAttribute.prototype.stringTween = function(tween) {
-	$s.push("thx.js.AccessTweenAttribute::stringTween");
+thx.js.AccessTweenAttribute.prototype.stringTweenNodef = function(tween) {
+	$s.push("thx.js.AccessTweenAttribute::stringTweenNodef");
 	var $spos = $s.length;
 	var name = this.name;
 	var attrTween = function(d,i) {
-		$s.push("thx.js.AccessTweenAttribute::stringTween@37");
+		$s.push("thx.js.AccessTweenAttribute::stringTweenNodef@37");
 		var $spos = $s.length;
 		var f = tween(d,i,d.getAttribute(name));
 		var $tmp = function(t) {
-			$s.push("thx.js.AccessTweenAttribute::stringTween@37@40");
+			$s.push("thx.js.AccessTweenAttribute::stringTweenNodef@37@40");
 			var $spos = $s.length;
 			d.setAttribute(name,f(t));
 			$s.pop();
@@ -20977,11 +21281,11 @@ thx.js.AccessTweenAttribute.prototype.stringTween = function(tween) {
 		$s.pop();
 	};
 	var attrTweenNS = function(d,i) {
-		$s.push("thx.js.AccessTweenAttribute::stringTween@45");
+		$s.push("thx.js.AccessTweenAttribute::stringTweenNodef@45");
 		var $spos = $s.length;
 		var f = tween(d,i,d.getAttributeNS(name.space,name.local));
 		var $tmp = function(t) {
-			$s.push("thx.js.AccessTweenAttribute::stringTween@45@48");
+			$s.push("thx.js.AccessTweenAttribute::stringTweenNodef@45@48");
 			var $spos = $s.length;
 			d.setAttributeNS(name.space,name.local,f(t));
 			$s.pop();
@@ -20996,10 +21300,10 @@ thx.js.AccessTweenAttribute.prototype.stringTween = function(tween) {
 	return $tmp;
 	$s.pop();
 }
-thx.js.AccessTweenAttribute.prototype.floatNode = function(f) {
-	$s.push("thx.js.AccessTweenAttribute::floatNode");
+thx.js.AccessTweenAttribute.prototype.floatNodef = function(f) {
+	$s.push("thx.js.AccessTweenAttribute::floatNodef");
 	var $spos = $s.length;
-	var $tmp = this.floatTween(this.transitionFloatTweenf(f));
+	var $tmp = this.floatTweenNodef(this.transitionFloatTweenf(f));
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -21007,21 +21311,21 @@ thx.js.AccessTweenAttribute.prototype.floatNode = function(f) {
 thx.js.AccessTweenAttribute.prototype["float"] = function(value) {
 	$s.push("thx.js.AccessTweenAttribute::float");
 	var $spos = $s.length;
-	var $tmp = this.floatTween(this.transitionFloatTween(value));
+	var $tmp = this.floatTweenNodef(this.transitionFloatTween(value));
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.js.AccessTweenAttribute.prototype.floatTween = function(tween) {
-	$s.push("thx.js.AccessTweenAttribute::floatTween");
+thx.js.AccessTweenAttribute.prototype.floatTweenNodef = function(tween) {
+	$s.push("thx.js.AccessTweenAttribute::floatTweenNodef");
 	var $spos = $s.length;
 	var name = this.name;
 	var attrTween = function(d,i) {
-		$s.push("thx.js.AccessTweenAttribute::floatTween@71");
+		$s.push("thx.js.AccessTweenAttribute::floatTweenNodef@71");
 		var $spos = $s.length;
 		var f = tween(d,i,Std.parseFloat(d.getAttribute(name)));
 		var $tmp = function(t) {
-			$s.push("thx.js.AccessTweenAttribute::floatTween@71@74");
+			$s.push("thx.js.AccessTweenAttribute::floatTweenNodef@71@74");
 			var $spos = $s.length;
 			d.setAttribute(name,"" + f(t));
 			$s.pop();
@@ -21031,13 +21335,12 @@ thx.js.AccessTweenAttribute.prototype.floatTween = function(tween) {
 		$s.pop();
 	};
 	var attrTweenNS = function(d,i) {
-		$s.push("thx.js.AccessTweenAttribute::floatTween@79");
+		$s.push("thx.js.AccessTweenAttribute::floatTweenNodef@79");
 		var $spos = $s.length;
 		var f = tween(d,i,Std.parseFloat(d.getAttributeNS(name.space,name.local)));
 		var $tmp = function(t) {
-			$s.push("thx.js.AccessTweenAttribute::floatTween@79@82");
+			$s.push("thx.js.AccessTweenAttribute::floatTweenNodef@79@82");
 			var $spos = $s.length;
-			haxe.Log.trace(t,{ fileName : "AccessTweenAttribute.hx", lineNumber : 83, className : "thx.js.AccessTweenAttribute", methodName : "floatTween"});
 			d.setAttributeNS(name.space,name.local,"" + f(t));
 			$s.pop();
 		};
@@ -21065,8 +21368,8 @@ for(var k in thx.js.AccessTweenAttribute.prototype ) thx.js.AccessDataTweenAttri
 thx.js.AccessDataTweenAttribute.prototype.stringf = function(f) {
 	$s.push("thx.js.AccessDataTweenAttribute::stringf");
 	var $spos = $s.length;
-	var $tmp = this.stringfNode(function(n,i) {
-		$s.push("thx.js.AccessDataTweenAttribute::stringf@102");
+	var $tmp = this.stringNodef(function(n,i) {
+		$s.push("thx.js.AccessDataTweenAttribute::stringf@101");
 		var $spos = $s.length;
 		var $tmp = f(Reflect.field(n,"__data__"),i);
 		$s.pop();
@@ -21080,14 +21383,90 @@ thx.js.AccessDataTweenAttribute.prototype.stringf = function(f) {
 thx.js.AccessDataTweenAttribute.prototype.floatf = function(f) {
 	$s.push("thx.js.AccessDataTweenAttribute::floatf");
 	var $spos = $s.length;
-	var $tmp = this.floatNode(function(n,i) {
-		$s.push("thx.js.AccessDataTweenAttribute::floatf@107");
+	var $tmp = this.floatNodef(function(n,i) {
+		$s.push("thx.js.AccessDataTweenAttribute::floatf@106");
 		var $spos = $s.length;
 		var $tmp = f(Reflect.field(n,"__data__"),i);
 		$s.pop();
 		return $tmp;
 		$s.pop();
 	});
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessDataTweenAttribute.prototype.stringTweenf = function(tween) {
+	$s.push("thx.js.AccessDataTweenAttribute::stringTweenf");
+	var $spos = $s.length;
+	var name = this.name;
+	var attrTween = function(n,i) {
+		$s.push("thx.js.AccessDataTweenAttribute::stringTweenf@113");
+		var $spos = $s.length;
+		var f = tween(Reflect.field(n,"__data__"),i,n.getAttribute(name));
+		var $tmp = function(t) {
+			$s.push("thx.js.AccessDataTweenAttribute::stringTweenf@113@116");
+			var $spos = $s.length;
+			n.setAttribute(name,f(t));
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	var attrTweenNS = function(n,i) {
+		$s.push("thx.js.AccessDataTweenAttribute::stringTweenf@121");
+		var $spos = $s.length;
+		var f = tween(Reflect.field(n,"__data__"),i,n.getAttributeNS(name.space,name.local));
+		var $tmp = function(t) {
+			$s.push("thx.js.AccessDataTweenAttribute::stringTweenf@121@124");
+			var $spos = $s.length;
+			n.setAttributeNS(name.space,name.local,f(t));
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	this.tweens.set("attr." + name,null == this.qname?attrTween:attrTweenNS);
+	var $tmp = this.transition;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessDataTweenAttribute.prototype.floatTweenf = function(tween) {
+	$s.push("thx.js.AccessDataTweenAttribute::floatTweenf");
+	var $spos = $s.length;
+	var name = this.name;
+	var attrTween = function(n,i) {
+		$s.push("thx.js.AccessDataTweenAttribute::floatTweenf@137");
+		var $spos = $s.length;
+		var f = tween(Reflect.field(n,"__data__"),i,Std.parseFloat(n.getAttribute(name)));
+		var $tmp = function(t) {
+			$s.push("thx.js.AccessDataTweenAttribute::floatTweenf@137@140");
+			var $spos = $s.length;
+			n.setAttribute(name,"" + f(t));
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	var attrTweenNS = function(n,i) {
+		$s.push("thx.js.AccessDataTweenAttribute::floatTweenf@145");
+		var $spos = $s.length;
+		var f = tween(Reflect.field(n,"__data__"),i,Std.parseFloat(n.getAttributeNS(name.space,name.local)));
+		var $tmp = function(t) {
+			$s.push("thx.js.AccessDataTweenAttribute::floatTweenf@145@148");
+			var $spos = $s.length;
+			n.setAttributeNS(name.space,name.local,"" + f(t));
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	this.tweens.set("attr." + name,null == this.qname?attrTween:attrTweenNS);
+	var $tmp = this.transition;
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -21609,15 +21988,15 @@ Objects.copyToHash = function(ob,hash) {
 	return hash;
 	$s.pop();
 }
-Objects.interpolate = function(v,a,b,interpolator) {
+Objects.interpolate = function(v,a,b,equation) {
 	$s.push("Objects::interpolate");
 	var $spos = $s.length;
-	var $tmp = (Objects.interpolatef(a,b,interpolator))(v);
+	var $tmp = (Objects.interpolatef(a,b,equation))(v);
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-Objects.interpolatef = function(a,b,interpolator) {
+Objects.interpolatef = function(a,b,equation) {
 	$s.push("Objects::interpolatef");
 	var $spos = $s.length;
 	var i = { }, c = { }, keys = Reflect.fields(a);
@@ -21683,10 +22062,21 @@ Objects.copyTo = function(src,dest) {
 	while(_g < _g1.length) {
 		var field = _g1[_g];
 		++_g;
-		if(Reflect.isObject(Reflect.field(src,field)) && Reflect.isObject(Reflect.field(dest,field))) Objects.copyTo(Reflect.field(src,field),Reflect.field(dest,field)); else dest[field] = Reflect.field(src,field);
+		var value = Reflect.field(src,field);
+		if(Reflect.isObject(value) && Reflect.isObject(Reflect.field(dest,field))) Objects.copyTo(value,Reflect.field(dest,field)); else dest[field] = value;
 	}
 	$s.pop();
 	return dest;
+	$s.pop();
+}
+Objects.clone = function(src) {
+	$s.push("Objects::clone");
+	var $spos = $s.length;
+	var dest = { };
+	Objects.copyTo(src,dest);
+	var $tmp = dest;
+	$s.pop();
+	return $tmp;
 	$s.pop();
 }
 Objects.prototype.__class__ = Objects;
@@ -22064,12 +22454,12 @@ Lambda.concat = function(a,b) {
 Lambda.prototype.__class__ = Lambda;
 thx.color.Colors = function() { }
 thx.color.Colors.__name__ = ["thx","color","Colors"];
-thx.color.Colors.interpolatef = function(a,b,interpolator) {
+thx.color.Colors.interpolatef = function(a,b,equation) {
 	$s.push("thx.color.Colors::interpolatef");
 	var $spos = $s.length;
 	var ca = thx.color.Colors.parse(a);
 	var cb = thx.color.Colors.parse(b);
-	var f = thx.color.Rgb.interpolatef(ca,cb,interpolator);
+	var f = thx.color.Rgb.interpolatef(ca,cb,equation);
 	var $tmp = function(v) {
 		$s.push("thx.color.Colors::interpolatef@20");
 		var $spos = $s.length;
@@ -22082,10 +22472,10 @@ thx.color.Colors.interpolatef = function(a,b,interpolator) {
 	return $tmp;
 	$s.pop();
 }
-thx.color.Colors.interpolate = function(v,a,b,interpolator) {
+thx.color.Colors.interpolate = function(v,a,b,equation) {
 	$s.push("thx.color.Colors::interpolate");
 	var $spos = $s.length;
-	var $tmp = (thx.color.Colors.interpolatef(a,b,interpolator))(v);
+	var $tmp = (thx.color.Colors.interpolatef(a,b,equation))(v);
 	$s.pop();
 	return $tmp;
 	$s.pop();

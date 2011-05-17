@@ -13,14 +13,14 @@ class Pie<T>
 	var _startAngle : Array<T> -> Int -> Float;
 	var _endAngle : Array<T> -> Int -> Float;
 	var _sort : T -> T -> Int;
-	var _valuef : T -> Int -> Float;
+	var _value : T -> Int -> Float;
 
 	public function new() 
 	{
 		_startAngle = function(_,_) return 0.0;
 		_endAngle = function(_, _) return Const.TWO_PI;
 		_sort = null;
-		_valuef = function(d, _) return Dynamics.number(d);
+		_value = function(d, _) return Dynamics.number(d);
 	}
 	
 	public function pie(data : Array<T>, ?i : Int)
@@ -37,7 +37,7 @@ class Pie<T>
 			});
 		}
 		
-		var values = data.map(_valuef);
+		var values = data.map(_value);
 		
 		k /= values.reduce(function(p, d, _) return p + d, 0.0);
 		
@@ -56,11 +56,7 @@ class Pie<T>
 	}
 	
 	public function getStartAngle() return _startAngle
-	public function startAngle(v : Float)
-	{
-		_startAngle = function(_, _) return v;
-		return this;
-	}
+	public function startAngle(v : Float) return startAnglef(function(_, _) return v)
 	public function startAnglef(v : Array<T> -> Int -> Float)
 	{
 		_startAngle = v;
@@ -68,11 +64,7 @@ class Pie<T>
 	}
 	
 	public function getEndAngle() return _endAngle
-	public function endAngle(v : Float)
-	{
-		_endAngle = function(_, _) return v;
-		return this;
-	}
+	public function endAngle(v : Float) return endAnglef(function(_, _) return v)
 	public function endAnglef(v : Array<T> -> Int -> Float)
 	{
 		_endAngle = v;
@@ -86,10 +78,10 @@ class Pie<T>
 		return this;
 	}
 	
-	public function getValuef() return _valuef
+	public function getValue() return _value
 	public function valuef(v : T -> Int -> Float)
 	{
-		_valuef = v;
+		_value = v;
 		return this;
 	}
 }

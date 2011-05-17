@@ -2,7 +2,7 @@ package thx.xml;
 
 class AttributeFormat
 {
-	public function new();
+	public function new(){}
 	
 	public function formatAttributes(node : Xml)
 	{

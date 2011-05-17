@@ -28,5 +28,5 @@ class TestEmail extends TestAll
 		assertValidation(validator.validate("a@b.fake"), true);
 	}
 	
-	public function new();
+	public function new(){}
 }

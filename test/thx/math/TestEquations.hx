@@ -79,5 +79,5 @@ class TestEquations
 			trace(item.d + ": " + values.map(function(d, i) return Math.round(item.f(d)*100)/100));
 	}
 */
-	public function new();
+	public function new(){}
 }
