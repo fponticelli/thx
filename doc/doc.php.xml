@@ -2004,10 +2004,14 @@ Other things to do. Nested placeholders
 		<d/>
 	</f>
 </f></interpolatef>
-		<toString public="1" set="method" line="74" static="1"><f a="v">
+		<toString public="1" set="method" line="79" static="1"><f a="v">
 	<d/>
 	<c path="String"/>
 </f></toString>
+		<number public="1" set="method" line="121" static="1"><f a="v">
+	<d/>
+	<c path="Float"/>
+</f></number>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
@@ -2368,11 +2372,15 @@ Other things to do. Nested placeholders
 	<a/>
 	<a/>
 </f></applyTo>
-		<copyTo public="1" set="method" line="109" static="1"><f a="src:dest">
+		<copyTo public="1" set="method" line="110" static="1"><f a="src:dest">
 	<a/>
 	<a/>
 	<a/>
 </f></copyTo>
+		<clone public="1" params="T" set="method" line="123" static="1"><f a="src">
+	<c path="clone.T"/>
+	<c path="clone.T"/>
+</f></clone>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
@@ -2920,6 +2928,10 @@ Other things to do. Nested placeholders
 	<c path="Float"/>
 	<c path="Int"/>
 </f></compare>
+		<isNumeric public="1" get="inline" set="null" line="158" static="1"><f a="v">
+	<d/>
+	<e path="Bool"/>
+</f></isNumeric>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
