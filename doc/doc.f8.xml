@@ -301,6 +301,18 @@
 	</f>
 	<c path="thx.color.Hsl"/>
 </f></interpolate>
+		<interpolatef public="1" set="method" line="99" static="1"><f a="a:b:?equation">
+	<c path="thx.color.Hsl"/>
+	<c path="thx.color.Hsl"/>
+	<f a="">
+		<c path="Float"/>
+		<c path="Float"/>
+	</f>
+	<f a="">
+		<c path="Float"/>
+		<c path="thx.color.Hsl"/>
+	</f>
+</f></interpolatef>
 		<hue public="1" set="null"><c path="Float"/></hue>
 		<saturation public="1" set="null"><c path="Float"/></saturation>
 		<lightness public="1" set="null"><c path="Float"/></lightness>
@@ -870,11 +882,27 @@
 	<t path="Iterable"><c path="last.T"/></t>
 	<t path="Null"><c path="last.T"/></t>
 </f></last>
-		<first public="1" params="T" get="inline" set="null" line="59" static="1"><f a="it">
+		<lastf public="1" params="T" get="inline" set="null" line="59" static="1"><f a="it:f">
+	<t path="Iterable"><c path="lastf.T"/></t>
+	<f a="">
+		<c path="lastf.T"/>
+		<e path="Bool"/>
+	</f>
+	<t path="Null"><c path="lastf.T"/></t>
+</f></lastf>
+		<first public="1" params="T" get="inline" set="null" line="64" static="1"><f a="it">
 	<t path="Iterable"><c path="first.T"/></t>
 	<t path="Null"><c path="first.T"/></t>
 </f></first>
-		<order public="1" params="T" get="inline" set="null" line="64" static="1"><f a="it:?f">
+		<firstf public="1" params="T" get="inline" set="null" line="69" static="1"><f a="it:f">
+	<t path="Iterable"><c path="firstf.T"/></t>
+	<f a="">
+		<c path="firstf.T"/>
+		<e path="Bool"/>
+	</f>
+	<t path="Null"><c path="firstf.T"/></t>
+</f></firstf>
+		<order public="1" params="T" get="inline" set="null" line="74" static="1"><f a="it:?f">
 	<t path="Iterable"><c path="order.T"/></t>
 	<f a=":">
 		<c path="order.T"/>
@@ -1138,11 +1166,15 @@
 		<d/>
 	</f>
 </f></interpolatef>
-		<toString public="1" set="method" line="79" static="1"><f a="v">
+		<string public="1" set="method" line="79" static="1"><f a="v">
 	<d/>
 	<c path="String"/>
-</f></toString>
-		<number public="1" set="method" line="121" static="1"><f a="v">
+</f></string>
+		<clone public="1" set="method" line="121" static="1"><f a="v">
+	<d/>
+	<a/>
+</f></clone>
+		<number public="1" set="method" line="154" static="1"><f a="v">
 	<d/>
 	<c path="Float"/>
 </f></number>
@@ -1328,11 +1360,27 @@
 	<t path="Iterator"><c path="last.T"/></t>
 	<t path="Null"><c path="last.T"/></t>
 </f></last>
-		<first public="1" params="T" get="inline" set="null" line="92" static="1"><f a="it">
+		<lastf public="1" params="T" set="method" line="92" static="1"><f a="it:f">
+	<t path="Iterator"><c path="lastf.T"/></t>
+	<f a="">
+		<c path="lastf.T"/>
+		<e path="Bool"/>
+	</f>
+	<t path="Null"><c path="lastf.T"/></t>
+</f></lastf>
+		<first public="1" params="T" get="inline" set="null" line="99" static="1"><f a="it">
 	<t path="Iterator"><c path="first.T"/></t>
 	<t path="Null"><c path="first.T"/></t>
 </f></first>
-		<order public="1" params="T" get="inline" set="null" line="97" static="1"><f a="it:?f">
+		<firstf public="1" params="T" set="method" line="104" static="1"><f a="it:f">
+	<t path="Iterator"><c path="firstf.T"/></t>
+	<f a="">
+		<c path="firstf.T"/>
+		<e path="Bool"/>
+	</f>
+	<t path="Null"><c path="firstf.T"/></t>
+</f></firstf>
+		<order public="1" params="T" get="inline" set="null" line="112" static="1"><f a="it:?f">
 	<t path="Iterator"><c path="order.T"/></t>
 	<f a=":">
 		<c path="order.T"/>
@@ -1535,6 +1583,52 @@
  </haxe_doc>
 	</class>
 	<typedef path="FriendHash" params="" file="src/Hashes.hx" module="Hashes"><a><h><d/></h></a></typedef>
+	<class path="thx.color.Grey" params="" file="src/thx/color/Grey.hx">
+		<extends path="thx.color.Rgb"/>
+		<ofRgb public="1" set="method" line="23" static="1"><f a="rgb:?luminance">
+	<c path="thx.color.Rgb"/>
+	<e path="thx.color.PerceivedLuminance"/>
+	<c path="thx.color.Grey"/>
+</f></ofRgb>
+		<equals public="1" set="method" line="42" static="1"><f a="a:b">
+	<c path="thx.color.Grey"/>
+	<c path="thx.color.Grey"/>
+	<e path="Bool"/>
+</f></equals>
+		<darker public="1" set="method" line="47" static="1"><f a="color:t:?equation">
+	<c path="thx.color.Grey"/>
+	<c path="Float"/>
+	<f a="">
+		<c path="Float"/>
+		<c path="Float"/>
+	</f>
+	<c path="thx.color.Grey"/>
+</f></darker>
+		<interpolate public="1" set="method" line="53" static="1"><f a="a:b:t:?equation">
+	<c path="thx.color.Grey"/>
+	<c path="thx.color.Grey"/>
+	<c path="Float"/>
+	<f a="">
+		<c path="Float"/>
+		<c path="Float"/>
+	</f>
+	<c path="thx.color.Grey"/>
+</f></interpolate>
+		<grey public="1" set="null"><c path="Float"/></grey>
+		<new public="1" set="method" line="16"><f a="value">
+	<c path="Float"/>
+	<e path="Void"/>
+</f></new>
+		<haxe_doc>
+ * ...
+ * @author Franco Ponticelli
+ </haxe_doc>
+	</class>
+	<enum path="thx.color.PerceivedLuminance" params="" file="src/thx/color/Grey.hx" module="thx.color.Grey">
+		<Standard/>
+		<PerceivedAccurate/>
+		<Perceived/>
+	</enum>
 	<class path="thx.color.Colors" params="" file="src/thx/color/Colors.hx">
 		<interpolatef public="1" set="method" line="15" static="1"><f a="a:b:?equation">
 	<c path="String"/>
@@ -2104,10 +2198,10 @@
  </haxe_doc>
 	</class>
 	<class path="Enums" params="" file="src/Enums.hx">
-		<toString public="1" set="method" line="8" static="1"><f a="e">
+		<string public="1" set="method" line="8" static="1"><f a="e">
 	<d/>
 	<c path="String"/>
-</f></toString>
+</f></string>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
@@ -2521,31 +2615,36 @@ Other things to do. Nested placeholders
 	<c path="String"/>
 	<c path="String"/>
 </f></trim>
-		<ucfirst public="1" get="inline" set="null" line="268" static="1"><f a="value">
+		<_reCollapse line="268" static="1"><c path="EReg"/></_reCollapse>
+		<collapse public="1" set="method" line="269" static="1"><f a="value">
+	<c path="String"/>
+	<c path="String"/>
+</f></collapse>
+		<ucfirst public="1" get="inline" set="null" line="274" static="1"><f a="value">
 	<c path="String"/>
 	<c path="String"/>
 </f></ucfirst>
-		<lcfirst public="1" get="inline" set="null" line="273" static="1"><f a="value">
+		<lcfirst public="1" get="inline" set="null" line="279" static="1"><f a="value">
 	<c path="String"/>
 	<c path="String"/>
 </f></lcfirst>
-		<empty public="1" set="method" line="278" static="1"><f a="value">
+		<empty public="1" set="method" line="284" static="1"><f a="value">
 	<c path="String"/>
 	<e path="Bool"/>
 </f></empty>
-		<isAlphaNum public="1" get="inline" set="null" line="283" static="1"><f a="value">
+		<isAlphaNum public="1" get="inline" set="null" line="289" static="1"><f a="value">
 	<c path="String"/>
 	<e path="Bool"/>
 </f></isAlphaNum>
-		<digitsOnly public="1" get="inline" set="null" line="292" static="1"><f a="value">
+		<digitsOnly public="1" get="inline" set="null" line="298" static="1"><f a="value">
 	<c path="String"/>
 	<e path="Bool"/>
 </f></digitsOnly>
-		<ucwords public="1" set="method" line="301" static="1"><f a="value">
+		<ucwords public="1" set="method" line="307" static="1"><f a="value">
 	<c path="String"/>
 	<c path="String"/>
 </f></ucwords>
-		<ucwordsws public="1" set="method" line="311" static="1">
+		<ucwordsws public="1" set="method" line="317" static="1">
 			<f a="value">
 				<c path="String"/>
 				<c path="String"/>
@@ -2556,15 +2655,15 @@ Other things to do. Nested placeholders
 	 * @return
 	 </haxe_doc>
 		</ucwordsws>
-		<__upperMatch set="method" line="320" static="1"><f a="re">
+		<__upperMatch set="method" line="326" static="1"><f a="re">
 	<c path="EReg"/>
 	<c path="String"/>
 </f></__upperMatch>
-		<__ucwordsPattern line="324" static="1"><c path="EReg"/></__ucwordsPattern>
-		<__ucwordswsPattern line="326" static="1"><c path="EReg"/></__ucwordswsPattern>
-		<__alphaNumPattern line="327" static="1"><c path="EReg"/></__alphaNumPattern>
-		<__digitsPattern line="328" static="1"><c path="EReg"/></__digitsPattern>
-		<humanize public="1" set="method" line="335" static="1">
+		<__ucwordsPattern line="330" static="1"><c path="EReg"/></__ucwordsPattern>
+		<__ucwordswsPattern line="332" static="1"><c path="EReg"/></__ucwordswsPattern>
+		<__alphaNumPattern line="333" static="1"><c path="EReg"/></__alphaNumPattern>
+		<__digitsPattern line="334" static="1"><c path="EReg"/></__digitsPattern>
+		<humanize public="1" set="method" line="341" static="1">
 			<f a="s">
 				<c path="String"/>
 				<c path="String"/>
@@ -2574,57 +2673,57 @@ Other things to do. Nested placeholders
 	*  More than one UC in sequence is left untouched.
 	</haxe_doc>
 		</humanize>
-		<capitalize public="1" set="method" line="341" static="1"><f a="s">
+		<capitalize public="1" set="method" line="347" static="1"><f a="s">
 	<c path="String"/>
 	<c path="String"/>
 </f></capitalize>
-		<succ public="1" set="method" line="347" static="1"><f a="s">
+		<succ public="1" set="method" line="353" static="1"><f a="s">
 	<c path="String"/>
 	<c path="String"/>
 </f></succ>
-		<underscore public="1" set="method" line="353" static="1"><f a="s">
+		<underscore public="1" set="method" line="359" static="1"><f a="s">
 	<c path="String"/>
 	<c path="String"/>
 </f></underscore>
-		<dasherize public="1" set="method" line="362" static="1"><f a="s">
+		<dasherize public="1" set="method" line="368" static="1"><f a="s">
 	<c path="String"/>
 	<c path="String"/>
 </f></dasherize>
-		<repeat public="1" set="method" line="367" static="1"><f a="s:times">
+		<repeat public="1" set="method" line="373" static="1"><f a="s:times">
 	<c path="String"/>
 	<c path="Int"/>
 	<c path="String"/>
 </f></repeat>
-		<wrapColumns public="1" set="method" line="375" static="1"><f a="s:?columns:?indent:?newline">
+		<wrapColumns public="1" set="method" line="381" static="1"><f a="s:?columns:?indent:?newline">
 	<c path="String"/>
 	<c path="Int"/>
 	<c path="String"/>
 	<c path="String"/>
 	<c path="String"/>
 </f></wrapColumns>
-		<_wrapColumns set="method" line="386" static="1"><f a="s:columns:indent:newline">
+		<_wrapColumns set="method" line="392" static="1"><f a="s:columns:indent:newline">
 	<c path="String"/>
 	<c path="Int"/>
 	<c path="String"/>
 	<c path="String"/>
 	<c path="String"/>
 </f></_wrapColumns>
-		<stripTags public="1" set="method" line="425" static="1"><f a="s">
+		<stripTags public="1" set="method" line="431" static="1"><f a="s">
 	<c path="String"/>
 	<c path="String"/>
 </f></stripTags>
-		<ascending public="1" set="method" line="434" static="1"><f a="a:b">
+		<ascending public="1" set="method" line="440" static="1"><f a="a:b">
 	<c path="String"/>
 	<c path="String"/>
 	<c path="Int"/>
 </f></ascending>
-		<descending public="1" set="method" line="435" static="1"><f a="a:b">
+		<descending public="1" set="method" line="441" static="1"><f a="a:b">
 	<c path="String"/>
 	<c path="String"/>
 	<c path="Int"/>
 </f></descending>
-		<_reInterpolateNumber line="437" static="1"><c path="EReg"/></_reInterpolateNumber>
-		<interpolate public="1" set="method" line="438" static="1"><f a="v:a:b:?equation">
+		<_reInterpolateNumber line="443" static="1"><c path="EReg"/></_reInterpolateNumber>
+		<interpolate public="1" set="method" line="444" static="1"><f a="v:a:b:?equation">
 	<c path="Float"/>
 	<c path="String"/>
 	<c path="String"/>
@@ -2634,7 +2733,7 @@ Other things to do. Nested placeholders
 	</f>
 	<c path="String"/>
 </f></interpolate>
-		<interpolatef public="1" set="method" line="443" static="1"><f a="a:b:?equation">
+		<interpolatef public="1" set="method" line="449" static="1"><f a="a:b:?equation">
 	<c path="String"/>
 	<c path="String"/>
 	<f a="">
@@ -2646,13 +2745,13 @@ Other things to do. Nested placeholders
 		<c path="String"/>
 	</f>
 </f></interpolatef>
-		<ellipsis public="1" set="method" line="510" static="1"><f a="s:?maxlen:?symbol">
+		<ellipsis public="1" set="method" line="516" static="1"><f a="s:?maxlen:?symbol">
 	<c path="String"/>
 	<c path="Int"/>
 	<c path="String"/>
 	<c path="String"/>
 </f></ellipsis>
-		<ellipsisf public="1" set="method" line="518" static="1"><f a="?maxlen:?symbol">
+		<ellipsisf public="1" set="method" line="524" static="1"><f a="?maxlen:?symbol">
 	<c path="Int"/>
 	<c path="String"/>
 	<f a="s">
@@ -3381,18 +3480,34 @@ customs for missing features
 	<c path="Array"><c path="random.T"/></c>
 	<c path="random.T"/>
 </f></random>
-		<toString public="1" params="T" set="method" line="355" static="1"><f a="arr">
-	<c path="Array"><c path="toString.T"/></c>
+		<string public="1" params="T" set="method" line="355" static="1"><f a="arr">
+	<c path="Array"><c path="string.T"/></c>
 	<c path="String"/>
-</f></toString>
+</f></string>
 		<last public="1" params="T" get="inline" set="null" line="360" static="1"><f a="arr">
 	<c path="Array"><c path="last.T"/></c>
 	<t path="Null"><c path="last.T"/></t>
 </f></last>
-		<first public="1" params="T" get="inline" set="null" line="365" static="1"><f a="arr">
+		<lastf public="1" params="T" set="method" line="365" static="1"><f a="arr:f">
+	<c path="Array"><c path="lastf.T"/></c>
+	<f a="">
+		<c path="lastf.T"/>
+		<e path="Bool"/>
+	</f>
+	<t path="Null"><c path="lastf.T"/></t>
+</f></lastf>
+		<first public="1" params="T" get="inline" set="null" line="372" static="1"><f a="arr">
 	<c path="Array"><c path="first.T"/></c>
 	<t path="Null"><c path="first.T"/></t>
 </f></first>
+		<firstf public="1" params="T" set="method" line="377" static="1"><f a="arr:f">
+	<c path="Array"><c path="firstf.T"/></c>
+	<f a="">
+		<c path="firstf.T"/>
+		<e path="Bool"/>
+	</f>
+	<t path="Null"><c path="firstf.T"/></t>
+</f></firstf>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
@@ -3751,20 +3866,34 @@ customs for missing features
 		</f>
 	</f>
 </f></interpolateByName>
-		<applyTo public="1" set="method" line="95" static="1"><f a="src:dest">
-	<a/>
-	<a/>
-	<a/>
-</f></applyTo>
-		<copyTo public="1" set="method" line="110" static="1"><f a="src:dest">
+		<copyTo public="1" set="method" line="110" static="1"><f a="src:dst">
 	<a/>
 	<a/>
 	<a/>
 </f></copyTo>
-		<clone public="1" params="T" set="method" line="123" static="1"><f a="src">
+		<clone public="1" params="T" set="method" line="126" static="1"><f a="src">
 	<c path="clone.T"/>
 	<c path="clone.T"/>
 </f></clone>
+		<_flatten set="method" line="133" static="1"><f a="src:cum:arr">
+	<a/>
+	<a>
+		<value><d/></value>
+		<fields><c path="Array"><c path="String"/></c></fields>
+	</a>
+	<c path="Array"><a>
+	<value><d/></value>
+	<fields><c path="Array"><c path="String"/></c></fields>
+</a></c>
+	<e path="Void"/>
+</f></_flatten>
+		<flatten public="1" set="method" line="150" static="1"><f a="src">
+	<a/>
+	<c path="Array"><a>
+	<value><d/></value>
+	<fields><c path="Array"><c path="String"/></c></fields>
+</a></c>
+</f></flatten>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
