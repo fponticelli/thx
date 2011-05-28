@@ -82,6 +82,31 @@ class LineInternals
 					py.shift(); py.push(p[1]);
 					_lineBasisBezier(path, px, py);
 				}
+			case BasisOpen:
+				if (points.length < 4)
+					return interpolatePoints(points, Linear);
+				i = -1;
+				var pi,
+					px = [0.0],
+					py = [0.0];
+				while (++i < 3)
+				{
+					pi = points[i];
+					px.push(pi[0]);
+					py.push(pi[1]);
+				}
+				path.push(_lineDot4(_lineBasisBezier3, px)
+					+ "," + _lineDot4(_lineBasisBezier3, py));
+				--i;
+				while (++i < n)
+				{
+					pi = points[i];
+					px.shift();
+					px.push(pi[0]);
+					py.shift();
+					py.push(pi[1]);
+					_lineBasisBezier(path, px, py);
+				}
 			case BasisClosed:
 				i = -1;
 				var m = n + 4,
@@ -110,12 +135,20 @@ class LineInternals
 					return interpolatePoints(points, Linear);
 				else
 					return points[0][0] + "," + points[0][1] + _lineHermite(points, _lineCardinalTangents(points, tension));
+			case CardinalOpen(tension):
+				return points.length < 4
+					? interpolatePoints(points, Linear)
+					: points[1][0] + "," + points[1][1] + _lineCardinalTangents(points, tension);
 			case CardinalClosed(tension):
 				if (null == tension)
 					tension = .7;
 				return points.length < 3
 					? interpolatePoints(points, Linear)
 					: points[0][0] + "," + points[0][1] + _lineHermite(points, _lineCardinalTangents([points[points.length - 2]].concat(points).concat([points[1]]), tension));
+			case Monotone:
+				return points.length < 3
+					? interpolatePoints(points, Linear)
+					: points[0] + _lineHermite(points, _lineMonotoneTangents(points));
 		}
 		return path.join("");
 	}
@@ -139,6 +172,69 @@ class LineInternals
 			"," + _lineDot4(_lineBasisBezier3, y));
 	}
 	
+	static function _lineSlope(p0 : Array<Float>, p1 : Array<Float>)
+	{
+		return (p1[1] - p0[1]) / (p1[0] - p0[0]);
+	}
+	
+	static function _lineFiniteDifferences(points : Array<Array<Float>>)
+	{
+		var i = 0,
+			j = points.length - 1,
+			m = [],
+			p0 = points[0],
+			p1 = points[1],
+			d = m[0] = _lineSlope(p0, p1);
+		while (++i < j)
+		{
+			m[i] = d + (d = _lineSlope(p0 = p1, p1 = points[i + 1]));
+		}
+		m[i] = d;
+		return m;
+	}
+	
+	static function _lineMonotoneTangents(points : Array<Array<Float>>)
+	{
+		var tangents = [],
+			d,
+			a,
+			b,
+			s,
+			m = _lineFiniteDifferences(points),
+			i = -1,
+			j = points.length - 1;
+		
+		while (++i < j)
+		{
+			d = _lineSlope(points[i], points[i + 1]);
+			if (Math.abs(d) < 1e-6)
+			{
+				m[i] = m[i + 1] = 0;
+			} else {
+				a = m[i] / d;
+				b = m[i + 1] / d;
+				
+				s = a * a + b * b;
+				if (s > 9)
+				{
+					s = d * 3 / Math.sqrt(s);
+					m[i] = s * a;
+					m[i + 1] = s * b;
+				}
+			}
+		}
+		
+		i = -1;
+		while (++i <= j)
+		{
+			s = (points[Ints.min(j, i + 1)][0] - points[Ints.max(0, i - 1)][0])
+				/ (6 * (1 + m[i] * m[i]));
+			tangents.push([Math.isFinite(s) ? s : 0, Math.isFinite(s = m [i] * s) ? s : 0]);
+		}
+		
+		return tangents;
+	}
+
 	static function _lineHermite(points : Array<Array<Float>>, tangents : Array<Array<Float>>)
 	{
 		if (tangents.length < 1 || (points.length != tangents.length && points.length != tangents.length + 2))

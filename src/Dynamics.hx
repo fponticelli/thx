@@ -76,7 +76,7 @@ class Dynamics
 		}
 	}
 	
-	public static function toString(v : Dynamic)
+	public static function string(v : Dynamic)
 	{
 		switch(Type.typeof(v))
 		{
@@ -88,14 +88,14 @@ class Dynamics
 				var keys = Objects.keys(v);
 				var result = [];
 				for (key in keys)
-					result.push(key + " : " + toString(Reflect.field(v, key)));
+					result.push(key + " : " + string(Reflect.field(v, key)));
 				return "{" + result.join(", ") + "}";
 			case TClass(c):
 				var name = Type.getClassName(c);
 				switch(name)
 				{
 					case "Array":
-						return Arrays.toString(v);
+						return Arrays.string(v);
 					case "String":
 						var s : String = v;
 						if (s.indexOf('"') < 0)
@@ -110,11 +110,44 @@ class Dynamics
 						return Std.string(v);
 				}
 			case TEnum(e):
-				return Enums.toString(v);
+				return Enums.string(v);
 			case TUnknown:
 				return "<unknown>";
 			case TFunction:
 				return "<function>";
+		}
+	}
+	
+	public static function clone(v : Dynamic)
+	{
+		switch(Type.typeof(v))
+		{
+			case TNull:
+				return null;
+			case TInt, TFloat, TBool, TEnum(_), TUnknown, TFunction:
+				return v;
+			case TObject:
+				var o = { };
+				Objects.copyTo(v, o);
+				return o;
+			case TClass(c):
+				var name = Type.getClassName(c);
+				switch(name)
+				{
+					case "Array":
+						var src : Array<Dynamic> = v,
+							a = [];
+						for (i in src)
+							a.push(Dynamics.clone(i));
+						return a;
+					case "String", "Date":
+						return v;
+					default:
+						var o = Type.createEmptyInstance(c);
+						for (field in Reflect.fields(v))
+							Reflect.setField(o, field, clone(Reflect.field(v, field)));
+						return o;
+				}
 		}
 	}
 	

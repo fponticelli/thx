@@ -91,40 +91,83 @@ class Objects
 	{
 		return Std.is(v, String) && _reCheckKeyIsColor.match(k) ? Colors.interpolatef : Dynamics.interpolatef;
 	}
-	
-	public static function applyTo(src : { }, dest : { } )
+	/*
+	public static function applyTo(src : { }, dst : { } )
 	{
 		for (field in Reflect.fields(src))
 		{
-			if (!Reflect.hasField(dest, field))
+			if (!Reflect.hasField(dst, field))
 				continue;
-			if (Reflect.isObject(Reflect.field(src, field)) && Reflect.isObject(Reflect.field(dest, field)))
-				applyTo(Reflect.field(src, field), Reflect.field(dest, field))
+			if (Reflect.isObject(Reflect.field(src, field)) && Reflect.isObject(Reflect.field(dst, field)))
+				applyTo(Reflect.field(src, field), Reflect.field(dst, field))
 			else
-				Reflect.setField(dest, field, Reflect.field(src, field));
+				Reflect.setField(dst, field, Reflect.field(src, field));
 		}
-		return dest;
+		return dst;
 	}
-	
+	*/
 	// @todo: add support for Array
-	public static function copyTo(src : { }, dest : { } )
+	public static function copyTo(src : { }, dst : { } )
 	{
 		for (field in Reflect.fields(src))
 		{
-			var value = Reflect.field(src, field);
-			if (Reflect.isObject(value) && Reflect.isObject(Reflect.field(dest, field)))
-				copyTo(value, Reflect.field(dest, field))
-			else
-				Reflect.setField(dest, field, value);
+			var sv = Dynamics.clone(Reflect.field(src, field));
+			var dv = Reflect.field(dst, field);
+			if (Types.isAnonymous(sv) && Types.isAnonymous(dv))
+			{
+				copyTo(sv, dv);
+			} else {
+				Reflect.setField(dst, field, sv);
+			}
 		}
-		return dest;
+		return dst;
 	}
 	
 	public static function clone<T>(src : T) : T
 	{
-		var dest = { };
-		copyTo(src, dest);
-		return cast dest;
+		var dst = { };
+		copyTo(src, dst);
+		return cast dst;
+	}
+	
+	static function _flatten(src : { }, cum : { fields : Array<String>, value : Dynamic }, arr : Array<{ fields : Array<String>, value : Dynamic }>)
+	{
+		for (field in Reflect.fields(src))
+		{
+			var clone = Objects.clone(cum);
+			var v = Reflect.field(src, field);
+			clone.fields.push(field);
+			if (Types.isAnonymous(v))
+			{
+				_flatten(v, clone, arr);
+			} else {
+				clone.value = v;
+				arr.push(clone);
+			}
+		}
+	}
+	
+	public static function flatten(src : { } ) : Array<{ fields : Array<String>, value : Dynamic }>
+	{
+		var arr = [];
+		for (field in Reflect.fields(src))
+		{
+			var v = Reflect.field(src, field);
+			if (Types.isAnonymous(v))
+			{
+				var item = {
+					fields : [field],
+					value : null
+				};
+				_flatten(v, item, arr);
+			} else {
+				arr.push( { 
+					fields : [field],
+					value : v
+				} );
+			}
+		}
+		return arr;
 	}
 }
 

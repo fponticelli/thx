@@ -27,7 +27,7 @@ class Pie<T>
 	{
 		var a = _startAngle(data, i),
 			k = _endAngle(data, i) - a;
-		
+	
 		var index = Ints.range(data.length);
 		if (_sort != null)
 		{
@@ -40,11 +40,13 @@ class Pie<T>
 		var values = data.map(_value);
 		
 		k /= values.reduce(function(p, d, _) return p + d, 0.0);
-		
+		if (!Math.isFinite(k))
+			k = 0;
 		var d;
 		var arcs = index.map(function(_, i) {
+			d = values[i];
 			return {
-				value : d = values[i],
+				value : d,
 				startAngle : a,
 				endAngle : a += d * k
 			}

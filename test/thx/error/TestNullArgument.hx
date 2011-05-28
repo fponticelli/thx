@@ -8,7 +8,7 @@ class TestNullArgument
 	
 	public static function throwMe(XXX : String)
 	{
-		NullArgument.throwIfNull(XXX, "XXX");
+		NullArgument.throwIfNull(XXX);
 	}
 	
 	public function testNullArgument()

@@ -26,14 +26,14 @@ class HtmlParser {
 	var html : String;
 	public function new(html : String)
 	{
-		NullArgument.throwIfNull(html, "html");
+		NullArgument.throwIfNull(html);
 		this.html = html;
 	}
 
 	var stack : Array<String>;
 	public function process(handler : HtmlHandler)
 	{
-		NullArgument.throwIfNull(handler, "handler");
+		NullArgument.throwIfNull(handler);
 		this.handler = handler;
 		var index : Int;
 		var chars : Bool;

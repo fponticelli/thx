@@ -111,7 +111,7 @@ class AccessDataTweenStyle<T, That : BaseTransition<Dynamic>> extends AccessTwee
 	
 	public function floatf(f : T -> Int -> Float, ?priority : String)
 	{
-		return floatNodef(function(n,i) return f(Access.getData(n),i), priority);
+		return floatTweenNodef(transitionFloatTweenf(function(n,i) return f(Access.getData(n),i)), priority);
 	}
 	
 	public function floatTweenf(tween : T -> Int -> Float -> (Float -> Float), ?priority : String)
@@ -133,7 +133,7 @@ class AccessDataTweenStyle<T, That : BaseTransition<Dynamic>> extends AccessTwee
 	
 	public function stringf(f : T -> Int -> String, ?priority : String)
 	{
-		return stringNodef(function(n,i) return f(Access.getData(n),i), priority);
+		return stringTweenNodef(transitionStringTweenf(function(n,i) return f(Access.getData(n),i)), priority);
 	}
 	
 	public function stringTweenf(tween : T -> Int -> String -> (Float -> String), ?priority : String)
@@ -155,7 +155,7 @@ class AccessDataTweenStyle<T, That : BaseTransition<Dynamic>> extends AccessTwee
 	
 	public function colorf(f : T -> Int -> Rgb, ?priority : String)
 	{
-		return colorNodef(function(n,i) return f(Access.getData(n),i), priority);
+		return colorTweenNodef(transitionColorTweenf(function(n,i) return f(Access.getData(n),i)), priority);
 	}
 	
 	public function colorTweenf(tween : T -> Int -> Rgb -> (Float -> Rgb), ?priority : String)

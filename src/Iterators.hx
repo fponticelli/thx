@@ -89,9 +89,24 @@ class Iterators
 		return o;
 	}
 	
+	public static function lastf<T>(it : Iterator<T>, f : T -> Bool) : Null<T>
+	{
+		var rev = Iterators.array(it);
+		rev.reverse();
+		return Arrays.lastf(rev, f);
+	}
+	
 	inline public static function first<T>(it : Iterator<T>) : Null<T>
 	{
 		return it.next();
+	}
+	
+	public static function firstf<T>(it : Iterator<T>, f : T -> Bool) : Null<T>
+	{
+		for (v in it)
+			if (f(v))
+				return v;
+		return null;
 	}
 	
 	inline public static function order<T>(it : Iterator<T>, ?f : T -> T -> Int) : Array<T>

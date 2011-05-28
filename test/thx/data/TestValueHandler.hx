@@ -112,7 +112,7 @@ class TestValueHandler
 		h.start();
 		f(h);
 		h.end();
-		Assert.same(expected, h.value, "expected: " + Dynamics.toString(expected) + " but was " + Dynamics.toString(h.value), pos);
+		Assert.same(expected, h.value, "expected: " + Dynamics.string(expected) + " but was " + Dynamics.string(h.value), pos);
 	}
 		
 	public function new(){}

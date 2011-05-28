@@ -13,7 +13,7 @@ class TestLog extends TestAll
 {
 	public function testRange()
 	{
-		var scale = new Log().domain(1, 10).range(0, 1);
+		var scale = new Log().domain([1.0, 10.0]).range([0.0, 1.0]);
 		var expected = [ Math.NaN, Math.NEGATIVE_INFINITY, -2.0, -1.0, 0, 0.69897, 1.0, 2.0 ];
 		var values = [ -5.0, 0.0, 0.01, 0.1, 1, 5, 10, 100 ];
 		
@@ -22,7 +22,7 @@ class TestLog extends TestAll
 	
 	public function testInvert()
 	{
-		var scale = new Log().domain(1, 10).range(0, 1);
+		var scale = new Log().domain([1.0, 10.0]).range([0.0, 1.0]);
 		var expected = [ 1.0, 1.023, 1.258, 3.162, 10 ];
 		var values =   [ 0.0, 0.01,  0.1,   0.5,   1 ];
 		
@@ -31,7 +31,7 @@ class TestLog extends TestAll
 	
 	public function testRange12()
 	{
-		var scale = new Log().domain(1, 2).range(0, 1);
+		var scale = new Log().domain([1.0, 2.0]).range([0.0, 1.0]);
 		var expected = [ -1, 0.0, 0.585, 1.0, 1.322 ];
 		var values = [ 0.5,  1.0, 1.5,   2.0, 2.5 ];
 		
@@ -40,7 +40,7 @@ class TestLog extends TestAll
 	
 	public function testInvert12()
 	{
-		var scale = new Log().domain(1, 2).range(0, 1);
+		var scale = new Log().domain([1.0, 2.0]).range([0.0, 1.0]);
 		var expected = [ 1.0, 1.007, 1.072, 1.414, 2 ];
 		var values =   [ 0.0, 0.01,  0.1,   0.5,   1 ];
 		

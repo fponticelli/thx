@@ -20,7 +20,7 @@ class Grey extends Rgb
 		super(c, c, c);
 	}
 	
-	public static function toGrey(rgb : Rgb, ?luminance : PerceivedLuminance)
+	public static function ofRgb(rgb : Rgb, ?luminance : PerceivedLuminance)
 	{
 		if (null == luminance)
 			luminance = Perceived;

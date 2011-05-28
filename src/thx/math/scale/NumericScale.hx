@@ -10,10 +10,9 @@ using Arrays;
 
 class NumericScale<This>
 {
-	var x0 : Float;
-	var x1 : Float;
-	var y0 : Float;
-	var y1 : Float;
+	var _domain : Array<Float>;
+	var _range : Array<Float>;
+	
 	var kx : Float;
 	var ky : Float;
 	var f : Float -> Float -> (Float -> Float) -> (Float -> Float);
@@ -23,9 +22,12 @@ class NumericScale<This>
 	var _clampmax : Float;
 	public function new()
 	{
-		x0 = 0; x1 = 1; y0 = 0; y1 = 1; kx = 1; ky = 1;
+		_domain = [0.0, 1.0];
+		_range = [0.0, 1.0];
+		
+		kx = 1; ky = 1;
 		f = Floats.interpolatef;
-		i = f(y0, y1, null);
+		i = f(_range[0], _range[1], null);
 		_clamp = false;
 		_clampmin = 0.0;
 		_clampmax = 1.0;
@@ -33,34 +35,33 @@ class NumericScale<This>
 	
 	public function scale(x : Float, ?_) : Float
 	{
-		x = (x - x0) * kx;
+		x = (x - _domain[0]) * kx;
 		return i(_clamp ? Floats.clamp(x, _clampmin, _clampmax) : x);
 	}
 	
-	public function invert(y : Float, ?_) : Float return (y - y0) * ky + x0
+	public function invert(y : Float, ?_) : Float return (y - _range[0]) * ky + _domain[0]
 
-	public function getDomain() : Array<Float> return [x0, x1]
-	public function domain(x0 : Float, x1 : Float) : This
+	public function getDomain() : Array<Float> return _domain
+	public function domain(d : Array<Float>) : This
 	{
-		this.x0 = x0; this.x1 = x1;
-		kx = 1 / (x1 - x0);
-		ky = (x1 - x0) / (y1 - y0);
+		_domain = d;
+		kx = 1 / (d[1] - d[0]);
+		ky = (d[1] - d[0]) / (_range[1] - _range[0]);
 		return _this();
 	}
 	
-	public function getRange() : Array<Float> return [y0, y1]
-	public function range(y0 : Float, y1 : Float) : This
+	public function getRange() : Array<Float> return _range
+	public function range(r : Array<Float>) : This
 	{
-		this.y0 = y0; this.y1 = y1;
-		ky = (x1 - x0) / (y1 - y0);
-		i = f(y0, y1, null);
+		_range = r;
+		ky = (_domain[1] - _domain[0]) / (r[1] - r[0]);
+		i = f(r[0], r[1], null);
 		return _this();
 	}
 
-	public function rangeRound(x0 : Float, x1 : Float) : This
+	public function rangeRound(r : Array<Float>) : This
 	{
-		this.x0 = x0; this.x1 = x1;
-		range(x0, x1);
+		range(r);
 		interpolatef(Ints.interpolatef);
 		return _this();
 	}
@@ -68,7 +69,7 @@ class NumericScale<This>
 	public function getInterpolate() : Float -> Float -> (Float -> Float) -> (Float -> Float) return f
 	public function interpolatef(x : Float -> Float -> (Float -> Float) -> (Float -> Float)) : This
 	{
-		i = (f = x)(y0, y1, null);
+		i = (f = x)(_range[0], _range[1], null);
 		return _this();
 	}
 	
@@ -106,9 +107,9 @@ class NumericScale<This>
 	public function transform(scale : Float, t : Float, a : Float, b : Float) : This
 	{
 		var range = getRange().map(function(v, _) return (v - t) / scale);
-		domain(a, b);
+		domain([a, b]);
 		var r = range.map(invert);
-		domain(r[0], r[1]);
+		domain(r);
 		return _this();
 	}
 	

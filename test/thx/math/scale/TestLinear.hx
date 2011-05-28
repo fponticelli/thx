@@ -22,7 +22,7 @@ class TestLinear extends TestAll
 	
 	public function testDomain12()
 	{
-		var scale = new Linear().domain(1,2);
+		var scale = new Linear().domain([1.0, 2.0]);
 		var expected = [-0.5, 0.0, 0.5, 1.0, 1.5];
 		var values =   [ 0.5, 1.0, 1.5, 2.0, 2.5];
 

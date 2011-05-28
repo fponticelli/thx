@@ -48,6 +48,41 @@ class TestObjects
 		}, f(0.5));
 	}
 	
+	public function testFlatten()
+	{
+		// empty
+		Assert.same([], Objects.flatten({ }) );
+		
+		// one level
+		Assert.same(
+			[{ fields : ['a'], value : 1 }, { fields : ['b'], value : 2 }],
+			Objects.flatten({ a : 1, b : 2 })
+		);
+		
+		// two levels
+		Assert.same(
+			[
+				{ fields : ['a', 'b'], value : 1 },
+				{ fields : ['a', 'c'], value : 2 },
+				{ fields : ['d', 'e'], value : 3 },
+				{ fields : ['d', 'f'], value : 4 },
+			],
+			Objects.flatten({ a : { b : 1, c : 2}, d : { e : 3, f : 4 } })
+		);
+		
+		// multiple levels
+		Assert.same(
+			[
+				{ fields : ['a', 'b'], value : 1 },
+				{ fields : ['a', 'c', 'd'], value : 2 },
+				{ fields : ['a', 'c', 'e'], value : 3 },
+				{ fields : ['a', 'c', 'f', 'g'], value : 4 },
+				{ fields : ['h'], value : 5 },
+			],
+			Objects.flatten({ a : { b : 1, c : { d : 2, e : 3, f : { g : 4 }}}, h : 5 })
+		);
+	}
+	
 	public static function addTests(runner : Runner)
 	{
 		runner.addCase(new TestObjects());

@@ -12,7 +12,7 @@ class CascadeHash<T>
 	var _h : List<Hash<T>>;
 	public function new(hashes : Array<Hash<T>>)
 	{
-		NullArgument.throwIfNull(hashes, "hashes");
+		NullArgument.throwIfNull(hashes);
 		_h = new List();
 		for(h in hashes)
 			_h.add(h);

@@ -3,6 +3,7 @@ package thx.math.scale;
 /**
  * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
+ * @todo update to version 1.16 (from 1.11)
  */
 
 import thx.math.Const;
@@ -27,8 +28,8 @@ class Linear extends NumericScale<Linear>
 	
 	public function tickRange()
 	{
-		var start = Math.min(x0, x1),
-			stop = Math.max(x0, x1),
+		var start = Arrays.min(_domain),
+			stop = Arrays.max(_domain),
 			span = stop - start,
 			step = Math.pow(10, Math.floor(Math.log(span / m) / Const.LN10)),
 			err = m / (span / step);

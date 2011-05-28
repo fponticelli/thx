@@ -41,7 +41,7 @@ class TestCsv
 	
 	function assertSame(expected : Dynamic, test : Dynamic, ?pos : PosInfos)
 	{
-		Assert.same(expected, test, "expected " + Dynamics.toString(expected) + " but was " + Dynamics.toString(test), pos);
+		Assert.same(expected, test, "expected " + Dynamics.string(expected) + " but was " + Dynamics.string(test), pos);
 	}
 	
 	public function new(){}

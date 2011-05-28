@@ -56,9 +56,19 @@ class Iterables
 		return Iterators.last(it.iterator());
 	}
 	
+	inline public static function lastf<T>(it : Iterable<T>, f : T -> Bool) : Null<T>
+	{
+		return Iterators.lastf(it.iterator(), f);
+	}
+	
 	inline public static function first<T>(it : Iterable<T>) : Null<T>
 	{
 		return Iterators.first(it.iterator());
+	}
+	
+	inline public static function firstf<T>(it : Iterable<T>, f : T -> Bool) : Null<T>
+	{
+		return Iterators.firstf(it.iterator(), f);
 	}
 	
 	inline public static function order<T>(it : Iterable<T>, ?f : T -> T -> Int) : Array<T>

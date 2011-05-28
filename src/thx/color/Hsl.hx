@@ -95,4 +95,13 @@ class Hsl extends Rgb
 			t.interpolate(a.lightness,	b.lightness,	equation)
 		);
 	}
+	
+	public static function interpolatef(a : Hsl, b : Hsl, ?equation : Float -> Float) : Float -> Hsl
+	{
+		return function(t : Float) return new Hsl(
+			t.interpolate(a.hue,		b.hue,			equation),
+			t.interpolate(a.saturation,	b.saturation,	equation),
+			t.interpolate(a.lightness,	b.lightness,	equation)
+		);
+	}
 }

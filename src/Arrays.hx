@@ -45,11 +45,11 @@ class Arrays
 			return null;
 		if (null == f) {
 			var a = arr[0], p = 0;
-			for(i in 0...arr.length) if(Reflect.compare(a, arr[i]) > 0) a = arr[p = i];
+			for(i in 1...arr.length) if(Reflect.compare(a, arr[i]) > 0) a = arr[p = i];
 			return arr[p];
 		} else {
 			var a = f(arr[0]), p = 0, b;
-			for(i in 0...arr.length) if(a > (b = f(arr[i]))) { a = b; p = i; }
+			for(i in 1...arr.length) if(a > (b = f(arr[i]))) { a = b; p = i; }
 			return arr[p];
 		}
 	}
@@ -59,7 +59,7 @@ class Arrays
 		if (arr.length == 0)
 			return Math.NaN;
 		var a = f(arr[0]), b;
-		for(i in 0...arr.length) if(a > (b = f(arr[i]))) { a = b; }
+		for(i in 1...arr.length) if(a > (b = f(arr[i]))) { a = b; }
 		return a;
 	}
 	
@@ -69,11 +69,11 @@ class Arrays
 			return null;
 		if (null == f) {
 			var a = arr[0], p = 0;
-			for(i in 0...arr.length) if(Reflect.compare(a, arr[i]) < 0) a = arr[p = i];
+			for(i in 1...arr.length) if(Reflect.compare(a, arr[i]) < 0) a = arr[p = i];
 			return arr[p];
 		} else {
 			var a = f(arr[0]), p = 0, b;
-			for(i in 0...arr.length) if(a < (b = f(arr[i]))) { a = b; p = i; }
+			for(i in 1...arr.length) if(a < (b = f(arr[i]))) { a = b; p = i; }
 			return arr[p];
 		}
 	}
@@ -83,7 +83,7 @@ class Arrays
 		if (arr.length == 0)
 			return Math.NaN;
 		var a = f(arr[0]), b;
-		for(i in 0...arr.length) if(a < (b = f(arr[i]))) { a = b; }
+		for(i in 1...arr.length) if(a < (b = f(arr[i]))) { a = b; }
 		return a;
 	}
 	
@@ -352,9 +352,9 @@ class Arrays
 		return arr[Std.random(arr.length)];
 	}
 	
-	public static function toString<T>(arr : Array<T>)
+	public static function string<T>(arr : Array<T>)
 	{
-		return "[" + Arrays.map(arr, function(v, _) return Dynamics.toString(v)).join(", ") + "]";
+		return "[" + Arrays.map(arr, function(v, _) return Dynamics.string(v)).join(", ") + "]";
 	}
 	
 	inline public static function last<T>(arr : Array<T>) : Null<T>
@@ -362,8 +362,23 @@ class Arrays
 		return arr[arr.length - 1];
 	}
 	
+	public static function lastf<T>(arr : Array<T>, f : T -> Bool) : Null<T>
+	{
+		var t = arr.copy();
+		t.reverse();
+		return firstf(arr, f);
+	}
+	
 	inline public static function first<T>(arr : Array<T>) : Null<T>
 	{
 		return arr[0];
+	}
+	
+	public static function firstf<T>(arr : Array<T>, f : T -> Bool) : Null<T>
+	{
+		for (v in arr)
+			if (f(v))
+				return v;
+		return null;
 	}
 }

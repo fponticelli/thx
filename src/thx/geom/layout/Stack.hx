@@ -3,6 +3,7 @@ package thx.geom.layout;
 /**
  * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
+ * @todo update to version 1.16 (from 1.11)
  */
 using Arrays;
 

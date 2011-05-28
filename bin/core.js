@@ -75,18 +75,12 @@ thx.error.NullArgument = function(argumentName,posInfo) {
 	if( argumentName === $_ ) return;
 	$s.push("thx.error.NullArgument::new");
 	var $spos = $s.length;
-	thx.error.Error.call(this,"invalid null argument '{0}'",null,argumentName,posInfo);
+	thx.error.Error.call(this,"invalid null argument {0} for method {1}.{2}()",[argumentName,posInfo.className,posInfo.methodName],posInfo,{ fileName : "NullArgument.hx", lineNumber : 14, className : "thx.error.NullArgument", methodName : "new"});
 	$s.pop();
 }
 thx.error.NullArgument.__name__ = ["thx","error","NullArgument"];
 thx.error.NullArgument.__super__ = thx.error.Error;
 for(var k in thx.error.Error.prototype ) thx.error.NullArgument.prototype[k] = thx.error.Error.prototype[k];
-thx.error.NullArgument.throwIfNull = function(value,name,posInfo) {
-	$s.push("thx.error.NullArgument::throwIfNull");
-	var $spos = $s.length;
-	if(null == value) throw new thx.error.NullArgument(name,posInfo);
-	$s.pop();
-}
 thx.error.NullArgument.prototype.__class__ = thx.error.NullArgument;
 if(!thx.js) thx.js = {}
 thx.js.Access = function(selection) {
@@ -195,44 +189,114 @@ thx.js.AccessClassed = function(selection) {
 thx.js.AccessClassed.__name__ = ["thx","js","AccessClassed"];
 thx.js.AccessClassed.__super__ = thx.js.Access;
 for(var k in thx.js.Access.prototype ) thx.js.AccessClassed.prototype[k] = thx.js.Access.prototype[k];
-thx.js.AccessClassed.prototype.remove = function(v) {
+thx.js.AccessClassed.getRe = function(name) {
+	$s.push("thx.js.AccessClassed::getRe");
+	var $spos = $s.length;
+	var $tmp = new EReg("(^|\\s+)" + thx.text.ERegs.escapeERegChars(name) + "(\\s+|$)","g");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessClassed.prototype.exists = function(name) {
+	$s.push("thx.js.AccessClassed::exists");
+	var $spos = $s.length;
+	var $tmp = this.selection.firstNode(function(node) {
+		$s.push("thx.js.AccessClassed::exists@22");
+		var $spos = $s.length;
+		var list = node.classList;
+		if(null != list) {
+			var $tmp = list.contains(name);
+			$s.pop();
+			return $tmp;
+		}
+		var cls = node.className;
+		var re = new EReg("(^|\\s+)" + thx.text.ERegs.escapeERegChars(name) + "(\\s+|$)","g");
+		var bv = cls.baseVal;
+		var $tmp = re.match(null != bv?bv:cls);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessClassed.prototype.remove = function(name) {
 	$s.push("thx.js.AccessClassed::remove");
 	var $spos = $s.length;
-	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessClassed::remove@20");
+	this.selection.eachNode((function(f,a1) {
+		$s.push("thx.js.AccessClassed::remove@35");
 		var $spos = $s.length;
-		node.className = node.className.split(v).map(function(d,i1) {
-			$s.push("thx.js.AccessClassed::remove@20@21");
+		var $tmp = function(a2,a3) {
+			$s.push("thx.js.AccessClassed::remove@35@35");
 			var $spos = $s.length;
-			var $tmp = StringTools.trim(d);
+			var $tmp = f(a1,a2,a3);
 			$s.pop();
 			return $tmp;
 			$s.pop();
-		}).join(" ");
+		};
 		$s.pop();
-	});
+		return $tmp;
+		$s.pop();
+	})($closure(this,"_remove"),name));
 	var $tmp = this.selection;
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.js.AccessClassed.prototype.add = function(v) {
+thx.js.AccessClassed.prototype._remove = function(name,node,i) {
+	$s.push("thx.js.AccessClassed::_remove");
+	var $spos = $s.length;
+	var list = node.classList;
+	if(null != list) {
+		list.remove(name);
+		$s.pop();
+		return;
+	}
+	var cls = node.className, clsb = null != cls.baseVal, clsv = clsb?cls.baseVal:cls;
+	var re = new EReg("(^|\\s+)" + thx.text.ERegs.escapeERegChars(name) + "(\\s+|$)","g");
+	clsv = Strings.collapse(re.replace(clsv," "));
+	if(clsb) cls.baseVal = clsv; else node.className = clsv;
+	$s.pop();
+}
+thx.js.AccessClassed.prototype.add = function(name) {
 	$s.push("thx.js.AccessClassed::add");
 	var $spos = $s.length;
-	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessClassed::add@28");
+	this.selection.eachNode((function(f,a1) {
+		$s.push("thx.js.AccessClassed::add@64");
 		var $spos = $s.length;
-		var cls = node.className;
-		if(cls.indexOf(v) >= 0) {
+		var $tmp = function(a2,a3) {
+			$s.push("thx.js.AccessClassed::add@64@64");
+			var $spos = $s.length;
+			var $tmp = f(a1,a2,a3);
 			$s.pop();
-			return;
-		}
-		node.className += (node.className.length > 0?" ":"") + v;
+			return $tmp;
+			$s.pop();
+		};
 		$s.pop();
-	});
+		return $tmp;
+		$s.pop();
+	})($closure(this,"_add"),name));
 	var $tmp = this.selection;
 	$s.pop();
 	return $tmp;
+	$s.pop();
+}
+thx.js.AccessClassed.prototype._add = function(name,node,i) {
+	$s.push("thx.js.AccessClassed::_add");
+	var $spos = $s.length;
+	var list = node.classList;
+	if(null != list) {
+		list.add(name);
+		$s.pop();
+		return;
+	}
+	var cls = node.className, clsb = null != cls.baseVal, clsv = clsb?cls.baseVal:cls;
+	var re = new EReg("(^|\\s+)" + thx.text.ERegs.escapeERegChars(name) + "(\\s+|$)","g");
+	if(!re.match(clsv)) {
+		clsv = Strings.collapse(clsv + " " + name);
+		if(clsb) cls.baseVal = clsv; else node.className = clsv;
+	}
 	$s.pop();
 }
 thx.js.AccessClassed.prototype.__class__ = thx.js.AccessClassed;
@@ -246,6 +310,38 @@ thx.js.AccessDataClassed = function(selection) {
 thx.js.AccessDataClassed.__name__ = ["thx","js","AccessDataClassed"];
 thx.js.AccessDataClassed.__super__ = thx.js.AccessClassed;
 for(var k in thx.js.AccessClassed.prototype ) thx.js.AccessDataClassed.prototype[k] = thx.js.AccessClassed.prototype[k];
+thx.js.AccessDataClassed.prototype.removef = function(v) {
+	$s.push("thx.js.AccessDataClassed::removef");
+	var $spos = $s.length;
+	var f = $closure(this,"_remove");
+	this.selection.eachNode(function(node,i) {
+		$s.push("thx.js.AccessDataClassed::removef@108");
+		var $spos = $s.length;
+		var c = v(Reflect.field(node,"__data__"),i);
+		if(null != c) f(c,node,i);
+		$s.pop();
+	});
+	var $tmp = this.selection;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessDataClassed.prototype.addf = function(v) {
+	$s.push("thx.js.AccessDataClassed::addf");
+	var $spos = $s.length;
+	var f = $closure(this,"_add");
+	this.selection.eachNode(function(node,i) {
+		$s.push("thx.js.AccessDataClassed::addf@119");
+		var $spos = $s.length;
+		var c = v(Reflect.field(node,"__data__"),i);
+		if(null != c) f(c,node,i);
+		$s.pop();
+	});
+	var $tmp = this.selection;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 thx.js.AccessDataClassed.prototype.__class__ = thx.js.AccessDataClassed;
 if(typeof utest=='undefined') utest = {}
 if(!utest.ui) utest.ui = {}
@@ -800,8 +896,9 @@ thx.color.Rgb.contrast = function(c) {
 thx.color.Rgb.contrastBW = function(c) {
 	$s.push("thx.color.Rgb::contrastBW");
 	var $spos = $s.length;
+	var g = thx.color.Grey.ofRgb(c);
 	var nc = thx.color.Hsl.ofRgb(c);
-	if(nc.lightness < .5) {
+	if(g.grey < .5) {
 		var $tmp = new thx.color.Hsl(nc.hue,nc.saturation,1.0);
 		$s.pop();
 		return $tmp;
@@ -1310,7 +1407,7 @@ thx.csv.TestCsv.prototype.testEncode = function() {
 thx.csv.TestCsv.prototype.assertSame = function(expected,test,pos) {
 	$s.push("thx.csv.TestCsv::assertSame");
 	var $spos = $s.length;
-	utest.Assert.same(expected,test,null,"expected " + Dynamics.toString(expected) + " but was " + Dynamics.toString(test),pos);
+	utest.Assert.same(expected,test,null,"expected " + Dynamics.string(expected) + " but was " + Dynamics.string(test),pos);
 	$s.pop();
 }
 thx.csv.TestCsv.prototype.__class__ = thx.csv.TestCsv;
@@ -1389,24 +1486,20 @@ thx.math.scale.NumericScale = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.math.scale.NumericScale::new");
 	var $spos = $s.length;
-	this.x0 = 0;
-	this.x1 = 1;
-	this.y0 = 0;
-	this.y1 = 1;
+	this._domain = [0.0,1.0];
+	this._range = [0.0,1.0];
 	this.kx = 1;
 	this.ky = 1;
 	this.f = Floats.interpolatef;
-	this.i = this.f(this.y0,this.y1,null);
+	this.i = this.f(this._range[0],this._range[1],null);
 	this._clamp = false;
 	this._clampmin = 0.0;
 	this._clampmax = 1.0;
 	$s.pop();
 }
 thx.math.scale.NumericScale.__name__ = ["thx","math","scale","NumericScale"];
-thx.math.scale.NumericScale.prototype.x0 = null;
-thx.math.scale.NumericScale.prototype.x1 = null;
-thx.math.scale.NumericScale.prototype.y0 = null;
-thx.math.scale.NumericScale.prototype.y1 = null;
+thx.math.scale.NumericScale.prototype._domain = null;
+thx.math.scale.NumericScale.prototype._range = null;
 thx.math.scale.NumericScale.prototype.kx = null;
 thx.math.scale.NumericScale.prototype.ky = null;
 thx.math.scale.NumericScale.prototype.f = null;
@@ -1417,7 +1510,7 @@ thx.math.scale.NumericScale.prototype._clampmax = null;
 thx.math.scale.NumericScale.prototype.scale = function(x,_) {
 	$s.push("thx.math.scale.NumericScale::scale");
 	var $spos = $s.length;
-	x = (x - this.x0) * this.kx;
+	x = (x - this._domain[0]) * this.kx;
 	var $tmp = this.i(this._clamp?Floats.clamp(x,this._clampmin,this._clampmax):x);
 	$s.pop();
 	return $tmp;
@@ -1426,7 +1519,7 @@ thx.math.scale.NumericScale.prototype.scale = function(x,_) {
 thx.math.scale.NumericScale.prototype.invert = function(y,_) {
 	$s.push("thx.math.scale.NumericScale::invert");
 	var $spos = $s.length;
-	var $tmp = (y - this.y0) * this.ky + this.x0;
+	var $tmp = (y - this._range[0]) * this.ky + this._domain[0];
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -1434,18 +1527,17 @@ thx.math.scale.NumericScale.prototype.invert = function(y,_) {
 thx.math.scale.NumericScale.prototype.getDomain = function() {
 	$s.push("thx.math.scale.NumericScale::getDomain");
 	var $spos = $s.length;
-	var $tmp = [this.x0,this.x1];
+	var $tmp = this._domain;
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.math.scale.NumericScale.prototype.domain = function(x0,x1) {
+thx.math.scale.NumericScale.prototype.domain = function(d) {
 	$s.push("thx.math.scale.NumericScale::domain");
 	var $spos = $s.length;
-	this.x0 = x0;
-	this.x1 = x1;
-	this.kx = 1 / (x1 - x0);
-	this.ky = (x1 - x0) / (this.y1 - this.y0);
+	this._domain = d;
+	this.kx = 1 / (d[1] - d[0]);
+	this.ky = (d[1] - d[0]) / (this._range[1] - this._range[0]);
 	var $tmp = this;
 	$s.pop();
 	return $tmp;
@@ -1454,29 +1546,26 @@ thx.math.scale.NumericScale.prototype.domain = function(x0,x1) {
 thx.math.scale.NumericScale.prototype.getRange = function() {
 	$s.push("thx.math.scale.NumericScale::getRange");
 	var $spos = $s.length;
-	var $tmp = [this.y0,this.y1];
+	var $tmp = this._range;
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.math.scale.NumericScale.prototype.range = function(y0,y1) {
+thx.math.scale.NumericScale.prototype.range = function(r) {
 	$s.push("thx.math.scale.NumericScale::range");
 	var $spos = $s.length;
-	this.y0 = y0;
-	this.y1 = y1;
-	this.ky = (this.x1 - this.x0) / (y1 - y0);
-	this.i = this.f(y0,y1,null);
+	this._range = r;
+	this.ky = (this._domain[1] - this._domain[0]) / (r[1] - r[0]);
+	this.i = this.f(r[0],r[1],null);
 	var $tmp = this;
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-thx.math.scale.NumericScale.prototype.rangeRound = function(x0,x1) {
+thx.math.scale.NumericScale.prototype.rangeRound = function(r) {
 	$s.push("thx.math.scale.NumericScale::rangeRound");
 	var $spos = $s.length;
-	this.x0 = x0;
-	this.x1 = x1;
-	this.range(x0,x1);
+	this.range(r);
 	this.interpolatef(Ints.interpolatef);
 	var $tmp = this;
 	$s.pop();
@@ -1494,7 +1583,7 @@ thx.math.scale.NumericScale.prototype.getInterpolate = function() {
 thx.math.scale.NumericScale.prototype.interpolatef = function(x) {
 	$s.push("thx.math.scale.NumericScale::interpolatef");
 	var $spos = $s.length;
-	this.i = (this.f = x)(this.y0,this.y1,null);
+	this.i = (this.f = x)(this._range[0],this._range[1],null);
 	var $tmp = this;
 	$s.pop();
 	return $tmp;
@@ -1556,7 +1645,7 @@ thx.math.scale.NumericScale.prototype.ticks = function() {
 	var $spos = $s.length;
 	var $tmp = (function($this) {
 		var $r;
-		throw new thx.error.AbstractMethod({ fileName : "NumericScale.hx", lineNumber : 98, className : "thx.math.scale.NumericScale", methodName : "ticks"});
+		throw new thx.error.AbstractMethod({ fileName : "NumericScale.hx", lineNumber : 99, className : "thx.math.scale.NumericScale", methodName : "ticks"});
 		return $r;
 	}(this));
 	$s.pop();
@@ -1568,7 +1657,7 @@ thx.math.scale.NumericScale.prototype.tickFormat = function(v,i) {
 	var $spos = $s.length;
 	var $tmp = (function($this) {
 		var $r;
-		throw new thx.error.AbstractMethod({ fileName : "NumericScale.hx", lineNumber : 103, className : "thx.math.scale.NumericScale", methodName : "tickFormat"});
+		throw new thx.error.AbstractMethod({ fileName : "NumericScale.hx", lineNumber : 104, className : "thx.math.scale.NumericScale", methodName : "tickFormat"});
 		return $r;
 	}(this));
 	$s.pop();
@@ -1579,16 +1668,16 @@ thx.math.scale.NumericScale.prototype.transform = function(scale,t,a,b) {
 	$s.push("thx.math.scale.NumericScale::transform");
 	var $spos = $s.length;
 	var range = this.getRange().map(function(v,_) {
-		$s.push("thx.math.scale.NumericScale::transform@108");
+		$s.push("thx.math.scale.NumericScale::transform@109");
 		var $spos = $s.length;
 		var $tmp = (v - t) / scale;
 		$s.pop();
 		return $tmp;
 		$s.pop();
 	});
-	this.domain(a,b);
+	this.domain([a,b]);
 	var r = range.map($closure(this,"invert"));
-	this.domain(r[0],r[1]);
+	this.domain(r);
 	var $tmp = this;
 	$s.pop();
 	return $tmp;
@@ -1681,17 +1770,17 @@ thx.math.scale.Log.prototype.getDomain = function() {
 	return $tmp;
 	$s.pop();
 }
-thx.math.scale.Log.prototype.domain = function(x0,x1) {
+thx.math.scale.Log.prototype.domain = function(d) {
 	$s.push("thx.math.scale.Log::domain");
 	var $spos = $s.length;
-	if((x0 < x1?x0:x1) < 0) {
+	if(Arrays.min(d) < 0) {
 		this.log = thx.math.scale.Log._logn;
 		this.pow = thx.math.scale.Log._pown;
 	} else {
 		this.log = thx.math.scale.Log._log;
 		this.pow = thx.math.scale.Log._pow;
 	}
-	var $tmp = thx.math.scale.NumericScale.prototype.domain.call(this,this.log(x0),this.log(x1));
+	var $tmp = thx.math.scale.NumericScale.prototype.domain.call(this,[this.log(d[0]),this.log(d[1])]);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -2597,7 +2686,7 @@ thx.error.TestNullArgument.__name__ = ["thx","error","TestNullArgument"];
 thx.error.TestNullArgument.throwMe = function(XXX) {
 	$s.push("thx.error.TestNullArgument::throwMe");
 	var $spos = $s.length;
-	if(null == XXX) throw new thx.error.NullArgument("XXX",{ fileName : "TestNullArgument.hx", lineNumber : 11, className : "thx.error.TestNullArgument", methodName : "throwMe"});
+	if(null == XXX) throw new thx.error.NullArgument("XXX",{ fileName : "TestNullArgument.hx", lineNumber : 14, className : "thx.error.TestNullArgument", methodName : "throwMe"}); else null;
 	$s.pop();
 }
 thx.error.TestNullArgument.prototype.testNullArgument = function() {
@@ -3060,9 +3149,13 @@ TestDates.prototype.testCanParse = function() {
 	$s.push("TestDates::testCanParse");
 	var $spos = $s.length;
 	utest.Assert.isTrue(Dates.canParse("2010-10-01"),null,{ fileName : "TestDates.hx", lineNumber : 7, className : "TestDates", methodName : "testCanParse"});
-	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05:05"),null,{ fileName : "TestDates.hx", lineNumber : 8, className : "TestDates", methodName : "testCanParse"});
-	utest.Assert.isTrue(Dates.canParse("2010-10-01T05:05:05"),null,{ fileName : "TestDates.hx", lineNumber : 9, className : "TestDates", methodName : "testCanParse"});
-	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05:05.005"),null,{ fileName : "TestDates.hx", lineNumber : 10, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05"),null,{ fileName : "TestDates.hx", lineNumber : 8, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01T05:05Z"),null,{ fileName : "TestDates.hx", lineNumber : 9, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05:05"),null,{ fileName : "TestDates.hx", lineNumber : 10, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01T05:05:05Z"),null,{ fileName : "TestDates.hx", lineNumber : 11, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01T05:05:05"),null,{ fileName : "TestDates.hx", lineNumber : 12, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05:05.005"),null,{ fileName : "TestDates.hx", lineNumber : 13, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2011-05-23T17:45"),null,{ fileName : "TestDates.hx", lineNumber : 15, className : "TestDates", methodName : "testCanParse"});
 	$s.pop();
 }
 TestDates.prototype.__class__ = TestDates;
@@ -3470,7 +3563,7 @@ thx.js.BaseSelection.prototype.select = function(selector) {
 	$s.push("thx.js.BaseSelection::select");
 	var $spos = $s.length;
 	var $tmp = this._select(function(el) {
-		$s.push("thx.js.BaseSelection::select@357");
+		$s.push("thx.js.BaseSelection::select@359");
 		var $spos = $s.length;
 		var $tmp = thx.js.Dom.selectionEngine.select(selector,el);
 		$s.pop();
@@ -3485,7 +3578,7 @@ thx.js.BaseSelection.prototype.selectAll = function(selector) {
 	$s.push("thx.js.BaseSelection::selectAll");
 	var $spos = $s.length;
 	var $tmp = this._selectAll(function(el) {
-		$s.push("thx.js.BaseSelection::selectAll@364");
+		$s.push("thx.js.BaseSelection::selectAll@366");
 		var $spos = $s.length;
 		var $tmp = thx.js.Dom.selectionEngine.selectAll(selector,el);
 		$s.pop();
@@ -3509,7 +3602,7 @@ thx.js.BaseSelection.prototype.append = function(name) {
 	var $spos = $s.length;
 	var qname = thx.xml.Namespace.qualify(name);
 	var append = function(node) {
-		$s.push("thx.js.BaseSelection::append@375");
+		$s.push("thx.js.BaseSelection::append@377");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name);
 		node.appendChild(n);
@@ -3518,7 +3611,7 @@ thx.js.BaseSelection.prototype.append = function(name) {
 		$s.pop();
 	};
 	var appendNS = function(node) {
-		$s.push("thx.js.BaseSelection::append@382");
+		$s.push("thx.js.BaseSelection::append@384");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNS(qname.space,qname.local);
 		node.appendChild(n);
@@ -3535,7 +3628,7 @@ thx.js.BaseSelection.prototype.remove = function() {
 	$s.push("thx.js.BaseSelection::remove");
 	var $spos = $s.length;
 	var $tmp = this.eachNode(function(node,i) {
-		$s.push("thx.js.BaseSelection::remove@394");
+		$s.push("thx.js.BaseSelection::remove@396");
 		var $spos = $s.length;
 		var parent = node.parentNode;
 		if(null != parent) parent.removeChild(node);
@@ -3564,7 +3657,7 @@ thx.js.BaseSelection.prototype.insert = function(name,before,beforeSelector) {
 	var $spos = $s.length;
 	var qname = thx.xml.Namespace.qualify(name);
 	var insertDom = function(node) {
-		$s.push("thx.js.BaseSelection::insert@411");
+		$s.push("thx.js.BaseSelection::insert@413");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name);
 		node.insertBefore(n,Sizzle(null != before?before:beforeSelector,node,node)[0]);
@@ -3573,7 +3666,7 @@ thx.js.BaseSelection.prototype.insert = function(name,before,beforeSelector) {
 		$s.pop();
 	};
 	var insertNsDom = function(node) {
-		$s.push("thx.js.BaseSelection::insert@417");
+		$s.push("thx.js.BaseSelection::insert@419");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNS(qname.space,qname.local);
 		node.insertBefore(n,Sizzle(null != before?before:beforeSelector,node,node)[0]);
@@ -3636,7 +3729,7 @@ thx.js.BaseSelection.prototype.node = function() {
 	$s.push("thx.js.BaseSelection::node");
 	var $spos = $s.length;
 	var $tmp = this.firstNode(function(n) {
-		$s.push("thx.js.BaseSelection::node@461");
+		$s.push("thx.js.BaseSelection::node@463");
 		var $spos = $s.length;
 		$s.pop();
 		return n;
@@ -3650,7 +3743,7 @@ thx.js.BaseSelection.prototype.empty = function() {
 	$s.push("thx.js.BaseSelection::empty");
 	var $spos = $s.length;
 	var $tmp = null == this.firstNode(function(n) {
-		$s.push("thx.js.BaseSelection::empty@466");
+		$s.push("thx.js.BaseSelection::empty@468");
 		var $spos = $s.length;
 		$s.pop();
 		return n;
@@ -3683,15 +3776,16 @@ thx.js.BaseSelection.prototype.filterNode = function(f) {
 	return $tmp;
 	$s.pop();
 }
-thx.js.BaseSelection.prototype.onNode = function(type,listener) {
+thx.js.BaseSelection.prototype.onNode = function(type,listener,capture) {
 	$s.push("thx.js.BaseSelection::onNode");
 	var $spos = $s.length;
+	if(capture == null) capture = false;
 	var i = type.indexOf("."), typo = i < 0?type:type.substr(0,i);
 	var $tmp = this.eachNode(function(n,i1) {
-		$s.push("thx.js.BaseSelection::onNode@496");
+		$s.push("thx.js.BaseSelection::onNode@498");
 		var $spos = $s.length;
 		var l = function(e) {
-			$s.push("thx.js.BaseSelection::onNode@496@497");
+			$s.push("thx.js.BaseSelection::onNode@498@499");
 			var $spos = $s.length;
 			var o = thx.js.Dom.event;
 			thx.js.Dom.event = e;
@@ -3706,12 +3800,12 @@ thx.js.BaseSelection.prototype.onNode = function(type,listener) {
 			$s.pop();
 		};
 		if(null != Reflect.field(n,"__on" + type)) {
-			n.removeEventListener(typo,Reflect.field(n,"__on" + type),false);
+			n.removeEventListener(typo,Reflect.field(n,"__on" + type),capture);
 			Reflect.deleteField(n,"__on" + type);
 		}
 		if(null != listener) {
 			n["__on" + type] = l;
-			n.addEventListener(typo,l,false);
+			n.addEventListener(typo,l,capture);
 		}
 		$s.pop();
 	});
@@ -3724,7 +3818,7 @@ thx.js.BaseSelection.prototype.createSelection = function(groups) {
 	var $spos = $s.length;
 	var $tmp = (function($this) {
 		var $r;
-		throw new thx.error.AbstractMethod({ fileName : "Selection.hx", lineNumber : 522, className : "thx.js.BaseSelection", methodName : "createSelection"});
+		throw new thx.error.AbstractMethod({ fileName : "Selection.hx", lineNumber : 524, className : "thx.js.BaseSelection", methodName : "createSelection"});
 		return $r;
 	}(this));
 	$s.pop();
@@ -5388,7 +5482,7 @@ thx.js.Timer.timer = function(f,delay) {
 	$s.push("thx.js.Timer::timer");
 	var $spos = $s.length;
 	if(delay == null) delay = 0.0;
-	var now = Date.now().getTime(), found = false, start = now + delay, t0, t1 = thx.js.Timer.queue;
+	var now = Date.now().getTime(), found = false, t0, t1 = thx.js.Timer.queue;
 	if(!Math.isFinite(delay)) {
 		$s.pop();
 		return;
@@ -5398,47 +5492,63 @@ thx.js.Timer.timer = function(f,delay) {
 			t1.then = now;
 			t1.delay = delay;
 			found = true;
-		} else {
-			var x = t1.then + t1.delay;
-			if(x < start) start = x;
+			break;
 		}
 		t0 = t1;
 		t1 = t1.next;
 	}
 	if(!found) thx.js.Timer.queue = { f : f, then : now, delay : delay, next : thx.js.Timer.queue, flush : false};
 	if(0 == thx.js.Timer.interval) {
-		clearTimeout(thx.js.Timer.timeout);
-		thx.js.Timer.timeout = setTimeout(thx.js.Timer.start,Math.max(24,start - now));
+		thx.js.Timer.timeout = clearTimeout(thx.js.Timer.timeout);
+		thx.js.Timer.interval = 1;
+		window.requestAnimationFrame(thx.js.Timer._step);
 	}
-	$s.pop();
-}
-thx.js.Timer.start = function() {
-	$s.push("thx.js.Timer::start");
-	var $spos = $s.length;
-	thx.js.Timer.interval = 1;
-	thx.js.Timer.timeout = 0;
-	js.Lib.window.requestAnimationFrame(thx.js.Timer._step);
 	$s.pop();
 }
 thx.js.Timer.step = function() {
 	$s.push("thx.js.Timer::step");
 	var $spos = $s.length;
-	var elapsed, now = Date.now().getTime(), t0 = null, t1 = thx.js.Timer.queue;
+	var elapsed, now = Date.now().getTime(), t1 = thx.js.Timer.queue;
 	while(null != t1) {
 		elapsed = now - t1.then;
 		if(elapsed > t1.delay) t1.flush = t1.f(elapsed);
-		t1 = (t0 = t1).next;
+		t1 = t1.next;
 	}
-	thx.js.Timer.flush();
-	if(0 != thx.js.Timer.interval) js.Lib.window.requestAnimationFrame(thx.js.Timer._step);
+	var delay = thx.js.Timer._flush() - now;
+	if(delay > 24) {
+		if(Math.isFinite(delay)) {
+			clearTimeout(thx.js.Timer.timeout);
+			thx.js.Timer.timeout = setTimeout(thx.js.Timer._step,delay);
+		}
+		thx.js.Timer.interval = 0;
+	} else {
+		thx.js.Timer.interval = 1;
+		window.requestAnimationFrame(thx.js.Timer._step);
+	}
 	$s.pop();
 }
 thx.js.Timer.flush = function() {
 	$s.push("thx.js.Timer::flush");
 	var $spos = $s.length;
-	var t0 = null, t1 = thx.js.Timer.queue;
-	while(null != t1) t1 = t1.flush?null != t0?t0.next = t1.next:thx.js.Timer.queue = t1.next:(t0 = t1).next;
-	if(null == t0) thx.js.Timer.interval = 0;
+	var elapsed, now = Date.now().getTime(), t1 = thx.js.Timer.queue;
+	while(null != t1) {
+		elapsed = now - t1.then;
+		if(t1.delay == 0) t1.flush = t1.f(elapsed);
+		t1 = t1.next;
+	}
+	thx.js.Timer._flush();
+	$s.pop();
+}
+thx.js.Timer._flush = function() {
+	$s.push("thx.js.Timer::_flush");
+	var $spos = $s.length;
+	var t0 = null, t1 = thx.js.Timer.queue, then = Math.POSITIVE_INFINITY;
+	while(null != t1) if(t1.flush) t1 = null != t0?t0.next = t1.next:thx.js.Timer.queue = t1.next; else {
+		then = Math.min(then,t1.then + t1.delay);
+		t1 = (t0 = t1).next;
+	}
+	$s.pop();
+	return then;
 	$s.pop();
 }
 thx.js.Timer.prototype.__class__ = thx.js.Timer;
@@ -5591,7 +5701,7 @@ thx.math.scale.TestPow.prototype.testDomain = function() {
 thx.math.scale.TestPow.prototype.testDomain12 = function() {
 	$s.push("thx.math.scale.TestPow::testDomain12");
 	var $spos = $s.length;
-	var scale = new thx.math.scale.Pow().exponent(2).domain(1,2);
+	var scale = new thx.math.scale.Pow().exponent(2).domain([1.0,2.0]);
 	var expected = [-0.25,0.0,0.417,1.0,1.75];
 	var values = [0.5,1.0,1.5,2.0,2.5];
 	this.assertScale($closure(scale,"scale"),expected,values,{ fileName : "TestPow.hx", lineNumber : 25, className : "thx.math.scale.TestPow", methodName : "testDomain12"});
@@ -5609,19 +5719,10 @@ thx.math.scale.TestPow.prototype.testSqrtDomain = function() {
 thx.math.scale.TestPow.prototype.testSqrtDomain12 = function() {
 	$s.push("thx.math.scale.TestPow::testSqrtDomain12");
 	var $spos = $s.length;
-	var scale = thx.math.scale.Pow.sqrt().domain(1,2);
+	var scale = thx.math.scale.Pow.sqrt().domain([1.0,2.0]);
 	var expected = [-0.707,0.0,0.543,1.0,1.403];
 	var values = [0.5,1.0,1.5,2.0,2.5];
 	this.assertScale($closure(scale,"scale"),expected,values,{ fileName : "TestPow.hx", lineNumber : 43, className : "thx.math.scale.TestPow", methodName : "testSqrtDomain12"});
-	$s.pop();
-}
-thx.math.scale.TestPow.prototype.testSqrtDomain0n1 = function() {
-	$s.push("thx.math.scale.TestPow::testSqrtDomain0n1");
-	var $spos = $s.length;
-	var scale = thx.math.scale.Pow.sqrt().domain(0,-1);
-	var expected = [Math.NaN,0.0,0.5,0.707,1.0,2.0];
-	var values = [0.5,0.0,-0.25,-0.5,-1.0,-4.0];
-	this.assertScale($closure(scale,"scale"),expected,values,{ fileName : "TestPow.hx", lineNumber : 52, className : "thx.math.scale.TestPow", methodName : "testSqrtDomain0n1"});
 	$s.pop();
 }
 thx.math.scale.TestPow.prototype.__class__ = thx.math.scale.TestPow;
@@ -7412,8 +7513,8 @@ Dynamics.interpolatef = function(a,b,equation) {
 	}
 	$s.pop();
 }
-Dynamics.toString = function(v) {
-	$s.push("Dynamics::toString");
+Dynamics.string = function(v) {
+	$s.push("Dynamics::string");
 	var $spos = $s.length;
 	var $e = (Type["typeof"](v));
 	switch( $e[1] ) {
@@ -7439,7 +7540,7 @@ Dynamics.toString = function(v) {
 		while(_g < keys.length) {
 			var key = keys[_g];
 			++_g;
-			result.push(key + " : " + Dynamics.toString(Reflect.field(v,key)));
+			result.push(key + " : " + Dynamics.string(Reflect.field(v,key)));
 		}
 		var $tmp = "{" + result.join(", ") + "}";
 		$s.pop();
@@ -7449,7 +7550,7 @@ Dynamics.toString = function(v) {
 		var name = Type.getClassName(c);
 		switch(name) {
 		case "Array":
-			var $tmp = Arrays.toString(v);
+			var $tmp = Arrays.string(v);
 			$s.pop();
 			return $tmp;
 		case "String":
@@ -7480,7 +7581,7 @@ Dynamics.toString = function(v) {
 		break;
 	case 7:
 		var e = $e[2];
-		var $tmp = Enums.toString(v);
+		var $tmp = Enums.string(v);
 		$s.pop();
 		return $tmp;
 	case 8:
@@ -7489,6 +7590,59 @@ Dynamics.toString = function(v) {
 	case 5:
 		$s.pop();
 		return "<function>";
+	}
+	$s.pop();
+}
+Dynamics.clone = function(v) {
+	$s.push("Dynamics::clone");
+	var $spos = $s.length;
+	var $e = (Type["typeof"](v));
+	switch( $e[1] ) {
+	case 0:
+		$s.pop();
+		return null;
+	case 1:
+	case 2:
+	case 3:
+	case 7:
+	case 8:
+	case 5:
+		$s.pop();
+		return v;
+	case 4:
+		var o = { };
+		Objects.copyTo(v,o);
+		$s.pop();
+		return o;
+	case 6:
+		var c = $e[2];
+		var name = Type.getClassName(c);
+		switch(name) {
+		case "Array":
+			var src = v, a = [];
+			var _g = 0;
+			while(_g < src.length) {
+				var i = src[_g];
+				++_g;
+				a.push(Dynamics.clone(i));
+			}
+			$s.pop();
+			return a;
+		case "String":case "Date":
+			$s.pop();
+			return v;
+		default:
+			var o = Type.createEmptyInstance(c);
+			var _g = 0, _g1 = Reflect.fields(v);
+			while(_g < _g1.length) {
+				var field = _g1[_g];
+				++_g;
+				o[field] = Dynamics.clone(Reflect.field(v,field));
+			}
+			$s.pop();
+			return o;
+		}
+		break;
 	}
 	$s.pop();
 }
@@ -7575,12 +7729,12 @@ thx.js.AccessText.prototype["float"] = function(v) {
 	return $tmp;
 	$s.pop();
 }
-thx.js.AccessText.prototype.stringfNode = function(v) {
-	$s.push("thx.js.AccessText::stringfNode");
+thx.js.AccessText.prototype.stringNodef = function(v) {
+	$s.push("thx.js.AccessText::stringNodef");
 	var $spos = $s.length;
 	this.clear();
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessText::stringfNode@42");
+		$s.push("thx.js.AccessText::stringNodef@42");
 		var $spos = $s.length;
 		var x = v(node,i);
 		if(null != x) node.textContent = x;
@@ -7591,12 +7745,12 @@ thx.js.AccessText.prototype.stringfNode = function(v) {
 	return $tmp;
 	$s.pop();
 }
-thx.js.AccessText.prototype.floatNode = function(v) {
-	$s.push("thx.js.AccessText::floatNode");
+thx.js.AccessText.prototype.floatNodef = function(v) {
+	$s.push("thx.js.AccessText::floatNodef");
 	var $spos = $s.length;
 	this.clear();
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessText::floatNode@52");
+		$s.push("thx.js.AccessText::floatNodef@52");
 		var $spos = $s.length;
 		var x = v(node,i);
 		if(null != x) node.textContent = "" + x;
@@ -7964,14 +8118,14 @@ for(var k in thx.js.AccessTweenStyle.prototype ) thx.js.AccessDataTweenStyle.pro
 thx.js.AccessDataTweenStyle.prototype.floatf = function(f,priority) {
 	$s.push("thx.js.AccessDataTweenStyle::floatf");
 	var $spos = $s.length;
-	var $tmp = this.floatNodef(function(n,i) {
+	var $tmp = this.floatTweenNodef(this.transitionFloatTweenf(function(n,i) {
 		$s.push("thx.js.AccessDataTweenStyle::floatf@114");
 		var $spos = $s.length;
 		var $tmp = f(Reflect.field(n,"__data__"),i);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	},priority);
+	}),priority);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -8004,14 +8158,14 @@ thx.js.AccessDataTweenStyle.prototype.floatTweenf = function(tween,priority) {
 thx.js.AccessDataTweenStyle.prototype.stringf = function(f,priority) {
 	$s.push("thx.js.AccessDataTweenStyle::stringf");
 	var $spos = $s.length;
-	var $tmp = this.stringNodef(function(n,i) {
+	var $tmp = this.stringTweenNodef(this.transitionStringTweenf(function(n,i) {
 		$s.push("thx.js.AccessDataTweenStyle::stringf@136");
 		var $spos = $s.length;
 		var $tmp = f(Reflect.field(n,"__data__"),i);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	},priority);
+	}),priority);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -8044,14 +8198,14 @@ thx.js.AccessDataTweenStyle.prototype.stringTweenf = function(tween,priority) {
 thx.js.AccessDataTweenStyle.prototype.colorf = function(f,priority) {
 	$s.push("thx.js.AccessDataTweenStyle::colorf");
 	var $spos = $s.length;
-	var $tmp = this.colorNodef(function(n,i) {
+	var $tmp = this.colorTweenNodef(this.transitionColorTweenf(function(n,i) {
 		$s.push("thx.js.AccessDataTweenStyle::colorf@158");
 		var $spos = $s.length;
 		var $tmp = f(Reflect.field(n,"__data__"),i);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	},priority);
+	}),priority);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -9162,6 +9316,14 @@ Strings.trim = function(value,charlist) {
 	return $tmp;
 	$s.pop();
 }
+Strings.collapse = function(value) {
+	$s.push("Strings::collapse");
+	var $spos = $s.length;
+	var $tmp = Strings._reCollapse.replace(StringTools.trim(value)," ");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 Strings.ucfirst = function(value) {
 	$s.push("Strings::ucfirst");
 	var $spos = $s.length;
@@ -9369,7 +9531,7 @@ Strings.interpolatef = function(a,b,equation) {
 	$s.push("Strings::interpolatef");
 	var $spos = $s.length;
 	var extract = function(value,s,f) {
-		$s.push("Strings::interpolatef@445");
+		$s.push("Strings::interpolatef@451");
 		var $spos = $s.length;
 		while(Strings._reInterpolateNumber.match(value)) {
 			var left = Strings._reInterpolateNumber.matchedLeft();
@@ -9398,10 +9560,10 @@ Strings.interpolatef = function(a,b,equation) {
 			if(fa[i] == fb[i]) {
 				var s = ["" + fa[i]];
 				functions.push((function(s) {
-					$s.push("Strings::interpolatef@483");
+					$s.push("Strings::interpolatef@489");
 					var $spos = $s.length;
 					var $tmp = function(_) {
-						$s.push("Strings::interpolatef@483@483");
+						$s.push("Strings::interpolatef@489@489");
 						var $spos = $s.length;
 						var $tmp = s[0];
 						$s.pop();
@@ -9415,10 +9577,10 @@ Strings.interpolatef = function(a,b,equation) {
 			} else {
 				var f = [Floats.interpolatef(fa[i],fb[i],equation)];
 				functions.push((function(f) {
-					$s.push("Strings::interpolatef@486");
+					$s.push("Strings::interpolatef@492");
 					var $spos = $s.length;
 					var $tmp = function(t) {
-						$s.push("Strings::interpolatef@486@486");
+						$s.push("Strings::interpolatef@492@492");
 						var $spos = $s.length;
 						var $tmp = "" + f[0](t);
 						$s.pop();
@@ -9433,10 +9595,10 @@ Strings.interpolatef = function(a,b,equation) {
 		} else {
 			var s = [sa[i]];
 			functions.push((function(s) {
-				$s.push("Strings::interpolatef@490");
+				$s.push("Strings::interpolatef@496");
 				var $spos = $s.length;
 				var $tmp = function(_) {
-					$s.push("Strings::interpolatef@490@490");
+					$s.push("Strings::interpolatef@496@496");
 					var $spos = $s.length;
 					var $tmp = s[0];
 					$s.pop();
@@ -9456,17 +9618,17 @@ Strings.interpolatef = function(a,b,equation) {
 		i++;
 	}
 	if("" != rest) functions.push(function(_) {
-		$s.push("Strings::interpolatef@504");
+		$s.push("Strings::interpolatef@510");
 		var $spos = $s.length;
 		$s.pop();
 		return rest;
 		$s.pop();
 	});
 	var $tmp = function(t) {
-		$s.push("Strings::interpolatef@505");
+		$s.push("Strings::interpolatef@511");
 		var $spos = $s.length;
 		var $tmp = functions.map(function(f,_) {
-			$s.push("Strings::interpolatef@505@506");
+			$s.push("Strings::interpolatef@511@512");
 			var $spos = $s.length;
 			var $tmp = f(t);
 			$s.pop();
@@ -9502,7 +9664,7 @@ Strings.ellipsisf = function(maxlen,symbol) {
 	if(symbol == null) symbol = "...";
 	if(maxlen == null) maxlen = 20;
 	var $tmp = function(s) {
-		$s.push("Strings::ellipsisf@520");
+		$s.push("Strings::ellipsisf@526");
 		var $spos = $s.length;
 		if(s.length > maxlen) {
 			var $tmp = s.substr(0,Ints.max(symbol.length,maxlen - symbol.length)) + symbol;
@@ -10383,7 +10545,7 @@ thx.math.scale.Linear.prototype.modulo = function(m) {
 thx.math.scale.Linear.prototype.tickRange = function() {
 	$s.push("thx.math.scale.Linear::tickRange");
 	var $spos = $s.length;
-	var start = Math.min(this.x0,this.x1), stop = Math.max(this.x0,this.x1), span = stop - start, step = Math.pow(10,Math.floor(Math.log(span / this.m) / 2.302585092994046)), err = this.m / (span / step);
+	var start = Arrays.min(this._domain), stop = Arrays.max(this._domain), span = stop - start, step = Math.pow(10,Math.floor(Math.log(span / this.m) / 2.302585092994046)), err = this.m / (span / step);
 	if(err <= .15) step *= 10; else if(err <= .35) step *= 5; else if(err <= .75) step *= 2;
 	var $tmp = { start : Math.ceil(start / step) * step, stop : Math.floor(stop / step) * step + step * .5, step : step};
 	$s.pop();
@@ -10920,7 +11082,7 @@ thx.html.HtmlParser = function(html) {
 	if( html === $_ ) return;
 	$s.push("thx.html.HtmlParser::new");
 	var $spos = $s.length;
-	if(null == html) throw new thx.error.NullArgument("html",{ fileName : "HtmlParser.hx", lineNumber : 29, className : "thx.html.HtmlParser", methodName : "new"});
+	if(null == html) throw new thx.error.NullArgument("html",{ fileName : "HtmlParser.hx", lineNumber : 30, className : "thx.html.HtmlParser", methodName : "new"}); else null;
 	this.html = html;
 	$s.pop();
 }
@@ -10931,7 +11093,7 @@ thx.html.HtmlParser.prototype.stack = null;
 thx.html.HtmlParser.prototype.process = function(handler) {
 	$s.push("thx.html.HtmlParser::process");
 	var $spos = $s.length;
-	if(null == handler) throw new thx.error.NullArgument("handler",{ fileName : "HtmlParser.hx", lineNumber : 36, className : "thx.html.HtmlParser", methodName : "process"});
+	if(null == handler) throw new thx.error.NullArgument("handler",{ fileName : "HtmlParser.hx", lineNumber : 37, className : "thx.html.HtmlParser", methodName : "process"}); else null;
 	this.handler = handler;
 	var index;
 	var chars;
@@ -11759,7 +11921,7 @@ thx.math.scale.TestLinear.prototype.testDomain = function() {
 thx.math.scale.TestLinear.prototype.testDomain12 = function() {
 	$s.push("thx.math.scale.TestLinear::testDomain12");
 	var $spos = $s.length;
-	var scale = new thx.math.scale.Linear().domain(1,2);
+	var scale = new thx.math.scale.Linear().domain([1.0,2.0]);
 	var expected = [-0.5,0.0,0.5,1.0,1.5];
 	var values = [0.5,1.0,1.5,2.0,2.5];
 	this.assertScale($closure(scale,"scale"),expected,values,{ fileName : "TestLinear.hx", lineNumber : 29, className : "thx.math.scale.TestLinear", methodName : "testDomain12"});
@@ -12115,8 +12277,8 @@ thx.ini.TestIni.prototype.testDecode = function() {
 thx.ini.TestIni.prototype.__class__ = thx.ini.TestIni;
 Enums = function() { }
 Enums.__name__ = ["Enums"];
-Enums.toString = function(e) {
-	$s.push("Enums::toString");
+Enums.string = function(e) {
+	$s.push("Enums::string");
 	var $spos = $s.length;
 	var cons = e[0];
 	var params = [];
@@ -12124,7 +12286,7 @@ Enums.toString = function(e) {
 	while(_g < _g1.length) {
 		var param = _g1[_g];
 		++_g;
-		params.push(Dynamics.toString(param));
+		params.push(Dynamics.string(param));
 	}
 	var $tmp = cons + (params.length == 0?"":"(" + params.join(", ") + ")");
 	$s.pop();
@@ -12132,20 +12294,6 @@ Enums.toString = function(e) {
 	$s.pop();
 }
 Enums.prototype.__class__ = Enums;
-thx.js.TestDom = function(p) {
-	$s.push("thx.js.TestDom::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.js.TestDom.__name__ = ["thx","js","TestDom"];
-thx.js.TestDom.prototype.testDocument = function() {
-	$s.push("thx.js.TestDom::testDocument");
-	var $spos = $s.length;
-	utest.Assert.isFalse(thx.js.Dom.doc.empty(),null,{ fileName : "TestDom.hx", lineNumber : 25, className : "thx.js.TestDom", methodName : "testDocument"});
-	utest.Assert.equals(js.Lib.document,thx.js.Dom.doc.node(),null,{ fileName : "TestDom.hx", lineNumber : 26, className : "thx.js.TestDom", methodName : "testDocument"});
-	$s.pop();
-}
-thx.js.TestDom.prototype.__class__ = thx.js.TestDom;
 thx.html.TextHandler = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.html.TextHandler::new");
@@ -12199,6 +12347,20 @@ thx.html.TextHandler.prototype.declaration = function(text) {
 }
 thx.html.TextHandler.prototype.__class__ = thx.html.TextHandler;
 thx.html.TextHandler.__interfaces__ = [thx.html.HtmlHandler];
+thx.js.TestDom = function(p) {
+	$s.push("thx.js.TestDom::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.js.TestDom.__name__ = ["thx","js","TestDom"];
+thx.js.TestDom.prototype.testDocument = function() {
+	$s.push("thx.js.TestDom::testDocument");
+	var $spos = $s.length;
+	utest.Assert.isFalse(thx.js.Dom.doc.empty(),null,{ fileName : "TestDom.hx", lineNumber : 25, className : "thx.js.TestDom", methodName : "testDocument"});
+	utest.Assert.equals(js.Lib.document,thx.js.Dom.doc.node(),null,{ fileName : "TestDom.hx", lineNumber : 26, className : "thx.js.TestDom", methodName : "testDocument"});
+	$s.pop();
+}
+thx.js.TestDom.prototype.__class__ = thx.js.TestDom;
 thx.collections.IntHashList = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.collections.IntHashList::new");
@@ -13306,7 +13468,7 @@ for(var k in thx.math.scale.TestAll.prototype ) thx.math.scale.TestLog.prototype
 thx.math.scale.TestLog.prototype.testRange = function() {
 	$s.push("thx.math.scale.TestLog::testRange");
 	var $spos = $s.length;
-	var scale = new thx.math.scale.Log().domain(1,10).range(0,1);
+	var scale = new thx.math.scale.Log().domain([1.0,10.0]).range([0.0,1.0]);
 	var expected = [Math.NaN,Math.NEGATIVE_INFINITY,-2.0,-1.0,0,0.69897,1.0,2.0];
 	var values = [-5.0,0.0,0.01,0.1,1,5,10,100];
 	this.assertScale($closure(scale,"scale"),expected,values,{ fileName : "TestLog.hx", lineNumber : 20, className : "thx.math.scale.TestLog", methodName : "testRange"});
@@ -13315,7 +13477,7 @@ thx.math.scale.TestLog.prototype.testRange = function() {
 thx.math.scale.TestLog.prototype.testInvert = function() {
 	$s.push("thx.math.scale.TestLog::testInvert");
 	var $spos = $s.length;
-	var scale = new thx.math.scale.Log().domain(1,10).range(0,1);
+	var scale = new thx.math.scale.Log().domain([1.0,10.0]).range([0.0,1.0]);
 	var expected = [1.0,1.023,1.258,3.162,10];
 	var values = [0.0,0.01,0.1,0.5,1];
 	this.assertScale($closure(scale,"invert"),expected,values,{ fileName : "TestLog.hx", lineNumber : 29, className : "thx.math.scale.TestLog", methodName : "testInvert"});
@@ -13324,7 +13486,7 @@ thx.math.scale.TestLog.prototype.testInvert = function() {
 thx.math.scale.TestLog.prototype.testRange12 = function() {
 	$s.push("thx.math.scale.TestLog::testRange12");
 	var $spos = $s.length;
-	var scale = new thx.math.scale.Log().domain(1,2).range(0,1);
+	var scale = new thx.math.scale.Log().domain([1.0,2.0]).range([0.0,1.0]);
 	var expected = [-1,0.0,0.585,1.0,1.322];
 	var values = [0.5,1.0,1.5,2.0,2.5];
 	this.assertScale($closure(scale,"scale"),expected,values,{ fileName : "TestLog.hx", lineNumber : 38, className : "thx.math.scale.TestLog", methodName : "testRange12"});
@@ -13333,7 +13495,7 @@ thx.math.scale.TestLog.prototype.testRange12 = function() {
 thx.math.scale.TestLog.prototype.testInvert12 = function() {
 	$s.push("thx.math.scale.TestLog::testInvert12");
 	var $spos = $s.length;
-	var scale = new thx.math.scale.Log().domain(1,2).range(0,1);
+	var scale = new thx.math.scale.Log().domain([1.0,2.0]).range([0.0,1.0]);
 	var expected = [1.0,1.007,1.072,1.414,2];
 	var values = [0.0,0.01,0.1,0.5,1];
 	this.assertScale($closure(scale,"invert"),expected,values,{ fileName : "TestLog.hx", lineNumber : 47, className : "thx.math.scale.TestLog", methodName : "testInvert12"});
@@ -14752,7 +14914,7 @@ Arrays.min = function(arr,f) {
 	}
 	if(null == f) {
 		var a = arr[0], p = 0;
-		var _g1 = 0, _g = arr.length;
+		var _g1 = 1, _g = arr.length;
 		while(_g1 < _g) {
 			var i = _g1++;
 			if(Reflect.compare(a,arr[i]) > 0) a = arr[p = i];
@@ -14762,7 +14924,7 @@ Arrays.min = function(arr,f) {
 		return $tmp;
 	} else {
 		var a = f(arr[0]), p = 0, b;
-		var _g1 = 0, _g = arr.length;
+		var _g1 = 1, _g = arr.length;
 		while(_g1 < _g) {
 			var i = _g1++;
 			if(a > (b = f(arr[i]))) {
@@ -14785,7 +14947,7 @@ Arrays.floatMin = function(arr,f) {
 		return $tmp;
 	}
 	var a = f(arr[0]), b;
-	var _g1 = 0, _g = arr.length;
+	var _g1 = 1, _g = arr.length;
 	while(_g1 < _g) {
 		var i = _g1++;
 		if(a > (b = f(arr[i]))) a = b;
@@ -14803,7 +14965,7 @@ Arrays.max = function(arr,f) {
 	}
 	if(null == f) {
 		var a = arr[0], p = 0;
-		var _g1 = 0, _g = arr.length;
+		var _g1 = 1, _g = arr.length;
 		while(_g1 < _g) {
 			var i = _g1++;
 			if(Reflect.compare(a,arr[i]) < 0) a = arr[p = i];
@@ -14813,7 +14975,7 @@ Arrays.max = function(arr,f) {
 		return $tmp;
 	} else {
 		var a = f(arr[0]), p = 0, b;
-		var _g1 = 0, _g = arr.length;
+		var _g1 = 1, _g = arr.length;
 		while(_g1 < _g) {
 			var i = _g1++;
 			if(a < (b = f(arr[i]))) {
@@ -14836,7 +14998,7 @@ Arrays.floatMax = function(arr,f) {
 		return $tmp;
 	}
 	var a = f(arr[0]), b;
-	var _g1 = 0, _g = arr.length;
+	var _g1 = 1, _g = arr.length;
 	while(_g1 < _g) {
 		var i = _g1++;
 		if(a < (b = f(arr[i]))) a = b;
@@ -15304,13 +15466,13 @@ Arrays.random = function(arr) {
 	return $tmp;
 	$s.pop();
 }
-Arrays.toString = function(arr) {
-	$s.push("Arrays::toString");
+Arrays.string = function(arr) {
+	$s.push("Arrays::string");
 	var $spos = $s.length;
 	var $tmp = "[" + arr.map(function(v,_) {
-		$s.push("Arrays::toString@357");
+		$s.push("Arrays::string@357");
 		var $spos = $s.length;
-		var $tmp = Dynamics.toString(v);
+		var $tmp = Dynamics.string(v);
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -15327,12 +15489,38 @@ Arrays.last = function(arr) {
 	return $tmp;
 	$s.pop();
 }
+Arrays.lastf = function(arr,f) {
+	$s.push("Arrays::lastf");
+	var $spos = $s.length;
+	var t = arr.copy();
+	t.reverse();
+	var $tmp = Arrays.firstf(arr,f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 Arrays.first = function(arr) {
 	$s.push("Arrays::first");
 	var $spos = $s.length;
 	var $tmp = arr[0];
 	$s.pop();
 	return $tmp;
+	$s.pop();
+}
+Arrays.firstf = function(arr,f) {
+	$s.push("Arrays::firstf");
+	var $spos = $s.length;
+	var _g = 0;
+	while(_g < arr.length) {
+		var v = arr[_g];
+		++_g;
+		if(f(v)) {
+			$s.pop();
+			return v;
+		}
+	}
+	$s.pop();
+	return null;
 	$s.pop();
 }
 Arrays.prototype.__class__ = Arrays;
@@ -15877,6 +16065,15 @@ TestObjects.prototype.testInterpolate = function() {
 	utest.Assert.same({ d : "extra", e : "other", a : 15, b : "x2y3", color : "rgb(171,142,147)"},f(0.5),null,null,{ fileName : "TestObjects.hx", lineNumber : 42, className : "TestObjects", methodName : "testInterpolate"});
 	$s.pop();
 }
+TestObjects.prototype.testFlatten = function() {
+	$s.push("TestObjects::testFlatten");
+	var $spos = $s.length;
+	utest.Assert.same([],Objects.flatten({ }),null,null,{ fileName : "TestObjects.hx", lineNumber : 54, className : "TestObjects", methodName : "testFlatten"});
+	utest.Assert.same([{ fields : ["a"], value : 1},{ fields : ["b"], value : 2}],Objects.flatten({ a : 1, b : 2}),null,null,{ fileName : "TestObjects.hx", lineNumber : 57, className : "TestObjects", methodName : "testFlatten"});
+	utest.Assert.same([{ fields : ["a","b"], value : 1},{ fields : ["a","c"], value : 2},{ fields : ["d","e"], value : 3},{ fields : ["d","f"], value : 4}],Objects.flatten({ a : { b : 1, c : 2}, d : { e : 3, f : 4}}),null,null,{ fileName : "TestObjects.hx", lineNumber : 63, className : "TestObjects", methodName : "testFlatten"});
+	utest.Assert.same([{ fields : ["a","b"], value : 1},{ fields : ["a","c","d"], value : 2},{ fields : ["a","c","e"], value : 3},{ fields : ["a","c","f","g"], value : 4},{ fields : ["h"], value : 5}],Objects.flatten({ a : { b : 1, c : { d : 2, e : 3, f : { g : 4}}}, h : 5}),null,null,{ fileName : "TestObjects.hx", lineNumber : 74, className : "TestObjects", methodName : "testFlatten"});
+	$s.pop();
+}
 TestObjects.prototype.__class__ = TestObjects;
 thx.html.CloseSelfHtmlNodeFormat = function(p) {
 	if( p === $_ ) return;
@@ -16370,15 +16567,16 @@ thx.js.BoundSelection.prototype.first = function(f) {
 	return $tmp;
 	$s.pop();
 }
-thx.js.BoundSelection.prototype.on = function(type,listener) {
+thx.js.BoundSelection.prototype.on = function(type,listener,capture) {
 	$s.push("thx.js.BoundSelection::on");
 	var $spos = $s.length;
+	if(capture == null) capture = false;
 	var $tmp = this.onNode(type,null == listener?null:function(n,i) {
 		$s.push("thx.js.BoundSelection::on@207");
 		var $spos = $s.length;
 		listener(Reflect.field(n,"__data__"),i);
 		$s.pop();
-	});
+	},capture);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -16427,7 +16625,7 @@ thx.js.PreEnterSelection.prototype.append = function(name) {
 	var $spos = $s.length;
 	var qname = thx.xml.Namespace.qualify(name);
 	var append = function(node) {
-		$s.push("thx.js.PreEnterSelection::append@224");
+		$s.push("thx.js.PreEnterSelection::append@226");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name);
 		node.appendChild(n);
@@ -16436,7 +16634,7 @@ thx.js.PreEnterSelection.prototype.append = function(name) {
 		$s.pop();
 	};
 	var appendNS = function(node) {
-		$s.push("thx.js.PreEnterSelection::append@231");
+		$s.push("thx.js.PreEnterSelection::append@233");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNS(qname.space,qname.local);
 		node.appendChild(n);
@@ -16454,7 +16652,7 @@ thx.js.PreEnterSelection.prototype.insert = function(name,before,beforeSelector)
 	var $spos = $s.length;
 	var qname = thx.xml.Namespace.qualify(name);
 	var insertDom = function(node) {
-		$s.push("thx.js.PreEnterSelection::insert@244");
+		$s.push("thx.js.PreEnterSelection::insert@246");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name);
 		node.insertBefore(n,Sizzle(null != before?before:beforeSelector,node)[0]);
@@ -16463,7 +16661,7 @@ thx.js.PreEnterSelection.prototype.insert = function(name,before,beforeSelector)
 		$s.pop();
 	};
 	var insertNsDom = function(node) {
-		$s.push("thx.js.PreEnterSelection::insert@250");
+		$s.push("thx.js.PreEnterSelection::insert@252");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNS(qname.space,qname.local);
 		node.insertBefore(n,Sizzle(null != before?before:beforeSelector,node)[0]);
@@ -17308,14 +17506,14 @@ thx.math.scale.Pow.prototype.getDomain = function() {
 	return $tmp;
 	$s.pop();
 }
-thx.math.scale.Pow.prototype.domain = function(x0,x1) {
+thx.math.scale.Pow.prototype.domain = function(d) {
 	$s.push("thx.math.scale.Pow::domain");
 	var $spos = $s.length;
-	var pow = (x0 < x1?x0:x1) < 0?thx.math.scale.Pow._pown:thx.math.scale.Pow._pow;
+	var pow = Arrays.min(d) < 0?thx.math.scale.Pow._pown:thx.math.scale.Pow._pow;
 	this.powp = pow(this._exponent);
 	this.powb = pow(1.0 / this._exponent);
-	thx.math.scale.NumericScale.prototype.domain.call(this,this.powp(x0),this.powp(x1));
-	this.tick.domain(x0,x1);
+	thx.math.scale.NumericScale.prototype.domain.call(this,[this.powp(d[0]),this.powp(d[1])]);
+	this.tick.domain(d);
 	$s.pop();
 	return this;
 	$s.pop();
@@ -17363,9 +17561,9 @@ thx.math.scale.Pow.prototype.getExponent = function() {
 thx.math.scale.Pow.prototype.exponent = function(x) {
 	$s.push("thx.math.scale.Pow::exponent");
 	var $spos = $s.length;
-	var dom = this.getDomain();
+	var d = this.getDomain();
 	this._exponent = x;
-	this.domain(dom[0],dom[1]);
+	this.domain(d);
 	$s.pop();
 	return this;
 	$s.pop();
@@ -17485,6 +17683,75 @@ thx.data.ValueHandler.prototype.comment = function(s) {
 }
 thx.data.ValueHandler.prototype.__class__ = thx.data.ValueHandler;
 thx.data.ValueHandler.__interfaces__ = [thx.data.IDataHandler];
+thx.color.Grey = function(value) {
+	if( value === $_ ) return;
+	$s.push("thx.color.Grey::new");
+	var $spos = $s.length;
+	this.grey = Floats.normalize(value);
+	var c = Ints.interpolate(this.grey,0,255,null);
+	thx.color.Rgb.call(this,c,c,c);
+	$s.pop();
+}
+thx.color.Grey.__name__ = ["thx","color","Grey"];
+thx.color.Grey.__super__ = thx.color.Rgb;
+for(var k in thx.color.Rgb.prototype ) thx.color.Grey.prototype[k] = thx.color.Rgb.prototype[k];
+thx.color.Grey.ofRgb = function(rgb,luminance) {
+	$s.push("thx.color.Grey::ofRgb");
+	var $spos = $s.length;
+	if(null == luminance) luminance = thx.color.PerceivedLuminance.Perceived;
+	switch( (luminance)[1] ) {
+	case 0:
+		var $tmp = new thx.color.Grey(rgb.red / 255 * .2126 + rgb.green / 255 * .7152 + rgb.blue / 255 * .0722);
+		$s.pop();
+		return $tmp;
+	case 1:
+		var $tmp = new thx.color.Grey(rgb.red / 255 * .299 + rgb.green / 255 * .587 + rgb.blue / 255 * .114);
+		$s.pop();
+		return $tmp;
+	case 2:
+		var $tmp = new thx.color.Grey(Math.sqrt(0.241 * Math.pow(rgb.red / 255,2) + 0.691 * Math.pow(rgb.green / 255,2) + 0.068 * Math.pow(rgb.blue / 255,2)));
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+thx.color.Grey.equals = function(a,b) {
+	$s.push("thx.color.Grey::equals");
+	var $spos = $s.length;
+	var $tmp = a.grey == b.grey;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.color.Grey.darker = function(color,t,equation) {
+	$s.push("thx.color.Grey::darker");
+	var $spos = $s.length;
+	var v = t * color.grey;
+	var $tmp = new thx.color.Grey(Floats.interpolate(v,0,1,equation));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.color.Grey.interpolate = function(a,b,t,equation) {
+	$s.push("thx.color.Grey::interpolate");
+	var $spos = $s.length;
+	var $tmp = new thx.color.Grey(Floats.interpolate(t,a.grey,b.grey,equation));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.color.Grey.prototype.grey = null;
+thx.color.Grey.prototype.__class__ = thx.color.Grey;
+thx.color.PerceivedLuminance = { __ename__ : ["thx","color","PerceivedLuminance"], __constructs__ : ["Standard","Perceived","PerceivedAccurate"] }
+thx.color.PerceivedLuminance.Standard = ["Standard",0];
+thx.color.PerceivedLuminance.Standard.toString = $estr;
+thx.color.PerceivedLuminance.Standard.__enum__ = thx.color.PerceivedLuminance;
+thx.color.PerceivedLuminance.Perceived = ["Perceived",1];
+thx.color.PerceivedLuminance.Perceived.toString = $estr;
+thx.color.PerceivedLuminance.Perceived.__enum__ = thx.color.PerceivedLuminance;
+thx.color.PerceivedLuminance.PerceivedAccurate = ["PerceivedAccurate",2];
+thx.color.PerceivedLuminance.PerceivedAccurate.toString = $estr;
+thx.color.PerceivedLuminance.PerceivedAccurate.__enum__ = thx.color.PerceivedLuminance;
 thx.math.TestRandom = function(p) {
 	$s.push("thx.math.TestRandom::new");
 	var $spos = $s.length;
@@ -17590,6 +17857,21 @@ thx.color.Hsl.interpolate = function(a,b,t,equation) {
 	$s.push("thx.color.Hsl::interpolate");
 	var $spos = $s.length;
 	var $tmp = new thx.color.Hsl(Floats.interpolate(t,a.hue,b.hue,equation),Floats.interpolate(t,a.saturation,b.saturation,equation),Floats.interpolate(t,a.lightness,b.lightness,equation));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.color.Hsl.interpolatef = function(a,b,equation) {
+	$s.push("thx.color.Hsl::interpolatef");
+	var $spos = $s.length;
+	var $tmp = function(t) {
+		$s.push("thx.color.Hsl::interpolatef@101");
+		var $spos = $s.length;
+		var $tmp = new thx.color.Hsl(Floats.interpolate(t,a.hue,b.hue,equation),Floats.interpolate(t,a.saturation,b.saturation,equation),Floats.interpolate(t,a.lightness,b.lightness,equation));
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -17915,7 +18197,7 @@ thx.data.TestValueHandler.prototype.assertHandler = function(expected,f,pos) {
 	h.start();
 	f(h);
 	h.end();
-	utest.Assert.same(expected,h.value,null,"expected: " + Dynamics.toString(expected) + " but was " + Dynamics.toString(h.value),pos);
+	utest.Assert.same(expected,h.value,null,"expected: " + Dynamics.string(expected) + " but was " + Dynamics.string(h.value),pos);
 	$s.pop();
 }
 thx.data.TestValueHandler.prototype.__class__ = thx.data.TestValueHandler;
@@ -17966,7 +18248,7 @@ thx.js.AccessStyle.prototype.string = function(v,priority) {
 	$s.push("thx.js.AccessStyle::string");
 	var $spos = $s.length;
 	var n = this.name;
-	if(null == priority) priority = null;
+	if(null == priority) priority = "";
 	this.selection.eachNode(function(node,i) {
 		$s.push("thx.js.AccessStyle::string@35");
 		var $spos = $s.length;
@@ -17982,9 +18264,25 @@ thx.js.AccessStyle.prototype["float"] = function(v,priority) {
 	$s.push("thx.js.AccessStyle::float");
 	var $spos = $s.length;
 	var s = "" + v, n = this.name;
-	if(null == priority) priority = null;
+	if(null == priority) priority = "";
 	this.selection.eachNode(function(node,i) {
 		$s.push("thx.js.AccessStyle::float@44");
+		var $spos = $s.length;
+		node.style.setProperty(n,s,priority);
+		$s.pop();
+	});
+	var $tmp = this.selection;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessStyle.prototype.color = function(v,priority) {
+	$s.push("thx.js.AccessStyle::color");
+	var $spos = $s.length;
+	var s = v.toRgbString(), n = this.name;
+	if(null == priority) priority = "";
+	this.selection.eachNode(function(node,i) {
+		$s.push("thx.js.AccessStyle::color@53");
 		var $spos = $s.length;
 		node.style.setProperty(n,s,priority);
 		$s.pop();
@@ -18009,9 +18307,9 @@ thx.js.AccessDataStyle.prototype.stringf = function(v,priority) {
 	$s.push("thx.js.AccessDataStyle::stringf");
 	var $spos = $s.length;
 	var n = this.name;
-	if(null == priority) priority = null;
+	if(null == priority) priority = "";
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessDataStyle::stringf@61");
+		$s.push("thx.js.AccessDataStyle::stringf@70");
 		var $spos = $s.length;
 		var s = v(Reflect.field(node,"__data__"),i);
 		if(s == null) node.style.removeProperty(n); else node.style.setProperty(n,s,priority);
@@ -18026,12 +18324,29 @@ thx.js.AccessDataStyle.prototype.floatf = function(v,priority) {
 	$s.push("thx.js.AccessDataStyle::floatf");
 	var $spos = $s.length;
 	var n = this.name;
-	if(null == priority) priority = null;
+	if(null == priority) priority = "";
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessDataStyle::floatf@75");
+		$s.push("thx.js.AccessDataStyle::floatf@84");
 		var $spos = $s.length;
 		var s = v(Reflect.field(node,"__data__"),i);
 		if(s == null) node.style.removeProperty(n); else node.style.setProperty(n,"" + s,priority);
+		$s.pop();
+	});
+	var $tmp = this.selection;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessDataStyle.prototype.colorf = function(v,priority) {
+	$s.push("thx.js.AccessDataStyle::colorf");
+	var $spos = $s.length;
+	var n = this.name;
+	if(null == priority) priority = "";
+	this.selection.eachNode(function(node,i) {
+		$s.push("thx.js.AccessDataStyle::colorf@98");
+		var $spos = $s.length;
+		var s = v(Reflect.field(node,"__data__"),i);
+		if(s == null) node.style.removeProperty(n); else node.style.setProperty(n,"" + s.toRgbString(),priority);
 		$s.pop();
 	});
 	var $tmp = this.selection;
@@ -18043,7 +18358,7 @@ thx.js.AccessDataStyle.prototype.data = function() {
 	$s.push("thx.js.AccessDataStyle::data");
 	var $spos = $s.length;
 	var $tmp = this.stringf(function(d,_) {
-		$s.push("thx.js.AccessDataStyle::data@87");
+		$s.push("thx.js.AccessDataStyle::data@110");
 		var $spos = $s.length;
 		var $tmp = "" + d;
 		$s.pop();
@@ -21053,6 +21368,30 @@ thx.svg.LineInternals.interpolatePoints = function(points,type) {
 		}
 		break;
 	case 4:
+		if(points.length < 4) {
+			var $tmp = thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear);
+			$s.pop();
+			return $tmp;
+		}
+		i = -1;
+		var pi, px = [0.0], py = [0.0];
+		while(++i < 3) {
+			pi = points[i];
+			px.push(pi[0]);
+			py.push(pi[1]);
+		}
+		path.push(thx.svg.LineInternals._lineDot4(thx.svg.LineInternals._lineBasisBezier3,px) + "," + thx.svg.LineInternals._lineDot4(thx.svg.LineInternals._lineBasisBezier3,py));
+		--i;
+		while(++i < n) {
+			pi = points[i];
+			px.shift();
+			px.push(pi[0]);
+			py.shift();
+			py.push(pi[1]);
+			thx.svg.LineInternals._lineBasisBezier(path,px,py);
+		}
+		break;
+	case 5:
 		i = -1;
 		var m = n + 4, px = [], py = [];
 		while(++i < 4) {
@@ -21071,7 +21410,7 @@ thx.svg.LineInternals.interpolatePoints = function(points,type) {
 			thx.svg.LineInternals._lineBasisBezier(path,px,py);
 		}
 		break;
-	case 5:
+	case 6:
 		var tension = $e[2];
 		if(null == tension) tension = .7;
 		if(points.length < 3) {
@@ -21084,10 +21423,19 @@ thx.svg.LineInternals.interpolatePoints = function(points,type) {
 			return $tmp;
 		}
 		break;
-	case 6:
+	case 7:
+		var tension = $e[2];
+		var $tmp = points.length < 4?thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear):points[1][0] + "," + points[1][1] + thx.svg.LineInternals._lineCardinalTangents(points,tension);
+		$s.pop();
+		return $tmp;
+	case 8:
 		var tension = $e[2];
 		if(null == tension) tension = .7;
 		var $tmp = points.length < 3?thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear):points[0][0] + "," + points[0][1] + thx.svg.LineInternals._lineHermite(points,thx.svg.LineInternals._lineCardinalTangents([points[points.length - 2]].concat(points).concat([points[1]]),tension));
+		$s.pop();
+		return $tmp;
+	case 9:
+		var $tmp = points.length < 3?thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear):points[0] + thx.svg.LineInternals._lineHermite(points,thx.svg.LineInternals._lineMonotoneTangents(points));
 		$s.pop();
 		return $tmp;
 	}
@@ -21108,6 +21456,50 @@ thx.svg.LineInternals._lineBasisBezier = function(path,x,y) {
 	$s.push("thx.svg.LineInternals::_lineBasisBezier");
 	var $spos = $s.length;
 	path.push("C" + thx.svg.LineInternals._lineDot4(thx.svg.LineInternals._lineBasisBezier1,x) + "," + thx.svg.LineInternals._lineDot4(thx.svg.LineInternals._lineBasisBezier1,y) + "," + thx.svg.LineInternals._lineDot4(thx.svg.LineInternals._lineBasisBezier2,x) + "," + thx.svg.LineInternals._lineDot4(thx.svg.LineInternals._lineBasisBezier2,y) + "," + thx.svg.LineInternals._lineDot4(thx.svg.LineInternals._lineBasisBezier3,x) + "," + thx.svg.LineInternals._lineDot4(thx.svg.LineInternals._lineBasisBezier3,y));
+	$s.pop();
+}
+thx.svg.LineInternals._lineSlope = function(p0,p1) {
+	$s.push("thx.svg.LineInternals::_lineSlope");
+	var $spos = $s.length;
+	var $tmp = (p1[1] - p0[1]) / (p1[0] - p0[0]);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.LineInternals._lineFiniteDifferences = function(points) {
+	$s.push("thx.svg.LineInternals::_lineFiniteDifferences");
+	var $spos = $s.length;
+	var i = 0, j = points.length - 1, m = [], p0 = points[0], p1 = points[1], d = m[0] = thx.svg.LineInternals._lineSlope(p0,p1);
+	while(++i < j) m[i] = d + (d = thx.svg.LineInternals._lineSlope(p0 = p1,p1 = points[i + 1]));
+	m[i] = d;
+	$s.pop();
+	return m;
+	$s.pop();
+}
+thx.svg.LineInternals._lineMonotoneTangents = function(points) {
+	$s.push("thx.svg.LineInternals::_lineMonotoneTangents");
+	var $spos = $s.length;
+	var tangents = [], d, a, b, s, m = thx.svg.LineInternals._lineFiniteDifferences(points), i = -1, j = points.length - 1;
+	while(++i < j) {
+		d = thx.svg.LineInternals._lineSlope(points[i],points[i + 1]);
+		if(Math.abs(d) < 1e-6) m[i] = m[i + 1] = 0; else {
+			a = m[i] / d;
+			b = m[i + 1] / d;
+			s = a * a + b * b;
+			if(s > 9) {
+				s = d * 3 / Math.sqrt(s);
+				m[i] = s * a;
+				m[i + 1] = s * b;
+			}
+		}
+	}
+	i = -1;
+	while(++i <= j) {
+		s = (points[Ints.min(j,i + 1)][0] - points[Ints.max(0,i - 1)][0]) / (6 * (1 + m[i] * m[i]));
+		tangents.push([Math.isFinite(s)?s:0,Math.isFinite(s = m[i] * s)?s:0]);
+	}
+	$s.pop();
+	return tangents;
 	$s.pop();
 }
 thx.svg.LineInternals._lineHermite = function(points,tangents) {
@@ -21368,14 +21760,14 @@ for(var k in thx.js.AccessTweenAttribute.prototype ) thx.js.AccessDataTweenAttri
 thx.js.AccessDataTweenAttribute.prototype.stringf = function(f) {
 	$s.push("thx.js.AccessDataTweenAttribute::stringf");
 	var $spos = $s.length;
-	var $tmp = this.stringNodef(function(n,i) {
+	var $tmp = this.stringTweenNodef(this.transitionStringTweenf(function(n,i) {
 		$s.push("thx.js.AccessDataTweenAttribute::stringf@101");
 		var $spos = $s.length;
 		var $tmp = f(Reflect.field(n,"__data__"),i);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	});
+	}));
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -21383,14 +21775,14 @@ thx.js.AccessDataTweenAttribute.prototype.stringf = function(f) {
 thx.js.AccessDataTweenAttribute.prototype.floatf = function(f) {
 	$s.push("thx.js.AccessDataTweenAttribute::floatf");
 	var $spos = $s.length;
-	var $tmp = this.floatNodef(function(n,i) {
+	var $tmp = this.floatTweenNodef(this.transitionFloatTweenf(function(n,i) {
 		$s.push("thx.js.AccessDataTweenAttribute::floatf@106");
 		var $spos = $s.length;
 		var $tmp = f(Reflect.field(n,"__data__"),i);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	});
+	}));
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -21867,12 +22259,36 @@ Iterators.last = function(it) {
 	return o;
 	$s.pop();
 }
+Iterators.lastf = function(it,f) {
+	$s.push("Iterators::lastf");
+	var $spos = $s.length;
+	var rev = Iterators.array(it);
+	rev.reverse();
+	var $tmp = Arrays.lastf(rev,f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 Iterators.first = function(it) {
 	$s.push("Iterators::first");
 	var $spos = $s.length;
 	var $tmp = it.next();
 	$s.pop();
 	return $tmp;
+	$s.pop();
+}
+Iterators.firstf = function(it,f) {
+	$s.push("Iterators::firstf");
+	var $spos = $s.length;
+	while( it.hasNext() ) {
+		var v = it.next();
+		if(f(v)) {
+			$s.pop();
+			return v;
+		}
+	}
+	$s.pop();
+	return null;
 	$s.pop();
 }
 Iterators.order = function(it,f) {
@@ -22041,42 +22457,64 @@ Objects.interpolateByName = function(k,v) {
 	return $tmp;
 	$s.pop();
 }
-Objects.applyTo = function(src,dest) {
-	$s.push("Objects::applyTo");
-	var $spos = $s.length;
-	var _g = 0, _g1 = Reflect.fields(src);
-	while(_g < _g1.length) {
-		var field = _g1[_g];
-		++_g;
-		if(!Reflect.hasField(dest,field)) continue;
-		if(Reflect.isObject(Reflect.field(src,field)) && Reflect.isObject(Reflect.field(dest,field))) Objects.applyTo(Reflect.field(src,field),Reflect.field(dest,field)); else dest[field] = Reflect.field(src,field);
-	}
-	$s.pop();
-	return dest;
-	$s.pop();
-}
-Objects.copyTo = function(src,dest) {
+Objects.copyTo = function(src,dst) {
 	$s.push("Objects::copyTo");
 	var $spos = $s.length;
 	var _g = 0, _g1 = Reflect.fields(src);
 	while(_g < _g1.length) {
 		var field = _g1[_g];
 		++_g;
-		var value = Reflect.field(src,field);
-		if(Reflect.isObject(value) && Reflect.isObject(Reflect.field(dest,field))) Objects.copyTo(value,Reflect.field(dest,field)); else dest[field] = value;
+		var sv = Dynamics.clone(Reflect.field(src,field));
+		var dv = Reflect.field(dst,field);
+		if(Reflect.isObject(sv) && null == Type.getClass(sv) && (Reflect.isObject(dv) && null == Type.getClass(dv))) Objects.copyTo(sv,dv); else dst[field] = sv;
 	}
 	$s.pop();
-	return dest;
+	return dst;
 	$s.pop();
 }
 Objects.clone = function(src) {
 	$s.push("Objects::clone");
 	var $spos = $s.length;
-	var dest = { };
-	Objects.copyTo(src,dest);
-	var $tmp = dest;
+	var dst = { };
+	Objects.copyTo(src,dst);
+	var $tmp = dst;
 	$s.pop();
 	return $tmp;
+	$s.pop();
+}
+Objects._flatten = function(src,cum,arr) {
+	$s.push("Objects::_flatten");
+	var $spos = $s.length;
+	var _g = 0, _g1 = Reflect.fields(src);
+	while(_g < _g1.length) {
+		var field = _g1[_g];
+		++_g;
+		var clone = Objects.clone(cum);
+		var v = Reflect.field(src,field);
+		clone.fields.push(field);
+		if(Reflect.isObject(v) && null == Type.getClass(v)) Objects._flatten(v,clone,arr); else {
+			clone.value = v;
+			arr.push(clone);
+		}
+	}
+	$s.pop();
+}
+Objects.flatten = function(src) {
+	$s.push("Objects::flatten");
+	var $spos = $s.length;
+	var arr = [];
+	var _g = 0, _g1 = Reflect.fields(src);
+	while(_g < _g1.length) {
+		var field = _g1[_g];
+		++_g;
+		var v = Reflect.field(src,field);
+		if(Reflect.isObject(v) && null == Type.getClass(v)) {
+			var item = { fields : [field], value : null};
+			Objects._flatten(v,item,arr);
+		} else arr.push({ fields : [field], value : v});
+	}
+	$s.pop();
+	return arr;
 	$s.pop();
 }
 Objects.prototype.__class__ = Objects;
@@ -22685,7 +23123,7 @@ TestInts.prototype.testInterpolate = function() {
 	$s.pop();
 }
 TestInts.prototype.__class__ = TestInts;
-thx.svg.LineInterpolator = { __ename__ : ["thx","svg","LineInterpolator"], __constructs__ : ["Linear","StepBefore","StepAfter","Basis","BasisClosed","Cardinal","CardinalClosed"] }
+thx.svg.LineInterpolator = { __ename__ : ["thx","svg","LineInterpolator"], __constructs__ : ["Linear","StepBefore","StepAfter","Basis","BasisOpen","BasisClosed","Cardinal","CardinalOpen","CardinalClosed","Monotone"] }
 thx.svg.LineInterpolator.Linear = ["Linear",0];
 thx.svg.LineInterpolator.Linear.toString = $estr;
 thx.svg.LineInterpolator.Linear.__enum__ = thx.svg.LineInterpolator;
@@ -22698,11 +23136,18 @@ thx.svg.LineInterpolator.StepAfter.__enum__ = thx.svg.LineInterpolator;
 thx.svg.LineInterpolator.Basis = ["Basis",3];
 thx.svg.LineInterpolator.Basis.toString = $estr;
 thx.svg.LineInterpolator.Basis.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.BasisClosed = ["BasisClosed",4];
+thx.svg.LineInterpolator.BasisOpen = ["BasisOpen",4];
+thx.svg.LineInterpolator.BasisOpen.toString = $estr;
+thx.svg.LineInterpolator.BasisOpen.__enum__ = thx.svg.LineInterpolator;
+thx.svg.LineInterpolator.BasisClosed = ["BasisClosed",5];
 thx.svg.LineInterpolator.BasisClosed.toString = $estr;
 thx.svg.LineInterpolator.BasisClosed.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.Cardinal = function(tension) { var $x = ["Cardinal",5,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
-thx.svg.LineInterpolator.CardinalClosed = function(tension) { var $x = ["CardinalClosed",6,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
+thx.svg.LineInterpolator.Cardinal = function(tension) { var $x = ["Cardinal",6,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
+thx.svg.LineInterpolator.CardinalOpen = function(tension) { var $x = ["CardinalOpen",7,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
+thx.svg.LineInterpolator.CardinalClosed = function(tension) { var $x = ["CardinalClosed",8,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
+thx.svg.LineInterpolator.Monotone = ["Monotone",9];
+thx.svg.LineInterpolator.Monotone.toString = $estr;
+thx.svg.LineInterpolator.Monotone.__enum__ = thx.svg.LineInterpolator;
 thx.data.TestValueEncoder = function(p) {
 	$s.push("thx.data.TestValueEncoder::new");
 	var $spos = $s.length;
@@ -24773,14 +25218,14 @@ var posProcess = function( selector, context ) {
 window.Sizzle = Sizzle;
 
 })();;
-	var s = window.Sizzle;
+	var s = (window.Sizzle || jQuery.find || $.find);
 	thx.js.Sizzle = s;
 	thx.js.Sizzle.select = s;
 }
 thx.svg.TestAll._renumber = new EReg("([+-]?\\d+(\\.\\d+)?(e-?\\d+)?)","");
 thx.csv.TestCsv.s = "Year,Make,Model,Description,Price\n1997,Ford,E350,\"ac, abs, moon\",3000.99\n1999,Chevy,\"Venture \"\"Extended Edition\"\"\",,4900.99\n1999,Chevy,\"Venture \"\"Extended Edition, Very Large\"\"\",,5000.99\n1996,Jeep,Grand Cherokee,\"MUST SELL!\nair, moon roof, loaded\",4799.99";
 thx.csv.TestCsv.v = [["Year","Make","Model","Description","Price"],[1997,"Ford","E350","ac, abs, moon",3000.99],[1999,"Chevy","Venture \"Extended Edition\"","",4900.99],[1999,"Chevy","Venture \"Extended Edition, Very Large\"","",5000.99],[1996,"Jeep","Grand Cherokee","MUST SELL!\nair, moon roof, loaded",4799.99]];
-Dates._reparse = new EReg("^\\d{4}-\\d\\d-\\d\\d(( |T)\\d\\d:\\d\\d:\\d\\d(.\\d{1,3})?)?$","");
+Dates._reparse = new EReg("^\\d{4}-\\d\\d-\\d\\d(( |T)\\d\\d:\\d\\d(:\\d\\d(\\.\\d{1,3})?)?)?Z?$","");
 js.Lib.onerror = null;
 thx.js.Dom.doc = (function() {
 	$s.push("thx.math.Equations::polynomialf");
@@ -24811,6 +25256,7 @@ Strings._reSplitWC = new EReg("(\r\n|\n\r|\n|\r)","g");
 Strings._reReduceWS = new EReg("\\s+","");
 Strings._reStripTags = new EReg("(<[a-z]+[^>/]*/?>|</[a-z]+>)","i");
 Strings._reFormat = new EReg("{(\\d+)(?::([a-zA-Z]+))?(?:,([^\"',}]+|'[^']+'|\"[^\"]+\"))?(?:,([^\"',}]+|'[^']+'|\"[^\"]+\"))?(?:,([^\"',}]+|'[^']+'|\"[^\"]+\"))?}","m");
+Strings._reCollapse = new EReg("\\s+","g");
 Strings.__ucwordsPattern = new EReg("[^a-zA-Z]([a-z])","");
 Strings.__ucwordswsPattern = new EReg("\\s([a-z])","");
 Strings.__alphaNumPattern = new EReg("^[a-z0-9]+$","i");

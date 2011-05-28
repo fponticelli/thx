@@ -4,7 +4,7 @@ package thx.js;
  * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
  */
-
+import thx.color.Rgb;
 import thx.js.Selection;
 
 class AccessStyle<That> extends Access<That>
@@ -31,7 +31,7 @@ class AccessStyle<That> extends Access<That>
 	{
 		var n = name;
 		if (null == priority)
-			priority = null;
+			priority = "";
 		selection.eachNode(function(node, i) untyped node.style.setProperty(n, v, priority));
 		return _that();
 	}
@@ -40,7 +40,16 @@ class AccessStyle<That> extends Access<That>
 		var s = "" + v,
 			n = name;
 		if (null == priority)
-			priority = null;
+			priority = "";
+		selection.eachNode(function(node, i) untyped node.style.setProperty(n, s, priority));
+		return _that();
+	}
+	public function color(v : Rgb, ?priority : String)
+	{
+		var s = v.toRgbString(),
+			n = name;
+		if (null == priority)
+			priority = "";
 		selection.eachNode(function(node, i) untyped node.style.setProperty(n, s, priority));
 		return _that();
 	}
@@ -57,7 +66,7 @@ class AccessDataStyle<T, That> extends AccessStyle<That>
 	{
 		var n = name;
 		if (null == priority)
-			priority = null;
+			priority = "";
 		selection.eachNode(function(node, i) {
 			var s = v(Access.getData(node), i);
 			if (s == null)
@@ -71,13 +80,27 @@ class AccessDataStyle<T, That> extends AccessStyle<That>
 	{
 		var n = name;
 		if (null == priority)
-			priority = null;
+			priority = "";
 		selection.eachNode(function(node, i) {
 			var s = v(Access.getData(node), i);
 			if (s == null)
 				untyped node.style.removeProperty(n);
 			else
 				untyped node.style.setProperty(n, "" + s, priority);
+		});
+		return _that();
+	}
+	public function colorf(v : T -> Int -> Null<Rgb>, ?priority : String)
+	{
+		var n = name;
+		if (null == priority)
+			priority = "";
+		selection.eachNode(function(node, i) {
+			var s = v(Access.getData(node), i);
+			if (s == null)
+				untyped node.style.removeProperty(n);
+			else
+				untyped node.style.setProperty(n, "" + s.toRgbString(), priority);
 		});
 		return _that();
 	}

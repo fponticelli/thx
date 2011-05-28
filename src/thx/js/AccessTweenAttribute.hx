@@ -98,12 +98,12 @@ class AccessDataTweenAttribute<T, That : BaseTransition<Dynamic>> extends Access
 
 	public function stringf(f : T -> Int -> String)
 	{
-		return stringNodef(function(n,i) return f(Access.getData(n),i));
+		return stringTweenNodef(transitionStringTweenf(function(n,i) return f(Access.getData(n),i)));
 	}
 	
 	public function floatf(f : T -> Int -> Float)
 	{
-		return floatNodef(function(n,i) return f(Access.getData(n),i));
+		return floatTweenNodef(transitionFloatTweenf(function(n,i) return f(Access.getData(n),i)));
 	}
 	
 	public function stringTweenf(tween : T -> Int -> String -> (Float -> String))

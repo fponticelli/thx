@@ -18,7 +18,7 @@ class LinearTime extends Linear
 		_usetimeticks = false;
 	}
 	
-	public static function guessGranularity(a : Float, b : Float, disc = 2)
+	public static function guessPeriodicity(a : Float, b : Float, disc = 2)
 	{
 		var delta = Math.abs(b - a);
 		if (delta >= DateTools.days(365 * disc))
@@ -34,30 +34,30 @@ class LinearTime extends Linear
 		else
 			return "minute";
 	}
-	static var validPeriods = ["minute", "hour", "day", "week", "month", "year"];
-	var _granularity : String;
+	static var valids = ["minute", "hour", "day", "week", "month", "year"];
+	var _periodicity : String;
 	
-	override public function domain(x0 : Float, x1 : Float) : Linear
+	override public function domain(d : Array<Float>) : Linear
 	{
-		super.domain(x0, x1);
-		_granularity = guessGranularity(this.x0, this.x1);
+		super.domain(d);
+		_periodicity = guessPeriodicity(d[0], d[1]);
 		return this;
 	}
 	
-	public function getGranularity() return _granularity
-	public function granularity(v : String)
+	public function getPeriodicity() return _periodicity
+	public function periodicity(v : String)
 	{
 		v = v.toLowerCase();
-		if (!validPeriods.exists(v))
-			throw new Error("invalid granularity '{0}'", v);
-		_granularity = v;
+		if (!valids.exists(v))
+			throw new Error("invalid periodicity '{0}'", v);
+		_periodicity = v;
 		return this;
 	}
 	
 	override public function tickFormat(v : Float, ?i : Int)
 	{
 		var d = Date.fromTime(v);
-		switch(_granularity) {
+		switch(_periodicity) {
 			case "minute":
 				return FormatDate.timeShort(d);
 			case "hour":
@@ -69,7 +69,7 @@ class LinearTime extends Linear
 			case "year":
 				return FormatDate.year(d);
 		};
-		return "invalid date granularity"; // should never happen
+		return "invalid date periodicity"; // should never happen
 	}
 
 	public function getUseTimeTicks() return _usetimeticks
@@ -94,10 +94,10 @@ class LinearTime extends Linear
 	
 	public function timeTicks()
 	{
-		var start = x0;
-		var stop = x1;
+		var start = Arrays.min(_domain);
+		var stop = Arrays.max(_domain);
 		var step = 0.0;
-		switch(_granularity)
+		switch(_periodicity)
 		{
 			case "minute":
 				step = 60000;

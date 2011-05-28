@@ -56,16 +56,16 @@ class Log extends NumericScale<Log>
 		return super.getDomain().map(function(d, _) return me.pow(d));
 	}
 	
-	override public function domain(x0 : Float, x1 : Float)
+	override public function domain(d : Array<Float>)
 	{
-		if (Floats.min(x0, x1) < 0) {
+		if (Arrays.min(d) < 0) {
 			log = _logn;
 			pow = _pown;
 		} else {
 			log = _log;
 			pow = _pow;
 		}
-		return super.domain(log(x0), log(x1));
+		return super.domain([log(d[0]), log(d[1])]);
 	}
 	
 	override public function ticks()

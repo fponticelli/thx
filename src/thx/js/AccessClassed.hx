@@ -6,6 +6,8 @@ package thx.js;
  */
 
 import thx.js.Selection;
+import thx.text.ERegs;
+import js.Dom;
 using Arrays;
 
 class AccessClassed<That> extends Access<That>
@@ -15,24 +17,81 @@ class AccessClassed<That> extends Access<That>
 		super(selection);
 	}
 
-	public function remove(v : String)
+	public function exists(name : String) : Bool
 	{
-		selection.eachNode(function(node, i) {
-			node.className = node.className.split(v).map(function(d, i) return StringTools.trim(d)).join(" ");
+		return selection.firstNode(function(node) {
+			var list = untyped node.classList;
+			if (null != list)
+				return list.contains(name);
+			var cls : String = node.className;
+			var re = getRe(name);
+			var bv : String = untyped cls.baseVal;
+			return re.match(null != bv ? bv : cls);
 		});
+	}
+	
+	public function remove(name : String)
+	{
+		selection.eachNode(callback(_remove, name));
 		return _that();
 	}
 	
-	public function add(v : String)
+	function _remove(name : String, node : HtmlDom, i : Int) {
+		var list = untyped node.classList;
+		if (null != list)
+		{
+			list.remove(name);
+			return;
+		}
+		
+		var cls : String = node.className,
+			clsb : Bool = untyped null != cls.baseVal,
+			clsv : String = clsb ? untyped cls.baseVal : cls;
+		
+		var re = getRe(name);
+		clsv = Strings.collapse(re.replace(clsv, " "));
+		if (clsb)
+		{
+			untyped cls.baseVal = clsv;
+		} else {
+			node.className = clsv;
+		}
+	}
+	
+	// @todo add tests for this
+	public function add(name : String)
 	{
-		selection.eachNode(function(node, i) {
-			var cls = node.className;
-			if (cls.indexOf(v) >= 0)
-				return;
-			node.className += (node.className.length > 0 ? " " : "") + v;
-		});
-
+		selection.eachNode(callback(_add, name));
 		return _that();
+	}
+	
+	function _add(name : String, node : HtmlDom, i : Int)
+	{
+		var list = untyped node.classList;
+		if (null != list)
+		{
+			list.add(name);
+			return;
+		}
+		
+		var cls : String = node.className,
+			clsb : Bool = untyped null != cls.baseVal,
+			clsv : String = clsb ? untyped cls.baseVal : cls;
+		
+		var re = getRe(name);
+		if (!re.match(clsv))
+		{
+			clsv = Strings.collapse(clsv + " " + name);
+			if (clsb)
+				untyped cls.baseVal = clsv;
+			else
+				node.className = clsv;
+		}
+	}
+	
+	inline static function getRe(name : String)
+	{
+		return new EReg("(^|\\s+)" + ERegs.escapeERegChars(name) + "(\\s+|$)", "g");
 	}
 }
 
@@ -41,5 +100,27 @@ class AccessDataClassed<T, That> extends AccessClassed<That>
 	public function new(selection : BoundSelection<T, That>)
 	{
 		super(selection);
+	}
+	
+	public function removef(v : T -> Int -> Null<String>)
+	{
+		var f = _remove;
+		selection.eachNode(function(node, i) {
+			var c = v(Access.getData(node), i);
+			if (null != c)
+				f(c, node, i);
+		});
+		return _that();
+	}
+	
+	public function addf(v : T -> Int -> Null<String>)
+	{
+		var f = _add;
+		selection.eachNode(function(node, i) {
+			var c = v(Access.getData(node), i);
+			if (null != c)
+				f(c, node, i);
+		});
+		return _that();
 	}
 }

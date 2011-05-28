@@ -36,7 +36,7 @@ class AccessText<That> extends Access<That>
 		return _that();
 	}
 	
-	public function stringfNode(v : HtmlDom -> Int -> Null<String>)
+	public function stringNodef(v : HtmlDom -> Int -> Null<String>)
 	{
 		clear();
 		selection.eachNode(function(node, i) {
@@ -46,7 +46,7 @@ class AccessText<That> extends Access<That>
 		return _that();
 	}
 	
-	public function floatNode(v : HtmlDom -> Int -> Null<Float>)
+	public function floatNodef(v : HtmlDom -> Int -> Null<Float>)
 	{
 		clear();
 		selection.eachNode(function(node, i) {

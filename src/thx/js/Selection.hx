@@ -202,9 +202,11 @@ class BoundSelection<T, This> extends BaseSelection<This>
 		return firstNode(function(n) return f(Access.getData(n)));
 	}
 	
-	public function on<T>(type : String, ?listener : T -> Int -> Void)
+	public function on<T>(type : String, ?listener : T -> Int -> Void, capture = false)
 	{
-		return onNode(type, null == listener ? null : function(n,i) listener(Access.getData(n),i));
+		return onNode(type, null == listener ? null : function(n, i) {
+			listener(Access.getData(n),i);
+		}, capture);
 	}
 }
 
@@ -489,7 +491,7 @@ class BaseSelection<This>
 	}
 	
 	// NODE EVENT
-	public function onNode(type : String, ?listener : HtmlDom -> Int -> Void)
+	public function onNode(type : String, ?listener : HtmlDom -> Int -> Void, capture = false)
 	{
 		var i = type.indexOf("."),
 			typo = i < 0 ? type : type.substr(0, i);
@@ -505,13 +507,13 @@ class BaseSelection<This>
 			}
 			if (Access.hasEvent(n, type))
 			{
-				untyped n.removeEventListener(typo, thx.js.Access.getEvent(n, type), false);
+				untyped n.removeEventListener(typo, thx.js.Access.getEvent(n, type), capture);
 				Access.removeEvent(n, type);
 			}
 			if (null != listener)
 			{
 				Access.addEvent(n, type, l);
-				untyped n.addEventListener(typo, l, false);
+				untyped n.addEventListener(typo, l, capture);
 			}
 		});
 	}

@@ -18,7 +18,7 @@ class TestPow extends TestAll
 	
 	public function testDomain12()
 	{
-		var scale = new Pow().exponent(2).domain(1, 2);
+		var scale = new Pow().exponent(2).domain([1.0, 2.0]);
 		var expected = [-0.25, 0.0, 0.417, 1.0, 1.75];
 		var values =   [ 0.5,  1.0, 1.5,   2.0, 2.5];
 		
@@ -36,18 +36,9 @@ class TestPow extends TestAll
 	
 	public function testSqrtDomain12()
 	{
-		var scale = Pow.sqrt().domain(1, 2);
+		var scale = Pow.sqrt().domain([1.0, 2.0]);
 		var expected = [-0.707, 0.0, 0.543, 1.0, 1.403];
 		var values =   [ 0.5,   1.0, 1.5,   2.0, 2.5];
-		
-		assertScale(scale.scale, expected, values);
-	}
-	
-	public function testSqrtDomain0n1()
-	{
-		var scale = Pow.sqrt().domain(0, -1);
-		var expected = [Math.NaN, 0.0,  0.5,   0.707, 1.0, 2.0];
-		var values =   [   0.5,   0.0, -0.25, -0.5,  -1.0,-4.0];
 		
 		assertScale(scale.scale, expected, values);
 	}

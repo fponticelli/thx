@@ -265,6 +265,12 @@ Other things to do. Nested placeholders
 #end
 	}
 	
+	static var _reCollapse = ~/\s+/g;
+	public static function collapse(value : String)
+	{
+		return _reCollapse.replace(StringTools.trim(value), " ");
+	}
+	
 	public static inline function ucfirst(value : String) : String
 	{
 		return (value == null ? null : value.charAt(0).toUpperCase() + value.substr(1));

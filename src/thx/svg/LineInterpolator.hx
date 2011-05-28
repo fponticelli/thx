@@ -11,7 +11,10 @@ enum LineInterpolator
 	StepBefore;
 	StepAfter;
 	Basis;
+	BasisOpen;
 	BasisClosed;
 	Cardinal(?tension : Float);
+	CardinalOpen(?tension : Float);
 	CardinalClosed(?tension : Float);
+	Monotone;
 }

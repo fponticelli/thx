@@ -14,7 +14,6 @@ class Timer
 	{
 		var now = Date.now().getTime(),
 			found = false,
-			start = now + delay,
 			t0,
 			t1 = queue;
 			
@@ -28,10 +27,7 @@ class Timer
 				t1.then = now;
 				t1.delay = delay;
 				found = true;
-			} else {
-				var x = t1.then + t1.delay;
-				if (x < start)
-					start = x;
+				break;
 			}
 			t0 = t1;
 			t1 = t1.next;
@@ -50,50 +46,72 @@ class Timer
 		
 		if (0 == interval)
 		{
-			untyped __js__("clearTimeout")(thx.js.Timer.timeout);
-			thx.js.Timer.timeout = untyped __js__("setTimeout")(thx.js.Timer.start, Math.max(24, start - now));
+			thx.js.Timer.timeout = untyped __js__("clearTimeout")(thx.js.Timer.timeout);
+			thx.js.Timer.interval = 1;
+			untyped window.requestAnimationFrame(thx.js.Timer._step);
 		}
 	}
 	
-	static var start = function()
-	{
-		interval = 1;
-		timeout = 0;
-		untyped js.Lib.window.requestAnimationFrame(_step);
-	}
-	
+	static var _step = step;
 	static function step()
 	{
 		var elapsed,
 			now = Date.now().getTime(),
-			t0 = null,
 			t1 = queue;
 		while (null != t1)
 		{
 			elapsed = now - t1.then;
 			if (elapsed > t1.delay)
 				t1.flush = t1.f(elapsed);
-			t1 = (t0 = t1).next;
+			t1 = t1.next;
 		}
-		flush();
-		if (0 != interval)
-			untyped js.Lib.window.requestAnimationFrame(_step);
+		
+		var delay = _flush() - now;
+		if (delay > 24)
+		{
+			if (Math.isFinite(delay))
+			{
+				untyped __js__("clearTimeout")(thx.js.Timer.timeout);
+				thx.js.Timer.timeout = untyped __js__("setTimeout")(thx.js.Timer._step, delay);
+			}
+			interval = 0;
+		} else {
+			interval = 1;
+			untyped window.requestAnimationFrame(thx.js.Timer._step);
+		}
 	}
 	
-	static var _step = step;
-	
-	static function flush()
+	public static function flush()
 	{
-		var t0 = null,
+		var elapsed,
+			now = Date.now().getTime(),
 			t1 = queue;
 		while (null != t1)
 		{
-			t1 = t1.flush
-				? (null != t0 ? t0.next = t1.next : queue = t1.next)
-				: (t0 = t1).next;
+			elapsed = now - t1.then;
+			if (t1.delay == 0) t1.flush = t1.f(elapsed);
+			t1 = t1.next;
 		}
-		if (null == t0)
-			interval = 0;
+		
+		_flush();
+	}
+	
+	static function _flush()
+	{
+		var t0 = null,
+			t1 = queue,
+			then = Math.POSITIVE_INFINITY;
+		while (null != t1)
+		{
+			if (t1.flush)
+			{
+				t1 = null != t0 ? t0.next = t1.next : queue = t1.next;
+			} else {
+				then = Math.min(then, t1.then + t1.delay);
+				t1 = (t0 = t1).next;
+			}
+		}
+		return then;
 	}
 	
 	static function __init__()

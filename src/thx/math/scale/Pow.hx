@@ -39,13 +39,13 @@ class Pow extends NumericScale<Pow>
 		return super.getDomain().map(function(d, _) return me.powb(d));
 	}
 	
-	override public function domain(x0 : Float, x1 : Float)
+	override public function domain(d : Array<Float>)
 	{
-		var pow : Float -> (Float -> Float) = (Floats.min(x0, x1) < 0 ? _pown : _pow);
+		var pow : Float -> (Float -> Float) = (Arrays.min(d) < 0 ? _pown : _pow);
 		powp = pow(_exponent);
 		powb = pow(1.0 / _exponent);
-		super.domain(powp(x0), powp(x1));
-		tick.domain(x0, x1);
+		super.domain([powp(d[0]), powp(d[1])]);
+		tick.domain(d);
 		return this;
 	}
 
@@ -73,9 +73,9 @@ class Pow extends NumericScale<Pow>
 	
 	public function exponent(x : Float)
 	{
-		var dom = getDomain();
+		var d = getDomain();
 		_exponent = x;
-		domain(dom[0], dom[1]);
+		domain(d);
 		return this;
 	}
 	
