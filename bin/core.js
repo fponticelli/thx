@@ -2626,18 +2626,6 @@ Dates.parse = function(s) {
 	return date;
 	$s.pop();
 }
-Dates.byDayOfTheWeek = function(year,month,weekday,pos) {
-	$s.push("Dates::byDayOfTheWeek");
-	var $spos = $s.length;
-	if(pos == null) pos = 0;
-	var d = new Date(year,month,1,0,0,0), wd = d.getDay();
-	if(wd > weekday) pos++;
-	var span = pos * DateTools.days(7) + DateTools.days(weekday - wd);
-	var $tmp = DateTools.delta(d,span);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
 Dates.prototype.__class__ = Dates;
 thx.validation.DateRangeValidator = function(min,max,mininclusive,maxinclusive) {
 	if( min === $_ ) return;
@@ -3168,17 +3156,6 @@ TestDates.prototype.testCanParse = function() {
 	utest.Assert.isTrue(Dates.canParse("2010-10-01T05:05:05"),null,{ fileName : "TestDates.hx", lineNumber : 13, className : "TestDates", methodName : "testCanParse"});
 	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05:05.005"),null,{ fileName : "TestDates.hx", lineNumber : 14, className : "TestDates", methodName : "testCanParse"});
 	utest.Assert.isTrue(Dates.canParse("2011-05-23T17:45"),null,{ fileName : "TestDates.hx", lineNumber : 16, className : "TestDates", methodName : "testCanParse"});
-	$s.pop();
-}
-TestDates.prototype.testDateBydayOfTheWeek = function() {
-	$s.push("TestDates::testDateBydayOfTheWeek");
-	var $spos = $s.length;
-	var d = Dates.byDayOfTheWeek(1972,4,0);
-	utest.Assert.same(Date.fromString("1972-05-07"),d,null,null,{ fileName : "TestDates.hx", lineNumber : 22, className : "TestDates", methodName : "testDateBydayOfTheWeek"});
-	d = Dates.byDayOfTheWeek(1972,4,0,2);
-	utest.Assert.same(Date.fromString("1972-05-21"),d,null,null,{ fileName : "TestDates.hx", lineNumber : 25, className : "TestDates", methodName : "testDateBydayOfTheWeek"});
-	d = Dates.byDayOfTheWeek(1972,4,4,2);
-	utest.Assert.same(Date.fromString("1972-05-18"),d,null,null,{ fileName : "TestDates.hx", lineNumber : 28, className : "TestDates", methodName : "testDateBydayOfTheWeek"});
 	$s.pop();
 }
 TestDates.prototype.__class__ = TestDates;
@@ -13821,202 +13798,6 @@ thx.math.scale.TestLog.prototype.testInvert12 = function() {
 	$s.pop();
 }
 thx.math.scale.TestLog.prototype.__class__ = thx.math.scale.TestLog;
-DateTools = function() { }
-DateTools.__name__ = ["DateTools"];
-DateTools.__format_get = function(d,e) {
-	$s.push("DateTools::__format_get");
-	var $spos = $s.length;
-	var $tmp = (function($this) {
-		var $r;
-		switch(e) {
-		case "%":
-			$r = "%";
-			break;
-		case "C":
-			$r = StringTools.lpad(Std.string(Std["int"](d.getFullYear() / 100)),"0",2);
-			break;
-		case "d":
-			$r = StringTools.lpad(Std.string(d.getDate()),"0",2);
-			break;
-		case "D":
-			$r = DateTools.__format(d,"%m/%d/%y");
-			break;
-		case "e":
-			$r = Std.string(d.getDate());
-			break;
-		case "H":case "k":
-			$r = StringTools.lpad(Std.string(d.getHours()),e == "H"?"0":" ",2);
-			break;
-		case "I":case "l":
-			$r = (function($this) {
-				var $r;
-				var hour = d.getHours() % 12;
-				$r = StringTools.lpad(Std.string(hour == 0?12:hour),e == "I"?"0":" ",2);
-				return $r;
-			}($this));
-			break;
-		case "m":
-			$r = StringTools.lpad(Std.string(d.getMonth() + 1),"0",2);
-			break;
-		case "M":
-			$r = StringTools.lpad(Std.string(d.getMinutes()),"0",2);
-			break;
-		case "n":
-			$r = "\n";
-			break;
-		case "p":
-			$r = d.getHours() > 11?"PM":"AM";
-			break;
-		case "r":
-			$r = DateTools.__format(d,"%I:%M:%S %p");
-			break;
-		case "R":
-			$r = DateTools.__format(d,"%H:%M");
-			break;
-		case "s":
-			$r = Std.string(Std["int"](d.getTime() / 1000));
-			break;
-		case "S":
-			$r = StringTools.lpad(Std.string(d.getSeconds()),"0",2);
-			break;
-		case "t":
-			$r = "\t";
-			break;
-		case "T":
-			$r = DateTools.__format(d,"%H:%M:%S");
-			break;
-		case "u":
-			$r = (function($this) {
-				var $r;
-				var t = d.getDay();
-				$r = t == 0?"7":Std.string(t);
-				return $r;
-			}($this));
-			break;
-		case "w":
-			$r = Std.string(d.getDay());
-			break;
-		case "y":
-			$r = StringTools.lpad(Std.string(d.getFullYear() % 100),"0",2);
-			break;
-		case "Y":
-			$r = Std.string(d.getFullYear());
-			break;
-		default:
-			$r = (function($this) {
-				var $r;
-				throw "Date.format %" + e + "- not implemented yet.";
-				return $r;
-			}($this));
-		}
-		return $r;
-	}(this));
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-DateTools.__format = function(d,f) {
-	$s.push("DateTools::__format");
-	var $spos = $s.length;
-	var r = new StringBuf();
-	var p = 0;
-	while(true) {
-		var np = f.indexOf("%",p);
-		if(np < 0) break;
-		r.b[r.b.length] = f.substr(p,np - p);
-		r.b[r.b.length] = DateTools.__format_get(d,f.substr(np + 1,1));
-		p = np + 2;
-	}
-	r.b[r.b.length] = f.substr(p,f.length - p);
-	var $tmp = r.b.join("");
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-DateTools.format = function(d,f) {
-	$s.push("DateTools::format");
-	var $spos = $s.length;
-	var $tmp = DateTools.__format(d,f);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-DateTools.delta = function(d,t) {
-	$s.push("DateTools::delta");
-	var $spos = $s.length;
-	var $tmp = Date.fromTime(d.getTime() + t);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-DateTools.getMonthDays = function(d) {
-	$s.push("DateTools::getMonthDays");
-	var $spos = $s.length;
-	var month = d.getMonth();
-	var year = d.getFullYear();
-	if(month != 1) {
-		var $tmp = DateTools.DAYS_OF_MONTH[month];
-		$s.pop();
-		return $tmp;
-	}
-	var isB = year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
-	var $tmp = isB?29:28;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-DateTools.seconds = function(n) {
-	$s.push("DateTools::seconds");
-	var $spos = $s.length;
-	var $tmp = n * 1000.0;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-DateTools.minutes = function(n) {
-	$s.push("DateTools::minutes");
-	var $spos = $s.length;
-	var $tmp = n * 60.0 * 1000.0;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-DateTools.hours = function(n) {
-	$s.push("DateTools::hours");
-	var $spos = $s.length;
-	var $tmp = n * 60.0 * 60.0 * 1000.0;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-DateTools.days = function(n) {
-	$s.push("DateTools::days");
-	var $spos = $s.length;
-	var $tmp = n * 24.0 * 60.0 * 60.0 * 1000.0;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-DateTools.parse = function(t) {
-	$s.push("DateTools::parse");
-	var $spos = $s.length;
-	var s = t / 1000;
-	var m = s / 60;
-	var h = m / 60;
-	var $tmp = { ms : t % 1000, seconds : Std["int"](s % 60), minutes : Std["int"](m % 60), hours : Std["int"](h % 24), days : Std["int"](h / 24)};
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-DateTools.make = function(o) {
-	$s.push("DateTools::make");
-	var $spos = $s.length;
-	var $tmp = o.ms + 1000.0 * (o.seconds + 60.0 * (o.minutes + 60.0 * (o.hours + 24.0 * o.days)));
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-DateTools.prototype.__class__ = DateTools;
 thx.math.scale.TestOrdinal = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.math.scale.TestOrdinal::new");
@@ -25914,7 +25695,6 @@ Xml.eclose = new EReg("^[ \r\n\t]*(>|(/>))","");
 Xml.ecdata_end = new EReg("\\]\\]>","");
 Xml.edoctype_elt = new EReg("[\\[|\\]>]","");
 Xml.ecomment_end = new EReg("-->","");
-DateTools.DAYS_OF_MONTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 thx.math.scale.TestOrdinal.data = [4,8,16,32,64];
 thx.validation.EmailValidator._reEmail = new EReg("^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$","i");
 thx.validation.EmailValidator._reEmailDomain = new EReg("\\.(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$","i");

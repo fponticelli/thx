@@ -149,14 +149,4 @@ class Dates
 			date = Date.fromTime(date.getTime() + Std.parseInt(parts[1]));
 		return date;
 	}
-	
-	public static function byDayOfTheWeek(year : Int, month : Int, weekday : Int, pos = 0)
-	{
-		var d = new Date(year, month, 1, 0, 0, 0),
-			wd = d.getDay();
-		if (wd > weekday)
-			pos++;
-		var span = pos * DateTools.days(7) + DateTools.days(weekday - wd);
-		return DateTools.delta(d, span);
-	}
 }
