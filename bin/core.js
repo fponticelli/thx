@@ -2626,6 +2626,18 @@ Dates.parse = function(s) {
 	return date;
 	$s.pop();
 }
+Dates.byDayOfTheWeek = function(year,month,weekday,pos) {
+	$s.push("Dates::byDayOfTheWeek");
+	var $spos = $s.length;
+	if(pos == null) pos = 0;
+	var d = new Date(year,month,1,0,0,0), wd = d.getDay();
+	if(wd > weekday) pos++;
+	var span = pos * DateTools.days(7) + DateTools.days(weekday - wd);
+	var $tmp = DateTools.delta(d,span);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 Dates.prototype.__class__ = Dates;
 thx.validation.DateRangeValidator = function(min,max,mininclusive,maxinclusive) {
 	if( min === $_ ) return;
@@ -3148,14 +3160,25 @@ TestDates.__name__ = ["TestDates"];
 TestDates.prototype.testCanParse = function() {
 	$s.push("TestDates::testCanParse");
 	var $spos = $s.length;
-	utest.Assert.isTrue(Dates.canParse("2010-10-01"),null,{ fileName : "TestDates.hx", lineNumber : 7, className : "TestDates", methodName : "testCanParse"});
-	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05"),null,{ fileName : "TestDates.hx", lineNumber : 8, className : "TestDates", methodName : "testCanParse"});
-	utest.Assert.isTrue(Dates.canParse("2010-10-01T05:05Z"),null,{ fileName : "TestDates.hx", lineNumber : 9, className : "TestDates", methodName : "testCanParse"});
-	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05:05"),null,{ fileName : "TestDates.hx", lineNumber : 10, className : "TestDates", methodName : "testCanParse"});
-	utest.Assert.isTrue(Dates.canParse("2010-10-01T05:05:05Z"),null,{ fileName : "TestDates.hx", lineNumber : 11, className : "TestDates", methodName : "testCanParse"});
-	utest.Assert.isTrue(Dates.canParse("2010-10-01T05:05:05"),null,{ fileName : "TestDates.hx", lineNumber : 12, className : "TestDates", methodName : "testCanParse"});
-	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05:05.005"),null,{ fileName : "TestDates.hx", lineNumber : 13, className : "TestDates", methodName : "testCanParse"});
-	utest.Assert.isTrue(Dates.canParse("2011-05-23T17:45"),null,{ fileName : "TestDates.hx", lineNumber : 15, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01"),null,{ fileName : "TestDates.hx", lineNumber : 8, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05"),null,{ fileName : "TestDates.hx", lineNumber : 9, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01T05:05Z"),null,{ fileName : "TestDates.hx", lineNumber : 10, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05:05"),null,{ fileName : "TestDates.hx", lineNumber : 11, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01T05:05:05Z"),null,{ fileName : "TestDates.hx", lineNumber : 12, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01T05:05:05"),null,{ fileName : "TestDates.hx", lineNumber : 13, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2010-10-01 05:05:05.005"),null,{ fileName : "TestDates.hx", lineNumber : 14, className : "TestDates", methodName : "testCanParse"});
+	utest.Assert.isTrue(Dates.canParse("2011-05-23T17:45"),null,{ fileName : "TestDates.hx", lineNumber : 16, className : "TestDates", methodName : "testCanParse"});
+	$s.pop();
+}
+TestDates.prototype.testDateBydayOfTheWeek = function() {
+	$s.push("TestDates::testDateBydayOfTheWeek");
+	var $spos = $s.length;
+	var d = Dates.byDayOfTheWeek(1972,4,0);
+	utest.Assert.same(Date.fromString("1972-05-07"),d,null,null,{ fileName : "TestDates.hx", lineNumber : 22, className : "TestDates", methodName : "testDateBydayOfTheWeek"});
+	d = Dates.byDayOfTheWeek(1972,4,0,2);
+	utest.Assert.same(Date.fromString("1972-05-21"),d,null,null,{ fileName : "TestDates.hx", lineNumber : 25, className : "TestDates", methodName : "testDateBydayOfTheWeek"});
+	d = Dates.byDayOfTheWeek(1972,4,4,2);
+	utest.Assert.same(Date.fromString("1972-05-18"),d,null,null,{ fileName : "TestDates.hx", lineNumber : 28, className : "TestDates", methodName : "testDateBydayOfTheWeek"});
 	$s.pop();
 }
 TestDates.prototype.__class__ = TestDates;
@@ -5726,6 +5749,326 @@ thx.math.scale.TestPow.prototype.testSqrtDomain12 = function() {
 	$s.pop();
 }
 thx.math.scale.TestPow.prototype.__class__ = thx.math.scale.TestPow;
+thx.cultures.EnUS = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.cultures.EnUS::new");
+	var $spos = $s.length;
+	this.language = thx.languages.En.getLanguage();
+	this.name = "en-US";
+	this.english = "English (United States)";
+	this["native"] = "English (United States)";
+	this.date = new thx.culture.core.DateTimeInfo(["January","February","March","April","May","June","July","August","September","October","November","December",""],["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec",""],["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],["Su","Mo","Tu","We","Th","Fr","Sa"],"AM","PM","/",":",0,"%B, %Y","%B %d","%A, %B %d, %Y","%f/%e/%Y","%a, %d %b %Y %H:%M:%S GMT","%A, %B %d, %Y %l:%M:%S %p","%Y-%m-%d %H:%M:%SZ","%Y-%m-%dT%H:%M:%S","%l:%M:%S %p","%l:%M %p");
+	this.symbolNaN = "NaN";
+	this.symbolPercent = "%";
+	this.symbolPermille = "‰";
+	this.signNeg = "-";
+	this.signPos = "+";
+	this.symbolNegInf = "-Infinity";
+	this.symbolPosInf = "Infinity";
+	this.number = new thx.culture.core.NumberInfo(2,".",[3],",","-n","n");
+	this.currency = new thx.culture.core.NumberInfo(2,".",[3],",","($n)","$n");
+	this.percent = new thx.culture.core.NumberInfo(2,".",[3],",","-n %","n %");
+	this.pluralRule = 1;
+	this.englishCurrency = "US Dollar";
+	this.nativeCurrency = "US Dollar";
+	this.currencySymbol = "$";
+	this.currencyIso = "USD";
+	this.englishRegion = "United States";
+	this.nativeRegion = "United States";
+	this.iso2 = "US";
+	this.iso3 = "USA";
+	this.isMetric = false;
+	thx.culture.Culture.add(this);
+	$s.pop();
+}
+thx.cultures.EnUS.__name__ = ["thx","cultures","EnUS"];
+thx.cultures.EnUS.__super__ = thx.culture.Culture;
+for(var k in thx.culture.Culture.prototype ) thx.cultures.EnUS.prototype[k] = thx.culture.Culture.prototype[k];
+thx.cultures.EnUS.culture = null;
+thx.cultures.EnUS.getCulture = function() {
+	$s.push("thx.cultures.EnUS::getCulture");
+	var $spos = $s.length;
+	if(null == thx.cultures.EnUS.culture) thx.cultures.EnUS.culture = new thx.cultures.EnUS();
+	var $tmp = thx.cultures.EnUS.culture;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.cultures.EnUS.prototype.__class__ = thx.cultures.EnUS;
+if(!thx.date) thx.date = {}
+thx.date.DateParser = function() { }
+thx.date.DateParser.__name__ = ["thx","date","DateParser"];
+thx.date.DateParser.parse = function(s,d) {
+	$s.push("thx.date.DateParser::parse");
+	var $spos = $s.length;
+	var time = thx.date.DateParser.parseTime(s), v;
+	if(null == d) d = Date.now();
+	s = StringTools.replace(s,time.matched,"");
+	var year = 0, month = 0, day = 0;
+	if(thx.date.DateParser.dateexp.match(s)) {
+		s = StringTools.replace(s,thx.date.DateParser.dateexp.matched(0),"");
+		if(null != (v = thx.date.DateParser.dateexp.matched(1))) {
+			day = Std.parseInt(thx.date.DateParser.dateexp.matched(2));
+			month = thx.date.DateParser.months.indexOf(v.toLowerCase());
+			year = null != (v = thx.date.DateParser.dateexp.matched(3))?thx.date.DateParser.fixyear(Std.parseInt(v)):d.getFullYear();
+		} else if(null != (v = thx.date.DateParser.dateexp.matched(4))) {
+			day = Std.parseInt(thx.date.DateParser.dateexp.matched(5));
+			month = thx.date.DateParser.shortmonths.indexOf(v.toLowerCase());
+			year = null != (v = thx.date.DateParser.dateexp.matched(6))?thx.date.DateParser.fixyear(Std.parseInt(v)):d.getFullYear();
+		} else if(null != (v = thx.date.DateParser.dateexp.matched(8))) {
+			month = thx.date.DateParser.months.indexOf(v.toLowerCase());
+			day = null != (v = thx.date.DateParser.dateexp.matched(7))?Std.parseInt(v):1;
+			year = null != (v = thx.date.DateParser.dateexp.matched(9))?thx.date.DateParser.fixyear(Std.parseInt(v)):d.getFullYear();
+		} else if(null != (v = thx.date.DateParser.dateexp.matched(11))) {
+			month = thx.date.DateParser.shortmonths.indexOf(v.toLowerCase());
+			day = null != (v = thx.date.DateParser.dateexp.matched(10))?Std.parseInt(v):1;
+			year = null != (v = thx.date.DateParser.dateexp.matched(12))?thx.date.DateParser.fixyear(Std.parseInt(v)):d.getFullYear();
+		} else if(null != (v = thx.date.DateParser.dateexp.matched(14))) {
+			month = thx.date.DateParser.months.indexOf(v.toLowerCase());
+			day = null != (v = thx.date.DateParser.dateexp.matched(13))?Std.parseInt(v):1;
+			year = null != (v = thx.date.DateParser.dateexp.matched(15))?thx.date.DateParser.fixyear(Std.parseInt(v)):d.getFullYear();
+		} else if(null != (v = thx.date.DateParser.dateexp.matched(17))) {
+			month = thx.date.DateParser.shortmonths.indexOf(v.toLowerCase());
+			day = null != (v = thx.date.DateParser.dateexp.matched(16))?Std.parseInt(v):1;
+			year = null != (v = thx.date.DateParser.dateexp.matched(18))?thx.date.DateParser.fixyear(Std.parseInt(v)):d.getFullYear();
+		} else if(null != (v = thx.date.DateParser.dateexp.matched(19))) {
+			day = Std.parseInt(thx.date.DateParser.dateexp.matched(20));
+			month = Std.parseInt(v) - 1;
+			year = null != (v = thx.date.DateParser.dateexp.matched(21))?thx.date.DateParser.fixyear(Std.parseInt(v)):d.getFullYear();
+		} else if(null != (v = thx.date.DateParser.dateexp.matched(23))) {
+			day = Std.parseInt(thx.date.DateParser.dateexp.matched(22));
+			month = Std.parseInt(v) - 1;
+			year = null != (v = thx.date.DateParser.dateexp.matched(24))?thx.date.DateParser.fixyear(Std.parseInt(v)):d.getFullYear();
+		} else if(null != (v = thx.date.DateParser.dateexp.matched(25))) {
+			year = thx.date.DateParser.fixyear(Std.parseInt(v));
+			day = Std.parseInt(thx.date.DateParser.dateexp.matched(27));
+			month = Std.parseInt(thx.date.DateParser.dateexp.matched(26)) - 1;
+		} else if(null != (v = thx.date.DateParser.dateexp.matched(28))) {
+			year = d.getFullYear();
+			day = Std.parseInt(v);
+			month = d.getMonth();
+		}
+	} else if(thx.date.DateParser.absdateexp.match(s)) {
+		s = StringTools.replace(s,thx.date.DateParser.absdateexp.matched(0),"");
+		year = d.getFullYear();
+		month = d.getMonth();
+		day = d.getDate();
+		if(null != (v = thx.date.DateParser.absdateexp.matched(1))) switch(v.toLowerCase()) {
+		case "now":case "this second":
+			if(null == time.matched) {
+				time.hour = d.getHours();
+				time.minute = d.getMinutes();
+				time.second = d.getSeconds();
+			}
+			break;
+		case "tomorrow":
+			day += 1;
+			break;
+		case "yesterday":
+			day -= 1;
+			break;
+		} else if(null != (v = thx.date.DateParser.absdateexp.matched(3))) {
+			var t = thx.date.DateParser.absdateexp.matched(2), v1 = thx.date.DateParser.months.indexOf(v.toLowerCase());
+			if(v1 == month) year += thx.date.DateParser.last(t)?-1:thx.date.DateParser.next(t)?1:0; else if(v1 > month) year += thx.date.DateParser.last(t)?-1:0; else year += thx.date.DateParser.next(t)?1:0;
+			month = v1;
+			day = 1;
+		} else if(null != (v = thx.date.DateParser.absdateexp.matched(5))) {
+			var t = thx.date.DateParser.absdateexp.matched(4), v1 = thx.date.DateParser.days.indexOf(v.toLowerCase());
+			var wd = d.getDay();
+			if(v1 == wd) day += thx.date.DateParser.last(t)?-7:thx.date.DateParser.next(t)?7:0; else if(v1 > wd) day += v1 - wd + (thx.date.DateParser.last(t)?-7:0); else day += v1 - wd + (thx.date.DateParser.next(t)?7:0);
+		} else if(null != (v = thx.date.DateParser.absdateexp.matched(7))) {
+			var t = thx.date.DateParser.absdateexp.matched(6), v1 = thx.date.DateParser.shortmonths.indexOf(v.toLowerCase());
+			if(v1 == month) year += thx.date.DateParser.last(t)?-1:thx.date.DateParser.next(t)?1:0; else if(v1 > month) year += thx.date.DateParser.last(t)?-1:0; else year += thx.date.DateParser.next(t)?1:0;
+			month = v1;
+			day = 1;
+		} else if(null != (v = thx.date.DateParser.absdateexp.matched(9))) {
+			var t = thx.date.DateParser.absdateexp.matched(8), v1 = thx.date.DateParser.shortdays.indexOf(v.toLowerCase());
+			var wd = d.getDay();
+			if(v1 == wd) day += thx.date.DateParser.last(t)?-7:thx.date.DateParser.next(t)?7:0; else if(v1 > wd) day += v1 - wd + (thx.date.DateParser.last(t)?-7:0); else day += v1 - wd + (thx.date.DateParser.next(t)?7:0);
+		}
+		if(null == time.matched) time.matched = "x";
+	} else {
+		year = d.getFullYear();
+		month = d.getMonth();
+		day = d.getDate();
+	}
+	while(thx.date.DateParser.relexp.match(s)) {
+		s = StringTools.replace(s,thx.date.DateParser.relexp.matched(0),"");
+		var dir = thx.date.DateParser.relexp.matched(1), qt, period;
+		if(null != dir) {
+			qt = null != (v = thx.date.DateParser.relexp.matched(2))?Std.parseInt(v):1;
+			period = thx.date.DateParser.relexp.matched(3);
+		} else {
+			period = thx.date.DateParser.relexp.matched(5);
+			if(null == period) break;
+			qt = null != (v = thx.date.DateParser.relexp.matched(4))?Std.parseInt(v):1;
+			dir = null != (v = thx.date.DateParser.relexp.matched(6))?v:"after";
+		}
+		dir = dir.toLowerCase();
+		switch(dir) {
+		case "plus":case "+":case "from":case "hence":case "after":
+			break;
+		case "minus":case "-":case "before":case "ago":
+			qt = -qt;
+			break;
+		}
+		switch(dir) {
+		case "ago":case "in":
+			if(null == time.matched) {
+				time.hour = d.getHours();
+				time.minute = d.getMinutes();
+				time.second = d.getSeconds();
+				time.matched = "x";
+			}
+			break;
+		}
+		switch(period.toLowerCase()) {
+		case "second":case "seconds":
+			time.second += qt;
+			break;
+		case "minute":case "minutes":
+			time.minute += qt;
+			break;
+		case "hour":case "hours":
+			time.hour += qt;
+			break;
+		case "day":case "days":
+			day += qt;
+			break;
+		case "week":case "weeks":
+			day += qt * 7;
+			break;
+		case "month":case "months":
+			month += qt;
+			break;
+		case "year":case "years":
+			year += qt;
+			break;
+		}
+	}
+	var $tmp = Date.fromTime(new Date(year,month,day,time.hour,time.minute,time.second).getTime() + time.millis);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.date.DateParser.parseTime = function(s) {
+	$s.push("thx.date.DateParser::parseTime");
+	var $spos = $s.length;
+	var result = { hour : 0, minute : 0, second : 0, millis : 0.0, matched : null};
+	if(!thx.date.DateParser.timeexp.match(s)) {
+		$s.pop();
+		return result;
+	}
+	result.matched = thx.date.DateParser.timeexp.matched(0);
+	var v;
+	if(null != (v = thx.date.DateParser.timeexp.matched(1))) {
+		result.hour = Std.parseInt(v) + thx.date.DateParser.plusPm(thx.date.DateParser.timeexp.matched(3));
+		result.minute = Std.parseInt(thx.date.DateParser.timeexp.matched(2));
+	} else if(null != (v = thx.date.DateParser.timeexp.matched(4))) {
+		result.hour = Std.parseInt(v);
+		result.minute = Std.parseInt(thx.date.DateParser.timeexp.matched(5));
+		if(null != (v = thx.date.DateParser.timeexp.matched(6))) result.second = Std.parseInt(v);
+		if(null != (v = thx.date.DateParser.timeexp.matched(7))) result.millis = Std.parseFloat(v) / 1000;
+	} else if(null != (v = thx.date.DateParser.timeexp.matched(8))) {
+		result.hour = Std.parseInt(v) + thx.date.DateParser.plusPm(thx.date.DateParser.timeexp.matched(10));
+		result.minute = Std.parseInt(thx.date.DateParser.timeexp.matched(9));
+	} else if(null != (v = thx.date.DateParser.timeexp.matched(11))) result.hour = Std.parseInt(v) + thx.date.DateParser.plusPm(thx.date.DateParser.timeexp.matched(12)); else if(null != (v = thx.date.DateParser.timeexp.matched(13))) switch(v.toLowerCase()) {
+	case "evening":
+		result.hour = 17;
+		break;
+	case "morning":
+		result.hour = 8;
+		break;
+	case "afternoon":
+		result.hour = 14;
+		break;
+	case "sunsrise":case "dawn":
+		result.hour = 6;
+		break;
+	case "sunset":case "dusk":
+		result.hour = 19;
+		break;
+	case "noon":case "midday":case "mid-day":
+		result.hour = 12;
+		break;
+	case "mid-night":case "midnight":
+		result.hour = 23;
+		result.minute = 59;
+		result.second = 59;
+		result.millis = 0.999;
+		break;
+	} else throw new thx.error.Error("failed to parse time for '{0}'",null,s,{ fileName : "DateParser.hx", lineNumber : 400, className : "thx.date.DateParser", methodName : "parseTime"});
+	$s.pop();
+	return result;
+	$s.pop();
+}
+thx.date.DateParser.fixyear = function(y) {
+	$s.push("thx.date.DateParser::fixyear");
+	var $spos = $s.length;
+	if(y < 70) {
+		var $tmp = 2000 + y;
+		$s.pop();
+		return $tmp;
+	} else if(y < 100) {
+		var $tmp = 1900 + y;
+		$s.pop();
+		return $tmp;
+	} else {
+		$s.pop();
+		return y;
+	}
+	$s.pop();
+}
+thx.date.DateParser.last = function(s) {
+	$s.push("thx.date.DateParser::last");
+	var $spos = $s.length;
+	if(null == s) {
+		$s.pop();
+		return false;
+	} else {
+		var $tmp = "last" == s.toLowerCase();
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+thx.date.DateParser.next = function(s) {
+	$s.push("thx.date.DateParser::next");
+	var $spos = $s.length;
+	if(null == s) {
+		$s.pop();
+		return true;
+	} else {
+		var $tmp = "next" == s.toLowerCase();
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+thx.date.DateParser.plusPm = function(s) {
+	$s.push("thx.date.DateParser::plusPm");
+	var $spos = $s.length;
+	if(null == s) {
+		$s.pop();
+		return 0;
+	} else {
+		var $tmp = (function($this) {
+			var $r;
+			switch(s.toLowerCase()) {
+			case "pm":case "evening":case "afternoon":
+				$r = 12;
+				break;
+			default:
+				$r = 0;
+			}
+			return $r;
+		}(this));
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+thx.date.DateParser.prototype.__class__ = thx.date.DateParser;
 if(!thx.languages) thx.languages = {}
 thx.languages.En = function(p) {
 	if( p === $_ ) return;
@@ -6037,6 +6380,28 @@ thx.color.TestHsl.prototype.testBasics = function() {
 	$s.pop();
 }
 thx.color.TestHsl.prototype.__class__ = thx.color.TestHsl;
+thx.date.TestAll = function(p) {
+	$s.push("thx.date.TestAll::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.date.TestAll.__name__ = ["thx","date","TestAll"];
+thx.date.TestAll.addTests = function(runner) {
+	$s.push("thx.date.TestAll::addTests");
+	var $spos = $s.length;
+	runner.addCase(new thx.date.TestDateParser());
+	$s.pop();
+}
+thx.date.TestAll.main = function() {
+	$s.push("thx.date.TestAll::main");
+	var $spos = $s.length;
+	var runner = new utest.Runner();
+	thx.date.TestAll.addTests(runner);
+	utest.ui.Report.create(runner);
+	runner.run();
+	$s.pop();
+}
+thx.date.TestAll.prototype.__class__ = thx.date.TestAll;
 thx.math.scale.TestQuantile = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.math.scale.TestQuantile::new");
@@ -10030,52 +10395,6 @@ thx.json._JsonDecoder.StreamError = { __ename__ : ["thx","json","_JsonDecoder","
 thx.json._JsonDecoder.StreamError.Eof = ["Eof",0];
 thx.json._JsonDecoder.StreamError.Eof.toString = $estr;
 thx.json._JsonDecoder.StreamError.Eof.__enum__ = thx.json._JsonDecoder.StreamError;
-thx.cultures.EnUS = function(p) {
-	if( p === $_ ) return;
-	$s.push("thx.cultures.EnUS::new");
-	var $spos = $s.length;
-	this.language = thx.languages.En.getLanguage();
-	this.name = "en-US";
-	this.english = "English (United States)";
-	this["native"] = "English (United States)";
-	this.date = new thx.culture.core.DateTimeInfo(["January","February","March","April","May","June","July","August","September","October","November","December",""],["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec",""],["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],["Su","Mo","Tu","We","Th","Fr","Sa"],"AM","PM","/",":",0,"%B, %Y","%B %d","%A, %B %d, %Y","%f/%e/%Y","%a, %d %b %Y %H:%M:%S GMT","%A, %B %d, %Y %l:%M:%S %p","%Y-%m-%d %H:%M:%SZ","%Y-%m-%dT%H:%M:%S","%l:%M:%S %p","%l:%M %p");
-	this.symbolNaN = "NaN";
-	this.symbolPercent = "%";
-	this.symbolPermille = "‰";
-	this.signNeg = "-";
-	this.signPos = "+";
-	this.symbolNegInf = "-Infinity";
-	this.symbolPosInf = "Infinity";
-	this.number = new thx.culture.core.NumberInfo(2,".",[3],",","-n","n");
-	this.currency = new thx.culture.core.NumberInfo(2,".",[3],",","($n)","$n");
-	this.percent = new thx.culture.core.NumberInfo(2,".",[3],",","-n %","n %");
-	this.pluralRule = 1;
-	this.englishCurrency = "US Dollar";
-	this.nativeCurrency = "US Dollar";
-	this.currencySymbol = "$";
-	this.currencyIso = "USD";
-	this.englishRegion = "United States";
-	this.nativeRegion = "United States";
-	this.iso2 = "US";
-	this.iso3 = "USA";
-	this.isMetric = false;
-	thx.culture.Culture.add(this);
-	$s.pop();
-}
-thx.cultures.EnUS.__name__ = ["thx","cultures","EnUS"];
-thx.cultures.EnUS.__super__ = thx.culture.Culture;
-for(var k in thx.culture.Culture.prototype ) thx.cultures.EnUS.prototype[k] = thx.culture.Culture.prototype[k];
-thx.cultures.EnUS.culture = null;
-thx.cultures.EnUS.getCulture = function() {
-	$s.push("thx.cultures.EnUS::getCulture");
-	var $spos = $s.length;
-	if(null == thx.cultures.EnUS.culture) thx.cultures.EnUS.culture = new thx.cultures.EnUS();
-	var $tmp = thx.cultures.EnUS.culture;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.cultures.EnUS.prototype.__class__ = thx.cultures.EnUS;
 utest.ui.common.ClassResult = function(className,setupName,teardownName) {
 	if( className === $_ ) return;
 	$s.push("utest.ui.common.ClassResult::new");
@@ -13502,6 +13821,202 @@ thx.math.scale.TestLog.prototype.testInvert12 = function() {
 	$s.pop();
 }
 thx.math.scale.TestLog.prototype.__class__ = thx.math.scale.TestLog;
+DateTools = function() { }
+DateTools.__name__ = ["DateTools"];
+DateTools.__format_get = function(d,e) {
+	$s.push("DateTools::__format_get");
+	var $spos = $s.length;
+	var $tmp = (function($this) {
+		var $r;
+		switch(e) {
+		case "%":
+			$r = "%";
+			break;
+		case "C":
+			$r = StringTools.lpad(Std.string(Std["int"](d.getFullYear() / 100)),"0",2);
+			break;
+		case "d":
+			$r = StringTools.lpad(Std.string(d.getDate()),"0",2);
+			break;
+		case "D":
+			$r = DateTools.__format(d,"%m/%d/%y");
+			break;
+		case "e":
+			$r = Std.string(d.getDate());
+			break;
+		case "H":case "k":
+			$r = StringTools.lpad(Std.string(d.getHours()),e == "H"?"0":" ",2);
+			break;
+		case "I":case "l":
+			$r = (function($this) {
+				var $r;
+				var hour = d.getHours() % 12;
+				$r = StringTools.lpad(Std.string(hour == 0?12:hour),e == "I"?"0":" ",2);
+				return $r;
+			}($this));
+			break;
+		case "m":
+			$r = StringTools.lpad(Std.string(d.getMonth() + 1),"0",2);
+			break;
+		case "M":
+			$r = StringTools.lpad(Std.string(d.getMinutes()),"0",2);
+			break;
+		case "n":
+			$r = "\n";
+			break;
+		case "p":
+			$r = d.getHours() > 11?"PM":"AM";
+			break;
+		case "r":
+			$r = DateTools.__format(d,"%I:%M:%S %p");
+			break;
+		case "R":
+			$r = DateTools.__format(d,"%H:%M");
+			break;
+		case "s":
+			$r = Std.string(Std["int"](d.getTime() / 1000));
+			break;
+		case "S":
+			$r = StringTools.lpad(Std.string(d.getSeconds()),"0",2);
+			break;
+		case "t":
+			$r = "\t";
+			break;
+		case "T":
+			$r = DateTools.__format(d,"%H:%M:%S");
+			break;
+		case "u":
+			$r = (function($this) {
+				var $r;
+				var t = d.getDay();
+				$r = t == 0?"7":Std.string(t);
+				return $r;
+			}($this));
+			break;
+		case "w":
+			$r = Std.string(d.getDay());
+			break;
+		case "y":
+			$r = StringTools.lpad(Std.string(d.getFullYear() % 100),"0",2);
+			break;
+		case "Y":
+			$r = Std.string(d.getFullYear());
+			break;
+		default:
+			$r = (function($this) {
+				var $r;
+				throw "Date.format %" + e + "- not implemented yet.";
+				return $r;
+			}($this));
+		}
+		return $r;
+	}(this));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+DateTools.__format = function(d,f) {
+	$s.push("DateTools::__format");
+	var $spos = $s.length;
+	var r = new StringBuf();
+	var p = 0;
+	while(true) {
+		var np = f.indexOf("%",p);
+		if(np < 0) break;
+		r.b[r.b.length] = f.substr(p,np - p);
+		r.b[r.b.length] = DateTools.__format_get(d,f.substr(np + 1,1));
+		p = np + 2;
+	}
+	r.b[r.b.length] = f.substr(p,f.length - p);
+	var $tmp = r.b.join("");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+DateTools.format = function(d,f) {
+	$s.push("DateTools::format");
+	var $spos = $s.length;
+	var $tmp = DateTools.__format(d,f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+DateTools.delta = function(d,t) {
+	$s.push("DateTools::delta");
+	var $spos = $s.length;
+	var $tmp = Date.fromTime(d.getTime() + t);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+DateTools.getMonthDays = function(d) {
+	$s.push("DateTools::getMonthDays");
+	var $spos = $s.length;
+	var month = d.getMonth();
+	var year = d.getFullYear();
+	if(month != 1) {
+		var $tmp = DateTools.DAYS_OF_MONTH[month];
+		$s.pop();
+		return $tmp;
+	}
+	var isB = year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+	var $tmp = isB?29:28;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+DateTools.seconds = function(n) {
+	$s.push("DateTools::seconds");
+	var $spos = $s.length;
+	var $tmp = n * 1000.0;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+DateTools.minutes = function(n) {
+	$s.push("DateTools::minutes");
+	var $spos = $s.length;
+	var $tmp = n * 60.0 * 1000.0;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+DateTools.hours = function(n) {
+	$s.push("DateTools::hours");
+	var $spos = $s.length;
+	var $tmp = n * 60.0 * 60.0 * 1000.0;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+DateTools.days = function(n) {
+	$s.push("DateTools::days");
+	var $spos = $s.length;
+	var $tmp = n * 24.0 * 60.0 * 60.0 * 1000.0;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+DateTools.parse = function(t) {
+	$s.push("DateTools::parse");
+	var $spos = $s.length;
+	var s = t / 1000;
+	var m = s / 60;
+	var h = m / 60;
+	var $tmp = { ms : t % 1000, seconds : Std["int"](s % 60), minutes : Std["int"](m % 60), hours : Std["int"](h % 24), days : Std["int"](h / 24)};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+DateTools.make = function(o) {
+	$s.push("DateTools::make");
+	var $spos = $s.length;
+	var $tmp = o.ms + 1000.0 * (o.seconds + 60.0 * (o.minutes + 60.0 * (o.hours + 24.0 * o.days)));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+DateTools.prototype.__class__ = DateTools;
 thx.math.scale.TestOrdinal = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.math.scale.TestOrdinal::new");
@@ -14863,6 +15378,61 @@ thx.html.Html.toXmlString = function(html) {
 	$s.pop();
 }
 thx.html.Html.prototype.__class__ = thx.html.Html;
+thx.date.TestDateParser = function(p) {
+	$s.push("thx.date.TestDateParser::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.date.TestDateParser.__name__ = ["thx","date","TestDateParser"];
+thx.date.TestDateParser.prototype.testParseSpecificDates = function() {
+	$s.push("thx.date.TestDateParser::testParseSpecificDates");
+	var $spos = $s.length;
+	var tests = [{ expected : "2011-01-05", test : "January 5"},{ expected : "2011-12-25", test : "dec 25"},{ expected : "2011-05-27", test : "may 27th"},{ expected : "2006-10-01", test : "October 2006"},{ expected : "2011-10-06", test : "oct 06"},{ expected : "2010-01-03", test : "jan 3 2010"},{ expected : "2004-02-14", test : "february 14, 2004"},{ expected : "2000-01-03", test : "3 jan 2000"},{ expected : "1985-04-17", test : "17 april 85"},{ expected : "1979-05-27", test : "5/27/1979"},{ expected : "1979-05-27", test : "27/5/1979"},{ expected : "2011-05-06", test : "05/06"},{ expected : "1979-05-27", test : "1979-05-27"},{ expected : "2011-05-06", test : "6"},{ expected : "2011-05-31 04:00:00", test : "4:00"},{ expected : "2011-05-31 17:00:00", test : "17:00"},{ expected : "2011-05-31 08:00:00", test : "0800"}];
+	var _g1 = 0, _g = tests.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		var test = tests[i], e = Date.fromString(test.expected), r = thx.date.DateParser.parse(test.test,thx.date.TestDateParser.now);
+		utest.Assert.same(e,r,null,i + 1 + ". expected " + test.expected + " but was " + r + " for '" + test.test + "'",{ fileName : "TestDateParser.hx", lineNumber : 43, className : "thx.date.TestDateParser", methodName : "testParseSpecificDates"});
+	}
+	$s.pop();
+}
+thx.date.TestDateParser.prototype.testParseSimpleDates = function() {
+	$s.push("thx.date.TestDateParser::testParseSimpleDates");
+	var $spos = $s.length;
+	var tests = [{ expected : "2011-06-02", test : "thursday"},{ expected : "2011-11-01", test : "november"},{ expected : "2011-06-03 13:00:00", test : "friday 13:00"},{ expected : "2011-06-03 13:00:00", test : "friday 1pm"},{ expected : "2011-06-06 02:35:00", test : "mon 2:35"},{ expected : "2011-05-31 16:00:00", test : "4pm"},{ expected : "2011-05-31 06:00:00", test : "6 in the morning"},{ expected : "2011-05-31 18:00:00", test : "6 in the afternoon"},{ expected : "2011-06-04 17:00:00", test : "sat in the evening"},{ expected : "2011-05-30", test : "yesterday"},{ expected : "2011-05-31", test : "today"},{ expected : "2011-05-31 16:20:00", test : "now"},{ expected : "2011-06-01", test : "tomorrow"},{ expected : "2011-05-30", test : "this monday"},{ expected : "2011-05-31", test : "this tuesday"},{ expected : "2011-06-01", test : "this wednesday"},{ expected : "2011-05-30", test : "last monday"},{ expected : "2011-05-24", test : "last tuesday"},{ expected : "2011-05-25", test : "last wednesday"},{ expected : "2011-06-06", test : "next monday"},{ expected : "2011-06-07", test : "next tuesday"},{ expected : "2011-06-01", test : "next wednesday"},{ expected : "2011-04-01", test : "this april"},{ expected : "2011-05-01", test : "this may"},{ expected : "2011-06-01", test : "this june"},{ expected : "2011-04-01", test : "last april"},{ expected : "2010-05-01", test : "last may"},{ expected : "2010-06-01", test : "last june"},{ expected : "2012-04-01", test : "next april"},{ expected : "2012-05-01", test : "next may"},{ expected : "2011-06-01", test : "next june"},{ expected : "2011-05-31 08:00:00", test : "this morning"},{ expected : "2011-05-31 16:20:00", test : "this second"},{ expected : "2011-05-30 04:00:00", test : "yesterday at 4:00"},{ expected : "2011-05-27 20:00:00", test : "last friday at 20:00"},{ expected : "2011-05-30", test : "last monday"},{ expected : "2011-06-03", test : "next friday"},{ expected : "2011-06-01 18:45:00", test : "tomorrow at 6:45pm"},{ expected : "2011-05-30 14:00:00", test : "afternoon yesterday"}];
+	var _g1 = 0, _g = tests.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		var test = tests[i], e = Date.fromString(test.expected), r = thx.date.DateParser.parse(test.test,thx.date.TestDateParser.now);
+		utest.Assert.same(e,r,null,i + 1 + ". expected " + test.expected + " but was " + r + " for '" + test.test + "'",{ fileName : "TestDateParser.hx", lineNumber : 104, className : "thx.date.TestDateParser", methodName : "testParseSimpleDates"});
+	}
+	$s.pop();
+}
+thx.date.TestDateParser.prototype.testParseComplexDates = function() {
+	$s.push("thx.date.TestDateParser::testParseComplexDates");
+	var $spos = $s.length;
+	var tests = [{ expected : "2008-05-31 16:20:00", test : "3 years ago"},{ expected : "2010-12-31 16:20:00", test : "5 months before now"},{ expected : "2010-12-31", test : "5 months before today"},{ expected : "2010-12-30", test : "5 months before yesterday"},{ expected : "2011-01-01", test : "5 months before tomorrow"},{ expected : "2011-05-31 09:20:00", test : "7 hours ago"},{ expected : "2011-06-07", test : "7 days from today"},{ expected : "2011-06-07 16:20:00", test : "7 days from now"},{ expected : "2011-06-07", test : "1 week hence"},{ expected : "2011-05-31 19:20:00", test : "in 3 hours"},{ expected : "2010-05-31", test : "1 year ago today"},{ expected : "2010-05-30", test : "1 year ago yesterday"},{ expected : "2010-06-01", test : "1 year ago tomorrow"},{ expected : "2012-05-31", test : "1 year from today"},{ expected : "2012-05-30", test : "1 year from yesterday"},{ expected : "2012-06-01", test : "1 year from tomorrow"},{ expected : "2011-06-01 05:00:00", test : "7 hours before tomorrow at noon"},{ expected : "2011-05-31 16:25:00", test : "in 5 minutes"},{ expected : "2011-05-31 16:25:00", test : "5 minutes from now"},{ expected : "2011-05-31 11:20:00", test : "5 hours before now"},{ expected : "2011-05-31 10:00:00", test : "2 hours before noon"},{ expected : "2011-06-03 00:00:00", test : "2 days from tomorrow"}];
+	var _g1 = 0, _g = tests.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		var test = tests[i], e = Date.fromString(test.expected), r = thx.date.DateParser.parse(test.test,thx.date.TestDateParser.now);
+		utest.Assert.same(e,r,null,i + 1 + ". expected " + test.expected + " but was " + r + " for '" + test.test + "'",{ fileName : "TestDateParser.hx", lineNumber : 143, className : "thx.date.TestDateParser", methodName : "testParseComplexDates"});
+	}
+	$s.pop();
+}
+thx.date.TestDateParser.prototype.testParseTime = function() {
+	$s.push("thx.date.TestDateParser::testParseTime");
+	var $spos = $s.length;
+	var tests = [{ expected : { hour : 23, minute : 59, second : 59, millis : 0.999, matched : "at midnight"}, test : "at midnight"},{ expected : { hour : 20, minute : 0, second : 0, millis : 0.0, matched : "8 in the evening"}, test : "8 in the evening"},{ expected : { hour : 17, minute : 0, second : 0, millis : 0.0, matched : "in the evening"}, test : "in the evening"},{ expected : { hour : 19, minute : 0, second : 0, millis : 0.0, matched : "at 7pm"}, test : "at 7pm"},{ expected : { hour : 19, minute : 0, second : 0, millis : 0.0, matched : "7 pm"}, test : "7 pm"},{ expected : { hour : 5, minute : 3, second : 0, millis : 0.0, matched : "05:03:00"}, test : "05:03:00"},{ expected : { hour : 5, minute : 0, second : 59, millis : 0.123, matched : "05:00:59.123"}, test : "05:00:59.123"},{ expected : { hour : 4, minute : 0, second : 0, millis : 0.0, matched : "4:00"}, test : "4:00"},{ expected : { hour : 4, minute : 0, second : 0, millis : 0.0, matched : "4:00am"}, test : "4:00am"},{ expected : { hour : 16, minute : 0, second : 0, millis : 0.0, matched : "4:00pm"}, test : "4:00pm"},{ expected : { hour : 17, minute : 0, second : 0, millis : 0.0, matched : "17:00"}, test : "17:00"},{ expected : { hour : 8, minute : 0, second : 0, millis : 0.0, matched : "0800"}, test : "0800"},{ expected : { hour : 20, minute : 0, second : 0, millis : 0.0, matched : "0800 pm"}, test : "0800 pm"},{ expected : { hour : 20, minute : 0, second : 0, millis : 0.0, matched : " 0800 pm"}, test : "123 0800 pm"},{ expected : { hour : 20, minute : 15, second : 0, millis : 0.0, matched : "0815 pm "}, test : "0815 pm 123"},{ expected : { hour : 20, minute : 0, second : 0, millis : 0.0, matched : " 0800 pm "}, test : "123 0800 pm 123"}];
+	var _g = 0;
+	while(_g < tests.length) {
+		var test = tests[_g];
+		++_g;
+		utest.Assert.same(test.expected,thx.date.DateParser.parseTime(test.test),null,null,{ fileName : "TestDateParser.hx", lineNumber : 169, className : "thx.date.TestDateParser", methodName : "testParseTime"});
+	}
+	$s.pop();
+}
+thx.date.TestDateParser.prototype.__class__ = thx.date.TestDateParser;
 Arrays = function() { }
 Arrays.__name__ = ["Arrays"];
 Arrays.addIf = function(arr,condition,value) {
@@ -20752,6 +21322,7 @@ TestAll.addTests = function(runner) {
 	thx.color.TestAll.addTests(runner);
 	runner.addCase(new thx.data.TestValueEncoder());
 	runner.addCase(new thx.data.TestValueHandler());
+	thx.date.TestAll.addTests(runner);
 	runner.addCase(new thx.csv.TestCsv());
 	runner.addCase(new thx.json.TestJson());
 	runner.addCase(new thx.ini.TestIni());
@@ -23717,8 +24288,8 @@ window.requestAnimationFrame = window.requestAnimationFrame
     || window.oRequestAnimationFrame
     || window.msRequestAnimationFrame
     || function(callback) { setTimeout(callback, 1000 / 60); } ;
-thx.languages.En.getLanguage();
 thx.cultures.EnUS.getCulture();
+thx.languages.En.getLanguage();
 thx.languages.It.getLanguage();
 {
 	Xml.Element = "element";
@@ -25244,6 +25815,57 @@ thx.js.Timer.queue = null;
 thx.js.Timer.interval = 0;
 thx.js.Timer._step = thx.js.Timer.step;
 thx.text.ERegs._escapePattern = new EReg("[*+?|{[()^$.# \\\\]","");
+thx.date.DateParser.daynumeric = "0?[1-9]|[1-2][0-9]|3[0-1]";
+thx.date.DateParser.months = thx.cultures.EnUS.getCulture().date.months.slice(0,-1).map(function(d,i) {
+	$s.push("thx.math.Equations::polynomialf");
+	var $spos = $s.length;
+	var $tmp = d.toLowerCase();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+});
+thx.date.DateParser.shortmonths = thx.cultures.EnUS.getCulture().date.abbrMonths.slice(0,-1).map(function(d,i) {
+	$s.push("thx.math.Equations::polynomialf");
+	var $spos = $s.length;
+	var $tmp = d.toLowerCase();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+});
+thx.date.DateParser.days = thx.cultures.EnUS.getCulture().date.days.map(function(d,i) {
+	$s.push("thx.math.Equations::polynomialf");
+	var $spos = $s.length;
+	var $tmp = d.toLowerCase();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+});
+thx.date.DateParser.shortdays = thx.cultures.EnUS.getCulture().date.abbrDays.map(function(d,i) {
+	$s.push("thx.math.Equations::polynomialf");
+	var $spos = $s.length;
+	var $tmp = d.toLowerCase();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+});
+thx.date.DateParser.sfullmonths = thx.date.DateParser.months.join("|");
+thx.date.DateParser.sshortmonths = thx.date.DateParser.shortmonths.join("|");
+thx.date.DateParser.sfulldays = thx.date.DateParser.days.join("|");
+thx.date.DateParser.sshortdays = thx.date.DateParser.shortdays.join("|");
+thx.date.DateParser.day = "(0?[0-9]|[1-2][0-9]|3[0-1])(?:st|nd|rd|th)?";
+thx.date.DateParser.month = "(?:0?[1-9]|1[0-2])";
+thx.date.DateParser.hour = "(?:0?[0-9]|1[0-9]|2[0-3])";
+thx.date.DateParser.hhour = "(?:0[0-9]|1[0-2])";
+thx.date.DateParser.hohour = "(?:0?[0-9]|1[0-2])";
+thx.date.DateParser.fminsec = "(?:0[0-9]|[1-5][0-9])";
+thx.date.DateParser.minsec = "(?:0?[0-9]|[1-5][0-9])";
+thx.date.DateParser.ampm = "(?:(?:in\\s+the\\s+)?(am|pm|evening|morning|afternoon))";
+thx.date.DateParser.daypart = "(?:(?:in\\s+the\\s+)?(evening|morning|afternoon|sunsrise|sunset|dawn|dusk|noon|mid-day|midday|mid-night|midnight))";
+thx.date.DateParser.period = "minute|minutes|hour|hours|day|days|week|weeks|month|months|year|years|second|seconds";
+thx.date.DateParser.dateexp = new EReg("(?:(?:" + "\\b(" + thx.date.DateParser.sfullmonths + ")\\s+" + thx.date.DateParser.day + "(?:\\s*,\\s*(\\d{2,4}))?\\b" + ")|(?:" + "\\b(" + thx.date.DateParser.sshortmonths + ")\\s+" + thx.date.DateParser.day + "(?:\\s*,?\\s*(\\d{2,4}))?\\b" + ")|(?:" + "\\b" + thx.date.DateParser.day + "\\s+(" + thx.date.DateParser.sfullmonths + ")(?:\\s+(\\d{2,4}))?\\b" + ")|(?:" + "\\b" + thx.date.DateParser.day + "\\s+(" + thx.date.DateParser.sshortmonths + ")(?:\\s+(\\d{2,4}))?\\b" + ")|(?:" + "\\b(?:" + thx.date.DateParser.day + "\\s+)?(" + thx.date.DateParser.sfullmonths + ")\\s+(\\d{2,4})\\b" + ")|(?:" + "\\b(?:" + thx.date.DateParser.day + "\\s+)?(" + thx.date.DateParser.sshortmonths + ")\\s+(\\d{2,4})\\b" + ")|(?:" + "\\b(" + thx.date.DateParser.month + ")/" + thx.date.DateParser.day + "(?:/(\\d{2,4}))?\\b" + ")|(?:" + "\\b" + thx.date.DateParser.day + "/(" + thx.date.DateParser.month + ")(?:/(\\d{2,4}))?\\b" + ")|(?:" + "\\b(\\d{2,4})-(" + thx.date.DateParser.month + ")-" + thx.date.DateParser.day + "\\b" + ")|(?:" + "^\\s*" + thx.date.DateParser.day + "\\s*$" + "))","i");
+thx.date.DateParser.absdateexp = new EReg("(?:(?:" + "\\b(today|now|this\\s+second|tomorrow|yesterday)\\b" + ")|(?:" + "\\b(?:(next|last|this)\\s+)?(" + thx.date.DateParser.sfullmonths + ")\\b" + ")|(?:" + "\\b(?:(next|last|this)\\s+)?(" + thx.date.DateParser.sfulldays + ")\\b" + ")|(?:" + "\\b(?:(next|last|this)\\s+)?(" + thx.date.DateParser.sshortmonths + ")\\b" + ")|(?:" + "\\b(?:(next|last|this)\\s+)?(" + thx.date.DateParser.sshortdays + ")\\b" + "))","i");
+thx.date.DateParser.relexp = new EReg("(?:(?:" + "\\b(plus\\s+|minus\\s|\\+|-|in)\\s*(\\d+)?\\s+(" + thx.date.DateParser.period + ")\\b" + ")|(?:" + "\\b(\\d+)?\\s+(" + thx.date.DateParser.period + ")\\s+(from|before|hence|after|ago)?\\b" + "))","i");
+thx.date.DateParser.timeexp = new EReg("(?:\\bat\\s+)?" + "(?:(?:" + "\\b(" + thx.date.DateParser.hohour + "):(" + thx.date.DateParser.minsec + ")\\s*" + thx.date.DateParser.ampm + "\\b" + ")|(?:" + "\\b(" + thx.date.DateParser.hour + "):(" + thx.date.DateParser.minsec + ")(?:[:](" + thx.date.DateParser.minsec + ")(?:\\.(\\d+))?)?\\b" + ")|(?:" + "(?:^|\\s+)(" + thx.date.DateParser.hhour + ")(" + thx.date.DateParser.fminsec + ")\\s*" + thx.date.DateParser.ampm + "?(?:\\s+|$)" + ")|(?:" + "\\b(" + thx.date.DateParser.hohour + ")\\s*" + thx.date.DateParser.ampm + "\\b" + ")|(?:" + "\\b" + thx.date.DateParser.daypart + "\\b" + "))","i");
 thx.math.Const.TWO_PI = 6.283185307179586477;
 thx.math.Const.PI = 3.141592653589793238;
 thx.math.Const.HALF_PI = 1.570796326794896619;
@@ -25292,9 +25914,11 @@ Xml.eclose = new EReg("^[ \r\n\t]*(>|(/>))","");
 Xml.ecdata_end = new EReg("\\]\\]>","");
 Xml.edoctype_elt = new EReg("[\\[|\\]>]","");
 Xml.ecomment_end = new EReg("-->","");
+DateTools.DAYS_OF_MONTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 thx.math.scale.TestOrdinal.data = [4,8,16,32,64];
 thx.validation.EmailValidator._reEmail = new EReg("^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$","i");
 thx.validation.EmailValidator._reEmailDomain = new EReg("\\.(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$","i");
+thx.date.TestDateParser.now = Date.fromString("2011-05-31 16:20:00");
 thx.html.Attribute._fill = thx.collections.Set.ofArray("checked,compact,declare,defer,disabled,formnovalidate,novalidate,ismap,multiple,nohref,noresize,noshade,nowrap,readonly,required,selected".split(","));
 TestObjects.testObject = { a : 1, b : 2, c : 3};
 thx.validation.UrlValidator._reUrl = new EReg("^(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?$","");

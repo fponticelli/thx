@@ -19,6 +19,7 @@ class TestAll
 		thx.color.TestAll.addTests(runner);
 		runner.addCase(new thx.data.TestValueEncoder());
 		runner.addCase(new thx.data.TestValueHandler());
+		thx.date.TestAll.addTests(runner);
 		runner.addCase(new thx.csv.TestCsv());
 		runner.addCase(new thx.json.TestJson());
 		runner.addCase(new thx.ini.TestIni());
