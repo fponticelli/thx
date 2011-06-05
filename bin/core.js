@@ -5623,6 +5623,29 @@ thx.js.Timer._flush = function() {
 	$s.pop();
 }
 thx.js.Timer.prototype.__class__ = thx.js.Timer;
+if(!thx.js.behavior) thx.js.behavior = {}
+thx.js.behavior.ZoomEvent = function(scale,tx,ty) {
+	if( scale === $_ ) return;
+	$s.push("thx.js.behavior.ZoomEvent::new");
+	var $spos = $s.length;
+	this.scale = scale;
+	this.tx = tx;
+	this.ty = ty;
+	$s.pop();
+}
+thx.js.behavior.ZoomEvent.__name__ = ["thx","js","behavior","ZoomEvent"];
+thx.js.behavior.ZoomEvent.prototype.scale = null;
+thx.js.behavior.ZoomEvent.prototype.tx = null;
+thx.js.behavior.ZoomEvent.prototype.ty = null;
+thx.js.behavior.ZoomEvent.prototype.toString = function() {
+	$s.push("thx.js.behavior.ZoomEvent::toString");
+	var $spos = $s.length;
+	var $tmp = "ZoomEvent {scale: " + this.scale + ", tx: " + this.tx + ", ty: " + this.ty + "}";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.behavior.ZoomEvent.prototype.__class__ = thx.js.behavior.ZoomEvent;
 thx.math.scale.Quantile = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.math.scale.Quantile::new");
@@ -6405,6 +6428,32 @@ thx.color.TestHsl.prototype.testBasics = function() {
 	$s.pop();
 }
 thx.color.TestHsl.prototype.__class__ = thx.color.TestHsl;
+thx.js.Svg = function() { }
+thx.js.Svg.__name__ = ["thx","js","Svg"];
+thx.js.Svg.mouse = function(dom) {
+	$s.push("thx.js.Svg::mouse");
+	var $spos = $s.length;
+	var point = (null != dom.ownerSVGElement?dom.ownerSVGElement:dom).createSVGPoint();
+	if(thx.js.Svg._usepage && (js.Lib.window.scrollX || js.Lib.window.scrollY)) {
+		var svg = thx.js.Dom.selectNode(js.Lib.document.body).append("svg:svg").style("position").string("absolute").style("top")["float"](0).style("left")["float"](0);
+		var ctm = svg.node().dom.getScreenCTM();
+		thx.js.Svg._usepage = !(ctm.f || ctm.e);
+		svg.remove();
+	}
+	if(thx.js.Svg._usepage) {
+		point.x = thx.js.Dom.event.pageX;
+		point.y = thx.js.Dom.event.pageY;
+	} else {
+		point.x = thx.js.Dom.event.clientX;
+		point.y = thx.js.Dom.event.clientY;
+	}
+	point = point.matrixTransform(dom.getScreenCTM().inverse());
+	var $tmp = [point.x,point.y];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.Svg.prototype.__class__ = thx.js.Svg;
 thx.date.TestAll = function(p) {
 	$s.push("thx.date.TestAll::new");
 	var $spos = $s.length;
@@ -12708,10 +12757,12 @@ thx.math.scale.TestLinear.prototype.testDomain12 = function() {
 thx.math.scale.TestLinear.prototype.testPolylinear = function() {
 	$s.push("thx.math.scale.TestLinear::testPolylinear");
 	var $spos = $s.length;
-	var scale = new thx.math.scale.Linear().domain([-1.0,0.0,1.0]).range([-100.0,0.0,10.0]);
-	var expected = [-150.0,-100.0,-50.0,0.0,5.0,10.0,15.0];
-	var values = [-1.5,-1.0,-0.5,0.0,0.5,1.0,1.5];
+	var scale = new thx.math.scale.Linear().domain([-1.0,0.0,1.0]).range([-100.0,0.0,10.0]), expected = [-150.0,-100.0,-50.0,0.0,5.0,10.0,15.0], values = [-1.5,-1.0,-0.5,0.0,0.5,1.0,1.5];
 	this.assertScale($closure(scale,"scale"),expected,values,{ fileName : "TestLinear.hx", lineNumber : 38, className : "thx.math.scale.TestLinear", methodName : "testPolylinear"});
+	scale = new thx.math.scale.Linear().domain([0.0,0.5,1.0]).range([0.0,0.25,1.0]);
+	expected = [0.0,0.125,0.25,0.625,1.0];
+	values = [0.0,0.25,0.5,0.75,1.0];
+	this.assertScale($closure(scale,"scale"),expected,values,{ fileName : "TestLinear.hx", lineNumber : 44, className : "thx.math.scale.TestLinear", methodName : "testPolylinear"});
 	$s.pop();
 }
 thx.math.scale.TestLinear.prototype.testTicks = function() {
@@ -12719,37 +12770,37 @@ thx.math.scale.TestLinear.prototype.testTicks = function() {
 	var $spos = $s.length;
 	var scale = new thx.math.scale.Linear();
 	utest.Assert.equals("0, 1",scale.modulo(1).ticks().map(function(d,_) {
-		$s.push("thx.math.scale.TestLinear::testTicks@45");
+		$s.push("thx.math.scale.TestLinear::testTicks@51");
 		var $spos = $s.length;
 		var $tmp = scale.tickFormat(d);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 45, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
+	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 51, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
 	utest.Assert.equals("0.0, 0.5, 1.0",scale.modulo(2).ticks().map(function(d,_) {
-		$s.push("thx.math.scale.TestLinear::testTicks@46");
+		$s.push("thx.math.scale.TestLinear::testTicks@52");
 		var $spos = $s.length;
 		var $tmp = scale.tickFormat(d);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 46, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
+	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 52, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
 	utest.Assert.equals("0.0, 0.2, 0.4, 0.6, 0.8, 1.0",scale.modulo(5).ticks().map(function(d,_) {
-		$s.push("thx.math.scale.TestLinear::testTicks@47");
+		$s.push("thx.math.scale.TestLinear::testTicks@53");
 		var $spos = $s.length;
 		var $tmp = scale.tickFormat(d);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 47, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
+	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 53, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
 	utest.Assert.equals("0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0",scale.modulo(10).ticks().map(function(d,_) {
-		$s.push("thx.math.scale.TestLinear::testTicks@48");
+		$s.push("thx.math.scale.TestLinear::testTicks@54");
 		var $spos = $s.length;
 		var $tmp = scale.tickFormat(d);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 48, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
+	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 54, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
 	$s.pop();
 }
 thx.math.scale.TestLinear.prototype.__class__ = thx.math.scale.TestLinear;
@@ -17180,6 +17231,122 @@ thx.xml.TestXmlFormat.prototype.testAutoWidthWithInlineElements = function() {
 	$s.pop();
 }
 thx.xml.TestXmlFormat.prototype.__class__ = thx.xml.TestXmlFormat;
+thx.js.behavior.Zoom = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.js.behavior.Zoom::new");
+	var $spos = $s.length;
+	if(null == thx.js.behavior.Zoom._outer) thx.js.behavior.Zoom._outer = thx.js.Dom.select("body").append("div").style("visibility").string("hidden").style("position").string("absolute").style("top").string("-3000px").style("height")["float"](0).style("overflow-y").string("scroll").append("div").style("height").string("2000px").node().parentNode;
+	$s.pop();
+}
+thx.js.behavior.Zoom.__name__ = ["thx","js","behavior","Zoom"];
+thx.js.behavior.Zoom._outer = null;
+thx.js.behavior.Zoom.event = null;
+thx.js.behavior.Zoom.prototype._dispatcher = null;
+thx.js.behavior.Zoom.prototype.webkit533 = null;
+thx.js.behavior.Zoom.prototype._pan = null;
+thx.js.behavior.Zoom.prototype._zoom = null;
+thx.js.behavior.Zoom.prototype._x = null;
+thx.js.behavior.Zoom.prototype._y = null;
+thx.js.behavior.Zoom.prototype._z = null;
+thx.js.behavior.Zoom.prototype.mousedown = function(d,i) {
+	$s.push("thx.js.behavior.Zoom::mousedown");
+	var $spos = $s.length;
+	this._pan = { x0 : this._x - thx.js.Dom.event.clientX, y0 : this._y - thx.js.Dom.event.clientY, target : d, data : Reflect.field(d,"__data__"), index : i};
+	thx.js.Dom.event.preventDefault();
+	js.Lib.window.focus();
+	$s.pop();
+}
+thx.js.behavior.Zoom.prototype.mousemove = function(_,_1) {
+	$s.push("thx.js.behavior.Zoom::mousemove");
+	var $spos = $s.length;
+	this._zoom = null;
+	if(null != this._pan) {
+		this._x = thx.js.Dom.event.clientX + this._pan.x0;
+		this._y = thx.js.Dom.event.clientY + this._pan.y0;
+		this.dispatch(this._pan.data,this._pan.index);
+	}
+	$s.pop();
+}
+thx.js.behavior.Zoom.prototype.mouseup = function(_,_1) {
+	$s.push("thx.js.behavior.Zoom::mouseup");
+	var $spos = $s.length;
+	if(null != this._pan) {
+		this.mousemove();
+		this._pan = null;
+	}
+	$s.pop();
+}
+thx.js.behavior.Zoom.prototype.mousewheel = function(d,i) {
+	$s.push("thx.js.behavior.Zoom::mousewheel");
+	var $spos = $s.length;
+	var e = thx.js.Dom.event;
+	if(null == this._zoom) {
+		var p = thx.js.Svg.mouse(d.nearestViewportElement || d);
+		this._zoom = { x0 : this._x, y0 : this._y, z0 : this._z, x1 : this._x - p[0], y1 : this._y - p[1]};
+	}
+	if("dblclick" == e.type) this._z = e.shiftKey?Math.ceil(this._z - 1):Math.floor(this._z + 1); else {
+		var delta = e.wheelDelta || -e.detail;
+		if(delta) {
+			try {
+				thx.js.behavior.Zoom._outer.scrollTop = 1000;
+				thx.js.behavior.Zoom._outer.dispatchEvent(e);
+				delta = 1000 - thx.js.behavior.Zoom._outer.scrollTop;
+			} catch( e1 ) {
+				$e = [];
+				while($s.length >= $spos) $e.unshift($s.pop());
+				$s.push($e[0]);
+			}
+			delta *= .005;
+		}
+		this._z += delta;
+	}
+	var k = Math.pow(2,this._z - this._zoom.z0) - 1;
+	this._x = this._zoom.x0 + this._zoom.x1 * k;
+	this._y = this._zoom.y0 + this._zoom.y1 * k;
+	this.dispatch(d,i);
+	e.preventDefault();
+	$s.pop();
+}
+thx.js.behavior.Zoom.prototype.oldscale = null;
+thx.js.behavior.Zoom.prototype.dispatch = function(d,i) {
+	$s.push("thx.js.behavior.Zoom::dispatch");
+	var $spos = $s.length;
+	if(null != this._dispatcher) {
+		var event = new thx.js.behavior.ZoomEvent(Math.pow(2,this._z),this._x,this._y);
+		if(null != thx.js.behavior.Zoom.event && event.scale == thx.js.behavior.Zoom.event.scale && event.tx == thx.js.behavior.Zoom.event.tx && event.ty == thx.js.behavior.Zoom.event.ty) {
+			$s.pop();
+			return;
+		}
+		thx.js.behavior.Zoom.event = event;
+		try {
+			this._dispatcher(d,i);
+		} catch( e ) {
+			$e = [];
+			while($s.length >= $spos) $e.unshift($s.pop());
+			$s.push($e[0]);
+			haxe.Log.trace(e,{ fileName : "Zoom.hx", lineNumber : 157, className : "thx.js.behavior.Zoom", methodName : "dispatch"});
+		}
+	}
+	$s.pop();
+}
+thx.js.behavior.Zoom.prototype.attach = function(dom,i) {
+	$s.push("thx.js.behavior.Zoom::attach");
+	var $spos = $s.length;
+	var container = thx.js.Dom.selectNode(dom);
+	container.onNode("mousedown",$closure(this,"mousedown")).onNode("mousewheel",$closure(this,"mousewheel")).onNode("DOMMouseScroll",$closure(this,"mousewheel")).onNode("dblclick",$closure(this,"mousewheel"));
+	thx.js.Dom.selectNode(js.Lib.window).onNode("mousemove",$closure(this,"mousemove")).onNode("mouseup",$closure(this,"mouseup"));
+	$s.pop();
+}
+thx.js.behavior.Zoom.prototype.zoom = function(f) {
+	$s.push("thx.js.behavior.Zoom::zoom");
+	var $spos = $s.length;
+	this._dispatcher = f;
+	var $tmp = $closure(this,"attach");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.behavior.Zoom.prototype.__class__ = thx.js.behavior.Zoom;
 thx.math.EaseMode = { __ename__ : ["thx","math","EaseMode"], __constructs__ : ["EaseIn","EaseOut","EaseInEaseOut","EaseOutEaseIn"] }
 thx.math.EaseMode.EaseIn = ["EaseIn",0];
 thx.math.EaseMode.EaseIn.toString = $estr;
@@ -26178,6 +26345,7 @@ thx.date.DateParser.dateexp = new EReg("(?:(?:" + "\\b(" + thx.date.DateParser.s
 thx.date.DateParser.absdateexp = new EReg("(?:(?:" + "\\b(today|now|this\\s+second|tomorrow|yesterday)\\b" + ")|(?:" + "\\b(?:(next|last|this)\\s+)?(" + thx.date.DateParser.sfullmonths + ")\\b" + ")|(?:" + "\\b(?:(next|last|this)\\s+)?(" + thx.date.DateParser.sfulldays + ")\\b" + ")|(?:" + "\\b(?:(next|last|this)\\s+)?(" + thx.date.DateParser.sshortmonths + ")\\b" + ")|(?:" + "\\b(?:(next|last|this)\\s+)?(" + thx.date.DateParser.sshortdays + ")\\b" + "))","i");
 thx.date.DateParser.relexp = new EReg("(?:(?:" + "\\b(plus\\s+|minus\\s|\\+|-|in)\\s*(\\d+)?\\s+(" + thx.date.DateParser.period + ")\\b" + ")|(?:" + "\\b(\\d+)?\\s+(" + thx.date.DateParser.period + ")\\s+(from|before|hence|after|ago)?\\b" + "))","i");
 thx.date.DateParser.timeexp = new EReg("(?:\\bat\\s+)?" + "(?:(?:" + "\\b(" + thx.date.DateParser.hohour + "):(" + thx.date.DateParser.minsec + ")\\s*" + thx.date.DateParser.ampm + "\\b" + ")|(?:" + "\\b(" + thx.date.DateParser.hour + "):(" + thx.date.DateParser.minsec + ")(?:[:](" + thx.date.DateParser.minsec + ")(?:\\.(\\d+))?)?\\b" + ")|(?:" + "(?:^|\\s+)(" + thx.date.DateParser.hhour + ")(" + thx.date.DateParser.fminsec + ")\\s*" + thx.date.DateParser.ampm + "?(?:\\s+|$)" + ")|(?:" + "\\b(" + thx.date.DateParser.hohour + ")\\s*" + thx.date.DateParser.ampm + "\\b" + ")|(?:" + "\\b" + thx.date.DateParser.daypart + "\\b" + "))","i");
+thx.js.Svg._usepage = new EReg("WebKit","").match(js.Lib.window.navigator.userAgent);
 thx.math.Const.TWO_PI = 6.283185307179586477;
 thx.math.Const.PI = 3.141592653589793238;
 thx.math.Const.HALF_PI = 1.570796326794896619;
@@ -26232,6 +26400,7 @@ thx.validation.EmailValidator._reEmailDomain = new EReg("\\.(?:[A-Z]{2}|com|org|
 thx.date.TestDateParser.now = Date.fromString("2011-05-31 16:20:00");
 thx.html.Attribute._fill = thx.collections.Set.ofArray("checked,compact,declare,defer,disabled,formnovalidate,novalidate,ismap,multiple,nohref,noresize,noshade,nowrap,readonly,required,selected".split(","));
 TestObjects.testObject = { a : 1, b : 2, c : 3};
+thx.js.behavior.Zoom.last = 0.0;
 thx.validation.UrlValidator._reUrl = new EReg("^(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?$","");
 utest.TestHandler.POLLING_TIME = 10;
 thx.js.BaseTransition._id = 0;

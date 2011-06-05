@@ -15,14 +15,6 @@ using Arrays;
 
 class Zoom<TData>
 {
-	/*
-	var x : Float;
-	var y : Float,
-	var z : Float,
-	var listneres : Array<>;
-	var pan;
-	var zoom;
-	*/
 	static var _outer : HtmlDom;
 	var _dispatcher : HtmlDom -> Int -> Void;
 	public function new()
@@ -58,15 +50,7 @@ class Zoom<TData>
 	var _x : Float;
 	var _y : Float;
 	var _z : Float;
-/*	
-	public function new()
-	{
-		webkit533 = (~/WebKit\/533/).match(Lib.window.navigator.userAgent) ? -1 : 0;
-		_x = 0;
-		_y = 0;
-		_z = 0;
-	}
-*/
+
 	function mousedown(d : HtmlDom, i : Int)
 	{
 		_pan = {
