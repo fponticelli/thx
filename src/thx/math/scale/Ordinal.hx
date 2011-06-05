@@ -26,7 +26,7 @@ class Ordinal<TData, TRange>
 	
 	public function scaleMap(x : TData, i : Int) return scale(x)
 	
-	public function scale(x : TData) : TRange
+	public function scale(x : TData, ?_) : TRange
 	{
 		var i = _domain.indexOf(x);
 		if (i < 0)
