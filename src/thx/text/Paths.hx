@@ -7,7 +7,7 @@ package thx.text;
 
 class Paths
 {
-	// TODO, test me
+	// TODO test me
 	public static function base(path : String, ?suffix : String) : String
 	{
 #if php
@@ -24,7 +24,7 @@ class Paths
 	
 	
 	// TODO test me
-	// TODO, check that the php works the same as others
+	// TODO check that the php version works the same as others
 	public static function dir(path : String) : String
 	{
 #if php
@@ -39,5 +39,10 @@ class Paths
 		var p = Strings.rtrim(p, '/\\');
 		return (~/(\\\/)+/).replace(p, '/');
 #end
+	}
+	
+	public static function ext(path : String)
+	{
+		return .path.split(".").pop();
 	}
 }

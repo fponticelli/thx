@@ -98,7 +98,7 @@ class Ints
 		return Floats.formatf(FormatParams.params(param, params, 'I'), culture);
 	}
 	
-	static var _reparse = ~/^(\+|-)?\d+$/;
+	static var _reparse = ~/^([+-])?\d+$/;
 	public static function canParse(s : String)
 	{
 		return _reparse.match(s);

@@ -20,41 +20,24 @@ class Quantile
 	
 	function rescale()
 	{
-		var i = -1,
-			n = _range.length,
-			k = _domain.length / n;
-		if (_thresolds.length > n)
-			_thresolds = _thresolds.splice(0, n);
-		while (++i < n)
-			_thresolds[i] = _domain[Std.int((i * k))];
-	}
-	
-	function _quantile(value : Float) : Int
-	{
-		if (Math.isNaN(value))
-			return -1;
-		
-		var low = 0,
-			high = _thresolds.length - 1;
-		while (low <= high)
+		var k = 0,
+			n = _domain.length,
+			q = _range.length,
+			i,
+			j;
+		_thresolds[Ints.max(0, q - 2)] = 0.0;
+		while (++k < q)
 		{
-			var mid = (low + high) >> 1,
-				midValue = _thresolds[mid];
-			if (midValue < value)
-				low = mid + 1;
-			else if (midValue > value)
-				high = mid - 1;
-			else
-				return mid;
+			_thresolds[k - 1] = (0 != (j = n * k / q) % 1)
+				? _domain[Std.int(~~j)]
+				: (_domain[i = Std.int(~~j)] + _domain[i - 1]) / 2;
 		}
-		return high < 0 ? 0 : high;
 	}
-	
-	public function scaleMap(x : Float, i : Int) return scale(x)
-	
-	public function scale(v : Float)
+
+	public function scale(v : Float, ?_)
 	{
-		return _range[_quantile(v)];
+		if (Math.isNaN(v)) return Math.NaN;
+		return _range[Arrays.bisect(_thresolds, v)];
 	}
 	
 	public function getDomain() return _domain

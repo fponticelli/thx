@@ -97,7 +97,7 @@ class Rgb
 	
 	public static function contrast(c : Rgb)
 	{
-		var nc = Hsl.ofRgb(c);
+		var nc = Hsl.toHsl(c);
 		if (nc.lightness < .5)
 			return new Hsl(nc.hue, nc.saturation, nc.lightness + 0.5);
 		else
@@ -106,8 +106,8 @@ class Rgb
 	
 	public static function contrastBW(c : Rgb)
 	{
-		var g = Grey.ofRgb(c);
-		var nc = Hsl.ofRgb(c);
+		var g = Grey.toGrey(c);
+		var nc = Hsl.toHsl(c);
 		if (g.grey < .5)
 			return new Hsl(nc.hue, nc.saturation, 1.0);
 		else

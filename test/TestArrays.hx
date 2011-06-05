@@ -75,5 +75,47 @@ class TestArrays
 		runner.run();
 	}
 	
+	public function testBisect()
+	{
+		var a  = [1.0, 2.0, 3.0, 4.0],
+			t  = [ -1, 0, 1, 2, 3, 4, 5, -0.1, 0.1, 1.1, 2.1, 3.1, 4.1, 5.1, Math.NaN, Math.POSITIVE_INFINITY, Math.NEGATIVE_INFINITY],
+			el = [  0, 0, 0, 1, 2, 3, 4,  0,   0,   1,   2,   3,   4,   4,      0,        4,                      0],
+			er = [  0, 0, 1, 2, 3, 4, 4,  0,   0,   1,   2,   3,   4,   4,      4,        4,                      0];
+			
+		for (i in 0...t.length)
+		{
+			Assert.equals(el[i], Arrays.bisectLeft(a, t[i]),  "bisectLeft, failed to compare " + el[i] + " for " + t[i]);
+			Assert.equals(er[i], Arrays.bisectRight(a, t[i]), "bisectRight, failed to compare " + er[i] + " for " + t[i]);
+		}
+		
+		// lo/hi/lo hi
+		var pairs = [ { 
+				lo : 2,
+				hi : null,
+				el : [2, 2, 2, 2, 2, 3, 4],
+				er : [2, 2, 2, 2, 3, 4, 4]
+			}, { 
+				lo : 0,
+				hi : 2,
+				el : [0, 0, 0, 1, 2, 2, 2],
+				er : [0, 0, 1, 2, 2, 2, 2]
+			}, {
+				lo : 1,
+				hi : 3,
+				el : [1, 1, 1, 1, 2, 3, 3],
+				er : [1, 1, 1, 2, 3, 3, 3]
+		} ];
+		t = [ -1.0, 0, 1, 2, 3, 4, 5];
+		
+		for (p in pairs)
+		{
+			for (i in 0...p.el.length)
+			{
+				Assert.equals(p.el[i], Arrays.bisectLeft(a, t[i], p.lo, p.hi));
+				Assert.equals(p.er[i], Arrays.bisectRight(a, t[i], p.lo, p.hi));
+			}
+		}
+	}
+	
 	public function new(){}
 }

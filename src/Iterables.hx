@@ -75,4 +75,10 @@ class Iterables
 	{
 		return Iterators.order(it.iterator(), f);
 	}
+	
+	public static function isIterable(v : Dynamic) {
+		var fields = Types.isAnonymous(v) ? Reflect.fields(v) : Type.getInstanceFields(Type.getClass(v));
+		if(!Lambda.has(fields, "iterator")) return false;
+		return Reflect.isFunction(Reflect.field(v, "iterator"));
+	}
 }

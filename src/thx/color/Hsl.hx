@@ -46,7 +46,7 @@ class Hsl extends Rgb
 		return "hsl(" + hue + "," + (saturation*100) + "%," + (lightness*100) + "%)";
 	}
 	
-	public static function ofRgb(c : Rgb)
+	public static function toHsl(c : Rgb)
 	{
 		var	r : Float = c.red / 255.0;
 		var	g = c.green / 255.0,

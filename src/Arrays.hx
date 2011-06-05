@@ -381,4 +381,39 @@ class Arrays
 				return v;
 		return null;
 	}
+	
+	inline public static function bisect(a : Array<Float>, x : Float, lo = 0, ?hi : Int)
+	{
+		return bisectRight(a, x, lo, hi);
+	}
+	
+	public static function bisectRight(a : Array<Float>, x : Float, lo = 0, ?hi : Int)
+	{
+		if (null == hi)
+			hi = a.length;
+		while (lo < hi)
+		{
+			var mid = (lo + hi) >> 1;
+			if (x < a[mid])
+				hi = mid;
+			else
+				lo = mid + 1;
+		}
+		return lo;
+	}
+	
+	public static function bisectLeft(a : Array<Float>, x : Float, lo = 0, ?hi : Int)
+	{
+		if (null == hi)
+			hi = a.length;
+		while (lo < hi)
+		{
+			var mid = (lo + hi) >> 1;
+			if (a[mid] < x)
+				lo = mid + 1;
+			else
+				hi = mid;
+		}
+		return lo;
+	}
 }

@@ -144,6 +144,13 @@ class Macros
 		}
 	}
 	
+	public static function stringOfTypeParams(p : Array<{ name : String, constraints : Array<ComplexType> }>)
+	{
+		return wrap(p, function(item) {
+			return item.name + (null == item.constraints || item.constraints.length == 0 ? "" : " " + Arrays.map(item.constraints, function(d, i) return stringOfComplexType(d)).join(", ")); 
+		}, "<", ">");
+	}
+	
 	public static function stringOfFunction(f : Function)
 	{
 		return "function" + wrap(f.args, stringOfFunctionArg, "(", ")") + (null != f.ret ? " : " + stringOfComplexType(f.ret) : "") + stringOfExpr(f.expr);
@@ -160,16 +167,39 @@ class Macros
 	
 	public static function stringOfField(f : Field)
 	{
-		return (f.isPublic == true ? "public " : "") + stringOfFieldType(f.type, f.name) + ";";
+		var s = "";
+		for (access in f.access)
+		{
+			switch(access)
+			{
+				case APublic:
+					s += "public ";
+				case APrivate:
+					s += "private ";
+				case AStatic:
+					s += "static ";
+				case AOverride:
+					s += "override ";
+				case ADynamic:
+					s += "dynamic ";
+				case AInline:
+					s += "inline ";
+			}
+		}
+		return s + stringOfFieldType(f.kind, f.name) + ";";
 	}
 	
 	public static function stringOfFieldType(f : FieldType, name : String)
 	{
 		return switch(f)
 		{
-			case FVar(t):			"var " + name + " : " + stringOfComplexType(t);
-			case FProp(t, get, set):"var " + name + "(" + get + "," + set + ") : " + stringOfComplexType(t);
-			case FFun(args, ret):	"function " + name + wrap(args, function(a) return (a.opt ? "?" : "") + a.name + " : " + stringOfComplexType(a.type), "(", ")") + " : " + stringOfComplexType(ret);
+			case FVar(t, e):
+				"var " + name + " : " + stringOfComplexType(t) + (null == e ? "" : " = " + stringOfExpr(e));
+			case FProp(get, set, t):
+				"var " + name + "(" + get + "," + set + ") : " + stringOfComplexType(t);
+			case FFun(f):
+				var params = f.params.length == 0 ? "" : stringOfTypeParams(f.params);
+				"function " + name + params + wrap(f.args, function(a) return (a.opt ? "?" : "") + a.name + " : " + stringOfComplexType(a.type), "(", ")") + " : " + stringOfComplexType(f.ret) + (null == f.expr ? "" : stringOfExpr(f.expr));
 		}
 	}
 }

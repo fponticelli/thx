@@ -151,6 +151,150 @@ class Dynamics
 		}
 	}
 	
+	public static function same<T1, T2>(a : T1, b : T2) : Bool
+	{
+		var ta = Types.typeName(a),
+			tb = Types.typeName(b);
+
+		if(ta != tb)
+			return false;
+		switch(Type.typeof(a))
+		{
+			case TFloat:
+				return Floats.equals(cast a, cast b);
+			case TNull, TInt, TBool:
+				return untyped a == b;
+			case TFunction:
+				return Reflect.compareMethods(a, b);
+			case TClass(c):
+				var ca = Type.getClassName(c),
+					cb = Type.getClassName(Type.getClass(b));
+				if (ca != cb)
+					return false;
+				
+				// string
+				if (Std.is(a, String) && untyped a != b)
+					return false;
+				
+				// arrays
+				if (Std.is(a, Array))
+				{
+					var aa : Array<Dynamic> = cast a,
+						ab : Array<Dynamic> = cast b;
+					if (aa.length != ab.length)
+						return false;
+					for (i in 0...aa.length)
+						if (!same(aa[i], ab[i]))
+							return false;
+					return true;
+				}
+
+				// date
+				if(Std.is(a, Date))
+					return untyped a.getTime() == b.getTime();
+
+				// hash, inthash
+				if (Std.is(a, Hash) || Std.is(a, IntHash))
+				{
+					var ha : Hash<Dynamic> = cast a,
+						hb : Hash<Dynamic> = cast b;
+					var ka = Iterators.array(ha.keys()),
+						kb = Iterators.array(hb.keys());
+					if (ka.length != kb.length)
+						return false;
+					for (key in ka)
+						if (!hb.exists(key) || !same(ha.get(key), hb.get(key)))
+							return false;
+					return true;
+				}
+				
+				// iterator or iterable
+				var t = false;
+				if ((t = Iterators.isIterator(a)) || Iterables.isIterable(a))
+				{
+					var va = t ? Iterators.array(cast a) : Iterables.array(cast a),
+						vb = t ? Iterators.array(cast b) : Iterables.array(cast b);
+					if (va.length != vb.length)
+						return false;
+					
+					for (i in 0...va.length)
+						if (!same(va[i], vb[i]))
+							return false;
+					return true;
+				}
+				
+				// custom class
+				var fields = Type.getInstanceFields(Type.getClass(a));
+				for (field in fields)
+				{
+					var va = Reflect.field(a, field);
+					if (Reflect.isFunction(va))
+						continue;
+					var vb = Reflect.field(b, field);
+					if(!same(va, vb))
+						return false;
+				}
+				return true;
+				
+			case TEnum(e) :
+				var ea = Type.getEnumName(e),
+					eb = Type.getEnumName(Type.getEnum(b));
+				if (ea != eb)
+					return false;
+
+				if (Type.enumIndex(a) != Type.enumIndex(b))
+					return false;
+				var pa = Type.enumParameters(a),
+					pb = Type.enumParameters(b);
+				for (i in 0...pa.length)
+					if (!same(pa[i], pb[i]))
+						return false;
+				return true;
+			case TObject  :
+				// anonymous object
+				var fa = Reflect.fields(a),
+					fb = Reflect.fields(b);
+				for (field in fa)
+				{
+					fb.remove(field);
+					if (!Reflect.hasField(b, field))
+						return false;
+					var va = Reflect.field(a, field);
+					if(Reflect.isFunction(va))
+						continue;
+					var vb = Reflect.field(b, field);
+					if(!same(va, vb))
+						return false;
+				}
+				if (fb.length > 0)
+					return false;
+				
+				// iterator
+				var t = false;
+				if ((t = Iterators.isIterator(a)) || Iterables.isIterable(a))
+				{
+					if (t && !Iterators.isIterator(b))
+						return false;
+					if (!t && !Iterables.isIterable(b))
+						return false;
+					
+					
+					var aa = t ? Iterators.array(cast a) : Iterables.array(cast a);
+					var ab = t ? Iterators.array(cast b) : Iterables.array(cast b);
+					if (aa.length != ab.length)
+						return false;
+					for (i in 0...aa.length)
+						if (!same(aa[i], ab[i]))
+							return false;
+					return true;
+				}
+				return true;
+			case TUnknown :
+				return throw "Unable to compare two unknown types";
+		}
+		return throw new Error("Unable to compare values: {0} and {1}", [a, b]);
+	}
+	
 	#if js inline #end public static function number(v : Dynamic) : Float
 	{
 #if js

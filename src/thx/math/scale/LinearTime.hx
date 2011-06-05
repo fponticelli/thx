@@ -17,7 +17,7 @@ class LinearTime extends Linear
 		super();
 		_usetimeticks = false;
 	}
-	
+// TODO: remove
 	public static function guessPeriodicity(a : Float, b : Float, disc = 2)
 	{
 		var delta = Math.abs(b - a);
@@ -34,17 +34,21 @@ class LinearTime extends Linear
 		else
 			return "minute";
 	}
+// TODO: remove
 	static var valids = ["minute", "hour", "day", "week", "month", "year"];
+// TODO: remove
 	var _periodicity : String;
-	
+
 	override public function domain(d : Array<Float>) : Linear
 	{
 		super.domain(d);
+// TODO: remove
 		_periodicity = guessPeriodicity(d[0], d[1]);
 		return this;
 	}
-	
+// TODO: remove
 	public function getPeriodicity() return _periodicity
+// TODO: remove
 	public function periodicity(v : String)
 	{
 		v = v.toLowerCase();
@@ -53,7 +57,7 @@ class LinearTime extends Linear
 		_periodicity = v;
 		return this;
 	}
-	
+
 	override public function tickFormat(v : Float, ?i : Int)
 	{
 		var d = Date.fromTime(v);

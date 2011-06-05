@@ -26,7 +26,7 @@ class TestHsl
 		for (test in tests)
 		{
 			Assert.isTrue(test.rgb.equals(test.hsl), "expected " + test.rgb + " but was " + test.hsl + " for " + test.hsl.toHslString());
-			var c = Hsl.ofRgb(test.rgb);
+			var c = Hsl.toHsl(test.rgb);
 			Assert.isTrue(c.equals(test.hsl), "expected " + c + " but was " + test.hsl + " for " + test.hsl.toHslString());
 		}
 	}

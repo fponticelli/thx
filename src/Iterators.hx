@@ -113,4 +113,10 @@ class Iterators
 	{
 		return Arrays.order(Iterators.array(it), f);
 	}
+	
+	public static function isIterator(v : Dynamic) {
+		var fields = Types.isAnonymous(v) ? Reflect.fields(v) : Type.getInstanceFields(Type.getClass(v));
+		if(!Lambda.has(fields, "next") || !Lambda.has(fields, "hasNext")) return false;
+		return Reflect.isFunction(Reflect.field(v, "next")) && Reflect.isFunction(Reflect.field(v, "hasNext"));
+	}
 }

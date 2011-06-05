@@ -159,4 +159,43 @@ class Floats
 	{
 		return Std.is(v, Float) || Std.is(v, Int);
 	}
+	
+	public static function equals(a : Float, b : Float, ?approx : Float = 1e-5)
+	{
+		if (Math.isNaN(a))
+			return Math.isNaN(b);
+		else if (Math.isNaN(b))
+			return false;
+		else if (!Math.isFinite(a) && !Math.isFinite(b))
+			return (a > 0) == (b > 0);
+		return Math.abs(b-a) < approx;
+	}
+	
+	public static function uninterpolatef(a : Float, b : Float)
+	{
+		b = 1 / (b - a);
+		return function(x : Float) return (x - a) * b;
+	}
+	
+	public static function uninterpolateClamp(a : Float, b : Float)
+	{
+		b = 1 / (b - a);
+		return function(x : Float) return clamp((x - a) * b, 0.0, 1.0);
+	}
+	
+	public static function uninterpolateClampf(min : Float, max : Float)
+	{
+		return function(a : Float, b : Float)
+		{
+			b = 1 / (b - a);
+			return function(x : Float) return clamp((x - a) * b, min, max);
+		}
+	}
+	
+	public static function round(x : Float, n = 2)
+	{
+		return n != 0
+			? Math.round(x * Math.pow(10, n)) * Math.pow(10, -n)
+			: Math.round(x);
+	}
 }

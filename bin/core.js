@@ -75,7 +75,7 @@ thx.error.NullArgument = function(argumentName,posInfo) {
 	if( argumentName === $_ ) return;
 	$s.push("thx.error.NullArgument::new");
 	var $spos = $s.length;
-	thx.error.Error.call(this,"invalid null argument {0} for method {1}.{2}()",[argumentName,posInfo.className,posInfo.methodName],posInfo,{ fileName : "NullArgument.hx", lineNumber : 14, className : "thx.error.NullArgument", methodName : "new"});
+	thx.error.Error.call(this,"invalid null or empty argument {0} for method {1}.{2}()",[argumentName,posInfo.className,posInfo.methodName],posInfo,{ fileName : "NullArgument.hx", lineNumber : 14, className : "thx.error.NullArgument", methodName : "new"});
 	$s.pop();
 }
 thx.error.NullArgument.__name__ = ["thx","error","NullArgument"];
@@ -881,7 +881,7 @@ thx.color.Rgb.interpolatef = function(a,b,equation) {
 thx.color.Rgb.contrast = function(c) {
 	$s.push("thx.color.Rgb::contrast");
 	var $spos = $s.length;
-	var nc = thx.color.Hsl.ofRgb(c);
+	var nc = thx.color.Hsl.toHsl(c);
 	if(nc.lightness < .5) {
 		var $tmp = new thx.color.Hsl(nc.hue,nc.saturation,nc.lightness + 0.5);
 		$s.pop();
@@ -896,8 +896,8 @@ thx.color.Rgb.contrast = function(c) {
 thx.color.Rgb.contrastBW = function(c) {
 	$s.push("thx.color.Rgb::contrastBW");
 	var $spos = $s.length;
-	var g = thx.color.Grey.ofRgb(c);
-	var nc = thx.color.Hsl.ofRgb(c);
+	var g = thx.color.Grey.toGrey(c);
+	var nc = thx.color.Hsl.toHsl(c);
 	if(g.grey < .5) {
 		var $tmp = new thx.color.Hsl(nc.hue,nc.saturation,1.0);
 		$s.pop();
@@ -1491,27 +1491,77 @@ thx.math.scale.NumericScale = function(p) {
 	this.kx = 1;
 	this.ky = 1;
 	this.f = Floats.interpolatef;
-	this.i = this.f(this._range[0],this._range[1],null);
 	this._clamp = false;
 	this._clampmin = 0.0;
 	this._clampmax = 1.0;
+	this.rescale();
 	$s.pop();
 }
 thx.math.scale.NumericScale.__name__ = ["thx","math","scale","NumericScale"];
+thx.math.scale.NumericScale.scaleBilinear = function(domain,range,uninterpolate,interpolate) {
+	$s.push("thx.math.scale.NumericScale::scaleBilinear");
+	var $spos = $s.length;
+	var u = uninterpolate(domain[0],domain[1]), i = interpolate(range[0],range[1],null);
+	var $tmp = function(x) {
+		$s.push("thx.math.scale.NumericScale::scaleBilinear@130");
+		var $spos = $s.length;
+		var $tmp = i(u(x));
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.math.scale.NumericScale.scalePolylinear = function(domain,range,uninterpolate,interpolate) {
+	$s.push("thx.math.scale.NumericScale::scalePolylinear");
+	var $spos = $s.length;
+	var u = [], i = [];
+	var _g1 = 1, _g = domain.length;
+	while(_g1 < _g) {
+		var j = _g1++;
+		u.push(uninterpolate(domain[j - 1],domain[j]));
+		i.push(interpolate(range[j - 1],range[j],null));
+	}
+	var $tmp = function(x) {
+		$s.push("thx.math.scale.NumericScale::scalePolylinear@143");
+		var $spos = $s.length;
+		var j = Arrays.bisectRight(domain,x,1,domain.length - 1) - 1;
+		var $tmp = i[j](u[j](x));
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 thx.math.scale.NumericScale.prototype._domain = null;
 thx.math.scale.NumericScale.prototype._range = null;
 thx.math.scale.NumericScale.prototype.kx = null;
 thx.math.scale.NumericScale.prototype.ky = null;
 thx.math.scale.NumericScale.prototype.f = null;
-thx.math.scale.NumericScale.prototype.i = null;
 thx.math.scale.NumericScale.prototype._clamp = null;
 thx.math.scale.NumericScale.prototype._clampmin = null;
 thx.math.scale.NumericScale.prototype._clampmax = null;
+thx.math.scale.NumericScale.prototype._output = null;
+thx.math.scale.NumericScale.prototype._input = null;
+thx.math.scale.NumericScale.prototype.rescale = function() {
+	$s.push("thx.math.scale.NumericScale::rescale");
+	var $spos = $s.length;
+	var linear = this._domain.length == 2?thx.math.scale.NumericScale.scaleBilinear:thx.math.scale.NumericScale.scalePolylinear, uninterpolate = this._clamp?Floats.uninterpolateClampf(this._clampmin,this._clampmax):Floats.uninterpolatef;
+	this._output = linear(this._domain,this._range,uninterpolate,this.f);
+	this._input = linear(this._range,this._domain,uninterpolate,Floats.interpolatef);
+	var $tmp = this;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 thx.math.scale.NumericScale.prototype.scale = function(x,_) {
 	$s.push("thx.math.scale.NumericScale::scale");
 	var $spos = $s.length;
-	x = (x - this._domain[0]) * this.kx;
-	var $tmp = this.i(this._clamp?Floats.clamp(x,this._clampmin,this._clampmax):x);
+	var $tmp = this._output(x);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -1519,7 +1569,7 @@ thx.math.scale.NumericScale.prototype.scale = function(x,_) {
 thx.math.scale.NumericScale.prototype.invert = function(y,_) {
 	$s.push("thx.math.scale.NumericScale::invert");
 	var $spos = $s.length;
-	var $tmp = (y - this._range[0]) * this.ky + this._domain[0];
+	var $tmp = this._input(y);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -1536,9 +1586,7 @@ thx.math.scale.NumericScale.prototype.domain = function(d) {
 	$s.push("thx.math.scale.NumericScale::domain");
 	var $spos = $s.length;
 	this._domain = d;
-	this.kx = 1 / (d[1] - d[0]);
-	this.ky = (d[1] - d[0]) / (this._range[1] - this._range[0]);
-	var $tmp = this;
+	var $tmp = this.rescale();
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -1555,9 +1603,7 @@ thx.math.scale.NumericScale.prototype.range = function(r) {
 	$s.push("thx.math.scale.NumericScale::range");
 	var $spos = $s.length;
 	this._range = r;
-	this.ky = (this._domain[1] - this._domain[0]) / (r[1] - r[0]);
-	this.i = this.f(r[0],r[1],null);
-	var $tmp = this;
+	var $tmp = this.rescale();
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -1583,8 +1629,8 @@ thx.math.scale.NumericScale.prototype.getInterpolate = function() {
 thx.math.scale.NumericScale.prototype.interpolatef = function(x) {
 	$s.push("thx.math.scale.NumericScale::interpolatef");
 	var $spos = $s.length;
-	this.i = (this.f = x)(this._range[0],this._range[1],null);
-	var $tmp = this;
+	this.f = x;
+	var $tmp = this.rescale();
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -1601,7 +1647,7 @@ thx.math.scale.NumericScale.prototype.clamp = function(v) {
 	$s.push("thx.math.scale.NumericScale::clamp");
 	var $spos = $s.length;
 	this._clamp = v;
-	var $tmp = this;
+	var $tmp = this.rescale();
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -1618,7 +1664,7 @@ thx.math.scale.NumericScale.prototype.clampMin = function(v) {
 	$s.push("thx.math.scale.NumericScale::clampMin");
 	var $spos = $s.length;
 	this._clampmin = v;
-	var $tmp = this;
+	var $tmp = this.rescale();
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -1635,7 +1681,7 @@ thx.math.scale.NumericScale.prototype.clampMax = function(v) {
 	$s.push("thx.math.scale.NumericScale::clampMax");
 	var $spos = $s.length;
 	this._clampmax = v;
-	var $tmp = this;
+	var $tmp = this.rescale();
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -1645,7 +1691,7 @@ thx.math.scale.NumericScale.prototype.ticks = function() {
 	var $spos = $s.length;
 	var $tmp = (function($this) {
 		var $r;
-		throw new thx.error.AbstractMethod({ fileName : "NumericScale.hx", lineNumber : 99, className : "thx.math.scale.NumericScale", methodName : "ticks"});
+		throw new thx.error.AbstractMethod({ fileName : "NumericScale.hx", lineNumber : 107, className : "thx.math.scale.NumericScale", methodName : "ticks"});
 		return $r;
 	}(this));
 	$s.pop();
@@ -1657,7 +1703,7 @@ thx.math.scale.NumericScale.prototype.tickFormat = function(v,i) {
 	var $spos = $s.length;
 	var $tmp = (function($this) {
 		var $r;
-		throw new thx.error.AbstractMethod({ fileName : "NumericScale.hx", lineNumber : 104, className : "thx.math.scale.NumericScale", methodName : "tickFormat"});
+		throw new thx.error.AbstractMethod({ fileName : "NumericScale.hx", lineNumber : 112, className : "thx.math.scale.NumericScale", methodName : "tickFormat"});
 		return $r;
 	}(this));
 	$s.pop();
@@ -1668,7 +1714,7 @@ thx.math.scale.NumericScale.prototype.transform = function(scale,t,a,b) {
 	$s.push("thx.math.scale.NumericScale::transform");
 	var $spos = $s.length;
 	var range = this.getRange().map(function(v,_) {
-		$s.push("thx.math.scale.NumericScale::transform@109");
+		$s.push("thx.math.scale.NumericScale::transform@117");
 		var $spos = $s.length;
 		var $tmp = (v - t) / scale;
 		$s.pop();
@@ -5064,6 +5110,31 @@ TestArrays.prototype.testInterpolateInts = function() {
 	utest.Assert.same([20,10],Arrays.interpolateInts(0.5,[10,20],[30,0]),null,null,{ fileName : "TestArrays.hx", lineNumber : 62, className : "TestArrays", methodName : "testInterpolateInts"});
 	$s.pop();
 }
+TestArrays.prototype.testBisect = function() {
+	$s.push("TestArrays::testBisect");
+	var $spos = $s.length;
+	var a = [1.0,2.0,3.0,4.0], t = [-1,0,1,2,3,4,5,-0.1,0.1,1.1,2.1,3.1,4.1,5.1,Math.NaN,Math.POSITIVE_INFINITY,Math.NEGATIVE_INFINITY], el = [0,0,0,1,2,3,4,0,0,1,2,3,4,4,0,4,0], er = [0,0,1,2,3,4,4,0,0,1,2,3,4,4,4,4,0];
+	var _g1 = 0, _g = t.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		utest.Assert.equals(el[i],Arrays.bisectLeft(a,t[i]),"bisectLeft, failed to compare " + el[i] + " for " + t[i],{ fileName : "TestArrays.hx", lineNumber : 87, className : "TestArrays", methodName : "testBisect"});
+		utest.Assert.equals(er[i],Arrays.bisectRight(a,t[i]),"bisectRight, failed to compare " + er[i] + " for " + t[i],{ fileName : "TestArrays.hx", lineNumber : 88, className : "TestArrays", methodName : "testBisect"});
+	}
+	var pairs = [{ lo : 2, hi : null, el : [2,2,2,2,2,3,4], er : [2,2,2,2,3,4,4]},{ lo : 0, hi : 2, el : [0,0,0,1,2,2,2], er : [0,0,1,2,2,2,2]},{ lo : 1, hi : 3, el : [1,1,1,1,2,3,3], er : [1,1,1,2,3,3,3]}];
+	t = [-1.0,0,1,2,3,4,5];
+	var _g = 0;
+	while(_g < pairs.length) {
+		var p = pairs[_g];
+		++_g;
+		var _g2 = 0, _g1 = p.el.length;
+		while(_g2 < _g1) {
+			var i = _g2++;
+			utest.Assert.equals(p.el[i],Arrays.bisectLeft(a,t[i],p.lo,p.hi),null,{ fileName : "TestArrays.hx", lineNumber : 114, className : "TestArrays", methodName : "testBisect"});
+			utest.Assert.equals(p.er[i],Arrays.bisectRight(a,t[i],p.lo,p.hi),null,{ fileName : "TestArrays.hx", lineNumber : 115, className : "TestArrays", methodName : "testBisect"});
+		}
+	}
+	$s.pop();
+}
 TestArrays.prototype.__class__ = TestArrays;
 thx.validation.TestEmail = function(p) {
 	$s.push("thx.validation.TestEmail::new");
@@ -5568,43 +5639,20 @@ thx.math.scale.Quantile.prototype._thresolds = null;
 thx.math.scale.Quantile.prototype.rescale = function() {
 	$s.push("thx.math.scale.Quantile::rescale");
 	var $spos = $s.length;
-	var i = -1, n = this._range.length, k = this._domain.length / n;
-	if(this._thresolds.length > n) this._thresolds = this._thresolds.splice(0,n);
-	while(++i < n) this._thresolds[i] = this._domain[Std["int"](i * k)];
+	var k = 0, n = this._domain.length, q = this._range.length, i, j;
+	this._thresolds[Ints.max(0,q - 2)] = 0.0;
+	while(++k < q) this._thresolds[k - 1] = 0 != (j = n * k / q) % 1?this._domain[Std["int"](~~j)]:(this._domain[i = Std["int"](~~j)] + this._domain[i - 1]) / 2;
 	$s.pop();
 }
-thx.math.scale.Quantile.prototype._quantile = function(value) {
-	$s.push("thx.math.scale.Quantile::_quantile");
-	var $spos = $s.length;
-	if(Math.isNaN(value)) {
-		$s.pop();
-		return -1;
-	}
-	var low = 0, high = this._thresolds.length - 1;
-	while(low <= high) {
-		var mid = low + high >> 1, midValue = this._thresolds[mid];
-		if(midValue < value) low = mid + 1; else if(midValue > value) high = mid - 1; else {
-			$s.pop();
-			return mid;
-		}
-	}
-	var $tmp = high < 0?0:high;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.math.scale.Quantile.prototype.scaleMap = function(x,i) {
-	$s.push("thx.math.scale.Quantile::scaleMap");
-	var $spos = $s.length;
-	var $tmp = this.scale(x);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.math.scale.Quantile.prototype.scale = function(v) {
+thx.math.scale.Quantile.prototype.scale = function(v,_) {
 	$s.push("thx.math.scale.Quantile::scale");
 	var $spos = $s.length;
-	var $tmp = this._range[this._quantile(v)];
+	if(Math.isNaN(v)) {
+		var $tmp = Math.NaN;
+		$s.pop();
+		return $tmp;
+	}
+	var $tmp = this._range[Arrays.bisectRight(this._thresolds,v,0,null)];
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -5621,7 +5669,7 @@ thx.math.scale.Quantile.prototype.domain = function(x) {
 	$s.push("thx.math.scale.Quantile::domain");
 	var $spos = $s.length;
 	this._domain = Arrays.filter(x,function(d) {
-		$s.push("thx.math.scale.Quantile::domain@64");
+		$s.push("thx.math.scale.Quantile::domain@47");
 		var $spos = $s.length;
 		var $tmp = !Math.isNaN(d);
 		$s.pop();
@@ -6351,7 +6399,7 @@ thx.color.TestHsl.prototype.testBasics = function() {
 		var test = tests[_g];
 		++_g;
 		utest.Assert.isTrue(thx.color.Rgb.equals(test.rgb,test.hsl),"expected " + test.rgb + " but was " + test.hsl + " for " + test.hsl.toHslString(),{ fileName : "TestHsl.hx", lineNumber : 28, className : "thx.color.TestHsl", methodName : "testBasics"});
-		var c = thx.color.Hsl.ofRgb(test.rgb);
+		var c = thx.color.Hsl.toHsl(test.rgb);
 		utest.Assert.isTrue(thx.color.Rgb.equals(c,test.hsl),"expected " + c + " but was " + test.hsl + " for " + test.hsl.toHslString(),{ fileName : "TestHsl.hx", lineNumber : 30, className : "thx.color.TestHsl", methodName : "testBasics"});
 	}
 	$s.pop();
@@ -6389,6 +6437,35 @@ thx.math.scale.TestQuantile = function(p) {
 thx.math.scale.TestQuantile.__name__ = ["thx","math","scale","TestQuantile"];
 thx.math.scale.TestQuantile.__super__ = thx.math.scale.TestAll;
 for(var k in thx.math.scale.TestAll.prototype ) thx.math.scale.TestQuantile.prototype[k] = thx.math.scale.TestAll.prototype[k];
+thx.math.scale.TestQuantile.prototype.testQuantile = function() {
+	$s.push("thx.math.scale.TestQuantile::testQuantile");
+	var $spos = $s.length;
+	var x = $closure(new thx.math.scale.Quantile().domain([3.0,6,7,8,8,10,13,15,16,20]).range([0.0,1,2,3]),"scale");
+	var e = [0,0,0,1,1,1,1,2,2,2,2,2,3,3,3,3];
+	var t = [3.0,6,6.9,7,7.1,8,8.9,9,9.1,10,13,14.9,15,15.1,16,20];
+	var _g1 = 0, _g = t.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		utest.Assert.equals(e[i],x(t[i]),"expected " + e[i] + " but was " + x(t[i]) + " for " + t[i],{ fileName : "TestQuantile.hx", lineNumber : 22, className : "thx.math.scale.TestQuantile", methodName : "testQuantile"});
+	}
+	x = $closure(new thx.math.scale.Quantile().domain([3.0,6,7,8,8,9,10,13,15,16,20]).range([0.0,1,2,3]),"scale");
+	var e1 = [0,0,0,1,1,1,1,2,2,2,2,2,3,3,3,3];
+	var t1 = [3.0,6,6.9,7,7.1,8,8.9,9.0,9.1,10,13,14.9,15,15.1,16,20];
+	var _g1 = 0, _g = t1.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		utest.Assert.equals(e1[i],x(t1[i]),"expected " + e1[i] + " but was " + x(t1[i]) + " for " + t1[i],{ fileName : "TestQuantile.hx", lineNumber : 32, className : "thx.math.scale.TestQuantile", methodName : "testQuantile"});
+	}
+	x = $closure(new thx.math.scale.Quantile().domain([0.0,1]).range([0.0,1]),"scale");
+	var e2 = [0,0,0,1,1,1];
+	var t2 = [-0.5,0,0.49,0.51,1,1.5];
+	var _g1 = 0, _g = t2.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		utest.Assert.equals(e2[i],x(t2[i]),"expected " + e2[i] + " but was " + x(t2[i]) + " for " + t2[i],{ fileName : "TestQuantile.hx", lineNumber : 42, className : "thx.math.scale.TestQuantile", methodName : "testQuantile"});
+	}
+	$s.pop();
+}
 thx.math.scale.TestQuantile.prototype.__class__ = thx.math.scale.TestQuantile;
 thx.svg.TestArc = function(p) {
 	if( p === $_ ) return;
@@ -7021,6 +7098,91 @@ Floats.isNumeric = function(v) {
 	return $tmp;
 	$s.pop();
 }
+Floats.equals = function(a,b,approx) {
+	$s.push("Floats::equals");
+	var $spos = $s.length;
+	if(approx == null) approx = 1e-5;
+	if(Math.isNaN(a)) {
+		var $tmp = Math.isNaN(b);
+		$s.pop();
+		return $tmp;
+	} else if(Math.isNaN(b)) {
+		$s.pop();
+		return false;
+	} else if(!Math.isFinite(a) && !Math.isFinite(b)) {
+		var $tmp = a > 0 == b > 0;
+		$s.pop();
+		return $tmp;
+	}
+	var $tmp = Math.abs(b - a) < approx;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Floats.uninterpolatef = function(a,b) {
+	$s.push("Floats::uninterpolatef");
+	var $spos = $s.length;
+	b = 1 / (b - a);
+	var $tmp = function(x) {
+		$s.push("Floats::uninterpolatef@177");
+		var $spos = $s.length;
+		var $tmp = (x - a) * b;
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Floats.uninterpolateClamp = function(a,b) {
+	$s.push("Floats::uninterpolateClamp");
+	var $spos = $s.length;
+	b = 1 / (b - a);
+	var $tmp = function(x) {
+		$s.push("Floats::uninterpolateClamp@183");
+		var $spos = $s.length;
+		var $tmp = Floats.clamp((x - a) * b,0.0,1.0);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Floats.uninterpolateClampf = function(min,max) {
+	$s.push("Floats::uninterpolateClampf");
+	var $spos = $s.length;
+	var $tmp = function(a,b) {
+		$s.push("Floats::uninterpolateClampf@188");
+		var $spos = $s.length;
+		b = 1 / (b - a);
+		var $tmp = function(x) {
+			$s.push("Floats::uninterpolateClampf@188@191");
+			var $spos = $s.length;
+			var $tmp = Floats.clamp((x - a) * b,min,max);
+			$s.pop();
+			return $tmp;
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Floats.round = function(x,n) {
+	$s.push("Floats::round");
+	var $spos = $s.length;
+	if(n == null) n = 2;
+	var $tmp = n != 0?Math.round(x * Math.pow(10,n)) * Math.pow(10,-n):Math.round(x);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 Floats.prototype.__class__ = Floats;
 thx.color.TestCmyk = function(p) {
 	$s.push("thx.color.TestCmyk::new");
@@ -7333,6 +7495,134 @@ thx.util.TestAll.main = function() {
 	$s.pop();
 }
 thx.util.TestAll.prototype.__class__ = thx.util.TestAll;
+Iterables = function() { }
+Iterables.__name__ = ["Iterables"];
+Iterables.indexOf = function(it,v,f) {
+	$s.push("Iterables::indexOf");
+	var $spos = $s.length;
+	var $tmp = Iterators.indexOf(it.iterator(),v,f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.contains = function(it,v,f) {
+	$s.push("Iterables::contains");
+	var $spos = $s.length;
+	var $tmp = Iterators.contains(it.iterator(),v,f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.array = function(it) {
+	$s.push("Iterables::array");
+	var $spos = $s.length;
+	var $tmp = Iterators.array(it.iterator());
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.map = function(it,f) {
+	$s.push("Iterables::map");
+	var $spos = $s.length;
+	var $tmp = Iterators.map(it.iterator(),f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.each = function(it,f) {
+	$s.push("Iterables::each");
+	var $spos = $s.length;
+	var $tmp = Iterators.each(it.iterator(),f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.reduce = function(it,f,initialValue) {
+	$s.push("Iterables::reduce");
+	var $spos = $s.length;
+	var $tmp = Iterators.reduce(it.iterator(),f,initialValue);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.random = function(it) {
+	$s.push("Iterables::random");
+	var $spos = $s.length;
+	var $tmp = Arrays.random(Iterators.array(it.iterator()));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.any = function(it,f) {
+	$s.push("Iterables::any");
+	var $spos = $s.length;
+	var $tmp = Iterators.any(it.iterator(),f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.all = function(it,f) {
+	$s.push("Iterables::all");
+	var $spos = $s.length;
+	var $tmp = Iterators.all(it.iterator(),f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.last = function(it) {
+	$s.push("Iterables::last");
+	var $spos = $s.length;
+	var $tmp = Iterators.last(it.iterator());
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.lastf = function(it,f) {
+	$s.push("Iterables::lastf");
+	var $spos = $s.length;
+	var $tmp = Iterators.lastf(it.iterator(),f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.first = function(it) {
+	$s.push("Iterables::first");
+	var $spos = $s.length;
+	var $tmp = it.iterator().next();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.firstf = function(it,f) {
+	$s.push("Iterables::firstf");
+	var $spos = $s.length;
+	var $tmp = Iterators.firstf(it.iterator(),f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.order = function(it,f) {
+	$s.push("Iterables::order");
+	var $spos = $s.length;
+	var $tmp = Arrays.order(Iterators.array(it.iterator()),f);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.isIterable = function(v) {
+	$s.push("Iterables::isIterable");
+	var $spos = $s.length;
+	var fields = Reflect.isObject(v) && null == Type.getClass(v)?Reflect.fields(v):Type.getInstanceFields(Type.getClass(v));
+	if(!Lambda.has(fields,"iterator")) {
+		$s.pop();
+		return false;
+	}
+	var $tmp = Reflect.isFunction(Reflect.field(v,"iterator"));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Iterables.prototype.__class__ = Iterables;
 thx.validation.PatternValidator = function(pattern,failureMessage) {
 	if( pattern === $_ ) return;
 	$s.push("thx.validation.PatternValidator::new");
@@ -7986,6 +8276,207 @@ Dynamics.clone = function(v) {
 		}
 		break;
 	}
+	$s.pop();
+}
+Dynamics.same = function(a,b) {
+	$s.push("Dynamics::same");
+	var $spos = $s.length;
+	var ta = Types.typeName(a), tb = Types.typeName(b);
+	if(ta != tb) {
+		$s.pop();
+		return false;
+	}
+	var $e = (Type["typeof"](a));
+	switch( $e[1] ) {
+	case 2:
+		var $tmp = Floats.equals(a,b);
+		$s.pop();
+		return $tmp;
+	case 0:
+	case 1:
+	case 3:
+		var $tmp = a == b;
+		$s.pop();
+		return $tmp;
+	case 5:
+		var $tmp = Reflect.compareMethods(a,b);
+		$s.pop();
+		return $tmp;
+	case 6:
+		var c = $e[2];
+		var ca = Type.getClassName(c), cb = Type.getClassName(Type.getClass(b));
+		if(ca != cb) {
+			$s.pop();
+			return false;
+		}
+		if(Std["is"](a,String) && a != b) {
+			$s.pop();
+			return false;
+		}
+		if(Std["is"](a,Array)) {
+			var aa = a, ab = b;
+			if(aa.length != ab.length) {
+				$s.pop();
+				return false;
+			}
+			var _g1 = 0, _g = aa.length;
+			while(_g1 < _g) {
+				var i = _g1++;
+				if(!Dynamics.same(aa[i],ab[i])) {
+					$s.pop();
+					return false;
+				}
+			}
+			$s.pop();
+			return true;
+		}
+		if(Std["is"](a,Date)) {
+			var $tmp = a.getTime() == b.getTime();
+			$s.pop();
+			return $tmp;
+		}
+		if(Std["is"](a,Hash) || Std["is"](a,IntHash)) {
+			var ha = a, hb = b;
+			var ka = Iterators.array(ha.keys()), kb = Iterators.array(hb.keys());
+			if(ka.length != kb.length) {
+				$s.pop();
+				return false;
+			}
+			var _g = 0;
+			while(_g < ka.length) {
+				var key = ka[_g];
+				++_g;
+				if(!hb.exists(key) || !Dynamics.same(ha.get(key),hb.get(key))) {
+					$s.pop();
+					return false;
+				}
+			}
+			$s.pop();
+			return true;
+		}
+		var t = false;
+		if((t = Iterators.isIterator(a)) || Iterables.isIterable(a)) {
+			var va = t?Iterators.array(a):Iterators.array(a.iterator()), vb = t?Iterators.array(b):Iterators.array(b.iterator());
+			if(va.length != vb.length) {
+				$s.pop();
+				return false;
+			}
+			var _g1 = 0, _g = va.length;
+			while(_g1 < _g) {
+				var i = _g1++;
+				if(!Dynamics.same(va[i],vb[i])) {
+					$s.pop();
+					return false;
+				}
+			}
+			$s.pop();
+			return true;
+		}
+		var fields = Type.getInstanceFields(Type.getClass(a));
+		var _g = 0;
+		while(_g < fields.length) {
+			var field = fields[_g];
+			++_g;
+			var va = Reflect.field(a,field);
+			if(Reflect.isFunction(va)) continue;
+			var vb = Reflect.field(b,field);
+			if(!Dynamics.same(va,vb)) {
+				$s.pop();
+				return false;
+			}
+		}
+		$s.pop();
+		return true;
+	case 7:
+		var e = $e[2];
+		var ea = Type.getEnumName(e), eb = Type.getEnumName(Type.getEnum(b));
+		if(ea != eb) {
+			$s.pop();
+			return false;
+		}
+		if(a[1] != b[1]) {
+			$s.pop();
+			return false;
+		}
+		var pa = a.slice(2), pb = b.slice(2);
+		var _g1 = 0, _g = pa.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			if(!Dynamics.same(pa[i],pb[i])) {
+				$s.pop();
+				return false;
+			}
+		}
+		$s.pop();
+		return true;
+	case 4:
+		var fa = Reflect.fields(a), fb = Reflect.fields(b);
+		var _g = 0;
+		while(_g < fa.length) {
+			var field = fa[_g];
+			++_g;
+			fb.remove(field);
+			if(!Reflect.hasField(b,field)) {
+				$s.pop();
+				return false;
+			}
+			var va = Reflect.field(a,field);
+			if(Reflect.isFunction(va)) continue;
+			var vb = Reflect.field(b,field);
+			if(!Dynamics.same(va,vb)) {
+				$s.pop();
+				return false;
+			}
+		}
+		if(fb.length > 0) {
+			$s.pop();
+			return false;
+		}
+		var t = false;
+		if((t = Iterators.isIterator(a)) || Iterables.isIterable(a)) {
+			if(t && !Iterators.isIterator(b)) {
+				$s.pop();
+				return false;
+			}
+			if(!t && !Iterables.isIterable(b)) {
+				$s.pop();
+				return false;
+			}
+			var aa = t?Iterators.array(a):Iterators.array(a.iterator());
+			var ab = t?Iterators.array(b):Iterators.array(b.iterator());
+			if(aa.length != ab.length) {
+				$s.pop();
+				return false;
+			}
+			var _g1 = 0, _g = aa.length;
+			while(_g1 < _g) {
+				var i = _g1++;
+				if(!Dynamics.same(aa[i],ab[i])) {
+					$s.pop();
+					return false;
+				}
+			}
+			$s.pop();
+			return true;
+		}
+		$s.pop();
+		return true;
+	case 8:
+		var $tmp = (function($this) {
+			var $r;
+			throw "Unable to compare two unknown types";
+			return $r;
+		}(this));
+		$s.pop();
+		return $tmp;
+	}
+	var $tmp = (function($this) {
+		var $r;
+		throw new thx.error.Error("Unable to compare values: {0} and {1}",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 295, className : "Dynamics", methodName : "same"});
+		return $r;
+	}(this));
+	$s.pop();
+	return $tmp;
 	$s.pop();
 }
 Dynamics.number = function(v) {
@@ -8803,7 +9294,6 @@ utest.Assert.sameAs = function(expected,value,status) {
 	var $spos = $s.length;
 	var texpected = utest.Assert.getTypeName(expected);
 	var tvalue = utest.Assert.getTypeName(value);
-	var isanonym = texpected == "Object";
 	if(texpected != tvalue) {
 		status.error = "expected type " + texpected + " but it is " + tvalue + (status.path == ""?"":" for field " + status.path);
 		$s.pop();
@@ -8902,7 +9392,7 @@ utest.Assert.sameAs = function(expected,value,status) {
 		if(Std["is"](expected,Hash) || Std["is"](expected,IntHash)) {
 			if(status.recursive || status.path == "") {
 				var keys = Lambda.array({ iterator : function() {
-					$s.push("utest.Assert::sameAs@285");
+					$s.push("utest.Assert::sameAs@284");
 					var $spos = $s.length;
 					var $tmp = expected.keys();
 					$s.pop();
@@ -8910,7 +9400,7 @@ utest.Assert.sameAs = function(expected,value,status) {
 					$s.pop();
 				}});
 				var vkeys = Lambda.array({ iterator : function() {
-					$s.push("utest.Assert::sameAs@286");
+					$s.push("utest.Assert::sameAs@285");
 					var $spos = $s.length;
 					var $tmp = value.keys();
 					$s.pop();
@@ -8941,14 +9431,14 @@ utest.Assert.sameAs = function(expected,value,status) {
 		if(utest.Assert.isIterator(expected,false)) {
 			if(status.recursive || status.path == "") {
 				var evalues = Lambda.array({ iterator : function() {
-					$s.push("utest.Assert::sameAs@307");
+					$s.push("utest.Assert::sameAs@306");
 					var $spos = $s.length;
 					$s.pop();
 					return expected;
 					$s.pop();
 				}});
 				var vvalues = Lambda.array({ iterator : function() {
-					$s.push("utest.Assert::sameAs@308");
+					$s.push("utest.Assert::sameAs@307");
 					var $spos = $s.length;
 					$s.pop();
 					return value;
@@ -9085,14 +9575,14 @@ utest.Assert.sameAs = function(expected,value,status) {
 			}
 			if(status.recursive || status.path == "") {
 				var evalues = Lambda.array({ iterator : function() {
-					$s.push("utest.Assert::sameAs@423");
+					$s.push("utest.Assert::sameAs@422");
 					var $spos = $s.length;
 					$s.pop();
 					return expected;
 					$s.pop();
 				}});
 				var vvalues = Lambda.array({ iterator : function() {
-					$s.push("utest.Assert::sameAs@424");
+					$s.push("utest.Assert::sameAs@423");
 					var $spos = $s.length;
 					$s.pop();
 					return value;
@@ -9183,7 +9673,7 @@ utest.Assert.q = function(v) {
 utest.Assert.same = function(expected,value,recursive,msg,pos) {
 	$s.push("utest.Assert::same");
 	var $spos = $s.length;
-	if(null == recursive) recursive = true;
+	if(recursive == null) recursive = true;
 	var status = { recursive : recursive, path : "", error : null};
 	if(utest.Assert.sameAs(expected,value,status)) utest.Assert.isTrue(true,msg,pos); else utest.Assert.fail(msg == null?status.error:msg,pos);
 	$s.pop();
@@ -9282,7 +9772,7 @@ utest.Assert.createAsync = function(f,timeout) {
 	$s.push("utest.Assert::createAsync");
 	var $spos = $s.length;
 	var $tmp = function() {
-		$s.push("utest.Assert::createAsync@664");
+		$s.push("utest.Assert::createAsync@661");
 		var $spos = $s.length;
 		$s.pop();
 	};
@@ -9294,7 +9784,7 @@ utest.Assert.createEvent = function(f,timeout) {
 	$s.push("utest.Assert::createEvent");
 	var $spos = $s.length;
 	var $tmp = function(e) {
-		$s.push("utest.Assert::createEvent@675");
+		$s.push("utest.Assert::createEvent@672");
 		var $spos = $s.length;
 		$s.pop();
 	};
@@ -12223,42 +12713,51 @@ thx.math.scale.TestLinear.prototype.testDomain12 = function() {
 	this.assertScale($closure(scale,"scale"),expected,values,{ fileName : "TestLinear.hx", lineNumber : 29, className : "thx.math.scale.TestLinear", methodName : "testDomain12"});
 	$s.pop();
 }
+thx.math.scale.TestLinear.prototype.testPolylinear = function() {
+	$s.push("thx.math.scale.TestLinear::testPolylinear");
+	var $spos = $s.length;
+	var scale = new thx.math.scale.Linear().domain([-1.0,0.0,1.0]).range([-100.0,0.0,10.0]);
+	var expected = [-150.0,-100.0,-50.0,0.0,5.0,10.0,15.0];
+	var values = [-1.5,-1.0,-0.5,0.0,0.5,1.0,1.5];
+	this.assertScale($closure(scale,"scale"),expected,values,{ fileName : "TestLinear.hx", lineNumber : 38, className : "thx.math.scale.TestLinear", methodName : "testPolylinear"});
+	$s.pop();
+}
 thx.math.scale.TestLinear.prototype.testTicks = function() {
 	$s.push("thx.math.scale.TestLinear::testTicks");
 	var $spos = $s.length;
 	var scale = new thx.math.scale.Linear();
 	utest.Assert.equals("0, 1",scale.modulo(1).ticks().map(function(d,_) {
-		$s.push("thx.math.scale.TestLinear::testTicks@36");
+		$s.push("thx.math.scale.TestLinear::testTicks@45");
 		var $spos = $s.length;
 		var $tmp = scale.tickFormat(d);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 36, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
+	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 45, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
 	utest.Assert.equals("0.0, 0.5, 1.0",scale.modulo(2).ticks().map(function(d,_) {
-		$s.push("thx.math.scale.TestLinear::testTicks@37");
+		$s.push("thx.math.scale.TestLinear::testTicks@46");
 		var $spos = $s.length;
 		var $tmp = scale.tickFormat(d);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 37, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
+	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 46, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
 	utest.Assert.equals("0.0, 0.2, 0.4, 0.6, 0.8, 1.0",scale.modulo(5).ticks().map(function(d,_) {
-		$s.push("thx.math.scale.TestLinear::testTicks@38");
+		$s.push("thx.math.scale.TestLinear::testTicks@47");
 		var $spos = $s.length;
 		var $tmp = scale.tickFormat(d);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 38, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
+	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 47, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
 	utest.Assert.equals("0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0",scale.modulo(10).ticks().map(function(d,_) {
-		$s.push("thx.math.scale.TestLinear::testTicks@39");
+		$s.push("thx.math.scale.TestLinear::testTicks@48");
 		var $spos = $s.length;
 		var $tmp = scale.tickFormat(d);
 		$s.pop();
 		return $tmp;
 		$s.pop();
-	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 39, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
+	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 48, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
 	$s.pop();
 }
 thx.math.scale.TestLinear.prototype.__class__ = thx.math.scale.TestLinear;
@@ -15874,6 +16373,41 @@ Arrays.firstf = function(arr,f) {
 	return null;
 	$s.pop();
 }
+Arrays.bisect = function(a,x,lo,hi) {
+	$s.push("Arrays::bisect");
+	var $spos = $s.length;
+	if(lo == null) lo = 0;
+	var $tmp = Arrays.bisectRight(a,x,lo,hi);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Arrays.bisectRight = function(a,x,lo,hi) {
+	$s.push("Arrays::bisectRight");
+	var $spos = $s.length;
+	if(lo == null) lo = 0;
+	if(null == hi) hi = a.length;
+	while(lo < hi) {
+		var mid = lo + hi >> 1;
+		if(x < a[mid]) hi = mid; else lo = mid + 1;
+	}
+	$s.pop();
+	return lo;
+	$s.pop();
+}
+Arrays.bisectLeft = function(a,x,lo,hi) {
+	$s.push("Arrays::bisectLeft");
+	var $spos = $s.length;
+	if(lo == null) lo = 0;
+	if(null == hi) hi = a.length;
+	while(lo < hi) {
+		var mid = lo + hi >> 1;
+		if(a[mid] < x) lo = mid + 1; else hi = mid;
+	}
+	$s.pop();
+	return lo;
+	$s.pop();
+}
 Arrays.prototype.__class__ = Arrays;
 utest.Assertation = { __ename__ : ["utest","Assertation"], __constructs__ : ["Success","Failure","Error","SetupError","TeardownError","TimeoutError","AsyncError","Warning"] }
 utest.Assertation.Success = function(pos) { var $x = ["Success",0,pos]; $x.__enum__ = utest.Assertation; $x.toString = $estr; return $x; }
@@ -18046,8 +18580,8 @@ thx.color.Grey = function(value) {
 thx.color.Grey.__name__ = ["thx","color","Grey"];
 thx.color.Grey.__super__ = thx.color.Rgb;
 for(var k in thx.color.Rgb.prototype ) thx.color.Grey.prototype[k] = thx.color.Rgb.prototype[k];
-thx.color.Grey.ofRgb = function(rgb,luminance) {
-	$s.push("thx.color.Grey::ofRgb");
+thx.color.Grey.toGrey = function(rgb,luminance) {
+	$s.push("thx.color.Grey::toGrey");
 	var $spos = $s.length;
 	if(null == luminance) luminance = thx.color.PerceivedLuminance.Perceived;
 	switch( (luminance)[1] ) {
@@ -18172,8 +18706,8 @@ thx.color.Hsl._c = function(d,s,l) {
 	}
 	$s.pop();
 }
-thx.color.Hsl.ofRgb = function(c) {
-	$s.push("thx.color.Hsl::ofRgb");
+thx.color.Hsl.toHsl = function(c) {
+	$s.push("thx.color.Hsl::toHsl");
 	var $spos = $s.length;
 	var r = c.red / 255.0;
 	var g = c.green / 255.0, b = c.blue / 255.0, min = Floats.min(r < g?r:g,b), max = Floats.max(r > g?r:g,b), delta = max - min, h, s, l = (max + min) / 2;
@@ -22651,6 +23185,19 @@ Iterators.order = function(it,f) {
 	return $tmp;
 	$s.pop();
 }
+Iterators.isIterator = function(v) {
+	$s.push("Iterators::isIterator");
+	var $spos = $s.length;
+	var fields = Reflect.isObject(v) && null == Type.getClass(v)?Reflect.fields(v):Type.getInstanceFields(Type.getClass(v));
+	if(!Lambda.has(fields,"next") || !Lambda.has(fields,"hasNext")) {
+		$s.pop();
+		return false;
+	}
+	var $tmp = Reflect.isFunction(Reflect.field(v,"next")) && Reflect.isFunction(Reflect.field(v,"hasNext"));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 Iterators.prototype.__class__ = Iterators;
 thx.validation.IncrementValidator = function(increment) {
 	if( increment === $_ ) return;
@@ -25706,7 +26253,7 @@ utest.TestHandler.POLLING_TIME = 10;
 thx.js.BaseTransition._id = 0;
 thx.js.BaseTransition._inheritid = 0;
 thx.ini.IniDecoder.linesplitter = new EReg("[^\\\\](#|;)","");
-Ints._reparse = new EReg("^(\\+|-)?\\d+$","");
+Ints._reparse = new EReg("^([+-])?\\d+$","");
 thx.xml.Namespace.prefix = (function() {
 	$s.push("thx.math.Equations::polynomialf");
 	var $spos = $s.length;

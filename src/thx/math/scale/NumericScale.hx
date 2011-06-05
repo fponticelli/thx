@@ -16,10 +16,11 @@ class NumericScale<This>
 	var kx : Float;
 	var ky : Float;
 	var f : Float -> Float -> (Float -> Float) -> (Float -> Float);
-	var i : Float -> Float;
 	var _clamp : Bool;
 	var _clampmin : Float;
 	var _clampmax : Float;
+	var _output : Float -> Float;
+	var _input : Float -> Float;
 	public function new()
 	{
 		_domain = [0.0, 1.0];
@@ -27,36 +28,43 @@ class NumericScale<This>
 		
 		kx = 1; ky = 1;
 		f = Floats.interpolatef;
-		i = f(_range[0], _range[1], null);
 		_clamp = false;
 		_clampmin = 0.0;
 		_clampmax = 1.0;
+		rescale();
+	}
+	
+	function rescale()
+	{
+		var linear = _domain.length == 2 ? scaleBilinear : scalePolylinear,
+			uninterpolate = _clamp ? Floats.uninterpolateClampf(_clampmin, _clampmax) : Floats.uninterpolatef;
+		_output = linear(_domain, _range, uninterpolate, f);
+		_input = linear(_range, _domain, uninterpolate, Floats.interpolatef);
+		return _this();
 	}
 	
 	public function scale(x : Float, ?_) : Float
 	{
-		x = (x - _domain[0]) * kx;
-		return i(_clamp ? Floats.clamp(x, _clampmin, _clampmax) : x);
+		return _output(x);
 	}
 	
-	public function invert(y : Float, ?_) : Float return (y - _range[0]) * ky + _domain[0]
+	public function invert(y : Float, ?_) : Float
+	{
+		return _input(y);
+	}
 
 	public function getDomain() : Array<Float> return _domain
 	public function domain(d : Array<Float>) : This
 	{
 		_domain = d;
-		kx = 1 / (d[1] - d[0]);
-		ky = (d[1] - d[0]) / (_range[1] - _range[0]);
-		return _this();
+		return rescale();
 	}
 	
 	public function getRange() : Array<Float> return _range
 	public function range(r : Array<Float>) : This
 	{
 		_range = r;
-		ky = (_domain[1] - _domain[0]) / (r[1] - r[0]);
-		i = f(r[0], r[1], null);
-		return _this();
+		return rescale();
 	}
 
 	public function rangeRound(r : Array<Float>) : This
@@ -69,29 +77,29 @@ class NumericScale<This>
 	public function getInterpolate() : Float -> Float -> (Float -> Float) -> (Float -> Float) return f
 	public function interpolatef(x : Float -> Float -> (Float -> Float) -> (Float -> Float)) : This
 	{
-		i = (f = x)(_range[0], _range[1], null);
-		return _this();
+		f = x;
+		return rescale();
 	}
 	
 	public function getClamp() : Bool return _clamp
 	public function clamp(v : Bool) : This
 	{
 		this._clamp = v;
-		return _this();
+		return rescale();
 	}
 	
 	public function getClampMin() : Float return _clampmin
 	public function clampMin(v : Float) : This
 	{
 		this._clampmin = v;
-		return _this();
+		return rescale();
 	}
 	
 	public function getClampMax() : Float return _clampmax
 	public function clampMax(v : Float) : This
 	{
 		this._clampmax = v;
-		return _this();
+		return rescale();
 	}
 	
 	public function ticks() : Array<Float>
@@ -114,4 +122,28 @@ class NumericScale<This>
 	}
 	
 	inline function _this() : This return cast this
+	
+	static function scaleBilinear(domain : Array<Float>, range : Array<Float>, uninterpolate : Float -> Float -> (Float -> Float), interpolate : Float -> Float -> (Float -> Float) -> (Float -> Float))
+	{
+		var u = uninterpolate(domain[0], domain[1]),
+			i = interpolate(range[0], range[1], null);
+		return function(x) return i(u(x));
+	}
+	
+	static function scalePolylinear(domain : Array<Float>, range : Array<Float>, uninterpolate : Float -> Float -> (Float -> Float), interpolate : Float -> Float -> (Float -> Float) -> (Float -> Float))
+	{
+		var u = [],
+			i = [];
+		for (j in 1...domain.length)
+		{
+			u.push(uninterpolate(domain[j - 1], domain[j]));
+			i.push(interpolate(range[j - 1], range[j], null));
+		}
+		
+		return function(x)
+		{
+			var j = Arrays.bisect(domain, x, 1, domain.length - 1) - 1;
+			return i[j](u[j](x));
+		}
+	}
 }
