@@ -12567,15 +12567,7 @@ thx.math.scale.Ordinal.prototype.scalef = function() {
 	return $tmp;
 	$s.pop();
 }
-thx.math.scale.Ordinal.prototype.scaleMap = function(x,i) {
-	$s.push("thx.math.scale.Ordinal::scaleMap");
-	var $spos = $s.length;
-	var $tmp = this.scale(x);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.math.scale.Ordinal.prototype.scale = function(x) {
+thx.math.scale.Ordinal.prototype.scale = function(x,_) {
 	$s.push("thx.math.scale.Ordinal::scale");
 	var $spos = $s.length;
 	var i = this._domain.indexOf(x);
@@ -14311,21 +14303,21 @@ thx.math.scale.TestOrdinal.prototype.testRange = function() {
 	$s.push("thx.math.scale.TestOrdinal::testRange");
 	var $spos = $s.length;
 	var scale = new thx.math.scale.Ordinal().domain(thx.math.scale.TestOrdinal.data).range([0,1,2,3,4]);
-	utest.Assert.same([0,1,2,3,4],thx.math.scale.TestOrdinal.data.map($closure(scale,"scaleMap")),null,null,{ fileName : "TestOrdinal.hx", lineNumber : 15, className : "thx.math.scale.TestOrdinal", methodName : "testRange"});
+	utest.Assert.same([0,1,2,3,4],thx.math.scale.TestOrdinal.data.map($closure(scale,"scale")),null,null,{ fileName : "TestOrdinal.hx", lineNumber : 15, className : "thx.math.scale.TestOrdinal", methodName : "testRange"});
 	$s.pop();
 }
 thx.math.scale.TestOrdinal.prototype.testRangeBands = function() {
 	$s.push("thx.math.scale.TestOrdinal::testRangeBands");
 	var $spos = $s.length;
 	var scale = new thx.math.scale.Ordinal().domain(thx.math.scale.TestOrdinal.data).rangeBands(0,100);
-	utest.Assert.same([0.0,20.0,40.0,60.0,80.0],thx.math.scale.TestOrdinal.data.map($closure(scale,"scaleMap")),null,null,{ fileName : "TestOrdinal.hx", lineNumber : 23, className : "thx.math.scale.TestOrdinal", methodName : "testRangeBands"});
+	utest.Assert.same([0.0,20.0,40.0,60.0,80.0],thx.math.scale.TestOrdinal.data.map($closure(scale,"scale")),null,null,{ fileName : "TestOrdinal.hx", lineNumber : 23, className : "thx.math.scale.TestOrdinal", methodName : "testRangeBands"});
 	$s.pop();
 }
 thx.math.scale.TestOrdinal.prototype.testRangePoints = function() {
 	$s.push("thx.math.scale.TestOrdinal::testRangePoints");
 	var $spos = $s.length;
 	var scale = new thx.math.scale.Ordinal().domain(thx.math.scale.TestOrdinal.data).rangePoints(0,100);
-	utest.Assert.same([0.0,25.0,50.0,75.0,100.0],thx.math.scale.TestOrdinal.data.map($closure(scale,"scaleMap")),null,null,{ fileName : "TestOrdinal.hx", lineNumber : 31, className : "thx.math.scale.TestOrdinal", methodName : "testRangePoints"});
+	utest.Assert.same([0.0,25.0,50.0,75.0,100.0],thx.math.scale.TestOrdinal.data.map($closure(scale,"scale")),null,null,{ fileName : "TestOrdinal.hx", lineNumber : 31, className : "thx.math.scale.TestOrdinal", methodName : "testRangePoints"});
 	$s.pop();
 }
 thx.math.scale.TestOrdinal.prototype.__class__ = thx.math.scale.TestOrdinal;
@@ -22457,15 +22449,7 @@ thx.math.scale.Quantize.prototype.x1 = null;
 thx.math.scale.Quantize.prototype.kx = null;
 thx.math.scale.Quantize.prototype.i = null;
 thx.math.scale.Quantize.prototype._range = null;
-thx.math.scale.Quantize.prototype.scaleMap = function(x,i) {
-	$s.push("thx.math.scale.Quantize::scaleMap");
-	var $spos = $s.length;
-	var $tmp = this.scale(x);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.math.scale.Quantize.prototype.scale = function(x) {
+thx.math.scale.Quantize.prototype.scale = function(x,_) {
 	$s.push("thx.math.scale.Quantize::scale");
 	var $spos = $s.length;
 	var $tmp = this._range[Std["int"](Math.max(0,Math.min(this.i,Math.floor(this.kx * (x - this.x0)))))];

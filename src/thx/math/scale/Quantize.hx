@@ -20,10 +20,8 @@ class Quantize
 		i = 1;
 		_range = [0.0, 1.0];
 	}
-	
-	public function scaleMap(x : Float, i : Int) return scale(x)
-	
-	public function scale(x : Float)
+
+	public function scale(x : Float, ?_)
 	{
 		return _range[Std.int(Math.max(0, Math.min(i, Math.floor(kx * (x - x0)))))];
 	}
