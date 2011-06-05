@@ -8,6 +8,8 @@ package thx.js;
 import utest.Assert;
 import utest.Runner;
 import utest.ui.Report;
+// for inclusion purpose only
+import thx.js.behavior.Zoom;
 
 class TestAll
 {

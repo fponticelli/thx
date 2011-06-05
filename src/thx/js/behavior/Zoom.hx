@@ -15,6 +15,30 @@ using Arrays;
 
 class Zoom<TData>
 {
+	/*
+	var x : Float;
+	var y : Float,
+	var z : Float,
+	var listneres : Array<>;
+	var pan;
+	var zoom;
+	*/
+	static var _outer : HtmlDom;
+	var _dispatcher : HtmlDom -> Int -> Void;
+	public function new()
+	{
+		if(null == _outer)
+			_outer = Dom.select("body").append("div")
+				.style("visibility").string("hidden")
+				.style("position").string("absolute")
+				.style("top").string("-3000px")
+				.style("height").float(0)
+				.style("overflow-y").string("scroll")
+			.append("div")
+				.style("height").string("2000px")
+				.node().parentNode;
+	}
+	
 	var webkit533 : Int;
 	static var last = 0.0;
 	var _pan : {
@@ -34,8 +58,7 @@ class Zoom<TData>
 	var _x : Float;
 	var _y : Float;
 	var _z : Float;
-	var _dispatch : HtmlDom -> Int -> Void;
-	
+/*	
 	public function new()
 	{
 		webkit533 = (~/WebKit\/533/).match(Lib.window.navigator.userAgent) ? -1 : 0;
@@ -43,7 +66,7 @@ class Zoom<TData>
 		_y = 0;
 		_z = 0;
 	}
-	
+*/
 	function mousedown(d : HtmlDom, i : Int)
 	{
 		_pan = {
@@ -80,10 +103,9 @@ class Zoom<TData>
 	function mousewheel(d : HtmlDom, i : Int)
 	{
 		var e = thx.js.Dom.event;
-		untyped e.preventDefault();
 		if (null == _zoom)
 		{
-			var p = Svg.mouse((null != (cast untyped d.nearestViewportElement) ? (cast untyped d.nearestViewportElement) : d));
+			var p = Svg.mouse(cast untyped d.nearestViewportElement || d);
 			_zoom = {
 				x0 : _x,
 				y0 : _y,
@@ -97,17 +119,17 @@ class Zoom<TData>
 		{
 			_z = e.shiftKey ? Math.ceil(_z - 1) : Math.floor(_z + 1);
 		} else {
-			var delta : Float = (untyped (e.wheelDelta / 120 || -e.detail)) * .1;
-			if (webkit533 < 0)
+			var delta : Float = untyped (e.wheelDelta || -e.detail);
+			if (cast delta)
 			{
-				var now = Date.now().getTime(),
-					since = now - last;
-				if ((since > 9) && (Math.abs(untyped e.wheelDelta) / since >= 50))
-					webkit533 = 1;
-				last = now;
+				try
+				{
+					_outer.scrollTop = 1000;
+					untyped _outer.dispatchEvent(e);
+					delta = 1000 - _outer.scrollTop;
+				} catch (e : Dynamic) { }
+				delta *= .005;
 			}
-			if (webkit533 == 1)
-				delta *= .03;
 			_z += delta;
 		}
 		
@@ -116,12 +138,13 @@ class Zoom<TData>
 		_y = _zoom.y0 + _zoom.y1 * k;
 		
 		dispatch(d, i);
+		untyped e.preventDefault();
 	}
 	
 	var oldscale : Linear;
 	function dispatch(d, i)
 	{
-		if (null != _dispatch)
+		if (null != _dispatcher)
 		{
 			var event = new ZoomEvent(Math.pow(2, _z), _x, _y);
 			if (null != Zoom.event && event.scale == Zoom.event.scale && event.tx == Zoom.event.tx && event.ty == Zoom.event.ty)
@@ -129,17 +152,15 @@ class Zoom<TData>
 			Zoom.event = event;
 			try
 			{
-				_dispatch(d, i);
+				_dispatcher(d, i);
 			} catch (e : Dynamic) {
 				trace(e);
 			}
 		}
 	}
 	
-	public function zoom(f : HtmlDom -> Int -> Void, dom : HtmlDom)
+	function attach(dom : HtmlDom, ?i : Int)
 	{
-		_dispatch = f;
-		
 		var container = Dom.selectNode(dom);
 		container
 			.onNode("mousedown", mousedown)
@@ -150,8 +171,12 @@ class Zoom<TData>
 		Dom.selectNode(cast Lib.window)
 			.onNode("mousemove", mousemove)
 			.onNode("mouseup", mouseup);
-		
-		return this;
+	}
+	
+	public function zoom(f : HtmlDom -> Int -> Void)
+	{
+		_dispatcher = f;
+		return attach;
 	}
 	
 	public static var event : ZoomEvent;

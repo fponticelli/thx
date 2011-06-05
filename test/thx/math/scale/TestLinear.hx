@@ -31,9 +31,15 @@ class TestLinear extends TestAll
 	
 	public function testPolylinear()
 	{
-		var scale = new Linear().domain([-1.0, 0.0, 1.0]).range([-100.0, 0.0, 10.0]);
-		var expected = [ -150.0, -100.0, -50.0, 0.0, 5.0, 10.0, 15.0];
-		var values =   [   -1.5,   -1.0,  -0.5, 0.0, 0.5,  1.0,  1.5];
+		var scale = new Linear().domain([-1.0, 0.0, 1.0]).range([-100.0, 0.0, 10.0]),
+			expected = [ -150.0, -100.0, -50.0, 0.0, 5.0, 10.0, 15.0],
+			values =   [   -1.5,   -1.0,  -0.5, 0.0, 0.5,  1.0,  1.5];
+
+		assertScale(scale.scale, expected, values);
+		
+		scale = new Linear().domain([0.0, 0.5, 1.0]).range([0.0, 0.25, 1.0]);
+		expected = [ 0.0, 0.125, 0.25, 0.625, 1.0];
+		values =   [ 0.0, 0.25,  0.5,  0.75,  1.0];
 
 		assertScale(scale.scale, expected, values);
 	}
