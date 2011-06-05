@@ -307,11 +307,11 @@
 	</class>
 	<class path="thx.color.Grey" params="" file="src/thx/color/Grey.hx">
 		<extends path="thx.color.Rgb"/>
-		<ofRgb public="1" set="method" line="23" static="1"><f a="rgb:?luminance">
+		<toGrey public="1" set="method" line="23" static="1"><f a="rgb:?luminance">
 	<c path="thx.color.Rgb"/>
 	<e path="thx.color.PerceivedLuminance"/>
 	<c path="thx.color.Grey"/>
-</f></ofRgb>
+</f></toGrey>
 		<equals public="1" set="method" line="42" static="1"><f a="a:b">
 	<c path="thx.color.Grey"/>
 	<c path="thx.color.Grey"/>
@@ -1258,10 +1258,10 @@
 	<c path="Float"/>
 	<c path="Float"/>
 </f></_c>
-		<ofRgb public="1" set="method" line="49" static="1"><f a="c">
+		<toHsl public="1" set="method" line="49" static="1"><f a="c">
 	<c path="thx.color.Rgb"/>
 	<c path="thx.color.Hsl"/>
-</f></ofRgb>
+</f></toHsl>
 		<equals public="1" set="method" line="75" static="1"><f a="a:b">
 	<c path="thx.color.Hsl"/>
 	<c path="thx.color.Hsl"/>
@@ -1705,6 +1705,10 @@ customs for missing features
 	</f>
 	<c path="Array"><c path="order.T"/></c>
 </f></order>
+		<isIterator public="1" set="method" line="117" static="1"><f a="v">
+	<d/>
+	<e path="Bool"/>
+</f></isIterator>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
@@ -2626,6 +2630,187 @@ Other things to do. Nested placeholders
 	<e path="Void"/>
 </f></removeListener>
 	</class>
+	<class path="Lambda" params="" file="C:\Projects\haxe/std/Lambda.hx">
+		<array public="1" params="A" set="method" line="35" static="1">
+			<f a="it">
+				<t path="Iterable"><c path="array.A"/></t>
+				<c path="Array"><c path="array.A"/></c>
+			</f>
+			<haxe_doc>
+		Creates an [Array] from an [Iterable]
+	</haxe_doc>
+		</array>
+		<list public="1" params="A" set="method" line="45" static="1">
+			<f a="it">
+				<t path="Iterable"><c path="list.A"/></t>
+				<c path="List"><c path="list.A"/></c>
+			</f>
+			<haxe_doc>
+		Creates a [List] from an [Iterable]
+	</haxe_doc>
+		</list>
+		<map public="1" params="A:B" set="method" line="56" static="1">
+			<f a="it:f">
+				<t path="Iterable"><c path="map.A"/></t>
+				<f a="">
+					<c path="map.A"/>
+					<c path="map.B"/>
+				</f>
+				<c path="List"><c path="map.B"/></c>
+			</f>
+			<haxe_doc>
+		Creates a new [Iterable] by appling the function 'f' to all
+		elements of the iterator 'it'.
+	</haxe_doc>
+		</map>
+		<mapi public="1" params="A:B" set="method" line="66" static="1">
+			<f a="it:f">
+				<t path="Iterable"><c path="mapi.A"/></t>
+				<f a=":">
+					<c path="Int"/>
+					<c path="mapi.A"/>
+					<c path="mapi.B"/>
+				</f>
+				<c path="List"><c path="mapi.B"/></c>
+			</f>
+			<haxe_doc>
+		Similar to [map], but also pass an index for each item iterated.
+	</haxe_doc>
+		</mapi>
+		<has public="1" params="A" set="method" line="81" static="1">
+			<f a="it:elt:?cmp">
+				<t path="Iterable"><c path="has.A"/></t>
+				<c path="has.A"/>
+				<f a=":">
+					<c path="has.A"/>
+					<c path="has.A"/>
+					<e path="Bool"/>
+				</f>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if the element is part of an iterable. The comparison
+		is made using the [==] operator. Optionally you can pass as
+		a third parameter a function that performs the comparison.
+		That function must take as arguments the two items to
+		compare and returns a boolean value.
+	</haxe_doc>
+		</has>
+		<exists public="1" params="A" set="method" line="97" static="1">
+			<f a="it:f">
+				<t path="Iterable"><c path="exists.A"/></t>
+				<f a="">
+					<c path="exists.A"/>
+					<e path="Bool"/>
+				</f>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if at least one element of the iterable is found by using the specific function.
+	</haxe_doc>
+		</exists>
+		<foreach public="1" params="A" set="method" line="107" static="1">
+			<f a="it:f">
+				<t path="Iterable"><c path="foreach.A"/></t>
+				<f a="">
+					<c path="foreach.A"/>
+					<e path="Bool"/>
+				</f>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if all elements of the iterable have the specified property defined by [f].
+	</haxe_doc>
+		</foreach>
+		<iter public="1" params="A" set="method" line="117" static="1">
+			<f a="it:f">
+				<t path="Iterable"><c path="iter.A"/></t>
+				<f a="">
+					<c path="iter.A"/>
+					<e path="Void"/>
+				</f>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Call the function 'f' on all elements of the [Iterable] 'it'.
+	</haxe_doc>
+		</iter>
+		<filter public="1" params="A" set="method" line="125" static="1">
+			<f a="it:f">
+				<t path="Iterable"><c path="filter.A"/></t>
+				<f a="">
+					<c path="filter.A"/>
+					<e path="Bool"/>
+				</f>
+				<c path="List"><c path="filter.A"/></c>
+			</f>
+			<haxe_doc>
+		Return the list of elements matching the function 'f'
+	</haxe_doc>
+		</filter>
+		<fold public="1" params="A:B" set="method" line="136" static="1">
+			<f a="it:f:first">
+				<t path="Iterable"><c path="fold.A"/></t>
+				<f a=":">
+					<c path="fold.A"/>
+					<c path="fold.B"/>
+					<c path="fold.B"/>
+				</f>
+				<c path="fold.B"/>
+				<c path="fold.B"/>
+			</f>
+			<haxe_doc>
+		Functional 'fold' using an [Iterable]
+	</haxe_doc>
+		</fold>
+		<count public="1" params="A" set="method" line="145" static="1">
+			<f a="it:?pred">
+				<t path="Iterable"><c path="count.A"/></t>
+				<f a="">
+					<c path="count.A"/>
+					<e path="Bool"/>
+				</f>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Count the number of elements in an [Iterable] having [pred] returning true.
+	</haxe_doc>
+		</count>
+		<empty public="1" set="method" line="160" static="1">
+			<f a="it">
+				<t path="Iterable"><d/></t>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if an iterable does not contain any element.
+	</haxe_doc>
+		</empty>
+		<indexOf public="1" params="T" set="method" line="168" static="1">
+			<f a="it:v">
+				<t path="Iterable"><c path="indexOf.T"/></t>
+				<c path="indexOf.T"/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+		Returns the index of the item in the given Iterable, depending on the order of the Iterator.
+		Returns -1 if the item was not found.
+	</haxe_doc>
+		</indexOf>
+		<concat public="1" params="T" set="method" line="181" static="1">
+			<f a="a:b">
+				<t path="Iterable"><c path="concat.T"/></t>
+				<t path="Iterable"><c path="concat.T"/></t>
+				<c path="List"><c path="concat.T"/></c>
+			</f>
+			<haxe_doc>
+		Returns a list containing all items of 'a' followed by all items of 'b'
+	</haxe_doc>
+		</concat>
+		<haxe_doc>
+	The [Lambda] class is a collection of functional methods in order to
+	use functional-style programming with haXe.
+</haxe_doc>
+	</class>
 	<class path="Math" params="" file="C:\Projects\haxe/std/Math.hx" extern="1">
 		<PI public="1" set="null" static="1"><c path="Float"/></PI>
 		<NaN public="1" set="null" static="1"><c path="Float"/></NaN>
@@ -2765,7 +2950,12 @@ Other things to do. Nested placeholders
 	<d/>
 	<a/>
 </f></clone>
-		<number public="1" set="method" line="154" static="1"><f a="v">
+		<same public="1" params="T1:T2" set="method" line="154" static="1"><f a="a:b">
+	<c path="same.T1"/>
+	<c path="same.T2"/>
+	<e path="Bool"/>
+</f></same>
+		<number public="1" set="method" line="298" static="1"><f a="v">
 	<d/>
 	<c path="Float"/>
 </f></number>
@@ -2886,6 +3076,136 @@ Other things to do. Nested placeholders
 	<d/>
 	<e path="Bool"/>
 </f></sameAs>
+	</class>
+	<class path="List" params="T" file="C:\Projects\haxe/std/List.hx">
+		<h><c path="Array"><d/></c></h>
+		<q><c path="Array"><d/></c></q>
+		<length public="1" set="null">
+			<c path="Int"/>
+			<haxe_doc>
+		The number of elements in this list.
+	</haxe_doc>
+		</length>
+		<add public="1" set="method" line="51">
+			<f a="item">
+				<c path="List.T"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Add an element at the end of the list.
+	</haxe_doc>
+		</add>
+		<push public="1" set="method" line="64">
+			<f a="item">
+				<c path="List.T"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Push an element at the beginning of the list.
+	</haxe_doc>
+		</push>
+		<first public="1" set="method" line="80">
+			<f a=""><c path="List.T"/></f>
+			<haxe_doc>
+		Returns the first element of the list, or null
+		if the list is empty.
+	</haxe_doc>
+		</first>
+		<last public="1" set="method" line="88">
+			<f a=""><c path="List.T"/></f>
+			<haxe_doc>
+		Returns the last element of the list, or null
+		if the list is empty.
+	</haxe_doc>
+		</last>
+		<pop public="1" set="method" line="98">
+			<f a=""><c path="List.T"/></f>
+			<haxe_doc>
+		Removes the first element of the list and
+		returns it or simply returns null if the
+		list is empty.
+	</haxe_doc>
+		</pop>
+		<isEmpty public="1" set="method" line="112">
+			<f a=""><e path="Bool"/></f>
+			<haxe_doc>
+		Tells if a list is empty.
+	</haxe_doc>
+		</isEmpty>
+		<clear public="1" set="method" line="119">
+			<f a=""><e path="Void"/></f>
+			<haxe_doc>
+		Makes the list empty.
+	</haxe_doc>
+		</clear>
+		<remove public="1" set="method" line="129">
+			<f a="v">
+				<c path="List.T"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Remove the first element that is [== v] from the list.
+		Returns [true] if an element was removed, [false] otherwise.
+	</haxe_doc>
+		</remove>
+		<iterator public="1" set="method" line="152">
+			<f a=""><t path="Iterator"><c path="List.T"/></t></f>
+			<haxe_doc>
+		Returns an iterator on the elements of the list.
+	</haxe_doc>
+		</iterator>
+		<toString public="1" set="method" line="173">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns a displayable representation of the String.
+	</haxe_doc>
+		</toString>
+		<join public="1" set="method" line="193">
+			<f a="sep">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>
+		Join the element of the list by using the separator [sep].
+	</haxe_doc>
+		</join>
+		<filter public="1" set="method" line="212">
+			<f a="f">
+				<f a="">
+					<c path="List.T"/>
+					<e path="Bool"/>
+				</f>
+				<c path="List"><c path="List.T"/></c>
+			</f>
+			<haxe_doc>
+		Returns a list filtered with [f]. The returned list
+		will contain all elements [x] for which [f(x) = true].
+	</haxe_doc>
+		</filter>
+		<map public="1" params="X" set="method" line="228">
+			<f a="f">
+				<f a="">
+					<c path="List.T"/>
+					<c path="map.X"/>
+				</f>
+				<c path="List"><c path="map.X"/></c>
+			</f>
+			<haxe_doc>
+		Returns a new list where all elements have been converted
+		by the function [f].
+	</haxe_doc>
+		</map>
+		<new public="1" set="method" line="44">
+			<f a=""><e path="Void"/></f>
+			<haxe_doc>
+		Creates a new empty list.
+	</haxe_doc>
+		</new>
+		<haxe_doc>
+	A linked-list of elements. The list is composed of two-elements arrays
+	that are chained together. It's optimized so that adding or removing an
+	element doesn't imply to copy the whole array content everytime.
+</haxe_doc>
 	</class>
 	<class path="flash.TextSnapshot" params="" file="C:\Projects\haxe/std/flash/TextSnapshot.hx" extern="1">
 		<findText public="1" set="method"><f a="startIndex:textToFind:caseSensitive">
@@ -3626,10 +3946,115 @@ Other things to do. Nested placeholders
 	<d/>
 	<e path="Bool"/>
 </f></isNumeric>
+		<equals public="1" set="method" line="163" static="1"><f a="a:b:?approx">
+	<c path="Float"/>
+	<c path="Float"/>
+	<c path="Float"/>
+	<e path="Bool"/>
+</f></equals>
+		<uninterpolatef public="1" set="method" line="174" static="1"><f a="a:b">
+	<c path="Float"/>
+	<c path="Float"/>
+	<f a="x">
+		<c path="Float"/>
+		<c path="Float"/>
+	</f>
+</f></uninterpolatef>
+		<uninterpolateClamp public="1" set="method" line="180" static="1"><f a="a:b">
+	<c path="Float"/>
+	<c path="Float"/>
+	<f a="x">
+		<c path="Float"/>
+		<c path="Float"/>
+	</f>
+</f></uninterpolateClamp>
+		<uninterpolateClampf public="1" set="method" line="186" static="1"><f a="min:max">
+	<c path="Float"/>
+	<c path="Float"/>
+	<f a="a:b">
+		<c path="Float"/>
+		<c path="Float"/>
+		<f a="x">
+			<c path="Float"/>
+			<c path="Float"/>
+		</f>
+	</f>
+</f></uninterpolateClampf>
+		<round public="1" set="method" line="195" static="1"><f a="x:?n">
+	<c path="Float"/>
+	<c path="Int"/>
+	<c path="Float"/>
+</f></round>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
  </haxe_doc>
+	</class>
+	<class path="IntHash" params="T" file="C:\Projects\haxe/std/flash/_std/IntHash.hx">
+		<h><d/></h>
+		<set public="1" set="method" line="34">
+			<f a="key:value">
+				<c path="Int"/>
+				<c path="IntHash.T"/>
+				<e path="Void"/>
+			</f>
+			<haxe_doc>
+		Set a value for the given key.
+	</haxe_doc>
+		</set>
+		<get public="1" set="method" line="38">
+			<f a="key">
+				<c path="Int"/>
+				<t path="Null"><c path="IntHash.T"/></t>
+			</f>
+			<haxe_doc>
+		Get a value for the given key.
+	</haxe_doc>
+		</get>
+		<exists public="1" set="method" line="42">
+			<f a="key">
+				<c path="Int"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Tells if a value exists for the given key.
+		In particular, it's useful to tells if a key has
+		a [null] value versus no value.
+	</haxe_doc>
+		</exists>
+		<remove public="1" set="method" line="46">
+			<f a="key">
+				<c path="Int"/>
+				<e path="Bool"/>
+			</f>
+			<haxe_doc>
+		Removes a hashtable entry. Returns [true] if
+		there was such entry.
+	</haxe_doc>
+		</remove>
+		<keys public="1" set="method" line="52">
+			<f a=""><t path="Iterator"><c path="Int"/></t></f>
+			<haxe_doc>
+		Returns an iterator of all keys in the hashtable.
+	</haxe_doc>
+		</keys>
+		<iterator public="1" set="method" line="59">
+			<f a=""><t path="Iterator"><c path="IntHash.T"/></t></f>
+			<haxe_doc>
+		Returns an iterator of all values in the hashtable.
+	</haxe_doc>
+		</iterator>
+		<toString public="1" set="method" line="68">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>
+		Returns an displayable representation of the hashtable content.
+	</haxe_doc>
+		</toString>
+		<new public="1" set="method" line="30"><f a=""><e path="Void"/></f></new>
+		<haxe_doc>
+	Hashtable over a set of elements, using [Int] as keys.
+	On Flash and Javascript, the underlying structure is an Object.
+</haxe_doc>
 	</class>
 	<class path="Ints" params="" file="src/Ints.hx">
 		<range public="1" set="method" line="12" static="1"><f a="start:?stop:?step">
@@ -4137,6 +4562,27 @@ Other things to do. Nested placeholders
 	</f>
 	<t path="Null"><c path="firstf.T"/></t>
 </f></firstf>
+		<bisect public="1" get="inline" set="null" line="385" static="1"><f a="a:x:?lo:?hi">
+	<c path="Array"><c path="Float"/></c>
+	<c path="Float"/>
+	<c path="Int"/>
+	<c path="Int"/>
+	<c path="Int"/>
+</f></bisect>
+		<bisectRight public="1" set="method" line="390" static="1"><f a="a:x:?lo:?hi">
+	<c path="Array"><c path="Float"/></c>
+	<c path="Float"/>
+	<c path="Int"/>
+	<c path="Int"/>
+	<c path="Int"/>
+</f></bisectRight>
+		<bisectLeft public="1" set="method" line="405" static="1"><f a="a:x:?lo:?hi">
+	<c path="Array"><c path="Float"/></c>
+	<c path="Float"/>
+	<c path="Int"/>
+	<c path="Int"/>
+	<c path="Int"/>
+</f></bisectLeft>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
@@ -4247,6 +4693,10 @@ Other things to do. Nested placeholders
 	</f>
 	<c path="Array"><c path="order.T"/></c>
 </f></order>
+		<isIterable public="1" set="method" line="79" static="1"><f a="v">
+	<d/>
+	<e path="Bool"/>
+</f></isIterable>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
