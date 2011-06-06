@@ -26,7 +26,13 @@ class Colors
 	}
 	
 	static var _reParse = ~/^\s*(?:(hsl|rgb|rgba|cmyk)\(([^)]+)\))|(?:(?:0x|#)([a-f0-9]{3,6}))\s*$/i;
-	// TODO: RGBA?
+	
+	// hsl(h,s,l)
+	// rgb(r,g,b)
+	// rgba(r,g,b,a)
+	// hex 3
+	// hex 6
+	// named
 	public static function parse(s : String)
 	{
 		if (!_reParse.match(s))
@@ -46,9 +52,12 @@ class Colors
 			var values = _reParse.matched(2).split(",");
 			switch(type.toLowerCase())
 			{
-				case "rgb", "rgba":		return new Rgb(_c(values[0]), _c(values[1]), _c(values[2]));
-				case "hsl": 	return new Hsl(_d(values[0]), _p(values[1]), _p(values[2]));
-				case "cmyk":	return new Cmyk(_p(values[0]), _p(values[1]), _p(values[2]), _p(values[3]));
+				case "rgb", "rgba":
+					return new Rgb(_c(values[0]), _c(values[1]), _c(values[2]));
+				case "hsl":
+					return new Hsl(_d(values[0]), _p(values[1]), _p(values[2]));
+				case "cmyk":
+					return new Cmyk(_p(values[0]), _p(values[1]), _p(values[2]), _p(values[3]));
 			}
 		}
 		var color = _reParse.matched(3);
@@ -57,12 +66,6 @@ class Colors
 		else if (color.length != 6)
 			return throw new Error("invalid color: '{0}'", s);
 		return Rgb.fromInt(Std.parseInt("0x" + color));
-		// hsl(h,s,l)
-		// rgb(r,g,b)
-		// rgba(r,g,b,a)
-		// hex 3
-		// hex 6
-		// named
 	}
 	
 	static function _c(s : String) : Int
