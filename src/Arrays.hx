@@ -416,4 +416,13 @@ class Arrays
 		}
 		return lo;
 	}
+	
+	public static function nearest<T>(a : Array<T>, x : Float, f : T -> Float) : T
+	{
+		var delta = [];
+		for (i in 0...a.length)
+			delta.push( { i : i, v : Math.abs(f(a[i]) - x) } );
+		delta.sort(function(a, b) return Floats.compare(a.v, b.v));
+		return a[delta[0].i];
+	}
 }

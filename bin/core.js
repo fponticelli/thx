@@ -299,6 +299,33 @@ thx.js.AccessClassed.prototype._add = function(name,node,i) {
 	}
 	$s.pop();
 }
+thx.js.AccessClassed.prototype.get = function() {
+	$s.push("thx.js.AccessClassed::get");
+	var $spos = $s.length;
+	var node = this.selection.node(), list = node.classList;
+	if(null != list) {
+		var $tmp = Ints.range(list.length).map(function(_,i) {
+			$s.push("thx.js.AccessClassed::get@98");
+			var $spos = $s.length;
+			var $tmp = list.item(i);
+			$s.pop();
+			return $tmp;
+			$s.pop();
+		}).join(" ");
+		$s.pop();
+		return $tmp;
+	}
+	var cls = node.className, clsb = null != cls.baseVal;
+	if(clsb) {
+		var $tmp = cls.baseVal;
+		$s.pop();
+		return $tmp;
+	} else {
+		$s.pop();
+		return cls;
+	}
+	$s.pop();
+}
 thx.js.AccessClassed.prototype.__class__ = thx.js.AccessClassed;
 thx.js.AccessDataClassed = function(selection) {
 	if( selection === $_ ) return;
@@ -315,7 +342,7 @@ thx.js.AccessDataClassed.prototype.removef = function(v) {
 	var $spos = $s.length;
 	var f = $closure(this,"_remove");
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessDataClassed::removef@108");
+		$s.push("thx.js.AccessDataClassed::removef@126");
 		var $spos = $s.length;
 		var c = v(Reflect.field(node,"__data__"),i);
 		if(null != c) f(c,node,i);
@@ -331,7 +358,7 @@ thx.js.AccessDataClassed.prototype.addf = function(v) {
 	var $spos = $s.length;
 	var f = $closure(this,"_add");
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessDataClassed::addf@119");
+		$s.push("thx.js.AccessDataClassed::addf@137");
 		var $spos = $s.length;
 		var c = v(Reflect.field(node,"__data__"),i);
 		if(null != c) f(c,node,i);
@@ -3526,6 +3553,7 @@ thx.js.BaseSelection.bindJoin = function(join,group,groupData,update,enter,exit)
 		var i = _g++;
 		node = group.nodes[i];
 		key = join(Reflect.field(node,"__data__"),i);
+		haxe.Log.trace(key + " " + nodeByKey.exists(key),{ fileName : "Selection.hx", lineNumber : 588, className : "thx.js.BaseSelection", methodName : "bindJoin"});
 		if(nodeByKey.exists(key)) exitHtmlDoms[j++] = node; else nodeByKey.set(key,node);
 		keys.push(key);
 	}
@@ -12834,13 +12862,28 @@ thx.js.AccessAttribute.prototype.get = function() {
 	return $tmp;
 	$s.pop();
 }
+thx.js.AccessAttribute.prototype.getFloat = function() {
+	$s.push("thx.js.AccessAttribute::getFloat");
+	var $spos = $s.length;
+	var v = this.get();
+	if(thx.js.AccessAttribute.refloat.match(v)) {
+		var $tmp = Std.parseFloat(thx.js.AccessAttribute.refloat.matched(1));
+		$s.pop();
+		return $tmp;
+	} else {
+		var $tmp = Math.NaN;
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
 thx.js.AccessAttribute.prototype.remove = function() {
 	$s.push("thx.js.AccessAttribute::remove");
 	var $spos = $s.length;
 	if(null == this.qname) {
 		var n = this.name;
 		this.selection.eachNode(function(node,i) {
-			$s.push("thx.js.AccessAttribute::remove@32");
+			$s.push("thx.js.AccessAttribute::remove@43");
 			var $spos = $s.length;
 			node.removeAttribute(n);
 			$s.pop();
@@ -12848,7 +12891,7 @@ thx.js.AccessAttribute.prototype.remove = function() {
 	} else {
 		var q = this.qname;
 		this.selection.eachNode(function(node,i) {
-			$s.push("thx.js.AccessAttribute::remove@35");
+			$s.push("thx.js.AccessAttribute::remove@46");
 			var $spos = $s.length;
 			node.removeAttributeNS(q.space,q.local);
 			$s.pop();
@@ -12865,7 +12908,7 @@ thx.js.AccessAttribute.prototype.string = function(v) {
 	if(null == this.qname) {
 		var n = this.name;
 		this.selection.eachNode(function(node,i) {
-			$s.push("thx.js.AccessAttribute::string@44");
+			$s.push("thx.js.AccessAttribute::string@55");
 			var $spos = $s.length;
 			node.setAttribute(n,v);
 			$s.pop();
@@ -12873,7 +12916,7 @@ thx.js.AccessAttribute.prototype.string = function(v) {
 	} else {
 		var q = this.qname;
 		this.selection.eachNode(function(node,i) {
-			$s.push("thx.js.AccessAttribute::string@47");
+			$s.push("thx.js.AccessAttribute::string@58");
 			var $spos = $s.length;
 			node.setAttributeNS(q.space,q.local,v);
 			$s.pop();
@@ -12891,7 +12934,7 @@ thx.js.AccessAttribute.prototype["float"] = function(v) {
 	if(null == this.qname) {
 		var n = this.name;
 		this.selection.eachNode(function(node,i) {
-			$s.push("thx.js.AccessAttribute::float@57");
+			$s.push("thx.js.AccessAttribute::float@68");
 			var $spos = $s.length;
 			node.setAttribute(n,s);
 			$s.pop();
@@ -12899,7 +12942,7 @@ thx.js.AccessAttribute.prototype["float"] = function(v) {
 	} else {
 		var q = this.qname;
 		this.selection.eachNode(function(node,i) {
-			$s.push("thx.js.AccessAttribute::float@60");
+			$s.push("thx.js.AccessAttribute::float@71");
 			var $spos = $s.length;
 			node.setAttributeNS(q.space,q.local,s);
 			$s.pop();
@@ -12927,7 +12970,7 @@ thx.js.AccessDataAttribute.prototype.stringf = function(v) {
 	if(null == this.qname) {
 		var n = this.name;
 		this.selection.eachNode(function(node,i) {
-			$s.push("thx.js.AccessDataAttribute::stringf@78");
+			$s.push("thx.js.AccessDataAttribute::stringf@89");
 			var $spos = $s.length;
 			var s = v(Reflect.field(node,"__data__"),i);
 			if(null == s) node.removeAttribute(n); else node.setAttribute(n,s);
@@ -12936,7 +12979,7 @@ thx.js.AccessDataAttribute.prototype.stringf = function(v) {
 	} else {
 		var q = this.qname;
 		this.selection.eachNode(function(node,i) {
-			$s.push("thx.js.AccessDataAttribute::stringf@87");
+			$s.push("thx.js.AccessDataAttribute::stringf@98");
 			var $spos = $s.length;
 			var s = v(Reflect.field(node,"__data__"),i);
 			if(null == s) node.removeAttributeNS(n); else node.setAttributeNS(q.space,q.local,s);
@@ -12954,7 +12997,7 @@ thx.js.AccessDataAttribute.prototype.floatf = function(v) {
 	if(null == this.qname) {
 		var n = this.name;
 		this.selection.eachNode(function(node,i) {
-			$s.push("thx.js.AccessDataAttribute::floatf@102");
+			$s.push("thx.js.AccessDataAttribute::floatf@113");
 			var $spos = $s.length;
 			var s = v(Reflect.field(node,"__data__"),i);
 			if(null == s) node.removeAttribute(n); else node.setAttribute(n,"" + s);
@@ -12963,7 +13006,7 @@ thx.js.AccessDataAttribute.prototype.floatf = function(v) {
 	} else {
 		var q = this.qname;
 		this.selection.eachNode(function(node,i) {
-			$s.push("thx.js.AccessDataAttribute::floatf@111");
+			$s.push("thx.js.AccessDataAttribute::floatf@122");
 			var $spos = $s.length;
 			var s = v(Reflect.field(node,"__data__"),i);
 			if(null == s) node.removeAttributeNS(n); else node.setAttributeNS(q.space,q.local,"" + s);
@@ -12979,7 +13022,7 @@ thx.js.AccessDataAttribute.prototype.data = function() {
 	$s.push("thx.js.AccessDataAttribute::data");
 	var $spos = $s.length;
 	var $tmp = this.stringf(function(d,_) {
-		$s.push("thx.js.AccessDataAttribute::data@124");
+		$s.push("thx.js.AccessDataAttribute::data@135");
 		var $spos = $s.length;
 		var $tmp = "" + d;
 		$s.pop();
@@ -16451,6 +16494,28 @@ Arrays.bisectLeft = function(a,x,lo,hi) {
 	return lo;
 	$s.pop();
 }
+Arrays.nearest = function(a,x,f) {
+	$s.push("Arrays::nearest");
+	var $spos = $s.length;
+	var delta = [];
+	var _g1 = 0, _g = a.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		delta.push({ i : i, v : Math.abs(f(a[i]) - x)});
+	}
+	delta.sort(function(a1,b) {
+		$s.push("Arrays::nearest@425");
+		var $spos = $s.length;
+		var $tmp = Floats.compare(a1.v,b.v);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	var $tmp = a[delta[0].i];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 Arrays.prototype.__class__ = Arrays;
 utest.Assertation = { __ename__ : ["utest","Assertation"], __constructs__ : ["Success","Failure","Error","SetupError","TeardownError","TimeoutError","AsyncError","Warning"] }
 utest.Assertation.Success = function(pos) { var $x = ["Success",0,pos]; $x.__enum__ = utest.Assertation; $x.toString = $estr; return $x; }
@@ -17324,7 +17389,7 @@ thx.js.behavior.Zoom.prototype.dispatch = function(d,i) {
 			$e = [];
 			while($s.length >= $spos) $e.unshift($s.pop());
 			$s.push($e[0]);
-			haxe.Log.trace(e,{ fileName : "Zoom.hx", lineNumber : 157, className : "thx.js.behavior.Zoom", methodName : "dispatch"});
+			haxe.Log.trace(e,{ fileName : "Zoom.hx", lineNumber : 141, className : "thx.js.behavior.Zoom", methodName : "dispatch"});
 		}
 	}
 	$s.pop();
@@ -19273,12 +19338,27 @@ thx.js.AccessStyle.prototype.get = function() {
 	return $tmp;
 	$s.pop();
 }
+thx.js.AccessStyle.prototype.getFloat = function() {
+	$s.push("thx.js.AccessStyle::getFloat");
+	var $spos = $s.length;
+	var v = this.get();
+	if(thx.js.AccessStyle.refloat.match(v)) {
+		var $tmp = Std.parseFloat(thx.js.AccessStyle.refloat.matched(1));
+		$s.pop();
+		return $tmp;
+	} else {
+		var $tmp = Math.NaN;
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
 thx.js.AccessStyle.prototype.remove = function() {
 	$s.push("thx.js.AccessStyle::remove");
 	var $spos = $s.length;
 	var n = this.name;
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessStyle::remove@27");
+		$s.push("thx.js.AccessStyle::remove@37");
 		var $spos = $s.length;
 		node.style.removeProperty(n);
 		$s.pop();
@@ -19294,7 +19374,7 @@ thx.js.AccessStyle.prototype.string = function(v,priority) {
 	var n = this.name;
 	if(null == priority) priority = "";
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessStyle::string@35");
+		$s.push("thx.js.AccessStyle::string@45");
 		var $spos = $s.length;
 		node.style.setProperty(n,v,priority);
 		$s.pop();
@@ -19310,7 +19390,7 @@ thx.js.AccessStyle.prototype["float"] = function(v,priority) {
 	var s = "" + v, n = this.name;
 	if(null == priority) priority = "";
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessStyle::float@44");
+		$s.push("thx.js.AccessStyle::float@54");
 		var $spos = $s.length;
 		node.style.setProperty(n,s,priority);
 		$s.pop();
@@ -19326,7 +19406,7 @@ thx.js.AccessStyle.prototype.color = function(v,priority) {
 	var s = v.toRgbString(), n = this.name;
 	if(null == priority) priority = "";
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessStyle::color@53");
+		$s.push("thx.js.AccessStyle::color@63");
 		var $spos = $s.length;
 		node.style.setProperty(n,s,priority);
 		$s.pop();
@@ -19353,7 +19433,7 @@ thx.js.AccessDataStyle.prototype.stringf = function(v,priority) {
 	var n = this.name;
 	if(null == priority) priority = "";
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessDataStyle::stringf@70");
+		$s.push("thx.js.AccessDataStyle::stringf@80");
 		var $spos = $s.length;
 		var s = v(Reflect.field(node,"__data__"),i);
 		if(s == null) node.style.removeProperty(n); else node.style.setProperty(n,s,priority);
@@ -19370,7 +19450,7 @@ thx.js.AccessDataStyle.prototype.floatf = function(v,priority) {
 	var n = this.name;
 	if(null == priority) priority = "";
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessDataStyle::floatf@84");
+		$s.push("thx.js.AccessDataStyle::floatf@94");
 		var $spos = $s.length;
 		var s = v(Reflect.field(node,"__data__"),i);
 		if(s == null) node.style.removeProperty(n); else node.style.setProperty(n,"" + s,priority);
@@ -19387,7 +19467,7 @@ thx.js.AccessDataStyle.prototype.colorf = function(v,priority) {
 	var n = this.name;
 	if(null == priority) priority = "";
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessDataStyle::colorf@98");
+		$s.push("thx.js.AccessDataStyle::colorf@108");
 		var $spos = $s.length;
 		var s = v(Reflect.field(node,"__data__"),i);
 		if(s == null) node.style.removeProperty(n); else node.style.setProperty(n,"" + s.toRgbString(),priority);
@@ -19402,7 +19482,7 @@ thx.js.AccessDataStyle.prototype.data = function() {
 	$s.push("thx.js.AccessDataStyle::data");
 	var $spos = $s.length;
 	var $tmp = this.stringf(function(d,_) {
-		$s.push("thx.js.AccessDataStyle::data@110");
+		$s.push("thx.js.AccessDataStyle::data@120");
 		var $spos = $s.length;
 		var $tmp = "" + d;
 		$s.pop();
@@ -23981,7 +24061,7 @@ thx.color.Colors.parse = function(s) {
 			} else {
 				var $tmp = (function($this) {
 					var $r;
-					throw new thx.error.Error("invalid color: '{0}'",null,s,{ fileName : "Colors.hx", lineNumber : 39, className : "thx.color.Colors", methodName : "parse"});
+					throw new thx.error.Error("invalid color: '{0}'",null,s,{ fileName : "Colors.hx", lineNumber : 45, className : "thx.color.Colors", methodName : "parse"});
 					return $r;
 				}(this));
 				$s.pop();
@@ -24012,7 +24092,7 @@ thx.color.Colors.parse = function(s) {
 	}
 	var color = thx.color.Colors._reParse.matched(3);
 	if(color.length == 3) color = color.split("").map(function(d,_) {
-		$s.push("thx.color.Colors::parse@56");
+		$s.push("thx.color.Colors::parse@65");
 		var $spos = $s.length;
 		var $tmp = d + d;
 		$s.pop();
@@ -24021,7 +24101,7 @@ thx.color.Colors.parse = function(s) {
 	}).join(""); else if(color.length != 6) {
 		var $tmp = (function($this) {
 			var $r;
-			throw new thx.error.Error("invalid color: '{0}'",null,s,{ fileName : "Colors.hx", lineNumber : 58, className : "thx.color.Colors", methodName : "parse"});
+			throw new thx.error.Error("invalid color: '{0}'",null,s,{ fileName : "Colors.hx", lineNumber : 67, className : "thx.color.Colors", methodName : "parse"});
 			return $r;
 		}(this));
 		$s.pop();
@@ -26378,6 +26458,7 @@ thx.html.Element._inline = thx.collections.Set.ofArray("a,abbr,acronym,b,basefon
 thx.html.Element._break = thx.collections.Set.ofArray("br,hr".split(","));
 thx.html.Element._closeSelf = thx.collections.Set.ofArray("colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr".split(","));
 thx.html.Element._special = thx.collections.Set.ofArray("script,style".split(","));
+thx.js.AccessAttribute.refloat = new EReg("(\\d+(?:\\.\\d+))","");
 thx.ini.TestIni.s = "\nroot=value\n\t\n[owner]\nname=John Doe\norganization=Acme Widgets Inc.\n\n[database]\nserver=192.0.2.62\nport=143\nfile = \"payroll.dat\"\n\n[database.more]\n\nsequence = 1, 2, 3\n\n";
 thx.ini.TestIni.s2 = "root=value\n\n[database]\nserver=192.0.2.62\nport=143\nfile=payroll.dat\n\n[database.more]\nsequence=1, 2, 3\n\n[owner]\nname=John Doe\norganization=Acme Widgets Inc.";
 thx.ini.TestIni.v = { root : "value", owner : { name : "John Doe", organization : "Acme Widgets Inc."}, database : { server : "192.0.2.62", port : 143, file : "payroll.dat", more : { sequence : [1,2,3]}}};
@@ -26402,6 +26483,7 @@ thx.html.Attribute._fill = thx.collections.Set.ofArray("checked,compact,declare,
 TestObjects.testObject = { a : 1, b : 2, c : 3};
 thx.js.behavior.Zoom.last = 0.0;
 thx.validation.UrlValidator._reUrl = new EReg("^(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?$","");
+thx.js.AccessStyle.refloat = new EReg("(\\d+(?:\\.\\d+)?)","");
 utest.TestHandler.POLLING_TIME = 10;
 thx.js.BaseTransition._id = 0;
 thx.js.BaseTransition._inheritid = 0;

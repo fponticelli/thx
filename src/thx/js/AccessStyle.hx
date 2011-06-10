@@ -20,6 +20,16 @@ class AccessStyle<That> extends Access<That>
 		var n = name;
 		return selection.firstNode(function(node) return untyped js.Lib.window.getComputedStyle(node, null).getPropertyValue(n));
 	}
+	
+	static var refloat = ~/(\d+(?:\.\d+)?)/;
+	public function getFloat()
+	{
+		var v = get();
+		if (refloat.match(v))
+			return Std.parseFloat(refloat.matched(1));
+		else
+			return Math.NaN;
+	}
 
 	public function remove()
 	{

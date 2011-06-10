@@ -24,6 +24,17 @@ class AccessAttribute<That> extends Access<That>
 			q = qname;
 		return selection.firstNode(function(node : HtmlDom) return q == null ? node.getAttribute(n) : untyped node.getAttributeNS(q.space, q.local));
 	}
+	
+	static var refloat = ~/(\d+(?:\.\d+))/;
+	public function getFloat()
+	{
+		var v = get();
+		if (refloat.match(v))
+			return Std.parseFloat(refloat.matched(1));
+		else
+			return Math.NaN;
+	}
+	
 	public function remove()
 	{
 		if (null == qname)

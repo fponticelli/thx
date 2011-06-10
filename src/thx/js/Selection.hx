@@ -585,6 +585,7 @@ class BaseSelection<This>
 		{
 			node = group.get(i);
 			key = join(Access.getData(node), i);
+//			trace(key + " " + nodeByKey.exists(key));
 			if (nodeByKey.exists(key))
 			{
 				exitHtmlDoms[j++] = node;

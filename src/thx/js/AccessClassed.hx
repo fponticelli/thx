@@ -89,6 +89,24 @@ class AccessClassed<That> extends Access<That>
 		}
 	}
 	
+	public function get() : String
+	{
+		var node = selection.node(),
+			list = untyped node.classList;
+		if (null != list)
+		{
+			return Ints.range(list.length).map(function(_, i) return list.item(i)).join(" ");
+		}
+		
+		var cls : String = node.className,
+			clsb : Bool = untyped null != cls.baseVal;
+		
+		if (clsb)
+			return untyped cls.baseVal;
+		else
+			return cls;
+	}
+	
 	inline static function getRe(name : String)
 	{
 		return new EReg("(^|\\s+)" + ERegs.escapeERegChars(name) + "(\\s+|$)", "g");
