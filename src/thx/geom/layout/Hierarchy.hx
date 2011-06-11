@@ -12,9 +12,9 @@ class Hierarchy<T> {
 	var _value : T->Int->Float;
 
 	public function new(){ // ***#1
-		_sort = function(x : T, y : T) : Int { return untyped Std.int(x.value - y.value); }
+/*		_sort = function(x : T, y : T) : Int { return untyped Std.int(x.value - y.value); }
 		_children = function(n : T, _) { return  untyped n.children; }
-		_value = function(n : T, _) { return  untyped n.value; }	
+		_value = function(n : T, _) { return  untyped n.value; }	*/
 	}
 	
 	public function hierarchy(data : T) {
