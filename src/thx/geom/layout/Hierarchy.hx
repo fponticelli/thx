@@ -11,7 +11,7 @@ class Hierarchy<T> {
 	var _children : T->Int->Array<T>;	
 	var _value : T->Int->Float;
 
-	public function new(){ // ***#1
+	public function new(){ // 
 /*		_sort = function(x : T, y : T) : Int { return untyped Std.int(x.value - y.value); }
 		_children = function(n : T, _) { return  untyped n.children; }
 		_value = function(n : T, _) { return  untyped n.value; }	*/
@@ -103,8 +103,8 @@ class Hierarchy<T> {
 
 }
 
-// ***#2
-private typedef Node<T> = {
+// 
+typedef Node<T> = {
 	depth:Int,
 	data:T,
 	children:Array<Node<T>>,
