@@ -1,0 +1,7 @@
+-cp src
+-cp test
+-lib utest
+-js bin/test.js
+-main TestLayouts.hx
+
+# @tm-preview

@@ -100,10 +100,21 @@ class Hierarchy<T> {
 		_revalue(root, 0);
 		return root;
 	}
+	public static function nodeChildren<T>(d:Node<T>) : Array<Node<T>> {
+	  return d.children;
+	}
+
+	public static function nodeValue<T>(d:Node<T>) : Float {
+	  return d.value;
+	}
+
+	public static function nodeSort<T>(a:Node<T>, b:Node<T>) : Float {
+	  return b.value - a.value;
+	}
 
 }
 
-// 
+
 typedef Node<T> = {
 	depth:Int,
 	data:T,
