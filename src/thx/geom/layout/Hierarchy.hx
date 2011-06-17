@@ -1,23 +1,52 @@
 package thx.geom.layout;
 import thx.js.Selection;
-
+import thx.geom.layout.Hierarchy.Node;
 /**
  * Based on D3.js by Michael Bostock
  * @author Justin Donaldson
  */
 
-class Hierarchy<T> {
+class Hierarchy<T> extends AbstractHierarchy<T,Hierarchy<T>> {
+	
+	public function new(){
+		super();
+	}
+	
+	public static function nodeChildren<T>(d:Node<T>) : Array<Node<T>> {
+	  return d.children;
+	}
+
+	public static function nodeValue<T>(d:Node<T>) : Float {
+	  return d.value;
+	}
+
+	public static function nodeSort<T>(a:Node<T>, b:Node<T>) : Float {
+	  return b.value - a.value;
+	}
+
+}
+
+typedef Node<T> = {
+	depth:Int,
+	data:T,
+	children:Array<Node<T>>,
+	parent:Node<T>,
+	value:Float
+}
+
+class AbstractHierarchy<T, This> extends IThis<This> {
 	var _sort : T->T->Int;
 	var _children : T->Int->Array<T>;	
 	var _value : T->Int->Float;
 
 	public function new(){ // 
+		super();
 /*		_sort = function(x : T, y : T) : Int { return untyped Std.int(x.value - y.value); }
 		_children = function(n : T, _) { return  untyped n.children; }
 		_value = function(n : T, _) { return  untyped n.value; }	*/
 	}
 	
-	public function hierarchy(data : T) {
+	public function hierarchy(data : T, ?i:Int) {
 		var nodes = new Array<Node<T>>();
 		recurse(data, 0, nodes);
 		return nodes;	
@@ -34,6 +63,7 @@ class Hierarchy<T> {
 			var i = -1;
 			var n = datas.length;
 			var c = new Array<Node<T>>();
+			node.children = c;
 			var v = 0.0;
 			var j = depth + 1;
 			while (++i < n) {
@@ -69,9 +99,10 @@ class Hierarchy<T> {
 		return v;
 	}
 
+
 	public function sort(f : T->T->Int) {
 		_sort = f;
-		return this;
+		return This();
 	}
 	
 	public function getSort() {
@@ -80,7 +111,7 @@ class Hierarchy<T> {
 	
 	public function children(c : T->Int->Array<T>){
 		_children = c;
-		return this;
+		return This();
 	}
 	
 	public function getChildren(){
@@ -89,7 +120,7 @@ class Hierarchy<T> {
 	
 	public function value(v : T->Int->Float) {
 		_value = v;
-		return this;
+		return This();
 	}
 	
 	public function getValue(){
@@ -100,25 +131,9 @@ class Hierarchy<T> {
 		_revalue(root, 0);
 		return root;
 	}
-	public static function nodeChildren<T>(d:Node<T>) : Array<Node<T>> {
-	  return d.children;
-	}
-
-	public static function nodeValue<T>(d:Node<T>) : Float {
-	  return d.value;
-	}
-
-	public static function nodeSort<T>(a:Node<T>, b:Node<T>) : Float {
-	  return b.value - a.value;
-	}
-
 }
 
-
-typedef Node<T> = {
-	depth:Int,
-	data:T,
-	children:Array<Node<T>>,
-	parent:Node<T>,
-	value:Float
+private class IThis<This>{
+	public function new(){}
+	function This():This {return cast this;}
 }
