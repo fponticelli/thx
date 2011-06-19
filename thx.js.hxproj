@@ -1,15 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project>
+<project version="2">
   <!-- Output SWF options -->
   <output>
-    <movie disabled="False" />
+    <movie outputType="Application" />
     <movie input="" />
     <movie path="bin\core.js" />
     <movie fps="0" />
     <movie width="0" />
     <movie height="0" />
-    <movie version="11" />
+    <movie version="1" />
+    <movie minorVersion="0" />
+    <movie platform="JavaScript" />
     <movie background="#FFFFFF" />
+    <movie preferredSDK="haxe;SVN;" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
@@ -48,4 +51,6 @@
     <option testMovie="OpenDocument" />
     <option testMovieCommand="bin/index.html" />
   </options>
+  <!-- Plugin storage -->
+  <storage />
 </project>

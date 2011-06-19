@@ -127,7 +127,7 @@ class NumericScale<This>
 	{
 		var u = uninterpolate(domain[0], domain[1]),
 			i = interpolate(range[0], range[1], null);
-		return function(x) return i(u(x));
+		return function(x : Float) return i(u(x));
 	}
 	
 	static function scalePolylinear(domain : Array<Float>, range : Array<Float>, uninterpolate : Float -> Float -> (Float -> Float), interpolate : Float -> Float -> (Float -> Float) -> (Float -> Float))

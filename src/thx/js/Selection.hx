@@ -245,13 +245,13 @@ class PreEnterSelection<T>
 		var qname = Namespace.qualify(name);
 		function insertDom(node : HtmlDom) {
 			var n : HtmlDom = Lib.document.createElement(name);
-			node.insertBefore(n, untyped __js__("Sizzle")(null != before ? before : beforeSelector, node)[0]);
+			node.insertBefore(n, null != before ? before : Dom.select(beforeSelector).node());
 			return n;
 		}
 		
 		function insertNsDom(node : HtmlDom) {
 			var n : HtmlDom = untyped js.Lib.document.createElementNS(qname.space, qname.local);
-			node.insertBefore(n, untyped __js__("Sizzle")(null != before ? before : beforeSelector, node)[0]);
+			node.insertBefore(n, null != before ? before : Dom.select(beforeSelector).node());
 			return n;
 		}
 		
@@ -412,13 +412,13 @@ class BaseSelection<This>
 		var qname = Namespace.qualify(name);
 		function insertDom(node) {
 			var n : HtmlDom = Lib.document.createElement(name);
-			node.insertBefore(n, untyped __js__("Sizzle")(null != before ? before : beforeSelector, node, node)[0]);
+			node.insertBefore(n, null != before ? before : Dom.select(beforeSelector).node());
 			return n;
 		}
 		
 		function insertNsDom(node) {
 			var n : HtmlDom = untyped js.Lib.document.createElementNS(qname.space, qname.local);
-			node.insertBefore(n, untyped __js__("Sizzle")(null != before ? before : beforeSelector, node, node)[0]);
+			node.insertBefore(n, null != before ? before : Dom.select(beforeSelector).node());
 			return n;
 		}
 		

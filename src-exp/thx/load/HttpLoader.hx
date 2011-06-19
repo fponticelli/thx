@@ -32,8 +32,6 @@ class HttpLoader implements ILoader<String, String>
 		var http = new Http(url);
 #if (neko || php)
 		http.cnxTimeout = timeout;
-#else
-		http.async = true;
 #end
 		for (key in headers.keys())
 			http.setHeader(key, headers.get(key));
