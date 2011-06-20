@@ -13,8 +13,9 @@ class Dom
 {
 
 	public static var doc : Selection = (function() {
-	var gs = Selection.create([new Group([cast Lib.document])]);
-		gs.parentNode = untyped Lib.document.documentElement;
+		var g = new Group([cast Lib.document]),
+			gs = Selection.create([g]);
+		g.parentNode = gs.parentNode = untyped Lib.document.documentElement;
 		return gs;
 	} )();
 	

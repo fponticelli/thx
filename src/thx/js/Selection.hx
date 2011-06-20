@@ -181,23 +181,15 @@ class BoundSelection<T, This> extends BaseSelection<This>
 	
 	public function map<TIn, TOut>(f : TIn -> Int -> TOut)
 	{
-		var ngroups = [],
-			ngroup,
-			i;
+		var ngroups = [];
 		for (group in groups)
 		{
-			ngroup = new Group([]);
-			i = 0;
+			var ngroup = new Group([]);
+			var i = 0;
 			for (node in group)
 			{
 				if (null != node)
-				{
 					Access.setData(node, f(Access.getData(node), i++));
-					if (i == 0)
-					{
-						ngroup.parentNode = node.parentNode;
-					}
-				}
 				ngroup.push(node);
 			}
 			ngroups.push(ngroup);
@@ -352,20 +344,13 @@ class UpdateSelection<T> extends BoundSelection<T, UpdateSelection<T>>
 
 class BaseSelection<This>
 {
-	public var parentNode(default, setParentNode) : HtmlDom;
+	public var parentNode : HtmlDom;
 	
 	var groups : Array<Group>;
 
 	function new(groups : Array<Group>)
 	{
 		this.groups = groups;
-	}
-	
-	function setParentNode(v)
-	{
-		for (group in groups)
-			group.parentNode = v;
-		return this.parentNode = v;
 	}
 
 	// SELECTION
@@ -653,6 +638,8 @@ class BaseSelection<This>
 			node,
 			nodeData
 		;
+		trace(group.count() + " " + groupData.length);
+		trace(group);
 		for (i in 0...n0)
 		{
 			node = group.get(i);
@@ -663,8 +650,7 @@ class BaseSelection<This>
 				updateHtmlDoms[i] = node;
 				enterHtmlDoms[i] = exitHtmlDoms[i] = null;
 			} else {
-				node = Access.emptyHtmlDom(nodeData);
-				enterHtmlDoms[i] = node;
+				enterHtmlDoms[i] = Access.emptyHtmlDom(nodeData);
 				updateHtmlDoms[i] = exitHtmlDoms[i] = null;
 			}
 		}
