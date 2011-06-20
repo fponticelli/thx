@@ -4,6 +4,7 @@ import utest.Assert;
 
 class TestHttpLoader
 {
+/*
 	public function testLoad()
 	{
 		var loader = new HttpLoader("http://www.google.com/");
@@ -24,7 +25,7 @@ class TestHttpLoader
 		};
 		loader.load(h, e);
 	}
-	
+*/
 	public function new() { }
 	
 }

@@ -88,21 +88,23 @@ class Dates
 		switch(period)
 		{
 			case "second":
-				return Math.round(time / 1000) * 1000;
+				return Math.round(time / 1000.0) * 1000.0;
 			case "minute":
-				return Math.round(time / 60000) * 60000;
+				return Math.round(time / 60000.0) * 60000.0;
 			case "hour":
-				return Math.round(time / 3600000) * 3600000;
+				return Math.round(time / 3600000.0) * 3600000.0;
 			case "day":
-				return Math.round(time / (24 * 3600000)) * (24 * 3600000);
+				return Math.round(time / (24.0 * 3600000.0)) * (24.0 * 3600000.0);
 			case "week":
-				return Math.round(time / (7 * 24 * 3600000)) * (7 * 24 * 3600000);
+				return Math.round(time / (7.0 * 24.0 * 3600000.0)) * (7.0 * 24.0 * 3600000.0);
 			case "month":
 				var d = Date.fromTime(time);
 				return new Date(d.getFullYear(), d.getMonth(), 1, 0, 0, 0).getTime();
 			case "year":
 				var d = Date.fromTime(time);
 				return new Date(d.getFullYear(), 0, 1, 0, 0, 0).getTime();
+			case "eternity":
+				return 0;
 			default:
 				return throw new Error("unknown period '{0}'", period);
 		}

@@ -156,6 +156,7 @@ INDEX ( `msgid` , `domainid` )
 		if (null == domain)
 			domain = this.domain;
 		var result = _getMessage(id, domain, 0);
+
 		if (null == result)
 		{
 			if (_automaticallyAddUntranslatedMessages)
@@ -183,6 +184,85 @@ INDEX ( `msgid` , `domainid` )
 			} else
 				return result;
 		}
+	}
+	
+	public function countMessages()
+	{
+		return conn.request("SELECT count(*) FROM " + getTableIds() + ";").getIntResult(0);
+	}
+	
+	public function listTranslations(?start : Int, ?count : Int) : List<Translations>
+	{
+		var domains = conn.request("SELECT id, domain FROM " + getTableDomains() + ";").results();
+		
+		var limit = "";
+		if (null != start && null != count)
+		{
+			limit = " LIMIT " + start + ", " + count;
+		} else if (null != start) {
+			limit = " LIMIT " + start;
+		} else if (null != count) {
+			limit = " LIMIT 0, " + count;
+		}
+		var result = new List();
+		for (msg in conn.request("SELECT msgid, id FROM " + getTableIds() + " ORDER BY msgid" + limit + ";"))
+		{
+			var message = { msgid : msg.msgid, messages : [] };
+			for (domain in domains)
+			{
+				var list = conn.request("SELECT message, quantifier FROM " + getTableMessages() + " WHERE msgid = " + msg.id + " AND domainid = " + domain.id + ";").results();
+				if (list.length == 0)
+					continue;
+				for (m in list)
+				{
+					message.messages.push({
+						domain     : domain.domain,
+						message    : m.message,
+						quantifier : m.quantifier
+					});
+				}
+			}
+			result.add(message);
+		}
+		return result;
+	}
+	
+	public function loadTranslations(id : String) : Translations
+	{
+		var domains = conn.request("SELECT id, domain FROM " + getTableDomains() + ";").results();
+		var rs = conn.request("SELECT msgid, id FROM " + getTableIds() + " WHERE msgid = " + conn.quote(id) + ";");
+		if (!rs.hasNext())
+			return null;
+			
+		var msg = rs.next();
+		var message = { msgid : msg.msgid, messages : [] };
+		for (domain in domains)
+		{
+			var list = conn.request("SELECT message, quantifier FROM " + getTableMessages() + " WHERE msgid = " + msg.id + " AND domainid = " + domain.id + ";").results();
+			if (list.length == 0)
+				continue;
+			for (m in list)
+			{
+				message.messages.push({
+					domain     : domain.domain,
+					message    : m.message,
+					quantifier : m.quantifier
+				});
+			}
+		}
+		return message;
+	}
+	
+	public function removeTranslations(id : String) : Bool
+	{
+		var count = 0;
+		for (record in conn.request("SELECT id FROM " + getTableIds() + " WHERE msgid = " + conn.quote(id) + ";"))
+		{
+			count++;
+			conn.request("DELETE FROM " + getTableIds() + " WHERE id = " + record.id + ";");
+			conn.request("DELETE FROM " + getTableMessages() + " WHERE msgid = " + record.id + ";");
+		}
+		return count > 0;
 	}
 	
 	function getDomain()
@@ -223,4 +303,9 @@ INDEX ( `msgid` , `domainid` )
 	inline function getTableIds() return _tablePrefix + TABLE_IDS
 	inline function getTableMessages() return _tablePrefix + TABLE_MESSAGES
 	inline function getTableDomains() return _tablePrefix + TABLE_DOMAINS
+}
+
+typedef Translations = {
+	msgid : String,
+	messages : Array<{ domain : String, message : String, quantifier : Int }>
 }

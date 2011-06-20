@@ -7,6 +7,10 @@ import thx.culture.FormatParams;
 
 class Arrays
 {
+	/**
+	 * push the value into the array and return the array itself only if the condition
+	 * evaluates to true.
+	 */
 	public static function addIf<T>(arr : Array<T>, ?condition : Bool, value : Null<T>) : Array<T>
 	{
 		if (null != condition)
@@ -18,18 +22,27 @@ class Arrays
 		return arr;
 	}
 	
+	/**
+	 * push the value into the array and return the array itself
+	 */
 	inline public static function add<T>(arr : Array<T>, value : T) : Array<T>
 	{
 		arr.push(value);
 		return arr;
 	}
 	
+	/**
+	 * removes the value from the array and return the array itself
+	 */
 	inline public static function delete<T>(arr : Array<T>, value : T) : Array<T>
 	{
 		arr.remove(value);
 		return arr;
 	}
 	
+	/**
+	 * creates a new array filtered by the 'f' function
+	 */
 	public static function filter<T>(arr : Array<T>, f : T -> Bool) : Array<T>
 	{
 		var result = [];
@@ -157,8 +170,6 @@ class Arrays
 		switch(format)
 		{
 			case 'J':
-				
-				
 				if (v.length == 0)
 				{
 					var empty = null == params[1] ? '[]' : params[1];

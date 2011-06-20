@@ -2606,23 +2606,23 @@ Dates.snap = function(time,period) {
 	var $spos = $s.length;
 	switch(period) {
 	case "second":
-		var $tmp = Math.round(time / 1000) * 1000;
+		var $tmp = Math.round(time / 1000.0) * 1000.0;
 		$s.pop();
 		return $tmp;
 	case "minute":
-		var $tmp = Math.round(time / 60000) * 60000;
+		var $tmp = Math.round(time / 60000.0) * 60000.0;
 		$s.pop();
 		return $tmp;
 	case "hour":
-		var $tmp = Math.round(time / 3600000) * 3600000;
+		var $tmp = Math.round(time / 3600000.0) * 3600000.0;
 		$s.pop();
 		return $tmp;
 	case "day":
-		var $tmp = Math.round(time / 86400000) * 86400000;
+		var $tmp = Math.round(time / 86400000.) * 86400000.;
 		$s.pop();
 		return $tmp;
 	case "week":
-		var $tmp = Math.round(time / 604800000) * 604800000;
+		var $tmp = Math.round(time / 604800000.) * 604800000.;
 		$s.pop();
 		return $tmp;
 	case "month":
@@ -2635,10 +2635,13 @@ Dates.snap = function(time,period) {
 		var $tmp = new Date(d.getFullYear(),0,1,0,0,0).getTime();
 		$s.pop();
 		return $tmp;
+	case "eternity":
+		$s.pop();
+		return 0;
 	default:
 		var $tmp = (function($this) {
 			var $r;
-			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 107, className : "Dates", methodName : "snap"});
+			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 109, className : "Dates", methodName : "snap"});
 			return $r;
 		}(this));
 		$s.pop();
@@ -2674,7 +2677,7 @@ Dates.snapToWeekDay = function(time,day) {
 		s = 6;
 		break;
 	default:
-		throw new thx.error.Error("unknown week day '{0}'",null,day,{ fileName : "Dates.hx", lineNumber : 132, className : "Dates", methodName : "snapToWeekDay"});
+		throw new thx.error.Error("unknown week day '{0}'",null,day,{ fileName : "Dates.hx", lineNumber : 134, className : "Dates", methodName : "snapToWeekDay"});
 	}
 	var $tmp = time - (d - s) % 7 * 24 * 60 * 60 * 1000;
 	$s.pop();
@@ -3553,7 +3556,6 @@ thx.js.BaseSelection.bindJoin = function(join,group,groupData,update,enter,exit)
 		var i = _g++;
 		node = group.nodes[i];
 		key = join(Reflect.field(node,"__data__"),i);
-		haxe.Log.trace(key + " " + nodeByKey.exists(key),{ fileName : "Selection.hx", lineNumber : 588, className : "thx.js.BaseSelection", methodName : "bindJoin"});
 		if(nodeByKey.exists(key)) exitHtmlDoms[j++] = node; else nodeByKey.set(key,node);
 		keys.push(key);
 	}
@@ -3734,7 +3736,7 @@ thx.js.BaseSelection.prototype.insert = function(name,before,beforeSelector) {
 		$s.push("thx.js.BaseSelection::insert@413");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name);
-		node.insertBefore(n,Sizzle(null != before?before:beforeSelector,node,node)[0]);
+		node.insertBefore(n,null != before?before:thx.js.Dom.select(beforeSelector).node());
 		$s.pop();
 		return n;
 		$s.pop();
@@ -3743,7 +3745,7 @@ thx.js.BaseSelection.prototype.insert = function(name,before,beforeSelector) {
 		$s.push("thx.js.BaseSelection::insert@419");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNS(qname.space,qname.local);
-		node.insertBefore(n,Sizzle(null != before?before:beforeSelector,node,node)[0]);
+		node.insertBefore(n,null != before?before:thx.js.Dom.select(beforeSelector).node());
 		$s.pop();
 		return n;
 		$s.pop();
@@ -15985,7 +15987,7 @@ Arrays.split = function(arr,f) {
 	$s.push("Arrays::split");
 	var $spos = $s.length;
 	if(null == f) f = function(v,_) {
-		$s.push("Arrays::split@124");
+		$s.push("Arrays::split@137");
 		var $spos = $s.length;
 		var $tmp = v == null;
 		$s.pop();
@@ -16050,7 +16052,7 @@ Arrays.format = function(v,param,params,culture) {
 		if(null != max && max < v.length) {
 			var elipsis = null == params[4]?" ...":params[4];
 			var $tmp = v.copy().splice(0,max).map(function(d,i) {
-				$s.push("Arrays::format@173");
+				$s.push("Arrays::format@184");
 				var $spos = $s.length;
 				var $tmp = Dynamics.format(d,params[0],null,null,culture);
 				$s.pop();
@@ -16061,7 +16063,7 @@ Arrays.format = function(v,param,params,culture) {
 			return $tmp;
 		} else {
 			var $tmp = v.map(function(d,i) {
-				$s.push("Arrays::format@175");
+				$s.push("Arrays::format@186");
 				var $spos = $s.length;
 				var $tmp = Dynamics.format(d,params[0],null,null,culture);
 				$s.pop();
@@ -16089,7 +16091,7 @@ Arrays.formatf = function(param,params,culture) {
 	switch(format) {
 	case "J":
 		var $tmp = function(v) {
-			$s.push("Arrays::formatf@190");
+			$s.push("Arrays::formatf@201");
 			var $spos = $s.length;
 			if(v.length == 0) {
 				var empty = null == params[1]?"[]":params[1];
@@ -16101,7 +16103,7 @@ Arrays.formatf = function(param,params,culture) {
 			if(null != max && max < v.length) {
 				var elipsis = null == params[4]?" ...":params[4];
 				var $tmp = v.copy().splice(0,max).map(function(d,i) {
-					$s.push("Arrays::formatf@190@203");
+					$s.push("Arrays::formatf@201@214");
 					var $spos = $s.length;
 					var $tmp = Dynamics.format(d,params[0],null,null,culture);
 					$s.pop();
@@ -16112,7 +16114,7 @@ Arrays.formatf = function(param,params,culture) {
 				return $tmp;
 			} else {
 				var $tmp = v.map(function(d,i) {
-					$s.push("Arrays::formatf@190@205");
+					$s.push("Arrays::formatf@201@216");
 					var $spos = $s.length;
 					var $tmp = Dynamics.format(d,params[0],null,null,culture);
 					$s.pop();
@@ -16129,7 +16131,7 @@ Arrays.formatf = function(param,params,culture) {
 	case "C":
 		var f = Ints.formatf("I",[],culture);
 		var $tmp = function(v) {
-			$s.push("Arrays::formatf@209");
+			$s.push("Arrays::formatf@220");
 			var $spos = $s.length;
 			var $tmp = f(v.length);
 			$s.pop();
@@ -16159,10 +16161,10 @@ Arrays.interpolatef = function(a,b,equation) {
 		if(a[i] == b[i]) {
 			var v = [b[i]];
 			functions.push((function(v) {
-				$s.push("Arrays::interpolatef@231");
+				$s.push("Arrays::interpolatef@242");
 				var $spos = $s.length;
 				var $tmp = function(_) {
-					$s.push("Arrays::interpolatef@231@231");
+					$s.push("Arrays::interpolatef@242@242");
 					var $spos = $s.length;
 					var $tmp = v[0];
 					$s.pop();
@@ -16179,10 +16181,10 @@ Arrays.interpolatef = function(a,b,equation) {
 	while(i < b.length) {
 		var v = [b[i]];
 		functions.push((function(v) {
-			$s.push("Arrays::interpolatef@239");
+			$s.push("Arrays::interpolatef@250");
 			var $spos = $s.length;
 			var $tmp = function(_) {
-				$s.push("Arrays::interpolatef@239@239");
+				$s.push("Arrays::interpolatef@250@250");
 				var $spos = $s.length;
 				var $tmp = v[0];
 				$s.pop();
@@ -16196,10 +16198,10 @@ Arrays.interpolatef = function(a,b,equation) {
 		i++;
 	}
 	var $tmp = function(t) {
-		$s.push("Arrays::interpolatef@242");
+		$s.push("Arrays::interpolatef@253");
 		var $spos = $s.length;
 		var $tmp = functions.map(function(f,_) {
-			$s.push("Arrays::interpolatef@242@242");
+			$s.push("Arrays::interpolatef@253@253");
 			var $spos = $s.length;
 			var $tmp = f(t);
 			$s.pop();
@@ -16230,10 +16232,10 @@ Arrays.interpolateStringsf = function(a,b,equation) {
 		if(a[i] == b[i]) {
 			var v = [b[i]];
 			functions.push((function(v) {
-				$s.push("Arrays::interpolateStringsf@261");
+				$s.push("Arrays::interpolateStringsf@272");
 				var $spos = $s.length;
 				var $tmp = function(_) {
-					$s.push("Arrays::interpolateStringsf@261@261");
+					$s.push("Arrays::interpolateStringsf@272@272");
 					var $spos = $s.length;
 					var $tmp = v[0];
 					$s.pop();
@@ -16250,10 +16252,10 @@ Arrays.interpolateStringsf = function(a,b,equation) {
 	while(i < b.length) {
 		var v = [b[i]];
 		functions.push((function(v) {
-			$s.push("Arrays::interpolateStringsf@269");
+			$s.push("Arrays::interpolateStringsf@280");
 			var $spos = $s.length;
 			var $tmp = function(_) {
-				$s.push("Arrays::interpolateStringsf@269@269");
+				$s.push("Arrays::interpolateStringsf@280@280");
 				var $spos = $s.length;
 				var $tmp = v[0];
 				$s.pop();
@@ -16267,10 +16269,10 @@ Arrays.interpolateStringsf = function(a,b,equation) {
 		i++;
 	}
 	var $tmp = function(t) {
-		$s.push("Arrays::interpolateStringsf@272");
+		$s.push("Arrays::interpolateStringsf@283");
 		var $spos = $s.length;
 		var $tmp = functions.map(function(f,_) {
-			$s.push("Arrays::interpolateStringsf@272@272");
+			$s.push("Arrays::interpolateStringsf@283@283");
 			var $spos = $s.length;
 			var $tmp = f(t);
 			$s.pop();
@@ -16301,10 +16303,10 @@ Arrays.interpolateIntsf = function(a,b,equation) {
 		if(a[i] == b[i]) {
 			var v = [b[i]];
 			functions.push((function(v) {
-				$s.push("Arrays::interpolateIntsf@291");
+				$s.push("Arrays::interpolateIntsf@302");
 				var $spos = $s.length;
 				var $tmp = function(_) {
-					$s.push("Arrays::interpolateIntsf@291@291");
+					$s.push("Arrays::interpolateIntsf@302@302");
 					var $spos = $s.length;
 					var $tmp = v[0];
 					$s.pop();
@@ -16321,10 +16323,10 @@ Arrays.interpolateIntsf = function(a,b,equation) {
 	while(i < b.length) {
 		var v = [b[i]];
 		functions.push((function(v) {
-			$s.push("Arrays::interpolateIntsf@299");
+			$s.push("Arrays::interpolateIntsf@310");
 			var $spos = $s.length;
 			var $tmp = function(_) {
-				$s.push("Arrays::interpolateIntsf@299@299");
+				$s.push("Arrays::interpolateIntsf@310@310");
 				var $spos = $s.length;
 				var $tmp = v[0];
 				$s.pop();
@@ -16338,10 +16340,10 @@ Arrays.interpolateIntsf = function(a,b,equation) {
 		i++;
 	}
 	var $tmp = function(t) {
-		$s.push("Arrays::interpolateIntsf@302");
+		$s.push("Arrays::interpolateIntsf@313");
 		var $spos = $s.length;
 		var $tmp = functions.map(function(f,_) {
-			$s.push("Arrays::interpolateIntsf@302@302");
+			$s.push("Arrays::interpolateIntsf@313@313");
 			var $spos = $s.length;
 			var $tmp = f(t);
 			$s.pop();
@@ -16406,7 +16408,7 @@ Arrays.string = function(arr) {
 	$s.push("Arrays::string");
 	var $spos = $s.length;
 	var $tmp = "[" + arr.map(function(v,_) {
-		$s.push("Arrays::string@357");
+		$s.push("Arrays::string@368");
 		var $spos = $s.length;
 		var $tmp = Dynamics.string(v);
 		$s.pop();
@@ -16504,7 +16506,7 @@ Arrays.nearest = function(a,x,f) {
 		delta.push({ i : i, v : Math.abs(f(a[i]) - x)});
 	}
 	delta.sort(function(a1,b) {
-		$s.push("Arrays::nearest@425");
+		$s.push("Arrays::nearest@436");
 		var $spos = $s.length;
 		var $tmp = Floats.compare(a1.v,b.v);
 		$s.pop();
@@ -17584,11 +17586,12 @@ thx.js.BoundSelection.prototype.dataf = function(fd,join) {
 thx.js.BoundSelection.prototype.selfData = function() {
 	$s.push("thx.js.BoundSelection::selfData");
 	var $spos = $s.length;
-	var $tmp = this.dataf(function(d,i) {
+	var $tmp = this.dataf(function(d,_) {
 		$s.push("thx.js.BoundSelection::selfData@164");
 		var $spos = $s.length;
+		var $tmp = d;
 		$s.pop();
-		return d;
+		return $tmp;
 		$s.pop();
 	});
 	$s.pop();
@@ -17764,7 +17767,7 @@ thx.js.PreEnterSelection.prototype.insert = function(name,before,beforeSelector)
 		$s.push("thx.js.PreEnterSelection::insert@246");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name);
-		node.insertBefore(n,Sizzle(null != before?before:beforeSelector,node)[0]);
+		node.insertBefore(n,null != before?before:thx.js.Dom.select(beforeSelector).node());
 		$s.pop();
 		return n;
 		$s.pop();
@@ -17773,7 +17776,7 @@ thx.js.PreEnterSelection.prototype.insert = function(name,before,beforeSelector)
 		$s.push("thx.js.PreEnterSelection::insert@252");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNS(qname.space,qname.local);
-		node.insertBefore(n,Sizzle(null != before?before:beforeSelector,node)[0]);
+		node.insertBefore(n,null != before?before:thx.js.Dom.select(beforeSelector).node());
 		$s.pop();
 		return n;
 		$s.pop();

@@ -127,7 +127,7 @@ class BoundSelection<T, This> extends BaseSelection<This>
 	}
 	
 	// DATA BINDING
-	public function data<TOut>(d : Array<TOut>, ?join : TOut -> Int -> String) : DataChoice<TOut>
+	public function data<T>(d : Array<T>, ?join : T -> Int -> String) : DataChoice<T>
 	{
 		var update = [], enter = [], exit = [];
 		
@@ -143,7 +143,7 @@ class BoundSelection<T, This> extends BaseSelection<This>
 		return new DataChoice(update, enter, exit);
 	}
 	
-	public function dataf<TIn, TOut>(fd : TIn -> Int -> Array<TOut>, ?join : TOut -> Int -> String) : DataChoice<TOut>
+	public function dataf<TOut>(fd : T -> Int -> Array<TOut>, ?join : TOut -> Int -> String) : DataChoice<TOut>
 	{
 		if (null == join)
 		{
@@ -159,9 +159,9 @@ class BoundSelection<T, This> extends BaseSelection<This>
 		}
 	}
 	
-	public function selfData()
+	public function selfData<TOut>() : Array<TOut>
 	{
-		return dataf(function(d, i) return d);
+		return cast dataf(function(d : T, _) return cast d);
 	}
 	
 	public function each<T>(f : T -> Int -> Void)
@@ -181,15 +181,23 @@ class BoundSelection<T, This> extends BaseSelection<This>
 	
 	public function map<TIn, TOut>(f : TIn -> Int -> TOut)
 	{
-		var ngroups = [];
+		var ngroups = [],
+			ngroup,
+			i;
 		for (group in groups)
 		{
-			var ngroup = new Group([]);
-			var i = 0;
+			ngroup = new Group([]);
+			i = 0;
 			for (node in group)
 			{
 				if (null != node)
+				{
 					Access.setData(node, f(Access.getData(node), i++));
+					if (i == 0)
+					{
+						ngroup.parentNode = node.parentNode;
+					}
+				}
 				ngroup.push(node);
 			}
 			ngroups.push(ngroup);
@@ -245,13 +253,13 @@ class PreEnterSelection<T>
 		var qname = Namespace.qualify(name);
 		function insertDom(node : HtmlDom) {
 			var n : HtmlDom = Lib.document.createElement(name);
-			node.insertBefore(n, untyped __js__("Sizzle")(null != before ? before : beforeSelector, node)[0]);
+			node.insertBefore(n, null != before ? before : Dom.select(beforeSelector).node());
 			return n;
 		}
 		
 		function insertNsDom(node : HtmlDom) {
 			var n : HtmlDom = untyped js.Lib.document.createElementNS(qname.space, qname.local);
-			node.insertBefore(n, untyped __js__("Sizzle")(null != before ? before : beforeSelector, node)[0]);
+			node.insertBefore(n, null != before ? before : Dom.select(beforeSelector).node());
 			return n;
 		}
 		
@@ -344,13 +352,20 @@ class UpdateSelection<T> extends BoundSelection<T, UpdateSelection<T>>
 
 class BaseSelection<This>
 {
-	public var parentNode : HtmlDom;
+	public var parentNode(default, setParentNode) : HtmlDom;
 	
 	var groups : Array<Group>;
 
 	function new(groups : Array<Group>)
 	{
 		this.groups = groups;
+	}
+	
+	function setParentNode(v)
+	{
+		for (group in groups)
+			group.parentNode = v;
+		return this.parentNode = v;
 	}
 
 	// SELECTION
@@ -412,13 +427,13 @@ class BaseSelection<This>
 		var qname = Namespace.qualify(name);
 		function insertDom(node) {
 			var n : HtmlDom = Lib.document.createElement(name);
-			node.insertBefore(n, untyped __js__("Sizzle")(null != before ? before : beforeSelector, node, node)[0]);
+			node.insertBefore(n, null != before ? before : Dom.select(beforeSelector).node());
 			return n;
 		}
 		
 		function insertNsDom(node) {
 			var n : HtmlDom = untyped js.Lib.document.createElementNS(qname.space, qname.local);
-			node.insertBefore(n, untyped __js__("Sizzle")(null != before ? before : beforeSelector, node, node)[0]);
+			node.insertBefore(n, null != before ? before : Dom.select(beforeSelector).node());
 			return n;
 		}
 		
