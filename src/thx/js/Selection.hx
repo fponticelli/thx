@@ -127,7 +127,7 @@ class BoundSelection<T, This> extends BaseSelection<This>
 	}
 	
 	// DATA BINDING
-	public function data<TOut>(d : Array<TOut>, ?join : TOut -> Int -> String) : DataChoice<TOut>
+	public function data<T>(d : Array<T>, ?join : T -> Int -> String) : DataChoice<T>
 	{
 		var update = [], enter = [], exit = [];
 		
@@ -143,7 +143,7 @@ class BoundSelection<T, This> extends BaseSelection<This>
 		return new DataChoice(update, enter, exit);
 	}
 	
-	public function dataf<TIn, TOut>(fd : TIn -> Int -> Array<TOut>, ?join : TOut -> Int -> String) : DataChoice<TOut>
+	public function dataf<TOut>(fd : T -> Int -> Array<TOut>, ?join : TOut -> Int -> String) : DataChoice<TOut>
 	{
 		if (null == join)
 		{
@@ -159,9 +159,9 @@ class BoundSelection<T, This> extends BaseSelection<This>
 		}
 	}
 	
-	public function selfData()
+	public function selfData<TOut>() : Array<TOut>
 	{
-		return dataf(function(d, i) return d);
+		return cast dataf(function(d : T, _) return cast d);
 	}
 	
 	public function each<T>(f : T -> Int -> Void)
