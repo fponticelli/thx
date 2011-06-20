@@ -533,11 +533,12 @@ class BaseSelection<This>
 		for (group in groups)
 		{
 			subgroups.push(subgroup = new Group([]));
+			subgroup.parentNode = group.parentNode;
 			for (node in group)
 			{
 				if (null != node)
 				{
-					subgroup.parentNode = group.parentNode;
+					subgroup.parentNode = node;
 					subgroup.push(subnode = selectf(node));
 					if (null != subnode)
 						Access.setData(subnode, Access.getData(node)); // TODO: this should probably be moved to BoundSelection
