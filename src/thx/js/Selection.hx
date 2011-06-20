@@ -181,15 +181,23 @@ class BoundSelection<T, This> extends BaseSelection<This>
 	
 	public function map<TIn, TOut>(f : TIn -> Int -> TOut)
 	{
-		var ngroups = [];
+		var ngroups = [],
+			ngroup,
+			i;
 		for (group in groups)
 		{
-			var ngroup = new Group([]);
-			var i = 0;
+			ngroup = new Group([]);
+			i = 0;
 			for (node in group)
 			{
 				if (null != node)
+				{
 					Access.setData(node, f(Access.getData(node), i++));
+					if (i == 0)
+					{
+						ngroup.parentNode = node.parentNode;
+					}
+				}
 				ngroup.push(node);
 			}
 			ngroups.push(ngroup);
@@ -344,13 +352,20 @@ class UpdateSelection<T> extends BoundSelection<T, UpdateSelection<T>>
 
 class BaseSelection<This>
 {
-	public var parentNode : HtmlDom;
+	public var parentNode(default, setParentNode) : HtmlDom;
 	
 	var groups : Array<Group>;
 
 	function new(groups : Array<Group>)
 	{
 		this.groups = groups;
+	}
+	
+	function setParentNode(v)
+	{
+		for (group in groups)
+			group.parentNode = v;
+		return this.parentNode = v;
 	}
 
 	// SELECTION

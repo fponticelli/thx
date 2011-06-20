@@ -17586,11 +17586,12 @@ thx.js.BoundSelection.prototype.dataf = function(fd,join) {
 thx.js.BoundSelection.prototype.selfData = function() {
 	$s.push("thx.js.BoundSelection::selfData");
 	var $spos = $s.length;
-	var $tmp = this.dataf(function(d,i) {
+	var $tmp = this.dataf(function(d,_) {
 		$s.push("thx.js.BoundSelection::selfData@164");
 		var $spos = $s.length;
+		var $tmp = d;
 		$s.pop();
-		return d;
+		return $tmp;
 		$s.pop();
 	});
 	$s.pop();
