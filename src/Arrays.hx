@@ -132,6 +132,35 @@ class Arrays
 		return arr;
 	}
 	
+	public static function orderMultiple<T>(arr : Array<T>, ?f : T -> T -> Int, rest : Array<Array<Dynamic>>)
+	{
+		var swap = true,
+			t : Dynamic;
+		rest.remove(arr); // prevents infinite loop if hte arr is passed twice
+		while (swap)
+		{
+			swap = false;
+			for (i in 0...arr.length - 1)
+			{
+				if (f(arr[i], arr[i + 1]) > 0)
+				{
+					swap = true;
+
+					t = arr[i];
+					arr[i] = arr[i + 1];
+					arr[i + 1] = t;
+
+					for (a in rest)
+					{
+						t = a[i];
+						a[i] = a[i+1];
+						a[i+1] = t;
+					}
+				}
+			}
+		}
+	}
+	
 	public static function split<T>(arr : Array<T>, ?f : T -> Int -> Bool) : Array<Array<T>>
 	{
 		if (null == f) f = function(v, _) return v == null;
@@ -435,5 +464,18 @@ class Arrays
 			delta.push( { i : i, v : Math.abs(f(a[i]) - x) } );
 		delta.sort(function(a, b) return Floats.compare(a.v, b.v));
 		return a[delta[0].i];
+	}
+	
+	public static function compare<T>(a : Array<T>, b : Array<T>)
+	{
+		var v : Int;
+		if ((v = Ints.compare(a.length, b.length)) != 0)
+			return v;
+		for (i in 0...a.length)
+		{
+			if ((v = Dynamics.compare(a[i], b[i])) != 0)
+				return v;
+		}
+		return 0;
 	}
 }

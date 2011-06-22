@@ -58,4 +58,9 @@ class Bools
 	{
 		return s.toLowerCase() == 'true';
 	}
+	
+	inline public static function compare(a : Bool, b : Bool)
+	{
+		return a == b ? 0 : (a ? -1 : 1);
+	}
 }

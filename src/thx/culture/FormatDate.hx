@@ -126,10 +126,10 @@ customs for missing features
 				case 'g': throw "Not Implemented Yet";
 				case 'H': buf.add(FormatNumber.digits(StringTools.lpad(''+date.getHours(), '0', 2), culture));
 				case 'i': buf.add(FormatNumber.digits(leadingspace ? StringTools.lpad(''+date.getMinutes(), ' ', 2) : ''+date.getMinutes(), culture));
-				case 'I': buf.add(FormatNumber.digits(StringTools.lpad(''+date.getHours()%12, '0', 2), culture));
+				case 'I': buf.add(FormatNumber.digits(StringTools.lpad(''+getMHours(date), '0', 2), culture));
 				case 'j': throw "Not Implemented Yet";
 				case 'k': buf.add(FormatNumber.digits(leadingspace ? StringTools.lpad(''+date.getHours(), ' ', 2) : ''+date.getHours(), culture));
-				case 'l': buf.add(FormatNumber.digits(leadingspace ? StringTools.lpad(''+date.getHours()%12, ' ', 2) : ''+date.getHours()%12, culture));
+				case 'l': buf.add(FormatNumber.digits(leadingspace ? StringTools.lpad(''+getMHours(date), ' ', 2) : ''+getMHours(date), culture));
 				case 'm': buf.add(FormatNumber.digits(StringTools.lpad(''+(date.getMonth()+1), '0', 2), culture));
 				case 'M': buf.add(FormatNumber.digits(StringTools.lpad(''+date.getMinutes(), '0', 2), culture));
 				case 'n': buf.add("\n");
@@ -159,6 +159,12 @@ customs for missing features
 			pos++;
 		}
 		return buf.toString();
+	}
+	
+	static function getMHours(date : Date)
+	{
+		var v = date.getHours();
+		return v > 12 ? v - 12 : v;
 	}
 
 	static public function yearMonth(date : Date, ?culture : Culture) : String {

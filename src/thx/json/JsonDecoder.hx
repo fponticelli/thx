@@ -18,8 +18,9 @@ class JsonDecoder
 	var col : Int;
 	var line : Int;
 	var tabsize : Int;
-	var rest : String;
+	var src : String;
 	var char : String;
+	var pos : Int;
 	
 	var handler : IDataHandler;
 	
@@ -33,8 +34,9 @@ class JsonDecoder
 	{
 		col = 0;
 		line = 0;
-		rest = s;
+		src = s;
 		char = null;
+		pos = 0;
 		ignoreWhiteSpace();
 		
 		var p = null;
@@ -47,14 +49,14 @@ class JsonDecoder
 			error("unexpected end of stream");
 		}
 		ignoreWhiteSpace();
-		if (rest.length > 0)
+		if (pos < src.length)
 			error("the stream contains unrecognized characters at its end");
 		handler.end();
 	}
 	
 	function ignoreWhiteSpace()
 	{
-		while (rest.length > 0)
+		while (pos < src.length)
 		{
 			var c = readChar();
 			switch(c)
@@ -100,11 +102,9 @@ class JsonDecoder
 	{
 		if (null == char)
 		{
-			if (rest.length == 0)
+			if (pos == src.length)
 				throw StreamError.Eof;
-			var c = rest.substr(0, 1);
-			rest = rest.substr(1);
-			return c;
+			return src.charAt(pos++);
 		} else {
 			var c = char;
 			char = null;
@@ -114,14 +114,14 @@ class JsonDecoder
 	
 	function expect(word : String)
 	{
-		var test = null == char ? rest.substr(0, word.length) : char + rest.substr(0, word.length - 1);
+		var test = null == char ? src.substr(pos, word.length) : char + src.substr(pos, word.length - 1);
 		if (test == word)
 		{
 			if (null == char)
 			{
-				rest = rest.substr(word.length);
+				pos += word.length;
 			} else {
-				rest = rest.substr(word.length-1);
+				pos += word.length - 1;
 				char = null;
 			}
 			return true;
@@ -354,7 +354,7 @@ class JsonDecoder
 	
 	function error(msg : String)
 	{
-		var context = rest.length == 0 ? "" : "\nrest: " + (null != char ? char : "") + rest + "...";
+		var context = pos == src.length ? "" : "\nrest: " + (null != char ? char : "") + src.substr(pos) + "...";
 		throw new Error("error at L {0} C {1}: {2}{3}", [line, col, msg,  context]);
 	}
 }

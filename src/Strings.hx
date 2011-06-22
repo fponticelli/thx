@@ -437,9 +437,6 @@ Other things to do. Nested placeholders
 #end
 	}
 	
-	public static function ascending(a : String, b : String) return a < b ? -1 : a > b ? 1 : 0
-	public static function descending(a : String, b : String) return a > b ? -1 : a < b ? 1 : 0
-	
 	static var _reInterpolateNumber = ~/[-+]?(?:\d+\.\d+|\d+\.|\.\d+|\d+)(?:[eE][-]?\d+)?/;
 	public static function interpolate(v : Float, a : String, b : String, ?equation : Float -> Float)
 	{
@@ -531,4 +528,6 @@ Other things to do. Nested placeholders
 				return s;
 		}
 	}
+	
+	public static function compare(a : String, b : String) return a < b ? -1 : a > b ? 1 : 0
 }

@@ -151,4 +151,9 @@ class Dates
 			date = Date.fromTime(date.getTime() + Std.parseInt(parts[1]));
 		return date;
 	}
+	
+	inline public static function compare(a : Date, b : Date)
+	{
+		return Floats.compare(a.getTime(), b.getTime());
+	}
 }

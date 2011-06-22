@@ -12,10 +12,12 @@ using Arrays;
 class LinearTime extends Linear
 {
 	var _usetimeticks : Bool;
+	var _maxnumberofticks : Int;
 	public function new()
 	{
 		super();
 		_usetimeticks = false;
+		_maxnumberofticks = 12;
 	}
 // TODO: remove
 	public static function guessPeriodicity(a : Float, b : Float, disc = 2)
@@ -83,6 +85,13 @@ class LinearTime extends Linear
 		return this;
 	}
 	
+	public function getMaxNumberOfTicks() return _maxnumberofticks
+	public function maxNumberOfTicks(v : Int)
+	{
+		_maxnumberofticks = v;
+		return this;
+	}
+	
 	override public function ticks()
 	{
 		if (_usetimeticks)
@@ -137,6 +146,13 @@ class LinearTime extends Linear
 				}
 				return range;
 		}
+		var rsteps = Math.ceil((stop - start) / step);
+		while (rsteps > _maxnumberofticks)
+		{
+			step *= 2;
+			rsteps = Math.ceil((stop - start) / step);
+		}
+				
 		start = Math.ceil(start / step) * step;
 		stop = Math.floor(stop / step) * step + step * .5;
 		return Floats.range(start, stop, step);

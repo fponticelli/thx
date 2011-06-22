@@ -30,11 +30,11 @@ class TestTypes
 	
 	public function testSameAs()
 	{
-		Assert.isTrue(1.sameAs(2));
-		Assert.isTrue("a".sameAs("b"));
-		Assert.isFalse(1.sameAs("a"));
-		Assert.isFalse(1.sameAs("a"));
-		Assert.isFalse(1.sameAs(null));
+		Assert.isTrue(1.sameType(2));
+		Assert.isTrue("a".sameType("b"));
+		Assert.isFalse(1.sameType("a"));
+		Assert.isFalse(1.sameType("a"));
+		Assert.isFalse(1.sameType(null));
 	}
 	
 	public function testAs()

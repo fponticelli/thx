@@ -45,7 +45,7 @@ class Quantile
 	public function domain(x : Array<Float>)
 	{
 		_domain = x.filter(function(d) return !Math.isNaN(d));
-		_domain.sort(Floats.ascending);
+		_domain.sort(Floats.compare);
 		rescale();
 		return this;
 	}

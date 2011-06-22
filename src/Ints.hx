@@ -85,9 +85,6 @@ class Ints
 		return function(f) return Math.round(min + equation(f) * d);
 	}
 	
-	public static function ascending(a : Int, b : Int) return a < b ? -1 : a > b ? 1 : 0
-	public static function descending(a : Int, b : Int) return a > b ? -1 : a < b ? 1 : 0
-	
 	public static function format(v : Float, ?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return formatf(param, params, culture)(v);
@@ -111,6 +108,6 @@ class Ints
 			s = s.substr(1);
 		return Std.parseInt(s);
 	}
-	
+
 	inline public static function compare(a : Int, b : Int) return a - b
 }

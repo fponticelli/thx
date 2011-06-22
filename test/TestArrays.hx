@@ -117,5 +117,21 @@ class TestArrays
 		}
 	}
 	
+	public function testOrderMulti()
+	{
+		var arr : Array<Dynamic> = [5, 1, 4, 2, 8];
+		var test : Array<Dynamic> = ['d', 'a', 'c', 'b', 'e'];
+		Arrays.orderMultiple(arr, Ints.compare, [test]);
+		Assert.same(['a', 'b', 'c', 'd', 'e'], test);
+		Assert.same([1, 2, 4, 5, 8], arr);
+		
+		arr  = [5, 1, 4, 2, 8];
+		var other = [5, 1, 4, 2, 8];
+		test = ['d', 'a', 'c', 'b', 'e'];
+		var t : Array<Array<Dynamic>> = [test, other];
+		Arrays.orderMultiple(arr, Ints.compare, t);
+		Assert.same([['a', 'b', 'c', 'd', 'e'], [1, 2, 4, 5, 8]], t);
+	}
+	
 	public function new(){}
 }

@@ -106,9 +106,6 @@ class Floats
 		return function(f) return a + equation(f) * d;
 	}
 	
-	public static function ascending(a : Float, b : Float) return a < b ? -1 : a > b ? 1 : 0
-	public static function descending(a : Float, b : Float) return a > b ? -1 : a < b ? 1 : 0
-	
 	public static function format(v : Float, ?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return formatf(param, params, culture)(v);
@@ -149,7 +146,7 @@ class Floats
 			s = s.substr(1);
 		return Std.parseFloat(s);
 	}
-	
+
 	inline public static function compare(a : Float, b : Float)
 	{
 		return a < b ? -1 : (a > b ? 1 : 0);

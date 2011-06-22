@@ -61,7 +61,7 @@ class Types
 		return (Std.is(value, type) ? cast value : null);
 	}
 	
-	public static function sameAs(a : Dynamic, b : Dynamic) : Bool
+	public static function sameType(a : Dynamic, b : Dynamic) : Bool
 	{
 		if (null == a && b == null) return true;
 		if (null == a || b == null) return false;

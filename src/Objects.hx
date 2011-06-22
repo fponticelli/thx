@@ -169,6 +169,20 @@ class Objects
 		}
 		return arr;
 	}
+	
+	public static function compare(a : { }, b : { } )
+	{
+		var v, fields;
+		if ((v = Arrays.compare((fields = Reflect.fields(a)), Reflect.fields(b))) != 0)
+			return v;
+		for (field in fields)
+		{
+			if ((v = Dynamics.compare(Reflect.field(a, field), Reflect.field(b, field))) != 0)
+				return v;
+		}
+		
+		return 0;
+	}
 }
 
 typedef Entry = { key : String, value : Dynamic };
