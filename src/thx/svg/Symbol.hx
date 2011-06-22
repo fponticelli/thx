@@ -10,7 +10,7 @@ class Symbol
 	static var sqrt3 = Math.sqrt(3);
 	static var tan30 = Math.tan(30 * Math.PI / 180);
 	
-	public static function triangleDowun(size : Float)
+	public static function triangleDown(size : Float)
 	{
 		var rx = Math.sqrt(size / sqrt3),
 			ry = rx * sqrt3 / 2;
