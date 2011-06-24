@@ -106,8 +106,8 @@ class Log extends NumericScale<Log>
 		return ticks;
 	}
 	
-	public function tickFormatf()
+	override public function tickFormat(v : Float, ?i : Int) : String
 	{
-		return function(d : Float) return thx.culture.FormatNumber.decimal(d, 1);
+		return thx.culture.FormatNumber.decimal(v, 1);
 	}
 }

@@ -71,10 +71,12 @@ class Rgb
 	
 	public static function darker(color : Rgb, t : Float, ?equation : Float -> Float) : Rgb
 	{
+		var interpolator = Ints.interpolatef(0, 255, equation);
+		t /= 255;
 		return new Rgb(
-			(t * color.red).interpolate(0, 255, equation),
-			(t * color.green).interpolate(0, 255, equation),
-			(t * color.blue).interpolate(0, 255, equation)
+			interpolator(t * color.red),
+			interpolator(t * color.green),
+			interpolator(t * color.blue)
 		);
 	}
 	

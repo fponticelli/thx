@@ -244,14 +244,16 @@ class PreEnterSelection<T>
 	{
 		var qname = Namespace.qualify(name);
 		function insertDom(node : HtmlDom) {
-			var n : HtmlDom = Lib.document.createElement(name);
-			node.insertBefore(n, null != before ? before : Dom.select(beforeSelector).node());
+			var n : HtmlDom = Lib.document.createElement(name),
+				bf = null != before ? before : Dom.selectNode(node).select(beforeSelector).node();
+			node.insertBefore(n, bf);
 			return n;
 		}
 		
 		function insertNsDom(node : HtmlDom) {
-			var n : HtmlDom = untyped js.Lib.document.createElementNS(qname.space, qname.local);
-			node.insertBefore(n, null != before ? before : Dom.select(beforeSelector).node());
+			var n : HtmlDom = untyped js.Lib.document.createElementNS(qname.space, qname.local),
+				bf = null != before ? before : Dom.selectNode(node).select(beforeSelector).node();
+			node.insertBefore(n, bf);
 			return n;
 		}
 		

@@ -18,12 +18,7 @@ class Ordinal<TData, TRange>
 		_range = [];
 		rangeBand = 0.0;
 	}
-	
-	public function scalef()
-	{
-		return this.scale;
-	}
-	
+
 	public function scale(x : TData, ?_) : TRange
 	{
 		var i = _domain.indexOf(x);
@@ -35,22 +30,14 @@ class Ordinal<TData, TRange>
 		return _range[i];
 	}
 	
-	public function getDomain()
-	{
-		return _domain.copy();
-	}
-	
+	public function getDomain() return _domain.copy()
 	public function domain(x : Array<TData>)
 	{
 		_domain = x.copy();
 		return this;
 	}
 	
-	public function getRange() : Array<TRange>
-	{
-		return _range.copy();
-	}
-	
+	public function getRange() return _range.copy()
 	public function range(a : Array<TRange>)
 	{
 		_range = a.copy();

@@ -79,7 +79,7 @@ class Hsl extends Rgb
 	
 	public static function darker(color : Hsl, t : Float, ?equation : Float -> Float) : Hsl
 	{
-		var v = color.lightness / t;
+		var v = color.lightness * t;
 		return new Hsl(
 			color.hue,
 			color.saturation,
