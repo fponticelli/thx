@@ -77,4 +77,69 @@ class Symbol
 			+ "A" + r + "," + r + " 0 1,1 0," + r
 			+ "Z";
 	}
+	
+	public static function arrowUp(size : Float)
+	{
+		var r = Math.sqrt(size / 2);
+		return "M" + -r + ",0"
+			+ "h" + (r / 2)
+			+ "v" + r
+			+ "h" + r
+			+ "v" + -r
+			+ "h" + (r / 2)
+			+ "l" + -r + "," + -r
+			+ "Z";
+	}
+	
+	public static function arrowDown(size : Float)
+	{
+		var r = Math.sqrt(size / 2);
+		return "M" + -r + ",0"
+			+ "h" + (r / 2)
+			+ "v" + -r
+			+ "h" + r
+			+ "v" + r
+			+ "h" + (r / 2)
+			+ "l" + -r + "," + r
+			+ "Z";
+	}
+	
+	public static function arrowDownWide(size : Float)
+	{
+		var r = Math.sqrt(size / 2.5);
+		return "M" + -r + ",0"
+			+ "h" + (r / 4)
+			+ "v" + -r
+			+ "h" + r * 1.5
+			+ "v" + r
+			+ "h" + (r / 4)
+			+ "l" + -r * 1 + "," + r
+			+ "Z";
+	}
+	
+	public static function arrowRight(size : Float)
+	{
+		var r = Math.sqrt(size / 2);
+		return "M" + "0," + -r
+			+ "v" + (r / 2)
+			+ "h" + -r
+			+ "v" + r
+			+ "h" + r
+			+ "v" + (r / 2)
+			+ "l" + r + "," + -r
+			+ "Z";
+	}
+	
+	public static function arrowLeft(size : Float)
+	{
+		var r = Math.sqrt(size / 2);
+		return "M" + "0," + -r
+			+ "v" + (r / 2)
+			+ "h" + r
+			+ "v" + r
+			+ "h" + -r
+			+ "v" + (r / 2)
+			+ "l" + -r + "," + -r
+			+ "Z";
+	}
 }

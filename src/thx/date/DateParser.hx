@@ -125,8 +125,9 @@ class DateParser
 			d = Date.now();
 		s = StringTools.replace(s, time.matched, ""); // strip off parsed time
 		// set base date
-		var year = 0, month = 0, day = 0;
+		var year = 0, month = 0, day = 0, found = false;
 		if (dateexp.match(s)) {
+			found = true;
 			s = StringTools.replace(s, dateexp.matched(0), "");
 			if (null != (v = dateexp.matched(1)))
 			{
@@ -181,6 +182,7 @@ class DateParser
 			}
 		} else if (absdateexp.match(s))
 		{
+			found = true;
 			s = StringTools.replace(s, absdateexp.matched(0), "");
 			year = d.getFullYear();
 			month = d.getMonth();
@@ -274,6 +276,7 @@ class DateParser
 		// add modifiers
 		while (relexp.match(s))
 		{
+			found = true;
 			s = StringTools.replace(s, relexp.matched(0), "");
 			var dir = relexp.matched(1),
 				qt,
@@ -331,6 +334,8 @@ class DateParser
 			}
 		}
 		
+		if (!found)
+			throw new Error("no date information found in the string '{0}'", s);
 		return Date.fromTime(new Date(year, month, day, time.hour, time.minute, time.second).getTime() + time.millis);
 	}
 	

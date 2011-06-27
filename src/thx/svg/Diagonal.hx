@@ -42,20 +42,17 @@ class Diagonal<T> {
 		_projection = x;
 		return this;
 	}
-/*
-	public static function diagonalSource<T>(x:SourceTarget<T>, ?i:Int)
-	{
-		return [x.source.x, ;
-	}
 
-	public static function diagonalTarget<T>(x:SourceTarget<T>, ?i:Int)
-	{
-		return x.target;
-	}
-*/
 	public static function diagonalProjection(d:Array<Float>, ?_):Array<Float>
 	{
 		return d;
+	}
+
+	public static function forObject()
+	{
+		return new Diagonal<{ x0 : Float, y0 : Float, x1 : Float, y1 : Float }>()
+			.sourcef(function(d, _i) return [d.x0, d.y0])
+			.targetf(function(d, _i) return [d.x1, d.y1]);
 	}
 }
 
