@@ -205,7 +205,7 @@
 	</f>
 	<c path="thx.color.Rgb"/>
 </f></darker>
-		<interpolate public="1" set="method" line="81" static="1"><f a="a:b:t:?equation">
+		<interpolate public="1" set="method" line="83" static="1"><f a="a:b:t:?equation">
 	<c path="thx.color.Rgb"/>
 	<c path="thx.color.Rgb"/>
 	<c path="Float"/>
@@ -215,7 +215,7 @@
 	</f>
 	<c path="thx.color.Rgb"/>
 </f></interpolate>
-		<interpolatef public="1" set="method" line="90" static="1"><f a="a:b:?equation">
+		<interpolatef public="1" set="method" line="92" static="1"><f a="a:b:?equation">
 	<c path="thx.color.Rgb"/>
 	<c path="thx.color.Rgb"/>
 	<f a="">
@@ -227,11 +227,11 @@
 		<c path="thx.color.Rgb"/>
 	</f>
 </f></interpolatef>
-		<contrast public="1" set="method" line="98" static="1"><f a="c">
+		<contrast public="1" set="method" line="100" static="1"><f a="c">
 	<c path="thx.color.Rgb"/>
 	<c path="thx.color.Hsl"/>
 </f></contrast>
-		<contrastBW public="1" set="method" line="107" static="1"><f a="c">
+		<contrastBW public="1" set="method" line="109" static="1"><f a="c">
 	<c path="thx.color.Rgb"/>
 	<c path="thx.color.Hsl"/>
 </f></contrastBW>
@@ -482,11 +482,11 @@
 	<d/>
 	<t path="Null"><c path="of.T"/></t>
 </f></of>
-		<sameAs public="1" set="method" line="64" static="1"><f a="a:b">
+		<sameType public="1" set="method" line="64" static="1"><f a="a:b">
 	<d/>
 	<d/>
 	<e path="Bool"/>
-</f></sameAs>
+</f></sameType>
 	</class>
 	<class path="thx.culture.Info" params="" file="src/thx/culture/Info.hx">
 		<name public="1" set="null"><c path="String"/></name>
@@ -1214,24 +1214,14 @@
 		<c path="Int"/>
 	</f>
 </f></interpolatef>
-		<ascending public="1" set="method" line="88" static="1"><f a="a:b">
-	<c path="Int"/>
-	<c path="Int"/>
-	<c path="Int"/>
-</f></ascending>
-		<descending public="1" set="method" line="89" static="1"><f a="a:b">
-	<c path="Int"/>
-	<c path="Int"/>
-	<c path="Int"/>
-</f></descending>
-		<format public="1" set="method" line="91" static="1"><f a="v:?param:?params:?culture">
+		<format public="1" set="method" line="88" static="1"><f a="v:?param:?params:?culture">
 	<c path="Float"/>
 	<c path="String"/>
 	<c path="Array"><c path="String"/></c>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></format>
-		<formatf public="1" set="method" line="96" static="1"><f a="?param:?params:?culture">
+		<formatf public="1" set="method" line="93" static="1"><f a="?param:?params:?culture">
 	<c path="String"/>
 	<c path="Array"><c path="String"/></c>
 	<c path="thx.culture.Culture"/>
@@ -1240,16 +1230,16 @@
 		<c path="String"/>
 	</f>
 </f></formatf>
-		<_reparse line="101" static="1"><c path="EReg"/></_reparse>
-		<canParse public="1" set="method" line="102" static="1"><f a="s">
+		<_reparse line="98" static="1"><c path="EReg"/></_reparse>
+		<canParse public="1" set="method" line="99" static="1"><f a="s">
 	<c path="String"/>
 	<e path="Bool"/>
 </f></canParse>
-		<parse public="1" set="method" line="108" static="1"><f a="s">
+		<parse public="1" set="method" line="105" static="1"><f a="s">
 	<c path="String"/>
 	<t path="Null"><c path="Int"/></t>
 </f></parse>
-		<compare public="1" get="inline" set="null" line="115" static="1"><f a="a:b">
+		<compare public="1" get="inline" set="null" line="112" static="1"><f a="a:b">
 	<c path="Int"/>
 	<c path="Int"/>
 	<c path="Int"/>
@@ -1304,16 +1294,26 @@
 	<d/>
 	<c path="String"/>
 </f></string>
-		<clone public="1" set="method" line="121" static="1"><f a="v">
+		<compare public="1" set="method" line="124" static="1">
+			<f a="a:b">
+				<d/>
+				<d/>
+				<c path="Int"/>
+			</f>
+			<haxe_doc>
+	 * @todo add compare over comparison method for custom classes
+	 </haxe_doc>
+		</compare>
+		<clone public="1" set="method" line="160" static="1"><f a="v">
 	<d/>
 	<a/>
 </f></clone>
-		<same public="1" params="T1:T2" set="method" line="154" static="1"><f a="a:b">
+		<same public="1" params="T1:T2" set="method" line="193" static="1"><f a="a:b">
 	<c path="same.T1"/>
 	<c path="same.T2"/>
 	<e path="Bool"/>
 </f></same>
-		<number public="1" set="method" line="298" static="1"><f a="v">
+		<number public="1" set="method" line="337" static="1"><f a="v">
 	<d/>
 	<c path="Float"/>
 </f></number>
@@ -1796,19 +1796,19 @@
 	<c path="String"/>
 </f></interpolate>
 		<_reParse line="28" static="1"><c path="EReg"/></_reParse>
-		<parse public="1" set="method" line="30" static="1"><f a="s">
+		<parse public="1" set="method" line="36" static="1"><f a="s">
 	<c path="String"/>
 	<c path="thx.color.Rgb"/>
 </f></parse>
-		<_c set="method" line="68" static="1"><f a="s">
+		<_c set="method" line="71" static="1"><f a="s">
 	<c path="String"/>
 	<c path="Int"/>
 </f></_c>
-		<_d set="method" line="73" static="1"><f a="s">
+		<_d set="method" line="76" static="1"><f a="s">
 	<c path="String"/>
 	<c path="Float"/>
 </f></_d>
-		<_p set="method" line="83" static="1"><f a="s">
+		<_p set="method" line="86" static="1"><f a="s">
 	<c path="String"/>
 	<c path="Float"/>
 </f></_p>
@@ -1989,20 +1989,25 @@
 	<c path="String"/>
 	<c path="Float"/>
 </f></snap>
-		<snapToWeekDay public="1" set="method" line="111" static="1"><f a="time:day">
+		<snapToWeekDay public="1" set="method" line="113" static="1"><f a="time:day">
 	<c path="Float"/>
 	<c path="String"/>
 	<c path="Float"/>
 </f></snapToWeekDay>
-		<_reparse line="138" static="1"><c path="EReg"/></_reparse>
-		<canParse public="1" set="method" line="139" static="1"><f a="s">
+		<_reparse line="140" static="1"><c path="EReg"/></_reparse>
+		<canParse public="1" set="method" line="141" static="1"><f a="s">
 	<c path="String"/>
 	<e path="Bool"/>
 </f></canParse>
-		<parse public="1" set="method" line="144" static="1"><f a="s">
+		<parse public="1" set="method" line="146" static="1"><f a="s">
 	<c path="String"/>
 	<c path="Date"/>
 </f></parse>
+		<compare public="1" get="inline" set="null" line="155" static="1"><f a="a:b">
+	<c path="Date"/>
+	<c path="Date"/>
+	<c path="Int"/>
+</f></compare>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
@@ -2345,6 +2350,11 @@
 	<d/>
 	<c path="String"/>
 </f></string>
+		<compare public="1" set="method" line="17" static="1"><f a="a:b">
+	<d/>
+	<d/>
+	<c path="Int"/>
+</f></compare>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
@@ -2921,18 +2931,8 @@ Other things to do. Nested placeholders
 	<c path="String"/>
 	<c path="String"/>
 </f></stripTags>
-		<ascending public="1" set="method" line="440" static="1"><f a="a:b">
-	<c path="String"/>
-	<c path="String"/>
-	<c path="Int"/>
-</f></ascending>
-		<descending public="1" set="method" line="441" static="1"><f a="a:b">
-	<c path="String"/>
-	<c path="String"/>
-	<c path="Int"/>
-</f></descending>
-		<_reInterpolateNumber line="443" static="1"><c path="EReg"/></_reInterpolateNumber>
-		<interpolate public="1" set="method" line="444" static="1"><f a="v:a:b:?equation">
+		<_reInterpolateNumber line="440" static="1"><c path="EReg"/></_reInterpolateNumber>
+		<interpolate public="1" set="method" line="441" static="1"><f a="v:a:b:?equation">
 	<c path="Float"/>
 	<c path="String"/>
 	<c path="String"/>
@@ -2942,7 +2942,7 @@ Other things to do. Nested placeholders
 	</f>
 	<c path="String"/>
 </f></interpolate>
-		<interpolatef public="1" set="method" line="449" static="1"><f a="a:b:?equation">
+		<interpolatef public="1" set="method" line="446" static="1"><f a="a:b:?equation">
 	<c path="String"/>
 	<c path="String"/>
 	<f a="">
@@ -2954,13 +2954,13 @@ Other things to do. Nested placeholders
 		<c path="String"/>
 	</f>
 </f></interpolatef>
-		<ellipsis public="1" set="method" line="516" static="1"><f a="s:?maxlen:?symbol">
+		<ellipsis public="1" set="method" line="513" static="1"><f a="s:?maxlen:?symbol">
 	<c path="String"/>
 	<c path="Int"/>
 	<c path="String"/>
 	<c path="String"/>
 </f></ellipsis>
-		<ellipsisf public="1" set="method" line="524" static="1"><f a="?maxlen:?symbol">
+		<ellipsisf public="1" set="method" line="521" static="1"><f a="?maxlen:?symbol">
 	<c path="Int"/>
 	<c path="String"/>
 	<f a="s">
@@ -2968,6 +2968,11 @@ Other things to do. Nested placeholders
 		<c path="String"/>
 	</f>
 </f></ellipsisf>
+		<compare public="1" set="method" line="532" static="1"><f a="a:b">
+	<c path="String"/>
+	<c path="String"/>
+	<c path="Int"/>
+</f></compare>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
@@ -3384,87 +3389,91 @@ customs for missing features
 </pre>
 	]]></haxe_doc>
 		</format>
-		<yearMonth public="1" set="method" line="164" static="1"><f a="date:?culture">
+		<getMHours set="method" line="164" static="1"><f a="date">
+	<c path="Date"/>
+	<c path="Int"/>
+</f></getMHours>
+		<yearMonth public="1" set="method" line="170" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></yearMonth>
-		<monthDay public="1" set="method" line="170" static="1"><f a="date:?culture">
+		<monthDay public="1" set="method" line="176" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></monthDay>
-		<date public="1" set="method" line="176" static="1"><f a="date:?culture">
+		<date public="1" set="method" line="182" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></date>
-		<dateShort public="1" set="method" line="182" static="1"><f a="date:?culture">
+		<dateShort public="1" set="method" line="188" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></dateShort>
-		<dateRfc public="1" set="method" line="188" static="1"><f a="date:?culture">
+		<dateRfc public="1" set="method" line="194" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></dateRfc>
-		<dateTime public="1" set="method" line="194" static="1"><f a="date:?culture">
+		<dateTime public="1" set="method" line="200" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></dateTime>
-		<universal public="1" set="method" line="200" static="1"><f a="date:?culture">
+		<universal public="1" set="method" line="206" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></universal>
-		<sortable public="1" set="method" line="206" static="1"><f a="date:?culture">
+		<sortable public="1" set="method" line="212" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></sortable>
-		<time public="1" set="method" line="212" static="1"><f a="date:?culture">
+		<time public="1" set="method" line="218" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></time>
-		<timeShort public="1" set="method" line="218" static="1"><f a="date:?culture">
+		<timeShort public="1" set="method" line="224" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></timeShort>
-		<year public="1" set="method" line="224" static="1"><f a="date:?culture">
+		<year public="1" set="method" line="230" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></year>
-		<month public="1" set="method" line="230" static="1"><f a="date:?culture">
+		<month public="1" set="method" line="236" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></month>
-		<monthName public="1" set="method" line="236" static="1"><f a="date:?culture">
+		<monthName public="1" set="method" line="242" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></monthName>
-		<monthNameShort public="1" set="method" line="242" static="1"><f a="date:?culture">
+		<monthNameShort public="1" set="method" line="248" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></monthNameShort>
-		<weekDay public="1" set="method" line="248" static="1"><f a="date:?culture">
+		<weekDay public="1" set="method" line="254" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></weekDay>
-		<weekDayName public="1" set="method" line="254" static="1"><f a="date:?culture">
+		<weekDayName public="1" set="method" line="260" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></weekDayName>
-		<weekDayNameShort public="1" set="method" line="260" static="1"><f a="date:?culture">
+		<weekDayNameShort public="1" set="method" line="266" static="1"><f a="date:?culture">
 	<c path="Date"/>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
@@ -3555,6 +3564,11 @@ customs for missing features
 	<c path="String"/>
 	<e path="Bool"/>
 </f></parse>
+		<compare public="1" get="inline" set="null" line="62" static="1"><f a="a:b">
+	<e path="Bool"/>
+	<e path="Bool"/>
+	<c path="Int"/>
+</f></compare>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
@@ -3638,31 +3652,52 @@ customs for missing features
 </f></new>
 	</class>
 	<class path="Arrays" params="" file="src/Arrays.hx">
-		<addIf public="1" params="T" set="method" line="10" static="1"><f a="arr:?condition:value">
-	<c path="Array"><c path="addIf.T"/></c>
-	<e path="Bool"/>
-	<t path="Null"><c path="addIf.T"/></t>
-	<c path="Array"><c path="addIf.T"/></c>
-</f></addIf>
-		<add public="1" params="T" get="inline" set="null" line="21" static="1"><f a="arr:value">
-	<c path="Array"><c path="add.T"/></c>
-	<c path="add.T"/>
-	<c path="Array"><c path="add.T"/></c>
-</f></add>
-		<delete public="1" params="T" get="inline" set="null" line="27" static="1"><f a="arr:value">
-	<c path="Array"><c path="delete.T"/></c>
-	<c path="delete.T"/>
-	<c path="Array"><c path="delete.T"/></c>
-</f></delete>
-		<filter public="1" params="T" set="method" line="33" static="1"><f a="arr:f">
-	<c path="Array"><c path="filter.T"/></c>
-	<f a="">
-		<c path="filter.T"/>
-		<e path="Bool"/>
-	</f>
-	<c path="Array"><c path="filter.T"/></c>
-</f></filter>
-		<min public="1" params="T" set="method" line="42" static="1"><f a="arr:?f">
+		<addIf public="1" params="T" set="method" line="14" static="1">
+			<f a="arr:?condition:value">
+				<c path="Array"><c path="addIf.T"/></c>
+				<e path="Bool"/>
+				<t path="Null"><c path="addIf.T"/></t>
+				<c path="Array"><c path="addIf.T"/></c>
+			</f>
+			<haxe_doc>
+	 * push the value into the array and return the array itself only if the condition
+	 * evaluates to true.
+	 </haxe_doc>
+		</addIf>
+		<add public="1" params="T" get="inline" set="null" line="28" static="1">
+			<f a="arr:value">
+				<c path="Array"><c path="add.T"/></c>
+				<c path="add.T"/>
+				<c path="Array"><c path="add.T"/></c>
+			</f>
+			<haxe_doc>
+	 * push the value into the array and return the array itself
+	 </haxe_doc>
+		</add>
+		<delete public="1" params="T" get="inline" set="null" line="37" static="1">
+			<f a="arr:value">
+				<c path="Array"><c path="delete.T"/></c>
+				<c path="delete.T"/>
+				<c path="Array"><c path="delete.T"/></c>
+			</f>
+			<haxe_doc>
+	 * removes the value from the array and return the array itself
+	 </haxe_doc>
+		</delete>
+		<filter public="1" params="T" set="method" line="46" static="1">
+			<f a="arr:f">
+				<c path="Array"><c path="filter.T"/></c>
+				<f a="">
+					<c path="filter.T"/>
+					<e path="Bool"/>
+				</f>
+				<c path="Array"><c path="filter.T"/></c>
+			</f>
+			<haxe_doc>
+	 * creates a new array filtered by the 'f' function
+	 </haxe_doc>
+		</filter>
+		<min public="1" params="T" set="method" line="55" static="1"><f a="arr:?f">
 	<c path="Array"><c path="min.T"/></c>
 	<f a="">
 		<c path="min.T"/>
@@ -3670,7 +3705,7 @@ customs for missing features
 	</f>
 	<t path="Null"><c path="min.T"/></t>
 </f></min>
-		<floatMin public="1" params="T" set="method" line="57" static="1"><f a="arr:f">
+		<floatMin public="1" params="T" set="method" line="70" static="1"><f a="arr:f">
 	<c path="Array"><c path="floatMin.T"/></c>
 	<f a="">
 		<c path="floatMin.T"/>
@@ -3678,7 +3713,7 @@ customs for missing features
 	</f>
 	<c path="Float"/>
 </f></floatMin>
-		<max public="1" params="T" set="method" line="66" static="1"><f a="arr:?f">
+		<max public="1" params="T" set="method" line="79" static="1"><f a="arr:?f">
 	<c path="Array"><c path="max.T"/></c>
 	<f a="">
 		<c path="max.T"/>
@@ -3686,7 +3721,7 @@ customs for missing features
 	</f>
 	<t path="Null"><c path="max.T"/></t>
 </f></max>
-		<floatMax public="1" params="T" set="method" line="81" static="1"><f a="arr:f">
+		<floatMax public="1" params="T" set="method" line="94" static="1"><f a="arr:f">
 	<c path="Array"><c path="floatMax.T"/></c>
 	<f a="">
 		<c path="floatMax.T"/>
@@ -3694,11 +3729,11 @@ customs for missing features
 	</f>
 	<c path="Float"/>
 </f></floatMax>
-		<flatten public="1" params="T" set="method" line="90" static="1"><f a="arr">
+		<flatten public="1" params="T" set="method" line="103" static="1"><f a="arr">
 	<c path="Array"><c path="Array"><c path="flatten.T"/></c></c>
 	<c path="Array"><c path="flatten.T"/></c>
 </f></flatten>
-		<map public="1" params="TIn:TOut" get="inline" set="null" line="98" static="1"><f a="arr:f">
+		<map public="1" params="TIn:TOut" get="inline" set="null" line="111" static="1"><f a="arr:f">
 	<c path="Array"><c path="map.TIn"/></c>
 	<f a=":">
 		<c path="map.TIn"/>
@@ -3707,7 +3742,7 @@ customs for missing features
 	</f>
 	<c path="Array"><c path="map.TOut"/></c>
 </f></map>
-		<reduce public="1" params="TIn:TOut" get="inline" set="null" line="107" static="1"><f a="arr:f:initialValue">
+		<reduce public="1" params="TIn:TOut" get="inline" set="null" line="120" static="1"><f a="arr:f:initialValue">
 	<c path="Array"><c path="reduce.TIn"/></c>
 	<f a="::">
 		<c path="reduce.TOut"/>
@@ -3718,7 +3753,7 @@ customs for missing features
 	<c path="reduce.TOut"/>
 	<c path="reduce.TOut"/>
 </f></reduce>
-		<order public="1" params="T" get="inline" set="null" line="116" static="1"><f a="arr:?f">
+		<order public="1" params="T" get="inline" set="null" line="129" static="1"><f a="arr:?f">
 	<c path="Array"><c path="order.T"/></c>
 	<f a=":">
 		<c path="order.T"/>
@@ -3727,7 +3762,17 @@ customs for missing features
 	</f>
 	<c path="Array"><c path="order.T"/></c>
 </f></order>
-		<split public="1" params="T" set="method" line="122" static="1"><f a="arr:?f">
+		<orderMultiple public="1" params="T" set="method" line="135" static="1"><f a="arr:?f:rest">
+	<c path="Array"><c path="orderMultiple.T"/></c>
+	<f a=":">
+		<c path="orderMultiple.T"/>
+		<c path="orderMultiple.T"/>
+		<c path="Int"/>
+	</f>
+	<c path="Array"><c path="Array"><d/></c></c>
+	<e path="Void"/>
+</f></orderMultiple>
+		<split public="1" params="T" set="method" line="164" static="1"><f a="arr:?f">
 	<c path="Array"><c path="split.T"/></c>
 	<f a=":">
 		<c path="split.T"/>
@@ -3736,7 +3781,7 @@ customs for missing features
 	</f>
 	<c path="Array"><c path="Array"><c path="split.T"/></c></c>
 </f></split>
-		<exists public="1" params="T" set="method" line="138" static="1"><f a="arr:?value:?f">
+		<exists public="1" params="T" set="method" line="180" static="1"><f a="arr:?value:?f">
 	<c path="Array"><c path="exists.T"/></c>
 	<c path="exists.T"/>
 	<f a="">
@@ -3745,14 +3790,14 @@ customs for missing features
 	</f>
 	<e path="Bool"/>
 </f></exists>
-		<format public="1" set="method" line="153" static="1"><f a="v:?param:?params:?culture">
+		<format public="1" set="method" line="195" static="1"><f a="v:?param:?params:?culture">
 	<c path="Array"><d/></c>
 	<c path="String"/>
 	<c path="Array"><c path="String"/></c>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></format>
-		<formatf public="1" set="method" line="183" static="1"><f a="?param:?params:?culture">
+		<formatf public="1" set="method" line="223" static="1"><f a="?param:?params:?culture">
 	<c path="String"/>
 	<c path="Array"><c path="String"/></c>
 	<c path="thx.culture.Culture"/>
@@ -3761,7 +3806,7 @@ customs for missing features
 		<c path="String"/>
 	</f>
 </f></formatf>
-		<interpolate public="1" set="method" line="215" static="1"><f a="v:a:b:?equation">
+		<interpolate public="1" set="method" line="255" static="1"><f a="v:a:b:?equation">
 	<c path="Float"/>
 	<c path="Array"><c path="Float"/></c>
 	<c path="Array"><c path="Float"/></c>
@@ -3771,7 +3816,7 @@ customs for missing features
 	</f>
 	<c path="Array"><c path="Float"/></c>
 </f></interpolate>
-		<interpolatef public="1" set="method" line="220" static="1"><f a="a:b:?equation">
+		<interpolatef public="1" set="method" line="260" static="1"><f a="a:b:?equation">
 	<c path="Array"><c path="Float"/></c>
 	<c path="Array"><c path="Float"/></c>
 	<f a="">
@@ -3783,7 +3828,7 @@ customs for missing features
 		<c path="Array"><c path="Float"/></c>
 	</f>
 </f></interpolatef>
-		<interpolateStrings public="1" set="method" line="245" static="1"><f a="v:a:b:?equation">
+		<interpolateStrings public="1" set="method" line="285" static="1"><f a="v:a:b:?equation">
 	<c path="Float"/>
 	<c path="Array"><c path="String"/></c>
 	<c path="Array"><c path="String"/></c>
@@ -3793,7 +3838,7 @@ customs for missing features
 	</f>
 	<c path="Array"><c path="String"/></c>
 </f></interpolateStrings>
-		<interpolateStringsf public="1" set="method" line="250" static="1"><f a="a:b:?equation">
+		<interpolateStringsf public="1" set="method" line="290" static="1"><f a="a:b:?equation">
 	<c path="Array"><c path="String"/></c>
 	<c path="Array"><c path="String"/></c>
 	<f a="">
@@ -3805,7 +3850,7 @@ customs for missing features
 		<c path="Array"><c path="String"/></c>
 	</f>
 </f></interpolateStringsf>
-		<interpolateInts public="1" set="method" line="275" static="1"><f a="v:a:b:?equation">
+		<interpolateInts public="1" set="method" line="315" static="1"><f a="v:a:b:?equation">
 	<c path="Float"/>
 	<c path="Array"><c path="Int"/></c>
 	<c path="Array"><c path="Int"/></c>
@@ -3815,7 +3860,7 @@ customs for missing features
 	</f>
 	<c path="Array"><c path="Int"/></c>
 </f></interpolateInts>
-		<interpolateIntsf public="1" set="method" line="280" static="1"><f a="a:b:?equation">
+		<interpolateIntsf public="1" set="method" line="320" static="1"><f a="a:b:?equation">
 	<c path="Array"><c path="Int"/></c>
 	<c path="Array"><c path="Int"/></c>
 	<f a="">
@@ -3827,12 +3872,12 @@ customs for missing features
 		<c path="Array"><c path="Int"/></c>
 	</f>
 </f></interpolateIntsf>
-		<indexOf public="1" params="T" set="method" line="305" static="1"><f a="arr:el">
+		<indexOf public="1" params="T" set="method" line="345" static="1"><f a="arr:el">
 	<c path="Array"><c path="indexOf.T"/></c>
 	<c path="indexOf.T"/>
 	<c path="Int"/>
 </f></indexOf>
-		<every public="1" params="T" set="method" line="318" static="1"><f a="arr:f">
+		<every public="1" params="T" set="method" line="358" static="1"><f a="arr:f">
 	<c path="Array"><c path="every.T"/></c>
 	<f a=":">
 		<c path="every.T"/>
@@ -3841,7 +3886,7 @@ customs for missing features
 	</f>
 	<e path="Bool"/>
 </f></every>
-		<each public="1" params="T" set="method" line="330" static="1"><f a="arr:f">
+		<each public="1" params="T" set="method" line="370" static="1"><f a="arr:f">
 	<c path="Array"><c path="each.T"/></c>
 	<f a=":">
 		<c path="each.T"/>
@@ -3850,7 +3895,7 @@ customs for missing features
 	</f>
 	<e path="Void"/>
 </f></each>
-		<any public="1" params="T" get="inline" set="null" line="340" static="1"><f a="arr:f">
+		<any public="1" params="T" get="inline" set="null" line="380" static="1"><f a="arr:f">
 	<c path="Array"><c path="any.T"/></c>
 	<f a="">
 		<c path="any.T"/>
@@ -3858,7 +3903,7 @@ customs for missing features
 	</f>
 	<e path="Bool"/>
 </f></any>
-		<all public="1" params="T" get="inline" set="null" line="345" static="1"><f a="arr:f">
+		<all public="1" params="T" get="inline" set="null" line="385" static="1"><f a="arr:f">
 	<c path="Array"><c path="all.T"/></c>
 	<f a="">
 		<c path="all.T"/>
@@ -3866,19 +3911,19 @@ customs for missing features
 	</f>
 	<e path="Bool"/>
 </f></all>
-		<random public="1" params="T" set="method" line="350" static="1"><f a="arr">
+		<random public="1" params="T" set="method" line="390" static="1"><f a="arr">
 	<c path="Array"><c path="random.T"/></c>
 	<c path="random.T"/>
 </f></random>
-		<string public="1" params="T" set="method" line="355" static="1"><f a="arr">
+		<string public="1" params="T" set="method" line="395" static="1"><f a="arr">
 	<c path="Array"><c path="string.T"/></c>
 	<c path="String"/>
 </f></string>
-		<last public="1" params="T" get="inline" set="null" line="360" static="1"><f a="arr">
+		<last public="1" params="T" get="inline" set="null" line="400" static="1"><f a="arr">
 	<c path="Array"><c path="last.T"/></c>
 	<t path="Null"><c path="last.T"/></t>
 </f></last>
-		<lastf public="1" params="T" set="method" line="365" static="1"><f a="arr:f">
+		<lastf public="1" params="T" set="method" line="405" static="1"><f a="arr:f">
 	<c path="Array"><c path="lastf.T"/></c>
 	<f a="">
 		<c path="lastf.T"/>
@@ -3886,11 +3931,11 @@ customs for missing features
 	</f>
 	<t path="Null"><c path="lastf.T"/></t>
 </f></lastf>
-		<first public="1" params="T" get="inline" set="null" line="372" static="1"><f a="arr">
+		<first public="1" params="T" get="inline" set="null" line="412" static="1"><f a="arr">
 	<c path="Array"><c path="first.T"/></c>
 	<t path="Null"><c path="first.T"/></t>
 </f></first>
-		<firstf public="1" params="T" set="method" line="377" static="1"><f a="arr:f">
+		<firstf public="1" params="T" set="method" line="417" static="1"><f a="arr:f">
 	<c path="Array"><c path="firstf.T"/></c>
 	<f a="">
 		<c path="firstf.T"/>
@@ -3898,27 +3943,41 @@ customs for missing features
 	</f>
 	<t path="Null"><c path="firstf.T"/></t>
 </f></firstf>
-		<bisect public="1" get="inline" set="null" line="385" static="1"><f a="a:x:?lo:?hi">
+		<bisect public="1" get="inline" set="null" line="425" static="1"><f a="a:x:?lo:?hi">
 	<c path="Array"><c path="Float"/></c>
 	<c path="Float"/>
 	<c path="Int"/>
 	<c path="Int"/>
 	<c path="Int"/>
 </f></bisect>
-		<bisectRight public="1" set="method" line="390" static="1"><f a="a:x:?lo:?hi">
+		<bisectRight public="1" set="method" line="430" static="1"><f a="a:x:?lo:?hi">
 	<c path="Array"><c path="Float"/></c>
 	<c path="Float"/>
 	<c path="Int"/>
 	<c path="Int"/>
 	<c path="Int"/>
 </f></bisectRight>
-		<bisectLeft public="1" set="method" line="405" static="1"><f a="a:x:?lo:?hi">
+		<bisectLeft public="1" set="method" line="445" static="1"><f a="a:x:?lo:?hi">
 	<c path="Array"><c path="Float"/></c>
 	<c path="Float"/>
 	<c path="Int"/>
 	<c path="Int"/>
 	<c path="Int"/>
 </f></bisectLeft>
+		<nearest public="1" params="T" set="method" line="460" static="1"><f a="a:x:f">
+	<c path="Array"><c path="nearest.T"/></c>
+	<c path="Float"/>
+	<f a="">
+		<c path="nearest.T"/>
+		<c path="Float"/>
+	</f>
+	<c path="nearest.T"/>
+</f></nearest>
+		<compare public="1" params="T" set="method" line="469" static="1"><f a="a:b">
+	<c path="Array"><c path="compare.T"/></c>
+	<c path="Array"><c path="compare.T"/></c>
+	<c path="Int"/>
+</f></compare>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
@@ -4305,6 +4364,11 @@ customs for missing features
 	<fields><c path="Array"><c path="String"/></c></fields>
 </a></c>
 </f></flatten>
+		<compare public="1" set="method" line="173" static="1"><f a="a:b">
+	<a/>
+	<a/>
+	<c path="Int"/>
+</f></compare>
 		<haxe_doc>
  * ...
  * @author Franco Ponticelli
@@ -4539,24 +4603,14 @@ customs for missing features
 		<c path="Float"/>
 	</f>
 </f></interpolatef>
-		<ascending public="1" set="method" line="109" static="1"><f a="a:b">
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Int"/>
-</f></ascending>
-		<descending public="1" set="method" line="110" static="1"><f a="a:b">
-	<c path="Float"/>
-	<c path="Float"/>
-	<c path="Int"/>
-</f></descending>
-		<format public="1" set="method" line="112" static="1"><f a="v:?param:?params:?culture">
+		<format public="1" set="method" line="109" static="1"><f a="v:?param:?params:?culture">
 	<c path="Float"/>
 	<c path="String"/>
 	<c path="Array"><c path="String"/></c>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></format>
-		<formatf public="1" set="method" line="117" static="1"><f a="?param:?params:?culture">
+		<formatf public="1" set="method" line="114" static="1"><f a="?param:?params:?culture">
 	<c path="String"/>
 	<c path="Array"><c path="String"/></c>
 	<c path="thx.culture.Culture"/>
@@ -4565,31 +4619,31 @@ customs for missing features
 		<c path="String"/>
 	</f>
 </f></formatf>
-		<_reparse line="140" static="1"><c path="EReg"/></_reparse>
-		<canParse public="1" set="method" line="141" static="1"><f a="s">
+		<_reparse line="137" static="1"><c path="EReg"/></_reparse>
+		<canParse public="1" set="method" line="138" static="1"><f a="s">
 	<c path="String"/>
 	<e path="Bool"/>
 </f></canParse>
-		<parse public="1" set="method" line="146" static="1"><f a="s">
+		<parse public="1" set="method" line="143" static="1"><f a="s">
 	<c path="String"/>
 	<c path="Float"/>
 </f></parse>
-		<compare public="1" get="inline" set="null" line="153" static="1"><f a="a:b">
+		<compare public="1" get="inline" set="null" line="150" static="1"><f a="a:b">
 	<c path="Float"/>
 	<c path="Float"/>
 	<c path="Int"/>
 </f></compare>
-		<isNumeric public="1" get="inline" set="null" line="158" static="1"><f a="v">
+		<isNumeric public="1" get="inline" set="null" line="155" static="1"><f a="v">
 	<d/>
 	<e path="Bool"/>
 </f></isNumeric>
-		<equals public="1" set="method" line="163" static="1"><f a="a:b:?approx">
+		<equals public="1" set="method" line="160" static="1"><f a="a:b:?approx">
 	<c path="Float"/>
 	<c path="Float"/>
 	<c path="Float"/>
 	<e path="Bool"/>
 </f></equals>
-		<uninterpolatef public="1" set="method" line="174" static="1"><f a="a:b">
+		<uninterpolatef public="1" set="method" line="171" static="1"><f a="a:b">
 	<c path="Float"/>
 	<c path="Float"/>
 	<f a="x">
@@ -4597,7 +4651,7 @@ customs for missing features
 		<c path="Float"/>
 	</f>
 </f></uninterpolatef>
-		<uninterpolateClamp public="1" set="method" line="180" static="1"><f a="a:b">
+		<uninterpolateClamp public="1" set="method" line="177" static="1"><f a="a:b">
 	<c path="Float"/>
 	<c path="Float"/>
 	<f a="x">
@@ -4605,7 +4659,7 @@ customs for missing features
 		<c path="Float"/>
 	</f>
 </f></uninterpolateClamp>
-		<uninterpolateClampf public="1" set="method" line="186" static="1"><f a="min:max">
+		<uninterpolateClampf public="1" set="method" line="183" static="1"><f a="min:max">
 	<c path="Float"/>
 	<c path="Float"/>
 	<f a="a:b">
@@ -4617,7 +4671,7 @@ customs for missing features
 		</f>
 	</f>
 </f></uninterpolateClampf>
-		<round public="1" set="method" line="195" static="1"><f a="x:?n">
+		<round public="1" set="method" line="192" static="1"><f a="x:?n">
 	<c path="Float"/>
 	<c path="Int"/>
 	<c path="Float"/>

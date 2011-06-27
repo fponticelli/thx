@@ -3,5 +3,5 @@
     <tag v="cross"/>
 	<tag v="std"/>
     <description>General purpose library</description>
-    <version name="0.3.0">almost aligned to d3 1.19.1 + minor fixes and renamings</version>
+    <version name="0.3.1">fixes and improvments</version>
 </project>
