@@ -6,9 +6,9 @@ package thx.math.scale;
 import thx.collections.IntHashList;
 using Arrays;
 
-class Ordinal<TData, TRange>
+class Ordinal<TDomain, TRange> implements IScale<TDomain, TRange>
 {
-	var _domain : Array<TData>;
+	var _domain : Array<TDomain>;
 	var _range : Array<TRange>;
 	public var rangeBand(default, null) : Float;
 	
@@ -19,7 +19,7 @@ class Ordinal<TData, TRange>
 		rangeBand = 0.0;
 	}
 
-	public function scale(x : TData, ?_) : TRange
+	public function scale(x : TDomain, ?_) : TRange
 	{
 		var i = _domain.indexOf(x);
 		if (i < 0)
@@ -31,7 +31,7 @@ class Ordinal<TData, TRange>
 	}
 	
 	public function getDomain() return _domain.copy()
-	public function domain(x : Array<TData>)
+	public function domain(x : Array<TDomain>)
 	{
 		_domain = x.copy();
 		return this;

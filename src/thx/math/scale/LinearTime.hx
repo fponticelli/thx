@@ -17,7 +17,7 @@ class LinearTime extends Linear
 	{
 		super();
 		_usetimeticks = false;
-		_maxnumberofticks = 12;
+		_maxnumberofticks = 10;
 	}
 // TODO: remove
 	public static function guessPeriodicity(a : Float, b : Float, disc = 2)

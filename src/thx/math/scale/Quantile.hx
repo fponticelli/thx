@@ -6,10 +6,10 @@ package thx.math.scale;
  */
 using Arrays;
 
-class Quantile
+class Quantile<TRange> implements IScale<Float, TRange>
 {
 	var _domain : Array<Float>;
-	var _range : Array<Float>;
+	var _range : Array<TRange>;
 	var _thresolds : Array<Float>;
 	public function new()
 	{
@@ -36,7 +36,7 @@ class Quantile
 
 	public function scale(v : Float, ?_)
 	{
-		if (Math.isNaN(v)) return Math.NaN;
+//		if (Math.isNaN(v)) return Math.NaN;
 		return _range[Arrays.bisect(_thresolds, v)];
 	}
 	
@@ -51,8 +51,7 @@ class Quantile
 	}
 	
 	public function getRange() return _range
-	
-	public function range(x : Array<Float>)
+	public function range(x : Array<TRange>)
 	{
 		_range = x.copy();
 		rescale();

@@ -8,17 +8,13 @@ package thx.math.scale;
 import thx.error.AbstractMethod;
 using Arrays;
 
-class NumericScale<This>
+class NumericScale<This> implements IScale<Float, Float>
 {
 	var _domain : Array<Float>;
 	var _range : Array<Float>;
 	
-	var kx : Float;
-	var ky : Float;
 	var f : Float -> Float -> (Float -> Float) -> (Float -> Float);
 	var _clamp : Bool;
-	var _clampmin : Float;
-	var _clampmax : Float;
 	var _output : Float -> Float;
 	var _input : Float -> Float;
 	public function new()
@@ -26,18 +22,15 @@ class NumericScale<This>
 		_domain = [0.0, 1.0];
 		_range = [0.0, 1.0];
 		
-		kx = 1; ky = 1;
 		f = Floats.interpolatef;
 		_clamp = false;
-		_clampmin = 0.0;
-		_clampmax = 1.0;
 		rescale();
 	}
 	
 	function rescale()
 	{
 		var linear = _domain.length == 2 ? scaleBilinear : scalePolylinear,
-			uninterpolate = _clamp ? Floats.uninterpolateClampf(_clampmin, _clampmax) : Floats.uninterpolatef;
+			uninterpolate = _clamp ? Floats.uninterpolateClampf : Floats.uninterpolatef;
 		_output = linear(_domain, _range, uninterpolate, f);
 		_input = linear(_range, _domain, uninterpolate, Floats.interpolatef);
 		return _this();
@@ -85,20 +78,6 @@ class NumericScale<This>
 	public function clamp(v : Bool) : This
 	{
 		this._clamp = v;
-		return rescale();
-	}
-	
-	public function getClampMin() : Float return _clampmin
-	public function clampMin(v : Float) : This
-	{
-		this._clampmin = v;
-		return rescale();
-	}
-	
-	public function getClampMax() : Float return _clampmax
-	public function clampMax(v : Float) : This
-	{
-		this._clampmax = v;
 		return rescale();
 	}
 	

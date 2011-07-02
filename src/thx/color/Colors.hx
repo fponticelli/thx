@@ -1,5 +1,4 @@
 package thx.color;
-import thx.error.Error;
 
 using StringTools;
 using Strings;
@@ -42,7 +41,7 @@ class Colors
 				if ("transparent" == s)
 					return Rgb.fromInt(0xFFFFFF);
 				else
-					return throw new Error("invalid color: '{0}'", s);
+					return null;
 			else
 				return v;
 		}
@@ -64,13 +63,13 @@ class Colors
 		if (color.length == 3)
 			color = color.split("").map(function(d, _) return d + d).join("");
 		else if (color.length != 6)
-			return throw new Error("invalid color: '{0}'", s);
+			return null;
 		return Rgb.fromInt(Std.parseInt("0x" + color));
 	}
 	
 	static function _c(s : String) : Int
 	{
-		return Std.parseInt(s);
+		return Std.parseInt(s.trim());
 	}
 	
 	static function _d(s : String) : Float

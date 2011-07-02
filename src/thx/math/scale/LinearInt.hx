@@ -15,7 +15,6 @@ class LinearInt extends Linear
 	
 	override public function tickFormat(v : Float, ?i : Int) : String
 	{
-//		var n = Math.max(0, -Math.floor(Math.log(tickRange().step) / Const.LN10 + .01));
 		return Floats.format(v, "I");
 	}
 }

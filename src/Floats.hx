@@ -106,6 +106,18 @@ class Floats
 		return function(f) return a + equation(f) * d;
 	}
 	
+	
+	public static function interpolateClampf(min : Float, max : Float, ?equation : Float -> Float)
+	{
+		if (null == equation)
+			equation = Equations.linear;
+		return function(a : Float, b : Float)
+		{
+			var d = b - a;
+			return function(f) return a + equation(clamp(f, min, max)) * d;
+		}
+	}
+	
 	public static function format(v : Float, ?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return formatf(param, params, culture)(v);
@@ -173,20 +185,11 @@ class Floats
 		b = 1 / (b - a);
 		return function(x : Float) return (x - a) * b;
 	}
-	
-	public static function uninterpolateClamp(a : Float, b : Float)
+
+	public static function uninterpolateClampf(a : Float, b : Float)
 	{
 		b = 1 / (b - a);
 		return function(x : Float) return clamp((x - a) * b, 0.0, 1.0);
-	}
-	
-	public static function uninterpolateClampf(min : Float, max : Float)
-	{
-		return function(a : Float, b : Float)
-		{
-			b = 1 / (b - a);
-			return function(x : Float) return clamp((x - a) * b, min, max);
-		}
 	}
 	
 	public static function round(x : Float, n = 2)

@@ -5,20 +5,20 @@ package thx.math.scale;
  * @author Franco Ponticelli
  */
 
-class Quantize
+class Quantize<TRange> implements IScale<Float, TRange>
 {
 	var x0 : Float;
 	var x1 : Float;
 	var kx : Float;
 	var i : Float;
-	var _range : Array<Float>;
+	var _range : Array<TRange>;
 	public function new()
 	{
 		x0 = 0;
 		x1 = 1;
 		kx = 2;
 		i = 1;
-		_range = [0.0, 1.0];
+		_range = [];
 	}
 
 	public function scale(x : Float, ?_)
@@ -27,7 +27,6 @@ class Quantize
 	}
 	
 	public function getDomain() return [x0, x1]
-	
 	public function domain(x0 : Float, x1 : Float)
 	{
 		this.x0 = x0;
@@ -36,9 +35,8 @@ class Quantize
 		return this;
 	}
 	
-	public function getRange() return _range.copy
-	
-	public function range(x : Array<Float>)
+	public function getRange() return _range.copy()
+	public function range(x : Array<TRange>)
 	{
 		_range = x.copy();
 		kx = _range.length / (x1 - x0);

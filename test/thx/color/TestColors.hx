@@ -23,7 +23,7 @@ class TestColors
 		Assert.isTrue(new Hsl(120, 0.5, 0.75).equals(Colors.parse("hsl(120,50%,75%)")));
 		Assert.isTrue(new Hsl(120, 0.5, 0.75).equals(Colors.parse("hsl(120,0.5,0.75)")));
 		
-		Assert.raises(function() Colors.parse("!alice blue"), Dynamic);
+		Assert.isNull(Colors.parse("!alice blue"));
 	}
 	
 	public function new(){}

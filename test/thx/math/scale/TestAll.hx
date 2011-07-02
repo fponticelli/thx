@@ -15,7 +15,7 @@ class TestAll
 	public static function addTests(runner : Runner)
 	{
 		runner.addCase(new TestLinear());
-		runner.addCase(new TestLinearString());
+		runner.addCase(new TestLinearT());
 		runner.addCase(new TestLog());
 		runner.addCase(new TestOrdinal());
 		runner.addCase(new TestPow());
