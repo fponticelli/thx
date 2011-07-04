@@ -18,10 +18,7 @@ class DictionaryTranslation implements ITranslation
 		_infos = new Hash();
 		_domainss = new Hash();
 		_domainsp = new Hash();
-		if (null != domain)
-		{
-			addDomain(domain, info);
-		}
+		addDomain(domain, info);
 	}
 	
 	public function addDomain(?domain : String, ?info : Info)
@@ -29,9 +26,9 @@ class DictionaryTranslation implements ITranslation
 		if (null == domain && null == info)
 			throw "you have to pass at least a domain or a info";
 		if (null == info)
-			info = Culture.defaultCulture.language;
+			info = Culture.defaultCulture;
 		if (null == domain)
-			domain = info.iso2;
+			domain = info.name;
 		if (_infos.exists(domain))
 			throw "domain already added: " + domain;
 		
@@ -69,7 +66,7 @@ class DictionaryTranslation implements ITranslation
 			return v;
 	}
 	
-	public function __(ids : String, idp : String, quantifier : Int, ?domain : String) : String
+	public function __(?ids : String, idp : String, quantifier : Int, ?domain : String) : String
 	{
 		if (null == domain)
 			domain = this.domain;
@@ -78,7 +75,7 @@ class DictionaryTranslation implements ITranslation
 		var v = _domainsp.get(domain).get(idp)[index];
 		if (null == v)
 		{
-			if (quantifier == 1)
+			if (null != ids && quantifier == 1)
 				return ids;
 			else
 				return idp;

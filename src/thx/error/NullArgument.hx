@@ -9,9 +9,11 @@ import haxe.PosInfos;
 class NullArgument #if !macro extends Error #end
 {
 #if !macro
-	public function new(argumentName : String, ?posInfo : PosInfos)
+	public function new(argumentName : String, ?message : String, ?posInfo : PosInfos)
 	{
-		super("invalid null or empty argument {0} for method {1}.{2}()", [argumentName, posInfo.className, posInfo.methodName], posInfo);
+		if (null == message)
+			message = "invalid null or empty argument '{0}' for method {1}.{2}()";
+		super(message, [argumentName, posInfo.className, posInfo.methodName], posInfo);
 	}
 #else
 	static function error(value : haxe.macro.Expr)
@@ -36,7 +38,7 @@ class NullArgument #if !macro extends Error #end
 				error(value);
 		};
 		
-		var cond = "if(null == " + name + ") throw new NullArgument('" + name + "')";
+		var cond = "if(null == " + name + ") throw new NullArgument('" + name + "', 'invalid null argument \\\'{0}\\\' for method {1}.{2}()')";
 		
 		return haxe.macro.Context.parse(cond, value.pos);
 	}

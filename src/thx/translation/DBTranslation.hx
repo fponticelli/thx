@@ -166,14 +166,14 @@ INDEX ( `msgid` , `domainid` )
 			return result;
 	}
 	
-	public function __(ids : String, idp : String, quantifier : Int, ?domain : String)
+	public function __(?ids : String, idp : String, quantifier : Int, ?domain : String)
 	{
 		if (null == domain)
 			domain = this.domain;
 		var info = _getDomainInfo(domain);
 		var q = PluralForms.pluralRules[info.pluralRule](quantifier);
 		if (0 == q)
-			return _(ids, domain);
+			return _(null == ids ? idp : ids, domain);
 		else {
 			var result = _getMessage(idp, domain, q);
 			if (null == result)

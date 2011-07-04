@@ -18,9 +18,9 @@ class EmptyTranslation implements ITranslation
 		return id;
 	}
 	
-	public function __(ids : String, idp : String, quantifier : Int, ?domain : String) : String
+	public function __(?ids : String, idp : String, quantifier : Int, ?domain : String) : String
 	{
-		if (quantifier == 1)
+		if (null != ids && quantifier == 1)
 			return ids;
 		else
 			return idp;

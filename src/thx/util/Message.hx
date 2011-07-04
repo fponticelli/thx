@@ -7,6 +7,8 @@ package thx.util;
 
 using Strings;
 import haxe.PosInfos;
+import thx.culture.Culture;
+import thx.translation.ITranslation;
 
 class Message
 {
@@ -28,8 +30,19 @@ class Message
 		return message.format(params);
 	}
 	
-	public function translate(translator : String -> String)
+	public function translatef(translator : String -> String)
 	{
 		return translator(message).format(params);
+	}
+	
+	public function translate(translator : ITranslation, ?domain : String)
+	{
+		if (null == domain)
+			domain = translator.domain;
+		var culture = Culture.get(domain);
+		if (params.length == 1 && Std.is(params[0], Int))
+			return translator.__(null, message, params[0], domain).format(params, culture);
+		else
+			return translator._(message, domain).format(params, culture);
 	}
 }
