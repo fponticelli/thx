@@ -1773,7 +1773,7 @@
 		<Perceived/>
 	</enum>
 	<class path="thx.color.Colors" params="" file="src/thx/color/Colors.hx">
-		<interpolatef public="1" set="method" line="15" static="1"><f a="a:b:?equation">
+		<interpolatef public="1" set="method" line="14" static="1"><f a="a:b:?equation">
 	<c path="String"/>
 	<c path="String"/>
 	<f a="">
@@ -1785,7 +1785,7 @@
 		<c path="String"/>
 	</f>
 </f></interpolatef>
-		<interpolate public="1" set="method" line="23" static="1"><f a="v:a:b:?equation">
+		<interpolate public="1" set="method" line="22" static="1"><f a="v:a:b:?equation">
 	<c path="Float"/>
 	<c path="String"/>
 	<c path="String"/>
@@ -1795,20 +1795,20 @@
 	</f>
 	<c path="String"/>
 </f></interpolate>
-		<_reParse line="28" static="1"><c path="EReg"/></_reParse>
-		<parse public="1" set="method" line="36" static="1"><f a="s">
+		<_reParse line="27" static="1"><c path="EReg"/></_reParse>
+		<parse public="1" set="method" line="35" static="1"><f a="s">
 	<c path="String"/>
 	<c path="thx.color.Rgb"/>
 </f></parse>
-		<_c set="method" line="71" static="1"><f a="s">
+		<_c set="method" line="70" static="1"><f a="s">
 	<c path="String"/>
 	<c path="Int"/>
 </f></_c>
-		<_d set="method" line="76" static="1"><f a="s">
+		<_d set="method" line="75" static="1"><f a="s">
 	<c path="String"/>
 	<c path="Float"/>
 </f></_d>
-		<_p set="method" line="86" static="1"><f a="s">
+		<_p set="method" line="85" static="1"><f a="s">
 	<c path="String"/>
 	<c path="Float"/>
 </f></_p>
@@ -2326,15 +2326,20 @@
 	<class path="thx.util.Message" params="" file="src/thx/util/Message.hx">
 		<message public="1" set="null"><c path="String"/></message>
 		<params public="1" set="null"><c path="Array"><d/></c></params>
-		<toString public="1" set="method" line="26"><f a=""><c path="String"/></f></toString>
-		<translate public="1" set="method" line="31"><f a="translator">
+		<toString public="1" set="method" line="28"><f a=""><c path="String"/></f></toString>
+		<translatef public="1" set="method" line="33"><f a="translator">
 	<f a="">
 		<c path="String"/>
 		<c path="String"/>
 	</f>
 	<c path="String"/>
+</f></translatef>
+		<translate public="1" set="method" line="38"><f a="translator:?domain">
+	<c path="thx.translation.ITranslation"/>
+	<c path="String"/>
+	<c path="String"/>
 </f></translate>
-		<new public="1" set="method" line="15"><f a="message:?params:?param">
+		<new public="1" set="method" line="17"><f a="message:?params:?param">
 	<c path="String"/>
 	<c path="Array"><d/></c>
 	<d/>
@@ -2359,6 +2364,21 @@
  * ...
  * @author Franco Ponticelli
  </haxe_doc>
+	</class>
+	<class path="thx.translation.ITranslation" params="" file="src/thx/translation/ITranslation.hx" interface="1">
+		<domain public="1" get="getDomain" set="setDomain"><c path="String"/></domain>
+		<_ public="1" set="method"><f a="id:?domain">
+	<c path="String"/>
+	<c path="String"/>
+	<c path="String"/>
+</f></_>
+		<__ public="1" set="method"><f a="?ids:idp:quantifier:?domain">
+	<c path="String"/>
+	<c path="String"/>
+	<c path="Int"/>
+	<c path="String"/>
+	<c path="String"/>
+</f></__>
 	</class>
 	<class path="IntHash" params="T" file="C:\Projects\haxe/std/flash/_std/IntHash.hx">
 		<h><d/></h>
@@ -4603,14 +4623,30 @@ customs for missing features
 		<c path="Float"/>
 	</f>
 </f></interpolatef>
-		<format public="1" set="method" line="109" static="1"><f a="v:?param:?params:?culture">
+		<interpolateClampf public="1" set="method" line="110" static="1"><f a="min:max:?equation">
+	<c path="Float"/>
+	<c path="Float"/>
+	<f a="">
+		<c path="Float"/>
+		<c path="Float"/>
+	</f>
+	<f a="a:b">
+		<c path="Float"/>
+		<c path="Float"/>
+		<f a="f">
+			<c path="Float"/>
+			<c path="Float"/>
+		</f>
+	</f>
+</f></interpolateClampf>
+		<format public="1" set="method" line="121" static="1"><f a="v:?param:?params:?culture">
 	<c path="Float"/>
 	<c path="String"/>
 	<c path="Array"><c path="String"/></c>
 	<c path="thx.culture.Culture"/>
 	<c path="String"/>
 </f></format>
-		<formatf public="1" set="method" line="114" static="1"><f a="?param:?params:?culture">
+		<formatf public="1" set="method" line="126" static="1"><f a="?param:?params:?culture">
 	<c path="String"/>
 	<c path="Array"><c path="String"/></c>
 	<c path="thx.culture.Culture"/>
@@ -4619,31 +4655,31 @@ customs for missing features
 		<c path="String"/>
 	</f>
 </f></formatf>
-		<_reparse line="137" static="1"><c path="EReg"/></_reparse>
-		<canParse public="1" set="method" line="138" static="1"><f a="s">
+		<_reparse line="149" static="1"><c path="EReg"/></_reparse>
+		<canParse public="1" set="method" line="150" static="1"><f a="s">
 	<c path="String"/>
 	<e path="Bool"/>
 </f></canParse>
-		<parse public="1" set="method" line="143" static="1"><f a="s">
+		<parse public="1" set="method" line="155" static="1"><f a="s">
 	<c path="String"/>
 	<c path="Float"/>
 </f></parse>
-		<compare public="1" get="inline" set="null" line="150" static="1"><f a="a:b">
+		<compare public="1" get="inline" set="null" line="162" static="1"><f a="a:b">
 	<c path="Float"/>
 	<c path="Float"/>
 	<c path="Int"/>
 </f></compare>
-		<isNumeric public="1" get="inline" set="null" line="155" static="1"><f a="v">
+		<isNumeric public="1" get="inline" set="null" line="167" static="1"><f a="v">
 	<d/>
 	<e path="Bool"/>
 </f></isNumeric>
-		<equals public="1" set="method" line="160" static="1"><f a="a:b:?approx">
+		<equals public="1" set="method" line="172" static="1"><f a="a:b:?approx">
 	<c path="Float"/>
 	<c path="Float"/>
 	<c path="Float"/>
 	<e path="Bool"/>
 </f></equals>
-		<uninterpolatef public="1" set="method" line="171" static="1"><f a="a:b">
+		<uninterpolatef public="1" set="method" line="183" static="1"><f a="a:b">
 	<c path="Float"/>
 	<c path="Float"/>
 	<f a="x">
@@ -4651,27 +4687,15 @@ customs for missing features
 		<c path="Float"/>
 	</f>
 </f></uninterpolatef>
-		<uninterpolateClamp public="1" set="method" line="177" static="1"><f a="a:b">
+		<uninterpolateClampf public="1" set="method" line="189" static="1"><f a="a:b">
 	<c path="Float"/>
 	<c path="Float"/>
 	<f a="x">
 		<c path="Float"/>
 		<c path="Float"/>
 	</f>
-</f></uninterpolateClamp>
-		<uninterpolateClampf public="1" set="method" line="183" static="1"><f a="min:max">
-	<c path="Float"/>
-	<c path="Float"/>
-	<f a="a:b">
-		<c path="Float"/>
-		<c path="Float"/>
-		<f a="x">
-			<c path="Float"/>
-			<c path="Float"/>
-		</f>
-	</f>
 </f></uninterpolateClampf>
-		<round public="1" set="method" line="192" static="1"><f a="x:?n">
+		<round public="1" set="method" line="195" static="1"><f a="x:?n">
 	<c path="Float"/>
 	<c path="Int"/>
 	<c path="Float"/>
