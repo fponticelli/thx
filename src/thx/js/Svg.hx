@@ -22,7 +22,7 @@ class Svg
 					.style("position").string("absolute")
 					.style("top").float(0)
 					.style("left").float(0);
-			var ctm = untyped svg.node().dom.getScreenCTM();
+			var ctm = untyped svg.node().getScreenCTM();
 			_usepage = !(ctm.f || ctm.e);
 			svg.remove();
 		}
