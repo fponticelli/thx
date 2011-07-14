@@ -183,6 +183,19 @@ class Objects
 		
 		return 0;
 	}
+	
+	public static function addFields(o : { }, fields : Array<String>, values : Array<Dynamic>)
+	{
+		for (i in 0...fields.length)
+			addField(o, fields[i], values[i]); 
+		return o;
+	}
+	
+	public static function addField(o : { }, field : String, value : Dynamic)
+	{
+		Reflect.setField(o, field, value); 
+		return o;
+	}
 }
 
 typedef Entry = { key : String, value : Dynamic };

@@ -157,6 +157,34 @@ class Dynamics
 		}
 	}
 	
+	public static function comparef(sample : Dynamic)
+	{
+		switch(Type.typeof(sample))
+		{
+			case TInt: return Ints.compare;
+			case TFloat: return Floats.compare;
+			case TBool: return Bools.compare;
+			case TObject: return Objects.compare;
+			case TClass(c):
+				var name = Type.getClassName(c);
+				switch(name)
+				{
+					case "Array":
+						return Arrays.compare;
+					case "String":
+						return Strings.compare;
+					case "Date":
+						return Dates.compare;
+					default:
+						return function(a, b) return Strings.compare(Std.string(a), Std.string(b));
+				}
+			case TEnum(e):
+				return Enums.compare;
+			default:
+				return Dynamics.compare;
+		}
+	}
+	
 	public static function clone(v : Dynamic)
 	{
 		switch(Type.typeof(v))

@@ -164,7 +164,10 @@ class Arrays
 	public static function split<T>(arr : Array<T>, ?f : T -> Int -> Bool) : Array<Array<T>>
 	{
 		if (null == f) f = function(v, _) return v == null;
-		var arrays = [], i = -1, values = [], value;
+		var arrays = [],
+			i = -1,
+			values = [],
+			value;
 		for(i in 0...arr.length)
 		{
 			if (f(value = arr[i], i))
@@ -404,9 +407,11 @@ class Arrays
 	
 	public static function lastf<T>(arr : Array<T>, f : T -> Bool) : Null<T>
 	{
-		var t = arr.copy();
-		t.reverse();
-		return firstf(arr, f);
+		var i = arr.length;
+		while (--i >= 0)
+			if (f(arr[i]))
+				return arr[i];
+		return null;
 	}
 	
 	inline public static function first<T>(arr : Array<T>) : Null<T>
@@ -477,5 +482,24 @@ class Arrays
 				return v;
 		}
 		return 0;
+	}
+	
+	public static function product<T>(a : Array<Array<T>>) : Array<Array<T>>
+	{
+		var arr = a.copy(),
+			result : Array<Array<T>> = [],
+			temp : Array<Array<T>>;
+		
+		for (value in arr[0])
+			result.push([value]);
+		for (i in 1...arr.length)
+		{
+			temp = [];
+			for (acc in result)
+				for (value in arr[i])
+					temp.push(acc.copy().concat([value]));
+			result = temp;
+		}
+		return result;
 	}
 }
