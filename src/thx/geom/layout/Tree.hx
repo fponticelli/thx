@@ -25,7 +25,7 @@ class Tree<T> extends AbstractTree<T,Tree<T>>{
 		}));
 	}
 	
-	public static function treeSeparation(a, b) {
+	public static function treeSeparation<T>(a:TreeNode<T>, b:TreeNode<T>) {
 		return a.parent == b.parent ? 1 : 2;
 	}
 		// function SeparationRadial(a, b) {
@@ -59,7 +59,7 @@ class Tree<T> extends AbstractTree<T,Tree<T>>{
 	public static function leftmost<T>(a:TreeNode<T>, b:TreeNode<T>) {
 		return b.x - a.x;
 	}
-	public static function deepest(a, b) {
+	public static function deepest<T>(a:TreeNode<T>, b:TreeNode<T>) {
 		return a.depth - b.depth;
 	}
 	public static function visit<T>(node:TreeNode<T>, previousSibling:TreeNode<T>, callbackf:TreeNode<T>->TreeNode<T>->Void) {
@@ -87,15 +87,15 @@ class Tree<T> extends AbstractTree<T,Tree<T>>{
 		i = children.length,
 		child;
 		while (--i >= 0) {
-		child = children[i]._tree;
-		child.prelim += shift;
-		child.mod += shift;
-		shift += child.shift + (change += child.change);
+			child = children[i]._tree;
+			child.prelim += shift;
+			child.mod += shift;
+			shift += child.shift + (change += child.change);
 		}
 	}
 	public static function move<T>(ancestor:TreeNode<T>, node:TreeNode<T>, shift:Float) {
-		ancestor = ancestor._tree;
-		node = node._tree;
+		var ancestor = ancestor._tree;
+		var node = node._tree;
 		var change = shift / (node.number - ancestor.number);
 		ancestor.change += change;
 		node.change -= change;
@@ -109,10 +109,6 @@ class Tree<T> extends AbstractTree<T,Tree<T>>{
 		: ancestor;
 	}
 }
-
-
-
-
 
 
 class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
@@ -188,7 +184,6 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 				}
 				sim += vim._tree.mod;
 				sip += vip._tree.mod;
-				trace(vom);
 				som += vom._tree.mod;
 				sop += vop._tree.mod;
 				vim = Tree.right(vim);
@@ -210,7 +205,6 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 		var children = node.children;
 		var layout = node._tree;
 		if (children != null && children.length > 0) {
-
 			var n = children.length;
 			var firstChild = children[0];
 			var previousChild :TreeNode<T> = null;
@@ -311,20 +305,14 @@ typedef TreeNode<T> = {
 	depth:Int,
 	data:T,
 	children:Array<TreeNode<T>>,
-	parent:TreeNode<T>,
+	parent:Null<TreeNode<T>>,
 	value:Float,
-	_tree:TreeNode<T>,
-	ancestor:TreeNode<T>,
-	prelim:Float,
-	mod:Float,
-	thread:TreeNode<T>,
-	number:Int,
-	change:Float,
-	shift:Float,
+	_tree:TreeData<T>,
+	ancestor:TreeNode<T>
 }
 
 typedef TreeData<T> ={
-	ancestor:TreeData<T>,
+	ancestor:TreeNode<T>,
 	prelim:Float,
 	mod:Float,
 	change:Float,
@@ -332,14 +320,5 @@ typedef TreeData<T> ={
 	thread:TreeNode<T>,
 	number:Float
 }
-
-/*node._tree = {
-	ancestor: node,
-	prelim: 0,
-	mod: 0,
-	change: 0,
-	shift: 0,
-	number: previousSibling != null ? previousSibling._tree.number + 1 : 0
-};*/
 
 
