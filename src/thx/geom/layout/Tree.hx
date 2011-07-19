@@ -1,5 +1,6 @@
 // Node-link tree diagram using the Reingold-Tilford "tidy" algorithm
 package thx.geom.layout;
+import thx.svg.Diagonal;
 import thx.geom.layout.Hierarchy;
 using Arrays;
 
@@ -24,6 +25,19 @@ class Tree<T> extends AbstractTree<T,Tree<T>>{
 			});
 		}));
 	}
+	
+	
+	public static function treeLinkDiagonal(){
+		return new Diagonal()
+			.sourcef(function(x:SourceTarget<TreeNode<Dynamic>>,_){
+				return [x.source.x, x.source.y];
+			})
+			.targetf(function(x,_){
+				return [x.target.x, x.target.y];
+			});
+			
+	}
+	
 	
 	public static function treeSeparation<T>(a:TreeNode<T>, b:TreeNode<T>) {
 		return a.parent == b.parent ? 1 : 2;
@@ -320,5 +334,3 @@ typedef TreeData<T> ={
 	thread:TreeNode<T>,
 	number:Float
 }
-
-
