@@ -4,15 +4,16 @@ import thx.js.AccessAttribute;
 
 
 class Svgs {
-	public static function translate<A,B>(ad:BoundSelection<A,B>, x:Float,y:Float) : BoundSelection<A,B> {
+	public static function translate<A,B>(ad:BoundSelection<A,B>, x:Float,y:Float) {
 		ad.attr("transform").string("translate(" + x + "," + y + ")");
 		return ad;
 	}
 
 }
 class UnboundSvgs{
-	public static function translate(ad:Selection, x:Float,y:Float) : Selection  {
-		return cast SvgTools.translate(cast ad, x, y);
+	public static function translate(ad:Selection, x:Float,y:Float) {
+		ad.attr("transform").string("translate(" + x + "," + y + ")");
+		return ad;
 	}
 }
 
