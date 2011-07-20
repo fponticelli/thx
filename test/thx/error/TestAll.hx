@@ -13,7 +13,8 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-    	runner.addCase(new TestNullArgument());
+    	runner.addCase(new TestError());
+		runner.addCase(new TestNullArgument());
 	}
 	
 	public static function main()

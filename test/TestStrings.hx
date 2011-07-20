@@ -176,4 +176,9 @@ aaa aa", text.wrapColumns(6));
 		Assert.equals("rgb(150,125,100)", Strings.interpolate(0.5, "rgb(100,200,50)", "rgb(200,50,150)"));
 		
 	}
+	
+	public function testFormatWithObjectParameter()
+	{
+		Assert.equals("{}", Strings.format("{0}", [ { } ]));
+	}
 }

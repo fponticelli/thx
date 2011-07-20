@@ -34,8 +34,10 @@ class Dynamics
 					} else if(c == Date) {
 						return Dates.format(v, param, params, culture);
 					} else {
-						return Std.string(v);
+						return Objects.format(v, param, params, culture);
 					}
+				case TObject:
+					return Objects.format(v, param, params, culture);
 				default:
 					return throw new Error("Unsupported type format: {0}", Type.typeof(v));
 			}

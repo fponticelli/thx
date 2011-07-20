@@ -76,4 +76,14 @@ class Types
 				return Type.typeof(a) == tb;
 		}
 	}
+	
+	public static function isPrimitive(v : String)
+	{
+		return switch(Type.typeof(v))
+		{
+			case TNull, TInt, TFloat, TBool: true;
+			case TFunction, TEnum(_), TObject, TUnknown : false;
+			case TClass(c): Type.getClassName(c) == "String";
+		}
+	}
 }

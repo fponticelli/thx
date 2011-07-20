@@ -128,7 +128,7 @@ class Arrays
 	
 	inline public static function order<T>(arr : Array<T>, ?f : T -> T -> Int)
 	{
-		arr.sort(null == f ? Reflect.compare : f);
+		arr.sort(null == f ? Dynamics.compare : f);
 		return arr;
 	}
 	

@@ -14,21 +14,27 @@ class Set<T>
 			set.add(item);
 		return set;
 	}
+	
+	public var length : Int;
 	var _v : Array<T>;
 	public function new()
 	{
 		_v = [];
+		length = 0;
 	}
 	
 	public function add(v : T) : Void
 	{
 		_v.remove(v);
 		_v.push(v);
+		length = _v.length;
 	}
 	
 	public function remove(v : T) : Bool
 	{
-		return _v.remove(v);
+		var t = _v.remove(v);
+		length = _v.length;
+		return t;
 	}
 	
 	public function exists(v : T) : Bool

@@ -92,6 +92,11 @@ J           Joins the elements of the list.
             The fourth is the maximum number of values to show (default to nolimit).
 			The fifth parameter the ellipsis for not included values (defaults to '...'),
 C			Counts the elements in the list
+
+Object Formats
+----------------
+O			Uses the Std.string function
+R			Uses the Reflects.string function for each field value
 			
 TODO:
 List Formats
