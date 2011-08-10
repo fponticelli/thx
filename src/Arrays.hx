@@ -486,6 +486,9 @@ class Arrays
 	
 	public static function product<T>(a : Array<Array<T>>) : Array<Array<T>>
 	{
+		if (a.length == 0)
+			return [];
+
 		var arr = a.copy(),
 			result : Array<Array<T>> = [],
 			temp : Array<Array<T>>;
@@ -500,6 +503,20 @@ class Arrays
 					temp.push(acc.copy().concat([value]));
 			result = temp;
 		}
+		return result;
+	}
+	
+	public static function rotate<T>(a : Array<Array<T>>) : Array<Array<T>>
+	{
+		if (a.length == 0)
+			return [];
+		
+		var result = [];
+		for (i in 0...a[0].length)
+			result[i] = [];
+		for (j in 0...a.length)
+			for (i in 0...a[0].length)
+				result[i][j] = a[j][i];
 		return result;
 	}
 }

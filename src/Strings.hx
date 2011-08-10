@@ -107,34 +107,9 @@ Other things to do. Nested placeholders
 </pre>
 	*/
 	public static function format(pattern : String, values : Array<Dynamic>, nullstring = 'null', ?culture : Culture) {
+		if (null == values || 0 == values.length)
+			return pattern;
 		return formatf(pattern, nullstring, culture)(values);
-		if (null == values)
-			values = [];
-		var buf = new StringBuf();
-		while(true) {
-			if(!_reFormat.match(pattern)) {
-				buf.add(pattern);
-				break;
-			}
-
-			var pos = Std.parseInt(_reFormat.matched(1));
-			var f = _reFormat.matched(2);
-			if (f == '') // '' is for IE
-				f = null;
-			var p = null;
-			var params = [];
-			for (i in 3...20) // 20 is a guard limit, 5 is probably more than enough
-			{
-				p = _reFormat.matched(i);
-				if(p == null || p == '') // again IE
-					break;
-				params.push(FormatParams.cleanQuotes(p));
-			}
-			pattern = _reFormat.matchedRight();
-			buf.add(_reFormat.matchedLeft());
-			buf.add(Dynamics.format(values[pos], f, params, nullstring, culture));
-		}
-		return buf.toString();
 	}
 	
 	public static function formatf(pattern : String, nullstring = 'null', ?culture : Culture)
@@ -513,6 +488,44 @@ Other things to do. Nested placeholders
 		return function(t) {
 			return Arrays.map(functions, function(f,_) return f(t)).join("");
 		};
+	}
+	
+	public static function interpolateChars(v : Float, a : String, b : String, ?equation : Float -> Float)
+	{
+		return interpolateCharsf(a, b, equation)(v);
+	}
+	
+	public static function interpolateCharsf(a : String, b : String, ?equation : Float -> Float) : Float -> String
+	{
+		var aa = a.split(""),
+			ab = b.split("");
+		while (aa.length > ab.length)
+			ab.insert(0, " ");
+		while (ab.length > aa.length)
+			aa.insert(0, " ");
+		var ai = [];
+		for (i in 0...aa.length)
+			ai[i] = interpolateCharf(aa[i], ab[i]);
+		return function(v)
+		{
+			var r = [];
+			for (i in 0...ai.length)
+				r[i] = ai[i](v);
+			return StringTools.trim(r.join(""));
+		}
+	}
+	
+	public static function interpolateChar(v : Float, a : String, b : String, ?equation : Float -> Float)
+	{
+		return interpolateCharf(a, b, equation)(v);
+	}
+	
+	public static function interpolateCharf(a : String, b : String, ?equation : Float -> Float) : Float -> String
+	{
+		var ca = a.charCodeAt(0),
+			cb = b.charCodeAt(0),
+			i = Ints.interpolatef(ca, cb, equation);
+		return function(v) return String.fromCharCode(i(v));
 	}
 	
 	public static function ellipsis(s : String, maxlen = 20, symbol = "...")
