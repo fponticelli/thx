@@ -9,6 +9,7 @@ import thx.js.Selection;
 import thx.js.Transition;
 import thx.js.AccessTweenAttribute;
 import thx.js.AccessTweenStyle;
+import thx.js.AccessTweenText;
 
 /**
  * Based on D3.js by Michael Bostock
@@ -247,6 +248,7 @@ class BaseTransition<This : BaseTransition<Dynamic>>
 
 class UnboundTransition extends BaseTransition<UnboundTransition>
 {
+	public function text() : AccessTweenText<UnboundTransition> return new AccessTweenText(this, _tweens)
 	public function style(name : String) : AccessTweenStyle<UnboundTransition> return new AccessTweenStyle(name, this, _tweens)
 	public function attr(name : String) : AccessTweenAttribute<UnboundTransition> return new AccessTweenAttribute(name, this, _tweens)
 	
@@ -263,6 +265,7 @@ class BoundTransition<T> extends BaseTransition<BoundTransition<T>>
 		super(selection);
 	}
 	
+	public function text() : AccessDataTweenText<T, BoundTransition<T>> return new AccessDataTweenText(this, _tweens)
 	public function style(name : String) : AccessDataTweenStyle<T, BoundTransition<T>> return new AccessDataTweenStyle(name, this, _tweens)
 	public function attr(name : String) : AccessDataTweenAttribute<T, BoundTransition<T>> return new AccessDataTweenAttribute(name, this, _tweens)
 	

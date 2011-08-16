@@ -176,4 +176,25 @@ aaa aa", text.wrapColumns(6));
 		Assert.equals("rgb(150,125,100)", Strings.interpolate(0.5, "rgb(100,200,50)", "rgb(200,50,150)"));
 		
 	}
+	
+	public function testFormatWithObjectParameter()
+	{
+		Assert.equals("{}", Strings.format("{0}", [ { } ]));
+	}
+	
+	public function testInterpolateChars()
+	{
+		var f = Strings.interpolateCharsf("abc", "z");
+		Assert.equals("abc", f(0));
+		Assert.equals("z", f(1));
+		Assert.equals("AAo", f(0.5));
+	}
+	
+	public function testInterpolateChar()
+	{
+		var f = Strings.interpolateCharf("a", "e");
+		Assert.equals("a", f(0));
+		Assert.equals("c", f(0.5));
+		Assert.equals("e", f(1));
+	}
 }

@@ -21,12 +21,28 @@ thx.util.Message.prototype.toString = function() {
 	return $tmp;
 	$s.pop();
 }
-thx.util.Message.prototype.translate = function(translator) {
-	$s.push("thx.util.Message::translate");
+thx.util.Message.prototype.translatef = function(translator) {
+	$s.push("thx.util.Message::translatef");
 	var $spos = $s.length;
 	var $tmp = Strings.format(translator(this.message),this.params);
 	$s.pop();
 	return $tmp;
+	$s.pop();
+}
+thx.util.Message.prototype.translate = function(translator,domain) {
+	$s.push("thx.util.Message::translate");
+	var $spos = $s.length;
+	if(null == domain) domain = translator.getDomain();
+	var culture = thx.culture.Culture.get(domain);
+	if(this.params.length == 1 && Std["is"](this.params[0],Int)) {
+		var $tmp = Strings.format(translator.__(null,this.message,this.params[0],domain),this.params,null,culture);
+		$s.pop();
+		return $tmp;
+	} else {
+		var $tmp = Strings.format(translator._(this.message,domain),this.params,null,culture);
+		$s.pop();
+		return $tmp;
+	}
 	$s.pop();
 }
 thx.util.Message.prototype.__class__ = thx.util.Message;
@@ -71,11 +87,12 @@ thx.error.Error.prototype.toString = function() {
 	$s.pop();
 }
 thx.error.Error.prototype.__class__ = thx.error.Error;
-thx.error.NullArgument = function(argumentName,posInfo) {
+thx.error.NullArgument = function(argumentName,message,posInfo) {
 	if( argumentName === $_ ) return;
 	$s.push("thx.error.NullArgument::new");
 	var $spos = $s.length;
-	thx.error.Error.call(this,"invalid null or empty argument {0} for method {1}.{2}()",[argumentName,posInfo.className,posInfo.methodName],posInfo,{ fileName : "NullArgument.hx", lineNumber : 14, className : "thx.error.NullArgument", methodName : "new"});
+	if(null == message) message = "invalid null or empty argument '{0}' for method {1}.{2}()";
+	thx.error.Error.call(this,message,[argumentName,posInfo.className,posInfo.methodName],posInfo,{ fileName : "NullArgument.hx", lineNumber : 16, className : "thx.error.NullArgument", methodName : "new"});
 	$s.pop();
 }
 thx.error.NullArgument.__name__ = ["thx","error","NullArgument"];
@@ -197,11 +214,20 @@ thx.js.AccessClassed.getRe = function(name) {
 	return $tmp;
 	$s.pop();
 }
+thx.js.AccessClassed.prototype.toggle = function(name) {
+	$s.push("thx.js.AccessClassed::toggle");
+	var $spos = $s.length;
+	if(this.exists(name)) this.remove(name); else this.add(name);
+	var $tmp = this.selection;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 thx.js.AccessClassed.prototype.exists = function(name) {
 	$s.push("thx.js.AccessClassed::exists");
 	var $spos = $s.length;
 	var $tmp = this.selection.firstNode(function(node) {
-		$s.push("thx.js.AccessClassed::exists@22");
+		$s.push("thx.js.AccessClassed::exists@31");
 		var $spos = $s.length;
 		var list = node.classList;
 		if(null != list) {
@@ -225,10 +251,10 @@ thx.js.AccessClassed.prototype.remove = function(name) {
 	$s.push("thx.js.AccessClassed::remove");
 	var $spos = $s.length;
 	this.selection.eachNode((function(f,a1) {
-		$s.push("thx.js.AccessClassed::remove@35");
+		$s.push("thx.js.AccessClassed::remove@44");
 		var $spos = $s.length;
 		var $tmp = function(a2,a3) {
-			$s.push("thx.js.AccessClassed::remove@35@35");
+			$s.push("thx.js.AccessClassed::remove@44@44");
 			var $spos = $s.length;
 			var $tmp = f(a1,a2,a3);
 			$s.pop();
@@ -263,10 +289,10 @@ thx.js.AccessClassed.prototype.add = function(name) {
 	$s.push("thx.js.AccessClassed::add");
 	var $spos = $s.length;
 	this.selection.eachNode((function(f,a1) {
-		$s.push("thx.js.AccessClassed::add@64");
+		$s.push("thx.js.AccessClassed::add@73");
 		var $spos = $s.length;
 		var $tmp = function(a2,a3) {
-			$s.push("thx.js.AccessClassed::add@64@64");
+			$s.push("thx.js.AccessClassed::add@73@73");
 			var $spos = $s.length;
 			var $tmp = f(a1,a2,a3);
 			$s.pop();
@@ -305,7 +331,7 @@ thx.js.AccessClassed.prototype.get = function() {
 	var node = this.selection.node(), list = node.classList;
 	if(null != list) {
 		var $tmp = Ints.range(list.length).map(function(_,i) {
-			$s.push("thx.js.AccessClassed::get@98");
+			$s.push("thx.js.AccessClassed::get@107");
 			var $spos = $s.length;
 			var $tmp = list.item(i);
 			$s.pop();
@@ -342,7 +368,7 @@ thx.js.AccessDataClassed.prototype.removef = function(v) {
 	var $spos = $s.length;
 	var f = $closure(this,"_remove");
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessDataClassed::removef@126");
+		$s.push("thx.js.AccessDataClassed::removef@135");
 		var $spos = $s.length;
 		var c = v(Reflect.field(node,"__data__"),i);
 		if(null != c) f(c,node,i);
@@ -358,7 +384,7 @@ thx.js.AccessDataClassed.prototype.addf = function(v) {
 	var $spos = $s.length;
 	var f = $closure(this,"_add");
 	this.selection.eachNode(function(node,i) {
-		$s.push("thx.js.AccessDataClassed::addf@137");
+		$s.push("thx.js.AccessDataClassed::addf@146");
 		var $spos = $s.length;
 		var c = v(Reflect.field(node,"__data__"),i);
 		if(null != c) f(c,node,i);
@@ -2730,7 +2756,7 @@ thx.error.TestNullArgument.__name__ = ["thx","error","TestNullArgument"];
 thx.error.TestNullArgument.throwMe = function(XXX) {
 	$s.push("thx.error.TestNullArgument::throwMe");
 	var $spos = $s.length;
-	if(null == XXX) throw new thx.error.NullArgument("XXX",{ fileName : "TestNullArgument.hx", lineNumber : 14, className : "thx.error.TestNullArgument", methodName : "throwMe"}); else null;
+	if(null == XXX) throw new thx.error.NullArgument("XXX","invalid null argument '{0}' for method {1}.{2}()",{ fileName : "TestNullArgument.hx", lineNumber : 14, className : "thx.error.TestNullArgument", methodName : "throwMe"}); else null;
 	$s.pop();
 }
 thx.error.TestNullArgument.prototype.testNullArgument = function() {
@@ -4567,6 +4593,7 @@ thx.error.TestAll.__name__ = ["thx","error","TestAll"];
 thx.error.TestAll.addTests = function(runner) {
 	$s.push("thx.error.TestAll::addTests");
 	var $spos = $s.length;
+	runner.addCase(new thx.error.TestError());
 	runner.addCase(new thx.error.TestNullArgument());
 	$s.pop();
 }
@@ -6531,6 +6558,13 @@ thx.util.type.TestImplementation.prototype.sayHello = function() {
 }
 thx.util.type.TestImplementation.prototype.__class__ = thx.util.type.TestImplementation;
 thx.util.type.TestImplementation.__interfaces__ = [thx.util.type.ITest];
+if(!thx.translation) thx.translation = {}
+thx.translation.ITranslation = function() { }
+thx.translation.ITranslation.__name__ = ["thx","translation","ITranslation"];
+thx.translation.ITranslation.prototype.domain = null;
+thx.translation.ITranslation.prototype._ = null;
+thx.translation.ITranslation.prototype.__ = null;
+thx.translation.ITranslation.prototype.__class__ = thx.translation.ITranslation;
 thx.util.TypeServiceLocator = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.util.TypeServiceLocator::new");
@@ -6630,7 +6664,7 @@ thx.js.Svg.mouse = function(dom) {
 	var point = (null != dom.ownerSVGElement?dom.ownerSVGElement:dom).createSVGPoint();
 	if(thx.js.Svg._usepage && (js.Lib.window.scrollX || js.Lib.window.scrollY)) {
 		var svg = thx.js.Dom.selectNode(js.Lib.document.body).append("svg:svg").style("position").string("absolute").style("top")["float"](0).style("left")["float"](0);
-		var ctm = svg.node().dom.getScreenCTM();
+		var ctm = svg.node().getScreenCTM();
 		thx.js.Svg._usepage = !(ctm.f || ctm.e);
 		svg.remove();
 	}
@@ -8283,15 +8317,19 @@ Dynamics.formatf = function(param,params,nullstring,culture) {
 				$s.pop();
 				return $tmp;
 			} else {
-				var $tmp = Std.string(v);
+				var $tmp = Objects.format(v,param,params,culture);
 				$s.pop();
 				return $tmp;
 			}
 			break;
+		case 4:
+			var $tmp = Objects.format(v,param,params,culture);
+			$s.pop();
+			return $tmp;
 		default:
 			var $tmp = (function($this) {
 				var $r;
-				throw new thx.error.Error("Unsupported type format: {0}",null,Type["typeof"](v),{ fileName : "Dynamics.hx", lineNumber : 40, className : "Dynamics", methodName : "formatf"});
+				throw new thx.error.Error("Unsupported type format: {0}",null,Type["typeof"](v),{ fileName : "Dynamics.hx", lineNumber : 42, className : "Dynamics", methodName : "formatf"});
 				return $r;
 			}(this));
 			$s.pop();
@@ -8316,12 +8354,12 @@ Dynamics.interpolatef = function(a,b,equation) {
 	var $spos = $s.length;
 	var ta = Type["typeof"](a);
 	var tb = Type["typeof"](b);
-	if(!((Std["is"](a,Float) || Std["is"](a,Int)) && (Std["is"](b,Float) || Std["is"](b,Int))) && !Type.enumEq(ta,tb)) throw new thx.error.Error("arguments a ({0}) and b ({0}) have different types",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 55, className : "Dynamics", methodName : "interpolatef"});
+	if(!((Std["is"](a,Float) || Std["is"](a,Int)) && (Std["is"](b,Float) || Std["is"](b,Int))) && !Type.enumEq(ta,tb)) throw new thx.error.Error("arguments a ({0}) and b ({0}) have different types",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 57, className : "Dynamics", methodName : "interpolatef"});
 	var $e = (ta);
 	switch( $e[1] ) {
 	case 0:
 		var $tmp = function(_) {
-			$s.push("Dynamics::interpolatef@58");
+			$s.push("Dynamics::interpolatef@60");
 			var $spos = $s.length;
 			$s.pop();
 			return null;
@@ -8365,11 +8403,11 @@ Dynamics.interpolatef = function(a,b,equation) {
 			$s.pop();
 			return $tmp;
 		default:
-			throw new thx.error.Error("cannot interpolate on instances of {0}",null,name,{ fileName : "Dynamics.hx", lineNumber : 73, className : "Dynamics", methodName : "interpolatef"});
+			throw new thx.error.Error("cannot interpolate on instances of {0}",null,name,{ fileName : "Dynamics.hx", lineNumber : 75, className : "Dynamics", methodName : "interpolatef"});
 		}
 		break;
 	default:
-		throw new thx.error.Error("cannot interpolate on functions/enums/unknown",null,null,{ fileName : "Dynamics.hx", lineNumber : 75, className : "Dynamics", methodName : "interpolatef"});
+		throw new thx.error.Error("cannot interpolate on functions/enums/unknown",null,null,{ fileName : "Dynamics.hx", lineNumber : 77, className : "Dynamics", methodName : "interpolatef"});
 	}
 	$s.pop();
 }
@@ -8456,7 +8494,7 @@ Dynamics.string = function(v) {
 Dynamics.compare = function(a,b) {
 	$s.push("Dynamics::compare");
 	var $spos = $s.length;
-	if(!Types.sameType(a,b)) throw new thx.error.Error("cannot compare 2 different types",null,null,{ fileName : "Dynamics.hx", lineNumber : 127, className : "Dynamics", methodName : "compare"});
+	if(!Types.sameType(a,b)) throw new thx.error.Error("cannot compare 2 different types",null,null,{ fileName : "Dynamics.hx", lineNumber : 129, className : "Dynamics", methodName : "compare"});
 	if(null == a && null == b) {
 		$s.pop();
 		return 0;
@@ -8517,6 +8555,68 @@ Dynamics.compare = function(a,b) {
 	default:
 		$s.pop();
 		return 0;
+	}
+	$s.pop();
+}
+Dynamics.comparef = function(sample) {
+	$s.push("Dynamics::comparef");
+	var $spos = $s.length;
+	var $e = (Type["typeof"](sample));
+	switch( $e[1] ) {
+	case 1:
+		var $tmp = Ints.compare;
+		$s.pop();
+		return $tmp;
+	case 2:
+		var $tmp = Floats.compare;
+		$s.pop();
+		return $tmp;
+	case 3:
+		var $tmp = Bools.compare;
+		$s.pop();
+		return $tmp;
+	case 4:
+		var $tmp = Objects.compare;
+		$s.pop();
+		return $tmp;
+	case 6:
+		var c = $e[2];
+		var name = Type.getClassName(c);
+		switch(name) {
+		case "Array":
+			var $tmp = Arrays.compare;
+			$s.pop();
+			return $tmp;
+		case "String":
+			var $tmp = Strings.compare;
+			$s.pop();
+			return $tmp;
+		case "Date":
+			var $tmp = Dates.compare;
+			$s.pop();
+			return $tmp;
+		default:
+			var $tmp = function(a,b) {
+				$s.push("Dynamics::comparef@181");
+				var $spos = $s.length;
+				var $tmp = Strings.compare(Std.string(a),Std.string(b));
+				$s.pop();
+				return $tmp;
+				$s.pop();
+			};
+			$s.pop();
+			return $tmp;
+		}
+		break;
+	case 7:
+		var e = $e[2];
+		var $tmp = Enums.compare;
+		$s.pop();
+		return $tmp;
+	default:
+		var $tmp = Dynamics.compare;
+		$s.pop();
+		return $tmp;
 	}
 	$s.pop();
 }
@@ -8767,7 +8867,7 @@ Dynamics.same = function(a,b) {
 	}
 	var $tmp = (function($this) {
 		var $r;
-		throw new thx.error.Error("Unable to compare values: {0} and {1}",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 334, className : "Dynamics", methodName : "same"});
+		throw new thx.error.Error("Unable to compare values: {0} and {1}",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 364, className : "Dynamics", methodName : "same"});
 		return $r;
 	}(this));
 	$s.pop();
@@ -9058,11 +9158,41 @@ thx.js.AccessTween.prototype.transitionStringTweenf = function(f) {
 	return $tmp;
 	$s.pop();
 }
+thx.js.AccessTween.prototype.transitionCharsTween = function(value) {
+	$s.push("thx.js.AccessTween::transitionCharsTween");
+	var $spos = $s.length;
+	var $tmp = function(d,i,a) {
+		$s.push("thx.js.AccessTween::transitionCharsTween@42");
+		var $spos = $s.length;
+		var $tmp = Strings.interpolateCharsf(a,value);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessTween.prototype.transitionCharsTweenf = function(f) {
+	$s.push("thx.js.AccessTween::transitionCharsTweenf");
+	var $spos = $s.length;
+	var $tmp = function(d,i,a) {
+		$s.push("thx.js.AccessTween::transitionCharsTweenf@47");
+		var $spos = $s.length;
+		var $tmp = Strings.interpolateCharsf(a,f(d,i));
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 thx.js.AccessTween.prototype.transitionFloatTween = function(value) {
 	$s.push("thx.js.AccessTween::transitionFloatTween");
 	var $spos = $s.length;
 	var $tmp = function(d,i,a) {
-		$s.push("thx.js.AccessTween::transitionFloatTween@42");
+		$s.push("thx.js.AccessTween::transitionFloatTween@52");
 		var $spos = $s.length;
 		var $tmp = Floats.interpolatef(a,value);
 		$s.pop();
@@ -9077,7 +9207,7 @@ thx.js.AccessTween.prototype.transitionFloatTweenf = function(f) {
 	$s.push("thx.js.AccessTween::transitionFloatTweenf");
 	var $spos = $s.length;
 	var $tmp = function(d,i,a) {
-		$s.push("thx.js.AccessTween::transitionFloatTweenf@47");
+		$s.push("thx.js.AccessTween::transitionFloatTweenf@57");
 		var $spos = $s.length;
 		var $tmp = Floats.interpolatef(a,f(d,i));
 		$s.pop();
@@ -9457,7 +9587,7 @@ utest.Assert.isNull = function(value,msg,pos) {
 utest.Assert.notNull = function(value,msg,pos) {
 	$s.push("utest.Assert::notNull");
 	var $spos = $s.length;
-	if(null == msg) msg = "expected false";
+	if(null == msg) msg = "expected not null but was null";
 	utest.Assert.isTrue(value != null,msg,pos);
 	$s.pop();
 }
@@ -9597,9 +9727,13 @@ utest.Assert.sameAs = function(expected,value,status) {
 	var $e = (Type["typeof"](expected));
 	switch( $e[1] ) {
 	case 2:
-		var $tmp = utest.Assert._floatEquals(expected,value);
+		if(!utest.Assert._floatEquals(expected,value)) {
+			status.error = "expected " + utest.Assert.q(expected) + " but it is " + utest.Assert.q(value) + (status.path == ""?"":" for field " + status.path);
+			$s.pop();
+			return false;
+		}
 		$s.pop();
-		return $tmp;
+		return true;
 	case 0:
 	case 1:
 	case 3:
@@ -9687,7 +9821,7 @@ utest.Assert.sameAs = function(expected,value,status) {
 		if(Std["is"](expected,Hash) || Std["is"](expected,IntHash)) {
 			if(status.recursive || status.path == "") {
 				var keys = Lambda.array({ iterator : function() {
-					$s.push("utest.Assert::sameAs@284");
+					$s.push("utest.Assert::sameAs@289");
 					var $spos = $s.length;
 					var $tmp = expected.keys();
 					$s.pop();
@@ -9695,7 +9829,7 @@ utest.Assert.sameAs = function(expected,value,status) {
 					$s.pop();
 				}});
 				var vkeys = Lambda.array({ iterator : function() {
-					$s.push("utest.Assert::sameAs@285");
+					$s.push("utest.Assert::sameAs@290");
 					var $spos = $s.length;
 					var $tmp = value.keys();
 					$s.pop();
@@ -9726,14 +9860,14 @@ utest.Assert.sameAs = function(expected,value,status) {
 		if(utest.Assert.isIterator(expected,false)) {
 			if(status.recursive || status.path == "") {
 				var evalues = Lambda.array({ iterator : function() {
-					$s.push("utest.Assert::sameAs@306");
+					$s.push("utest.Assert::sameAs@311");
 					var $spos = $s.length;
 					$s.pop();
 					return expected;
 					$s.pop();
 				}});
 				var vvalues = Lambda.array({ iterator : function() {
-					$s.push("utest.Assert::sameAs@307");
+					$s.push("utest.Assert::sameAs@312");
 					var $spos = $s.length;
 					$s.pop();
 					return value;
@@ -9870,14 +10004,14 @@ utest.Assert.sameAs = function(expected,value,status) {
 			}
 			if(status.recursive || status.path == "") {
 				var evalues = Lambda.array({ iterator : function() {
-					$s.push("utest.Assert::sameAs@422");
+					$s.push("utest.Assert::sameAs@427");
 					var $spos = $s.length;
 					$s.pop();
 					return expected;
 					$s.pop();
 				}});
 				var vvalues = Lambda.array({ iterator : function() {
-					$s.push("utest.Assert::sameAs@423");
+					$s.push("utest.Assert::sameAs@428");
 					var $spos = $s.length;
 					$s.pop();
 					return value;
@@ -9968,8 +10102,7 @@ utest.Assert.q = function(v) {
 utest.Assert.same = function(expected,value,recursive,msg,pos) {
 	$s.push("utest.Assert::same");
 	var $spos = $s.length;
-	if(recursive == null) recursive = true;
-	var status = { recursive : recursive, path : "", error : null};
+	var status = { recursive : null == recursive?true:recursive, path : "", error : null};
 	if(utest.Assert.sameAs(expected,value,status)) utest.Assert.isTrue(true,msg,pos); else utest.Assert.fail(msg == null?status.error:msg,pos);
 	$s.pop();
 }
@@ -10067,7 +10200,7 @@ utest.Assert.createAsync = function(f,timeout) {
 	$s.push("utest.Assert::createAsync");
 	var $spos = $s.length;
 	var $tmp = function() {
-		$s.push("utest.Assert::createAsync@661");
+		$s.push("utest.Assert::createAsync@666");
 		var $spos = $s.length;
 		$s.pop();
 	};
@@ -10079,7 +10212,7 @@ utest.Assert.createEvent = function(f,timeout) {
 	$s.push("utest.Assert::createEvent");
 	var $spos = $s.length;
 	var $tmp = function(e) {
-		$s.push("utest.Assert::createEvent@672");
+		$s.push("utest.Assert::createEvent@677");
 		var $spos = $s.length;
 		$s.pop();
 	};
@@ -10164,33 +10297,11 @@ Strings.format = function(pattern,values,nullstring,culture) {
 	$s.push("Strings::format");
 	var $spos = $s.length;
 	if(nullstring == null) nullstring = "null";
-	var $tmp = (Strings.formatf(pattern,nullstring,culture))(values);
-	$s.pop();
-	return $tmp;
-	if(null == values) values = [];
-	var buf = new StringBuf();
-	while(true) {
-		if(!Strings._reFormat.match(pattern)) {
-			buf.b[buf.b.length] = pattern;
-			break;
-		}
-		var pos = Std.parseInt(Strings._reFormat.matched(1));
-		var f = Strings._reFormat.matched(2);
-		if(f == "") f = null;
-		var p = null;
-		var params = [];
-		var _g = 3;
-		while(_g < 20) {
-			var i = _g++;
-			p = Strings._reFormat.matched(i);
-			if(p == null || p == "") break;
-			params.push(thx.culture.FormatParams.cleanQuotes(p));
-		}
-		pattern = Strings._reFormat.matchedRight();
-		buf.b[buf.b.length] = Strings._reFormat.matchedLeft();
-		buf.b[buf.b.length] = Dynamics.format(values[pos],f,params,nullstring,culture);
+	if(null == values || 0 == values.length) {
+		$s.pop();
+		return pattern;
 	}
-	var $tmp = buf.b.join("");
+	var $tmp = (Strings.formatf(pattern,nullstring,culture))(values);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -10203,10 +10314,10 @@ Strings.formatf = function(pattern,nullstring,culture) {
 	while(true) {
 		if(!Strings._reFormat.match(pattern)) {
 			buf.push((function() {
-				$s.push("Strings::formatf@142");
+				$s.push("Strings::formatf@122");
 				var $spos = $s.length;
 				var $tmp = function(_) {
-					$s.push("Strings::formatf@142@142");
+					$s.push("Strings::formatf@122@122");
 					var $spos = $s.length;
 					$s.pop();
 					return pattern;
@@ -10232,10 +10343,10 @@ Strings.formatf = function(pattern,nullstring,culture) {
 		}
 		var left = [Strings._reFormat.matchedLeft()];
 		buf.push((function(left) {
-			$s.push("Strings::formatf@160");
+			$s.push("Strings::formatf@140");
 			var $spos = $s.length;
 			var $tmp = function(_) {
-				$s.push("Strings::formatf@160@160");
+				$s.push("Strings::formatf@140@140");
 				var $spos = $s.length;
 				var $tmp = left[0];
 				$s.pop();
@@ -10248,16 +10359,16 @@ Strings.formatf = function(pattern,nullstring,culture) {
 		})(left));
 		var df = [Dynamics.formatf(format,params,nullstring,culture)];
 		buf.push(((function() {
-			$s.push("Strings::formatf@162");
+			$s.push("Strings::formatf@142");
 			var $spos = $s.length;
 			var $tmp = function(f,a1) {
-				$s.push("Strings::formatf@162@162");
+				$s.push("Strings::formatf@142@142");
 				var $spos = $s.length;
 				var $tmp = (function() {
-					$s.push("Strings::formatf@162@162@162");
+					$s.push("Strings::formatf@142@142@142");
 					var $spos = $s.length;
 					var $tmp = function(a2) {
-						$s.push("Strings::formatf@162@162@162@162");
+						$s.push("Strings::formatf@142@142@142@142");
 						var $spos = $s.length;
 						var $tmp = f(a1,a2);
 						$s.pop();
@@ -10276,10 +10387,10 @@ Strings.formatf = function(pattern,nullstring,culture) {
 			return $tmp;
 			$s.pop();
 		})())((function(df) {
-			$s.push("Strings::formatf@162");
+			$s.push("Strings::formatf@142");
 			var $spos = $s.length;
 			var $tmp = function(i,v) {
-				$s.push("Strings::formatf@162@162");
+				$s.push("Strings::formatf@142@142");
 				var $spos = $s.length;
 				var $tmp = df[0](v[i]);
 				$s.pop();
@@ -10293,11 +10404,11 @@ Strings.formatf = function(pattern,nullstring,culture) {
 		pattern = Strings._reFormat.matchedRight();
 	}
 	var $tmp = function(values) {
-		$s.push("Strings::formatf@165");
+		$s.push("Strings::formatf@145");
 		var $spos = $s.length;
 		if(null == values) values = [];
 		var $tmp = buf.map(function(df,_) {
-			$s.push("Strings::formatf@165@169");
+			$s.push("Strings::formatf@145@149");
 			var $spos = $s.length;
 			var $tmp = df(values);
 			$s.pop();
@@ -10328,7 +10439,7 @@ Strings.formatOnef = function(param,params,culture) {
 	switch(format) {
 	case "S":
 		var $tmp = function(v) {
-			$s.push("Strings::formatOnef@185");
+			$s.push("Strings::formatOnef@165");
 			var $spos = $s.length;
 			$s.pop();
 			return v;
@@ -10346,7 +10457,7 @@ Strings.formatOnef = function(param,params,culture) {
 		var len = params.length < 1?10:Std.parseInt(params[0]);
 		var pad = params.length < 2?" ":params[1];
 		var $tmp = function(v) {
-			$s.push("Strings::formatOnef@193");
+			$s.push("Strings::formatOnef@173");
 			var $spos = $s.length;
 			var $tmp = StringTools.rpad(v,pad,len);
 			$s.pop();
@@ -10359,7 +10470,7 @@ Strings.formatOnef = function(param,params,culture) {
 		var len = params.length < 1?10:Std.parseInt(params[0]);
 		var pad = params.length < 2?" ":params[1];
 		var $tmp = function(v) {
-			$s.push("Strings::formatOnef@197");
+			$s.push("Strings::formatOnef@177");
 			var $spos = $s.length;
 			var $tmp = StringTools.lpad(v,pad,len);
 			$s.pop();
@@ -10642,7 +10753,7 @@ Strings.interpolatef = function(a,b,equation) {
 	$s.push("Strings::interpolatef");
 	var $spos = $s.length;
 	var extract = function(value,s,f) {
-		$s.push("Strings::interpolatef@448");
+		$s.push("Strings::interpolatef@428");
 		var $spos = $s.length;
 		while(Strings._reInterpolateNumber.match(value)) {
 			var left = Strings._reInterpolateNumber.matchedLeft();
@@ -10671,10 +10782,10 @@ Strings.interpolatef = function(a,b,equation) {
 			if(fa[i] == fb[i]) {
 				var s = ["" + fa[i]];
 				functions.push((function(s) {
-					$s.push("Strings::interpolatef@486");
+					$s.push("Strings::interpolatef@466");
 					var $spos = $s.length;
 					var $tmp = function(_) {
-						$s.push("Strings::interpolatef@486@486");
+						$s.push("Strings::interpolatef@466@466");
 						var $spos = $s.length;
 						var $tmp = s[0];
 						$s.pop();
@@ -10688,10 +10799,10 @@ Strings.interpolatef = function(a,b,equation) {
 			} else {
 				var f = [Floats.interpolatef(fa[i],fb[i],equation)];
 				functions.push((function(f) {
-					$s.push("Strings::interpolatef@489");
+					$s.push("Strings::interpolatef@469");
 					var $spos = $s.length;
 					var $tmp = function(t) {
-						$s.push("Strings::interpolatef@489@489");
+						$s.push("Strings::interpolatef@469@469");
 						var $spos = $s.length;
 						var $tmp = "" + f[0](t);
 						$s.pop();
@@ -10706,10 +10817,10 @@ Strings.interpolatef = function(a,b,equation) {
 		} else {
 			var s = [sa[i]];
 			functions.push((function(s) {
-				$s.push("Strings::interpolatef@493");
+				$s.push("Strings::interpolatef@473");
 				var $spos = $s.length;
 				var $tmp = function(_) {
-					$s.push("Strings::interpolatef@493@493");
+					$s.push("Strings::interpolatef@473@473");
 					var $spos = $s.length;
 					var $tmp = s[0];
 					$s.pop();
@@ -10729,23 +10840,85 @@ Strings.interpolatef = function(a,b,equation) {
 		i++;
 	}
 	if("" != rest) functions.push(function(_) {
-		$s.push("Strings::interpolatef@507");
+		$s.push("Strings::interpolatef@487");
 		var $spos = $s.length;
 		$s.pop();
 		return rest;
 		$s.pop();
 	});
 	var $tmp = function(t) {
-		$s.push("Strings::interpolatef@508");
+		$s.push("Strings::interpolatef@488");
 		var $spos = $s.length;
 		var $tmp = functions.map(function(f,_) {
-			$s.push("Strings::interpolatef@508@509");
+			$s.push("Strings::interpolatef@488@489");
 			var $spos = $s.length;
 			var $tmp = f(t);
 			$s.pop();
 			return $tmp;
 			$s.pop();
 		}).join("");
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Strings.interpolateChars = function(v,a,b,equation) {
+	$s.push("Strings::interpolateChars");
+	var $spos = $s.length;
+	var $tmp = (Strings.interpolateCharsf(a,b,equation))(v);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Strings.interpolateCharsf = function(a,b,equation) {
+	$s.push("Strings::interpolateCharsf");
+	var $spos = $s.length;
+	var aa = a.split(""), ab = b.split("");
+	while(aa.length > ab.length) ab.insert(0," ");
+	while(ab.length > aa.length) aa.insert(0," ");
+	var ai = [];
+	var _g1 = 0, _g = aa.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		ai[i] = Strings.interpolateCharf(aa[i],ab[i]);
+	}
+	var $tmp = function(v) {
+		$s.push("Strings::interpolateCharsf@509");
+		var $spos = $s.length;
+		var r = [];
+		var _g1 = 0, _g = ai.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			r[i] = ai[i](v);
+		}
+		var $tmp = StringTools.trim(r.join(""));
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Strings.interpolateChar = function(v,a,b,equation) {
+	$s.push("Strings::interpolateChar");
+	var $spos = $s.length;
+	var $tmp = (Strings.interpolateCharf(a,b,equation))(v);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Strings.interpolateCharf = function(a,b,equation) {
+	$s.push("Strings::interpolateCharf");
+	var $spos = $s.length;
+	var ca = a.charCodeAt(0), cb = b.charCodeAt(0), i = Ints.interpolatef(ca,cb,equation);
+	var $tmp = function(v) {
+		$s.push("Strings::interpolateCharf@528");
+		var $spos = $s.length;
+		var $tmp = String.fromCharCode(i(v));
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -10775,7 +10948,7 @@ Strings.ellipsisf = function(maxlen,symbol) {
 	if(symbol == null) symbol = "...";
 	if(maxlen == null) maxlen = 20;
 	var $tmp = function(s) {
-		$s.push("Strings::ellipsisf@523");
+		$s.push("Strings::ellipsisf@541");
 		var $spos = $s.length;
 		if(s.length > maxlen) {
 			var $tmp = s.substr(0,Ints.max(symbol.length,maxlen - symbol.length)) + symbol;
@@ -12046,7 +12219,7 @@ thx.html.HtmlParser = function(html) {
 	if( html === $_ ) return;
 	$s.push("thx.html.HtmlParser::new");
 	var $spos = $s.length;
-	if(null == html) throw new thx.error.NullArgument("html",{ fileName : "HtmlParser.hx", lineNumber : 30, className : "thx.html.HtmlParser", methodName : "new"}); else null;
+	if(null == html) throw new thx.error.NullArgument("html","invalid null argument '{0}' for method {1}.{2}()",{ fileName : "HtmlParser.hx", lineNumber : 30, className : "thx.html.HtmlParser", methodName : "new"}); else null;
 	this.html = html;
 	$s.pop();
 }
@@ -12057,7 +12230,7 @@ thx.html.HtmlParser.prototype.stack = null;
 thx.html.HtmlParser.prototype.process = function(handler) {
 	$s.push("thx.html.HtmlParser::process");
 	var $spos = $s.length;
-	if(null == handler) throw new thx.error.NullArgument("handler",{ fileName : "HtmlParser.hx", lineNumber : 37, className : "thx.html.HtmlParser", methodName : "process"}); else null;
+	if(null == handler) throw new thx.error.NullArgument("handler","invalid null argument '{0}' for method {1}.{2}()",{ fileName : "HtmlParser.hx", lineNumber : 37, className : "thx.html.HtmlParser", methodName : "process"}); else null;
 	this.handler = handler;
 	var index;
 	var chars;
@@ -12430,144 +12603,6 @@ utest.ui.common.SuccessResultsDisplayMode.NeverShowSuccessResults.__enum__ = ute
 utest.ui.common.SuccessResultsDisplayMode.ShowSuccessResultsWithNoErrors = ["ShowSuccessResultsWithNoErrors",2];
 utest.ui.common.SuccessResultsDisplayMode.ShowSuccessResultsWithNoErrors.toString = $estr;
 utest.ui.common.SuccessResultsDisplayMode.ShowSuccessResultsWithNoErrors.__enum__ = utest.ui.common.SuccessResultsDisplayMode;
-thx.collections.Set = function(p) {
-	if( p === $_ ) return;
-	$s.push("thx.collections.Set::new");
-	var $spos = $s.length;
-	this._v = [];
-	$s.pop();
-}
-thx.collections.Set.__name__ = ["thx","collections","Set"];
-thx.collections.Set.ofArray = function(arr) {
-	$s.push("thx.collections.Set::ofArray");
-	var $spos = $s.length;
-	var set = new thx.collections.Set();
-	var _g = 0;
-	while(_g < arr.length) {
-		var item = arr[_g];
-		++_g;
-		set.add(item);
-	}
-	$s.pop();
-	return set;
-	$s.pop();
-}
-thx.collections.Set.prototype._v = null;
-thx.collections.Set.prototype.add = function(v) {
-	$s.push("thx.collections.Set::add");
-	var $spos = $s.length;
-	this._v.remove(v);
-	this._v.push(v);
-	$s.pop();
-}
-thx.collections.Set.prototype.remove = function(v) {
-	$s.push("thx.collections.Set::remove");
-	var $spos = $s.length;
-	var $tmp = this._v.remove(v);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.Set.prototype.exists = function(v) {
-	$s.push("thx.collections.Set::exists");
-	var $spos = $s.length;
-	var _g = 0, _g1 = this._v;
-	while(_g < _g1.length) {
-		var t = _g1[_g];
-		++_g;
-		if(t == v) {
-			$s.pop();
-			return true;
-		}
-	}
-	$s.pop();
-	return false;
-	$s.pop();
-}
-thx.collections.Set.prototype.iterator = function() {
-	$s.push("thx.collections.Set::iterator");
-	var $spos = $s.length;
-	var $tmp = this._v.iterator();
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.Set.prototype.array = function() {
-	$s.push("thx.collections.Set::array");
-	var $spos = $s.length;
-	var $tmp = this._v.copy();
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.Set.prototype.toString = function() {
-	$s.push("thx.collections.Set::toString");
-	var $spos = $s.length;
-	var $tmp = "{" + this._v.join(", ") + "}";
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.Set.prototype.__class__ = thx.collections.Set;
-thx.html.Element = function() { }
-thx.html.Element.__name__ = ["thx","html","Element"];
-thx.html.Element.shouldPreserve = function(el) {
-	$s.push("thx.html.Element::shouldPreserve");
-	var $spos = $s.length;
-	var $tmp = thx.html.Element._preserve.exists(el);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Element.isEmpty = function(el) {
-	$s.push("thx.html.Element::isEmpty");
-	var $spos = $s.length;
-	var $tmp = thx.html.Element._empty.exists(el);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Element.isBlock = function(el) {
-	$s.push("thx.html.Element::isBlock");
-	var $spos = $s.length;
-	var $tmp = thx.html.Element._block.exists(el);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Element.isInline = function(el) {
-	$s.push("thx.html.Element::isInline");
-	var $spos = $s.length;
-	var $tmp = thx.html.Element._inline.exists(el);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Element.isBreakElement = function(el) {
-	$s.push("thx.html.Element::isBreakElement");
-	var $spos = $s.length;
-	var $tmp = thx.html.Element._break.exists(el);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Element.isCloseSelf = function(el) {
-	$s.push("thx.html.Element::isCloseSelf");
-	var $spos = $s.length;
-	var $tmp = thx.html.Element._closeSelf.exists(el);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Element.isSpecial = function(el) {
-	$s.push("thx.html.Element::isSpecial");
-	var $spos = $s.length;
-	var $tmp = thx.html.Element._special.exists(el);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Element.prototype.__class__ = thx.html.Element;
 if(!thx.data) thx.data = {}
 thx.data.IDataHandler = function() { }
 thx.data.IDataHandler.__name__ = ["thx","data","IDataHandler"];
@@ -12717,6 +12752,148 @@ thx.csv.CsvEncoder.prototype.comment = function(s) {
 }
 thx.csv.CsvEncoder.prototype.__class__ = thx.csv.CsvEncoder;
 thx.csv.CsvEncoder.__interfaces__ = [thx.data.IDataHandler];
+thx.collections.Set = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.collections.Set::new");
+	var $spos = $s.length;
+	this._v = [];
+	this.length = 0;
+	$s.pop();
+}
+thx.collections.Set.__name__ = ["thx","collections","Set"];
+thx.collections.Set.ofArray = function(arr) {
+	$s.push("thx.collections.Set::ofArray");
+	var $spos = $s.length;
+	var set = new thx.collections.Set();
+	var _g = 0;
+	while(_g < arr.length) {
+		var item = arr[_g];
+		++_g;
+		set.add(item);
+	}
+	$s.pop();
+	return set;
+	$s.pop();
+}
+thx.collections.Set.prototype.length = null;
+thx.collections.Set.prototype._v = null;
+thx.collections.Set.prototype.add = function(v) {
+	$s.push("thx.collections.Set::add");
+	var $spos = $s.length;
+	this._v.remove(v);
+	this._v.push(v);
+	this.length = this._v.length;
+	$s.pop();
+}
+thx.collections.Set.prototype.remove = function(v) {
+	$s.push("thx.collections.Set::remove");
+	var $spos = $s.length;
+	var t = this._v.remove(v);
+	this.length = this._v.length;
+	$s.pop();
+	return t;
+	$s.pop();
+}
+thx.collections.Set.prototype.exists = function(v) {
+	$s.push("thx.collections.Set::exists");
+	var $spos = $s.length;
+	var _g = 0, _g1 = this._v;
+	while(_g < _g1.length) {
+		var t = _g1[_g];
+		++_g;
+		if(t == v) {
+			$s.pop();
+			return true;
+		}
+	}
+	$s.pop();
+	return false;
+	$s.pop();
+}
+thx.collections.Set.prototype.iterator = function() {
+	$s.push("thx.collections.Set::iterator");
+	var $spos = $s.length;
+	var $tmp = this._v.iterator();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collections.Set.prototype.array = function() {
+	$s.push("thx.collections.Set::array");
+	var $spos = $s.length;
+	var $tmp = this._v.copy();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collections.Set.prototype.toString = function() {
+	$s.push("thx.collections.Set::toString");
+	var $spos = $s.length;
+	var $tmp = "{" + this._v.join(", ") + "}";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collections.Set.prototype.__class__ = thx.collections.Set;
+thx.html.Element = function() { }
+thx.html.Element.__name__ = ["thx","html","Element"];
+thx.html.Element.shouldPreserve = function(el) {
+	$s.push("thx.html.Element::shouldPreserve");
+	var $spos = $s.length;
+	var $tmp = thx.html.Element._preserve.exists(el);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Element.isEmpty = function(el) {
+	$s.push("thx.html.Element::isEmpty");
+	var $spos = $s.length;
+	var $tmp = thx.html.Element._empty.exists(el);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Element.isBlock = function(el) {
+	$s.push("thx.html.Element::isBlock");
+	var $spos = $s.length;
+	var $tmp = thx.html.Element._block.exists(el);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Element.isInline = function(el) {
+	$s.push("thx.html.Element::isInline");
+	var $spos = $s.length;
+	var $tmp = thx.html.Element._inline.exists(el);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Element.isBreakElement = function(el) {
+	$s.push("thx.html.Element::isBreakElement");
+	var $spos = $s.length;
+	var $tmp = thx.html.Element._break.exists(el);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Element.isCloseSelf = function(el) {
+	$s.push("thx.html.Element::isCloseSelf");
+	var $spos = $s.length;
+	var $tmp = thx.html.Element._closeSelf.exists(el);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Element.isSpecial = function(el) {
+	$s.push("thx.html.Element::isSpecial");
+	var $spos = $s.length;
+	var $tmp = thx.html.Element._special.exists(el);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Element.prototype.__class__ = thx.html.Element;
 thx.svg.TestChord = function(p) {
 	$s.push("thx.svg.TestChord::new");
 	var $spos = $s.length;
@@ -16314,7 +16491,7 @@ Arrays.reduce = function(arr,f,initialValue) {
 Arrays.order = function(arr,f) {
 	$s.push("Arrays::order");
 	var $spos = $s.length;
-	arr.sort(null == f?Reflect.compare:f);
+	arr.sort(null == f?Dynamics.compare:f);
 	$s.pop();
 	return arr;
 	$s.pop();
@@ -16416,7 +16593,7 @@ Arrays.format = function(v,param,params,culture) {
 		if(null != max && max < v.length) {
 			var elipsis = null == params[4]?" ...":params[4];
 			var $tmp = v.copy().splice(0,max).map(function(d,i) {
-				$s.push("Arrays::format@213");
+				$s.push("Arrays::format@216");
 				var $spos = $s.length;
 				var $tmp = Dynamics.format(d,params[0],null,null,culture);
 				$s.pop();
@@ -16427,7 +16604,7 @@ Arrays.format = function(v,param,params,culture) {
 			return $tmp;
 		} else {
 			var $tmp = v.map(function(d,i) {
-				$s.push("Arrays::format@215");
+				$s.push("Arrays::format@218");
 				var $spos = $s.length;
 				var $tmp = Dynamics.format(d,params[0],null,null,culture);
 				$s.pop();
@@ -16455,7 +16632,7 @@ Arrays.formatf = function(param,params,culture) {
 	switch(format) {
 	case "J":
 		var $tmp = function(v) {
-			$s.push("Arrays::formatf@230");
+			$s.push("Arrays::formatf@233");
 			var $spos = $s.length;
 			if(v.length == 0) {
 				var empty = null == params[1]?"[]":params[1];
@@ -16467,7 +16644,7 @@ Arrays.formatf = function(param,params,culture) {
 			if(null != max && max < v.length) {
 				var elipsis = null == params[4]?" ...":params[4];
 				var $tmp = v.copy().splice(0,max).map(function(d,i) {
-					$s.push("Arrays::formatf@230@243");
+					$s.push("Arrays::formatf@233@246");
 					var $spos = $s.length;
 					var $tmp = Dynamics.format(d,params[0],null,null,culture);
 					$s.pop();
@@ -16478,7 +16655,7 @@ Arrays.formatf = function(param,params,culture) {
 				return $tmp;
 			} else {
 				var $tmp = v.map(function(d,i) {
-					$s.push("Arrays::formatf@230@245");
+					$s.push("Arrays::formatf@233@248");
 					var $spos = $s.length;
 					var $tmp = Dynamics.format(d,params[0],null,null,culture);
 					$s.pop();
@@ -16495,7 +16672,7 @@ Arrays.formatf = function(param,params,culture) {
 	case "C":
 		var f = Ints.formatf("I",[],culture);
 		var $tmp = function(v) {
-			$s.push("Arrays::formatf@249");
+			$s.push("Arrays::formatf@252");
 			var $spos = $s.length;
 			var $tmp = f(v.length);
 			$s.pop();
@@ -16525,10 +16702,10 @@ Arrays.interpolatef = function(a,b,equation) {
 		if(a[i] == b[i]) {
 			var v = [b[i]];
 			functions.push((function(v) {
-				$s.push("Arrays::interpolatef@271");
+				$s.push("Arrays::interpolatef@274");
 				var $spos = $s.length;
 				var $tmp = function(_) {
-					$s.push("Arrays::interpolatef@271@271");
+					$s.push("Arrays::interpolatef@274@274");
 					var $spos = $s.length;
 					var $tmp = v[0];
 					$s.pop();
@@ -16545,10 +16722,10 @@ Arrays.interpolatef = function(a,b,equation) {
 	while(i < b.length) {
 		var v = [b[i]];
 		functions.push((function(v) {
-			$s.push("Arrays::interpolatef@279");
+			$s.push("Arrays::interpolatef@282");
 			var $spos = $s.length;
 			var $tmp = function(_) {
-				$s.push("Arrays::interpolatef@279@279");
+				$s.push("Arrays::interpolatef@282@282");
 				var $spos = $s.length;
 				var $tmp = v[0];
 				$s.pop();
@@ -16562,10 +16739,10 @@ Arrays.interpolatef = function(a,b,equation) {
 		i++;
 	}
 	var $tmp = function(t) {
-		$s.push("Arrays::interpolatef@282");
+		$s.push("Arrays::interpolatef@285");
 		var $spos = $s.length;
 		var $tmp = functions.map(function(f,_) {
-			$s.push("Arrays::interpolatef@282@282");
+			$s.push("Arrays::interpolatef@285@285");
 			var $spos = $s.length;
 			var $tmp = f(t);
 			$s.pop();
@@ -16596,10 +16773,10 @@ Arrays.interpolateStringsf = function(a,b,equation) {
 		if(a[i] == b[i]) {
 			var v = [b[i]];
 			functions.push((function(v) {
-				$s.push("Arrays::interpolateStringsf@301");
+				$s.push("Arrays::interpolateStringsf@304");
 				var $spos = $s.length;
 				var $tmp = function(_) {
-					$s.push("Arrays::interpolateStringsf@301@301");
+					$s.push("Arrays::interpolateStringsf@304@304");
 					var $spos = $s.length;
 					var $tmp = v[0];
 					$s.pop();
@@ -16616,10 +16793,10 @@ Arrays.interpolateStringsf = function(a,b,equation) {
 	while(i < b.length) {
 		var v = [b[i]];
 		functions.push((function(v) {
-			$s.push("Arrays::interpolateStringsf@309");
+			$s.push("Arrays::interpolateStringsf@312");
 			var $spos = $s.length;
 			var $tmp = function(_) {
-				$s.push("Arrays::interpolateStringsf@309@309");
+				$s.push("Arrays::interpolateStringsf@312@312");
 				var $spos = $s.length;
 				var $tmp = v[0];
 				$s.pop();
@@ -16633,10 +16810,10 @@ Arrays.interpolateStringsf = function(a,b,equation) {
 		i++;
 	}
 	var $tmp = function(t) {
-		$s.push("Arrays::interpolateStringsf@312");
+		$s.push("Arrays::interpolateStringsf@315");
 		var $spos = $s.length;
 		var $tmp = functions.map(function(f,_) {
-			$s.push("Arrays::interpolateStringsf@312@312");
+			$s.push("Arrays::interpolateStringsf@315@315");
 			var $spos = $s.length;
 			var $tmp = f(t);
 			$s.pop();
@@ -16667,10 +16844,10 @@ Arrays.interpolateIntsf = function(a,b,equation) {
 		if(a[i] == b[i]) {
 			var v = [b[i]];
 			functions.push((function(v) {
-				$s.push("Arrays::interpolateIntsf@331");
+				$s.push("Arrays::interpolateIntsf@334");
 				var $spos = $s.length;
 				var $tmp = function(_) {
-					$s.push("Arrays::interpolateIntsf@331@331");
+					$s.push("Arrays::interpolateIntsf@334@334");
 					var $spos = $s.length;
 					var $tmp = v[0];
 					$s.pop();
@@ -16687,10 +16864,10 @@ Arrays.interpolateIntsf = function(a,b,equation) {
 	while(i < b.length) {
 		var v = [b[i]];
 		functions.push((function(v) {
-			$s.push("Arrays::interpolateIntsf@339");
+			$s.push("Arrays::interpolateIntsf@342");
 			var $spos = $s.length;
 			var $tmp = function(_) {
-				$s.push("Arrays::interpolateIntsf@339@339");
+				$s.push("Arrays::interpolateIntsf@342@342");
 				var $spos = $s.length;
 				var $tmp = v[0];
 				$s.pop();
@@ -16704,10 +16881,10 @@ Arrays.interpolateIntsf = function(a,b,equation) {
 		i++;
 	}
 	var $tmp = function(t) {
-		$s.push("Arrays::interpolateIntsf@342");
+		$s.push("Arrays::interpolateIntsf@345");
 		var $spos = $s.length;
 		var $tmp = functions.map(function(f,_) {
-			$s.push("Arrays::interpolateIntsf@342@342");
+			$s.push("Arrays::interpolateIntsf@345@345");
 			var $spos = $s.length;
 			var $tmp = f(t);
 			$s.pop();
@@ -16772,7 +16949,7 @@ Arrays.string = function(arr) {
 	$s.push("Arrays::string");
 	var $spos = $s.length;
 	var $tmp = "[" + arr.map(function(v,_) {
-		$s.push("Arrays::string@397");
+		$s.push("Arrays::string@400");
 		var $spos = $s.length;
 		var $tmp = Dynamics.string(v);
 		$s.pop();
@@ -16794,11 +16971,14 @@ Arrays.last = function(arr) {
 Arrays.lastf = function(arr,f) {
 	$s.push("Arrays::lastf");
 	var $spos = $s.length;
-	var t = arr.copy();
-	t.reverse();
-	var $tmp = Arrays.firstf(arr,f);
+	var i = arr.length;
+	while(--i >= 0) if(f(arr[i])) {
+		var $tmp = arr[i];
+		$s.pop();
+		return $tmp;
+	}
 	$s.pop();
-	return $tmp;
+	return null;
 	$s.pop();
 }
 Arrays.first = function(arr) {
@@ -16870,7 +17050,7 @@ Arrays.nearest = function(a,x,f) {
 		delta.push({ i : i, v : Math.abs(f(a[i]) - x)});
 	}
 	delta.sort(function(a1,b) {
-		$s.push("Arrays::nearest@465");
+		$s.push("Arrays::nearest@470");
 		var $spos = $s.length;
 		var $tmp = Floats.compare(a1.v,b.v);
 		$s.pop();
@@ -16900,6 +17080,69 @@ Arrays.compare = function(a,b) {
 	}
 	$s.pop();
 	return 0;
+	$s.pop();
+}
+Arrays.product = function(a) {
+	$s.push("Arrays::product");
+	var $spos = $s.length;
+	if(a.length == 0) {
+		var $tmp = [];
+		$s.pop();
+		return $tmp;
+	}
+	var arr = a.copy(), result = [], temp;
+	var _g = 0, _g1 = arr[0];
+	while(_g < _g1.length) {
+		var value = _g1[_g];
+		++_g;
+		result.push([value]);
+	}
+	var _g1 = 1, _g = arr.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		temp = [];
+		var _g2 = 0;
+		while(_g2 < result.length) {
+			var acc = result[_g2];
+			++_g2;
+			var _g3 = 0, _g4 = arr[i];
+			while(_g3 < _g4.length) {
+				var value = _g4[_g3];
+				++_g3;
+				temp.push(acc.copy().concat([value]));
+			}
+		}
+		result = temp;
+	}
+	$s.pop();
+	return result;
+	$s.pop();
+}
+Arrays.rotate = function(a) {
+	$s.push("Arrays::rotate");
+	var $spos = $s.length;
+	if(a.length == 0) {
+		var $tmp = [];
+		$s.pop();
+		return $tmp;
+	}
+	var result = [];
+	var _g1 = 0, _g = a[0].length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		result[i] = [];
+	}
+	var _g1 = 0, _g = a.length;
+	while(_g1 < _g) {
+		var j = _g1++;
+		var _g3 = 0, _g2 = a[0].length;
+		while(_g3 < _g2) {
+			var i = _g3++;
+			result[i][j] = a[j][i];
+		}
+	}
+	$s.pop();
+	return result;
 	$s.pop();
 }
 Arrays.prototype.__class__ = Arrays;
@@ -17180,6 +17423,36 @@ Types.sameType = function(a,b) {
 		$s.pop();
 		return $tmp;
 	}
+	$s.pop();
+}
+Types.isPrimitive = function(v) {
+	$s.push("Types::isPrimitive");
+	var $spos = $s.length;
+	var $tmp = (function($this) {
+		var $r;
+		var $e = (Type["typeof"](v));
+		switch( $e[1] ) {
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+			$r = true;
+			break;
+		case 5:
+		case 7:
+		case 4:
+		case 8:
+			$r = false;
+			break;
+		case 6:
+			var c = $e[2];
+			$r = Type.getClassName(c) == "String";
+			break;
+		}
+		return $r;
+	}(this));
+	$s.pop();
+	return $tmp;
 	$s.pop();
 }
 Types.prototype.__class__ = Types;
@@ -17591,6 +17864,13 @@ thx.data.ValueEncoder.prototype.encodeArray = function(a) {
 	$s.pop();
 }
 thx.data.ValueEncoder.prototype.__class__ = thx.data.ValueEncoder;
+thx.error.TestError = function(p) {
+	$s.push("thx.error.TestError::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.error.TestError.__name__ = ["thx","error","TestError"];
+thx.error.TestError.prototype.__class__ = thx.error.TestError;
 thx.xml.TestXmlFormat = function(p) {
 	$s.push("thx.xml.TestXmlFormat::new");
 	var $spos = $s.length;
@@ -20021,7 +20301,7 @@ thx.js.BaseTransition = function(selection) {
 	this._ease = thx.math.Ease.mode(thx.math.EaseMode.EaseInEaseOut,thx.math.Equations.cubic);
 	this._step = $closure(this,"step");
 	selection.eachNode(function(n,_) {
-		$s.push("thx.js.BaseTransition::new@54");
+		$s.push("thx.js.BaseTransition::new@55");
 		var $spos = $s.length;
 		if(Reflect.hasField(n,"__transition__")) Reflect.field(n,"__transition__").owner = tid; else n["__transition__"] = { owner : tid};
 		$s.pop();
@@ -20049,7 +20329,7 @@ thx.js.BaseTransition.prototype.step = function(elapsed) {
 	var $spos = $s.length;
 	var clear = true, k = -1, me = this;
 	this.selection.eachNode(function(n,i) {
-		$s.push("thx.js.BaseTransition::step@67");
+		$s.push("thx.js.BaseTransition::step@68");
 		var $spos = $s.length;
 		if(2 == me._stage[++k]) {
 			$s.pop();
@@ -20134,7 +20414,7 @@ thx.js.BaseTransition.prototype.stop = function() {
 	var $spos = $s.length;
 	var k = -1, me = this;
 	this.selection.eachNode(function(n,i) {
-		$s.push("thx.js.BaseTransition::stop@156");
+		$s.push("thx.js.BaseTransition::stop@157");
 		var $spos = $s.length;
 		me._stage[++k] = 2;
 		Reflect.deleteField(n,"__transition__");
@@ -20151,7 +20431,7 @@ thx.js.BaseTransition.prototype.delay = function(f,v) {
 	if(v == null) v = 0.0;
 	var delayMin = Math.POSITIVE_INFINITY, k = -1, me = this;
 	if(null != f) this.selection.eachNode(function(n,i) {
-		$s.push("thx.js.BaseTransition::delay@170");
+		$s.push("thx.js.BaseTransition::delay@171");
 		var $spos = $s.length;
 		var x = me._delay[++k] = f(n,i);
 		if(x < delayMin) delayMin = x;
@@ -20159,7 +20439,7 @@ thx.js.BaseTransition.prototype.delay = function(f,v) {
 	}); else {
 		delayMin = v;
 		this.selection.eachNode(function(n,i) {
-			$s.push("thx.js.BaseTransition::delay@177");
+			$s.push("thx.js.BaseTransition::delay@178");
 			var $spos = $s.length;
 			me._delay[++k] = delayMin;
 			$s.pop();
@@ -20179,7 +20459,7 @@ thx.js.BaseTransition.prototype.duration = function(f,v) {
 	if(null != f) {
 		this._durationMax = 0;
 		this.selection.eachNode(function(n,i) {
-			$s.push("thx.js.BaseTransition::duration@192");
+			$s.push("thx.js.BaseTransition::duration@193");
 			var $spos = $s.length;
 			var x = me._duration[++k] = f(n,i);
 			if(x > me._durationMax) me._durationMax = x;
@@ -20188,7 +20468,7 @@ thx.js.BaseTransition.prototype.duration = function(f,v) {
 	} else {
 		this._durationMax = v;
 		this.selection.eachNode(function(n,i) {
-			$s.push("thx.js.BaseTransition::duration@199");
+			$s.push("thx.js.BaseTransition::duration@200");
 			var $spos = $s.length;
 			me._duration[++k] = me._durationMax;
 			$s.pop();
@@ -20227,7 +20507,7 @@ thx.js.BaseTransition.prototype.select = function(selector) {
 	var duration = this._duration;
 	k = -1;
 	t.delay(function(d,i) {
-		$s.push("thx.js.BaseTransition::select@224");
+		$s.push("thx.js.BaseTransition::select@225");
 		var $spos = $s.length;
 		var $tmp = delay[++k];
 		$s.pop();
@@ -20236,7 +20516,7 @@ thx.js.BaseTransition.prototype.select = function(selector) {
 	});
 	k = -1;
 	t.delay(function(d,i) {
-		$s.push("thx.js.BaseTransition::select@225");
+		$s.push("thx.js.BaseTransition::select@226");
 		var $spos = $s.length;
 		var $tmp = duration[++k];
 		$s.pop();
@@ -20256,7 +20536,7 @@ thx.js.BaseTransition.prototype.selectAll = function(selector) {
 	var duration = this._duration;
 	k = -1;
 	t.delay(function(d,i) {
-		$s.push("thx.js.BaseTransition::selectAll@235");
+		$s.push("thx.js.BaseTransition::selectAll@236");
 		var $spos = $s.length;
 		var $tmp = delay[i > 0?k:++k];
 		$s.pop();
@@ -20265,7 +20545,7 @@ thx.js.BaseTransition.prototype.selectAll = function(selector) {
 	});
 	k = -1;
 	t.delay(function(d,i) {
-		$s.push("thx.js.BaseTransition::selectAll@236");
+		$s.push("thx.js.BaseTransition::selectAll@237");
 		var $spos = $s.length;
 		var $tmp = duration[i > 0?k:++k];
 		$s.pop();
@@ -20281,7 +20561,7 @@ thx.js.BaseTransition.prototype.createTransition = function(selection) {
 	var $spos = $s.length;
 	var $tmp = (function($this) {
 		var $r;
-		throw new thx.error.AbstractMethod({ fileName : "Transition.hx", lineNumber : 242, className : "thx.js.BaseTransition", methodName : "createTransition"});
+		throw new thx.error.AbstractMethod({ fileName : "Transition.hx", lineNumber : 243, className : "thx.js.BaseTransition", methodName : "createTransition"});
 		return $r;
 	}(this));
 	$s.pop();
@@ -20307,6 +20587,14 @@ thx.js.UnboundTransition = function(selection) {
 thx.js.UnboundTransition.__name__ = ["thx","js","UnboundTransition"];
 thx.js.UnboundTransition.__super__ = thx.js.BaseTransition;
 for(var k in thx.js.BaseTransition.prototype ) thx.js.UnboundTransition.prototype[k] = thx.js.BaseTransition.prototype[k];
+thx.js.UnboundTransition.prototype.text = function() {
+	$s.push("thx.js.UnboundTransition::text");
+	var $spos = $s.length;
+	var $tmp = new thx.js.AccessTweenText(this,this._tweens);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 thx.js.UnboundTransition.prototype.style = function(name) {
 	$s.push("thx.js.UnboundTransition::style");
 	var $spos = $s.length;
@@ -20342,6 +20630,14 @@ thx.js.BoundTransition = function(selection) {
 thx.js.BoundTransition.__name__ = ["thx","js","BoundTransition"];
 thx.js.BoundTransition.__super__ = thx.js.BaseTransition;
 for(var k in thx.js.BaseTransition.prototype ) thx.js.BoundTransition.prototype[k] = thx.js.BaseTransition.prototype[k];
+thx.js.BoundTransition.prototype.text = function() {
+	$s.push("thx.js.BoundTransition::text");
+	var $spos = $s.length;
+	var $tmp = new thx.js.AccessDataTweenText(this,this._tweens);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 thx.js.BoundTransition.prototype.style = function(name) {
 	$s.push("thx.js.BoundTransition::style");
 	var $spos = $s.length;
@@ -20362,7 +20658,7 @@ thx.js.BoundTransition.prototype.start = function(f) {
 	$s.push("thx.js.BoundTransition::start");
 	var $spos = $s.length;
 	var $tmp = this.startNode(function(n,i) {
-		$s.push("thx.js.BoundTransition::start@271");
+		$s.push("thx.js.BoundTransition::start@274");
 		var $spos = $s.length;
 		f(Reflect.field(n,"__data__"),i);
 		$s.pop();
@@ -20375,7 +20671,7 @@ thx.js.BoundTransition.prototype.end = function(f) {
 	$s.push("thx.js.BoundTransition::end");
 	var $spos = $s.length;
 	var $tmp = this.endNode(function(n,i) {
-		$s.push("thx.js.BoundTransition::end@276");
+		$s.push("thx.js.BoundTransition::end@279");
 		var $spos = $s.length;
 		f(Reflect.field(n,"__data__"),i);
 		$s.pop();
@@ -21421,7 +21717,7 @@ thx.ini.IniEncoder.prototype.end = function() {
 thx.ini.IniEncoder.prototype.startObject = function() {
 	$s.push("thx.ini.IniEncoder::startObject");
 	var $spos = $s.length;
-	if(this.inarray > 0) throw new thx.error.Error("arrays must contain only primitive values",null,null,{ fileName : "IniEncoder.hx", lineNumber : 60, className : "thx.ini.IniEncoder", methodName : "startObject"});
+	if(this.inarray > 0) throw new thx.error.Error("arrays must contain only primitive values",null,null,{ fileName : "IniEncoder.hx", lineNumber : 58, className : "thx.ini.IniEncoder", methodName : "startObject"});
 	$s.pop();
 }
 thx.ini.IniEncoder.prototype.startField = function(name) {
@@ -21466,7 +21762,7 @@ thx.ini.IniEncoder.prototype.endObject = function() {
 thx.ini.IniEncoder.prototype.startArray = function() {
 	$s.push("thx.ini.IniEncoder::startArray");
 	var $spos = $s.length;
-	if(this.inarray > 0) throw new thx.error.Error("nested arrays are not supported in the .ini format",null,null,{ fileName : "IniEncoder.hx", lineNumber : 99, className : "thx.ini.IniEncoder", methodName : "startArray"});
+	if(this.inarray > 0) throw new thx.error.Error("nested arrays are not supported in the .ini format",null,null,{ fileName : "IniEncoder.hx", lineNumber : 97, className : "thx.ini.IniEncoder", methodName : "startArray"});
 	this.inarray = 1;
 	this.value = "";
 	$s.pop();
@@ -22341,6 +22637,30 @@ TestStrings.prototype.testInterpolate = function() {
 	utest.Assert.equals("rgb(150,125,100)",Strings.interpolate(0.5,"rgb(100,200,50)","rgb(200,50,150)"),null,{ fileName : "TestStrings.hx", lineNumber : 176, className : "TestStrings", methodName : "testInterpolate"});
 	$s.pop();
 }
+TestStrings.prototype.testFormatWithObjectParameter = function() {
+	$s.push("TestStrings::testFormatWithObjectParameter");
+	var $spos = $s.length;
+	utest.Assert.equals("{}",Strings.format("{0}",[{ }]),null,{ fileName : "TestStrings.hx", lineNumber : 182, className : "TestStrings", methodName : "testFormatWithObjectParameter"});
+	$s.pop();
+}
+TestStrings.prototype.testInterpolateChars = function() {
+	$s.push("TestStrings::testInterpolateChars");
+	var $spos = $s.length;
+	var f = Strings.interpolateCharsf("abc","z");
+	utest.Assert.equals("abc",f(0),null,{ fileName : "TestStrings.hx", lineNumber : 188, className : "TestStrings", methodName : "testInterpolateChars"});
+	utest.Assert.equals("z",f(1),null,{ fileName : "TestStrings.hx", lineNumber : 189, className : "TestStrings", methodName : "testInterpolateChars"});
+	utest.Assert.equals("AAo",f(0.5),null,{ fileName : "TestStrings.hx", lineNumber : 190, className : "TestStrings", methodName : "testInterpolateChars"});
+	$s.pop();
+}
+TestStrings.prototype.testInterpolateChar = function() {
+	$s.push("TestStrings::testInterpolateChar");
+	var $spos = $s.length;
+	var f = Strings.interpolateCharf("a","e");
+	utest.Assert.equals("a",f(0),null,{ fileName : "TestStrings.hx", lineNumber : 196, className : "TestStrings", methodName : "testInterpolateChar"});
+	utest.Assert.equals("c",f(0.5),null,{ fileName : "TestStrings.hx", lineNumber : 197, className : "TestStrings", methodName : "testInterpolateChar"});
+	utest.Assert.equals("e",f(1),null,{ fileName : "TestStrings.hx", lineNumber : 198, className : "TestStrings", methodName : "testInterpolateChar"});
+	$s.pop();
+}
 TestStrings.prototype.__class__ = TestStrings;
 TestFloats = function(p) {
 	$s.push("TestFloats::new");
@@ -22507,6 +22827,136 @@ thx.util.Results.failure = function(msg,params,param,pos) {
 	$s.pop();
 }
 thx.util.Results.prototype.__class__ = thx.util.Results;
+thx.js.AccessTweenText = function(transition,tweens) {
+	if( transition === $_ ) return;
+	$s.push("thx.js.AccessTweenText::new");
+	var $spos = $s.length;
+	thx.js.AccessTween.call(this,transition,tweens);
+	$s.pop();
+}
+thx.js.AccessTweenText.__name__ = ["thx","js","AccessTweenText"];
+thx.js.AccessTweenText.__super__ = thx.js.AccessTween;
+for(var k in thx.js.AccessTween.prototype ) thx.js.AccessTweenText.prototype[k] = thx.js.AccessTween.prototype[k];
+thx.js.AccessTweenText.prototype.stringNodef = function(f) {
+	$s.push("thx.js.AccessTweenText::stringNodef");
+	var $spos = $s.length;
+	var $tmp = this.stringTweenNodef(this.transitionStringTweenf(f));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessTweenText.prototype.string = function(value) {
+	$s.push("thx.js.AccessTweenText::string");
+	var $spos = $s.length;
+	var $tmp = this.stringTweenNodef(this.transitionStringTween(value));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessTweenText.prototype.stringTweenNodef = function(tween) {
+	$s.push("thx.js.AccessTweenText::stringTweenNodef");
+	var $spos = $s.length;
+	var handler = function(d,i) {
+		$s.push("thx.js.AccessTweenText::stringTweenNodef@31");
+		var $spos = $s.length;
+		var f = tween(d,i,d.textContent);
+		var $tmp = function(t) {
+			$s.push("thx.js.AccessTweenText::stringTweenNodef@31@34");
+			var $spos = $s.length;
+			d.textContent = f(t);
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	this.tweens.set("text",handler);
+	var $tmp = this.transition;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessTweenText.prototype.charsNodef = function(f) {
+	$s.push("thx.js.AccessTweenText::charsNodef");
+	var $spos = $s.length;
+	var $tmp = this.stringTweenNodef(this.transitionCharsTweenf(f));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessTweenText.prototype.chars = function(value) {
+	$s.push("thx.js.AccessTweenText::chars");
+	var $spos = $s.length;
+	var $tmp = this.stringTweenNodef(this.transitionCharsTween(value));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessTweenText.prototype.__class__ = thx.js.AccessTweenText;
+thx.js.AccessDataTweenText = function(transition,tweens) {
+	if( transition === $_ ) return;
+	$s.push("thx.js.AccessDataTweenText::new");
+	var $spos = $s.length;
+	thx.js.AccessTweenText.call(this,transition,tweens);
+	$s.pop();
+}
+thx.js.AccessDataTweenText.__name__ = ["thx","js","AccessDataTweenText"];
+thx.js.AccessDataTweenText.__super__ = thx.js.AccessTweenText;
+for(var k in thx.js.AccessTweenText.prototype ) thx.js.AccessDataTweenText.prototype[k] = thx.js.AccessTweenText.prototype[k];
+thx.js.AccessDataTweenText.prototype.stringf = function(f) {
+	$s.push("thx.js.AccessDataTweenText::stringf");
+	var $spos = $s.length;
+	var $tmp = this.stringTweenNodef(this.transitionStringTweenf(function(n,i) {
+		$s.push("thx.js.AccessDataTweenText::stringf@64");
+		var $spos = $s.length;
+		var $tmp = f(Reflect.field(n,"__data__"),i);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessDataTweenText.prototype.charsf = function(f) {
+	$s.push("thx.js.AccessDataTweenText::charsf");
+	var $spos = $s.length;
+	var $tmp = this.stringTweenNodef(this.transitionCharsTweenf(function(n,i) {
+		$s.push("thx.js.AccessDataTweenText::charsf@69");
+		var $spos = $s.length;
+		var $tmp = f(Reflect.field(n,"__data__"),i);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessDataTweenText.prototype.stringTweenf = function(tween) {
+	$s.push("thx.js.AccessDataTweenText::stringTweenf");
+	var $spos = $s.length;
+	var handler = function(n,i) {
+		$s.push("thx.js.AccessDataTweenText::stringTweenf@74");
+		var $spos = $s.length;
+		var f = tween(Reflect.field(n,"__data__"),i,d.textContent);
+		var $tmp = function(t) {
+			$s.push("thx.js.AccessDataTweenText::stringTweenf@74@77");
+			var $spos = $s.length;
+			d.textContent = f(t);
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	};
+	this.tweens.set("text",handler);
+	var $tmp = this.transition;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.AccessDataTweenText.prototype.__class__ = thx.js.AccessDataTweenText;
 thx.color.TestColors = function(p) {
 	$s.push("thx.color.TestColors::new");
 	var $spos = $s.length;
@@ -23478,29 +23928,6 @@ thx.js.AccessDataHtml.prototype.data = function() {
 	$s.pop();
 }
 thx.js.AccessDataHtml.prototype.__class__ = thx.js.AccessDataHtml;
-thx.text.TestAll = function(p) {
-	$s.push("thx.text.TestAll::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.text.TestAll.__name__ = ["thx","text","TestAll"];
-thx.text.TestAll.addTests = function(runner) {
-	$s.push("thx.text.TestAll::addTests");
-	var $spos = $s.length;
-	thx.text.TestPaths.addTests(runner);
-	thx.text.TestInflections.addTests(runner);
-	$s.pop();
-}
-thx.text.TestAll.main = function() {
-	$s.push("thx.text.TestAll::main");
-	var $spos = $s.length;
-	var runner = new utest.Runner();
-	thx.text.TestAll.addTests(runner);
-	utest.ui.Report.create(runner);
-	runner.run();
-	$s.pop();
-}
-thx.text.TestAll.prototype.__class__ = thx.text.TestAll;
 Iterators = function() { }
 Iterators.__name__ = ["Iterators"];
 Iterators.indexOf = function(it,v,f) {
@@ -23694,6 +24121,29 @@ Iterators.isIterator = function(v) {
 	$s.pop();
 }
 Iterators.prototype.__class__ = Iterators;
+thx.text.TestAll = function(p) {
+	$s.push("thx.text.TestAll::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.text.TestAll.__name__ = ["thx","text","TestAll"];
+thx.text.TestAll.addTests = function(runner) {
+	$s.push("thx.text.TestAll::addTests");
+	var $spos = $s.length;
+	thx.text.TestPaths.addTests(runner);
+	thx.text.TestInflections.addTests(runner);
+	$s.pop();
+}
+thx.text.TestAll.main = function() {
+	$s.push("thx.text.TestAll::main");
+	var $spos = $s.length;
+	var runner = new utest.Runner();
+	thx.text.TestAll.addTests(runner);
+	utest.ui.Report.create(runner);
+	runner.run();
+	$s.pop();
+}
+thx.text.TestAll.prototype.__class__ = thx.text.TestAll;
 thx.validation.IncrementValidator = function(increment) {
 	if( increment === $_ ) return;
 	$s.push("thx.validation.IncrementValidator::new");
@@ -23827,7 +24277,7 @@ Objects.interpolatef = function(a,b,equation) {
 		if(!Reflect.hasField(a,key)) c[key] = Reflect.field(b,key);
 	}
 	var $tmp = function(t) {
-		$s.push("Objects::interpolatef@82");
+		$s.push("Objects::interpolatef@85");
 		var $spos = $s.length;
 		var _g = 0, _g1 = Reflect.fields(i);
 		while(_g < _g1.length) {
@@ -23876,7 +24326,7 @@ Objects.clone = function(src) {
 	return $tmp;
 	$s.pop();
 }
-Objects._flatten = function(src,cum,arr) {
+Objects._flatten = function(src,cum,arr,levels,level) {
 	$s.push("Objects::_flatten");
 	var $spos = $s.length;
 	var _g = 0, _g1 = Reflect.fields(src);
@@ -23886,25 +24336,26 @@ Objects._flatten = function(src,cum,arr) {
 		var clone = Objects.clone(cum);
 		var v = Reflect.field(src,field);
 		clone.fields.push(field);
-		if(Reflect.isObject(v) && null == Type.getClass(v)) Objects._flatten(v,clone,arr); else {
+		if(Reflect.isObject(v) && null == Type.getClass(v) && (levels == 0 || level + 1 < levels)) Objects._flatten(v,clone,arr,levels,level + 1); else {
 			clone.value = v;
 			arr.push(clone);
 		}
 	}
 	$s.pop();
 }
-Objects.flatten = function(src) {
+Objects.flatten = function(src,levels) {
 	$s.push("Objects::flatten");
 	var $spos = $s.length;
+	if(levels == null) levels = 0;
 	var arr = [];
 	var _g = 0, _g1 = Reflect.fields(src);
 	while(_g < _g1.length) {
 		var field = _g1[_g];
 		++_g;
 		var v = Reflect.field(src,field);
-		if(Reflect.isObject(v) && null == Type.getClass(v)) {
+		if(Reflect.isObject(v) && null == Type.getClass(v) && levels != 1) {
 			var item = { fields : [field], value : null};
-			Objects._flatten(v,item,arr);
+			Objects._flatten(v,item,arr,levels,1);
 		} else arr.push({ fields : [field], value : v});
 	}
 	$s.pop();
@@ -23930,6 +24381,80 @@ Objects.compare = function(a,b) {
 	}
 	$s.pop();
 	return 0;
+	$s.pop();
+}
+Objects.addFields = function(o,fields,values) {
+	$s.push("Objects::addFields");
+	var $spos = $s.length;
+	var _g1 = 0, _g = fields.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		Objects.addField(o,fields[i],values[i]);
+	}
+	$s.pop();
+	return o;
+	$s.pop();
+}
+Objects.addField = function(o,field,value) {
+	$s.push("Objects::addField");
+	var $spos = $s.length;
+	o[field] = value;
+	$s.pop();
+	return o;
+	$s.pop();
+}
+Objects.format = function(v,param,params,culture) {
+	$s.push("Objects::format");
+	var $spos = $s.length;
+	var $tmp = (Objects.formatf(param,params,culture))(v);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+Objects.formatf = function(param,params,culture) {
+	$s.push("Objects::formatf");
+	var $spos = $s.length;
+	params = thx.culture.FormatParams.params(param,params,"R");
+	var format = params.shift();
+	switch(format) {
+	case "O":
+		var $tmp = function(v) {
+			$s.push("Objects::formatf@215");
+			var $spos = $s.length;
+			var $tmp = Std.string(v);
+			$s.pop();
+			return $tmp;
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+	case "R":
+		var $tmp = function(v) {
+			$s.push("Objects::formatf@217");
+			var $spos = $s.length;
+			var buf = [];
+			var _g = 0, _g1 = Reflect.fields(v);
+			while(_g < _g1.length) {
+				var field = _g1[_g];
+				++_g;
+				buf.push(field + ":" + Dynamics.format(Reflect.field(v,field),null,null,null,culture));
+			}
+			var $tmp = "{" + buf.join(",") + "}";
+			$s.pop();
+			return $tmp;
+			$s.pop();
+		};
+		$s.pop();
+		return $tmp;
+	default:
+		var $tmp = (function($this) {
+			var $r;
+			throw new thx.error.Error("Unsupported number format: {0}",null,format,{ fileName : "Objects.hx", lineNumber : 225, className : "Objects", methodName : "formatf"});
+			return $r;
+		}(this));
+		$s.pop();
+		return $tmp;
+	}
 	$s.pop();
 }
 Objects.prototype.__class__ = Objects;
@@ -26623,7 +27148,7 @@ var posProcess = function( selector, context ) {
 window.Sizzle = Sizzle;
 
 })();;
-	var s = (window.Sizzle || jQuery.find || $.find);
+	var s = (window.Sizzle || (jQuery && jQuery.find) || ($ && $.find));
 	thx.js.Sizzle = s;
 	thx.js.Sizzle.select = s;
 }

@@ -1,14 +1,12 @@
-package thx.ini;
-import thx.collections.Set;
-import thx.data.IDataHandler;
-import thx.error.Error;
-
 /**
  * ...
  * @author Franco Ponticelli
  */
 
-using Iterators;
+package thx.ini;
+import thx.collections.Set;
+import thx.data.IDataHandler;
+import thx.error.Error;
 
 class IniEncoder implements IDataHandler
 {
@@ -38,7 +36,7 @@ class IniEncoder implements IDataHandler
 	
 	public function end()
 	{
-		var keys = cache.keys().order();
+		var keys = Iterators.order(cache.keys());
 		var lines = [];
 		
 		for (key in keys)

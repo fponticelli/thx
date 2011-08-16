@@ -37,6 +37,16 @@ class AccessTween<That : BaseTransition<Dynamic>>
 		return function(d : HtmlDom, i : Int, a : String) return Strings.interpolatef(a, f(d,i));
 	}
 	
+	function transitionCharsTween(value : String)
+	{
+		return function(d : HtmlDom, i : Int, a : String) return Strings.interpolateCharsf(a, value);
+	}
+	
+	function transitionCharsTweenf(f : HtmlDom -> Int -> String)
+	{
+		return function(d : HtmlDom, i : Int, a : String) return Strings.interpolateCharsf(a, f(d,i));
+	}
+	
 	function transitionFloatTween(value : Float)
 	{
 		return function(d : HtmlDom, i : Int, a : Float) return Floats.interpolatef(a, value);

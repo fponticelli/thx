@@ -16,6 +16,15 @@ class AccessClassed<That> extends Access<That>
 	{
 		super(selection);
 	}
+	
+	public function toggle(name : String)
+	{
+		if (exists(name))
+			remove(name);
+		else
+			add(name);
+		return _that();
+	}
 
 	public function exists(name : String) : Bool
 	{

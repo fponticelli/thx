@@ -4,6 +4,9 @@
  */
 
 import thx.color.Colors;
+import thx.culture.Culture;
+import thx.culture.FormatParams;
+import thx.error.Error;
 
 class Objects
 {
@@ -130,7 +133,7 @@ class Objects
 		return cast dst;
 	}
 	
-		public static function mergef(ob : {}, new_ob : {}, f : String->{}->{}->{}) : Void
+	public static function mergef(ob : {}, new_ob : {}, f : String->{}->{}->{}) : Void
 		{
 	/*		if (!Types.isAnonymous(ob)) return;*/
 			for (field in Reflect.fields(new_ob)){
@@ -146,21 +149,21 @@ class Objects
 		}
 
 
-		public static function merge(ob : {}, new_ob : {} ) : Void
+	public static function merge(ob : {}, new_ob : {} ) : Void
 		{
 			mergef(ob, new_ob, function(key, old_v, new_v) return new_v );
 		}
 	
-	static function _flatten(src : { }, cum : { fields : Array<String>, value : Dynamic }, arr : Array<{ fields : Array<String>, value : Dynamic }>)
+	static function _flatten(src : { }, cum : { fields : Array<String>, value : Dynamic }, arr : Array<{ fields : Array<String>, value : Dynamic }>, levels : Int, level : Int)
 	{
 		for (field in Reflect.fields(src))
 		{
 			var clone = Objects.clone(cum);
 			var v = Reflect.field(src, field);
 			clone.fields.push(field);
-			if (Types.isAnonymous(v))
+			if (Types.isAnonymous(v) && (levels == 0 || level+1 < levels))
 			{
-				_flatten(v, clone, arr);
+				_flatten(v, clone, arr, levels, level+1);
 			} else {
 				clone.value = v;
 				arr.push(clone);
@@ -168,24 +171,24 @@ class Objects
 		}
 	}
 	
-	public static function flatten(src : { } ) : Array<{ fields : Array<String>, value : Dynamic }>
+	public static function flatten(src : { }, levels = 0) : Array<{ fields : Array<String>, value : Dynamic }>
 	{
 		var arr = [];
 		for (field in Reflect.fields(src))
 		{
 			var v = Reflect.field(src, field);
-			if (Types.isAnonymous(v))
+			if (Types.isAnonymous(v) && levels != 1)
 			{
 				var item = {
 					fields : [field],
 					value : null
 				};
-				_flatten(v, item, arr);
+				_flatten(v, item, arr, levels, 1);
 			} else {
-				arr.push( { 
+				arr.push({ 
 					fields : [field],
 					value : v
-				} );
+				});
 			}
 		}
 		return arr;
@@ -203,6 +206,45 @@ class Objects
 		}
 		
 		return 0;
+	}
+	
+	public static function addFields(o : { }, fields : Array<String>, values : Array<Dynamic>)
+	{
+		for (i in 0...fields.length)
+			addField(o, fields[i], values[i]); 
+		return o;
+	}
+	
+	public static function addField(o : { }, field : String, value : Dynamic)
+	{
+		Reflect.setField(o, field, value); 
+		return o;
+	}
+	
+	public static function format(v : Float, ?param : String, ?params : Array<String>, ?culture : Culture)
+	{
+		return formatf(param, params, culture)(v);
+	}
+	
+	public static function formatf(?param : String, ?params : Array<String>, ?culture : Culture)
+	{
+		params = FormatParams.params(param, params, 'R');
+		var format = params.shift();
+		switch(format)
+		{
+			case 'O':
+				return function(v) return Std.string(v);
+			case 'R':
+				return function(v)
+				{
+					var buf = [];
+					for (field in Reflect.fields(v))
+						buf.push(field + ":" + Dynamics.format(Reflect.field(v, field), culture));
+					return "{" + buf.join(",") + "}";
+				}
+			default:
+				return throw new Error("Unsupported number format: {0}", format);
+		}
 	}
 }
 

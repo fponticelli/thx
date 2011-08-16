@@ -27,7 +27,7 @@ extern class Sizzle
 		#if !noEmbedJS
 		haxe.macro.Tools.includeFile("thx/js/sizzle.js");
 		#end
-		var s : Dynamic = __js__("(window.Sizzle || jQuery.find || $.find)");
+		var s : Dynamic = __js__("(window.Sizzle || (jQuery && jQuery.find) || ($ && $.find))");
 		thx.js.Sizzle = s;
 		thx.js.Sizzle.select = s;
 	}

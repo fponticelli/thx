@@ -1,4 +1,5 @@
 package thx.svg;
+import thx.math.Const;
 
 /**
  * Based on D3.js by Michael Bostock
@@ -141,5 +142,22 @@ class Symbol
 			+ "v" + (r / 2)
 			+ "l" + -r + "," + -r
 			+ "Z";
+	}
+	
+	public static function star(size : Float)
+	{
+		var r = Math.sqrt(size / 0.31027) / 2;
+		return 
+			  "M0," + (-r)
+			+ "L" + (r * 0.236)  + "," + (r * -0.325) + " "
+				  + (r * 0.951)  + "," + (r * -0.309) + " " 
+				  + (r * 0.382)  + "," + (r *  0.124) + " " 
+				  + (r * 0.588)  + "," + (r *  0.809) + " " 
+				  + (r * 0)      + "," + (r *  0.401) + " " 
+				  + (r * -0.588) + "," + (r *  0.809) + " " 
+				  + (r * -0.382) + "," + (r *  0.124) + " " 
+				  + (r * -0.951) + "," + (r * -0.309) + " " 
+				  + (r * -0.236) + "," + (r * -0.325) + " " + 
+			"Z";
 	}
 }

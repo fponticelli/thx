@@ -34,8 +34,10 @@ class Dynamics
 					} else if(c == Date) {
 						return Dates.format(v, param, params, culture);
 					} else {
-						return Std.string(v);
+						return Objects.format(v, param, params, culture);
 					}
+				case TObject:
+					return Objects.format(v, param, params, culture);
 				default:
 					return throw new Error("Unsupported type format: {0}", Type.typeof(v));
 			}
@@ -154,6 +156,34 @@ class Dynamics
 				return Enums.compare(a, b);
 			default:
 				return 0;
+		}
+	}
+	
+	public static function comparef(sample : Dynamic)
+	{
+		switch(Type.typeof(sample))
+		{
+			case TInt: return Ints.compare;
+			case TFloat: return Floats.compare;
+			case TBool: return Bools.compare;
+			case TObject: return Objects.compare;
+			case TClass(c):
+				var name = Type.getClassName(c);
+				switch(name)
+				{
+					case "Array":
+						return Arrays.compare;
+					case "String":
+						return Strings.compare;
+					case "Date":
+						return Dates.compare;
+					default:
+						return function(a, b) return Strings.compare(Std.string(a), Std.string(b));
+				}
+			case TEnum(e):
+				return Enums.compare;
+			default:
+				return Dynamics.compare;
 		}
 	}
 	
