@@ -192,10 +192,10 @@ class Floats
 		return function(x : Float) return clamp((x - a) * b, 0.0, 1.0);
 	}
 	
-	public static function round(x : Float, n = 2)
-	{
-		return n != 0
-			? Math.round(x * Math.pow(10, n)) * Math.pow(10, -n)
-			: Math.round(x);
+	public static function round( number : Float, precision = 2): Float {
+		number *= Math.pow(10, precision);
+		return Math.round( number ) / Math.pow(10, precision);
 	}
+	
+
 }

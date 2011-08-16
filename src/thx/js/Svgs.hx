@@ -1,4 +1,5 @@
 package thx.js;
+import js.Dom;
 import thx.js.Selection;
 import thx.js.AccessAttribute;
 
@@ -16,26 +17,14 @@ class UnboundSvgs{
 		return ad;
 	}
 }
-
-class AccessDataAttributeSvgs{
-	public static function pct<A,B>(att:AccessDataAttribute<A,B>, v:Float){ return att.string(v+"%");}
-	public static function inches<A,B>(att:AccessDataAttribute<A,B>, v:Float){ return att.string(v+'in');}
-	public static function cm<A,B>(att:AccessDataAttribute<A,B>, v:Float){ return att.string(v+'cm');}
-	public static function mm<A,B>(att:AccessDataAttribute<A,B>, v:Float){ return att.string(v+'mm');}
-	public static function em<A,B>(att:AccessDataAttribute<A,B>, v:Float){ return att.string(v+'em');}
-	public static function ex<A,B>(att:AccessDataAttribute<A,B>, v:Float){ return att.string(v+'ex');}
-	public static function pt<A,B>(att:AccessDataAttribute<A,B>, v:Float){ return att.string(v+'pt');}
-	public static function pc<A,B>(att:AccessDataAttribute<A,B>, v:Float){ return att.string(v+'pc');}
-	public static function px<A,B>(att:AccessDataAttribute<A,B>, v:Float){ return att.string(v+'px');}
-}
-class AccessAttributeSvgs{
-	public static function pct<A>(att:AccessAttribute<A>, v:Float){ return att.string(v+"%");}
-	public static function inches<A>(att:AccessAttribute<A>, v:Float){ return att.string(v+'in');}
-	public static function cm<A>(att:AccessAttribute<A>, v:Float){ return att.string(v+'cm');}
-	public static function mm<A>(att:AccessAttribute<A>, v:Float){ return att.string(v+'mm');}
-	public static function em<A>(att:AccessAttribute<A>, v:Float){ return att.string(v+'em');}
-	public static function ex<A>(att:AccessAttribute<A>, v:Float){ return att.string(v+'ex');}
-	public static function pt<A>(att:AccessAttribute<A>, v:Float){ return att.string(v+'pt');}
-	public static function pc<A>(att:AccessAttribute<A>, v:Float){ return att.string(v+'pc');}
-	public static function px<A>(att:AccessAttribute<A>, v:Float){ return att.string(v+'px');}
+class UnitHelpers{
+	public static function pct(v:Float){ return v+"%";}
+	public static function inches(v:Float){ return v+'in';}
+	public static function cm(v:Float){ return v+'cm';}
+	public static function mm(v:Float){ return v+'mm';}
+	public static function em(v:Float){ return v+'em';}
+	public static function ex(v:Float){ return v+'ex';}
+	public static function pt(v:Float){ return v+'pt';}
+	public static function pc(v:Float){ return v+'pc';}
+	public static function px(v:Float){ return v+'px';}
 }
