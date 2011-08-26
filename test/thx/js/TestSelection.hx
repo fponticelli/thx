@@ -3,10 +3,8 @@ package thx.js;
 import utest.Assert;
 import thx.js.Dom;
 
-class TestSelection
-{
-	var sel : Selection;
-	
+class TestSelection extends TestBaseDom
+{	
 	public function testAppendRemove()
 	{
 		Assert.isTrue(sel.select("div").empty());
@@ -135,16 +133,4 @@ class TestSelection
 						.attr("class").stringf(function(d, i) return d);
 		Assert.equals("first", sel.select("div").attr("class").get());
 	}
-	
-	public function setup()
-	{
-		sel = Dom.doc.select("body").append("div");
-	}
-	
-	public function teardown()
-	{
-		sel.remove();
-	}
-	
-	public function new(){}
 }

@@ -4513,6 +4513,7 @@ thx.js.TestAll.__name__ = ["thx","js","TestAll"];
 thx.js.TestAll.addTests = function(runner) {
 	$s.push("thx.js.TestAll::addTests");
 	var $spos = $s.length;
+	runner.addCase(new thx.js.TestAccessClassed());
 	runner.addCase(new thx.js.TestDom());
 	runner.addCase(new thx.js.TestSizzle());
 	runner.addCase(new thx.js.TestSelection());
@@ -5375,6 +5376,29 @@ TestArrays.prototype.testOrderMulti = function() {
 	$s.pop();
 }
 TestArrays.prototype.__class__ = TestArrays;
+thx.csv.Csv = function() { }
+thx.csv.Csv.__name__ = ["thx","csv","Csv"];
+thx.csv.Csv.encode = function(value,delimiter,nulltoempty,newline) {
+	$s.push("thx.csv.Csv::encode");
+	var $spos = $s.length;
+	var handler = new thx.csv.CsvEncoder(delimiter,nulltoempty,newline);
+	new thx.data.ValueEncoder(handler).encode(value);
+	var $tmp = handler.encodedString;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.csv.Csv.decode = function(value) {
+	$s.push("thx.csv.Csv::decode");
+	var $spos = $s.length;
+	var handler = new thx.data.ValueHandler();
+	new thx.csv.CsvDecoder(handler).decode(value);
+	var $tmp = handler.value;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.csv.Csv.prototype.__class__ = thx.csv.Csv;
 thx.validation.TestEmail = function(p) {
 	$s.push("thx.validation.TestEmail::new");
 	var $spos = $s.length;
@@ -5419,29 +5443,6 @@ thx.validation.TestEmail.prototype.testTopLevelDomain = function() {
 	$s.pop();
 }
 thx.validation.TestEmail.prototype.__class__ = thx.validation.TestEmail;
-thx.csv.Csv = function() { }
-thx.csv.Csv.__name__ = ["thx","csv","Csv"];
-thx.csv.Csv.encode = function(value,delimiter,nulltoempty,newline) {
-	$s.push("thx.csv.Csv::encode");
-	var $spos = $s.length;
-	var handler = new thx.csv.CsvEncoder(delimiter,nulltoempty,newline);
-	new thx.data.ValueEncoder(handler).encode(value);
-	var $tmp = handler.encodedString;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.csv.Csv.decode = function(value) {
-	$s.push("thx.csv.Csv::decode");
-	var $spos = $s.length;
-	var handler = new thx.data.ValueHandler();
-	new thx.csv.CsvDecoder(handler).decode(value);
-	var $tmp = handler.value;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.csv.Csv.prototype.__class__ = thx.csv.Csv;
 thx.svg.Chord = function(source,target,radius,startAngle,endAngle) {
 	if( source === $_ ) return;
 	$s.push("thx.svg.Chord::new");
@@ -11682,7 +11683,7 @@ thx.math.scale.Linear.prototype.modulo = function(m) {
 thx.math.scale.Linear.prototype.tickRange = function() {
 	$s.push("thx.math.scale.Linear::tickRange");
 	var $spos = $s.length;
-	var start = Arrays.min(this._domain), stop = Arrays.max(this._domain), span = stop - start, step = Math.pow(10,Math.floor(Math.log(span / this.m) / 2.302585092994046)), err = this.m / (span / step);
+	var start = Arrays.min(this._domain), stop = Arrays.max(this._domain), span = stop - start, step = Math.pow(this.m,Math.floor(Math.log(span / this.m) / 2.302585092994046)), err = this.m / (span / step);
 	if(err <= .15) step *= 10; else if(err <= .35) step *= 5; else if(err <= .75) step *= 2;
 	var $tmp = { start : Math.ceil(start / step) * step, stop : Math.floor(stop / step) * step + step * .5, step : step};
 	$s.pop();
@@ -11701,7 +11702,7 @@ thx.math.scale.Linear.prototype.ticks = function() {
 thx.math.scale.Linear.prototype.tickFormat = function(v,i) {
 	$s.push("thx.math.scale.Linear::tickFormat");
 	var $spos = $s.length;
-	var n = Math.max(0,-Math.floor(Math.log(this.tickRange().step) / 2.302585092994046 + .01));
+	var n = Math.max(this.m,-Math.floor(Math.log(this.tickRange().step) / 2.302585092994046 + .01));
 	var $tmp = Floats.format(v,"D:" + n);
 	$s.pop();
 	return $tmp;
@@ -13068,7 +13069,7 @@ thx.math.scale.TestLinear.prototype.testTicks = function() {
 	$s.push("thx.math.scale.TestLinear::testTicks");
 	var $spos = $s.length;
 	var scale = new thx.math.scale.Linear();
-	utest.Assert.equals("0, 1",scale.modulo(1).ticks().map(function(d,_) {
+	utest.Assert.equals("0.0, 1.0",scale.modulo(1).ticks().map(function(d,_) {
 		$s.push("thx.math.scale.TestLinear::testTicks@51");
 		var $spos = $s.length;
 		var $tmp = scale.tickFormat(d);
@@ -13076,7 +13077,7 @@ thx.math.scale.TestLinear.prototype.testTicks = function() {
 		return $tmp;
 		$s.pop();
 	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 51, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
-	utest.Assert.equals("0.0, 0.5, 1.0",scale.modulo(2).ticks().map(function(d,_) {
+	utest.Assert.equals("0.00, 0.50, 1.00",scale.modulo(2).ticks().map(function(d,_) {
 		$s.push("thx.math.scale.TestLinear::testTicks@52");
 		var $spos = $s.length;
 		var $tmp = scale.tickFormat(d);
@@ -13084,7 +13085,7 @@ thx.math.scale.TestLinear.prototype.testTicks = function() {
 		return $tmp;
 		$s.pop();
 	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 52, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
-	utest.Assert.equals("0.0, 0.2, 0.4, 0.6, 0.8, 1.0",scale.modulo(5).ticks().map(function(d,_) {
+	utest.Assert.equals("0.00000, 0.20000, 0.40000, 0.60000, 0.80000, 1.00000",scale.modulo(5).ticks().map(function(d,_) {
 		$s.push("thx.math.scale.TestLinear::testTicks@53");
 		var $spos = $s.length;
 		var $tmp = scale.tickFormat(d);
@@ -13092,7 +13093,7 @@ thx.math.scale.TestLinear.prototype.testTicks = function() {
 		return $tmp;
 		$s.pop();
 	}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 53, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
-	utest.Assert.equals("0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0",scale.modulo(10).ticks().map(function(d,_) {
+	utest.Assert.equals("0.0000000000, 0.1000000000, 0.2000000000, 0.3000000000, 0.4000000000, 0.5000000000, 0.6000000000, 0.7000000000, 0.8000000000, 0.9000000000, 1.0000000000",scale.modulo(10).ticks().map(function(d,_) {
 		$s.push("thx.math.scale.TestLinear::testTicks@54");
 		var $spos = $s.length;
 		var $tmp = scale.tickFormat(d);
@@ -13427,6 +13428,26 @@ thx.ini.TestIni.prototype.testDecode = function() {
 	$s.pop();
 }
 thx.ini.TestIni.prototype.__class__ = thx.ini.TestIni;
+thx.js.TestBaseDom = function(p) {
+	$s.push("thx.js.TestBaseDom::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.js.TestBaseDom.__name__ = ["thx","js","TestBaseDom"];
+thx.js.TestBaseDom.prototype.sel = null;
+thx.js.TestBaseDom.prototype.setup = function() {
+	$s.push("thx.js.TestBaseDom::setup");
+	var $spos = $s.length;
+	this.sel = thx.js.Dom.doc.select("body").append("div");
+	$s.pop();
+}
+thx.js.TestBaseDom.prototype.teardown = function() {
+	$s.push("thx.js.TestBaseDom::teardown");
+	var $spos = $s.length;
+	this.sel.remove();
+	$s.pop();
+}
+thx.js.TestBaseDom.prototype.__class__ = thx.js.TestBaseDom;
 Enums = function() { }
 Enums.__name__ = ["Enums"];
 Enums.string = function(e) {
@@ -14106,6 +14127,21 @@ thx.culture.FormatDate.timeShort = function(date,culture) {
 	var $tmp = thx.culture.FormatDate.format(culture.date.patternTimeShort,date,culture,false);
 	$s.pop();
 	return $tmp;
+	$s.pop();
+}
+thx.culture.FormatDate.hourShort = function(date,culture) {
+	$s.push("thx.culture.FormatDate::hourShort");
+	var $spos = $s.length;
+	if(null == culture) culture = thx.culture.Culture.getDefaultCulture();
+	if(null == culture.date.am) {
+		var $tmp = thx.culture.FormatDate.format("%H",date,culture,false);
+		$s.pop();
+		return $tmp;
+	} else {
+		var $tmp = thx.culture.FormatDate.format("%l %p",date,culture,false);
+		$s.pop();
+		return $tmp;
+	}
 	$s.pop();
 }
 thx.culture.FormatDate.year = function(date,culture) {
@@ -15468,20 +15504,23 @@ utest.ui.common.ResultStats.prototype.unwire = function(dependant) {
 }
 utest.ui.common.ResultStats.prototype.__class__ = utest.ui.common.ResultStats;
 thx.js.TestSelection = function(p) {
+	if( p === $_ ) return;
 	$s.push("thx.js.TestSelection::new");
 	var $spos = $s.length;
+	thx.js.TestBaseDom.call(this);
 	$s.pop();
 }
 thx.js.TestSelection.__name__ = ["thx","js","TestSelection"];
-thx.js.TestSelection.prototype.sel = null;
+thx.js.TestSelection.__super__ = thx.js.TestBaseDom;
+for(var k in thx.js.TestBaseDom.prototype ) thx.js.TestSelection.prototype[k] = thx.js.TestBaseDom.prototype[k];
 thx.js.TestSelection.prototype.testAppendRemove = function() {
 	$s.push("thx.js.TestSelection::testAppendRemove");
 	var $spos = $s.length;
-	utest.Assert.isTrue(this.sel.select("div").empty(),null,{ fileName : "TestSelection.hx", lineNumber : 12, className : "thx.js.TestSelection", methodName : "testAppendRemove"});
+	utest.Assert.isTrue(this.sel.select("div").empty(),null,{ fileName : "TestSelection.hx", lineNumber : 10, className : "thx.js.TestSelection", methodName : "testAppendRemove"});
 	this.sel.append("div");
-	utest.Assert.isFalse(this.sel.select("div").empty(),null,{ fileName : "TestSelection.hx", lineNumber : 14, className : "thx.js.TestSelection", methodName : "testAppendRemove"});
+	utest.Assert.isFalse(this.sel.select("div").empty(),null,{ fileName : "TestSelection.hx", lineNumber : 12, className : "thx.js.TestSelection", methodName : "testAppendRemove"});
 	this.sel.select("div").remove();
-	utest.Assert.isTrue(this.sel.select("div").empty(),null,{ fileName : "TestSelection.hx", lineNumber : 16, className : "thx.js.TestSelection", methodName : "testAppendRemove"});
+	utest.Assert.isTrue(this.sel.select("div").empty(),null,{ fileName : "TestSelection.hx", lineNumber : 14, className : "thx.js.TestSelection", methodName : "testAppendRemove"});
 	$s.pop();
 }
 thx.js.TestSelection.prototype.testSelectAll = function() {
@@ -15494,10 +15533,10 @@ thx.js.TestSelection.prototype.testSelectAll = function() {
 	}
 	var counter = 0;
 	this.sel.selectAll("div").eachNode(function(n,i) {
-		$s.push("thx.js.TestSelection::testSelectAll@25");
+		$s.push("thx.js.TestSelection::testSelectAll@23");
 		var $spos = $s.length;
-		utest.Assert.equals(counter,i,null,{ fileName : "TestSelection.hx", lineNumber : 26, className : "thx.js.TestSelection", methodName : "testSelectAll"});
-		utest.Assert.equals("" + counter,n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 27, className : "thx.js.TestSelection", methodName : "testSelectAll"});
+		utest.Assert.equals(counter,i,null,{ fileName : "TestSelection.hx", lineNumber : 24, className : "thx.js.TestSelection", methodName : "testSelectAll"});
+		utest.Assert.equals("" + counter,n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 25, className : "thx.js.TestSelection", methodName : "testSelectAll"});
 		counter++;
 		$s.pop();
 	});
@@ -15514,20 +15553,20 @@ thx.js.TestSelection.prototype.testUpdate = function() {
 	var data = ["a","b","c","e"];
 	var update = this.sel.selectAll("div").data(data).update().text().data();
 	this.sel.selectAll("div").eachNode(function(n,i) {
-		$s.push("thx.js.TestSelection::testUpdate@42");
+		$s.push("thx.js.TestSelection::testUpdate@40");
 		var $spos = $s.length;
-		utest.Assert.equals(data[i],Reflect.field(n,"__data__"),null,{ fileName : "TestSelection.hx", lineNumber : 43, className : "thx.js.TestSelection", methodName : "testUpdate"});
-		utest.Assert.equals(data[i],n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 44, className : "thx.js.TestSelection", methodName : "testUpdate"});
+		utest.Assert.equals(data[i],Reflect.field(n,"__data__"),null,{ fileName : "TestSelection.hx", lineNumber : 41, className : "thx.js.TestSelection", methodName : "testUpdate"});
+		utest.Assert.equals(data[i],n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 42, className : "thx.js.TestSelection", methodName : "testUpdate"});
 		$s.pop();
 	});
 	update.each(function(d,i) {
-		$s.push("thx.js.TestSelection::testUpdate@47");
+		$s.push("thx.js.TestSelection::testUpdate@45");
 		var $spos = $s.length;
-		utest.Assert.equals(data[i],d,null,{ fileName : "TestSelection.hx", lineNumber : 47, className : "thx.js.TestSelection", methodName : "testUpdate"});
+		utest.Assert.equals(data[i],d,null,{ fileName : "TestSelection.hx", lineNumber : 45, className : "thx.js.TestSelection", methodName : "testUpdate"});
 		$s.pop();
 	});
 	update.text().stringf(function(d,i) {
-		$s.push("thx.js.TestSelection::testUpdate@49");
+		$s.push("thx.js.TestSelection::testUpdate@47");
 		var $spos = $s.length;
 		var $tmp = d.toUpperCase();
 		$s.pop();
@@ -15535,9 +15574,9 @@ thx.js.TestSelection.prototype.testUpdate = function() {
 		$s.pop();
 	});
 	update.eachNode(function(n,i) {
-		$s.push("thx.js.TestSelection::testUpdate@50");
+		$s.push("thx.js.TestSelection::testUpdate@48");
 		var $spos = $s.length;
-		utest.Assert.equals(data[i].toUpperCase(),n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 50, className : "thx.js.TestSelection", methodName : "testUpdate"});
+		utest.Assert.equals(data[i].toUpperCase(),n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 48, className : "thx.js.TestSelection", methodName : "testUpdate"});
 		$s.pop();
 	});
 	$s.pop();
@@ -15553,9 +15592,9 @@ thx.js.TestSelection.prototype.testExit = function() {
 	var data = ["a","b","c"];
 	this.sel.selectAll("div").data(data).exit().text().string("X");
 	this.sel.selectAll("div").eachNode(function(n,i) {
-		$s.push("thx.js.TestSelection::testExit@63");
+		$s.push("thx.js.TestSelection::testExit@61");
 		var $spos = $s.length;
-		if(i < data.length) utest.Assert.equals("" + i,n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 65, className : "thx.js.TestSelection", methodName : "testExit"}); else utest.Assert.equals("X",n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 67, className : "thx.js.TestSelection", methodName : "testExit"});
+		if(i < data.length) utest.Assert.equals("" + i,n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 63, className : "thx.js.TestSelection", methodName : "testExit"}); else utest.Assert.equals("X",n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 65, className : "thx.js.TestSelection", methodName : "testExit"});
 		$s.pop();
 	});
 	$s.pop();
@@ -15571,9 +15610,9 @@ thx.js.TestSelection.prototype.testUpdateExit = function() {
 	var data = ["a","b","c"];
 	this.sel.selectAll("div").data(data).update().text().data().exit().text().string("X");
 	this.sel.selectAll("div").eachNode(function(n,i) {
-		$s.push("thx.js.TestSelection::testUpdateExit@83");
+		$s.push("thx.js.TestSelection::testUpdateExit@81");
 		var $spos = $s.length;
-		if(i < data.length) utest.Assert.equals(data[i],n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 85, className : "thx.js.TestSelection", methodName : "testUpdateExit"}); else utest.Assert.equals("X",n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 87, className : "thx.js.TestSelection", methodName : "testUpdateExit"});
+		if(i < data.length) utest.Assert.equals(data[i],n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 83, className : "thx.js.TestSelection", methodName : "testUpdateExit"}); else utest.Assert.equals("X",n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 85, className : "thx.js.TestSelection", methodName : "testUpdateExit"});
 		$s.pop();
 	});
 	$s.pop();
@@ -15588,7 +15627,7 @@ thx.js.TestSelection.prototype.testEnter = function() {
 	}
 	var data = ["a","b","c","d","e"];
 	this.sel.selectAll("div").data(data).update().text().stringf(function(d,i) {
-		$s.push("thx.js.TestSelection::testEnter@99");
+		$s.push("thx.js.TestSelection::testEnter@97");
 		var $spos = $s.length;
 		var $tmp = d.toUpperCase();
 		$s.pop();
@@ -15596,9 +15635,9 @@ thx.js.TestSelection.prototype.testEnter = function() {
 		$s.pop();
 	}).enter().append("div").text().data();
 	this.sel.selectAll("div").eachNode(function(n,i) {
-		$s.push("thx.js.TestSelection::testEnter@103");
+		$s.push("thx.js.TestSelection::testEnter@101");
 		var $spos = $s.length;
-		if(i < 3) utest.Assert.equals(data[i].toUpperCase(),n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 105, className : "thx.js.TestSelection", methodName : "testEnter"}); else utest.Assert.equals(data[i],n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 107, className : "thx.js.TestSelection", methodName : "testEnter"});
+		if(i < 3) utest.Assert.equals(data[i].toUpperCase(),n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 103, className : "thx.js.TestSelection", methodName : "testEnter"}); else utest.Assert.equals(data[i],n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 105, className : "thx.js.TestSelection", methodName : "testEnter"});
 		$s.pop();
 	});
 	$s.pop();
@@ -15610,9 +15649,9 @@ thx.js.TestSelection.prototype.testEnterUpdateExit = function() {
 	var data = ["a","b","c"];
 	this.sel.selectAll("div").data(data).enter().append("div").text().data();
 	this.sel.selectAll("div").eachNode(function(n,i) {
-		$s.push("thx.js.TestSelection::testEnterUpdateExit@120");
+		$s.push("thx.js.TestSelection::testEnterUpdateExit@118");
 		var $spos = $s.length;
-		if(i > 0) utest.Assert.equals(data[i],n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 122, className : "thx.js.TestSelection", methodName : "testEnterUpdateExit"}); else utest.Assert.equals("X",n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 124, className : "thx.js.TestSelection", methodName : "testEnterUpdateExit"});
+		if(i > 0) utest.Assert.equals(data[i],n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 120, className : "thx.js.TestSelection", methodName : "testEnterUpdateExit"}); else utest.Assert.equals("X",n.innerHTML,null,{ fileName : "TestSelection.hx", lineNumber : 122, className : "thx.js.TestSelection", methodName : "testEnterUpdateExit"});
 		$s.pop();
 	});
 	$s.pop();
@@ -15622,25 +15661,13 @@ thx.js.TestSelection.prototype.testDataAttributeAccess = function() {
 	var $spos = $s.length;
 	var classes = ["first","second"];
 	this.sel.selectAll("div").data(classes).enter().append("div").attr("class").stringf(function(d,i) {
-		$s.push("thx.js.TestSelection::testDataAttributeAccess@135");
+		$s.push("thx.js.TestSelection::testDataAttributeAccess@133");
 		var $spos = $s.length;
 		$s.pop();
 		return d;
 		$s.pop();
 	});
-	utest.Assert.equals("first",this.sel.select("div").attr("class").get(),null,{ fileName : "TestSelection.hx", lineNumber : 136, className : "thx.js.TestSelection", methodName : "testDataAttributeAccess"});
-	$s.pop();
-}
-thx.js.TestSelection.prototype.setup = function() {
-	$s.push("thx.js.TestSelection::setup");
-	var $spos = $s.length;
-	this.sel = thx.js.Dom.doc.select("body").append("div");
-	$s.pop();
-}
-thx.js.TestSelection.prototype.teardown = function() {
-	$s.push("thx.js.TestSelection::teardown");
-	var $spos = $s.length;
-	this.sel.remove();
+	utest.Assert.equals("first",this.sel.select("div").attr("class").get(),null,{ fileName : "TestSelection.hx", lineNumber : 134, className : "thx.js.TestSelection", methodName : "testDataAttributeAccess"});
 	$s.pop();
 }
 thx.js.TestSelection.prototype.__class__ = thx.js.TestSelection;
@@ -22792,6 +22819,36 @@ TestFloats.prototype.testFormatF = function() {
 	$s.pop();
 }
 TestFloats.prototype.__class__ = TestFloats;
+thx.js.TestAccessClassed = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.js.TestAccessClassed::new");
+	var $spos = $s.length;
+	thx.js.TestBaseDom.call(this);
+	$s.pop();
+}
+thx.js.TestAccessClassed.__name__ = ["thx","js","TestAccessClassed"];
+thx.js.TestAccessClassed.__super__ = thx.js.TestBaseDom;
+for(var k in thx.js.TestBaseDom.prototype ) thx.js.TestAccessClassed.prototype[k] = thx.js.TestBaseDom.prototype[k];
+thx.js.TestAccessClassed.prototype.testAddRemove = function() {
+	$s.push("thx.js.TestAccessClassed::testAddRemove");
+	var $spos = $s.length;
+	this.sel.classed().add("something");
+	utest.Assert.isFalse(this.sel.classed().exists("item-0"),null,{ fileName : "TestAccessClassed.hx", lineNumber : 15, className : "thx.js.TestAccessClassed", methodName : "testAddRemove"});
+	this.sel.classed().add("item-0");
+	utest.Assert.isTrue(this.sel.classed().exists("item-0"),null,{ fileName : "TestAccessClassed.hx", lineNumber : 17, className : "thx.js.TestAccessClassed", methodName : "testAddRemove"});
+	utest.Assert.isFalse(this.sel.classed().exists("item-1"),null,{ fileName : "TestAccessClassed.hx", lineNumber : 20, className : "thx.js.TestAccessClassed", methodName : "testAddRemove"});
+	this.sel.classed().add("item-1");
+	utest.Assert.isTrue(this.sel.classed().exists("item-1"),null,{ fileName : "TestAccessClassed.hx", lineNumber : 22, className : "thx.js.TestAccessClassed", methodName : "testAddRemove"});
+	utest.Assert.equals("something item-0 item-1",this.sel.attr("class").get(),null,{ fileName : "TestAccessClassed.hx", lineNumber : 24, className : "thx.js.TestAccessClassed", methodName : "testAddRemove"});
+	this.sel.classed().remove("item-0");
+	utest.Assert.isFalse(this.sel.classed().exists("item-0"),null,{ fileName : "TestAccessClassed.hx", lineNumber : 27, className : "thx.js.TestAccessClassed", methodName : "testAddRemove"});
+	utest.Assert.equals("something item-1",this.sel.attr("class").get(),null,{ fileName : "TestAccessClassed.hx", lineNumber : 29, className : "thx.js.TestAccessClassed", methodName : "testAddRemove"});
+	this.sel.classed().remove("item-1");
+	utest.Assert.isFalse(this.sel.classed().exists("item-1"),null,{ fileName : "TestAccessClassed.hx", lineNumber : 32, className : "thx.js.TestAccessClassed", methodName : "testAddRemove"});
+	utest.Assert.equals("something",this.sel.attr("class").get(),null,{ fileName : "TestAccessClassed.hx", lineNumber : 34, className : "thx.js.TestAccessClassed", methodName : "testAddRemove"});
+	$s.pop();
+}
+thx.js.TestAccessClassed.prototype.__class__ = thx.js.TestAccessClassed;
 thx.util.Results = function() { }
 thx.util.Results.__name__ = ["thx","util","Results"];
 thx.util.Results.toString = function(value,glue) {
@@ -24950,9 +25007,10 @@ haxe.Timer = function(time_ms) {
 	if( time_ms === $_ ) return;
 	$s.push("haxe.Timer::new");
 	var $spos = $s.length;
-	this.id = haxe.Timer.arr.length;
-	haxe.Timer.arr[this.id] = this;
-	this.timerId = window.setInterval("haxe.Timer.arr[" + this.id + "].run();",time_ms);
+	var arr = haxe_timers;
+	this.id = arr.length;
+	arr[this.id] = this;
+	this.timerId = window.setInterval("haxe_timers[" + this.id + "].run();",time_ms);
 	$s.pop();
 }
 haxe.Timer.__name__ = ["haxe","Timer"];
@@ -24961,7 +25019,7 @@ haxe.Timer.delay = function(f,time_ms) {
 	var $spos = $s.length;
 	var t = new haxe.Timer(time_ms);
 	t.run = function() {
-		$s.push("haxe.Timer::delay@78");
+		$s.push("haxe.Timer::delay@79");
 		var $spos = $s.length;
 		t.stop();
 		f();
@@ -24999,11 +25057,12 @@ haxe.Timer.prototype.stop = function() {
 		return;
 	}
 	window.clearInterval(this.timerId);
-	haxe.Timer.arr[this.id] = null;
-	if(this.id > 100 && this.id == haxe.Timer.arr.length - 1) {
+	var arr = haxe_timers;
+	arr[this.id] = null;
+	if(this.id > 100 && this.id == arr.length - 1) {
 		var p = this.id - 1;
-		while(p >= 0 && haxe.Timer.arr[p] == null) p--;
-		haxe.Timer.arr = haxe.Timer.arr.slice(0,p + 1);
+		while(p >= 0 && arr[p] == null) p--;
+		arr = arr.slice(0,p + 1);
 	}
 	this.id = null;
 	$s.pop();
@@ -27152,6 +27211,7 @@ window.Sizzle = Sizzle;
 	thx.js.Sizzle = s;
 	thx.js.Sizzle.select = s;
 }
+if(typeof(haxe_timers) == "undefined") haxe_timers = [];
 thx.svg.TestAll._renumber = new EReg("([+-]?\\d+(\\.\\d+)?(e-?\\d+)?)","");
 thx.csv.TestCsv.s = "Year,Make,Model,Description,Price\n1997,Ford,E350,\"ac, abs, moon\",3000.99\n1999,Chevy,\"Venture \"\"Extended Edition\"\"\",,4900.99\n1999,Chevy,\"Venture \"\"Extended Edition, Very Large\"\"\",,5000.99\n1996,Jeep,Grand Cherokee,\"MUST SELL!\nair, moon roof, loaded\",4799.99";
 thx.csv.TestCsv.v = [["Year","Make","Model","Description","Price"],[1997,"Ford","E350","ac, abs, moon",3000.99],[1999,"Chevy","Venture \"Extended Edition\"","",4900.99],[1999,"Chevy","Venture \"Extended Edition, Very Large\"","",5000.99],[1996,"Jeep","Grand Cherokee","MUST SELL!\nair, moon roof, loaded",4799.99]];
@@ -27316,5 +27376,4 @@ thx.svg.LineInternals._lineBasisBezier2 = [0,1 / 3,2 / 3,0];
 thx.svg.LineInternals._lineBasisBezier3 = [0,1 / 6,2 / 3,1 / 6];
 Objects._reCheckKeyIsColor = new EReg("color\\b|\\bbackground\\b|\\bstroke\\b|\\bfill\\b","");
 thx.color.Colors._reParse = new EReg("^\\s*(?:(hsl|rgb|rgba|cmyk)\\(([^)]+)\\))|(?:(?:0x|#)([a-f0-9]{3,6}))\\s*$","i");
-haxe.Timer.arr = new Array();
 TestAll.main()

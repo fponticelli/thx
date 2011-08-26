@@ -15,6 +15,7 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
+		runner.addCase(new TestAccessClassed());
 		runner.addCase(new TestDom());
 		runner.addCase(new TestSizzle());
 		runner.addCase(new TestSelection());

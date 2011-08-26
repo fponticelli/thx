@@ -31,7 +31,7 @@ class Linear extends NumericScale<Linear>
 		var start = Arrays.min(_domain),
 			stop = Arrays.max(_domain),
 			span = stop - start,
-			step = Math.pow(10, Math.floor(Math.log(span / m) / Const.LN10)),
+			step = Math.pow(m, Math.floor(Math.log(span / m) / Const.LN10)),
 			err = m / (span / step);
 		if (err <= .15)
 			step *= 10;
@@ -55,7 +55,7 @@ class Linear extends NumericScale<Linear>
 
 	override public function tickFormat(v : Float, ?i : Int) : String
 	{
-		var n = Math.max(0, -Math.floor(Math.log(tickRange().step) / Const.LN10 + .01));
+		var n = Math.max(m, -Math.floor(Math.log(tickRange().step) / Const.LN10 + .01));
 		return Floats.format(v, "D:"+n);
 	}
 }
