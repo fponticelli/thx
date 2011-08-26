@@ -133,6 +133,27 @@ class Objects
 		return cast dst;
 	}
 	
+	public static function mergef(ob : {}, new_ob : {}, f : String->{}->{}->{}) : Void
+		{
+	/*		if (!Types.isAnonymous(ob)) return;*/
+			for (field in Reflect.fields(new_ob)){
+				var new_val = Reflect.field(new_ob, field);
+				if (Reflect.hasField(ob, field)){
+					var old_val = Reflect.field(ob, field);
+					Reflect.setField(ob, field, f(field, old_val, new_val));
+				} else{
+					Reflect.setField(ob, field, new_val);
+				}
+			}
+
+		}
+
+
+	public static function merge(ob : {}, new_ob : {} ) : Void
+		{
+			mergef(ob, new_ob, function(key, old_v, new_v) return new_v );
+		}
+	
 	static function _flatten(src : { }, cum : { fields : Array<String>, value : Dynamic }, arr : Array<{ fields : Array<String>, value : Dynamic }>, levels : Int, level : Int)
 	{
 		for (field in Reflect.fields(src))

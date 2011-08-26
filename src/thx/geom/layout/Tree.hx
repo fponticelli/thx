@@ -14,7 +14,7 @@ class Tree<T> extends AbstractTree<T,Tree<T>>{
 	public function new(){
 		super();
 	}
-	// Returns an array source+target objects for the specified nodes.
+	// Returns an array of source+target objects for the specified nodes.
 	public static function treeLinks<T>(nodes:Array<TreeNode<T>>) : Array<SourceTarget<TreeNode<T>>> {
 		
 		return Arrays.flatten(nodes.map( function(parent,_) {
