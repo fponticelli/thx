@@ -4,7 +4,7 @@
  */
 
 package thx.ini;
-import thx.collections.Set;
+import thx.collection.Set;
 import thx.data.IDataHandler;
 import thx.error.Error;
 

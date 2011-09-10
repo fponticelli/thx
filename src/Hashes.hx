@@ -4,7 +4,7 @@
  */
 
 import DynamicsT;
-import thx.collections.Set;
+import thx.collection.Set;
 
 class Hashes
 {
@@ -68,7 +68,7 @@ class Hashes
 			var new_val = new_hash.get(k);
 			if (hash.exists(k)){
 				var old_val = hash.get(k);
-				hash.set(k, f(field, old_val, new_val));
+				hash.set(k, f(k, old_val, new_val));
 			} else{
 				hash.set(k,new_val);
 			}
@@ -77,7 +77,7 @@ class Hashes
 	
 	public static function merge<T>(hash : Hash<T> , new_hash : Hash<T>)
 	{
-		mergef(hash,new_hash, function(key, old_v,new_v) return new_v;);
+		mergef(hash,new_hash, function(key, old_v,new_v) return new_v);
 	}
 	
 	public static function clear(hash : Hash<Dynamic>)

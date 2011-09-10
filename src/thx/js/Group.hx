@@ -13,6 +13,7 @@ using Arrays;
 
 class Group
 {
+	public static var current : HtmlDom;
 	public var parentNode : HtmlDom;
 
 	var nodes : Array<HtmlDom>;
@@ -23,7 +24,7 @@ class Group
 	{
 		for (i in 0...nodes.length)
 			if (null != nodes[i])
-				f(nodes[i], i);
+				f(current = nodes[i], i);
 	}
 
 	inline public function iterator() return nodes.iterator()

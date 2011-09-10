@@ -1,5 +1,5 @@
 package thx.doc.markdown;
-import thx.collections.HashList;
+import thx.collection.HashList;
 import thx.doc.common.DocWriter;
 import thx.doc.Document;
 import thx.doc.HtmlDoc;

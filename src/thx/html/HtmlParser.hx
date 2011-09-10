@@ -8,7 +8,7 @@
 *
 */
 package thx.html;
-import thx.collections.Set;
+import thx.collection.Set;
 import thx.html.HtmlHandler;
 import thx.error.NullArgument;
 

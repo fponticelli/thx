@@ -1,5 +1,89 @@
 $estr = function() { return js.Boot.__string_rec(this,''); }
 if(typeof thx=='undefined') thx = {}
+if(!thx.collection) thx.collection = {}
+thx.collection.Set = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.collection.Set::new");
+	var $spos = $s.length;
+	this._v = [];
+	this.length = 0;
+	$s.pop();
+}
+thx.collection.Set.__name__ = ["thx","collection","Set"];
+thx.collection.Set.ofArray = function(arr) {
+	$s.push("thx.collection.Set::ofArray");
+	var $spos = $s.length;
+	var set = new thx.collection.Set();
+	var _g = 0;
+	while(_g < arr.length) {
+		var item = arr[_g];
+		++_g;
+		set.add(item);
+	}
+	$s.pop();
+	return set;
+	$s.pop();
+}
+thx.collection.Set.prototype.length = null;
+thx.collection.Set.prototype._v = null;
+thx.collection.Set.prototype.add = function(v) {
+	$s.push("thx.collection.Set::add");
+	var $spos = $s.length;
+	this._v.remove(v);
+	this._v.push(v);
+	this.length = this._v.length;
+	$s.pop();
+}
+thx.collection.Set.prototype.remove = function(v) {
+	$s.push("thx.collection.Set::remove");
+	var $spos = $s.length;
+	var t = this._v.remove(v);
+	this.length = this._v.length;
+	$s.pop();
+	return t;
+	$s.pop();
+}
+thx.collection.Set.prototype.exists = function(v) {
+	$s.push("thx.collection.Set::exists");
+	var $spos = $s.length;
+	var _g = 0, _g1 = this._v;
+	while(_g < _g1.length) {
+		var t = _g1[_g];
+		++_g;
+		if(t == v) {
+			$s.pop();
+			return true;
+		}
+	}
+	$s.pop();
+	return false;
+	$s.pop();
+}
+thx.collection.Set.prototype.iterator = function() {
+	$s.push("thx.collection.Set::iterator");
+	var $spos = $s.length;
+	var $tmp = this._v.iterator();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collection.Set.prototype.array = function() {
+	$s.push("thx.collection.Set::array");
+	var $spos = $s.length;
+	var $tmp = this._v.copy();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collection.Set.prototype.toString = function() {
+	$s.push("thx.collection.Set::toString");
+	var $spos = $s.length;
+	var $tmp = "{" + this._v.join(", ") + "}";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collection.Set.prototype.__class__ = thx.collection.Set;
 if(!thx.util) thx.util = {}
 thx.util.Message = function(message,params,param) {
 	if( message === $_ ) return;
@@ -412,6 +496,11 @@ utest.ui.Report.create = function(runner,displaySuccessResults,headerDisplayMode
 	$s.pop();
 }
 utest.ui.Report.prototype.__class__ = utest.ui.Report;
+if(typeof haxe=='undefined') haxe = {}
+if(!haxe.macro) haxe.macro = {}
+haxe.macro.Context = function() { }
+haxe.macro.Context.__name__ = ["haxe","macro","Context"];
+haxe.macro.Context.prototype.__class__ = haxe.macro.Context;
 if(!thx.xml) thx.xml = {}
 thx.xml.DocumentFormat = function(p) {
 	if( p === $_ ) return;
@@ -2296,6 +2385,128 @@ utest.ui.common.ResultAggregator.prototype.complete = function(runner) {
 	$s.pop();
 }
 utest.ui.common.ResultAggregator.prototype.__class__ = utest.ui.common.ResultAggregator;
+if(!thx.geo) thx.geo = {}
+thx.geo.IProjection = function() { }
+thx.geo.IProjection.__name__ = ["thx","geo","IProjection"];
+thx.geo.IProjection.prototype.project = null;
+thx.geo.IProjection.prototype.invert = null;
+thx.geo.IProjection.prototype.__class__ = thx.geo.IProjection;
+thx.geo.Albers = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.geo.Albers::new");
+	var $spos = $s.length;
+	this.setOrigin([-98.0,38]);
+	this.setParallels([29.5,45.5]);
+	this.setScale(1000);
+	this.setTranslate([480.0,250]);
+	this.reload();
+	$s.pop();
+}
+thx.geo.Albers.__name__ = ["thx","geo","Albers"];
+thx.geo.Albers.prototype.origin = null;
+thx.geo.Albers.prototype.parallels = null;
+thx.geo.Albers.prototype.translate = null;
+thx.geo.Albers.prototype.scale = null;
+thx.geo.Albers.prototype.lng0 = null;
+thx.geo.Albers.prototype.n = null;
+thx.geo.Albers.prototype.C = null;
+thx.geo.Albers.prototype.p0 = null;
+thx.geo.Albers.prototype.project = function(coords) {
+	$s.push("thx.geo.Albers::project");
+	var $spos = $s.length;
+	var t = this.n * (0.01745329251994329577 * coords[0] - this.lng0), p = Math.sqrt(this.C - 2 * this.n * Math.sin(0.01745329251994329577 * coords[1])) / this.n;
+	var $tmp = [this.getScale() * p * Math.sin(t) + this.getTranslate()[0],this.getScale() * (p * Math.cos(t) - this.p0) + this.getTranslate()[1]];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Albers.prototype.invert = function(coords) {
+	$s.push("thx.geo.Albers::invert");
+	var $spos = $s.length;
+	var x = (coords[0] - this.getTranslate()[0]) / this.getScale(), y = (coords[1] - this.getTranslate()[1]) / this.getScale(), p0y = this.p0 + y, t = Math.atan2(x,p0y), p = Math.sqrt(x * x + p0y * p0y);
+	var $tmp = [(this.lng0 + t / this.n) / 0.01745329251994329577,Math.asin((this.C - p * p * this.n * this.n) / (2 * this.n)) / 0.01745329251994329577];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Albers.prototype.getOrigin = function() {
+	$s.push("thx.geo.Albers::getOrigin");
+	var $spos = $s.length;
+	var $tmp = this.origin.copy();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Albers.prototype.setOrigin = function(origin) {
+	$s.push("thx.geo.Albers::setOrigin");
+	var $spos = $s.length;
+	this.origin = [origin[0],origin[1]];
+	$s.pop();
+	return origin;
+	$s.pop();
+}
+thx.geo.Albers.prototype.getParallels = function() {
+	$s.push("thx.geo.Albers::getParallels");
+	var $spos = $s.length;
+	var $tmp = this.parallels.copy();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Albers.prototype.setParallels = function(parallels) {
+	$s.push("thx.geo.Albers::setParallels");
+	var $spos = $s.length;
+	this.parallels = [parallels[0],parallels[1]];
+	$s.pop();
+	return parallels;
+	$s.pop();
+}
+thx.geo.Albers.prototype.getTranslate = function() {
+	$s.push("thx.geo.Albers::getTranslate");
+	var $spos = $s.length;
+	var $tmp = this.translate.copy();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Albers.prototype.setTranslate = function(translate) {
+	$s.push("thx.geo.Albers::setTranslate");
+	var $spos = $s.length;
+	this.translate = [translate[0],translate[1]];
+	$s.pop();
+	return translate;
+	$s.pop();
+}
+thx.geo.Albers.prototype.reload = function() {
+	$s.push("thx.geo.Albers::reload");
+	var $spos = $s.length;
+	var phi1 = 0.01745329251994329577 * this.getParallels()[0], phi2 = 0.01745329251994329577 * this.getParallels()[1], lat0 = 0.01745329251994329577 * this.getOrigin()[1], s = Math.sin(phi1), c = Math.cos(phi1);
+	this.lng0 = 0.01745329251994329577 * this.getOrigin()[0];
+	this.n = .5 * (s + Math.sin(phi2));
+	this.C = c * c + 2 * this.n * s;
+	this.p0 = Math.sqrt(this.C - 2 * this.n * Math.sin(lat0)) / this.n;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.geo.Albers.prototype.setScale = function(scale) {
+	$s.push("thx.geo.Albers::setScale");
+	var $spos = $s.length;
+	var $tmp = this.scale = scale;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Albers.prototype.getScale = function() {
+	$s.push("thx.geo.Albers::getScale");
+	var $spos = $s.length;
+	var $tmp = this.scale;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Albers.prototype.__class__ = thx.geo.Albers;
+thx.geo.Albers.__interfaces__ = [thx.geo.IProjection];
 Dates = function() { }
 Dates.__name__ = ["Dates"];
 Dates.format = function(d,param,params,culture) {
@@ -2872,44 +3083,6 @@ thx.cultures.ItIT.getCulture = function() {
 	$s.pop();
 }
 thx.cultures.ItIT.prototype.__class__ = thx.cultures.ItIT;
-if(!thx.doc) thx.doc = {}
-thx.doc.TestAll = function(p) {
-	$s.push("thx.doc.TestAll::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.doc.TestAll.__name__ = ["thx","doc","TestAll"];
-thx.doc.TestAll.addTests = function(runner) {
-	$s.push("thx.doc.TestAll::addTests");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.doc.TestAll.main = function() {
-	$s.push("thx.doc.TestAll::main");
-	var $spos = $s.length;
-	var runner = new utest.Runner();
-	thx.doc.TestAll.addTests(runner);
-	utest.ui.Report.create(runner);
-	runner.run();
-	$s.pop();
-}
-thx.doc.TestAll.prototype.p = function(s) {
-	$s.push("thx.doc.TestAll::p");
-	var $spos = $s.length;
-	var $tmp = thx.doc.Fragment.Paragraph([this.t(s)]);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.doc.TestAll.prototype.t = function(s) {
-	$s.push("thx.doc.TestAll::t");
-	var $spos = $s.length;
-	var $tmp = thx.doc.Fragment.Text(s);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.doc.TestAll.prototype.__class__ = thx.doc.TestAll;
 thx.js.AccessProperty = function(name,selection) {
 	if( name === $_ ) return;
 	$s.push("thx.js.AccessProperty::new");
@@ -3766,6 +3939,7 @@ thx.js.Group = function(nodes) {
 	$s.pop();
 }
 thx.js.Group.__name__ = ["thx","js","Group"];
+thx.js.Group.current = null;
 thx.js.Group.prototype.parentNode = null;
 thx.js.Group.prototype.nodes = null;
 thx.js.Group.prototype.each = function(f) {
@@ -3774,7 +3948,7 @@ thx.js.Group.prototype.each = function(f) {
 	var _g1 = 0, _g = this.nodes.length;
 	while(_g1 < _g) {
 		var i = _g1++;
-		if(null != this.nodes[i]) f(this.nodes[i],i);
+		if(null != this.nodes[i]) f(thx.js.Group.current = this.nodes[i],i);
 	}
 	$s.pop();
 }
@@ -3915,7 +4089,7 @@ thx.js.BaseSelection.prototype.select = function(selector) {
 	$s.push("thx.js.BaseSelection::select");
 	var $spos = $s.length;
 	var $tmp = this._select(function(el) {
-		$s.push("thx.js.BaseSelection::select@361");
+		$s.push("thx.js.BaseSelection::select@364");
 		var $spos = $s.length;
 		var $tmp = thx.js.Dom.selectionEngine.select(selector,el);
 		$s.pop();
@@ -3930,7 +4104,7 @@ thx.js.BaseSelection.prototype.selectAll = function(selector) {
 	$s.push("thx.js.BaseSelection::selectAll");
 	var $spos = $s.length;
 	var $tmp = this._selectAll(function(el) {
-		$s.push("thx.js.BaseSelection::selectAll@368");
+		$s.push("thx.js.BaseSelection::selectAll@371");
 		var $spos = $s.length;
 		var $tmp = thx.js.Dom.selectionEngine.selectAll(selector,el);
 		$s.pop();
@@ -3954,7 +4128,7 @@ thx.js.BaseSelection.prototype.append = function(name) {
 	var $spos = $s.length;
 	var qname = thx.xml.Namespace.qualify(name);
 	var append = function(node) {
-		$s.push("thx.js.BaseSelection::append@379");
+		$s.push("thx.js.BaseSelection::append@382");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name);
 		node.appendChild(n);
@@ -3963,7 +4137,7 @@ thx.js.BaseSelection.prototype.append = function(name) {
 		$s.pop();
 	};
 	var appendNS = function(node) {
-		$s.push("thx.js.BaseSelection::append@386");
+		$s.push("thx.js.BaseSelection::append@389");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNS(qname.space,qname.local);
 		node.appendChild(n);
@@ -3980,7 +4154,7 @@ thx.js.BaseSelection.prototype.remove = function() {
 	$s.push("thx.js.BaseSelection::remove");
 	var $spos = $s.length;
 	var $tmp = this.eachNode(function(node,i) {
-		$s.push("thx.js.BaseSelection::remove@398");
+		$s.push("thx.js.BaseSelection::remove@401");
 		var $spos = $s.length;
 		var parent = node.parentNode;
 		if(null != parent) parent.removeChild(node);
@@ -4009,7 +4183,7 @@ thx.js.BaseSelection.prototype.insert = function(name,before,beforeSelector) {
 	var $spos = $s.length;
 	var qname = thx.xml.Namespace.qualify(name);
 	var insertDom = function(node) {
-		$s.push("thx.js.BaseSelection::insert@415");
+		$s.push("thx.js.BaseSelection::insert@418");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name);
 		node.insertBefore(n,null != before?before:thx.js.Dom.select(beforeSelector).node());
@@ -4018,7 +4192,7 @@ thx.js.BaseSelection.prototype.insert = function(name,before,beforeSelector) {
 		$s.pop();
 	};
 	var insertNsDom = function(node) {
-		$s.push("thx.js.BaseSelection::insert@421");
+		$s.push("thx.js.BaseSelection::insert@424");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNS(qname.space,qname.local);
 		node.insertBefore(n,null != before?before:thx.js.Dom.select(beforeSelector).node());
@@ -4081,7 +4255,7 @@ thx.js.BaseSelection.prototype.node = function() {
 	$s.push("thx.js.BaseSelection::node");
 	var $spos = $s.length;
 	var $tmp = this.firstNode(function(n) {
-		$s.push("thx.js.BaseSelection::node@465");
+		$s.push("thx.js.BaseSelection::node@468");
 		var $spos = $s.length;
 		$s.pop();
 		return n;
@@ -4095,7 +4269,7 @@ thx.js.BaseSelection.prototype.empty = function() {
 	$s.push("thx.js.BaseSelection::empty");
 	var $spos = $s.length;
 	var $tmp = null == this.firstNode(function(n) {
-		$s.push("thx.js.BaseSelection::empty@470");
+		$s.push("thx.js.BaseSelection::empty@473");
 		var $spos = $s.length;
 		$s.pop();
 		return n;
@@ -4134,10 +4308,10 @@ thx.js.BaseSelection.prototype.onNode = function(type,listener,capture) {
 	if(capture == null) capture = false;
 	var i = type.indexOf("."), typo = i < 0?type:type.substr(0,i);
 	var $tmp = this.eachNode(function(n,i1) {
-		$s.push("thx.js.BaseSelection::onNode@500");
+		$s.push("thx.js.BaseSelection::onNode@503");
 		var $spos = $s.length;
 		var l = function(e) {
-			$s.push("thx.js.BaseSelection::onNode@500@501");
+			$s.push("thx.js.BaseSelection::onNode@503@504");
 			var $spos = $s.length;
 			var o = thx.js.Dom.event;
 			thx.js.Dom.event = e;
@@ -4170,7 +4344,7 @@ thx.js.BaseSelection.prototype.createSelection = function(groups) {
 	var $spos = $s.length;
 	var $tmp = (function($this) {
 		var $r;
-		throw new thx.error.AbstractMethod({ fileName : "Selection.hx", lineNumber : 526, className : "thx.js.BaseSelection", methodName : "createSelection"});
+		throw new thx.error.AbstractMethod({ fileName : "Selection.hx", lineNumber : 529, className : "thx.js.BaseSelection", methodName : "createSelection"});
 		return $r;
 	}(this));
 	$s.pop();
@@ -4335,10 +4509,19 @@ thx.js.Selection = function(groups) {
 thx.js.Selection.__name__ = ["thx","js","Selection"];
 thx.js.Selection.__super__ = thx.js.UnboundSelection;
 for(var k in thx.js.UnboundSelection.prototype ) thx.js.Selection.prototype[k] = thx.js.UnboundSelection.prototype[k];
+thx.js.Selection.current = null;
 thx.js.Selection.create = function(groups) {
 	$s.push("thx.js.Selection::create");
 	var $spos = $s.length;
 	var $tmp = new thx.js.Selection(groups);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.Selection.getCurrent = function() {
+	$s.push("thx.js.Selection::getCurrent");
+	var $spos = $s.length;
+	var $tmp = thx.js.Dom.selectNode(thx.js.Group.current);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -6015,6 +6198,9 @@ thx.math.scale.TestPow.prototype.testSqrtDomain12 = function() {
 	$s.pop();
 }
 thx.math.scale.TestPow.prototype.__class__ = thx.math.scale.TestPow;
+thx.util.Imports = function() { }
+thx.util.Imports.__name__ = ["thx","util","Imports"];
+thx.util.Imports.prototype.__class__ = thx.util.Imports;
 thx.cultures.EnUS = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.cultures.EnUS::new");
@@ -6657,6 +6843,105 @@ thx.color.TestHsl.prototype.testBasics = function() {
 	$s.pop();
 }
 thx.color.TestHsl.prototype.__class__ = thx.color.TestHsl;
+thx.svg.Diagonal = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.svg.Diagonal::new");
+	var $spos = $s.length;
+	this._projection = thx.svg.Diagonal.diagonalProjection;
+	$s.pop();
+}
+thx.svg.Diagonal.__name__ = ["thx","svg","Diagonal"];
+thx.svg.Diagonal.diagonalProjection = function(d,_) {
+	$s.push("thx.svg.Diagonal::diagonalProjection");
+	var $spos = $s.length;
+	$s.pop();
+	return d;
+	$s.pop();
+}
+thx.svg.Diagonal.forObject = function() {
+	$s.push("thx.svg.Diagonal::forObject");
+	var $spos = $s.length;
+	var $tmp = new thx.svg.Diagonal().sourcef(function(d,_i) {
+		$s.push("thx.svg.Diagonal::forObject@54");
+		var $spos = $s.length;
+		var $tmp = [d.x0,d.y0];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}).targetf(function(d,_i) {
+		$s.push("thx.svg.Diagonal::forObject@55");
+		var $spos = $s.length;
+		var $tmp = [d.x1,d.y1];
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	});
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Diagonal.prototype._source = null;
+thx.svg.Diagonal.prototype._target = null;
+thx.svg.Diagonal.prototype._projection = null;
+thx.svg.Diagonal.prototype.diagonal = function(d,i) {
+	$s.push("thx.svg.Diagonal::diagonal");
+	var $spos = $s.length;
+	var p0 = this._source(d,i), p3 = this._target(d,i), m = (p0[1] + p3[1]) / 2, p = [p0,[p0[0],m],[p3[0],m],p3];
+	var p2 = p.map(this._projection);
+	var $tmp = "M" + p2[0][0] + "," + p2[0][1] + "C" + p2[1][0] + "," + p2[1][1] + " " + p2[2][0] + "," + p2[2][1] + " " + p2[3][0] + "," + p2[3][1];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Diagonal.prototype.getSource = function() {
+	$s.push("thx.svg.Diagonal::getSource");
+	var $spos = $s.length;
+	var $tmp = this._source;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Diagonal.prototype.sourcef = function(x) {
+	$s.push("thx.svg.Diagonal::sourcef");
+	var $spos = $s.length;
+	this._source = x;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.svg.Diagonal.prototype.getTarget = function() {
+	$s.push("thx.svg.Diagonal::getTarget");
+	var $spos = $s.length;
+	var $tmp = this._target;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Diagonal.prototype.targetf = function(x) {
+	$s.push("thx.svg.Diagonal::targetf");
+	var $spos = $s.length;
+	this._target = x;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.svg.Diagonal.prototype.getProjection = function() {
+	$s.push("thx.svg.Diagonal::getProjection");
+	var $spos = $s.length;
+	var $tmp = this._projection;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Diagonal.prototype.projection = function(x) {
+	$s.push("thx.svg.Diagonal::projection");
+	var $spos = $s.length;
+	this._projection = x;
+	$s.pop();
+	return this;
+	$s.pop();
+}
+thx.svg.Diagonal.prototype.__class__ = thx.svg.Diagonal;
 thx.js.Svg = function() { }
 thx.js.Svg.__name__ = ["thx","js","Svg"];
 thx.js.Svg.mouse = function(dom) {
@@ -6855,7 +7140,6 @@ thx.validation.OptionValidator.prototype.validate = function(value) {
 	$s.pop();
 }
 thx.validation.OptionValidator.prototype.__class__ = thx.validation.OptionValidator;
-if(typeof haxe=='undefined') haxe = {}
 if(!haxe.io) haxe.io = {}
 haxe.io.Bytes = function(length,b) {
 	if( length === $_ ) return;
@@ -7052,6 +7336,27 @@ haxe.io.Bytes.prototype.__class__ = haxe.io.Bytes;
 thx.math.Const = function() { }
 thx.math.Const.__name__ = ["thx","math","Const"];
 thx.math.Const.prototype.__class__ = thx.math.Const;
+thx.collection.TestAll = function(p) {
+	$s.push("thx.collection.TestAll::new");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.collection.TestAll.__name__ = ["thx","collection","TestAll"];
+thx.collection.TestAll.addTests = function(runner) {
+	$s.push("thx.collection.TestAll::addTests");
+	var $spos = $s.length;
+	$s.pop();
+}
+thx.collection.TestAll.main = function() {
+	$s.push("thx.collection.TestAll::main");
+	var $spos = $s.length;
+	var runner = new utest.Runner();
+	thx.collection.TestAll.addTests(runner);
+	utest.ui.Report.create(runner);
+	runner.run();
+	$s.pop();
+}
+thx.collection.TestAll.prototype.__class__ = thx.collection.TestAll;
 thx.xml.TestXmlWriter = function(p) {
 	$s.push("thx.xml.TestXmlWriter::new");
 	var $spos = $s.length;
@@ -7437,11 +7742,12 @@ Floats.uninterpolateClampf = function(a,b) {
 	return $tmp;
 	$s.pop();
 }
-Floats.round = function(x,n) {
+Floats.round = function(number,precision) {
 	$s.push("Floats::round");
 	var $spos = $s.length;
-	if(n == null) n = 2;
-	var $tmp = n != 0?Math.round(x * Math.pow(10,n)) * Math.pow(10,-n):Math.round(x);
+	if(precision == null) precision = 2;
+	number *= Math.pow(10,precision);
+	var $tmp = Math.round(number) / Math.pow(10,precision);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -7716,28 +8022,6 @@ thx.validation.TestStringLength.prototype.testValidation = function() {
 	$s.pop();
 }
 thx.validation.TestStringLength.prototype.__class__ = thx.validation.TestStringLength;
-if(!thx.collections) thx.collections = {}
-thx.collections.TestAll = function(p) {
-	$s.push("thx.collections.TestAll::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.collections.TestAll.__name__ = ["thx","collections","TestAll"];
-thx.collections.TestAll.addTests = function(runner) {
-	$s.push("thx.collections.TestAll::addTests");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.collections.TestAll.main = function() {
-	$s.push("thx.collections.TestAll::main");
-	var $spos = $s.length;
-	var runner = new utest.Runner();
-	thx.collections.TestAll.addTests(runner);
-	utest.ui.Report.create(runner);
-	runner.run();
-	$s.pop();
-}
-thx.collections.TestAll.prototype.__class__ = thx.collections.TestAll;
 thx.util.TestAll = function() { }
 thx.util.TestAll.__name__ = ["thx","util","TestAll"];
 thx.util.TestAll.addTests = function(runner) {
@@ -7935,6 +8219,171 @@ thx.culture.core.NumberInfo.prototype.groupsSeparator = null;
 thx.culture.core.NumberInfo.prototype.patternNegative = null;
 thx.culture.core.NumberInfo.prototype.patternPositive = null;
 thx.culture.core.NumberInfo.prototype.__class__ = thx.culture.core.NumberInfo;
+haxe.macro.Constant = { __ename__ : ["haxe","macro","Constant"], __constructs__ : ["CInt","CFloat","CString","CIdent","CType","CRegexp"] }
+haxe.macro.Constant.CInt = function(v) { var $x = ["CInt",0,v]; $x.__enum__ = haxe.macro.Constant; $x.toString = $estr; return $x; }
+haxe.macro.Constant.CFloat = function(f) { var $x = ["CFloat",1,f]; $x.__enum__ = haxe.macro.Constant; $x.toString = $estr; return $x; }
+haxe.macro.Constant.CString = function(s) { var $x = ["CString",2,s]; $x.__enum__ = haxe.macro.Constant; $x.toString = $estr; return $x; }
+haxe.macro.Constant.CIdent = function(s) { var $x = ["CIdent",3,s]; $x.__enum__ = haxe.macro.Constant; $x.toString = $estr; return $x; }
+haxe.macro.Constant.CType = function(s) { var $x = ["CType",4,s]; $x.__enum__ = haxe.macro.Constant; $x.toString = $estr; return $x; }
+haxe.macro.Constant.CRegexp = function(r,opt) { var $x = ["CRegexp",5,r,opt]; $x.__enum__ = haxe.macro.Constant; $x.toString = $estr; return $x; }
+haxe.macro.Binop = { __ename__ : ["haxe","macro","Binop"], __constructs__ : ["OpAdd","OpMult","OpDiv","OpSub","OpAssign","OpEq","OpNotEq","OpGt","OpGte","OpLt","OpLte","OpAnd","OpOr","OpXor","OpBoolAnd","OpBoolOr","OpShl","OpShr","OpUShr","OpMod","OpAssignOp","OpInterval"] }
+haxe.macro.Binop.OpAdd = ["OpAdd",0];
+haxe.macro.Binop.OpAdd.toString = $estr;
+haxe.macro.Binop.OpAdd.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpMult = ["OpMult",1];
+haxe.macro.Binop.OpMult.toString = $estr;
+haxe.macro.Binop.OpMult.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpDiv = ["OpDiv",2];
+haxe.macro.Binop.OpDiv.toString = $estr;
+haxe.macro.Binop.OpDiv.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpSub = ["OpSub",3];
+haxe.macro.Binop.OpSub.toString = $estr;
+haxe.macro.Binop.OpSub.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpAssign = ["OpAssign",4];
+haxe.macro.Binop.OpAssign.toString = $estr;
+haxe.macro.Binop.OpAssign.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpEq = ["OpEq",5];
+haxe.macro.Binop.OpEq.toString = $estr;
+haxe.macro.Binop.OpEq.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpNotEq = ["OpNotEq",6];
+haxe.macro.Binop.OpNotEq.toString = $estr;
+haxe.macro.Binop.OpNotEq.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpGt = ["OpGt",7];
+haxe.macro.Binop.OpGt.toString = $estr;
+haxe.macro.Binop.OpGt.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpGte = ["OpGte",8];
+haxe.macro.Binop.OpGte.toString = $estr;
+haxe.macro.Binop.OpGte.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpLt = ["OpLt",9];
+haxe.macro.Binop.OpLt.toString = $estr;
+haxe.macro.Binop.OpLt.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpLte = ["OpLte",10];
+haxe.macro.Binop.OpLte.toString = $estr;
+haxe.macro.Binop.OpLte.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpAnd = ["OpAnd",11];
+haxe.macro.Binop.OpAnd.toString = $estr;
+haxe.macro.Binop.OpAnd.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpOr = ["OpOr",12];
+haxe.macro.Binop.OpOr.toString = $estr;
+haxe.macro.Binop.OpOr.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpXor = ["OpXor",13];
+haxe.macro.Binop.OpXor.toString = $estr;
+haxe.macro.Binop.OpXor.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpBoolAnd = ["OpBoolAnd",14];
+haxe.macro.Binop.OpBoolAnd.toString = $estr;
+haxe.macro.Binop.OpBoolAnd.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpBoolOr = ["OpBoolOr",15];
+haxe.macro.Binop.OpBoolOr.toString = $estr;
+haxe.macro.Binop.OpBoolOr.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpShl = ["OpShl",16];
+haxe.macro.Binop.OpShl.toString = $estr;
+haxe.macro.Binop.OpShl.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpShr = ["OpShr",17];
+haxe.macro.Binop.OpShr.toString = $estr;
+haxe.macro.Binop.OpShr.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpUShr = ["OpUShr",18];
+haxe.macro.Binop.OpUShr.toString = $estr;
+haxe.macro.Binop.OpUShr.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpMod = ["OpMod",19];
+haxe.macro.Binop.OpMod.toString = $estr;
+haxe.macro.Binop.OpMod.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpAssignOp = function(op) { var $x = ["OpAssignOp",20,op]; $x.__enum__ = haxe.macro.Binop; $x.toString = $estr; return $x; }
+haxe.macro.Binop.OpInterval = ["OpInterval",21];
+haxe.macro.Binop.OpInterval.toString = $estr;
+haxe.macro.Binop.OpInterval.__enum__ = haxe.macro.Binop;
+haxe.macro.Unop = { __ename__ : ["haxe","macro","Unop"], __constructs__ : ["OpIncrement","OpDecrement","OpNot","OpNeg","OpNegBits"] }
+haxe.macro.Unop.OpIncrement = ["OpIncrement",0];
+haxe.macro.Unop.OpIncrement.toString = $estr;
+haxe.macro.Unop.OpIncrement.__enum__ = haxe.macro.Unop;
+haxe.macro.Unop.OpDecrement = ["OpDecrement",1];
+haxe.macro.Unop.OpDecrement.toString = $estr;
+haxe.macro.Unop.OpDecrement.__enum__ = haxe.macro.Unop;
+haxe.macro.Unop.OpNot = ["OpNot",2];
+haxe.macro.Unop.OpNot.toString = $estr;
+haxe.macro.Unop.OpNot.__enum__ = haxe.macro.Unop;
+haxe.macro.Unop.OpNeg = ["OpNeg",3];
+haxe.macro.Unop.OpNeg.toString = $estr;
+haxe.macro.Unop.OpNeg.__enum__ = haxe.macro.Unop;
+haxe.macro.Unop.OpNegBits = ["OpNegBits",4];
+haxe.macro.Unop.OpNegBits.toString = $estr;
+haxe.macro.Unop.OpNegBits.__enum__ = haxe.macro.Unop;
+haxe.macro.ExprDef = { __ename__ : ["haxe","macro","ExprDef"], __constructs__ : ["EConst","EArray","EBinop","EField","EType","EParenthesis","EObjectDecl","EArrayDecl","ECall","ENew","EUnop","EVars","EFunction","EBlock","EFor","EIf","EWhile","ESwitch","ETry","EReturn","EBreak","EContinue","EUntyped","EThrow","ECast","EDisplay","EDisplayNew","ETernary"] }
+haxe.macro.ExprDef.EConst = function(c) { var $x = ["EConst",0,c]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EArray = function(e1,e2) { var $x = ["EArray",1,e1,e2]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EBinop = function(op,e1,e2) { var $x = ["EBinop",2,op,e1,e2]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EField = function(e,field) { var $x = ["EField",3,e,field]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EType = function(e,field) { var $x = ["EType",4,e,field]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EParenthesis = function(e) { var $x = ["EParenthesis",5,e]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EObjectDecl = function(fields) { var $x = ["EObjectDecl",6,fields]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EArrayDecl = function(values) { var $x = ["EArrayDecl",7,values]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.ECall = function(e,params) { var $x = ["ECall",8,e,params]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.ENew = function(t,params) { var $x = ["ENew",9,t,params]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EUnop = function(op,postFix,e) { var $x = ["EUnop",10,op,postFix,e]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EVars = function(vars) { var $x = ["EVars",11,vars]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EFunction = function(name,f) { var $x = ["EFunction",12,name,f]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EBlock = function(exprs) { var $x = ["EBlock",13,exprs]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EFor = function(v,it,expr) { var $x = ["EFor",14,v,it,expr]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EIf = function(econd,eif,eelse) { var $x = ["EIf",15,econd,eif,eelse]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EWhile = function(econd,e,normalWhile) { var $x = ["EWhile",16,econd,e,normalWhile]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.ESwitch = function(e,cases,edef) { var $x = ["ESwitch",17,e,cases,edef]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.ETry = function(e,catches) { var $x = ["ETry",18,e,catches]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EReturn = function(e) { var $x = ["EReturn",19,e]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EBreak = ["EBreak",20];
+haxe.macro.ExprDef.EBreak.toString = $estr;
+haxe.macro.ExprDef.EBreak.__enum__ = haxe.macro.ExprDef;
+haxe.macro.ExprDef.EContinue = ["EContinue",21];
+haxe.macro.ExprDef.EContinue.toString = $estr;
+haxe.macro.ExprDef.EContinue.__enum__ = haxe.macro.ExprDef;
+haxe.macro.ExprDef.EUntyped = function(e) { var $x = ["EUntyped",22,e]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EThrow = function(e) { var $x = ["EThrow",23,e]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.ECast = function(e,t) { var $x = ["ECast",24,e,t]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EDisplay = function(e,isCall) { var $x = ["EDisplay",25,e,isCall]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.EDisplayNew = function(t) { var $x = ["EDisplayNew",26,t]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.ETernary = function(econd,eif,eelse) { var $x = ["ETernary",27,econd,eif,eelse]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ComplexType = { __ename__ : ["haxe","macro","ComplexType"], __constructs__ : ["TPath","TFunction","TAnonymous","TParent","TExtend"] }
+haxe.macro.ComplexType.TPath = function(p) { var $x = ["TPath",0,p]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
+haxe.macro.ComplexType.TFunction = function(args,ret) { var $x = ["TFunction",1,args,ret]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
+haxe.macro.ComplexType.TAnonymous = function(fields) { var $x = ["TAnonymous",2,fields]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
+haxe.macro.ComplexType.TParent = function(t) { var $x = ["TParent",3,t]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
+haxe.macro.ComplexType.TExtend = function(p,fields) { var $x = ["TExtend",4,p,fields]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
+haxe.macro.TypeParam = { __ename__ : ["haxe","macro","TypeParam"], __constructs__ : ["TPType","TPExpr"] }
+haxe.macro.TypeParam.TPType = function(t) { var $x = ["TPType",0,t]; $x.__enum__ = haxe.macro.TypeParam; $x.toString = $estr; return $x; }
+haxe.macro.TypeParam.TPExpr = function(e) { var $x = ["TPExpr",1,e]; $x.__enum__ = haxe.macro.TypeParam; $x.toString = $estr; return $x; }
+haxe.macro.Access = { __ename__ : ["haxe","macro","Access"], __constructs__ : ["APublic","APrivate","AStatic","AOverride","ADynamic","AInline"] }
+haxe.macro.Access.APublic = ["APublic",0];
+haxe.macro.Access.APublic.toString = $estr;
+haxe.macro.Access.APublic.__enum__ = haxe.macro.Access;
+haxe.macro.Access.APrivate = ["APrivate",1];
+haxe.macro.Access.APrivate.toString = $estr;
+haxe.macro.Access.APrivate.__enum__ = haxe.macro.Access;
+haxe.macro.Access.AStatic = ["AStatic",2];
+haxe.macro.Access.AStatic.toString = $estr;
+haxe.macro.Access.AStatic.__enum__ = haxe.macro.Access;
+haxe.macro.Access.AOverride = ["AOverride",3];
+haxe.macro.Access.AOverride.toString = $estr;
+haxe.macro.Access.AOverride.__enum__ = haxe.macro.Access;
+haxe.macro.Access.ADynamic = ["ADynamic",4];
+haxe.macro.Access.ADynamic.toString = $estr;
+haxe.macro.Access.ADynamic.__enum__ = haxe.macro.Access;
+haxe.macro.Access.AInline = ["AInline",5];
+haxe.macro.Access.AInline.toString = $estr;
+haxe.macro.Access.AInline.__enum__ = haxe.macro.Access;
+haxe.macro.FieldType = { __ename__ : ["haxe","macro","FieldType"], __constructs__ : ["FVar","FFun","FProp"] }
+haxe.macro.FieldType.FVar = function(t,e) { var $x = ["FVar",0,t,e]; $x.__enum__ = haxe.macro.FieldType; $x.toString = $estr; return $x; }
+haxe.macro.FieldType.FFun = function(f) { var $x = ["FFun",1,f]; $x.__enum__ = haxe.macro.FieldType; $x.toString = $estr; return $x; }
+haxe.macro.FieldType.FProp = function(get,set,t) { var $x = ["FProp",2,get,set,t]; $x.__enum__ = haxe.macro.FieldType; $x.toString = $estr; return $x; }
+haxe.macro.Error = function(m,p) {
+	if( m === $_ ) return;
+	$s.push("haxe.macro.Error::new");
+	var $spos = $s.length;
+	this.message = m;
+	this.pos = p;
+	$s.pop();
+}
+haxe.macro.Error.__name__ = ["haxe","macro","Error"];
+haxe.macro.Error.prototype.message = null;
+haxe.macro.Error.prototype.pos = null;
+haxe.macro.Error.prototype.__class__ = haxe.macro.Error;
 js.Boot = function() { }
 js.Boot.__name__ = ["js","Boot"];
 js.Boot.__unhtml = function(s) {
@@ -9079,15 +9528,31 @@ thx.js.TestSizzle.prototype.testSizzle = function() {
 	$s.pop();
 }
 thx.js.TestSizzle.prototype.__class__ = thx.js.TestSizzle;
-if(!thx.load) thx.load = {}
-thx.load.ILoader = function() { }
-thx.load.ILoader.__name__ = ["thx","load","ILoader"];
-thx.load.ILoader.prototype.load = function(completeHandler,errorHandler) {
-	$s.push("thx.load.ILoader::load");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.load.ILoader.prototype.__class__ = thx.load.ILoader;
+thx.html.HtmlVersion = { __ename__ : ["thx","html","HtmlVersion"], __constructs__ : ["Html401Strict","Html401Transitional","Html401Frameset","Html5","XHtml10Transitional","XHtml10Strict","XHtml10Frameset","XHtml11"] }
+thx.html.HtmlVersion.Html401Strict = ["Html401Strict",0];
+thx.html.HtmlVersion.Html401Strict.toString = $estr;
+thx.html.HtmlVersion.Html401Strict.__enum__ = thx.html.HtmlVersion;
+thx.html.HtmlVersion.Html401Transitional = ["Html401Transitional",1];
+thx.html.HtmlVersion.Html401Transitional.toString = $estr;
+thx.html.HtmlVersion.Html401Transitional.__enum__ = thx.html.HtmlVersion;
+thx.html.HtmlVersion.Html401Frameset = ["Html401Frameset",2];
+thx.html.HtmlVersion.Html401Frameset.toString = $estr;
+thx.html.HtmlVersion.Html401Frameset.__enum__ = thx.html.HtmlVersion;
+thx.html.HtmlVersion.Html5 = ["Html5",3];
+thx.html.HtmlVersion.Html5.toString = $estr;
+thx.html.HtmlVersion.Html5.__enum__ = thx.html.HtmlVersion;
+thx.html.HtmlVersion.XHtml10Transitional = ["XHtml10Transitional",4];
+thx.html.HtmlVersion.XHtml10Transitional.toString = $estr;
+thx.html.HtmlVersion.XHtml10Transitional.__enum__ = thx.html.HtmlVersion;
+thx.html.HtmlVersion.XHtml10Strict = ["XHtml10Strict",5];
+thx.html.HtmlVersion.XHtml10Strict.toString = $estr;
+thx.html.HtmlVersion.XHtml10Strict.__enum__ = thx.html.HtmlVersion;
+thx.html.HtmlVersion.XHtml10Frameset = ["XHtml10Frameset",6];
+thx.html.HtmlVersion.XHtml10Frameset.toString = $estr;
+thx.html.HtmlVersion.XHtml10Frameset.__enum__ = thx.html.HtmlVersion;
+thx.html.HtmlVersion.XHtml11 = ["XHtml11",7];
+thx.html.HtmlVersion.XHtml11.toString = $estr;
+thx.html.HtmlVersion.XHtml11.__enum__ = thx.html.HtmlVersion;
 thx.js.AccessTween = function(transition,tweens) {
 	if( transition === $_ ) return;
 	$s.push("thx.js.AccessTween::new");
@@ -9511,37 +9976,19 @@ thx.color.TestRgb.prototype.testBasics = function() {
 	$s.pop();
 }
 thx.color.TestRgb.prototype.__class__ = thx.color.TestRgb;
-thx.html.HtmlVersion = { __ename__ : ["thx","html","HtmlVersion"], __constructs__ : ["Html401Strict","Html401Transitional","Html401Frameset","Html5","XHtml10Transitional","XHtml10Strict","XHtml10Frameset","XHtml11"] }
-thx.html.HtmlVersion.Html401Strict = ["Html401Strict",0];
-thx.html.HtmlVersion.Html401Strict.toString = $estr;
-thx.html.HtmlVersion.Html401Strict.__enum__ = thx.html.HtmlVersion;
-thx.html.HtmlVersion.Html401Transitional = ["Html401Transitional",1];
-thx.html.HtmlVersion.Html401Transitional.toString = $estr;
-thx.html.HtmlVersion.Html401Transitional.__enum__ = thx.html.HtmlVersion;
-thx.html.HtmlVersion.Html401Frameset = ["Html401Frameset",2];
-thx.html.HtmlVersion.Html401Frameset.toString = $estr;
-thx.html.HtmlVersion.Html401Frameset.__enum__ = thx.html.HtmlVersion;
-thx.html.HtmlVersion.Html5 = ["Html5",3];
-thx.html.HtmlVersion.Html5.toString = $estr;
-thx.html.HtmlVersion.Html5.__enum__ = thx.html.HtmlVersion;
-thx.html.HtmlVersion.XHtml10Transitional = ["XHtml10Transitional",4];
-thx.html.HtmlVersion.XHtml10Transitional.toString = $estr;
-thx.html.HtmlVersion.XHtml10Transitional.__enum__ = thx.html.HtmlVersion;
-thx.html.HtmlVersion.XHtml10Strict = ["XHtml10Strict",5];
-thx.html.HtmlVersion.XHtml10Strict.toString = $estr;
-thx.html.HtmlVersion.XHtml10Strict.__enum__ = thx.html.HtmlVersion;
-thx.html.HtmlVersion.XHtml10Frameset = ["XHtml10Frameset",6];
-thx.html.HtmlVersion.XHtml10Frameset.toString = $estr;
-thx.html.HtmlVersion.XHtml10Frameset.__enum__ = thx.html.HtmlVersion;
-thx.html.HtmlVersion.XHtml11 = ["XHtml11",7];
-thx.html.HtmlVersion.XHtml11.toString = $estr;
-thx.html.HtmlVersion.XHtml11.__enum__ = thx.html.HtmlVersion;
 if(!thx.json) thx.json = {}
 thx.json.Json = function() { }
 thx.json.Json.__name__ = ["thx","json","Json"];
+thx.json.Json.nativeEncoder = null;
+thx.json.Json.nativeDecoder = null;
 thx.json.Json.encode = function(value) {
 	$s.push("thx.json.Json::encode");
 	var $spos = $s.length;
+	if(null != thx.json.Json.nativeEncoder) {
+		var $tmp = thx.json.Json.nativeEncoder(value);
+		$s.pop();
+		return $tmp;
+	}
 	var handler = new thx.json.JsonEncoder();
 	new thx.data.ValueEncoder(handler).encode(value);
 	var $tmp = handler.encodedString;
@@ -9552,6 +9999,11 @@ thx.json.Json.encode = function(value) {
 thx.json.Json.decode = function(value) {
 	$s.push("thx.json.Json::decode");
 	var $spos = $s.length;
+	if(null != thx.json.Json.nativeDecoder) {
+		var $tmp = thx.json.Json.nativeDecoder(value);
+		$s.pop();
+		return $tmp;
+	}
 	var handler = new thx.data.ValueHandler();
 	var r = new thx.json.JsonDecoder(handler).decode(value);
 	var $tmp = handler.value;
@@ -12753,89 +13205,6 @@ thx.csv.CsvEncoder.prototype.comment = function(s) {
 }
 thx.csv.CsvEncoder.prototype.__class__ = thx.csv.CsvEncoder;
 thx.csv.CsvEncoder.__interfaces__ = [thx.data.IDataHandler];
-thx.collections.Set = function(p) {
-	if( p === $_ ) return;
-	$s.push("thx.collections.Set::new");
-	var $spos = $s.length;
-	this._v = [];
-	this.length = 0;
-	$s.pop();
-}
-thx.collections.Set.__name__ = ["thx","collections","Set"];
-thx.collections.Set.ofArray = function(arr) {
-	$s.push("thx.collections.Set::ofArray");
-	var $spos = $s.length;
-	var set = new thx.collections.Set();
-	var _g = 0;
-	while(_g < arr.length) {
-		var item = arr[_g];
-		++_g;
-		set.add(item);
-	}
-	$s.pop();
-	return set;
-	$s.pop();
-}
-thx.collections.Set.prototype.length = null;
-thx.collections.Set.prototype._v = null;
-thx.collections.Set.prototype.add = function(v) {
-	$s.push("thx.collections.Set::add");
-	var $spos = $s.length;
-	this._v.remove(v);
-	this._v.push(v);
-	this.length = this._v.length;
-	$s.pop();
-}
-thx.collections.Set.prototype.remove = function(v) {
-	$s.push("thx.collections.Set::remove");
-	var $spos = $s.length;
-	var t = this._v.remove(v);
-	this.length = this._v.length;
-	$s.pop();
-	return t;
-	$s.pop();
-}
-thx.collections.Set.prototype.exists = function(v) {
-	$s.push("thx.collections.Set::exists");
-	var $spos = $s.length;
-	var _g = 0, _g1 = this._v;
-	while(_g < _g1.length) {
-		var t = _g1[_g];
-		++_g;
-		if(t == v) {
-			$s.pop();
-			return true;
-		}
-	}
-	$s.pop();
-	return false;
-	$s.pop();
-}
-thx.collections.Set.prototype.iterator = function() {
-	$s.push("thx.collections.Set::iterator");
-	var $spos = $s.length;
-	var $tmp = this._v.iterator();
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.Set.prototype.array = function() {
-	$s.push("thx.collections.Set::array");
-	var $spos = $s.length;
-	var $tmp = this._v.copy();
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.Set.prototype.toString = function() {
-	$s.push("thx.collections.Set::toString");
-	var $spos = $s.length;
-	var $tmp = "{" + this._v.join(", ") + "}";
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.Set.prototype.__class__ = thx.collections.Set;
 thx.html.Element = function() { }
 thx.html.Element.__name__ = ["thx","html","Element"];
 thx.html.Element.shouldPreserve = function(el) {
@@ -13547,142 +13916,6 @@ thx.js.TestDom.prototype.testDocument = function() {
 	$s.pop();
 }
 thx.js.TestDom.prototype.__class__ = thx.js.TestDom;
-thx.collections.IntHashList = function(p) {
-	if( p === $_ ) return;
-	$s.push("thx.collections.IntHashList::new");
-	var $spos = $s.length;
-	this.length = 0;
-	this.__keys = [];
-	this.__hash = new IntHash();
-	$s.pop();
-}
-thx.collections.IntHashList.__name__ = ["thx","collections","IntHashList"];
-thx.collections.IntHashList.prototype.length = null;
-thx.collections.IntHashList.prototype.set = function(key,value) {
-	$s.push("thx.collections.IntHashList::set");
-	var $spos = $s.length;
-	if(!this.__hash.exists(key)) {
-		this.__keys.push(key);
-		this.length++;
-	}
-	this.__hash.set(key,value);
-	$s.pop();
-}
-thx.collections.IntHashList.prototype.get = function(key) {
-	$s.push("thx.collections.IntHashList::get");
-	var $spos = $s.length;
-	var $tmp = this.__hash.get(key);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.IntHashList.prototype.getAt = function(index) {
-	$s.push("thx.collections.IntHashList::getAt");
-	var $spos = $s.length;
-	var $tmp = this.__hash.get(this.__keys[index]);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.IntHashList.prototype.exists = function(key) {
-	$s.push("thx.collections.IntHashList::exists");
-	var $spos = $s.length;
-	var $tmp = this.__hash.exists(key);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.IntHashList.prototype.remove = function(key) {
-	$s.push("thx.collections.IntHashList::remove");
-	var $spos = $s.length;
-	var item = this.__hash.get(key);
-	if(item == null) {
-		$s.pop();
-		return null;
-	}
-	this.__hash.remove(key);
-	this.__keys.remove(key);
-	this.length--;
-	$s.pop();
-	return item;
-	$s.pop();
-}
-thx.collections.IntHashList.prototype.removeAt = function(index) {
-	$s.push("thx.collections.IntHashList::removeAt");
-	var $spos = $s.length;
-	if(index < 0 || index >= this.length) {
-		$s.pop();
-		return null;
-	}
-	var key = this.__keys[index];
-	var item = this.__hash.get(key);
-	this.__hash.remove(key);
-	this.__keys.remove(key);
-	this.length--;
-	$s.pop();
-	return item;
-	$s.pop();
-}
-thx.collections.IntHashList.prototype.keys = function() {
-	$s.push("thx.collections.IntHashList::keys");
-	var $spos = $s.length;
-	var $tmp = this.__keys.iterator();
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.IntHashList.prototype.iterator = function() {
-	$s.push("thx.collections.IntHashList::iterator");
-	var $spos = $s.length;
-	var $tmp = this.array().iterator();
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.IntHashList.prototype.clear = function() {
-	$s.push("thx.collections.IntHashList::clear");
-	var $spos = $s.length;
-	this.__hash = new IntHash();
-	this.__keys = [];
-	this.length = 0;
-	$s.pop();
-}
-thx.collections.IntHashList.prototype.array = function() {
-	$s.push("thx.collections.IntHashList::array");
-	var $spos = $s.length;
-	var values = [];
-	var _g = 0, _g1 = this.__keys;
-	while(_g < _g1.length) {
-		var k = _g1[_g];
-		++_g;
-		values.push(this.__hash.get(k));
-	}
-	$s.pop();
-	return values;
-	$s.pop();
-}
-thx.collections.IntHashList.prototype.toString = function() {
-	$s.push("thx.collections.IntHashList::toString");
-	var $spos = $s.length;
-	var s = new StringBuf();
-	s.b[s.b.length] = "{";
-	var it = this.keys();
-	while( it.hasNext() ) {
-		var i = it.next();
-		s.b[s.b.length] = i;
-		s.b[s.b.length] = " => ";
-		s.b[s.b.length] = Std.string(this.get(i));
-		if(it.hasNext()) s.b[s.b.length] = ", ";
-	}
-	s.b[s.b.length] = "}";
-	var $tmp = s.b.join("");
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.collections.IntHashList.prototype.__keys = null;
-thx.collections.IntHashList.prototype.__hash = null;
-thx.collections.IntHashList.prototype.__class__ = thx.collections.IntHashList;
 thx.math.scale.LinearT = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.math.scale.LinearT::new");
@@ -14854,6 +15087,95 @@ Xml.prototype.toString = function() {
 	$s.pop();
 }
 Xml.prototype.__class__ = Xml;
+if(!thx.geom) thx.geom = {}
+thx.geom.Polygon = function(coordinates) {
+	if( coordinates === $_ ) return;
+	$s.push("thx.geom.Polygon::new");
+	var $spos = $s.length;
+	this.coordinates = coordinates;
+	$s.pop();
+}
+thx.geom.Polygon.__name__ = ["thx","geom","Polygon"];
+thx.geom.Polygon.polygonInside = function(p,a,b) {
+	$s.push("thx.geom.Polygon::polygonInside");
+	var $spos = $s.length;
+	var $tmp = (b[0] - a[0]) * (p[1] - a[1]) < (b[1] - a[1]) * (p[0] - a[0]);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geom.Polygon.polygonIntersect = function(c,d,a,b) {
+	$s.push("thx.geom.Polygon::polygonIntersect");
+	var $spos = $s.length;
+	var x1 = c[0], x2 = d[0], x3 = a[0], x4 = b[0], y1 = c[1], y2 = d[1], y3 = a[1], y4 = b[1], x13 = x1 - x3, x21 = x2 - x1, x43 = x4 - x3, y13 = y1 - y3, y21 = y2 - y1, y43 = y4 - y3, ua = (x43 * y13 - y43 * x13) / (y43 * x21 - x43 * y21);
+	var $tmp = [x1 + ua * x21,y1 + ua * y21];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geom.Polygon.prototype.coordinates = null;
+thx.geom.Polygon.prototype.area = function() {
+	$s.push("thx.geom.Polygon::area");
+	var $spos = $s.length;
+	var n = this.coordinates.length, a = this.coordinates[n - 1][0] * this.coordinates[0][1], b = this.coordinates[n - 1][1] * this.coordinates[0][0];
+	var _g = 0;
+	while(_g < n) {
+		var i = _g++;
+		a += this.coordinates[i - 1][0] * this.coordinates[i][1];
+		b += this.coordinates[i - 1][1] * this.coordinates[i][0];
+	}
+	var $tmp = (b - a) * .5;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geom.Polygon.prototype.centroid = function(k) {
+	$s.push("thx.geom.Polygon::centroid");
+	var $spos = $s.length;
+	var a, b, c, x = 0.0, y = 0.0;
+	if(null == k) k = 1 / (6 * this.area());
+	var _g1 = 0, _g = this.coordinates.length - 1;
+	while(_g1 < _g) {
+		var i = _g1++;
+		a = this.coordinates[i];
+		b = this.coordinates[i + 1];
+		c = a[0] * b[1] - b[0] * a[1];
+		x += (a[0] + b[0]) * c;
+		y += (a[1] + b[1]) * c;
+	}
+	var $tmp = [x * k,y * k];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geom.Polygon.prototype.clip = function(subject) {
+	$s.push("thx.geom.Polygon::clip");
+	var $spos = $s.length;
+	var input, a = Arrays.last(this.coordinates), b, c, d, m;
+	var _g1 = 0, _g = this.coordinates.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		input = subject.copy();
+		subject = [];
+		b = this.coordinates[i];
+		c = input[(m = input.length) - 1];
+		var _g2 = 0;
+		while(_g2 < m) {
+			var j = _g2++;
+			d = input[j];
+			if(thx.geom.Polygon.polygonInside(d,a,b)) {
+				if(!thx.geom.Polygon.polygonInside(c,a,b)) subject.push(thx.geom.Polygon.polygonIntersect(c,d,a,b));
+				subject.push(d);
+			} else if(thx.geom.Polygon.polygonInside(c,a,b)) subject.push(thx.geom.Polygon.polygonIntersect(c,d,a,b));
+			c = d;
+		}
+		a = b;
+	}
+	$s.pop();
+	return subject;
+	$s.pop();
+}
+thx.geom.Polygon.prototype.__class__ = thx.geom.Polygon;
 thx.math.scale.TestLog = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.math.scale.TestLog::new");
@@ -15255,6 +15577,624 @@ thx.util.TypeFactory.prototype.get = function(cls) {
 	$s.pop();
 }
 thx.util.TypeFactory.prototype.__class__ = thx.util.TypeFactory;
+thx.geo.Mercator = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.geo.Mercator::new");
+	var $spos = $s.length;
+	this.setScale(500);
+	this.setTranslate([480.0,250]);
+	$s.pop();
+}
+thx.geo.Mercator.__name__ = ["thx","geo","Mercator"];
+thx.geo.Mercator.prototype.scale = null;
+thx.geo.Mercator.prototype.translate = null;
+thx.geo.Mercator.prototype.project = function(coords) {
+	$s.push("thx.geo.Mercator::project");
+	var $spos = $s.length;
+	var x = coords[0] / 360, y = -(Math.log(Math.tan(Math.PI / 4 + coords[1] * 0.01745329251994329577 / 2)) / 0.01745329251994329577) / 360;
+	var $tmp = [this.getScale() * x + this.getTranslate()[0],this.getScale() * Math.max(-.5,Math.min(.5,y)) + this.getTranslate()[1]];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Mercator.prototype.invert = function(coords) {
+	$s.push("thx.geo.Mercator::invert");
+	var $spos = $s.length;
+	var x = (coords[0] - this.getTranslate()[0]) / this.getScale(), y = (coords[1] - this.getTranslate()[1]) / this.getScale();
+	var $tmp = [360 * x,2 * Math.atan(Math.exp(-360 * y * 0.01745329251994329577)) / 0.01745329251994329577 - 90];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Mercator.prototype.setScale = function(scale) {
+	$s.push("thx.geo.Mercator::setScale");
+	var $spos = $s.length;
+	var $tmp = this.scale = scale;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Mercator.prototype.getScale = function() {
+	$s.push("thx.geo.Mercator::getScale");
+	var $spos = $s.length;
+	var $tmp = this.scale;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Mercator.prototype.getTranslate = function() {
+	$s.push("thx.geo.Mercator::getTranslate");
+	var $spos = $s.length;
+	var $tmp = this.translate.copy();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Mercator.prototype.setTranslate = function(translate) {
+	$s.push("thx.geo.Mercator::setTranslate");
+	var $spos = $s.length;
+	this.translate = [translate[0],translate[1]];
+	$s.pop();
+	return translate;
+	$s.pop();
+}
+thx.geo.Mercator.prototype.__class__ = thx.geo.Mercator;
+thx.geo.Mercator.__interfaces__ = [thx.geo.IProjection];
+thx.svg.PathGeoJson = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.svg.PathGeoJson::new");
+	var $spos = $s.length;
+	this.setPointRadius(4.5);
+	this.setProjection(new thx.geo.AlbersUsa());
+	this.pathTypes = new thx.svg.PathTypes(this);
+	this.centroidTypes = new thx.svg.CentroidTypes(this);
+	this.areaTypes = new thx.svg.AreaTypes(this);
+	$s.pop();
+}
+thx.svg.PathGeoJson.__name__ = ["thx","svg","PathGeoJson"];
+thx.svg.PathGeoJson.circle = function(r) {
+	$s.push("thx.svg.PathGeoJson::circle");
+	var $spos = $s.length;
+	var $tmp = "m0," + r + "a" + r + "," + r + " 0 1,1 0," + -2 * r + "a" + r + "," + r + " 0 1,1 0," + 2 * r + "z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathGeoJson.bounds = function(d) {
+	$s.push("thx.svg.PathGeoJson::bounds");
+	var $spos = $s.length;
+	var left = Math.POSITIVE_INFINITY, bottom = Math.POSITIVE_INFINITY, right = Math.NEGATIVE_INFINITY, top = Math.NEGATIVE_INFINITY;
+	thx.svg.PathGeoJson.applyBounds(d,function(x,y) {
+		$s.push("thx.svg.PathGeoJson::bounds@73");
+		var $spos = $s.length;
+		if(x < left) left = x;
+		if(x > right) right = x;
+		if(y < bottom) bottom = y;
+		if(y > top) top = y;
+		$s.pop();
+	});
+	var $tmp = [[left,bottom],[right,top]];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathGeoJson.applyBounds = function(d,f) {
+	$s.push("thx.svg.PathGeoJson::applyBounds");
+	var $spos = $s.length;
+	switch(d.type) {
+	case "Feature":
+		thx.svg.PathGeoJson.applyBounds(d.geometry,f);
+		break;
+	case "FeatureCollection":
+		var _g = 0, _g1 = d.features;
+		while(_g < _g1.length) {
+			var feature = _g1[_g];
+			++_g;
+			thx.svg.PathGeoJson.applyBounds(feature.geometry,f);
+		}
+		break;
+	case "LineString":case "MultiPoint":
+		var coordinates = d.coordinates;
+		var _g = 0;
+		while(_g < coordinates.length) {
+			var coords = coordinates[_g];
+			++_g;
+			f(coords[0],coords[1]);
+		}
+		break;
+	case "MultiLineString":
+		var coordinates = d.coordinates;
+		var _g = 0;
+		while(_g < coordinates.length) {
+			var coords = coordinates[_g];
+			++_g;
+			var _g1 = 0;
+			while(_g1 < coords.length) {
+				var scoords = coords[_g1];
+				++_g1;
+				f(scoords[0],scoords[1]);
+			}
+		}
+		break;
+	case "MultiPolygon":
+		var coordinates = d.coordinates;
+		var _g = 0;
+		while(_g < coordinates.length) {
+			var coords = coordinates[_g];
+			++_g;
+			var _g1 = 0, _g2 = coords[0];
+			while(_g1 < _g2.length) {
+				var scoords = _g2[_g1];
+				++_g1;
+				f(scoords[0],scoords[1]);
+			}
+		}
+		break;
+	case "Point":
+		var coordinates = d.coordinates;
+		f(coordinates[0],coordinates[1]);
+		break;
+	case "Polygon":
+		var coordinates = d.coordinates;
+		var _g = 0, _g1 = coordinates[0];
+		while(_g < _g1.length) {
+			var coords = _g1[_g];
+			++_g;
+			f(coords[0],coords[1]);
+		}
+		break;
+	default:
+		throw new thx.error.Error("invalid geomtry type '{0}'",null,d.type,{ fileName : "PathGeoJson.hx", lineNumber : 113, className : "thx.svg.PathGeoJson", methodName : "applyBounds"});
+	}
+	$s.pop();
+}
+thx.svg.PathGeoJson.prototype.pointRadius = null;
+thx.svg.PathGeoJson.prototype.projection = null;
+thx.svg.PathGeoJson.prototype.pathCircle = null;
+thx.svg.PathGeoJson.prototype.pathTypes = null;
+thx.svg.PathGeoJson.prototype.centroidTypes = null;
+thx.svg.PathGeoJson.prototype.areaTypes = null;
+thx.svg.PathGeoJson.prototype.path = function(d,_) {
+	$s.push("thx.svg.PathGeoJson::path");
+	var $spos = $s.length;
+	var $tmp = this.pathTypes.path(d);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathGeoJson.prototype.centroid = function(d,_) {
+	$s.push("thx.svg.PathGeoJson::centroid");
+	var $spos = $s.length;
+	var $tmp = this.centroidTypes.centroid(d);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathGeoJson.prototype.area = function(d,_) {
+	$s.push("thx.svg.PathGeoJson::area");
+	var $spos = $s.length;
+	var $tmp = this.areaTypes.area(d);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathGeoJson.prototype.setPointRadius = function(r) {
+	$s.push("thx.svg.PathGeoJson::setPointRadius");
+	var $spos = $s.length;
+	this.pointRadius = r;
+	this.pathCircle = thx.svg.PathGeoJson.circle(r);
+	$s.pop();
+	return r;
+	$s.pop();
+}
+thx.svg.PathGeoJson.prototype.setProjection = function(projection) {
+	$s.push("thx.svg.PathGeoJson::setProjection");
+	var $spos = $s.length;
+	var $tmp = this.projection = projection;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathGeoJson.prototype.__class__ = thx.svg.PathGeoJson;
+thx.svg.PathTypes = function(geo) {
+	if( geo === $_ ) return;
+	$s.push("thx.svg.PathTypes::new");
+	var $spos = $s.length;
+	this.geo = geo;
+	$s.pop();
+}
+thx.svg.PathTypes.__name__ = ["thx","svg","PathTypes"];
+thx.svg.PathTypes.prototype.geo = null;
+thx.svg.PathTypes.prototype.path = function(geo) {
+	$s.push("thx.svg.PathTypes::path");
+	var $spos = $s.length;
+	var field = Reflect.field(this,Strings.lcfirst(geo.type));
+	if(null == field) {
+		$s.pop();
+		return "";
+	}
+	var $tmp = field.apply(this,[geo]);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathTypes.prototype.featureCollection = function(f) {
+	$s.push("thx.svg.PathTypes::featureCollection");
+	var $spos = $s.length;
+	var p = [], features = f.features;
+	var _g1 = 0, _g = features.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		p.push(this.path(features[i].geometry));
+	}
+	var $tmp = p.join("");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathTypes.prototype.feature = function(f) {
+	$s.push("thx.svg.PathTypes::feature");
+	var $spos = $s.length;
+	var $tmp = this.path(f.geometry);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathTypes.prototype.point = function(o) {
+	$s.push("thx.svg.PathTypes::point");
+	var $spos = $s.length;
+	var $tmp = "M" + this.project(o.coordinates) + this.geo.pathCircle;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathTypes.prototype.multiPoint = function(o) {
+	$s.push("thx.svg.PathTypes::multiPoint");
+	var $spos = $s.length;
+	var p = [], coordinates = o.coordinates;
+	var _g1 = 0, _g = coordinates.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		p.push("M" + this.project(coordinates[i]) + this.geo.pathCircle);
+	}
+	var $tmp = p.join("");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathTypes.prototype.lineString = function(o) {
+	$s.push("thx.svg.PathTypes::lineString");
+	var $spos = $s.length;
+	var p = ["M"], coordinates = o.coordinates;
+	var _g1 = 0, _g = coordinates.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		p.push(this.project(coordinates[i]));
+	}
+	var $tmp = p.join("L");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathTypes.prototype.multiLineString = function(o) {
+	$s.push("thx.svg.PathTypes::multiLineString");
+	var $spos = $s.length;
+	var p = [], coords = o.coordinates;
+	var _g = 0;
+	while(_g < coords.length) {
+		var coordinates = coords[_g];
+		++_g;
+		p.push("M");
+		var _g2 = 0, _g1 = coordinates.length;
+		while(_g2 < _g1) {
+			var i = _g2++;
+			p.push(this.project(coordinates[i]));
+			p.push("L");
+		}
+		p.pop();
+	}
+	var $tmp = p.join("");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathTypes.prototype.polygon = function(o) {
+	$s.push("thx.svg.PathTypes::polygon");
+	var $spos = $s.length;
+	var p = [], coords = o.coordinates;
+	var _g = 0;
+	while(_g < coords.length) {
+		var coordinates = coords[_g];
+		++_g;
+		p.push("M");
+		var _g2 = 0, _g1 = coordinates.length;
+		while(_g2 < _g1) {
+			var j = _g2++;
+			p.push(this.project(coordinates[j]));
+			p.push("L");
+		}
+		p[p.length - 1] = "Z";
+	}
+	var $tmp = p.join("");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathTypes.prototype.multiPolygon = function(o) {
+	$s.push("thx.svg.PathTypes::multiPolygon");
+	var $spos = $s.length;
+	var p = [], coords = o.coordinates;
+	var _g = 0;
+	while(_g < coords.length) {
+		var coordinates = coords[_g];
+		++_g;
+		var _g1 = 0;
+		while(_g1 < coordinates.length) {
+			var subcoordinates = coordinates[_g1];
+			++_g1;
+			p.push("M");
+			var _g2 = 0;
+			while(_g2 < subcoordinates.length) {
+				var scoords = subcoordinates[_g2];
+				++_g2;
+				p.push(this.project(scoords));
+				p.push("L");
+			}
+			p[p.length - 1] = "Z";
+		}
+	}
+	var $tmp = p.join("");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathTypes.prototype.geometryCollection = function(o) {
+	$s.push("thx.svg.PathTypes::geometryCollection");
+	var $spos = $s.length;
+	var p = [];
+	var _g = 0, _g1 = o.geometries;
+	while(_g < _g1.length) {
+		var geometry = _g1[_g];
+		++_g;
+		p.push(this.path(geometry));
+	}
+	var $tmp = p.join("");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathTypes.prototype.project = function(coords) {
+	$s.push("thx.svg.PathTypes::project");
+	var $spos = $s.length;
+	var $tmp = this.geo.projection.project(coords).join(",");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.PathTypes.prototype.__class__ = thx.svg.PathTypes;
+thx.svg.AreaTypes = function(geo) {
+	if( geo === $_ ) return;
+	$s.push("thx.svg.AreaTypes::new");
+	var $spos = $s.length;
+	this.geo = geo;
+	$s.pop();
+}
+thx.svg.AreaTypes.__name__ = ["thx","svg","AreaTypes"];
+thx.svg.AreaTypes.prototype.geo = null;
+thx.svg.AreaTypes.prototype.area = function(geo) {
+	$s.push("thx.svg.AreaTypes::area");
+	var $spos = $s.length;
+	var field = Reflect.field(this,Strings.lcfirst(geo.type));
+	if(null == field) {
+		$s.pop();
+		return 0.0;
+	}
+	var $tmp = field.apply(this,[geo]);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.featureCollection = function(f) {
+	$s.push("thx.svg.AreaTypes::featureCollection");
+	var $spos = $s.length;
+	var a = 0.0;
+	var _g = 0, _g1 = f.features;
+	while(_g < _g1.length) {
+		var feat = _g1[_g];
+		++_g;
+		a += this.area(feat.geometry);
+	}
+	$s.pop();
+	return a;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.feature = function(f) {
+	$s.push("thx.svg.AreaTypes::feature");
+	var $spos = $s.length;
+	var $tmp = this.area(f.geometry);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.point = function(o) {
+	$s.push("thx.svg.AreaTypes::point");
+	var $spos = $s.length;
+	$s.pop();
+	return 0.0;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.multiPoint = function(o) {
+	$s.push("thx.svg.AreaTypes::multiPoint");
+	var $spos = $s.length;
+	$s.pop();
+	return 0.0;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.lineString = function(o) {
+	$s.push("thx.svg.AreaTypes::lineString");
+	var $spos = $s.length;
+	$s.pop();
+	return 0.0;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.multiLineString = function(o) {
+	$s.push("thx.svg.AreaTypes::multiLineString");
+	var $spos = $s.length;
+	$s.pop();
+	return 0.0;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.polygon = function(o) {
+	$s.push("thx.svg.AreaTypes::polygon");
+	var $spos = $s.length;
+	var $tmp = this.polygonArea(o.coordinates);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.multiPolygon = function(o) {
+	$s.push("thx.svg.AreaTypes::multiPolygon");
+	var $spos = $s.length;
+	var sum = 0.0, coords = o.coordinates;
+	var _g = 0;
+	while(_g < coords.length) {
+		var coordinates = coords[_g];
+		++_g;
+		sum += this.polygonArea(coordinates);
+	}
+	$s.pop();
+	return sum;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.geometryCollection = function(o) {
+	$s.push("thx.svg.AreaTypes::geometryCollection");
+	var $spos = $s.length;
+	var sum = 0.0;
+	var _g = 0, _g1 = o.geometries;
+	while(_g < _g1.length) {
+		var geometry = _g1[_g];
+		++_g;
+		sum += this.area(geometry);
+	}
+	$s.pop();
+	return sum;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.polygonArea = function(coords) {
+	$s.push("thx.svg.AreaTypes::polygonArea");
+	var $spos = $s.length;
+	var sum = this.parea(coords[0]);
+	var _g1 = 1, _g = coords.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		sum -= this.parea(coords[i]);
+	}
+	$s.pop();
+	return sum;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.parea = function(coords) {
+	$s.push("thx.svg.AreaTypes::parea");
+	var $spos = $s.length;
+	var $tmp = Math.abs(new thx.geom.Polygon(coords.map($closure(this,"project"))).area());
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.project = function(d,_) {
+	$s.push("thx.svg.AreaTypes::project");
+	var $spos = $s.length;
+	var $tmp = this.geo.projection.project(d);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.AreaTypes.prototype.__class__ = thx.svg.AreaTypes;
+thx.svg.CentroidTypes = function(geo) {
+	if( geo === $_ ) return;
+	$s.push("thx.svg.CentroidTypes::new");
+	var $spos = $s.length;
+	this.geo = geo;
+	$s.pop();
+}
+thx.svg.CentroidTypes.__name__ = ["thx","svg","CentroidTypes"];
+thx.svg.CentroidTypes.prototype.geo = null;
+thx.svg.CentroidTypes.prototype.centroid = function(geo) {
+	$s.push("thx.svg.CentroidTypes::centroid");
+	var $spos = $s.length;
+	var field = Reflect.field(this,Strings.lcfirst(geo.type));
+	if(null == field) {
+		var $tmp = [0.0,0.0];
+		$s.pop();
+		return $tmp;
+	}
+	var $tmp = field.apply(this,[geo]);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.CentroidTypes.prototype.feature = function(f) {
+	$s.push("thx.svg.CentroidTypes::feature");
+	var $spos = $s.length;
+	var $tmp = this.centroid(f.geometry);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.CentroidTypes.prototype.polygon = function(o) {
+	$s.push("thx.svg.CentroidTypes::polygon");
+	var $spos = $s.length;
+	var centroid = this.polygonCentroid(o.coordinates);
+	var $tmp = [centroid[0] / centroid[2],centroid[1] / centroid[2]];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.CentroidTypes.prototype.multiPolygon = function(o) {
+	$s.push("thx.svg.CentroidTypes::multiPolygon");
+	var $spos = $s.length;
+	var area = 0.0, x = 0.0, y = 0.0, z = 0.0, centroid, coords = o.coordinates;
+	var _g = 0;
+	while(_g < coords.length) {
+		var coordinates = coords[_g];
+		++_g;
+		centroid = this.polygonCentroid(coordinates);
+		x += centroid[0];
+		y += centroid[1];
+		z += centroid[2];
+	}
+	var $tmp = [x / z,y / z];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.CentroidTypes.prototype.polygonCentroid = function(coordinates) {
+	$s.push("thx.svg.CentroidTypes::polygonCentroid");
+	var $spos = $s.length;
+	var polygon = new thx.geom.Polygon(coordinates[0].map($closure(this,"project"))), centroid = polygon.centroid(1), x = centroid[0], y = centroid[1], z = Math.abs(polygon.area());
+	var _g1 = 1, _g = coordinates.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		polygon = new thx.geom.Polygon(coordinates[i].map($closure(this,"project")));
+		centroid = polygon.centroid(1);
+		x -= centroid[0];
+		y -= centroid[1];
+		z -= Math.abs(polygon.area());
+	}
+	var $tmp = [x,y,6 * z];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.CentroidTypes.prototype.project = function(d,_) {
+	$s.push("thx.svg.CentroidTypes::project");
+	var $spos = $s.length;
+	var $tmp = this.geo.projection.project(d);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.CentroidTypes.prototype.__class__ = thx.svg.CentroidTypes;
 thx.math.TestAll = function(p) {
 	$s.push("thx.math.TestAll::new");
 	var $spos = $s.length;
@@ -15354,29 +16294,6 @@ thx.validation.EmailValidator.prototype.validate = function(value) {
 	$s.pop();
 }
 thx.validation.EmailValidator.prototype.__class__ = thx.validation.EmailValidator;
-thx.load.MemoryLoader = function(data) {
-	if( data === $_ ) return;
-	$s.push("thx.load.MemoryLoader::new");
-	var $spos = $s.length;
-	this.data = data;
-	$s.pop();
-}
-thx.load.MemoryLoader.__name__ = ["thx","load","MemoryLoader"];
-thx.load.MemoryLoader.prototype.data = null;
-thx.load.MemoryLoader.prototype.load = function(completeHandler,errorHandler) {
-	$s.push("thx.load.MemoryLoader::load");
-	var $spos = $s.length;
-	if(null != this.data) {
-		completeHandler(this.data);
-		$s.pop();
-		return;
-	}
-	var error = "data is null";
-	if(null != errorHandler) errorHandler(error); else throw error;
-	$s.pop();
-}
-thx.load.MemoryLoader.prototype.__class__ = thx.load.MemoryLoader;
-thx.load.MemoryLoader.__interfaces__ = [thx.load.ILoader];
 utest.ui.common.ResultStats = function(p) {
 	if( p === $_ ) return;
 	$s.push("utest.ui.common.ResultStats::new");
@@ -15671,6 +16588,223 @@ thx.js.TestSelection.prototype.testDataAttributeAccess = function() {
 	$s.pop();
 }
 thx.js.TestSelection.prototype.__class__ = thx.js.TestSelection;
+thx.html.Html = function() { }
+thx.html.Html.__name__ = ["thx","html","Html"];
+thx.html.Html.getFormatter = function(version) {
+	$s.push("thx.html.Html::getFormatter");
+	var $spos = $s.length;
+	var format;
+	switch( (version)[1] ) {
+	case 0:
+	case 1:
+	case 2:
+		var f = new thx.html.HtmlFormat();
+		f.quotesRemoval = false;
+		f.useCloseSelf = false;
+		f.specialElementContentFormat = thx.html.SpecialElementContentFormat.AsCommentedText;
+		format = f;
+		break;
+	case 3:
+		var f = new thx.html.HtmlFormat();
+		f.quotesRemoval = true;
+		f.useCloseSelf = true;
+		f.specialElementContentFormat = thx.html.SpecialElementContentFormat.AsPlainText;
+		format = f;
+		break;
+	case 4:
+	case 6:
+	case 5:
+	case 7:
+		format = new thx.html.XHtmlFormat();
+		break;
+	}
+	format.autoformat = true;
+	format.normalizeNewlines = true;
+	$s.pop();
+	return format;
+	$s.pop();
+}
+thx.html.Html.getHtml = function(dom) {
+	$s.push("thx.html.Html::getHtml");
+	var $spos = $s.length;
+	if(dom.nodeType != Xml.Document) throw new thx.error.Error("invalid node type '{0}', should be Xml.Document",null,dom.nodeType,{ fileName : "Html.hx", lineNumber : 41, className : "thx.html.Html", methodName : "getHtml"});
+	var $tmp = dom.firstElement();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Html.getHead = function(dom) {
+	$s.push("thx.html.Html::getHead");
+	var $spos = $s.length;
+	var $tmp = thx.html.Html.getHtml(dom).firstElement();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Html.getTitle = function(dom) {
+	$s.push("thx.html.Html::getTitle");
+	var $spos = $s.length;
+	var $tmp = thx.html.Html.getHead(dom).elementsNamed("title").next();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Html.getBody = function(dom) {
+	$s.push("thx.html.Html::getBody");
+	var $spos = $s.length;
+	var $tmp = thx.html.Html.getHtml(dom).elementsNamed("body").next();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Html.createDocument = function(version) {
+	$s.push("thx.html.Html::createDocument");
+	var $spos = $s.length;
+	var parser = thx.html.Html.getParser(version);
+	var $tmp = parser(thx.html.Html.getTemplate(version));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Html.getParser = function(version) {
+	$s.push("thx.html.Html::getParser");
+	var $spos = $s.length;
+	switch( (version)[1] ) {
+	case 0:
+	case 1:
+	case 2:
+	case 3:
+		var $tmp = thx.html.Html.toXml;
+		$s.pop();
+		return $tmp;
+	case 4:
+	case 6:
+	case 5:
+	case 7:
+		var $tmp = Xml.parse;
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+thx.html.Html.getTemplate = function(version) {
+	$s.push("thx.html.Html::getTemplate");
+	var $spos = $s.length;
+	switch( (version)[1] ) {
+	case 0:
+		var $tmp = thx.html.Html.getTemplateHtml4Strict();
+		$s.pop();
+		return $tmp;
+	case 1:
+		var $tmp = thx.html.Html.getTemplateHtml4Transitional();
+		$s.pop();
+		return $tmp;
+	case 2:
+		var $tmp = thx.html.Html.getTemplateHtml4Frameset();
+		$s.pop();
+		return $tmp;
+	case 3:
+		var $tmp = thx.html.Html.getTemplateHtml5();
+		$s.pop();
+		return $tmp;
+	case 4:
+		var $tmp = thx.html.Html.getTemplateXHtml10Transitional();
+		$s.pop();
+		return $tmp;
+	case 6:
+		var $tmp = thx.html.Html.getTemplateXHtml10Frameset();
+		$s.pop();
+		return $tmp;
+	case 5:
+		var $tmp = thx.html.Html.getTemplateXHtml10Strict();
+		$s.pop();
+		return $tmp;
+	case 7:
+		var $tmp = thx.html.Html.getTemplateXHtml11();
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+thx.html.Html.getTemplateHtml4Strict = function() {
+	$s.push("thx.html.Html::getTemplateHtml4Strict");
+	var $spos = $s.length;
+	$s.pop();
+	return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"><html><head><title></title></head><body></body></html>";
+	$s.pop();
+}
+thx.html.Html.getTemplateHtml4Transitional = function() {
+	$s.push("thx.html.Html::getTemplateHtml4Transitional");
+	var $spos = $s.length;
+	$s.pop();
+	return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\"><html><head><title></title></head><body></body></html>";
+	$s.pop();
+}
+thx.html.Html.getTemplateHtml4Frameset = function() {
+	$s.push("thx.html.Html::getTemplateHtml4Frameset");
+	var $spos = $s.length;
+	$s.pop();
+	return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \"http://www.w3.org/TR/html4/frameset.dtd\"><html><head><title></title></head><frameset><noframes><body></body></noframes></frameset></html>";
+	$s.pop();
+}
+thx.html.Html.getTemplateHtml5 = function() {
+	$s.push("thx.html.Html::getTemplateHtml5");
+	var $spos = $s.length;
+	$s.pop();
+	return "<!doctype html><html><head><title></title></head><body></body></html>";
+	$s.pop();
+}
+thx.html.Html.getTemplateXHtml10Transitional = function() {
+	$s.push("thx.html.Html::getTemplateXHtml10Transitional");
+	var $spos = $s.length;
+	$s.pop();
+	return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title></title></head><body></body></html>";
+	$s.pop();
+}
+thx.html.Html.getTemplateXHtml10Strict = function() {
+	$s.push("thx.html.Html::getTemplateXHtml10Strict");
+	var $spos = $s.length;
+	$s.pop();
+	return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title></title></head><body></body></html>";
+	$s.pop();
+}
+thx.html.Html.getTemplateXHtml10Frameset = function() {
+	$s.push("thx.html.Html::getTemplateXHtml10Frameset");
+	var $spos = $s.length;
+	$s.pop();
+	return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title></title></head><frameset><noframes><body></body></noframes></frameset></html>";
+	$s.pop();
+}
+thx.html.Html.getTemplateXHtml11 = function() {
+	$s.push("thx.html.Html::getTemplateXHtml11");
+	var $spos = $s.length;
+	$s.pop();
+	return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title></title></head><body></body></html>";
+	$s.pop();
+}
+thx.html.Html.toXml = function(html) {
+	$s.push("thx.html.Html::toXml");
+	var $spos = $s.length;
+	var handler = new thx.html.DomHandler();
+	var parser = new thx.html.HtmlParser(html);
+	parser.process(handler);
+	var $tmp = handler.document;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Html.toXmlString = function(html) {
+	$s.push("thx.html.Html::toXmlString");
+	var $spos = $s.length;
+	var handler = new thx.html.TextHandler();
+	var parser = new thx.html.HtmlParser(html);
+	parser.process(handler);
+	var $tmp = handler.results;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.html.Html.prototype.__class__ = thx.html.Html;
 thx.html.HtmlDocumentFormat = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.html.HtmlDocumentFormat::new");
@@ -16049,243 +17183,6 @@ thx.html.SpecialElementContentFormat.AsCData.__enum__ = thx.html.SpecialElementC
 thx.html.SpecialElementContentFormat.AsCommentedText = ["AsCommentedText",2];
 thx.html.SpecialElementContentFormat.AsCommentedText.toString = $estr;
 thx.html.SpecialElementContentFormat.AsCommentedText.__enum__ = thx.html.SpecialElementContentFormat;
-TestAllExp = function() { }
-TestAllExp.__name__ = ["TestAllExp"];
-TestAllExp.addTests = function(runner) {
-	$s.push("TestAllExp::addTests");
-	var $spos = $s.length;
-	thx.culture.Culture.setDefaultCulture(thx.cultures.EnUS.getCulture());
-	thx.doc.TestAll.addTests(runner);
-	thx.load.TestAll.addTests(runner);
-	$s.pop();
-}
-TestAllExp.main = function() {
-	$s.push("TestAllExp::main");
-	var $spos = $s.length;
-	var runner = new utest.Runner();
-	TestAllExp.addTests(runner);
-	utest.ui.Report.create(runner);
-	runner.run();
-	$s.pop();
-}
-TestAllExp.prototype.__class__ = TestAllExp;
-thx.html.Html = function() { }
-thx.html.Html.__name__ = ["thx","html","Html"];
-thx.html.Html.getFormatter = function(version) {
-	$s.push("thx.html.Html::getFormatter");
-	var $spos = $s.length;
-	var format;
-	switch( (version)[1] ) {
-	case 0:
-	case 1:
-	case 2:
-		var f = new thx.html.HtmlFormat();
-		f.quotesRemoval = false;
-		f.useCloseSelf = false;
-		f.specialElementContentFormat = thx.html.SpecialElementContentFormat.AsCommentedText;
-		format = f;
-		break;
-	case 3:
-		var f = new thx.html.HtmlFormat();
-		f.quotesRemoval = true;
-		f.useCloseSelf = true;
-		f.specialElementContentFormat = thx.html.SpecialElementContentFormat.AsPlainText;
-		format = f;
-		break;
-	case 4:
-	case 6:
-	case 5:
-	case 7:
-		format = new thx.html.XHtmlFormat();
-		break;
-	}
-	format.autoformat = true;
-	format.normalizeNewlines = true;
-	$s.pop();
-	return format;
-	$s.pop();
-}
-thx.html.Html.getHtml = function(dom) {
-	$s.push("thx.html.Html::getHtml");
-	var $spos = $s.length;
-	if(dom.nodeType != Xml.Document) throw new thx.error.Error("invalid node type '{0}', should be Xml.Document",null,dom.nodeType,{ fileName : "Html.hx", lineNumber : 41, className : "thx.html.Html", methodName : "getHtml"});
-	var $tmp = dom.firstElement();
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Html.getHead = function(dom) {
-	$s.push("thx.html.Html::getHead");
-	var $spos = $s.length;
-	var $tmp = thx.html.Html.getHtml(dom).firstElement();
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Html.getTitle = function(dom) {
-	$s.push("thx.html.Html::getTitle");
-	var $spos = $s.length;
-	var $tmp = thx.html.Html.getHead(dom).elementsNamed("title").next();
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Html.getBody = function(dom) {
-	$s.push("thx.html.Html::getBody");
-	var $spos = $s.length;
-	var $tmp = thx.html.Html.getHtml(dom).elementsNamed("body").next();
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Html.createDocument = function(version) {
-	$s.push("thx.html.Html::createDocument");
-	var $spos = $s.length;
-	var parser = thx.html.Html.getParser(version);
-	var $tmp = parser(thx.html.Html.getTemplate(version));
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Html.getParser = function(version) {
-	$s.push("thx.html.Html::getParser");
-	var $spos = $s.length;
-	switch( (version)[1] ) {
-	case 0:
-	case 1:
-	case 2:
-	case 3:
-		var $tmp = thx.html.Html.toXml;
-		$s.pop();
-		return $tmp;
-	case 4:
-	case 6:
-	case 5:
-	case 7:
-		var $tmp = Xml.parse;
-		$s.pop();
-		return $tmp;
-	}
-	$s.pop();
-}
-thx.html.Html.getTemplate = function(version) {
-	$s.push("thx.html.Html::getTemplate");
-	var $spos = $s.length;
-	switch( (version)[1] ) {
-	case 0:
-		var $tmp = thx.html.Html.getTemplateHtml4Strict();
-		$s.pop();
-		return $tmp;
-	case 1:
-		var $tmp = thx.html.Html.getTemplateHtml4Transitional();
-		$s.pop();
-		return $tmp;
-	case 2:
-		var $tmp = thx.html.Html.getTemplateHtml4Frameset();
-		$s.pop();
-		return $tmp;
-	case 3:
-		var $tmp = thx.html.Html.getTemplateHtml5();
-		$s.pop();
-		return $tmp;
-	case 4:
-		var $tmp = thx.html.Html.getTemplateXHtml10Transitional();
-		$s.pop();
-		return $tmp;
-	case 6:
-		var $tmp = thx.html.Html.getTemplateXHtml10Frameset();
-		$s.pop();
-		return $tmp;
-	case 5:
-		var $tmp = thx.html.Html.getTemplateXHtml10Strict();
-		$s.pop();
-		return $tmp;
-	case 7:
-		var $tmp = thx.html.Html.getTemplateXHtml11();
-		$s.pop();
-		return $tmp;
-	}
-	$s.pop();
-}
-thx.html.Html.getTemplateHtml4Strict = function() {
-	$s.push("thx.html.Html::getTemplateHtml4Strict");
-	var $spos = $s.length;
-	$s.pop();
-	return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"><html><head><title></title></head><body></body></html>";
-	$s.pop();
-}
-thx.html.Html.getTemplateHtml4Transitional = function() {
-	$s.push("thx.html.Html::getTemplateHtml4Transitional");
-	var $spos = $s.length;
-	$s.pop();
-	return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\"><html><head><title></title></head><body></body></html>";
-	$s.pop();
-}
-thx.html.Html.getTemplateHtml4Frameset = function() {
-	$s.push("thx.html.Html::getTemplateHtml4Frameset");
-	var $spos = $s.length;
-	$s.pop();
-	return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \"http://www.w3.org/TR/html4/frameset.dtd\"><html><head><title></title></head><frameset><noframes><body></body></noframes></frameset></html>";
-	$s.pop();
-}
-thx.html.Html.getTemplateHtml5 = function() {
-	$s.push("thx.html.Html::getTemplateHtml5");
-	var $spos = $s.length;
-	$s.pop();
-	return "<!doctype html><html><head><title></title></head><body></body></html>";
-	$s.pop();
-}
-thx.html.Html.getTemplateXHtml10Transitional = function() {
-	$s.push("thx.html.Html::getTemplateXHtml10Transitional");
-	var $spos = $s.length;
-	$s.pop();
-	return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title></title></head><body></body></html>";
-	$s.pop();
-}
-thx.html.Html.getTemplateXHtml10Strict = function() {
-	$s.push("thx.html.Html::getTemplateXHtml10Strict");
-	var $spos = $s.length;
-	$s.pop();
-	return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title></title></head><body></body></html>";
-	$s.pop();
-}
-thx.html.Html.getTemplateXHtml10Frameset = function() {
-	$s.push("thx.html.Html::getTemplateXHtml10Frameset");
-	var $spos = $s.length;
-	$s.pop();
-	return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title></title></head><frameset><noframes><body></body></noframes></frameset></html>";
-	$s.pop();
-}
-thx.html.Html.getTemplateXHtml11 = function() {
-	$s.push("thx.html.Html::getTemplateXHtml11");
-	var $spos = $s.length;
-	$s.pop();
-	return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title></title></head><body></body></html>";
-	$s.pop();
-}
-thx.html.Html.toXml = function(html) {
-	$s.push("thx.html.Html::toXml");
-	var $spos = $s.length;
-	var handler = new thx.html.DomHandler();
-	var parser = new thx.html.HtmlParser(html);
-	parser.process(handler);
-	var $tmp = handler.document;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Html.toXmlString = function(html) {
-	$s.push("thx.html.Html::toXmlString");
-	var $spos = $s.length;
-	var handler = new thx.html.TextHandler();
-	var parser = new thx.html.HtmlParser(html);
-	parser.process(handler);
-	var $tmp = handler.results;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-thx.html.Html.prototype.__class__ = thx.html.Html;
 thx.date.TestDateParser = function(p) {
 	$s.push("thx.date.TestDateParser::new");
 	var $spos = $s.length;
@@ -17216,6 +18113,153 @@ thx.ini.Ini.decode = function(value) {
 	$s.pop();
 }
 thx.ini.Ini.prototype.__class__ = thx.ini.Ini;
+thx.error.NotImplemented = function(posInfo) {
+	if( posInfo === $_ ) return;
+	$s.push("thx.error.NotImplemented::new");
+	var $spos = $s.length;
+	thx.error.Error.call(this,"method {0}.{1}() needs to be implemented",[posInfo.className,posInfo.methodName],posInfo,{ fileName : "NotImplemented.hx", lineNumber : 13, className : "thx.error.NotImplemented", methodName : "new"});
+	$s.pop();
+}
+thx.error.NotImplemented.__name__ = ["thx","error","NotImplemented"];
+thx.error.NotImplemented.__super__ = thx.error.Error;
+for(var k in thx.error.Error.prototype ) thx.error.NotImplemented.prototype[k] = thx.error.Error.prototype[k];
+thx.error.NotImplemented.prototype.__class__ = thx.error.NotImplemented;
+thx.collection.IntHashList = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.collection.IntHashList::new");
+	var $spos = $s.length;
+	this.length = 0;
+	this.__keys = [];
+	this.__hash = new IntHash();
+	$s.pop();
+}
+thx.collection.IntHashList.__name__ = ["thx","collection","IntHashList"];
+thx.collection.IntHashList.prototype.length = null;
+thx.collection.IntHashList.prototype.set = function(key,value) {
+	$s.push("thx.collection.IntHashList::set");
+	var $spos = $s.length;
+	if(!this.__hash.exists(key)) {
+		this.__keys.push(key);
+		this.length++;
+	}
+	this.__hash.set(key,value);
+	$s.pop();
+}
+thx.collection.IntHashList.prototype.get = function(key) {
+	$s.push("thx.collection.IntHashList::get");
+	var $spos = $s.length;
+	var $tmp = this.__hash.get(key);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collection.IntHashList.prototype.getAt = function(index) {
+	$s.push("thx.collection.IntHashList::getAt");
+	var $spos = $s.length;
+	var $tmp = this.__hash.get(this.__keys[index]);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collection.IntHashList.prototype.exists = function(key) {
+	$s.push("thx.collection.IntHashList::exists");
+	var $spos = $s.length;
+	var $tmp = this.__hash.exists(key);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collection.IntHashList.prototype.remove = function(key) {
+	$s.push("thx.collection.IntHashList::remove");
+	var $spos = $s.length;
+	var item = this.__hash.get(key);
+	if(item == null) {
+		$s.pop();
+		return null;
+	}
+	this.__hash.remove(key);
+	this.__keys.remove(key);
+	this.length--;
+	$s.pop();
+	return item;
+	$s.pop();
+}
+thx.collection.IntHashList.prototype.removeAt = function(index) {
+	$s.push("thx.collection.IntHashList::removeAt");
+	var $spos = $s.length;
+	if(index < 0 || index >= this.length) {
+		$s.pop();
+		return null;
+	}
+	var key = this.__keys[index];
+	var item = this.__hash.get(key);
+	this.__hash.remove(key);
+	this.__keys.remove(key);
+	this.length--;
+	$s.pop();
+	return item;
+	$s.pop();
+}
+thx.collection.IntHashList.prototype.keys = function() {
+	$s.push("thx.collection.IntHashList::keys");
+	var $spos = $s.length;
+	var $tmp = this.__keys.iterator();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collection.IntHashList.prototype.iterator = function() {
+	$s.push("thx.collection.IntHashList::iterator");
+	var $spos = $s.length;
+	var $tmp = this.array().iterator();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collection.IntHashList.prototype.clear = function() {
+	$s.push("thx.collection.IntHashList::clear");
+	var $spos = $s.length;
+	this.__hash = new IntHash();
+	this.__keys = [];
+	this.length = 0;
+	$s.pop();
+}
+thx.collection.IntHashList.prototype.array = function() {
+	$s.push("thx.collection.IntHashList::array");
+	var $spos = $s.length;
+	var values = [];
+	var _g = 0, _g1 = this.__keys;
+	while(_g < _g1.length) {
+		var k = _g1[_g];
+		++_g;
+		values.push(this.__hash.get(k));
+	}
+	$s.pop();
+	return values;
+	$s.pop();
+}
+thx.collection.IntHashList.prototype.toString = function() {
+	$s.push("thx.collection.IntHashList::toString");
+	var $spos = $s.length;
+	var s = new StringBuf();
+	s.b[s.b.length] = "{";
+	var it = this.keys();
+	while( it.hasNext() ) {
+		var i = it.next();
+		s.b[s.b.length] = i;
+		s.b[s.b.length] = " => ";
+		s.b[s.b.length] = Std.string(this.get(i));
+		if(it.hasNext()) s.b[s.b.length] = ", ";
+	}
+	s.b[s.b.length] = "}";
+	var $tmp = s.b.join("");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.collection.IntHashList.prototype.__keys = null;
+thx.collection.IntHashList.prototype.__hash = null;
+thx.collection.IntHashList.prototype.__class__ = thx.collection.IntHashList;
 thx.svg.TestLine = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.svg.TestLine::new");
@@ -18278,7 +19322,7 @@ thx.js.BoundSelection.prototype.selfData = function() {
 	$s.push("thx.js.BoundSelection::selfData");
 	var $spos = $s.length;
 	var $tmp = this.dataf(function(d,_) {
-		$s.push("thx.js.BoundSelection::selfData@164");
+		$s.push("thx.js.BoundSelection::selfData@167");
 		var $spos = $s.length;
 		var $tmp = d;
 		$s.pop();
@@ -18293,7 +19337,7 @@ thx.js.BoundSelection.prototype.each = function(f) {
 	$s.push("thx.js.BoundSelection::each");
 	var $spos = $s.length;
 	var $tmp = this.eachNode(function(n,i) {
-		$s.push("thx.js.BoundSelection::each@169");
+		$s.push("thx.js.BoundSelection::each@172");
 		var $spos = $s.length;
 		f(Reflect.field(n,"__data__"),i);
 		$s.pop();
@@ -18306,7 +19350,7 @@ thx.js.BoundSelection.prototype.sort = function(comparator) {
 	$s.push("thx.js.BoundSelection::sort");
 	var $spos = $s.length;
 	var $tmp = this.sortNode(function(a,b) {
-		$s.push("thx.js.BoundSelection::sort@174");
+		$s.push("thx.js.BoundSelection::sort@177");
 		var $spos = $s.length;
 		var $tmp = comparator(Reflect.field(a,"__data__"),Reflect.field(b,"__data__"));
 		$s.pop();
@@ -18321,7 +19365,7 @@ thx.js.BoundSelection.prototype.filter = function(f) {
 	$s.push("thx.js.BoundSelection::filter");
 	var $spos = $s.length;
 	var $tmp = this.filterNode(function(n,i) {
-		$s.push("thx.js.BoundSelection::filter@179");
+		$s.push("thx.js.BoundSelection::filter@182");
 		var $spos = $s.length;
 		var $tmp = f(Reflect.field(n,"__data__"),i);
 		$s.pop();
@@ -18359,7 +19403,7 @@ thx.js.BoundSelection.prototype.first = function(f) {
 	$s.push("thx.js.BoundSelection::first");
 	var $spos = $s.length;
 	var $tmp = this.firstNode(function(n) {
-		$s.push("thx.js.BoundSelection::first@202");
+		$s.push("thx.js.BoundSelection::first@205");
 		var $spos = $s.length;
 		var $tmp = f(Reflect.field(n,"__data__"));
 		$s.pop();
@@ -18375,7 +19419,7 @@ thx.js.BoundSelection.prototype.on = function(type,listener,capture) {
 	var $spos = $s.length;
 	if(capture == null) capture = false;
 	var $tmp = this.onNode(type,null == listener?null:function(n,i) {
-		$s.push("thx.js.BoundSelection::on@207");
+		$s.push("thx.js.BoundSelection::on@210");
 		var $spos = $s.length;
 		listener(Reflect.field(n,"__data__"),i);
 		$s.pop();
@@ -18428,7 +19472,7 @@ thx.js.PreEnterSelection.prototype.append = function(name) {
 	var $spos = $s.length;
 	var qname = thx.xml.Namespace.qualify(name);
 	var append = function(node) {
-		$s.push("thx.js.PreEnterSelection::append@226");
+		$s.push("thx.js.PreEnterSelection::append@229");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name);
 		node.appendChild(n);
@@ -18437,7 +19481,7 @@ thx.js.PreEnterSelection.prototype.append = function(name) {
 		$s.pop();
 	};
 	var appendNS = function(node) {
-		$s.push("thx.js.PreEnterSelection::append@233");
+		$s.push("thx.js.PreEnterSelection::append@236");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNS(qname.space,qname.local);
 		node.appendChild(n);
@@ -18455,7 +19499,7 @@ thx.js.PreEnterSelection.prototype.insert = function(name,before,beforeSelector)
 	var $spos = $s.length;
 	var qname = thx.xml.Namespace.qualify(name);
 	var insertDom = function(node) {
-		$s.push("thx.js.PreEnterSelection::insert@246");
+		$s.push("thx.js.PreEnterSelection::insert@249");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElement(name), bf = null != before?before:thx.js.Dom.selectNode(node).select(beforeSelector).node();
 		node.insertBefore(n,bf);
@@ -18464,7 +19508,7 @@ thx.js.PreEnterSelection.prototype.insert = function(name,before,beforeSelector)
 		$s.pop();
 	};
 	var insertNsDom = function(node) {
-		$s.push("thx.js.PreEnterSelection::insert@253");
+		$s.push("thx.js.PreEnterSelection::insert@256");
 		var $spos = $s.length;
 		var n = js.Lib.document.createElementNS(qname.space,qname.local), bf = null != before?before:thx.js.Dom.selectNode(node).select(beforeSelector).node();
 		node.insertBefore(n,bf);
@@ -19901,6 +20945,92 @@ thx.data.TestValueHandler.prototype.assertHandler = function(expected,f,pos) {
 	$s.pop();
 }
 thx.data.TestValueHandler.prototype.__class__ = thx.data.TestValueHandler;
+thx.geo.AlbersUsa = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.geo.AlbersUsa::new");
+	var $spos = $s.length;
+	this.lower48 = new thx.geo.Albers();
+	this.alaska = new thx.geo.Albers();
+	this.alaska.setOrigin([-160.0,60]);
+	this.alaska.setParallels([55.0,65]);
+	this.hawaii = new thx.geo.Albers();
+	this.hawaii.setOrigin([-160.0,20]);
+	this.hawaii.setParallels([8.0,18]);
+	this.puertoRico = new thx.geo.Albers();
+	this.puertoRico.setOrigin([-60.0,10]);
+	this.puertoRico.setParallels([8.0,18]);
+	this.setScale(this.lower48.getScale());
+	$s.pop();
+}
+thx.geo.AlbersUsa.__name__ = ["thx","geo","AlbersUsa"];
+thx.geo.AlbersUsa.prototype.translate = null;
+thx.geo.AlbersUsa.prototype.scale = null;
+thx.geo.AlbersUsa.prototype.lower48 = null;
+thx.geo.AlbersUsa.prototype.alaska = null;
+thx.geo.AlbersUsa.prototype.hawaii = null;
+thx.geo.AlbersUsa.prototype.puertoRico = null;
+thx.geo.AlbersUsa.prototype.project = function(coords) {
+	$s.push("thx.geo.AlbersUsa::project");
+	var $spos = $s.length;
+	var lon = coords[0], lat = coords[1];
+	var $tmp = (lat > 50?this.alaska:lon < -140?this.hawaii:lat < 21?this.puertoRico:this.lower48).project(coords);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.AlbersUsa.prototype.invert = function(coords) {
+	$s.push("thx.geo.AlbersUsa::invert");
+	var $spos = $s.length;
+	var $tmp = (function($this) {
+		var $r;
+		throw new thx.error.NotImplemented({ fileName : "AlbersUsa.hx", lineNumber : 56, className : "thx.geo.AlbersUsa", methodName : "invert"});
+		return $r;
+	}(this));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.AlbersUsa.prototype.setScale = function(scale) {
+	$s.push("thx.geo.AlbersUsa::setScale");
+	var $spos = $s.length;
+	this.lower48.setScale(scale);
+	this.alaska.setScale(scale * .6);
+	this.hawaii.setScale(scale);
+	this.puertoRico.setScale(scale * 1.5);
+	$s.pop();
+	return scale;
+	$s.pop();
+}
+thx.geo.AlbersUsa.prototype.getScale = function() {
+	$s.push("thx.geo.AlbersUsa::getScale");
+	var $spos = $s.length;
+	var $tmp = this.lower48.getScale();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.AlbersUsa.prototype.setTranslate = function(translate) {
+	$s.push("thx.geo.AlbersUsa::setTranslate");
+	var $spos = $s.length;
+	var dz = this.lower48.getScale() / 1000, dx = translate[0], dy = translate[1];
+	this.lower48.setTranslate(translate);
+	this.alaska.setTranslate([dx - 400 * dz,dy + 170 * dz]);
+	this.hawaii.setTranslate([dx - 190 * dz,dy + 200 * dz]);
+	this.puertoRico.setTranslate([dx + 580 * dz,dy + 430 * dz]);
+	$s.pop();
+	return translate;
+	$s.pop();
+}
+thx.geo.AlbersUsa.prototype.getTranslate = function() {
+	$s.push("thx.geo.AlbersUsa::getTranslate");
+	var $spos = $s.length;
+	var $tmp = this.lower48.getTranslate();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.AlbersUsa.prototype.__class__ = thx.geo.AlbersUsa;
+thx.geo.AlbersUsa.__interfaces__ = [thx.geo.IProjection];
 thx.js.AccessStyle = function(name,selection) {
 	if( name === $_ ) return;
 	$s.push("thx.js.AccessStyle::new");
@@ -21198,33 +22328,6 @@ thx.svg.Line.prototype.y = function(v) {
 	$s.pop();
 }
 thx.svg.Line.prototype.__class__ = thx.svg.Line;
-thx.doc.Fragment = { __ename__ : ["thx","doc","Fragment"], __constructs__ : ["Abbreviation","Code","DefinitionList","Emphasis","Heading","HorizontalRule","Image","InternalLink","LineBreak","Link","Note","OrderedList","Paragraph","Quote","Reference","StrongEmphasis","Table","Text","UnorderedList"] }
-thx.doc.Fragment.Abbreviation = function(abbr,expanded) { var $x = ["Abbreviation",0,abbr,expanded]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.Code = function(code,isBlock,lang) { var $x = ["Code",1,code,isBlock,lang]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.DefinitionList = function(a) { var $x = ["DefinitionList",2,a]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.Emphasis = function(a) { var $x = ["Emphasis",3,a]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.Heading = function(a,level) { var $x = ["Heading",4,a,level]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.HorizontalRule = ["HorizontalRule",5];
-thx.doc.Fragment.HorizontalRule.toString = $estr;
-thx.doc.Fragment.HorizontalRule.__enum__ = thx.doc.Fragment;
-thx.doc.Fragment.Image = function(href,alt,title) { var $x = ["Image",6,href,alt,title]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.InternalLink = function(reference,a) { var $x = ["InternalLink",7,reference,a]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.LineBreak = ["LineBreak",8];
-thx.doc.Fragment.LineBreak.toString = $estr;
-thx.doc.Fragment.LineBreak.__enum__ = thx.doc.Fragment;
-thx.doc.Fragment.Link = function(href,a,title) { var $x = ["Link",9,href,a,title]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.Note = function(note) { var $x = ["Note",10,note]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.OrderedList = function(a,start) { var $x = ["OrderedList",11,a,start]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.Paragraph = function(a) { var $x = ["Paragraph",12,a]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.Quote = function(a) { var $x = ["Quote",13,a]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.Reference = function(a,name) { var $x = ["Reference",14,a,name]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.StrongEmphasis = function(a) { var $x = ["StrongEmphasis",15,a]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.Table = function(rows) { var $x = ["Table",16,rows]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.Text = function(s) { var $x = ["Text",17,s]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.Fragment.UnorderedList = function(a) { var $x = ["UnorderedList",18,a]; $x.__enum__ = thx.doc.Fragment; $x.toString = $estr; return $x; }
-thx.doc.TableRow = { __ename__ : ["thx","doc","TableRow"], __constructs__ : ["HeaderRow","Row"] }
-thx.doc.TableRow.HeaderRow = function(cells) { var $x = ["HeaderRow",0,cells]; $x.__enum__ = thx.doc.TableRow; $x.toString = $estr; return $x; }
-thx.doc.TableRow.Row = function(cells) { var $x = ["Row",1,cells]; $x.__enum__ = thx.doc.TableRow; $x.toString = $estr; return $x; }
 thx.xml.Namespace = function() { }
 thx.xml.Namespace.__name__ = ["thx","xml","Namespace"];
 thx.xml.Namespace.qualify = function(name) {
@@ -21634,28 +22737,6 @@ thx.html.TestHtmlParser.prototype.testMain = function() {
 	$s.pop();
 }
 thx.html.TestHtmlParser.prototype.__class__ = thx.html.TestHtmlParser;
-thx.load.TestAll = function(p) {
-	$s.push("thx.load.TestAll::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.load.TestAll.__name__ = ["thx","load","TestAll"];
-thx.load.TestAll.addTests = function(runner) {
-	$s.push("thx.load.TestAll::addTests");
-	var $spos = $s.length;
-	runner.addCase(new thx.load.TestMemoryLoader());
-	$s.pop();
-}
-thx.load.TestAll.main = function() {
-	$s.push("thx.load.TestAll::main");
-	var $spos = $s.length;
-	var runner = new utest.Runner();
-	thx.load.TestAll.addTests(runner);
-	utest.ui.Report.create(runner);
-	runner.run();
-	$s.pop();
-}
-thx.load.TestAll.prototype.__class__ = thx.load.TestAll;
 thx.text.Inflections = function() { }
 thx.text.Inflections.__name__ = ["thx","text","Inflections"];
 thx.text.Inflections.pluralize = function(singular) {
@@ -22463,7 +23544,7 @@ TestAll.addTests = function(runner) {
 	var $spos = $s.length;
 	thx.culture.Culture.setDefaultCulture(thx.cultures.EnUS.getCulture());
 	thx.js.TestAll.addTests(runner);
-	thx.collections.TestAll.addTests(runner);
+	thx.collection.TestAll.addTests(runner);
 	thx.color.TestAll.addTests(runner);
 	runner.addCase(new thx.data.TestValueEncoder());
 	runner.addCase(new thx.data.TestValueHandler());
@@ -22488,7 +23569,6 @@ TestAll.addTests = function(runner) {
 	TestHashes.addTests(runner);
 	TestObjects.addTests(runner);
 	TestStrings.addTests(runner);
-	TestAllExp.addTests(runner);
 	$s.pop();
 }
 TestAll.main = function() {
@@ -23063,6 +24143,67 @@ thx.math.Random.prototype["float"] = function() {
 	$s.pop();
 }
 thx.math.Random.prototype.__class__ = thx.math.Random;
+thx.svg.LineInterpolators = function() { }
+thx.svg.LineInterpolators.__name__ = ["thx","svg","LineInterpolators"];
+thx.svg.LineInterpolators.parse = function(s,sep) {
+	$s.push("thx.svg.LineInterpolators::parse");
+	var $spos = $s.length;
+	if(sep == null) sep = "-";
+	var interp = s.split(sep)[0].toLowerCase();
+	var $tmp = (function($this) {
+		var $r;
+		switch(interp) {
+		case "basis":
+			$r = thx.svg.LineInterpolator.Basis;
+			break;
+		case "basisopen":
+			$r = thx.svg.LineInterpolator.BasisOpen;
+			break;
+		case "basisclosed":
+			$r = thx.svg.LineInterpolator.BasisClosed;
+			break;
+		case "cardinal":
+			$r = thx.svg.LineInterpolator.Cardinal(thx.svg.LineInterpolators.argument(s));
+			break;
+		case "cardinalopen":
+			$r = thx.svg.LineInterpolator.CardinalOpen(thx.svg.LineInterpolators.argument(s));
+			break;
+		case "cardinalclosed":
+			$r = thx.svg.LineInterpolator.CardinalClosed(thx.svg.LineInterpolators.argument(s));
+			break;
+		case "monotone":
+			$r = thx.svg.LineInterpolator.Monotone;
+			break;
+		case "stepafter":
+			$r = thx.svg.LineInterpolator.StepAfter;
+			break;
+		case "stepbefore":
+			$r = thx.svg.LineInterpolator.StepBefore;
+			break;
+		default:
+			$r = thx.svg.LineInterpolator.Linear;
+		}
+		return $r;
+	}(this));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.LineInterpolators.argument = function(s) {
+	$s.push("thx.svg.LineInterpolators::argument");
+	var $spos = $s.length;
+	var v = s.split("-")[1];
+	if(null == v) {
+		$s.pop();
+		return null;
+	} else {
+		var $tmp = Std.parseFloat(v);
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+thx.svg.LineInterpolators.prototype.__class__ = thx.svg.LineInterpolators;
 thx.json.TestJson = function(p) {
 	$s.push("thx.json.TestJson::new");
 	var $spos = $s.length;
@@ -23119,45 +24260,6 @@ thx.xml.TestAll.main = function() {
 	$s.pop();
 }
 thx.xml.TestAll.prototype.__class__ = thx.xml.TestAll;
-thx.load.TestMemoryLoader = function(p) {
-	$s.push("thx.load.TestMemoryLoader::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-thx.load.TestMemoryLoader.__name__ = ["thx","load","TestMemoryLoader"];
-thx.load.TestMemoryLoader.prototype.testLoad = function() {
-	$s.push("thx.load.TestMemoryLoader::testLoad");
-	var $spos = $s.length;
-	var loader = new thx.load.MemoryLoader("my test");
-	var f = utest.Assert.createEvent(function(s) {
-		$s.push("thx.load.TestMemoryLoader::testLoad@10");
-		var $spos = $s.length;
-		utest.Assert.stringContains("test",s,null,{ fileName : "TestMemoryLoader.hx", lineNumber : 11, className : "thx.load.TestMemoryLoader", methodName : "testLoad"});
-		$s.pop();
-	});
-	loader.load(f);
-	$s.pop();
-}
-thx.load.TestMemoryLoader.prototype.testError = function() {
-	$s.push("thx.load.TestMemoryLoader::testError");
-	var $spos = $s.length;
-	var loader = new thx.load.MemoryLoader(null);
-	var e = utest.Assert.createEvent(function(s) {
-		$s.push("thx.load.TestMemoryLoader::testError@19");
-		var $spos = $s.length;
-		utest.Assert.isTrue(true,null,{ fileName : "TestMemoryLoader.hx", lineNumber : 20, className : "thx.load.TestMemoryLoader", methodName : "testError"});
-		$s.pop();
-	});
-	var h = function(_) {
-		$s.push("thx.load.TestMemoryLoader::testError@22");
-		var $spos = $s.length;
-		haxe.Log.trace("should never reach this point",{ fileName : "TestMemoryLoader.hx", lineNumber : 23, className : "thx.load.TestMemoryLoader", methodName : "testError"});
-		$s.pop();
-	};
-	loader.load(h,e);
-	$s.pop();
-}
-thx.load.TestMemoryLoader.prototype.__class__ = thx.load.TestMemoryLoader;
 thx.validation.TestUrl = function(p) {
 	$s.push("thx.validation.TestUrl::new");
 	var $spos = $s.length;
@@ -24201,6 +25303,142 @@ thx.text.TestAll.main = function() {
 	$s.pop();
 }
 thx.text.TestAll.prototype.__class__ = thx.text.TestAll;
+thx.geo.Azimuthal = function(p) {
+	if( p === $_ ) return;
+	$s.push("thx.geo.Azimuthal::new");
+	var $spos = $s.length;
+	this.setMode(thx.geo.ProjectionMode.Orthographic);
+	this.setScale(200);
+	this.setTranslate([480.0,250]);
+	this.setOrigin([0.0,0]);
+	$s.pop();
+}
+thx.geo.Azimuthal.__name__ = ["thx","geo","Azimuthal"];
+thx.geo.Azimuthal.prototype.mode = null;
+thx.geo.Azimuthal.prototype.origin = null;
+thx.geo.Azimuthal.prototype.scale = null;
+thx.geo.Azimuthal.prototype.translate = null;
+thx.geo.Azimuthal.prototype.x0 = null;
+thx.geo.Azimuthal.prototype.y0 = null;
+thx.geo.Azimuthal.prototype.cy0 = null;
+thx.geo.Azimuthal.prototype.sy0 = null;
+thx.geo.Azimuthal.prototype.project = function(coords) {
+	$s.push("thx.geo.Azimuthal::project");
+	var $spos = $s.length;
+	var x1 = coords[0] * 0.01745329251994329577 - this.x0, y1 = coords[1] * 0.01745329251994329577, cx1 = Math.cos(x1), sx1 = Math.sin(x1), cy1 = Math.cos(y1), sy1 = Math.sin(y1), k = (function($this) {
+		var $r;
+		switch( ($this.getMode())[1] ) {
+		case 0:
+			$r = 1;
+			break;
+		case 1:
+			$r = 1 / (1 + $this.sy0 * sy1 + $this.cy0 * cy1 * cx1);
+			break;
+		}
+		return $r;
+	}(this)), x = k * cy1 * sx1, y = k * (this.sy0 * cy1 * cx1 - this.cy0 * sy1);
+	var $tmp = [this.getScale() * x + this.getTranslate()[0],this.getScale() * y + this.getTranslate()[1]];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Azimuthal.prototype.invert = function(coords) {
+	$s.push("thx.geo.Azimuthal::invert");
+	var $spos = $s.length;
+	var x = (coords[0] - this.getTranslate()[0]) / this.getScale(), y = (coords[1] - this.getTranslate()[1]) / this.getScale(), p = Math.sqrt(x * x + y * y), c = (function($this) {
+		var $r;
+		switch( ($this.getMode())[1] ) {
+		case 0:
+			$r = Math.asin(p);
+			break;
+		case 1:
+			$r = Math.atan(p);
+			break;
+		}
+		return $r;
+	}(this)), sc = Math.sin(c), cc = Math.cos(c);
+	var $tmp = [(this.x0 + Math.atan2(x * sc,p * this.cy0 * cc + y * this.sy0 * sc)) / 0.01745329251994329577,Math.asin(cc * this.sy0 - y * sc * this.cy0 / p) / 0.01745329251994329577];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Azimuthal.prototype.getOrigin = function() {
+	$s.push("thx.geo.Azimuthal::getOrigin");
+	var $spos = $s.length;
+	var $tmp = this.origin.copy();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Azimuthal.prototype.setOrigin = function(origin) {
+	$s.push("thx.geo.Azimuthal::setOrigin");
+	var $spos = $s.length;
+	this.origin = [origin[0],origin[1]];
+	this.x0 = origin[0] * 0.01745329251994329577;
+	this.y0 = origin[1] * 0.01745329251994329577;
+	this.cy0 = Math.cos(this.y0);
+	this.sy0 = Math.sin(this.y0);
+	$s.pop();
+	return origin;
+	$s.pop();
+}
+thx.geo.Azimuthal.prototype.getTranslate = function() {
+	$s.push("thx.geo.Azimuthal::getTranslate");
+	var $spos = $s.length;
+	var $tmp = this.translate.copy();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Azimuthal.prototype.setTranslate = function(translate) {
+	$s.push("thx.geo.Azimuthal::setTranslate");
+	var $spos = $s.length;
+	this.translate = [translate[0],translate[1]];
+	$s.pop();
+	return translate;
+	$s.pop();
+}
+thx.geo.Azimuthal.prototype.setScale = function(scale) {
+	$s.push("thx.geo.Azimuthal::setScale");
+	var $spos = $s.length;
+	var $tmp = this.scale = scale;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Azimuthal.prototype.getScale = function() {
+	$s.push("thx.geo.Azimuthal::getScale");
+	var $spos = $s.length;
+	var $tmp = this.scale;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Azimuthal.prototype.setMode = function(mode) {
+	$s.push("thx.geo.Azimuthal::setMode");
+	var $spos = $s.length;
+	var $tmp = this.mode = mode;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Azimuthal.prototype.getMode = function() {
+	$s.push("thx.geo.Azimuthal::getMode");
+	var $spos = $s.length;
+	var $tmp = this.mode;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.geo.Azimuthal.prototype.__class__ = thx.geo.Azimuthal;
+thx.geo.Azimuthal.__interfaces__ = [thx.geo.IProjection];
+thx.geo.ProjectionMode = { __ename__ : ["thx","geo","ProjectionMode"], __constructs__ : ["Orthographic","Stereographic"] }
+thx.geo.ProjectionMode.Orthographic = ["Orthographic",0];
+thx.geo.ProjectionMode.Orthographic.toString = $estr;
+thx.geo.ProjectionMode.Orthographic.__enum__ = thx.geo.ProjectionMode;
+thx.geo.ProjectionMode.Stereographic = ["Stereographic",1];
+thx.geo.ProjectionMode.Stereographic.toString = $estr;
+thx.geo.ProjectionMode.Stereographic.__enum__ = thx.geo.ProjectionMode;
 thx.validation.IncrementValidator = function(increment) {
 	if( increment === $_ ) return;
 	$s.push("thx.validation.IncrementValidator::new");
@@ -24383,6 +25621,33 @@ Objects.clone = function(src) {
 	return $tmp;
 	$s.pop();
 }
+Objects.mergef = function(ob,new_ob,f) {
+	$s.push("Objects::mergef");
+	var $spos = $s.length;
+	var _g = 0, _g1 = Reflect.fields(new_ob);
+	while(_g < _g1.length) {
+		var field = _g1[_g];
+		++_g;
+		var new_val = Reflect.field(new_ob,field);
+		if(Reflect.hasField(ob,field)) {
+			var old_val = Reflect.field(ob,field);
+			ob[field] = f(field,old_val,new_val);
+		} else ob[field] = new_val;
+	}
+	$s.pop();
+}
+Objects.merge = function(ob,new_ob) {
+	$s.push("Objects::merge");
+	var $spos = $s.length;
+	Objects.mergef(ob,new_ob,function(key,old_v,new_v) {
+		$s.push("Objects::merge@154");
+		var $spos = $s.length;
+		$s.pop();
+		return new_v;
+		$s.pop();
+	});
+	$s.pop();
+}
 Objects._flatten = function(src,cum,arr,levels,level) {
 	$s.push("Objects::_flatten");
 	var $spos = $s.length;
@@ -24476,7 +25741,7 @@ Objects.formatf = function(param,params,culture) {
 	switch(format) {
 	case "O":
 		var $tmp = function(v) {
-			$s.push("Objects::formatf@215");
+			$s.push("Objects::formatf@236");
 			var $spos = $s.length;
 			var $tmp = Std.string(v);
 			$s.pop();
@@ -24487,7 +25752,7 @@ Objects.formatf = function(param,params,culture) {
 		return $tmp;
 	case "R":
 		var $tmp = function(v) {
-			$s.push("Objects::formatf@217");
+			$s.push("Objects::formatf@238");
 			var $spos = $s.length;
 			var buf = [];
 			var _g = 0, _g1 = Reflect.fields(v);
@@ -24506,7 +25771,7 @@ Objects.formatf = function(param,params,culture) {
 	default:
 		var $tmp = (function($this) {
 			var $r;
-			throw new thx.error.Error("Unsupported number format: {0}",null,format,{ fileName : "Objects.hx", lineNumber : 225, className : "Objects", methodName : "formatf"});
+			throw new thx.error.Error("Unsupported number format: {0}",null,format,{ fileName : "Objects.hx", lineNumber : 246, className : "Objects", methodName : "formatf"});
 			return $r;
 		}(this));
 		$s.pop();
@@ -25275,6 +26540,117 @@ thx.math.scale.TestQuantize.__name__ = ["thx","math","scale","TestQuantize"];
 thx.math.scale.TestQuantize.__super__ = thx.math.scale.TestAll;
 for(var k in thx.math.scale.TestAll.prototype ) thx.math.scale.TestQuantize.prototype[k] = thx.math.scale.TestAll.prototype[k];
 thx.math.scale.TestQuantize.prototype.__class__ = thx.math.scale.TestQuantize;
+thx.svg.Symbol = function() { }
+thx.svg.Symbol.__name__ = ["thx","svg","Symbol"];
+thx.svg.Symbol.triangleDown = function(size) {
+	$s.push("thx.svg.Symbol::triangleDown");
+	var $spos = $s.length;
+	var rx = Math.sqrt(size / thx.svg.Symbol.sqrt3), ry = rx * thx.svg.Symbol.sqrt3 / 2;
+	var $tmp = "M0," + ry + "L" + rx + "," + -ry + " " + -rx + "," + -ry + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Symbol.triangleUp = function(size) {
+	$s.push("thx.svg.Symbol::triangleUp");
+	var $spos = $s.length;
+	var rx = Math.sqrt(size / thx.svg.Symbol.sqrt3), ry = rx * thx.svg.Symbol.sqrt3 / 2;
+	var $tmp = "M0," + -ry + "L" + rx + "," + ry + " " + -rx + "," + ry + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Symbol.square = function(size) {
+	$s.push("thx.svg.Symbol::square");
+	var $spos = $s.length;
+	var r = Math.sqrt(size) / 2;
+	var $tmp = "M" + -r + "," + -r + "L" + r + "," + -r + " " + r + "," + r + " " + -r + "," + r + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Symbol.diamond = function(size) {
+	$s.push("thx.svg.Symbol::diamond");
+	var $spos = $s.length;
+	var ry = Math.sqrt(size / (2 * thx.svg.Symbol.tan30)), rx = ry * thx.svg.Symbol.tan30;
+	var $tmp = "M0," + -ry + "L" + rx + ",0" + " 0," + ry + " " + -rx + ",0" + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Symbol.cross = function(size) {
+	$s.push("thx.svg.Symbol::cross");
+	var $spos = $s.length;
+	var r = Math.sqrt(size / 5) / 2;
+	var $tmp = "M" + -3 * r + "," + -r + "H" + -r + "V" + -3 * r + "H" + r + "V" + -r + "H" + 3 * r + "V" + r + "H" + r + "V" + 3 * r + "H" + -r + "V" + r + "H" + -3 * r + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Symbol.circle = function(size) {
+	$s.push("thx.svg.Symbol::circle");
+	var $spos = $s.length;
+	var r = Math.sqrt(size / Math.PI);
+	var $tmp = "M0," + r + "A" + r + "," + r + " 0 1,1 0," + -r + "A" + r + "," + r + " 0 1,1 0," + r + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Symbol.arrowUp = function(size) {
+	$s.push("thx.svg.Symbol::arrowUp");
+	var $spos = $s.length;
+	var r = Math.sqrt(size / 2);
+	var $tmp = "M" + -r + ",0" + "h" + r / 2 + "v" + r + "h" + r + "v" + -r + "h" + r / 2 + "l" + -r + "," + -r + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Symbol.arrowDown = function(size) {
+	$s.push("thx.svg.Symbol::arrowDown");
+	var $spos = $s.length;
+	var r = Math.sqrt(size / 2);
+	var $tmp = "M" + -r + ",0" + "h" + r / 2 + "v" + -r + "h" + r + "v" + r + "h" + r / 2 + "l" + -r + "," + r + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Symbol.arrowDownWide = function(size) {
+	$s.push("thx.svg.Symbol::arrowDownWide");
+	var $spos = $s.length;
+	var r = Math.sqrt(size / 2.5);
+	var $tmp = "M" + -r + ",0" + "h" + r / 4 + "v" + -r + "h" + r * 1.5 + "v" + r + "h" + r / 4 + "l" + -r + "," + r + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Symbol.arrowRight = function(size) {
+	$s.push("thx.svg.Symbol::arrowRight");
+	var $spos = $s.length;
+	var r = Math.sqrt(size / 2);
+	var $tmp = "M" + "0," + -r + "v" + r / 2 + "h" + -r + "v" + r + "h" + r + "v" + r / 2 + "l" + r + "," + -r + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Symbol.arrowLeft = function(size) {
+	$s.push("thx.svg.Symbol::arrowLeft");
+	var $spos = $s.length;
+	var r = Math.sqrt(size / 2);
+	var $tmp = "M" + "0," + -r + "v" + r / 2 + "h" + r + "v" + r + "h" + -r + "v" + r / 2 + "l" + -r + "," + -r + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Symbol.star = function(size) {
+	$s.push("thx.svg.Symbol::star");
+	var $spos = $s.length;
+	var r = Math.sqrt(size / 0.31027) / 2;
+	var $tmp = "M0," + -r + "L" + r * 0.236 + "," + r * -0.325 + " " + r * 0.951 + "," + r * -0.309 + " " + r * 0.382 + "," + r * 0.124 + " " + r * 0.588 + "," + r * 0.809 + " " + r * 0 + "," + r * 0.401 + " " + r * -0.588 + "," + r * 0.809 + " " + r * -0.382 + "," + r * 0.124 + " " + r * -0.951 + "," + r * -0.309 + " " + r * -0.236 + "," + r * -0.325 + " " + "Z";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.svg.Symbol.prototype.__class__ = thx.svg.Symbol;
 thx.math.Equations = function() { }
 thx.math.Equations.__name__ = ["thx","math","Equations"];
 thx.math.Equations.linear = function(v) {
@@ -25708,6 +27084,13 @@ window.requestAnimationFrame = window.requestAnimationFrame
     || function(callback) { setTimeout(callback, 1000 / 60); } ;
 thx.cultures.EnUS.getCulture();
 thx.languages.En.getLanguage();
+{
+	var JSON;
+	if(null != (JSON = JSON)) {
+		thx.json.Json.nativeDecoder = JSON.parse;
+		thx.json.Json.nativeEncoder = JSON.stringify;
+	}
+}
 thx.languages.It.getLanguage();
 {
 	Xml.Element = "element";
@@ -27311,14 +28694,14 @@ thx.html.HtmlParser.comment = new EReg("<!--(.*?)-->","g");
 thx.html.HtmlParser.cdata = new EReg("<!\\[CDATA\\[(.*?)]]>","g");
 thx.html.HtmlParser.doctype = new EReg("<!DOCTYPE(.*?)>","gi");
 thx.html.HtmlParser.declaration = new EReg("<?xml(.*?)>","g");
-thx.html.Element._preserve = thx.collections.Set.ofArray("pre,textarea".split(","));
-thx.html.Element._empty = thx.collections.Set.ofArray("area,base,basefont,br,col,frame,hr,img,input,isindex,link,meta,param,embed".split(","));
-thx.html.Element._block = thx.collections.Set.ofArray("address,applet,blockquote,button,center,dd,del,dir,div,dl,dt,fieldset,form,frameset,h1,h2,h3,h4,h5,h6,hr,iframe,ins,isindex,li,map,menu,noframes,noscript,object,ol,p,pre,script,style,table,tbody,td,textarea,tfoot,th,thead,title,tr,ul".split(","));
-thx.html.Element._inline = thx.collections.Set.ofArray("a,abbr,acronym,b,basefont,bdo,big,br,button,cite,code,del,dfn,em,font,i,iframe,img,input,ins,kbd,label,map,object,q,s,samp,script,select,small,span,strike,strong,sub,sup,tt,u,var".split(","));
-thx.html.Element._break = thx.collections.Set.ofArray("br,hr".split(","));
-thx.html.Element._closeSelf = thx.collections.Set.ofArray("colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr".split(","));
-thx.html.Element._special = thx.collections.Set.ofArray("script,style".split(","));
-thx.js.AccessAttribute.refloat = new EReg("(\\d+(?:\\.\\d+))","");
+thx.html.Element._preserve = thx.collection.Set.ofArray("pre,textarea".split(","));
+thx.html.Element._empty = thx.collection.Set.ofArray("area,base,basefont,br,col,frame,hr,img,input,isindex,link,meta,param,embed".split(","));
+thx.html.Element._block = thx.collection.Set.ofArray("address,applet,blockquote,button,center,dd,del,dir,div,dl,dt,fieldset,form,frameset,h1,h2,h3,h4,h5,h6,hr,iframe,ins,isindex,li,map,menu,noframes,noscript,object,ol,p,pre,script,style,table,tbody,td,textarea,tfoot,th,thead,title,tr,ul".split(","));
+thx.html.Element._inline = thx.collection.Set.ofArray("a,abbr,acronym,b,basefont,bdo,big,br,button,cite,code,del,dfn,em,font,i,iframe,img,input,ins,kbd,label,map,object,q,s,samp,script,select,small,span,strike,strong,sub,sup,tt,u,var".split(","));
+thx.html.Element._break = thx.collection.Set.ofArray("br,hr".split(","));
+thx.html.Element._closeSelf = thx.collection.Set.ofArray("colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr".split(","));
+thx.html.Element._special = thx.collection.Set.ofArray("script,style".split(","));
+thx.js.AccessAttribute.refloat = new EReg("(\\d+(?:\\.\\d+)?)","");
 thx.ini.TestIni.s = "\nroot=value\n\t\n[owner]\nname=John Doe\norganization=Acme Widgets Inc.\n\n[database]\nserver=192.0.2.62\nport=143\nfile = \"payroll.dat\"\n\n[database.more]\n\nsequence = 1, 2, 3\n\n";
 thx.ini.TestIni.s2 = "root=value\n\n[database]\nserver=192.0.2.62\nport=143\nfile=payroll.dat\n\n[database.more]\nsequence=1, 2, 3\n\n[owner]\nname=John Doe\norganization=Acme Widgets Inc.";
 thx.ini.TestIni.v = { root : "value", owner : { name : "John Doe", organization : "Acme Widgets Inc."}, database : { server : "192.0.2.62", port : 143, file : "payroll.dat", more : { sequence : [1,2,3]}}};
@@ -27340,7 +28723,7 @@ thx.math.scale.TestLinearT.data = [4.0,8,16,32,64];
 thx.validation.EmailValidator._reEmail = new EReg("^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$","i");
 thx.validation.EmailValidator._reEmailDomain = new EReg("\\.(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$","i");
 thx.date.TestDateParser.now = Date.fromString("2011-05-31 16:20:00");
-thx.html.Attribute._fill = thx.collections.Set.ofArray("checked,compact,declare,defer,disabled,formnovalidate,novalidate,ismap,multiple,nohref,noresize,noshade,nowrap,readonly,required,selected".split(","));
+thx.html.Attribute._fill = thx.collection.Set.ofArray("checked,compact,declare,defer,disabled,formnovalidate,novalidate,ismap,multiple,nohref,noresize,noshade,nowrap,readonly,required,selected".split(","));
 TestObjects.testObject = { a : 1, b : 2, c : 3};
 thx.js.behavior.Zoom.last = 0.0;
 thx.validation.UrlValidator._reUrl = new EReg("^(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?$","");
@@ -27376,4 +28759,6 @@ thx.svg.LineInternals._lineBasisBezier2 = [0,1 / 3,2 / 3,0];
 thx.svg.LineInternals._lineBasisBezier3 = [0,1 / 6,2 / 3,1 / 6];
 Objects._reCheckKeyIsColor = new EReg("color\\b|\\bbackground\\b|\\bstroke\\b|\\bfill\\b","");
 thx.color.Colors._reParse = new EReg("^\\s*(?:(hsl|rgb|rgba|cmyk)\\(([^)]+)\\))|(?:(?:0x|#)([a-f0-9]{3,6}))\\s*$","i");
+thx.svg.Symbol.sqrt3 = Math.sqrt(3);
+thx.svg.Symbol.tan30 = Math.tan(30 * Math.PI / 180);
 TestAll.main()

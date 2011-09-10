@@ -3,7 +3,7 @@
  * @author Franco Ponticelli
  */
 
-package thx.collections;
+package thx.collection;
 import thx.error.Error;
 import thx.error.NullArgument;
 
