@@ -1,5 +1,5 @@
 package thx.validation;
-import thx.collections.Set;
+import thx.collection.Set;
 import thx.util.Result;
 using thx.util.Results;
 

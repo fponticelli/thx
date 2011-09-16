@@ -3,7 +3,7 @@
  * @author Franco Ponticelli
  */
 
-package thx.collections;
+package thx.collection;
 
 class Set<T>
 {

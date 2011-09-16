@@ -43,6 +43,6 @@ class Paths
 	
 	public static function ext(path : String)
 	{
-		return .path.split(".").pop();
+		return path.split(".").pop();
 	}
 }

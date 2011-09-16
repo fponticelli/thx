@@ -21,12 +21,15 @@ import thx.js.Transition;
 
 class Selection extends UnboundSelection<Selection>
 {
+	public static var current(getCurrent, null) : Selection;
 	public static function create(groups : Array<Group>) return new Selection(groups)
 	private function new(groups : Array<Group>) super(groups)
 	override function createSelection(groups : Array<Group>) : Selection
 	{
 		return new Selection(groups);
 	}
+	
+	static function getCurrent() return Dom.selectNode(Group.current)
 }
 
 class UnboundSelection<This> extends BaseSelection<This>

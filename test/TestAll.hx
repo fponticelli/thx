@@ -4,6 +4,7 @@
  */
 
 import thx.culture.Culture;
+import thx.util.Imports;
 import utest.Runner;
 import utest.ui.Report;
 
@@ -11,11 +12,16 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
+		Imports.pack("thx.json", true);
+		Imports.pack("thx.svg", true);
+		Imports.pack("thx.geo", true);
+		
+		
 		Culture.defaultCulture = thx.cultures.EnUS.culture;
 #if js
 		thx.js.TestAll.addTests(runner);
 #end
-		thx.collections.TestAll.addTests(runner);
+		thx.collection.TestAll.addTests(runner);
 		thx.color.TestAll.addTests(runner);
 		runner.addCase(new thx.data.TestValueEncoder());
 		runner.addCase(new thx.data.TestValueHandler());
@@ -42,7 +48,7 @@ class TestAll
 		TestObjects.addTests(runner);
 		TestStrings.addTests(runner);
 		
-		TestAllExp.addTests(runner);
+//		TestAllExp.addTests(runner);
 	}
 	
 	public static function main()

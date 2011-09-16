@@ -226,6 +226,15 @@ customs for missing features
 			culture = Culture.defaultCulture;
 		return format(culture.date.patternTimeShort, date, culture, false);
 	}
+	
+	static public function hourShort(date : Date, ?culture : Culture) : String {
+		if (null == culture)
+			culture = Culture.defaultCulture;
+		if (null == culture.date.am)
+			return format("%H", date, culture, false);
+		else
+			return format("%l %p", date, culture, false);
+	}
 
 	static public function year(date : Date, ?culture : Culture) : String {
 		if (null == culture)

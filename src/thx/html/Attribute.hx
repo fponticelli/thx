@@ -5,7 +5,7 @@
 
 package thx.html;
 
-import thx.collections.Set;
+import thx.collection.Set;
 
 class Attribute
 {

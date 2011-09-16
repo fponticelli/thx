@@ -3,7 +3,7 @@
  */
 package thx.math.scale;
 
-import thx.collections.IntHashList;
+import thx.collection.IntHashList;
 using Arrays;
 
 class Ordinal<TDomain, TRange> implements IScale<TDomain, TRange>
