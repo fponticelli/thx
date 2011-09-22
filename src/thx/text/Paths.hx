@@ -7,13 +7,12 @@ package thx.text;
 
 class Paths
 {
-	// TODO test me
 	public static function base(path : String, ?suffix : String) : String
 	{
 #if php
 		return untyped __call__("basename", path, suffix); // check this is the same as not passing suffix when null
 #else
-		var pos = Std.int(Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\')));
+		var pos = Ints.max(path.lastIndexOf('/'), path.lastIndexOf('\\'));
 		if (pos >= 0)
 			path = path.substr(pos + 1);
 		if (null != suffix && path.substr(path.length - suffix.length) == suffix)
@@ -44,5 +43,13 @@ class Paths
 	public static function ext(path : String)
 	{
 		return path.split(".").pop();
+	}
+	
+	public static function removeExt(filename : String)
+	{
+		var t = filename.split(".");
+		if(t.length > 1)
+			t.pop();
+		return t.join(".");
 	}
 }

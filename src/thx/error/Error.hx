@@ -11,6 +11,8 @@ import thx.util.Message;
 
 class Error extends Message
 {
+	public static var errorPositionPattern = "{0}.{1}({2}): ";
+	
 	public var pos(default,  null) : PosInfos;
 	public var inner(default, null) : Error;
 	public function new(message : String, ?params : Array<Dynamic>, ?param : Dynamic, ?pos : PosInfos)
@@ -23,6 +25,12 @@ class Error extends Message
 	{
 		this.inner = inner;
 		return this;
+	}
+	
+	public function toStringError(?pattern : String)
+	{
+		var prefix = Strings.format(null == pattern ? errorPositionPattern : pattern, [pos.className, pos.methodName, pos.lineNumber, pos.fileName, pos.customParams]);
+		return prefix + toString();
 	}
 	
 	override public function toString()

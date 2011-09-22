@@ -129,8 +129,7 @@ class Objects
 	public static function clone<T>(src : T) : T
 	{
 		var dst = { };
-		copyTo(src, dst);
-		return cast dst;
+		return cast copyTo(src, dst);
 	}
 	
 	public static function mergef(ob : {}, new_ob : {}, f : String->{}->{}->{}) : Void

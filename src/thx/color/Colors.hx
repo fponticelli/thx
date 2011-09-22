@@ -34,7 +34,7 @@ class Colors
 	// named
 	public static function parse(s : String)
 	{
-		if (!_reParse.match(s))
+		if (!_reParse.match(s = s.toLowerCase()))
 		{
 			var v = NamedColors.byName.get(s);
 			if (null == v)
@@ -49,7 +49,7 @@ class Colors
 		if (!type.empty())
 		{
 			var values = _reParse.matched(2).split(",");
-			switch(type.toLowerCase())
+			switch(type)
 			{
 				case "rgb", "rgba":
 					return new Rgb(_c(values[0]), _c(values[1]), _c(values[2]));

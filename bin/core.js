@@ -152,6 +152,15 @@ thx.error.Error.prototype.setInner = function(inner) {
 	return this;
 	$s.pop();
 }
+thx.error.Error.prototype.toStringError = function(pattern) {
+	$s.push("thx.error.Error::toStringError");
+	var $spos = $s.length;
+	var prefix = Strings.format(null == pattern?thx.error.Error.errorPositionPattern:pattern,[this.pos.className,this.pos.methodName,this.pos.lineNumber,this.pos.fileName,this.pos.customParams]);
+	var $tmp = prefix + this.toString();
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
 thx.error.Error.prototype.toString = function() {
 	$s.push("thx.error.Error::toString");
 	var $spos = $s.length;
@@ -164,7 +173,7 @@ thx.error.Error.prototype.toString = function() {
 		while($s.length >= $spos) $e.unshift($s.pop());
 		$s.push($e[0]);
 		var ps = this.pos.className + "." + this.pos.methodName + "(" + this.pos.lineNumber + ")";
-		haxe.Log.trace("wrong parameters passed for pattern '" + this.message + "' at " + ps,{ fileName : "Error.hx", lineNumber : 34, className : "thx.error.Error", methodName : "toString"});
+		haxe.Log.trace("wrong parameters passed for pattern '" + this.message + "' at " + ps,{ fileName : "Error.hx", lineNumber : 42, className : "thx.error.Error", methodName : "toString"});
 		$s.pop();
 		return "";
 	}
@@ -2395,8 +2404,8 @@ thx.geo.Albers = function(p) {
 	if( p === $_ ) return;
 	$s.push("thx.geo.Albers::new");
 	var $spos = $s.length;
-	this.setOrigin([-98.0,38]);
-	this.setParallels([29.5,45.5]);
+	this["origin"] = [-98.0,38];
+	this["parallels"] = [29.5,45.5];
 	this.setScale(1000);
 	this.setTranslate([480.0,250]);
 	this.reload();
@@ -2441,6 +2450,7 @@ thx.geo.Albers.prototype.setOrigin = function(origin) {
 	$s.push("thx.geo.Albers::setOrigin");
 	var $spos = $s.length;
 	this.origin = [origin[0],origin[1]];
+	this.reload();
 	$s.pop();
 	return origin;
 	$s.pop();
@@ -2457,6 +2467,7 @@ thx.geo.Albers.prototype.setParallels = function(parallels) {
 	$s.push("thx.geo.Albers::setParallels");
 	var $spos = $s.length;
 	this.parallels = [parallels[0],parallels[1]];
+	this.reload();
 	$s.pop();
 	return parallels;
 	$s.pop();
@@ -2985,12 +2996,13 @@ thx.error.TestNullArgument.prototype.testNullArgument = function() {
 			utest.Assert.stringContains("XXX",s,"string '" + s + "' does not contain 'XXX'",{ fileName : "TestNullArgument.hx", lineNumber : 21, className : "thx.error.TestNullArgument", methodName : "testNullArgument"});
 			$s.pop();
 			return;
-		} else ;
+		} else {
 		var e = $e0;
 		$e = [];
 		while($s.length >= $spos) $e.unshift($s.pop());
 		$s.push($e[0]);
 		utest.Assert.fail("wrong exception type: " + Std.string(e),{ fileName : "TestNullArgument.hx", lineNumber : 24, className : "thx.error.TestNullArgument", methodName : "testNullArgument"});
+		}
 	}
 	$s.pop();
 }
@@ -20969,6 +20981,7 @@ thx.geo.AlbersUsa.prototype.lower48 = null;
 thx.geo.AlbersUsa.prototype.alaska = null;
 thx.geo.AlbersUsa.prototype.hawaii = null;
 thx.geo.AlbersUsa.prototype.puertoRico = null;
+thx.geo.AlbersUsa.prototype.last = null;
 thx.geo.AlbersUsa.prototype.project = function(coords) {
 	$s.push("thx.geo.AlbersUsa::project");
 	var $spos = $s.length;
@@ -20983,7 +20996,7 @@ thx.geo.AlbersUsa.prototype.invert = function(coords) {
 	var $spos = $s.length;
 	var $tmp = (function($this) {
 		var $r;
-		throw new thx.error.NotImplemented({ fileName : "AlbersUsa.hx", lineNumber : 56, className : "thx.geo.AlbersUsa", methodName : "invert"});
+		throw new thx.error.NotImplemented({ fileName : "AlbersUsa.hx", lineNumber : 67, className : "thx.geo.AlbersUsa", methodName : "invert"});
 		return $r;
 	}(this));
 	$s.pop();
@@ -20997,6 +21010,7 @@ thx.geo.AlbersUsa.prototype.setScale = function(scale) {
 	this.alaska.setScale(scale * .6);
 	this.hawaii.setScale(scale);
 	this.puertoRico.setScale(scale * 1.5);
+	this.setTranslate(this.lower48.getTranslate());
 	$s.pop();
 	return scale;
 	$s.pop();
@@ -24300,10 +24314,11 @@ thx.svg.LineInternals.__name__ = ["thx","svg","LineInternals"];
 thx.svg.LineInternals.linePoints = function(data,x,y) {
 	$s.push("thx.svg.LineInternals::linePoints");
 	var $spos = $s.length;
-	var points = [], i = -1, n = data.length, fx = null != x, fy = null != y, value;
-	while(++i < n) {
-		value = data[i];
-		points.push([x(value,i),y(value,i)]);
+	var points = [], value;
+	var _g1 = 0, _g = data.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		points.push([x(value = data[i],i),y(value,i)]);
 	}
 	$s.pop();
 	return points;
@@ -25615,8 +25630,7 @@ Objects.clone = function(src) {
 	$s.push("Objects::clone");
 	var $spos = $s.length;
 	var dst = { };
-	Objects.copyTo(src,dst);
-	var $tmp = dst;
+	var $tmp = Objects.copyTo(src,dst);
 	$s.pop();
 	return $tmp;
 	$s.pop();
@@ -25640,7 +25654,7 @@ Objects.merge = function(ob,new_ob) {
 	$s.push("Objects::merge");
 	var $spos = $s.length;
 	Objects.mergef(ob,new_ob,function(key,old_v,new_v) {
-		$s.push("Objects::merge@154");
+		$s.push("Objects::merge@153");
 		var $spos = $s.length;
 		$s.pop();
 		return new_v;
@@ -25741,7 +25755,7 @@ Objects.formatf = function(param,params,culture) {
 	switch(format) {
 	case "O":
 		var $tmp = function(v) {
-			$s.push("Objects::formatf@236");
+			$s.push("Objects::formatf@235");
 			var $spos = $s.length;
 			var $tmp = Std.string(v);
 			$s.pop();
@@ -25752,7 +25766,7 @@ Objects.formatf = function(param,params,culture) {
 		return $tmp;
 	case "R":
 		var $tmp = function(v) {
-			$s.push("Objects::formatf@238");
+			$s.push("Objects::formatf@237");
 			var $spos = $s.length;
 			var buf = [];
 			var _g = 0, _g1 = Reflect.fields(v);
@@ -25771,7 +25785,7 @@ Objects.formatf = function(param,params,culture) {
 	default:
 		var $tmp = (function($this) {
 			var $r;
-			throw new thx.error.Error("Unsupported number format: {0}",null,format,{ fileName : "Objects.hx", lineNumber : 246, className : "Objects", methodName : "formatf"});
+			throw new thx.error.Error("Unsupported number format: {0}",null,format,{ fileName : "Objects.hx", lineNumber : 245, className : "Objects", methodName : "formatf"});
 			return $r;
 		}(this));
 		$s.pop();
@@ -26183,7 +26197,7 @@ thx.color.Colors.interpolate = function(v,a,b,equation) {
 thx.color.Colors.parse = function(s) {
 	$s.push("thx.color.Colors::parse");
 	var $spos = $s.length;
-	if(!thx.color.Colors._reParse.match(s)) {
+	if(!thx.color.Colors._reParse.match(s = s.toLowerCase())) {
 		var v = thx.color.NamedColors.byName.get(s);
 		if(null == v) {
 			if("transparent" == s) {
@@ -26202,7 +26216,7 @@ thx.color.Colors.parse = function(s) {
 	var type = thx.color.Colors._reParse.matched(1);
 	if(!Strings.empty(type)) {
 		var values = thx.color.Colors._reParse.matched(2).split(",");
-		switch(type.toLowerCase()) {
+		switch(type) {
 		case "rgb":case "rgba":
 			var $tmp = new thx.color.Rgb(thx.color.Colors._c(values[0]),thx.color.Colors._c(values[1]),thx.color.Colors._c(values[2]));
 			$s.pop();
@@ -28595,6 +28609,7 @@ window.Sizzle = Sizzle;
 	thx.js.Sizzle.select = s;
 }
 if(typeof(haxe_timers) == "undefined") haxe_timers = [];
+thx.error.Error.errorPositionPattern = "{0}.{1}({2}): ";
 thx.svg.TestAll._renumber = new EReg("([+-]?\\d+(\\.\\d+)?(e-?\\d+)?)","");
 thx.csv.TestCsv.s = "Year,Make,Model,Description,Price\n1997,Ford,E350,\"ac, abs, moon\",3000.99\n1999,Chevy,\"Venture \"\"Extended Edition\"\"\",,4900.99\n1999,Chevy,\"Venture \"\"Extended Edition, Very Large\"\"\",,5000.99\n1996,Jeep,Grand Cherokee,\"MUST SELL!\nair, moon roof, loaded\",4799.99";
 thx.csv.TestCsv.v = [["Year","Make","Model","Description","Price"],[1997,"Ford","E350","ac, abs, moon",3000.99],[1999,"Chevy","Venture \"Extended Edition\"","",4900.99],[1999,"Chevy","Venture \"Extended Edition, Very Large\"","",5000.99],[1996,"Jeep","Grand Cherokee","MUST SELL!\nair, moon roof, loaded",4799.99]];

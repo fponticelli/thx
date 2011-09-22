@@ -15,15 +15,13 @@ class LineInternals
 	public static function linePoints<TData>(data : Array<TData>, x : TData -> Int -> Float, y : TData -> Int -> Float)
 	{
 		var points = [],
-			i = -1,
-			n = data.length,
-			fx = null != x,
-			fy = null != y,
 			value : TData;
-		while (++i < n)
+		for(i in 0...data.length)
 		{
-			value = data[i];
-			points.push([ x(value, i), y(value, i) ]);
+			points.push([
+				x(value = data[i], i),
+				y(value, i)
+			]);
 		}
 		return points;
 	}

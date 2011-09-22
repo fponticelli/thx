@@ -1,13 +1,12 @@
-package thx.ini;
-
 /**
  * ...
  * @author Franco Ponticelli
  */
 
+package thx.ini;
+
 import thx.data.ValueEncoder;
 import thx.data.ValueHandler;
-
 
 class Ini
 {
