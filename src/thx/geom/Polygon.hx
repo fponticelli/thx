@@ -19,7 +19,7 @@ class Polygon
 		var n = coordinates.length,
 			a = coordinates[n - 1][0] * coordinates[0][1],
 			b = coordinates[n - 1][1] * coordinates[0][0];
-		for (i in 0...n)
+		for (i in 1...n)
 		{
 			a += coordinates[i - 1][0] * coordinates[i][1];
 			b += coordinates[i - 1][1] * coordinates[i][0];

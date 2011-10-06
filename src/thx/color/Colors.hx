@@ -24,7 +24,7 @@ class Colors
 		return interpolatef(a, b, equation)(v);
 	}
 	
-	static var _reParse = ~/^\s*(?:(hsl|rgb|rgba|cmyk)\(([^)]+)\))|(?:(?:0x|#)([a-f0-9]{3,6}))\s*$/i;
+	static var _reParse = ~/^(?:(hsl|rgb|rgba|cmyk)\(([^)]+)\))|(?:(?:0x|#)([a-f0-9]{3,6}))$/i;
 	
 	// hsl(h,s,l)
 	// rgb(r,g,b)
@@ -34,7 +34,7 @@ class Colors
 	// named
 	public static function parse(s : String)
 	{
-		if (!_reParse.match(s = s.toLowerCase()))
+		if (!_reParse.match(s = StringTools.trim(s.toLowerCase())))
 		{
 			var v = NamedColors.byName.get(s);
 			if (null == v)

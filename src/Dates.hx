@@ -83,30 +83,84 @@ class Dates
 		return function(v) return Date.fromTime(f(v));
 	}
 	
-	public static function snap(time : Float, period : String) : Float
+	public static function snap(time : Float, period : String, mode = 0) : Float
 	{
-		switch(period)
+		if (mode < 0)
 		{
-			case "second":
-				return Math.round(time / 1000.0) * 1000.0;
-			case "minute":
-				return Math.round(time / 60000.0) * 60000.0;
-			case "hour":
-				return Math.round(time / 3600000.0) * 3600000.0;
-			case "day":
-				return Math.round(time / (24.0 * 3600000.0)) * (24.0 * 3600000.0);
-			case "week":
-				return Math.round(time / (7.0 * 24.0 * 3600000.0)) * (7.0 * 24.0 * 3600000.0);
-			case "month":
-				var d = Date.fromTime(time);
-				return new Date(d.getFullYear(), d.getMonth(), 1, 0, 0, 0).getTime();
-			case "year":
-				var d = Date.fromTime(time);
-				return new Date(d.getFullYear(), 0, 1, 0, 0, 0).getTime();
-			case "eternity":
-				return 0;
-			default:
-				return throw new Error("unknown period '{0}'", period);
+			switch(period)
+			{
+				case "second":
+					return Math.floor(time / 1000.0) * 1000.0;
+				case "minute":
+					return Math.floor(time / 60000.0) * 60000.0;
+				case "hour":
+					return Math.floor(time / 3600000.0) * 3600000.0;
+				case "day":
+					return Math.floor(time / (24.0 * 3600000.0)) * (24.0 * 3600000.0);
+				case "week":
+					return Math.floor(time / (7.0 * 24.0 * 3600000.0)) * (7.0 * 24.0 * 3600000.0);
+				case "month":
+					var d = Date.fromTime(time);
+					return new Date(d.getFullYear(), d.getMonth(), 1, 0, 0, 0).getTime();
+				case "year":
+					var d = Date.fromTime(time);
+					return new Date(d.getFullYear(), 0, 1, 0, 0, 0).getTime();
+				case "eternity":
+					return 0;
+				default:
+					return throw new Error("unknown period '{0}'", period);
+			}
+		} else if (mode > 0)
+		{
+			switch(period)
+			{
+				case "second":
+					return Math.ceil(time / 1000.0) * 1000.0;
+				case "minute":
+					return Math.ceil(time / 60000.0) * 60000.0;
+				case "hour":
+					return Math.ceil(time / 3600000.0) * 3600000.0;
+				case "day":
+					return Math.ceil(time / (24.0 * 3600000.0)) * (24.0 * 3600000.0);
+				case "week":
+					return Math.ceil(time / (7.0 * 24.0 * 3600000.0)) * (7.0 * 24.0 * 3600000.0);
+				case "month":
+					var d = Date.fromTime(time);
+					return new Date(d.getFullYear(), d.getMonth() + 1, 1, 0, 0, 0).getTime();
+				case "year":
+					var d = Date.fromTime(time);
+					return new Date(d.getFullYear() + 1, 0, 1, 0, 0, 0).getTime();
+				case "eternity":
+					return 0;
+				default:
+					return throw new Error("unknown period '{0}'", period);
+			}
+		} else {
+			switch(period)
+			{
+				case "second":
+					return Math.round(time / 1000.0) * 1000.0;
+				case "minute":
+					return Math.round(time / 60000.0) * 60000.0;
+				case "hour":
+					return Math.round(time / 3600000.0) * 3600000.0;
+				case "day":
+					return Math.round(time / (24.0 * 3600000.0)) * (24.0 * 3600000.0);
+				case "week":
+					return Math.round(time / (7.0 * 24.0 * 3600000.0)) * (7.0 * 24.0 * 3600000.0);
+				case "month":
+					var d = Date.fromTime(time),
+						mod = d.getDate() > Math.round(DateTools.getMonthDays(d) / 2) ? 1 : 0;
+					return new Date(d.getFullYear(), d.getMonth() + mod, 1, 0, 0, 0).getTime();
+				case "year":
+					var d = Date.fromTime(time),
+						mod = time > new Date(d.getFullYear(), 6, 2, 0, 0, 0).getTime() ? 1 : 0;
+					return new Date(d.getFullYear() + mod, 0, 1, 0, 0, 0).getTime();
+				case "eternity":
+					return 0;
+				default:
+					return throw new Error("unknown period '{0}'", period);
+			}
 		}
 	}
 	

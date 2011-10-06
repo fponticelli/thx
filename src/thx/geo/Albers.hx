@@ -19,13 +19,18 @@ class Albers implements IProjection
 	var n : Float;
 	var C : Float;
 	var p0 : Float;
+	
+	var _origin : Array<Float>;
+	var _parallels : Array<Float>;
+	var _translate : Array<Float>;
+	var _scale : Float;
 
 	public function new() 
 	{
-		Reflect.setField(this, "origin",    [-98.0, 38]);
-		Reflect.setField(this, "parallels", [ 29.5, 45.5]);
-		scale     = 1000;
-		translate = [480.0, 250];
+		_origin    = [-98.0, 38];
+		_parallels = [ 29.5, 45.5];
+		_scale     = 1000;
+		_translate = [480.0, 250];
 		reload();
 	}
 	
@@ -52,26 +57,26 @@ class Albers implements IProjection
 		];
 	}
 	
-	function getOrigin() return origin.copy()
+	function getOrigin() return _origin.copy()
 	function setOrigin(origin : Array<Float>)
 	{
-		this.origin = [origin[0], origin[1]];
+		_origin = [origin[0], origin[1]];
 		reload();
 		return origin;
 	}
 	
-	function getParallels() return parallels.copy()
+	function getParallels() return _parallels.copy()
 	function setParallels(parallels : Array<Float>)
 	{
-		this.parallels = [parallels[0], parallels[1]];
+		_parallels = [parallels[0], parallels[1]];
 		reload();
 		return parallels;
 	}
 	
-	function getTranslate() return translate.copy()
+	function getTranslate() return _translate.copy()
 	function setTranslate(translate : Array<Float>)
 	{
-		this.translate = [translate[0], translate[1]];
+		_translate = [translate[0], translate[1]];
 		return translate;
 	}
 	
@@ -89,6 +94,6 @@ class Albers implements IProjection
 		return this;
 	}
 
-	function setScale(scale : Float) return this.scale = scale
-	function getScale() return scale
+	function setScale(scale : Float) return _scale = scale
+	function getScale() return _scale
 }

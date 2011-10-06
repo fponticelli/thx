@@ -5,19 +5,15 @@
 
 package thx.json;
 
-typedef Feature = {
-	public var geometry : Null<Geometry>;
-	public var properties : Null<Dynamic>;
-	public var id : Null<String>;
-}
-
 typedef Geometry = {
 	public var type : String; //  "Point", "MultiPoint", "LineString", "MultiLineString", "Polygon", "MultiPolygon", "GeometryCollection", "Feature", or "FeatureCollection"	
 	public var coordinates : Null<Dynamic>;
 	public var geometries : Null<Array<Geometry>>;
-	public var geometry : Null<Geometry>;
 	public var bbox : Null<Array<Float>>;
-	public var features : Null<Array<Feature>>;
+	public var features : Null<Array<Geometry>>;
+	public var geometry : Null<Geometry>;
+	public var properties : Null<Dynamic>;
+	public var id : Null<String>;
 }
 
 // extends Dynamic

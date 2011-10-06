@@ -519,4 +519,18 @@ class Arrays
 				result[i][j] = a[j][i];
 		return result;
 	}
+	
+	public static function shuffle<T>(a : Array<T>) : Array<T>
+	{
+		var t = Ints.range(a.length),
+			arr = [];
+		while (t.length > 0)
+		{
+			var pos = Std.random(t.length),
+				index = t[pos];
+			t.splice(pos, 1);
+			arr.push(a[index]);
+		}
+		return arr;
+	}
 }

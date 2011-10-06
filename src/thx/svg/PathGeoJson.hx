@@ -28,17 +28,17 @@ class PathGeoJson
 		areaTypes = new AreaTypes(this);
 	}
 	
-	public function path(d : GeoJson, ?_)
+	public function path(d : Geometry, ?_)
 	{
 		return pathTypes.path(d);
 	}
 	
-	public function centroid(d : GeoJson, ?_)
+	public function centroid(d : Geometry, ?_)
 	{
 		return centroidTypes.centroid(d);
 	}
 	
-	public function area(d : GeoJson, ?_)
+	public function area(d : Geometry, ?_)
 	{
 		return areaTypes.area(d);
 	}
@@ -63,12 +63,12 @@ class PathGeoJson
 			+ "z";
 	}
 	
-	public static function bounds(d : GeoJson)
+	public static function bounds(d : Geometry)
 	{
-		var left = Math.POSITIVE_INFINITY,
+		var left   = Math.POSITIVE_INFINITY,
 			bottom = Math.POSITIVE_INFINITY,
-			right = Math.NEGATIVE_INFINITY,
-			top = Math.NEGATIVE_INFINITY;
+			right  = Math.NEGATIVE_INFINITY,
+			top    = Math.NEGATIVE_INFINITY;
 	
 		applyBounds(d, function(x : Float, y : Float) {
 			if (x < left) left = x;
@@ -140,7 +140,7 @@ class PathTypes
 		return p.join("");
 	}
 	
-	public function feature(f : Feature)
+	public function feature(f : Geometry)
 	{
 		return path(f.geometry);
 	}
@@ -257,7 +257,7 @@ class AreaTypes
 		return a;
 	}
 	
-	public function feature(f : Feature)
+	public function feature(f : Geometry)
 	{
 		return area(f.geometry);
 	}
@@ -314,13 +314,14 @@ class CentroidTypes
 	}
 	
     // TODO FeatureCollection
-    // TODO Point
     // TODO MultiPoint
     // TODO LineString
     // TODO MultiLineString
     // TODO GeometryCollection
 	
-	public function feature(f : Feature) return centroid(f.geometry)
+	public function point(o : Geometry) return project(o.coordinates)
+	
+	public function feature(f : Geometry) return centroid(f.geometry)
 	
 	public function polygon(o : Geometry)
 	{
@@ -364,5 +365,5 @@ class CentroidTypes
 		return [x, y, 6 * z]; // weighted centroid
 	}
 	
-	function project(d : Array<Float>, _) return geo.projection.project(d)
+	function project(d : Array<Float>, ?_) return geo.projection.project(d)
 }

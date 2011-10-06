@@ -7,6 +7,7 @@ package thx.color;
 
 using Ints;
 import Floats;
+import thx.error.Error;
 using thx.math.Equations;
 using StringTools;
 
@@ -114,5 +115,65 @@ class Rgb
 			return new Hsl(nc.hue, nc.saturation, 1.0);
 		else
 			return new Hsl(nc.hue, nc.saturation, 0);
+	}
+	
+	public static function interpolateBrightness(t : Float, ?equation : Float -> Float) return interpolateBrightnessf(equation)(t)
+	public static function interpolateBrightnessf(?equation : Float -> Float)
+	{
+		var i = Ints.interpolatef(0, 255, equation);
+		return function(t) 
+		{
+			var g = i(t);
+			return new Rgb(g, g, g);
+		};
+	}
+	
+	
+	public static function interpolateHeat(t : Float, ?middle, ?equation : Float -> Float) return interpolateHeatf(middle, equation)(t)
+	public static function interpolateHeatf(?middle : Rgb, ?equation : Float -> Float)
+	{
+		return interpolateStepsf([
+			new Rgb(0, 0, 0),
+			null != middle ? middle : new Rgb(255, 127, 0),
+			new Rgb(255, 255, 255),
+		], equation);
+	}
+	
+	public static function interpolateRainbow(t : Float, ?equation : Float -> Float) return interpolateRainbowf(equation)(t)
+	public static function interpolateRainbowf(?equation : Float -> Float)
+	{
+		return interpolateStepsf([
+			new Rgb(0,   0,   255),
+			new Rgb(0,   255, 255),
+			new Rgb(0,   255, 0),
+			new Rgb(255, 255, 0),
+			new Rgb(255, 0,   0),
+		], equation);
+	}
+	
+	public static function interpolateStepsf(steps : Array<Rgb>, ?equation : Float -> Float)
+	{
+		if (steps.length <= 0)
+			return throw new Error("invalid number of steps");
+		else if (steps.length == 1)
+			return function(t) return steps[0];
+		else if (steps.length == 2)
+			return interpolatef(steps[0], steps[1], equation);
+			
+		var len = steps.length - 1,
+			step = 1 / len,
+			f = [];
+		for (i in 0...len)
+			f[i] = interpolatef(steps[i], steps[i+1]);
+
+		return function(t : Float)
+		{
+			if (t < 0)
+				t = 0;
+			else if(t > 1)
+				t = 1;
+			var pos = t == 1 ? (len - 1) : Math.floor(t / step);
+			return f[pos](len * (t - (pos * step)));
+		};
 	}
 }
