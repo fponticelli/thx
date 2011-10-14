@@ -495,11 +495,45 @@ class BaseSelection<This>
 		return createSelection(subgroups);
 	}
 	
+	static function listenerEnterLeave(f, dom, i)
+	{
+		var e = Dom.event,
+			target : HtmlDom = untyped e.relatedTarget;
+		if(null == target || isChild(dom, target))
+			return;
+		f(dom, i);
+	}
+	
+	static function isChild(parent : HtmlDom, child : HtmlDom)
+	{
+		if (child == parent)
+			return false;
+		while (child != null)
+		{
+			child = child.parentNode;
+			if (child == parent)
+				return true;
+		}
+		return false;
+	}
+	
 	// NODE EVENT
 	public function onNode(type : String, ?listener : HtmlDom -> Int -> Void, capture = false)
 	{
 		var i = type.indexOf("."),
 			typo = i < 0 ? type : type.substr(0, i);
+		
+		if ((typo == "mouseenter" || typo == "mouseleave") && !ClientHost.isIE())
+		{
+			listener = callback(listenerEnterLeave, listener);
+			if (typo == "mouseenter")
+			{
+				typo = "mouseover";
+			} else {
+				typo = "mouseout";
+			}
+		}
+			
 		return eachNode(function(n, i) {
 			function l(e) {
 				var o = Dom.event;
