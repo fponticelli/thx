@@ -29,6 +29,7 @@ class TestAll
 		runner.addCase(new thx.csv.TestCsv());
 		runner.addCase(new thx.json.TestJson());
 		runner.addCase(new thx.ini.TestIni());
+		runner.addCase(new thx.number.TestParse());
 		thx.error.TestAll.addTests(runner);
 		thx.text.TestAll.addTests(runner);
 		thx.html.TestAll.addTests(runner);

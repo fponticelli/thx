@@ -16,10 +16,10 @@ class Csv
 		return handler.encodedString;
 	}
 	
-	public static function decode(value : String) : Array<Array<Dynamic>>
+	public static function decode(value : String, ?delimiter : String, ?emptytonull:Bool, ?newline: String, ?quote: String, ?doublequotations: Bool, ?skipwhitespace: Bool) : Array<Array<Dynamic>>
 	{
 		var handler = new ValueHandler();
-		new CsvDecoder(handler).decode(value);
+		new CsvDecoder(handler, delimiter, emptytonull, newline, quote, doublequotations, skipwhitespace).decode(value);
 		return handler.value;
 	}
 }
