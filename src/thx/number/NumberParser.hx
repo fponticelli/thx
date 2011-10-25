@@ -13,6 +13,26 @@ class NumberParser
 {
 	public static function parse(val:String, ?cul:Culture):Float{
 		if (cul == null) cul = Culture.defaultCulture;
+		var reg = cultureNumberEReg(cul);
+		var fval = val;
+		var nval = Math.NaN;
+		var ni = cul.number;
+		var gsep = ERegs.escapeERegChars(ni.groupsSeparator);
+		var dsep = ERegs.escapeERegChars(ni.decimalsSeparator);
+		
+		if (canParse(val, cul)){
+			fval = new EReg(gsep,'gi').replace(fval ,'');		
+			fval = new EReg(dsep,'gi').replace(fval ,'.');
+			nval =  Std.parseFloat(fval);
+			if (new EReg(ERegs.escapeERegChars(cul.signNeg),'').match(val)){
+				if (nval > 0) nval *= -1;
+			}
+		}
+		return nval;
+		
+	}
+	
+	static function cultureNumberEReg(cul:Culture){
 		var ni = cul.number;
 		var groups = ni.groups.copy();
 		var digits = '';
@@ -42,7 +62,7 @@ class NumberParser
 			if (groups[0] == 0){
 				regex.add( "(" + digits + "*" + gsep + ")"); // if group count is 0, treat as star
 			}else{
-				regex.add( "(" + digits + "{1," + groups[0] + "})"); // {1, final_group_count} number of digits (alone)	
+				regex.add( "(" + digits + "+)"); // {1, final_group_count} number of digits (alone)	
 			}
 		}
 		
@@ -50,7 +70,7 @@ class NumberParser
 			group_length = groups[0];
 			regex.add( "((" + digits + "{1," + groups[0] + "}" + gsep + ")"); // {1,initial group_count} number of digits
 			regex.add( "(" + digits + "{" + groups[0] + "}" + ")*)|"); // {1,initial group_count} number of digits
-			regex.add( "(" + digits + "{1," + groups[0] + "})"); // {1, final_group_count} number of digits (alone)
+			regex.add( "(" + digits + "+)"); // {1, final_group_count} number of digits (alone)
 		}
 		
 		regex.add(")");
@@ -71,21 +91,15 @@ class NumberParser
 			reg_string  = "[+-]?" + reg_string;
 		}
 		reg_string = "^"+ reg_string + "$";
-
 		var reg = new EReg(reg_string,'gi');
-		var fval = val;
-		var nval = Math.NaN;
+		return reg;
 		
-		if (reg.match(val)){
-			fval = new EReg(gsep,'gi').replace(fval ,'');		
-			fval = new EReg(dsep,'gi').replace(fval ,'.');
-			nval =  Std.parseFloat(fval);
-			if (new EReg(ERegs.escapeERegChars(cul.signNeg),'').match(val)){
-				if (nval > 0) nval *= -1;
-			}
-		}
-		return nval;
-		
+	}
+	
+	public static function canParse(val:String, ?cul:Culture){
+		var reg = cultureNumberEReg(cul);
+		if (reg.match(val)) return true;
+		else return false;
 	}
 
 }

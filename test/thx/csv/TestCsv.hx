@@ -1,4 +1,5 @@
 package thx.csv;
+import thx.culture.Culture;
 
 /**
  * ...
@@ -10,11 +11,20 @@ import utest.Assert;
 
 class TestCsv
 {
+
+// US style
 	static var s = 'Year,Make,Model,Description,Price
 1997,Ford,E350,"ac, abs, moon",3000.99
 1999,Chevy,"Venture ""Extended Edition""",,4900.99
 1999,Chevy,"Venture ""Extended Edition, Very Large""",,5000.99
 1996,Jeep,Grand Cherokee,"MUST SELL!\nair, moon roof, loaded",4799.99';
+
+//Euro style
+	static var t = 'Year;Make;Model;Description;Price
+1997;Ford;E350;"ac, abs, moon";3000,99
+1999;Chevy;"Venture ""Extended Edition""";;4900,99
+1999;Chevy;"Venture ""Extended Edition, Very Large""";;5000,99
+1996;Jeep;Grand Cherokee;"MUST SELL!\nair, moon roof, loaded";4799,99';
 
 	static var v = [
 		['Year',	'Make',		'Model',									'Description',							'Price'],
@@ -23,6 +33,9 @@ class TestCsv
 		[1999, 		'Chevy',	'Venture "Extended Edition, Very Large"',	'',										5000.99],
 		[1996, 		'Jeep', 	'Grand Cherokee', 							'MUST SELL!\nair, moon roof, loaded',	4799.99]
 	];
+	
+
+	
 		
 	public function testDecode()
 	{
@@ -33,6 +46,11 @@ class TestCsv
 		assertSame([[1997, "Ford", "E350", "Go get one now\nthey are going fast"]], Csv.decode('1997,Ford,E350,"Go get one now\nthey are going fast"'));
 
 		assertSame(v, Csv.decode(s));
+		var old_default = Culture.defaultCulture;
+		Culture.defaultCulture = thx.cultures.DeDE.culture;
+		assertSame(v, Csv.decode(t, ";"));
+		Culture.defaultCulture = old_default;
+
 	}
 	
 	public function testEncode()

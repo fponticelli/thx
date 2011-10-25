@@ -27,5 +27,6 @@ class TestParse
 		Assert.equals(N.parse("10,00,00,000", thx.cultures.EnIN.culture), 100000000);
 		Assert.equals(N.parse("10,00,00,000.232523", thx.cultures.EnIN.culture), 100000000.232523);
 		Assert.equals(N.parse("0", thx.cultures.EnIN.culture), 0);
+		Assert.equals(N.parse("3000,99", thx.cultures.DeDE.culture), 3000.99);
 	}
 }

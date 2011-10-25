@@ -1,13 +1,16 @@
 package thx.csv;
 
+import thx.number.NumberParser;
+import thx.culture.Culture;
+import thx.data.IDataHandler;
+import thx.error.Error;
+import thx.text.ERegs;
 /**
  * ...
  * @author Franco Ponticelli
  */
 
-import thx.data.IDataHandler;
-import thx.error.Error;
-import thx.text.ERegs;
+
 
 class CsvDecoder
 {
@@ -125,9 +128,11 @@ class CsvDecoder
 		if (null == typer)
 		{
 			if (s == '') // can't guess type ... delegate to next
-				return typeToken;
+				return typeToken;	
 			if (Ints.canParse(s))
 				typer = _typers[column] = typeInt;
+			else if (NumberParser.canParse(s,Culture.defaultCulture))
+				typer = _typers[column] = typeCultureFloat;	
 			else if (Floats.canParse(s))
 				typer = _typers[column] = typeFloat;
 			else if (Bools.canParse(s))
@@ -158,6 +163,12 @@ class CsvDecoder
 	{
 		handler.startItem();
 		handler.int(Ints.parse(s));
+		handler.endItem();
+	}
+	function typeCultureFloat(s : String)
+	{
+		handler.startItem();
+		handler.float(NumberParser.parse(s,Culture.defaultCulture));
 		handler.endItem();
 	}
 	
