@@ -33,7 +33,7 @@ class NumberParser
 		if (groups.length == 2){
 
 			if (groups[1] == 0){
-				regex.add( "(" + digits + "*" + gsep + ")"); // if group count is 0, treat as star
+				regex.add( "(" + digits + "*" + gsep + ")"); // if group count is 0, treat as *
 			}else{
 				regex.add( "((" + digits + "{1," + groups[1] + "}" + gsep + ")"); // {1,initial group_count} number of digits
 				regex.add( "(" + digits + "{" + groups[1] + "}" + gsep + ")*" + digits + "{" + groups[0] + "})|"); // {1,initial group_count} number of digits
