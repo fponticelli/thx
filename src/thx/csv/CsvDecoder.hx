@@ -13,18 +13,31 @@ class CsvDecoder
 {
 	public var delimiter(default, null) : String;
 	public var emptytonull(default, null) : Bool;
-	
+	public var newline(default,null):String;
+	public var quote(default,null):String;
+	public var doublequotations(default,null):Bool;
+	public var trim_whitespace(default,null):Bool;
 	public var line(default, null) : Int;
 	public var column(default, null) : Int;
 	
 	var handler : IDataHandler;
 	
-	public function new(handler : IDataHandler, delimiter = ",", emptytonull = false)
+	public function new(handler : IDataHandler, delimiter = ",", emptytonull = false, newline = "\r\n|\n|\r", 
+						quote = '"', doublequotations = true, trim_whitespace = true)
 	{
 		this.handler = handler;
 		this.delimiter = delimiter;
 		this.emptytonull = emptytonull;
-		_end = new EReg("(" + ERegs.escapeERegChars(delimiter) + "|\n\r|\n|\r|$)", "");
+		this.quote = quote;
+		this.doublequotations = doublequotations;
+		this.trim_whitespace = trim_whitespace;
+
+		if (newline != "\r\n|\n|\r")
+			newline = ERegs.escapeERegChars(newline);
+
+		this.newline = newline;
+		
+		_end = new EReg("(" + ERegs.escapeERegChars(delimiter) + "|" + newline + "|$)", "");
 	}
 	
 	var _s : String;
@@ -54,33 +67,41 @@ class CsvDecoder
 		handler.endArray();
 		line++;
 		handler.endItem();
+			
 	}
 	
 	function parseValue()
-	{
-		if (_s.substr(0, 1) == '"') // QUOTED VALUE
+	{	
+		if (trim_whitespace) this._s = StringTools.ltrim(this._s); // LEADING WHITESPACE
+		if (_s.substr(0, 1) == quote) // QUOTED VALUE
 		{
-			var pos = _s.indexOf('"', 1);
-			while (_s.substr(pos+1, 1) == '"') // DOUBLE DOUBLE QUOTE
-				pos = _s.indexOf('"', pos + 2);
+			var pos = _s.indexOf(quote, 1);
+			if (doublequotations){
+				while (_s.substr(pos+1, 1) == quote) // DOUBLE DOUBLE QUOTE
+					pos = _s.indexOf(quote, pos + 2);
+			}
+			
 			var v = _s.substr(1, pos - 1);
 			_s = _s.substr(pos + 1);
-			typeString(StringTools.replace(v, '""', '"'));
+			typeString(StringTools.replace(v, quote+quote, quote));
 			if (!_end.match(_s))
 				error(_s);
 			_s = _end.matchedRight();
 			return _end.matched(0) == delimiter;
 		}
-		
+
 		// UNQUOTED VALUE
 		if (!_end.match(_s))
 			error(_s);
-
+		
 		_s = _end.matchedRight();
-		if(line == 1)
-			typeToken(_end.matchedLeft());
-		else {
+		if(line == 1){
 			var v = _end.matchedLeft();
+			if (trim_whitespace) v = StringTools.trim(v);
+			typeToken(v);
+		} else {
+			var v = _end.matchedLeft();
+			if (trim_whitespace) v = StringTools.trim(v);
 			getTyper(v)(v);
 		}
 		if (_end.matched(0) == delimiter)
