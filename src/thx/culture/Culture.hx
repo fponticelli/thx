@@ -53,6 +53,11 @@ class Culture extends Info
 		return cultures.keys();
 	}
 
+	public static function exists(culture:String)
+	{
+		return cultures.exists(culture.toLowerCase());
+	}
+
 	static var _defaultCulture : Culture;
 	public static var defaultCulture(getDefaultCulture, setDefaultCulture) : Culture;
 	
@@ -77,6 +82,7 @@ class Culture extends Info
 		if(!cultures.exists(name))
 			cultures.set(name, culture);
 	}
+	
 
 	public static function loadAll()
 	{
