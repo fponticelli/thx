@@ -40,8 +40,8 @@ class TestCsv
 	public function testDecode()
 	{
 		assertSame([[1997, "Ford", "E350"]], Csv.decode("1997,Ford,E350"));
-		assertSame([[1997, " Ford ", " E350"]], Csv.decode("1997, Ford , E350", null, null, null, null, null, false)); // handled by space trim setting in parser
-		assertSame([[1997, "Ford", "E350"]], Csv.decode("1997, Ford , E350", null, null, null, null, null, true)); // handled by space trim setting in parser
+		assertSame([[1997, " Ford ", " E350"]], Csv.decode("1997, Ford , E350", null, null, null, null, null, null, false)); // handled by space trim setting in parser
+		assertSame([[1997, "Ford", "E350"]], Csv.decode("1997, Ford , E350", null, null, null, null, null, null, true)); // handled by space trim setting in parser
 		assertSame([[1997, "Ford", "E350", 'Super, "luxurious" truck']], Csv.decode('1997,Ford,E350,"Super, ""luxurious"" truck"'));
 		assertSame([[1997, "Ford", "E350", "Go get one now\nthey are going fast"]], Csv.decode('1997,Ford,E350,"Go get one now\nthey are going fast"'));
 

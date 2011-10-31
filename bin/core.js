@@ -895,14 +895,14 @@ thx.csv.TestCsv = function(p) {
 thx.csv.TestCsv.__name__ = ["thx","csv","TestCsv"];
 thx.csv.TestCsv.prototype.testDecode = function() {
 	this.assertSame([[1997,"Ford","E350"]],thx.csv.Csv.decode("1997,Ford,E350"),{ fileName : "TestCsv.hx", lineNumber : 42, className : "thx.csv.TestCsv", methodName : "testDecode"});
-	this.assertSame([[1997," Ford "," E350"]],thx.csv.Csv.decode("1997, Ford , E350",null,null,null,null,null,false),{ fileName : "TestCsv.hx", lineNumber : 43, className : "thx.csv.TestCsv", methodName : "testDecode"});
-	this.assertSame([[1997,"Ford","E350"]],thx.csv.Csv.decode("1997, Ford , E350",null,null,null,null,null,true),{ fileName : "TestCsv.hx", lineNumber : 44, className : "thx.csv.TestCsv", methodName : "testDecode"});
+	this.assertSame([[1997," Ford "," E350"]],thx.csv.Csv.decode("1997, Ford , E350",null,null,null,null,null,null,false),{ fileName : "TestCsv.hx", lineNumber : 43, className : "thx.csv.TestCsv", methodName : "testDecode"});
+	this.assertSame([[1997,"Ford","E350"]],thx.csv.Csv.decode("1997, Ford , E350",null,null,null,null,null,null,true),{ fileName : "TestCsv.hx", lineNumber : 44, className : "thx.csv.TestCsv", methodName : "testDecode"});
 	this.assertSame([[1997,"Ford","E350","Super, \"luxurious\" truck"]],thx.csv.Csv.decode("1997,Ford,E350,\"Super, \"\"luxurious\"\" truck\""),{ fileName : "TestCsv.hx", lineNumber : 45, className : "thx.csv.TestCsv", methodName : "testDecode"});
 	this.assertSame([[1997,"Ford","E350","Go get one now\nthey are going fast"]],thx.csv.Csv.decode("1997,Ford,E350,\"Go get one now\nthey are going fast\""),{ fileName : "TestCsv.hx", lineNumber : 46, className : "thx.csv.TestCsv", methodName : "testDecode"});
 	this.assertSame(thx.csv.TestCsv.v,thx.csv.Csv.decode(thx.csv.TestCsv.s),{ fileName : "TestCsv.hx", lineNumber : 48, className : "thx.csv.TestCsv", methodName : "testDecode"});
 	var old_default = thx.culture.Culture.getDefaultCulture();
 	thx.culture.Culture.setDefaultCulture(thx.cultures.DeDE.getCulture());
-	this.assertSame(thx.csv.TestCsv.v,thx.csv.Csv.decode(thx.csv.TestCsv.t,";"),{ fileName : "TestCsv.hx", lineNumber : 51, className : "thx.csv.TestCsv", methodName : "testDecode"});
+	this.assertSame(thx.csv.TestCsv.v,thx.csv.Csv.decode(thx.csv.TestCsv.t,null,";"),{ fileName : "TestCsv.hx", lineNumber : 51, className : "thx.csv.TestCsv", methodName : "testDecode"});
 	thx.culture.Culture.setDefaultCulture(old_default);
 }
 thx.csv.TestCsv.prototype.testEncode = function() {
@@ -1187,6 +1187,9 @@ thx.culture.Culture.get = function(name) {
 }
 thx.culture.Culture.names = function() {
 	return thx.culture.Culture.getCultures().keys();
+}
+thx.culture.Culture.exists = function(culture) {
+	return thx.culture.Culture.getCultures().exists(culture.toLowerCase());
 }
 thx.culture.Culture._defaultCulture = null;
 thx.culture.Culture.defaultCulture = null;
@@ -2801,7 +2804,7 @@ thx.number.NumberParser.cultureNumberEReg = function(cul) {
 	if(groups.length == 1) {
 		group_length = groups[0];
 		regex.add("((" + digits + "{1," + groups[0] + "}" + gsep + ")");
-		regex.add("(" + digits + "{" + groups[0] + "}" + ")*)|");
+		regex.add("(" + digits + "{" + groups[0] + "}" + ")+)|");
 		regex.add("(" + digits + "+)");
 	}
 	regex.b[regex.b.length] = ")";
@@ -2815,10 +2818,13 @@ thx.number.NumberParser.cultureNumberEReg = function(cul) {
 		reg_string = new EReg("n","").replace(neg_match,reg_string);
 	} else reg_string = "[+-]?" + reg_string;
 	reg_string = "^" + reg_string + "$";
+	haxe.Firebug.trace(cul,{ fileName : "NumberParser.hx", lineNumber : 94, className : "thx.number.NumberParser", methodName : "cultureNumberEReg"});
+	haxe.Firebug.trace(reg_string,{ fileName : "NumberParser.hx", lineNumber : 95, className : "thx.number.NumberParser", methodName : "cultureNumberEReg"});
 	var reg = new EReg(reg_string,"gi");
 	return reg;
 }
 thx.number.NumberParser.canParse = function(val,cul) {
+	if(cul == null) cul = thx.culture.Culture.getDefaultCulture();
 	var reg = thx.number.NumberParser.cultureNumberEReg(cul);
 	if(reg.match(val)) return true; else return false;
 }
@@ -3312,9 +3318,9 @@ thx.csv.Csv.encode = function(value,delimiter,nulltoempty,newline) {
 	new thx.data.ValueEncoder(handler).encode(value);
 	return handler.encodedString;
 }
-thx.csv.Csv.decode = function(value,delimiter,emptytonull,newline,quote,doublequotations,skipwhitespace) {
+thx.csv.Csv.decode = function(value,check_type,delimiter,emptytonull,newline,quote,doublequotations,skipwhitespace) {
 	var handler = new thx.data.ValueHandler();
-	new thx.csv.CsvDecoder(handler,delimiter,emptytonull,newline,quote,doublequotations,skipwhitespace).decode(value);
+	new thx.csv.CsvDecoder(handler,check_type,delimiter,emptytonull,newline,quote,doublequotations,skipwhitespace).decode(value);
 	return handler.value;
 }
 thx.csv.Csv.prototype.__class__ = thx.csv.Csv;
@@ -3945,6 +3951,36 @@ thx.date.DateParser.plusPm = function(s) {
 	}(this));
 }
 thx.date.DateParser.prototype.__class__ = thx.date.DateParser;
+haxe.Firebug = function() { }
+haxe.Firebug.__name__ = ["haxe","Firebug"];
+haxe.Firebug.detect = function() {
+	try {
+		return console != null && console.error != null;
+	} catch( e ) {
+		return false;
+	}
+}
+haxe.Firebug.redirectTraces = function() {
+	haxe.Log.trace = haxe.Firebug.trace;
+	js.Lib.setErrorHandler(haxe.Firebug.onError);
+}
+haxe.Firebug.onError = function(err,stack) {
+	var buf = err + "\n";
+	var _g = 0;
+	while(_g < stack.length) {
+		var s = stack[_g];
+		++_g;
+		buf += "Called from " + s + "\n";
+	}
+	haxe.Firebug.trace(buf,null);
+	return true;
+}
+haxe.Firebug.trace = function(v,inf) {
+	var type = inf != null && inf.customParams != null?inf.customParams[0]:null;
+	if(type != "warn" && type != "info" && type != "debug" && type != "error") type = inf == null?"error":"log";
+	console[type]((inf == null?"":inf.fileName + ":" + inf.lineNumber + " : ") + Std.string(v));
+}
+haxe.Firebug.prototype.__class__ = haxe.Firebug;
 if(!thx.languages) thx.languages = {}
 thx.languages.En = function(p) {
 	if( p === $_ ) return;
@@ -4107,22 +4143,23 @@ thx.number.TestParse = function(p) {
 }
 thx.number.TestParse.__name__ = ["thx","number","TestParse"];
 thx.number.TestParse.prototype.testParse = function() {
-	utest.Assert.equals(thx.number.NumberParser.parse("1",thx.cultures.EnIN.getCulture()),1,null,{ fileName : "TestParse.hx", lineNumber : 15, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("-10",thx.cultures.EnIN.getCulture()),-10,null,{ fileName : "TestParse.hx", lineNumber : 16, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("100",thx.cultures.EnIN.getCulture()),100,null,{ fileName : "TestParse.hx", lineNumber : 17, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.floatEquals(thx.number.NumberParser.parse("1,00,0",thx.cultures.EnIN.getCulture()),Math.NaN,null,null,{ fileName : "TestParse.hx", lineNumber : 18, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("1,000",thx.cultures.EnUS.getCulture()),1000,null,{ fileName : "TestParse.hx", lineNumber : 19, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.floatEquals(thx.number.NumberParser.parse("1,00,000",thx.cultures.EnUS.getCulture()),Math.NaN,null,null,{ fileName : "TestParse.hx", lineNumber : 20, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("1,00,000",thx.cultures.EnIN.getCulture()),100000,null,{ fileName : "TestParse.hx", lineNumber : 21, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("10-",thx.cultures.ArMA.getCulture()),-10,null,{ fileName : "TestParse.hx", lineNumber : 22, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("10,000",thx.cultures.EnIN.getCulture()),10000,null,{ fileName : "TestParse.hx", lineNumber : 23, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("100.000,003",thx.cultures.DeDE.getCulture()),100000.003,null,{ fileName : "TestParse.hx", lineNumber : 24, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("10,00,000",thx.cultures.EnIN.getCulture()),1000000,null,{ fileName : "TestParse.hx", lineNumber : 25, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("1,00,00,000",thx.cultures.EnIN.getCulture()),10000000,null,{ fileName : "TestParse.hx", lineNumber : 26, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("10,00,00,000",thx.cultures.EnIN.getCulture()),100000000,null,{ fileName : "TestParse.hx", lineNumber : 27, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("10,00,00,000.232523",thx.cultures.EnIN.getCulture()),100000000.232523,null,{ fileName : "TestParse.hx", lineNumber : 28, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("0",thx.cultures.EnIN.getCulture()),0,null,{ fileName : "TestParse.hx", lineNumber : 29, className : "thx.number.TestParse", methodName : "testParse"});
-	utest.Assert.equals(thx.number.NumberParser.parse("3000,99",thx.cultures.DeDE.getCulture()),3000.99,null,{ fileName : "TestParse.hx", lineNumber : 30, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(1,thx.number.NumberParser.parse("1",thx.cultures.EnIN.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 22, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(-10,thx.number.NumberParser.parse("-10",thx.cultures.EnIN.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 23, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(100,thx.number.NumberParser.parse("100",thx.cultures.EnIN.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 24, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.isTrue(Math.isNaN(thx.number.NumberParser.parse("1,00,0",thx.cultures.EnIN.getCulture())),null,{ fileName : "TestParse.hx", lineNumber : 25, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(1000,thx.number.NumberParser.parse("1,000",thx.cultures.EnUS.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 26, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.isTrue(Math.isNaN(thx.number.NumberParser.parse("1,00,000",thx.cultures.EnUS.getCulture())),null,{ fileName : "TestParse.hx", lineNumber : 27, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(100000,thx.number.NumberParser.parse("1,00,000",thx.cultures.EnIN.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 28, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(-10,thx.number.NumberParser.parse("10-",thx.cultures.ArMA.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 29, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(10000,thx.number.NumberParser.parse("10,000",thx.cultures.EnIN.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 30, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(100000.003,thx.number.NumberParser.parse("100.000,003",thx.cultures.DeDE.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 31, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(1000000,thx.number.NumberParser.parse("10,00,000",thx.cultures.EnIN.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 32, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(10000000,thx.number.NumberParser.parse("1,00,00,000",thx.cultures.EnIN.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 33, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(100000000,thx.number.NumberParser.parse("10,00,00,000",thx.cultures.EnIN.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 34, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(100000000.232523,thx.number.NumberParser.parse("10,00,00,000.232523",thx.cultures.EnIN.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 35, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(0,thx.number.NumberParser.parse("0",thx.cultures.EnIN.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 36, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.equals(3000.99,thx.number.NumberParser.parse("3000,99",thx.cultures.DeDE.getCulture()),null,{ fileName : "TestParse.hx", lineNumber : 37, className : "thx.number.TestParse", methodName : "testParse"});
+	utest.Assert.isTrue(Math.isNaN(thx.number.NumberParser.parse("10,",thx.cultures.EnUS.getCulture())),null,{ fileName : "TestParse.hx", lineNumber : 38, className : "thx.number.TestParse", methodName : "testParse"});
 }
 thx.number.TestParse.prototype.__class__ = thx.number.TestParse;
 thx.color.TestHsl = function(p) {
@@ -7234,7 +7271,7 @@ utest.ui.common.ClassResult.prototype.methodNames = function(errorsHavePriority)
 	return names;
 }
 utest.ui.common.ClassResult.prototype.__class__ = utest.ui.common.ClassResult;
-thx.csv.CsvDecoder = function(handler,delimiter,emptytonull,newline,quote,doublequotations,trim_whitespace) {
+thx.csv.CsvDecoder = function(handler,check_type,delimiter,emptytonull,newline,quote,doublequotations,trim_whitespace) {
 	if( handler === $_ ) return;
 	if(trim_whitespace == null) trim_whitespace = true;
 	if(doublequotations == null) doublequotations = true;
@@ -7242,12 +7279,14 @@ thx.csv.CsvDecoder = function(handler,delimiter,emptytonull,newline,quote,double
 	if(newline == null) newline = "\r\n|\n|\r";
 	if(emptytonull == null) emptytonull = false;
 	if(delimiter == null) delimiter = ",";
+	if(check_type == null) check_type = true;
 	this.handler = handler;
 	this.delimiter = delimiter;
 	this.emptytonull = emptytonull;
 	this.quote = quote;
 	this.doublequotations = doublequotations;
 	this.trim_whitespace = trim_whitespace;
+	this.check_type = check_type;
 	if(newline != "\r\n|\n|\r") newline = thx.text.ERegs.escapeERegChars(newline);
 	this.newline = newline;
 	this._end = new EReg("(" + thx.text.ERegs.escapeERegChars(delimiter) + "|" + newline + "|$)","");
@@ -7261,6 +7300,7 @@ thx.csv.CsvDecoder.prototype.doublequotations = null;
 thx.csv.CsvDecoder.prototype.trim_whitespace = null;
 thx.csv.CsvDecoder.prototype.line = null;
 thx.csv.CsvDecoder.prototype.column = null;
+thx.csv.CsvDecoder.prototype.check_type = null;
 thx.csv.CsvDecoder.prototype.handler = null;
 thx.csv.CsvDecoder.prototype._s = null;
 thx.csv.CsvDecoder.prototype._end = null;
@@ -7285,7 +7325,7 @@ thx.csv.CsvDecoder.prototype.parseLine = function() {
 	this.handler.endItem();
 }
 thx.csv.CsvDecoder.prototype.parseValue = function() {
-	if(this.trim_whitespace) this._s = StringTools.ltrim(this._s);
+	if(this.trim_whitespace) this._s = new EReg(" *","").replace(this._s,"");
 	if(this._s.substr(0,1) == this.quote) {
 		var pos = this._s.indexOf(this.quote,1);
 		if(this.doublequotations) while(this._s.substr(pos + 1,1) == this.quote) pos = this._s.indexOf(this.quote,pos + 2);
@@ -7323,12 +7363,12 @@ thx.csv.CsvDecoder.prototype.getTyper = function(s) {
 	var typer = this._typers[this.column];
 	if(null == typer) {
 		if(s == "") return $closure(this,"typeToken");
-		if(Ints.canParse(s)) typer = this._typers[this.column] = $closure(this,"typeInt"); else if(thx.number.NumberParser.canParse(s,thx.culture.Culture.getDefaultCulture())) typer = this._typers[this.column] = $closure(this,"typeCultureFloat"); else if(Floats.canParse(s)) typer = this._typers[this.column] = $closure(this,"typeFloat"); else if(Bools.canParse(s)) typer = this._typers[this.column] = $closure(this,"typeBool"); else if(Dates.canParse(s)) typer = this._typers[this.column] = $closure(this,"typeDate"); else typer = this._typers[this.column] = $closure(this,"typeString");
+		if(!this.check_type) typer = this._typers[this.column] = $closure(this,"typeString"); else if(Ints.canParse(s)) typer = this._typers[this.column] = $closure(this,"typeInt"); else if(thx.number.NumberParser.canParse(s,thx.culture.Culture.getDefaultCulture())) typer = this._typers[this.column] = $closure(this,"typeCultureFloat"); else if(Floats.canParse(s)) typer = this._typers[this.column] = $closure(this,"typeFloat"); else if(Bools.canParse(s)) typer = this._typers[this.column] = $closure(this,"typeBool"); else if(Dates.canParse(s)) typer = this._typers[this.column] = $closure(this,"typeDate"); else typer = this._typers[this.column] = $closure(this,"typeString");
 	}
 	return typer;
 }
 thx.csv.CsvDecoder.prototype.typeToken = function(s) {
-	if(Ints.canParse(s)) this.typeInt(s); else if(Floats.canParse(s)) this.typeFloat(s); else if(Bools.canParse(s)) this.typeBool(s); else if(Dates.canParse(s)) this.typeDate(s); else this.typeString(s);
+	if(!this.check_type) this.typeString(s); else if(Ints.canParse(s)) this.typeInt(s); else if(Floats.canParse(s)) this.typeFloat(s); else if(Bools.canParse(s)) this.typeBool(s); else if(Dates.canParse(s)) this.typeDate(s); else this.typeString(s);
 }
 thx.csv.CsvDecoder.prototype.typeInt = function(s) {
 	this.handler.startItem();
@@ -12989,44 +13029,6 @@ thx.js.AccessDataStyle.prototype.data = function() {
 	});
 }
 thx.js.AccessDataStyle.prototype.__class__ = thx.js.AccessDataStyle;
-thx.cultures.DeDE = function(p) {
-	if( p === $_ ) return;
-	this.language = thx.languages.De.getLanguage();
-	this.name = "de-DE";
-	this.english = "German (Germany)";
-	this["native"] = "Deutsch (Deutschland)";
-	this.date = new thx.culture.core.DateTimeInfo(["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember",""],["Jan","Feb","Mrz","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez",""],["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"],["So","Mo","Di","Mi","Do","Fr","Sa"],["So","Mo","Di","Mi","Do","Fr","Sa"],null,null,".",":",1,"%B %Y","%d %B","%A, %e. %B %Y","%d.%m.%Y","%a, %d %b %Y %H:%M:%S GMT","%A, %e. %B %Y %H:%M:%S","%Y-%m-%d %H:%M:%SZ","%Y-%m-%dT%H:%M:%S","%H:%M:%S","%H:%M");
-	this.symbolNaN = "n. def.";
-	this.symbolPercent = "%";
-	this.symbolPermille = "‰";
-	this.signNeg = "-";
-	this.signPos = "+";
-	this.symbolNegInf = "-unendlich";
-	this.symbolPosInf = "+unendlich";
-	this.number = new thx.culture.core.NumberInfo(2,",",[3],".","-n","n");
-	this.currency = new thx.culture.core.NumberInfo(2,",",[3],".","-n $","n $");
-	this.percent = new thx.culture.core.NumberInfo(2,",",[3],".","-n%","n%");
-	this.pluralRule = 1;
-	this.englishCurrency = "Euro";
-	this.nativeCurrency = "Euro";
-	this.currencySymbol = "€";
-	this.currencyIso = "EUR";
-	this.englishRegion = "Germany";
-	this.nativeRegion = "Deutschland";
-	this.iso2 = "DE";
-	this.iso3 = "DEU";
-	this.isMetric = false;
-	thx.culture.Culture.add(this);
-}
-thx.cultures.DeDE.__name__ = ["thx","cultures","DeDE"];
-thx.cultures.DeDE.__super__ = thx.culture.Culture;
-for(var k in thx.culture.Culture.prototype ) thx.cultures.DeDE.prototype[k] = thx.culture.Culture.prototype[k];
-thx.cultures.DeDE.culture = null;
-thx.cultures.DeDE.getCulture = function() {
-	if(null == thx.cultures.DeDE.culture) thx.cultures.DeDE.culture = new thx.cultures.DeDE();
-	return thx.cultures.DeDE.culture;
-}
-thx.cultures.DeDE.prototype.__class__ = thx.cultures.DeDE;
 thx.util.TestResults = function(p) {
 }
 thx.util.TestResults.__name__ = ["thx","util","TestResults"];
@@ -13392,6 +13394,44 @@ thx.js.BoundTransition.prototype.createTransition = function(selection) {
 	return new thx.js.BoundTransition(selection);
 }
 thx.js.BoundTransition.prototype.__class__ = thx.js.BoundTransition;
+thx.cultures.DeDE = function(p) {
+	if( p === $_ ) return;
+	this.language = thx.languages.De.getLanguage();
+	this.name = "de-DE";
+	this.english = "German (Germany)";
+	this["native"] = "Deutsch (Deutschland)";
+	this.date = new thx.culture.core.DateTimeInfo(["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember",""],["Jan","Feb","Mrz","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez",""],["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"],["So","Mo","Di","Mi","Do","Fr","Sa"],["So","Mo","Di","Mi","Do","Fr","Sa"],null,null,".",":",1,"%B %Y","%d %B","%A, %e. %B %Y","%d.%m.%Y","%a, %d %b %Y %H:%M:%S GMT","%A, %e. %B %Y %H:%M:%S","%Y-%m-%d %H:%M:%SZ","%Y-%m-%dT%H:%M:%S","%H:%M:%S","%H:%M");
+	this.symbolNaN = "n. def.";
+	this.symbolPercent = "%";
+	this.symbolPermille = "‰";
+	this.signNeg = "-";
+	this.signPos = "+";
+	this.symbolNegInf = "-unendlich";
+	this.symbolPosInf = "+unendlich";
+	this.number = new thx.culture.core.NumberInfo(2,",",[3],".","-n","n");
+	this.currency = new thx.culture.core.NumberInfo(2,",",[3],".","-n $","n $");
+	this.percent = new thx.culture.core.NumberInfo(2,",",[3],".","-n%","n%");
+	this.pluralRule = 1;
+	this.englishCurrency = "Euro";
+	this.nativeCurrency = "Euro";
+	this.currencySymbol = "€";
+	this.currencyIso = "EUR";
+	this.englishRegion = "Germany";
+	this.nativeRegion = "Deutschland";
+	this.iso2 = "DE";
+	this.iso3 = "DEU";
+	this.isMetric = false;
+	thx.culture.Culture.add(this);
+}
+thx.cultures.DeDE.__name__ = ["thx","cultures","DeDE"];
+thx.cultures.DeDE.__super__ = thx.culture.Culture;
+for(var k in thx.culture.Culture.prototype ) thx.cultures.DeDE.prototype[k] = thx.culture.Culture.prototype[k];
+thx.cultures.DeDE.culture = null;
+thx.cultures.DeDE.getCulture = function() {
+	if(null == thx.cultures.DeDE.culture) thx.cultures.DeDE.culture = new thx.cultures.DeDE();
+	return thx.cultures.DeDE.culture;
+}
+thx.cultures.DeDE.prototype.__class__ = thx.cultures.DeDE;
 thx.ini.IniDecoder = function(handler,explodesections,emptytonull) {
 	if( handler === $_ ) return;
 	if(emptytonull == null) emptytonull = true;
@@ -14465,62 +14505,62 @@ TestFloats.prototype.testAbs = function() {
 	utest.Assert.floatEquals(0.1,-0.1 < 0?0.1:-0.1,null,null,{ fileName : "TestFloats.hx", lineNumber : 21, className : "TestFloats", methodName : "testAbs"});
 }
 TestFloats.prototype.testClamp = function() {
-	utest.Assert.floatEquals(10,Floats.clamp(0,10,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 27, className : "TestFloats", methodName : "testClamp"});
-	utest.Assert.floatEquals(10,Floats.clamp(10,10,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 28, className : "TestFloats", methodName : "testClamp"});
-	utest.Assert.floatEquals(50,Floats.clamp(50,10,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 29, className : "TestFloats", methodName : "testClamp"});
-	utest.Assert.floatEquals(100,Floats.clamp(100,10,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 30, className : "TestFloats", methodName : "testClamp"});
-	utest.Assert.floatEquals(100,Floats.clamp(110,10,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 31, className : "TestFloats", methodName : "testClamp"});
+	utest.Assert.floatEquals(10,Floats.clamp(0,10,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 26, className : "TestFloats", methodName : "testClamp"});
+	utest.Assert.floatEquals(10,Floats.clamp(10,10,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 27, className : "TestFloats", methodName : "testClamp"});
+	utest.Assert.floatEquals(50,Floats.clamp(50,10,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 28, className : "TestFloats", methodName : "testClamp"});
+	utest.Assert.floatEquals(100,Floats.clamp(100,10,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 29, className : "TestFloats", methodName : "testClamp"});
+	utest.Assert.floatEquals(100,Floats.clamp(110,10,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 30, className : "TestFloats", methodName : "testClamp"});
 }
 TestFloats.prototype.testClampSym = function() {
-	utest.Assert.floatEquals(-10,Floats.clampSym(-100,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 36, className : "TestFloats", methodName : "testClampSym"});
-	utest.Assert.floatEquals(10,Floats.clampSym(100,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 37, className : "TestFloats", methodName : "testClampSym"});
-	utest.Assert.floatEquals(0,Floats.clampSym(0,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 38, className : "TestFloats", methodName : "testClampSym"});
+	utest.Assert.floatEquals(-10,Floats.clampSym(-100,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 35, className : "TestFloats", methodName : "testClampSym"});
+	utest.Assert.floatEquals(10,Floats.clampSym(100,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 36, className : "TestFloats", methodName : "testClampSym"});
+	utest.Assert.floatEquals(0,Floats.clampSym(0,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 37, className : "TestFloats", methodName : "testClampSym"});
 }
 TestFloats.prototype.testMax = function() {
-	utest.Assert.floatEquals(10,10,null,null,{ fileName : "TestFloats.hx", lineNumber : 43, className : "TestFloats", methodName : "testMax"});
-	utest.Assert.floatEquals(5,5,null,null,{ fileName : "TestFloats.hx", lineNumber : 44, className : "TestFloats", methodName : "testMax"});
-	utest.Assert.floatEquals(-5,-5,null,null,{ fileName : "TestFloats.hx", lineNumber : 45, className : "TestFloats", methodName : "testMax"});
+	utest.Assert.floatEquals(10,10,null,null,{ fileName : "TestFloats.hx", lineNumber : 42, className : "TestFloats", methodName : "testMax"});
+	utest.Assert.floatEquals(5,5,null,null,{ fileName : "TestFloats.hx", lineNumber : 43, className : "TestFloats", methodName : "testMax"});
+	utest.Assert.floatEquals(-5,-5,null,null,{ fileName : "TestFloats.hx", lineNumber : 44, className : "TestFloats", methodName : "testMax"});
 }
 TestFloats.prototype.testMin = function() {
-	utest.Assert.floatEquals(5,5,null,null,{ fileName : "TestFloats.hx", lineNumber : 50, className : "TestFloats", methodName : "testMin"});
+	utest.Assert.floatEquals(5,5,null,null,{ fileName : "TestFloats.hx", lineNumber : 49, className : "TestFloats", methodName : "testMin"});
+	utest.Assert.floatEquals(-10,-10,null,null,{ fileName : "TestFloats.hx", lineNumber : 50, className : "TestFloats", methodName : "testMin"});
 	utest.Assert.floatEquals(-10,-10,null,null,{ fileName : "TestFloats.hx", lineNumber : 51, className : "TestFloats", methodName : "testMin"});
-	utest.Assert.floatEquals(-10,-10,null,null,{ fileName : "TestFloats.hx", lineNumber : 52, className : "TestFloats", methodName : "testMin"});
 }
 TestFloats.prototype.testRange = function() {
-	utest.Assert.same([0.1,0.2,0.3,0.4],Floats.range(0.1,0.5,0.1),null,null,{ fileName : "TestFloats.hx", lineNumber : 57, className : "TestFloats", methodName : "testRange"});
+	utest.Assert.same([0.1,0.2,0.3,0.4],Floats.range(0.1,0.5,0.1),null,null,{ fileName : "TestFloats.hx", lineNumber : 56, className : "TestFloats", methodName : "testRange"});
 }
 TestFloats.prototype.testSign = function() {
-	utest.Assert.isTrue((0.1 < 0?-1:1) > 0,null,{ fileName : "TestFloats.hx", lineNumber : 62, className : "TestFloats", methodName : "testSign"});
-	utest.Assert.isTrue((-0.1 < 0?-1:1) < 0,null,{ fileName : "TestFloats.hx", lineNumber : 63, className : "TestFloats", methodName : "testSign"});
+	utest.Assert.isTrue((0.1 < 0?-1:1) > 0,null,{ fileName : "TestFloats.hx", lineNumber : 61, className : "TestFloats", methodName : "testSign"});
+	utest.Assert.isTrue((-0.1 < 0?-1:1) < 0,null,{ fileName : "TestFloats.hx", lineNumber : 62, className : "TestFloats", methodName : "testSign"});
 }
 TestFloats.prototype.testWrap = function() {
-	utest.Assert.floatEquals(5,Floats.wrap(-1,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 68, className : "TestFloats", methodName : "testWrap"});
-	utest.Assert.floatEquals(5,Floats.wrap(1,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 69, className : "TestFloats", methodName : "testWrap"});
-	utest.Assert.floatEquals(5,Floats.wrap(5,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 70, className : "TestFloats", methodName : "testWrap"});
-	utest.Assert.floatEquals(6,Floats.wrap(6,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 71, className : "TestFloats", methodName : "testWrap"});
-	utest.Assert.floatEquals(10,Floats.wrap(10,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 72, className : "TestFloats", methodName : "testWrap"});
-	utest.Assert.floatEquals(5,Floats.wrap(11,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 73, className : "TestFloats", methodName : "testWrap"});
-	utest.Assert.floatEquals(5,Floats.wrap(29,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 74, className : "TestFloats", methodName : "testWrap"});
+	utest.Assert.floatEquals(5,Floats.wrap(-1,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 67, className : "TestFloats", methodName : "testWrap"});
+	utest.Assert.floatEquals(5,Floats.wrap(1,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 68, className : "TestFloats", methodName : "testWrap"});
+	utest.Assert.floatEquals(5,Floats.wrap(5,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 69, className : "TestFloats", methodName : "testWrap"});
+	utest.Assert.floatEquals(6,Floats.wrap(6,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 70, className : "TestFloats", methodName : "testWrap"});
+	utest.Assert.floatEquals(10,Floats.wrap(10,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 71, className : "TestFloats", methodName : "testWrap"});
+	utest.Assert.floatEquals(5,Floats.wrap(11,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 72, className : "TestFloats", methodName : "testWrap"});
+	utest.Assert.floatEquals(5,Floats.wrap(29,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 73, className : "TestFloats", methodName : "testWrap"});
 }
 TestFloats.prototype.testCircularWrap = function() {
-	utest.Assert.floatEquals(0,Floats.circularWrap(0,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 79, className : "TestFloats", methodName : "testCircularWrap"});
-	utest.Assert.floatEquals(50,Floats.circularWrap(50,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 80, className : "TestFloats", methodName : "testCircularWrap"});
-	utest.Assert.floatEquals(0,Floats.circularWrap(100,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 81, className : "TestFloats", methodName : "testCircularWrap"});
-	utest.Assert.floatEquals(50,Floats.circularWrap(150,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 82, className : "TestFloats", methodName : "testCircularWrap"});
-	utest.Assert.floatEquals(50,Floats.circularWrap(-50,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 83, className : "TestFloats", methodName : "testCircularWrap"});
-	utest.Assert.floatEquals(50,Floats.circularWrap(-150,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 84, className : "TestFloats", methodName : "testCircularWrap"});
+	utest.Assert.floatEquals(0,Floats.circularWrap(0,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 78, className : "TestFloats", methodName : "testCircularWrap"});
+	utest.Assert.floatEquals(50,Floats.circularWrap(50,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 79, className : "TestFloats", methodName : "testCircularWrap"});
+	utest.Assert.floatEquals(0,Floats.circularWrap(100,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 80, className : "TestFloats", methodName : "testCircularWrap"});
+	utest.Assert.floatEquals(50,Floats.circularWrap(150,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 81, className : "TestFloats", methodName : "testCircularWrap"});
+	utest.Assert.floatEquals(50,Floats.circularWrap(-50,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 82, className : "TestFloats", methodName : "testCircularWrap"});
+	utest.Assert.floatEquals(50,Floats.circularWrap(-150,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 83, className : "TestFloats", methodName : "testCircularWrap"});
 }
 TestFloats.prototype.testInterpolate = function() {
-	utest.Assert.equals(100,Floats.interpolate(0.0,100,200),null,{ fileName : "TestFloats.hx", lineNumber : 89, className : "TestFloats", methodName : "testInterpolate"});
-	utest.Assert.equals(150,Floats.interpolate(0.5,100,200),null,{ fileName : "TestFloats.hx", lineNumber : 90, className : "TestFloats", methodName : "testInterpolate"});
-	utest.Assert.equals(200,Floats.interpolate(1.0,100,200),null,{ fileName : "TestFloats.hx", lineNumber : 91, className : "TestFloats", methodName : "testInterpolate"});
+	utest.Assert.equals(100,Floats.interpolate(0.0,100,200),null,{ fileName : "TestFloats.hx", lineNumber : 88, className : "TestFloats", methodName : "testInterpolate"});
+	utest.Assert.equals(150,Floats.interpolate(0.5,100,200),null,{ fileName : "TestFloats.hx", lineNumber : 89, className : "TestFloats", methodName : "testInterpolate"});
+	utest.Assert.equals(200,Floats.interpolate(1.0,100,200),null,{ fileName : "TestFloats.hx", lineNumber : 90, className : "TestFloats", methodName : "testInterpolate"});
 }
 TestFloats.prototype.testFormat = function() {
-	utest.Assert.equals("0.10",Floats.format(0.1),null,{ fileName : "TestFloats.hx", lineNumber : 96, className : "TestFloats", methodName : "testFormat"});
-	utest.Assert.equals("0",Floats.format(0.1,"I"),null,{ fileName : "TestFloats.hx", lineNumber : 97, className : "TestFloats", methodName : "testFormat"});
+	utest.Assert.equals("0.10",Floats.format(0.1),null,{ fileName : "TestFloats.hx", lineNumber : 95, className : "TestFloats", methodName : "testFormat"});
+	utest.Assert.equals("0",Floats.format(0.1,"I"),null,{ fileName : "TestFloats.hx", lineNumber : 96, className : "TestFloats", methodName : "testFormat"});
 }
 TestFloats.prototype.testFormatF = function() {
-	utest.Assert.equals("0.10",(Floats.formatf())(0.1),null,{ fileName : "TestFloats.hx", lineNumber : 102, className : "TestFloats", methodName : "testFormatF"});
+	utest.Assert.equals("0.10",(Floats.formatf())(0.1),null,{ fileName : "TestFloats.hx", lineNumber : 101, className : "TestFloats", methodName : "testFormatF"});
 }
 TestFloats.prototype.__class__ = TestFloats;
 thx.js.TestAccessClassed = function(p) {

@@ -1,5 +1,6 @@
 package thx.csv;
 
+import thx.culture.Culture;
 import thx.data.ValueEncoder;
 import thx.data.ValueHandler;
 /**
@@ -15,11 +16,17 @@ class Csv
 		new ValueEncoder(handler).encode(value);
 		return handler.encodedString;
 	}
-	
-	public static function decode(value : String, ?delimiter : String, ?emptytonull:Bool, ?newline: String, ?quote: String, ?doublequotations: Bool, ?skipwhitespace: Bool) : Array<Array<Dynamic>>
+/**
+ *  Parses and decodes well structured csv data.
+ **/	
+	public static function decode(value : String, ?check_type:Bool, ?delimiter : String,  ?emptytonull:Bool, ?newline: String, ?quote: String, ?doublequotations: Bool, ?skipwhitespace: Bool) : Array<Array<Dynamic>>
 	{
 		var handler = new ValueHandler();
-		new CsvDecoder(handler, delimiter, emptytonull, newline, quote, doublequotations, skipwhitespace).decode(value);
+		new CsvDecoder(handler, check_type, delimiter , emptytonull, newline, quote, doublequotations, skipwhitespace).decode(value);
 		return handler.value;
 	}
+	
+
+
+	
 }

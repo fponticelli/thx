@@ -18,14 +18,14 @@ class CsvDecoder
 	public var emptytonull(default, null) : Bool;
 	public var newline(default,null):String;
 	public var quote(default,null):String;
-	public var doublequotations(default,null):Bool;
-	public var trim_whitespace(default,null):Bool;
+	public var doublequotations(default,null) : Bool;
+	public var trim_whitespace(default,null) : Bool;
 	public var line(default, null) : Int;
 	public var column(default, null) : Int;
-	
+	public var check_type(default, null) : Bool;
 	var handler : IDataHandler;
 	
-	public function new(handler : IDataHandler, delimiter = ",", emptytonull = false, newline = "\r\n|\n|\r", 
+	public function new(handler : IDataHandler, check_type = true, delimiter = ",", emptytonull = false, newline = "\r\n|\n|\r", 
 						quote = '"', doublequotations = true, trim_whitespace = true)
 	{
 		this.handler = handler;
@@ -34,12 +34,12 @@ class CsvDecoder
 		this.quote = quote;
 		this.doublequotations = doublequotations;
 		this.trim_whitespace = trim_whitespace;
-
+		this.check_type = check_type;
+		
 		if (newline != "\r\n|\n|\r")
 			newline = ERegs.escapeERegChars(newline);
 
 		this.newline = newline;
-		
 		_end = new EReg("(" + ERegs.escapeERegChars(delimiter) + "|" + newline + "|$)", "");
 	}
 	
@@ -75,7 +75,7 @@ class CsvDecoder
 	
 	function parseValue()
 	{	
-		if (trim_whitespace) this._s = StringTools.ltrim(this._s); // LEADING WHITESPACE
+		if (trim_whitespace) this._s = ~/ */.replace(this._s,''); // LEADING SPACES... NOT LTRIM
 		if (_s.substr(0, 1) == quote) // QUOTED VALUE
 		{
 			var pos = _s.indexOf(quote, 1);
@@ -127,9 +127,12 @@ class CsvDecoder
 		var typer = _typers[column];
 		if (null == typer)
 		{
+
 			if (s == '') // can't guess type ... delegate to next
 				return typeToken;	
-			if (Ints.canParse(s))
+			if (!check_type)
+				typer = _typers[column] = typeString;
+			else if (Ints.canParse(s))
 				typer = _typers[column] = typeInt;
 			else if (NumberParser.canParse(s,Culture.defaultCulture))
 				typer = _typers[column] = typeCultureFloat;	
@@ -147,7 +150,10 @@ class CsvDecoder
 	
 	function typeToken(s : String)
 	{
-		if (Ints.canParse(s))
+
+		if (!check_type)
+			typeString(s);
+		else if (Ints.canParse(s))
 			typeInt(s);
 		else if (Floats.canParse(s))
 			typeFloat(s);

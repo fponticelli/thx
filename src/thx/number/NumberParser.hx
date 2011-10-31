@@ -69,7 +69,7 @@ class NumberParser
 		if (groups.length == 1){
 			group_length = groups[0];
 			regex.add( "((" + digits + "{1," + groups[0] + "}" + gsep + ")"); // {1,initial group_count} number of digits
-			regex.add( "(" + digits + "{" + groups[0] + "}" + ")*)|"); // {1,initial group_count} number of digits
+			regex.add( "(" + digits + "{" + groups[0] + "}" + ")+)|"); // {1,initial group_count} number of digits
 			regex.add( "(" + digits + "+)"); // {1, final_group_count} number of digits (alone)
 		}
 		
@@ -83,7 +83,7 @@ class NumberParser
 		
 		var reg_string = regex.toString();
 		var negative = false;
-
+		
 		if (ni.patternNegative != '-n'){
 			var neg_match = ~/([^n]+)/g.replace(ERegs.escapeERegChars(ni.patternNegative),"($1)?");
 			reg_string = ~/n/.replace(neg_match, reg_string);
@@ -91,14 +91,22 @@ class NumberParser
 			reg_string  = "[+-]?" + reg_string;
 		}
 		reg_string = "^"+ reg_string + "$";
+		haxe.Firebug.trace(cul);
+		haxe.Firebug.trace(reg_string);
 		var reg = new EReg(reg_string,'gi');
 		return reg;
 		
 	}
 	
 	public static function canParse(val:String, ?cul:Culture){
+/*		haxe.Firebug.trace(val);*/
+		if (cul == null) cul = Culture.defaultCulture;
 		var reg = cultureNumberEReg(cul);
-		if (reg.match(val)) return true;
+		
+		if (reg.match(val)) {
+
+			return true;
+		}
 		else return false;
 	}
 
