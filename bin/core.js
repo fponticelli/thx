@@ -29,7 +29,7 @@ thx.collection.Set.ofArray = function(arr) {
 	$s.pop();
 }
 thx.collection.Set.prototype = {
-	 length: null
+	length: null
 	,_v: null
 	,add: function(v) {
 		$s.push("thx.collection.Set::add");
@@ -90,7 +90,6 @@ thx.collection.Set.prototype = {
 	}
 	,__class__: thx.collection.Set
 }
-thx.collection.Set.__properties__ = {}
 if(!thx.util) thx.util = {}
 thx.util.Message = function(message,params,param) {
 	$s.push("thx.util.Message::new");
@@ -102,7 +101,7 @@ thx.util.Message = function(message,params,param) {
 }
 thx.util.Message.__name__ = ["thx","util","Message"];
 thx.util.Message.prototype = {
-	 message: null
+	message: null
 	,params: null
 	,toString: function() {
 		$s.push("thx.util.Message::toString");
@@ -138,7 +137,6 @@ thx.util.Message.prototype = {
 	}
 	,__class__: thx.util.Message
 }
-thx.util.Message.__properties__ = {}
 if(!thx.error) thx.error = {}
 thx.error.Error = function(message,params,param,pos) {
 	$s.push("thx.error.Error::new");
@@ -149,8 +147,8 @@ thx.error.Error = function(message,params,param,pos) {
 }
 thx.error.Error.__name__ = ["thx","error","Error"];
 thx.error.Error.__super__ = thx.util.Message;
-thx.error.Error.prototype = $extend(thx.util.Message.prototype, {
-	 pos: null
+thx.error.Error.prototype = $extend(thx.util.Message.prototype,{
+	pos: null
 	,inner: null
 	,setInner: function(inner) {
 		$s.push("thx.error.Error::setInner");
@@ -189,7 +187,6 @@ thx.error.Error.prototype = $extend(thx.util.Message.prototype, {
 	}
 	,__class__: thx.error.Error
 });
-thx.error.Error.__properties__ = $extend(thx.util.Message.__properties__, {});
 thx.error.NullArgument = function(argumentName,message,posInfo) {
 	$s.push("thx.error.NullArgument::new");
 	var $spos = $s.length;
@@ -199,10 +196,9 @@ thx.error.NullArgument = function(argumentName,message,posInfo) {
 }
 thx.error.NullArgument.__name__ = ["thx","error","NullArgument"];
 thx.error.NullArgument.__super__ = thx.error.Error;
-thx.error.NullArgument.prototype = $extend(thx.error.Error.prototype, {
-	 __class__: thx.error.NullArgument
+thx.error.NullArgument.prototype = $extend(thx.error.Error.prototype,{
+	__class__: thx.error.NullArgument
 });
-thx.error.NullArgument.__properties__ = $extend(thx.error.Error.__properties__, {});
 if(!thx.js) thx.js = {}
 thx.js.Access = function(selection) {
 	$s.push("thx.js.Access::new");
@@ -222,7 +218,7 @@ thx.js.Access.getData = function(d) {
 thx.js.Access.setData = function(d,v) {
 	$s.push("thx.js.Access::setData");
 	var $spos = $s.length;
-	Reflect.setField(d,"__data__",v);
+	d["__data__"] = v;
 	$s.pop();
 }
 thx.js.Access.emptyHtmlDom = function(v) {
@@ -260,7 +256,7 @@ thx.js.Access.hasEvent = function(d,event) {
 thx.js.Access.addEvent = function(d,event,listener) {
 	$s.push("thx.js.Access::addEvent");
 	var $spos = $s.length;
-	Reflect.setField(d,"__on" + event,listener);
+	d["__on" + event] = listener;
 	$s.pop();
 }
 thx.js.Access.removeEvent = function(d,event) {
@@ -272,7 +268,7 @@ thx.js.Access.removeEvent = function(d,event) {
 thx.js.Access.setTransition = function(d,id) {
 	$s.push("thx.js.Access::setTransition");
 	var $spos = $s.length;
-	if(Reflect.hasField(d,"__transition__")) Reflect.field(d,"__transition__").owner = id; else Reflect.setField(d,"__transition__",{ owner : id});
+	if(Reflect.hasField(d,"__transition__")) Reflect.field(d,"__transition__").owner = id; else d["__transition__"] = { owner : id};
 	$s.pop();
 }
 thx.js.Access.getTransition = function(d) {
@@ -290,7 +286,7 @@ thx.js.Access.resetTransition = function(d) {
 	$s.pop();
 }
 thx.js.Access.prototype = {
-	 selection: null
+	selection: null
 	,_that: function() {
 		$s.push("thx.js.Access::_that");
 		var $spos = $s.length;
@@ -301,7 +297,6 @@ thx.js.Access.prototype = {
 	}
 	,__class__: thx.js.Access
 }
-thx.js.Access.__properties__ = {}
 thx.js.AccessClassed = function(selection) {
 	$s.push("thx.js.AccessClassed::new");
 	var $spos = $s.length;
@@ -318,8 +313,8 @@ thx.js.AccessClassed.getRe = function(name) {
 	$s.pop();
 }
 thx.js.AccessClassed.__super__ = thx.js.Access;
-thx.js.AccessClassed.prototype = $extend(thx.js.Access.prototype, {
-	 toggle: function(name) {
+thx.js.AccessClassed.prototype = $extend(thx.js.Access.prototype,{
+	toggle: function(name) {
 		$s.push("thx.js.AccessClassed::toggle");
 		var $spos = $s.length;
 		if(this.exists(name)) this.remove(name); else this.add(name);
@@ -459,7 +454,6 @@ thx.js.AccessClassed.prototype = $extend(thx.js.Access.prototype, {
 	}
 	,__class__: thx.js.AccessClassed
 });
-thx.js.AccessClassed.__properties__ = $extend(thx.js.Access.__properties__, {});
 thx.js.AccessDataClassed = function(selection) {
 	$s.push("thx.js.AccessDataClassed::new");
 	var $spos = $s.length;
@@ -468,8 +462,8 @@ thx.js.AccessDataClassed = function(selection) {
 }
 thx.js.AccessDataClassed.__name__ = ["thx","js","AccessDataClassed"];
 thx.js.AccessDataClassed.__super__ = thx.js.AccessClassed;
-thx.js.AccessDataClassed.prototype = $extend(thx.js.AccessClassed.prototype, {
-	 removef: function(v) {
+thx.js.AccessDataClassed.prototype = $extend(thx.js.AccessClassed.prototype,{
+	removef: function(v) {
 		$s.push("thx.js.AccessDataClassed::removef");
 		var $spos = $s.length;
 		var f = this._remove.$bind(this);
@@ -503,7 +497,6 @@ thx.js.AccessDataClassed.prototype = $extend(thx.js.AccessClassed.prototype, {
 	}
 	,__class__: thx.js.AccessDataClassed
 });
-thx.js.AccessDataClassed.__properties__ = $extend(thx.js.AccessClassed.__properties__, {});
 if(typeof utest=='undefined') var utest = {}
 if(!utest.ui) utest.ui = {}
 utest.ui.Report = function() { }
@@ -520,17 +513,15 @@ utest.ui.Report.create = function(runner,displaySuccessResults,headerDisplayMode
 	$s.pop();
 }
 utest.ui.Report.prototype = {
-	 __class__: utest.ui.Report
+	__class__: utest.ui.Report
 }
-utest.ui.Report.__properties__ = {}
 if(typeof haxe=='undefined') var haxe = {}
 if(!haxe.macro) haxe.macro = {}
 haxe.macro.Context = function() { }
 haxe.macro.Context.__name__ = ["haxe","macro","Context"];
 haxe.macro.Context.prototype = {
-	 __class__: haxe.macro.Context
+	__class__: haxe.macro.Context
 }
-haxe.macro.Context.__properties__ = {}
 if(!thx.xml) thx.xml = {}
 thx.xml.DocumentFormat = function() {
 	$s.push("thx.xml.DocumentFormat::new");
@@ -540,7 +531,7 @@ thx.xml.DocumentFormat = function() {
 }
 thx.xml.DocumentFormat.__name__ = ["thx","xml","DocumentFormat"];
 thx.xml.DocumentFormat.prototype = {
-	 nodeFormat: null
+	nodeFormat: null
 	,stripComments: null
 	,format: function(node) {
 		$s.push("thx.xml.DocumentFormat::format");
@@ -708,7 +699,6 @@ thx.xml.DocumentFormat.prototype = {
 	}
 	,__class__: thx.xml.DocumentFormat
 }
-thx.xml.DocumentFormat.__properties__ = {}
 var EReg = function(r,opt) {
 	$s.push("EReg::new");
 	var $spos = $s.length;
@@ -718,7 +708,7 @@ var EReg = function(r,opt) {
 }
 EReg.__name__ = ["EReg"];
 EReg.prototype = {
-	 r: null
+	r: null
 	,match: function(s) {
 		$s.push("EReg::match");
 		var $spos = $s.length;
@@ -816,7 +806,6 @@ EReg.prototype = {
 	}
 	,__class__: EReg
 }
-EReg.__properties__ = {}
 if(!thx.svg) thx.svg = {}
 thx.svg.TestAll = function() {
 	$s.push("thx.svg.TestAll::new");
@@ -843,7 +832,7 @@ thx.svg.TestAll.main = function() {
 	$s.pop();
 }
 thx.svg.TestAll.prototype = {
-	 assertSamePath: function(expected,value,pos) {
+	assertSamePath: function(expected,value,pos) {
 		$s.push("thx.svg.TestAll::assertSamePath");
 		var $spos = $s.length;
 		var e = this.splitValues(expected);
@@ -879,7 +868,6 @@ thx.svg.TestAll.prototype = {
 	}
 	,__class__: thx.svg.TestAll
 }
-thx.svg.TestAll.__properties__ = {}
 var Hash = function() {
 	$s.push("Hash::new");
 	var $spos = $s.length;
@@ -892,7 +880,7 @@ var Hash = function() {
 }
 Hash.__name__ = ["Hash"];
 Hash.prototype = {
-	 h: null
+	h: null
 	,set: function(key,value) {
 		$s.push("Hash::set");
 		var $spos = $s.length;
@@ -991,7 +979,6 @@ Hash.prototype = {
 	}
 	,__class__: Hash
 }
-Hash.__properties__ = {}
 if(!thx.color) thx.color = {}
 thx.color.Rgb = function(r,g,b) {
 	$s.push("thx.color.Rgb::new");
@@ -1175,17 +1162,18 @@ thx.color.Rgb.interpolateStepsf = function(steps,equation) {
 		$s.pop();
 		return $tmp;
 	}
-	var len = steps.length, step = 1 / len, f = [];
-	var _g = 1;
+	var len = steps.length - 1, step = 1 / len, f = [];
+	var _g = 0;
 	while(_g < len) {
 		var i = _g++;
-		f[i - 1] = thx.color.Rgb.interpolatef(steps[i - 1],steps[i]);
+		f[i] = thx.color.Rgb.interpolatef(steps[i],steps[i + 1]);
 	}
 	var $tmp = function(t) {
 		$s.push("thx.color.Rgb::interpolateStepsf@169");
 		var $spos = $s.length;
-		var pos = Math.floor(t / step);
-		var $tmp = f[pos](t - pos * step);
+		if(t < 0) t = 0; else if(t > 1) t = 1;
+		var pos = t == 1?len - 1:Math.floor(t / step);
+		var $tmp = f[pos](len * (t - pos * step));
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -1195,10 +1183,10 @@ thx.color.Rgb.interpolateStepsf = function(steps,equation) {
 	$s.pop();
 }
 thx.color.Rgb.prototype = {
-	 blue: null
+	blue: null
 	,green: null
 	,red: null
-	,int: function() {
+	,'int': function() {
 		$s.push("thx.color.Rgb::int");
 		var $spos = $s.length;
 		var $tmp = (this.red & 255) << 16 | (this.green & 255) << 8 | this.blue & 255;
@@ -1241,7 +1229,6 @@ thx.color.Rgb.prototype = {
 	}
 	,__class__: thx.color.Rgb
 }
-thx.color.Rgb.__properties__ = {}
 thx.color.NamedColors = function() { }
 thx.color.NamedColors.__name__ = ["thx","color","NamedColors"];
 thx.color.NamedColors.aliceblue = null;
@@ -1393,9 +1380,8 @@ thx.color.NamedColors.yellow = null;
 thx.color.NamedColors.yellowgreen = null;
 thx.color.NamedColors.byName = null;
 thx.color.NamedColors.prototype = {
-	 __class__: thx.color.NamedColors
+	__class__: thx.color.NamedColors
 }
-thx.color.NamedColors.__properties__ = {}
 var IntHash = function() {
 	$s.push("IntHash::new");
 	var $spos = $s.length;
@@ -1408,7 +1394,7 @@ var IntHash = function() {
 }
 IntHash.__name__ = ["IntHash"];
 IntHash.prototype = {
-	 h: null
+	h: null
 	,set: function(key,value) {
 		$s.push("IntHash::set");
 		var $spos = $s.length;
@@ -1497,7 +1483,6 @@ IntHash.prototype = {
 	}
 	,__class__: IntHash
 }
-IntHash.__properties__ = {}
 thx.xml.XmlFormat = function(autoformat,indent,newline) {
 	$s.push("thx.xml.XmlFormat::new");
 	var $spos = $s.length;
@@ -1510,7 +1495,7 @@ thx.xml.XmlFormat = function(autoformat,indent,newline) {
 }
 thx.xml.XmlFormat.__name__ = ["thx","xml","XmlFormat"];
 thx.xml.XmlFormat.prototype = {
-	 indent: null
+	indent: null
 	,newline: null
 	,stripComments: null
 	,autoformat: null
@@ -1583,7 +1568,6 @@ thx.xml.XmlFormat.prototype = {
 	}
 	,__class__: thx.xml.XmlFormat
 }
-thx.xml.XmlFormat.__properties__ = {}
 if(!thx.html) thx.html = {}
 thx.html.XHtmlFormat = function(autoformat,indent,newline) {
 	$s.push("thx.html.XHtmlFormat::new");
@@ -1594,8 +1578,8 @@ thx.html.XHtmlFormat = function(autoformat,indent,newline) {
 }
 thx.html.XHtmlFormat.__name__ = ["thx","html","XHtmlFormat"];
 thx.html.XHtmlFormat.__super__ = thx.xml.XmlFormat;
-thx.html.XHtmlFormat.prototype = $extend(thx.xml.XmlFormat.prototype, {
-	 createDocumentFormat: function() {
+thx.html.XHtmlFormat.prototype = $extend(thx.xml.XmlFormat.prototype,{
+	createDocumentFormat: function() {
 		$s.push("thx.html.XHtmlFormat::createDocumentFormat");
 		var $spos = $s.length;
 		var document;
@@ -1614,7 +1598,6 @@ thx.html.XHtmlFormat.prototype = $extend(thx.xml.XmlFormat.prototype, {
 	}
 	,__class__: thx.html.XHtmlFormat
 });
-thx.html.XHtmlFormat.__properties__ = $extend(thx.xml.XmlFormat.__properties__, {});
 thx.html.HtmlFormat = function() {
 	$s.push("thx.html.HtmlFormat::new");
 	var $spos = $s.length;
@@ -1625,8 +1608,8 @@ thx.html.HtmlFormat = function() {
 }
 thx.html.HtmlFormat.__name__ = ["thx","html","HtmlFormat"];
 thx.html.HtmlFormat.__super__ = thx.html.XHtmlFormat;
-thx.html.HtmlFormat.prototype = $extend(thx.html.XHtmlFormat.prototype, {
-	 useCloseSelf: null
+thx.html.HtmlFormat.prototype = $extend(thx.html.XHtmlFormat.prototype,{
+	useCloseSelf: null
 	,quotesRemoval: null
 	,specialElementContentFormat: null
 	,createAttributeFormat: function() {
@@ -1677,7 +1660,6 @@ thx.html.HtmlFormat.prototype = $extend(thx.html.XHtmlFormat.prototype, {
 	}
 	,__class__: thx.html.HtmlFormat
 });
-thx.html.HtmlFormat.__properties__ = $extend(thx.html.XHtmlFormat.__properties__, {});
 if(!thx.csv) thx.csv = {}
 thx.csv.TestCsv = function() {
 	$s.push("thx.csv.TestCsv::new");
@@ -1686,7 +1668,7 @@ thx.csv.TestCsv = function() {
 }
 thx.csv.TestCsv.__name__ = ["thx","csv","TestCsv"];
 thx.csv.TestCsv.prototype = {
-	 testDecode: function() {
+	testDecode: function() {
 		$s.push("thx.csv.TestCsv::testDecode");
 		var $spos = $s.length;
 		this.assertSame([[1997,"Ford","E350"]],thx.csv.Csv.decode("1997,Ford,E350"),{ fileName : "TestCsv.hx", lineNumber : 29, className : "thx.csv.TestCsv", methodName : "testDecode"});
@@ -1710,7 +1692,6 @@ thx.csv.TestCsv.prototype = {
 	}
 	,__class__: thx.csv.TestCsv
 }
-thx.csv.TestCsv.__properties__ = {}
 if(!thx.validation) thx.validation = {}
 thx.validation.TestAll = function() { }
 thx.validation.TestAll.__name__ = ["thx","validation","TestAll"];
@@ -1739,7 +1720,7 @@ thx.validation.TestAll.main = function() {
 	$s.pop();
 }
 thx.validation.TestAll.prototype = {
-	 assertValidation: function(result,ok,message,pos) {
+	assertValidation: function(result,ok,message,pos) {
 		$s.push("thx.validation.TestAll::assertValidation");
 		var $spos = $s.length;
 		if(null == message) message = "expected '" + (ok?"Ok":"Error") + "' but was '" + thx.util.Results.toString(result) + "'";
@@ -1757,7 +1738,6 @@ thx.validation.TestAll.prototype = {
 	}
 	,__class__: thx.validation.TestAll
 }
-thx.validation.TestAll.__properties__ = {}
 thx.validation.TestIncrement = function() {
 	$s.push("thx.validation.TestIncrement::new");
 	var $spos = $s.length;
@@ -1765,8 +1745,8 @@ thx.validation.TestIncrement = function() {
 }
 thx.validation.TestIncrement.__name__ = ["thx","validation","TestIncrement"];
 thx.validation.TestIncrement.__super__ = thx.validation.TestAll;
-thx.validation.TestIncrement.prototype = $extend(thx.validation.TestAll.prototype, {
-	 testValidation: function() {
+thx.validation.TestIncrement.prototype = $extend(thx.validation.TestAll.prototype,{
+	testValidation: function() {
 		$s.push("thx.validation.TestIncrement::testValidation");
 		var $spos = $s.length;
 		var validator = new thx.validation.IncrementValidator(1);
@@ -1784,18 +1764,16 @@ thx.validation.TestIncrement.prototype = $extend(thx.validation.TestAll.prototyp
 	}
 	,__class__: thx.validation.TestIncrement
 });
-thx.validation.TestIncrement.__properties__ = $extend(thx.validation.TestAll.__properties__, {});
 if(!thx.math) thx.math = {}
 if(!thx.math.scale) thx.math.scale = {}
 thx.math.scale.IScale = function() { }
 thx.math.scale.IScale.__name__ = ["thx","math","scale","IScale"];
 thx.math.scale.IScale.prototype = {
-	 scale: null
+	scale: null
 	,getDomain: null
 	,getRange: null
 	,__class__: thx.math.scale.IScale
 }
-thx.math.scale.IScale.__properties__ = {}
 thx.math.scale.NumericScale = function() {
 	$s.push("thx.math.scale.NumericScale::new");
 	var $spos = $s.length;
@@ -1848,7 +1826,7 @@ thx.math.scale.NumericScale.scalePolylinear = function(domain,range,uninterpolat
 	$s.pop();
 }
 thx.math.scale.NumericScale.prototype = {
-	 _domain: null
+	_domain: null
 	,_range: null
 	,f: null
 	,_clamp: null
@@ -2012,7 +1990,6 @@ thx.math.scale.NumericScale.prototype = {
 	}
 	,__class__: thx.math.scale.NumericScale
 }
-thx.math.scale.NumericScale.__properties__ = {}
 thx.math.scale.Log = function() {
 	$s.push("thx.math.scale.Log::new");
 	var $spos = $s.length;
@@ -2055,8 +2032,8 @@ thx.math.scale.Log._pown = function(x) {
 	$s.pop();
 }
 thx.math.scale.Log.__super__ = thx.math.scale.NumericScale;
-thx.math.scale.Log.prototype = $extend(thx.math.scale.NumericScale.prototype, {
-	 log: null
+thx.math.scale.Log.prototype = $extend(thx.math.scale.NumericScale.prototype,{
+	log: null
 	,pow: null
 	,scale: function(x,i) {
 		$s.push("thx.math.scale.Log::scale");
@@ -2154,13 +2131,12 @@ thx.math.scale.Log.prototype = $extend(thx.math.scale.NumericScale.prototype, {
 	}
 	,__class__: thx.math.scale.Log
 });
-thx.math.scale.Log.__properties__ = $extend(thx.math.scale.NumericScale.__properties__, {});
 if(!thx.culture) thx.culture = {}
 thx.culture.Info = function() { }
 thx.culture.Info.__name__ = ["thx","culture","Info"];
 thx.culture.Info.prototype = {
-	 name: null
-	,native: null
+	name: null
+	,'native': null
 	,english: null
 	,iso2: null
 	,iso3: null
@@ -2175,7 +2151,6 @@ thx.culture.Info.prototype = {
 	}
 	,__class__: thx.culture.Info
 }
-thx.culture.Info.__properties__ = {}
 thx.culture.Culture = function() { }
 thx.culture.Culture.__name__ = ["thx","culture","Culture"];
 thx.culture.Culture.cultures = null;
@@ -2242,8 +2217,8 @@ thx.culture.Culture.loadAll = function() {
 	$s.pop();
 }
 thx.culture.Culture.__super__ = thx.culture.Info;
-thx.culture.Culture.prototype = $extend(thx.culture.Info.prototype, {
-	 language: null
+thx.culture.Culture.prototype = $extend(thx.culture.Info.prototype,{
+	language: null
 	,date: null
 	,englishCurrency: null
 	,nativeCurrency: null
@@ -2265,7 +2240,6 @@ thx.culture.Culture.prototype = $extend(thx.culture.Info.prototype, {
 	,percent: null
 	,__class__: thx.culture.Culture
 });
-thx.culture.Culture.__properties__ = $extend(thx.culture.Info.__properties__, {});
 thx.util.TestTypeServiceLocator = function() {
 	$s.push("thx.util.TestTypeServiceLocator::new");
 	var $spos = $s.length;
@@ -2288,7 +2262,7 @@ thx.util.TestTypeServiceLocator.main = function() {
 	$s.pop();
 }
 thx.util.TestTypeServiceLocator.prototype = {
-	 testBind: function() {
+	testBind: function() {
 		$s.push("thx.util.TestTypeServiceLocator::testBind");
 		var $spos = $s.length;
 		var locator = new thx.util.TypeServiceLocator().bind(thx.util.type.ITest,function() {
@@ -2384,20 +2358,18 @@ thx.util.TestTypeServiceLocator.prototype = {
 	}
 	,__class__: thx.util.TestTypeServiceLocator
 }
-thx.util.TestTypeServiceLocator.__properties__ = {}
 thx.validation.IValidator = function() { }
 thx.validation.IValidator.__name__ = ["thx","validation","IValidator"];
 thx.validation.IValidator.prototype = {
-	 validate: null
+	validate: null
 	,isValid: null
 	,__class__: thx.validation.IValidator
 }
-thx.validation.IValidator.__properties__ = {}
 thx.validation.Validator = function() { }
 thx.validation.Validator.__name__ = ["thx","validation","Validator"];
 thx.validation.Validator.__interfaces__ = [thx.validation.IValidator];
 thx.validation.Validator.prototype = {
-	 validate: function(value) {
+	validate: function(value) {
 		$s.push("thx.validation.Validator::validate");
 		var $spos = $s.length;
 		var $tmp = (function($this) {
@@ -2419,7 +2391,6 @@ thx.validation.Validator.prototype = {
 	}
 	,__class__: thx.validation.Validator
 }
-thx.validation.Validator.__properties__ = {}
 thx.validation.CustomValidator = function() {
 	$s.push("thx.validation.CustomValidator::new");
 	var $spos = $s.length;
@@ -2428,8 +2399,8 @@ thx.validation.CustomValidator = function() {
 }
 thx.validation.CustomValidator.__name__ = ["thx","validation","CustomValidator"];
 thx.validation.CustomValidator.__super__ = thx.validation.Validator;
-thx.validation.CustomValidator.prototype = $extend(thx.validation.Validator.prototype, {
-	 validators: null
+thx.validation.CustomValidator.prototype = $extend(thx.validation.Validator.prototype,{
+	validators: null
 	,validate: function(value) {
 		$s.push("thx.validation.CustomValidator::validate");
 		var $spos = $s.length;
@@ -2463,7 +2434,6 @@ thx.validation.CustomValidator.prototype = $extend(thx.validation.Validator.prot
 	}
 	,__class__: thx.validation.CustomValidator
 });
-thx.validation.CustomValidator.__properties__ = $extend(thx.validation.Validator.__properties__, {});
 if(!utest.ui.common) utest.ui.common = {}
 utest.ui.common.ResultAggregator = function(runner,flattenPackage) {
 	$s.push("utest.ui.common.ResultAggregator::new");
@@ -2482,7 +2452,7 @@ utest.ui.common.ResultAggregator = function(runner,flattenPackage) {
 }
 utest.ui.common.ResultAggregator.__name__ = ["utest","ui","common","ResultAggregator"];
 utest.ui.common.ResultAggregator.prototype = {
-	 runner: null
+	runner: null
 	,flattenPackage: null
 	,root: null
 	,onStart: null
@@ -2568,16 +2538,14 @@ utest.ui.common.ResultAggregator.prototype = {
 	}
 	,__class__: utest.ui.common.ResultAggregator
 }
-utest.ui.common.ResultAggregator.__properties__ = {}
 if(!thx.geo) thx.geo = {}
 thx.geo.IProjection = function() { }
 thx.geo.IProjection.__name__ = ["thx","geo","IProjection"];
 thx.geo.IProjection.prototype = {
-	 project: null
+	project: null
 	,invert: null
 	,__class__: thx.geo.IProjection
 }
-thx.geo.IProjection.__properties__ = {}
 thx.geo.Albers = function() {
 	$s.push("thx.geo.Albers::new");
 	var $spos = $s.length;
@@ -2591,7 +2559,7 @@ thx.geo.Albers = function() {
 thx.geo.Albers.__name__ = ["thx","geo","Albers"];
 thx.geo.Albers.__interfaces__ = [thx.geo.IProjection];
 thx.geo.Albers.prototype = {
-	 origin: null
+	origin: null
 	,parallels: null
 	,translate: null
 	,scale: null
@@ -2700,16 +2668,6 @@ thx.geo.Albers.prototype = {
 		$s.pop();
 	}
 	,__class__: thx.geo.Albers
-}
-thx.geo.Albers.__properties__ = {
-	 set_scale: thx.geo.Albers.prototype.setScale
-	,set_translate: thx.geo.Albers.prototype.setTranslate
-	,set_parallels: thx.geo.Albers.prototype.setParallels
-	,set_origin: thx.geo.Albers.prototype.setOrigin
-	,get_scale: thx.geo.Albers.prototype.getScale
-	,get_translate: thx.geo.Albers.prototype.getTranslate
-	,get_parallels: thx.geo.Albers.prototype.getParallels
-	,get_origin: thx.geo.Albers.prototype.getOrigin
 }
 var Dates = function() { }
 Dates.__name__ = ["Dates"];
@@ -3197,9 +3155,8 @@ Dates.compare = function(a,b) {
 	$s.pop();
 }
 Dates.prototype = {
-	 __class__: Dates
+	__class__: Dates
 }
-Dates.__properties__ = {}
 thx.validation.DateRangeValidator = function(min,max,mininclusive,maxinclusive) {
 	$s.push("thx.validation.DateRangeValidator::new");
 	var $spos = $s.length;
@@ -3213,8 +3170,8 @@ thx.validation.DateRangeValidator = function(min,max,mininclusive,maxinclusive) 
 }
 thx.validation.DateRangeValidator.__name__ = ["thx","validation","DateRangeValidator"];
 thx.validation.DateRangeValidator.__super__ = thx.validation.Validator;
-thx.validation.DateRangeValidator.prototype = $extend(thx.validation.Validator.prototype, {
-	 min: null
+thx.validation.DateRangeValidator.prototype = $extend(thx.validation.Validator.prototype,{
+	min: null
 	,max: null
 	,minInclusive: null
 	,maxInclusive: null
@@ -3250,7 +3207,6 @@ thx.validation.DateRangeValidator.prototype = $extend(thx.validation.Validator.p
 	}
 	,__class__: thx.validation.DateRangeValidator
 });
-thx.validation.DateRangeValidator.__properties__ = $extend(thx.validation.Validator.__properties__, {});
 thx.error.TestNullArgument = function() {
 	$s.push("thx.error.TestNullArgument::new");
 	var $spos = $s.length;
@@ -3264,7 +3220,7 @@ thx.error.TestNullArgument.throwMe = function(XXX) {
 	$s.pop();
 }
 thx.error.TestNullArgument.prototype = {
-	 testNullArgument: function() {
+	testNullArgument: function() {
 		$s.push("thx.error.TestNullArgument::testNullArgument");
 		var $spos = $s.length;
 		try {
@@ -3291,7 +3247,6 @@ thx.error.TestNullArgument.prototype = {
 	}
 	,__class__: thx.error.TestNullArgument
 }
-thx.error.TestNullArgument.__properties__ = {}
 thx.math.Ease = function() { }
 thx.math.Ease.__name__ = ["thx","math","Ease"];
 thx.math.Ease.mode = function(easemode,f) {
@@ -3333,9 +3288,8 @@ thx.math.Ease.mode = function(easemode,f) {
 	$s.pop();
 }
 thx.math.Ease.prototype = {
-	 __class__: thx.math.Ease
+	__class__: thx.math.Ease
 }
-thx.math.Ease.__properties__ = {}
 if(!thx.cultures) thx.cultures = {}
 thx.cultures.ItIT = function() {
 	$s.push("thx.cultures.ItIT::new");
@@ -3380,10 +3334,9 @@ thx.cultures.ItIT.getCulture = function() {
 	$s.pop();
 }
 thx.cultures.ItIT.__super__ = thx.culture.Culture;
-thx.cultures.ItIT.prototype = $extend(thx.culture.Culture.prototype, {
-	 __class__: thx.cultures.ItIT
+thx.cultures.ItIT.prototype = $extend(thx.culture.Culture.prototype,{
+	__class__: thx.cultures.ItIT
 });
-thx.cultures.ItIT.__properties__ = $extend(thx.culture.Culture.__properties__, {});
 thx.js.AccessProperty = function(name,selection) {
 	$s.push("thx.js.AccessProperty::new");
 	var $spos = $s.length;
@@ -3393,8 +3346,8 @@ thx.js.AccessProperty = function(name,selection) {
 }
 thx.js.AccessProperty.__name__ = ["thx","js","AccessProperty"];
 thx.js.AccessProperty.__super__ = thx.js.Access;
-thx.js.AccessProperty.prototype = $extend(thx.js.Access.prototype, {
-	 name: null
+thx.js.AccessProperty.prototype = $extend(thx.js.Access.prototype,{
+	name: null
 	,get: function() {
 		$s.push("thx.js.AccessProperty::get");
 		var $spos = $s.length;
@@ -3433,7 +3386,7 @@ thx.js.AccessProperty.prototype = $extend(thx.js.Access.prototype, {
 		this.selection.eachNode(function(node,i) {
 			$s.push("thx.js.AccessProperty::string@33");
 			var $spos = $s.length;
-			Reflect.setField(node,n,v);
+			node[n] = v;
 			$s.pop();
 		});
 		var $tmp = this.selection;
@@ -3441,7 +3394,7 @@ thx.js.AccessProperty.prototype = $extend(thx.js.Access.prototype, {
 		return $tmp;
 		$s.pop();
 	}
-	,float: function(v) {
+	,'float': function(v) {
 		$s.push("thx.js.AccessProperty::float");
 		var $spos = $s.length;
 		var s = "" + v;
@@ -3449,7 +3402,7 @@ thx.js.AccessProperty.prototype = $extend(thx.js.Access.prototype, {
 		this.selection.eachNode(function(node,i) {
 			$s.push("thx.js.AccessProperty::float@40");
 			var $spos = $s.length;
-			Reflect.setField(node,n,s);
+			node[n] = s;
 			$s.pop();
 		});
 		var $tmp = this.selection;
@@ -3459,7 +3412,6 @@ thx.js.AccessProperty.prototype = $extend(thx.js.Access.prototype, {
 	}
 	,__class__: thx.js.AccessProperty
 });
-thx.js.AccessProperty.__properties__ = $extend(thx.js.Access.__properties__, {});
 thx.js.AccessDataProperty = function(name,selection) {
 	$s.push("thx.js.AccessDataProperty::new");
 	var $spos = $s.length;
@@ -3468,8 +3420,8 @@ thx.js.AccessDataProperty = function(name,selection) {
 }
 thx.js.AccessDataProperty.__name__ = ["thx","js","AccessDataProperty"];
 thx.js.AccessDataProperty.__super__ = thx.js.AccessProperty;
-thx.js.AccessDataProperty.prototype = $extend(thx.js.AccessProperty.prototype, {
-	 stringf: function(v) {
+thx.js.AccessDataProperty.prototype = $extend(thx.js.AccessProperty.prototype,{
+	stringf: function(v) {
 		$s.push("thx.js.AccessDataProperty::stringf");
 		var $spos = $s.length;
 		var n = this.name;
@@ -3477,7 +3429,7 @@ thx.js.AccessDataProperty.prototype = $extend(thx.js.AccessProperty.prototype, {
 			$s.push("thx.js.AccessDataProperty::stringf@55");
 			var $spos = $s.length;
 			var s = v(Reflect.field(node,"__data__"),i);
-			if(null == s) Reflect.deleteField(node,n); else Reflect.setField(node,n,s);
+			if(null == s) Reflect.deleteField(node,n); else node[n] = s;
 			$s.pop();
 		});
 		var $tmp = this.selection;
@@ -3493,7 +3445,7 @@ thx.js.AccessDataProperty.prototype = $extend(thx.js.AccessProperty.prototype, {
 			$s.push("thx.js.AccessDataProperty::floatf@67");
 			var $spos = $s.length;
 			var s = v(Reflect.field(node,"__data__"),i);
-			if(null == s) Reflect.deleteField(node,n); else Reflect.setField(node,n,"" + s);
+			if(null == s) Reflect.deleteField(node,n); else node[n] = "" + s;
 			$s.pop();
 		});
 		var $tmp = this.selection;
@@ -3518,7 +3470,6 @@ thx.js.AccessDataProperty.prototype = $extend(thx.js.AccessProperty.prototype, {
 	}
 	,__class__: thx.js.AccessDataProperty
 });
-thx.js.AccessDataProperty.__properties__ = $extend(thx.js.AccessProperty.__properties__, {});
 var DynamicsT = function() { }
 DynamicsT.__name__ = ["DynamicsT"];
 DynamicsT.toHash = function(ob) {
@@ -3544,9 +3495,8 @@ DynamicsT.copyToHash = function(ob,hash) {
 	$s.pop();
 }
 DynamicsT.prototype = {
-	 __class__: DynamicsT
+	__class__: DynamicsT
 }
-DynamicsT.__properties__ = {}
 thx.color.Hsl = function(h,s,l) {
 	$s.push("thx.color.Hsl::new");
 	var $spos = $s.length;
@@ -3636,8 +3586,8 @@ thx.color.Hsl.interpolatef = function(a,b,equation) {
 	$s.pop();
 }
 thx.color.Hsl.__super__ = thx.color.Rgb;
-thx.color.Hsl.prototype = $extend(thx.color.Rgb.prototype, {
-	 hue: null
+thx.color.Hsl.prototype = $extend(thx.color.Rgb.prototype,{
+	hue: null
 	,saturation: null
 	,lightness: null
 	,toHslString: function() {
@@ -3650,7 +3600,6 @@ thx.color.Hsl.prototype = $extend(thx.color.Rgb.prototype, {
 	}
 	,__class__: thx.color.Hsl
 });
-thx.color.Hsl.__properties__ = $extend(thx.color.Rgb.__properties__, {});
 thx.math.scale.Linears = function() { }
 thx.math.scale.Linears.__name__ = ["thx","math","scale","Linears"];
 thx.math.scale.Linears.forString = function() {
@@ -3746,9 +3695,8 @@ thx.math.scale.Linears.forRgbString = function() {
 	$s.pop();
 }
 thx.math.scale.Linears.prototype = {
-	 __class__: thx.math.scale.Linears
+	__class__: thx.math.scale.Linears
 }
-thx.math.scale.Linears.__properties__ = {}
 thx.culture.FormatNumber = function() { }
 thx.culture.FormatNumber.__name__ = ["thx","culture","FormatNumber"];
 thx.culture.FormatNumber.decimal = function(v,decimals,culture) {
@@ -3890,9 +3838,8 @@ thx.culture.FormatNumber.value = function(v,info,decimals,digits) {
 	$s.pop();
 }
 thx.culture.FormatNumber.prototype = {
-	 __class__: thx.culture.FormatNumber
+	__class__: thx.culture.FormatNumber
 }
-thx.culture.FormatNumber.__properties__ = {}
 var TestDates = function() {
 	$s.push("TestDates::new");
 	var $spos = $s.length;
@@ -3900,7 +3847,7 @@ var TestDates = function() {
 }
 TestDates.__name__ = ["TestDates"];
 TestDates.prototype = {
-	 testCanParse: function() {
+	testCanParse: function() {
 		$s.push("TestDates::testCanParse");
 		var $spos = $s.length;
 		utest.Assert.isTrue(Dates.canParse("2010-10-01"),null,{ fileName : "TestDates.hx", lineNumber : 8, className : "TestDates", methodName : "testCanParse"});
@@ -3915,7 +3862,6 @@ TestDates.prototype = {
 	}
 	,__class__: TestDates
 }
-TestDates.__properties__ = {}
 thx.math.scale.TestAll = function() {
 	$s.push("thx.math.scale.TestAll::new");
 	var $spos = $s.length;
@@ -3944,7 +3890,7 @@ thx.math.scale.TestAll.main = function() {
 	$s.pop();
 }
 thx.math.scale.TestAll.prototype = {
-	 assertScale: function(scalef,expected,values,pos) {
+	assertScale: function(scalef,expected,values,pos) {
 		$s.push("thx.math.scale.TestAll::assertScale");
 		var $spos = $s.length;
 		var _g1 = 0, _g = expected.length;
@@ -3956,7 +3902,6 @@ thx.math.scale.TestAll.prototype = {
 	}
 	,__class__: thx.math.scale.TestAll
 }
-thx.math.scale.TestAll.__properties__ = {}
 utest.ui.common.ReportTools = function() { }
 utest.ui.common.ReportTools.__name__ = ["utest","ui","common","ReportTools"];
 utest.ui.common.ReportTools.hasHeader = function(report,stats) {
@@ -4026,9 +3971,8 @@ utest.ui.common.ReportTools.hasOutput = function(report,stats) {
 	$s.pop();
 }
 utest.ui.common.ReportTools.prototype = {
-	 __class__: utest.ui.common.ReportTools
+	__class__: utest.ui.common.ReportTools
 }
-utest.ui.common.ReportTools.__properties__ = {}
 thx.xml.XmlWriter = function(xml) {
 	$s.push("thx.xml.XmlWriter::new");
 	var $spos = $s.length;
@@ -4039,7 +3983,7 @@ thx.xml.XmlWriter = function(xml) {
 }
 thx.xml.XmlWriter.__name__ = ["thx","xml","XmlWriter"];
 thx.xml.XmlWriter.prototype = {
-	 _stack: null
+	_stack: null
 	,_current: null
 	,xml: function() {
 		$s.push("thx.xml.XmlWriter::xml");
@@ -4144,7 +4088,6 @@ thx.xml.XmlWriter.prototype = {
 	}
 	,__class__: thx.xml.XmlWriter
 }
-thx.xml.XmlWriter.__properties__ = {}
 thx.html.TestAll = function() { }
 thx.html.TestAll.__name__ = ["thx","html","TestAll"];
 thx.html.TestAll.addTests = function(runner) {
@@ -4165,9 +4108,8 @@ thx.html.TestAll.main = function() {
 	$s.pop();
 }
 thx.html.TestAll.prototype = {
-	 __class__: thx.html.TestAll
+	__class__: thx.html.TestAll
 }
-thx.html.TestAll.__properties__ = {}
 var Std = function() { }
 Std.__name__ = ["Std"];
 Std["is"] = function(v,t) {
@@ -4230,9 +4172,8 @@ Std.random = function(x) {
 	$s.pop();
 }
 Std.prototype = {
-	 __class__: Std
+	__class__: Std
 }
-Std.__properties__ = {}
 if(typeof js=='undefined') var js = {}
 js.Lib = function() { }
 js.Lib.__name__ = ["js","Lib"];
@@ -4261,9 +4202,8 @@ js.Lib.setErrorHandler = function(f) {
 	$s.pop();
 }
 js.Lib.prototype = {
-	 __class__: js.Lib
+	__class__: js.Lib
 }
-js.Lib.__properties__ = {}
 thx.js.Group = function(nodes) {
 	$s.push("thx.js.Group::new");
 	var $spos = $s.length;
@@ -4273,7 +4213,7 @@ thx.js.Group = function(nodes) {
 thx.js.Group.__name__ = ["thx","js","Group"];
 thx.js.Group.current = null;
 thx.js.Group.prototype = {
-	 parentNode: null
+	parentNode: null
 	,nodes: null
 	,each: function(f) {
 		$s.push("thx.js.Group::each");
@@ -4323,7 +4263,6 @@ thx.js.Group.prototype = {
 	}
 	,__class__: thx.js.Group
 }
-thx.js.Group.__properties__ = {}
 thx.js.BaseSelection = function(groups) {
 	$s.push("thx.js.BaseSelection::new");
 	var $spos = $s.length;
@@ -4331,6 +4270,35 @@ thx.js.BaseSelection = function(groups) {
 	$s.pop();
 }
 thx.js.BaseSelection.__name__ = ["thx","js","BaseSelection"];
+thx.js.BaseSelection.listenerEnterLeave = function(f,dom,i) {
+	$s.push("thx.js.BaseSelection::listenerEnterLeave");
+	var $spos = $s.length;
+	var e = thx.js.Dom.event, target = e.relatedTarget;
+	if(null == target || thx.js.BaseSelection.isChild(dom,target)) {
+		$s.pop();
+		return;
+	}
+	f(dom,i);
+	$s.pop();
+}
+thx.js.BaseSelection.isChild = function(parent,child) {
+	$s.push("thx.js.BaseSelection::isChild");
+	var $spos = $s.length;
+	if(child == parent) {
+		$s.pop();
+		return false;
+	}
+	while(child != null) {
+		child = child.parentNode;
+		if(child == parent) {
+			$s.pop();
+			return true;
+		}
+	}
+	$s.pop();
+	return false;
+	$s.pop();
+}
 thx.js.BaseSelection.bindJoin = function(join,group,groupData,update,enter,exit) {
 	$s.push("thx.js.BaseSelection::bindJoin");
 	var $spos = $s.length;
@@ -4349,7 +4317,7 @@ thx.js.BaseSelection.bindJoin = function(join,group,groupData,update,enter,exit)
 		var i = _g++;
 		node = nodeByKey.get(key = join(nodeData = groupData[i],i));
 		if(null != node) {
-			Reflect.setField(node,"__data__",nodeData);
+			node["__data__"] = nodeData;
 			updateHtmlDoms[i] = node;
 			enterHtmlDoms[i] = exitHtmlDoms[i] = null;
 		} else {
@@ -4385,7 +4353,7 @@ thx.js.BaseSelection.bind = function(group,groupData,update,enter,exit) {
 		node = group.nodes[i];
 		nodeData = groupData[i];
 		if(null != node) {
-			Reflect.setField(node,"__data__",nodeData);
+			node["__data__"] = nodeData;
 			updateHtmlDoms[i] = node;
 			enterHtmlDoms[i] = exitHtmlDoms[i] = null;
 		} else {
@@ -4418,13 +4386,13 @@ thx.js.BaseSelection.bind = function(group,groupData,update,enter,exit) {
 	$s.pop();
 }
 thx.js.BaseSelection.prototype = {
-	 parentNode: null
+	parentNode: null
 	,groups: null
 	,select: function(selector) {
 		$s.push("thx.js.BaseSelection::select");
 		var $spos = $s.length;
 		var $tmp = this._select(function(el) {
-			$s.push("thx.js.BaseSelection::select@364");
+			$s.push("thx.js.BaseSelection::select@367");
 			var $spos = $s.length;
 			var $tmp = thx.js.Dom.selectionEngine.select(selector,el);
 			$s.pop();
@@ -4439,7 +4407,7 @@ thx.js.BaseSelection.prototype = {
 		$s.push("thx.js.BaseSelection::selectAll");
 		var $spos = $s.length;
 		var $tmp = this._selectAll(function(el) {
-			$s.push("thx.js.BaseSelection::selectAll@371");
+			$s.push("thx.js.BaseSelection::selectAll@374");
 			var $spos = $s.length;
 			var $tmp = thx.js.Dom.selectionEngine.selectAll(selector,el);
 			$s.pop();
@@ -4463,7 +4431,7 @@ thx.js.BaseSelection.prototype = {
 		var $spos = $s.length;
 		var qname = thx.xml.Namespace.qualify(name);
 		var append = function(node) {
-			$s.push("thx.js.BaseSelection::append@382");
+			$s.push("thx.js.BaseSelection::append@385");
 			var $spos = $s.length;
 			var n = js.Lib.document.createElement(name);
 			node.appendChild(n);
@@ -4472,7 +4440,7 @@ thx.js.BaseSelection.prototype = {
 			$s.pop();
 		};
 		var appendNS = function(node) {
-			$s.push("thx.js.BaseSelection::append@389");
+			$s.push("thx.js.BaseSelection::append@392");
 			var $spos = $s.length;
 			var n = js.Lib.document.createElementNS(qname.space,qname.local);
 			node.appendChild(n);
@@ -4489,7 +4457,7 @@ thx.js.BaseSelection.prototype = {
 		$s.push("thx.js.BaseSelection::remove");
 		var $spos = $s.length;
 		var $tmp = this.eachNode(function(node,i) {
-			$s.push("thx.js.BaseSelection::remove@401");
+			$s.push("thx.js.BaseSelection::remove@404");
 			var $spos = $s.length;
 			var parent = node.parentNode;
 			if(null != parent) parent.removeChild(node);
@@ -4518,19 +4486,19 @@ thx.js.BaseSelection.prototype = {
 		var $spos = $s.length;
 		var qname = thx.xml.Namespace.qualify(name);
 		var insertDom = function(node) {
-			$s.push("thx.js.BaseSelection::insert@418");
+			$s.push("thx.js.BaseSelection::insert@421");
 			var $spos = $s.length;
 			var n = js.Lib.document.createElement(name);
-			node.insertBefore(n,null != before?before:thx.js.Dom.select(beforeSelector).node());
+			node.insertBefore(n,null != before?before:thx.js.Dom.doc.select(beforeSelector).node());
 			$s.pop();
 			return n;
 			$s.pop();
 		};
 		var insertNsDom = function(node) {
-			$s.push("thx.js.BaseSelection::insert@424");
+			$s.push("thx.js.BaseSelection::insert@427");
 			var $spos = $s.length;
 			var n = js.Lib.document.createElementNS(qname.space,qname.local);
-			node.insertBefore(n,null != before?before:thx.js.Dom.select(beforeSelector).node());
+			node.insertBefore(n,null != before?before:thx.js.Dom.doc.select(beforeSelector).node());
 			$s.pop();
 			return n;
 			$s.pop();
@@ -4590,7 +4558,7 @@ thx.js.BaseSelection.prototype = {
 		$s.push("thx.js.BaseSelection::node");
 		var $spos = $s.length;
 		var $tmp = this.firstNode(function(n) {
-			$s.push("thx.js.BaseSelection::node@468");
+			$s.push("thx.js.BaseSelection::node@471");
 			var $spos = $s.length;
 			$s.pop();
 			return n;
@@ -4604,7 +4572,7 @@ thx.js.BaseSelection.prototype = {
 		$s.push("thx.js.BaseSelection::empty");
 		var $spos = $s.length;
 		var $tmp = null == this.firstNode(function(n) {
-			$s.push("thx.js.BaseSelection::empty@473");
+			$s.push("thx.js.BaseSelection::empty@476");
 			var $spos = $s.length;
 			$s.pop();
 			return n;
@@ -4642,11 +4610,29 @@ thx.js.BaseSelection.prototype = {
 		var $spos = $s.length;
 		if(capture == null) capture = false;
 		var i = type.indexOf("."), typo = i < 0?type:type.substr(0,i);
+		if((typo == "mouseenter" || typo == "mouseleave") && !thx.js.ClientHost.isIE()) {
+			listener = (function(f,a1) {
+				$s.push("thx.js.BaseSelection::onNode@531");
+				var $spos = $s.length;
+				var $tmp = function(a2,a3) {
+					$s.push("thx.js.BaseSelection::onNode@531@531");
+					var $spos = $s.length;
+					var $tmp = f(a1,a2,a3);
+					$s.pop();
+					return $tmp;
+					$s.pop();
+				};
+				$s.pop();
+				return $tmp;
+				$s.pop();
+			})(thx.js.BaseSelection.listenerEnterLeave,listener);
+			if(typo == "mouseenter") typo = "mouseover"; else typo = "mouseout";
+		}
 		var $tmp = this.eachNode(function(n,i1) {
-			$s.push("thx.js.BaseSelection::onNode@503");
+			$s.push("thx.js.BaseSelection::onNode@540");
 			var $spos = $s.length;
 			var l = function(e) {
-				$s.push("thx.js.BaseSelection::onNode@503@504");
+				$s.push("thx.js.BaseSelection::onNode@540@541");
 				var $spos = $s.length;
 				var o = thx.js.Dom.event;
 				thx.js.Dom.event = e;
@@ -4665,7 +4651,7 @@ thx.js.BaseSelection.prototype = {
 				Reflect.deleteField(n,"__on" + type);
 			}
 			if(null != listener) {
-				Reflect.setField(n,"__on" + type,l);
+				n["__on" + type] = l;
 				n.addEventListener(typo,l,capture);
 			}
 			$s.pop();
@@ -4679,7 +4665,7 @@ thx.js.BaseSelection.prototype = {
 		var $spos = $s.length;
 		var $tmp = (function($this) {
 			var $r;
-			throw new thx.error.AbstractMethod({ fileName : "Selection.hx", lineNumber : 529, className : "thx.js.BaseSelection", methodName : "createSelection"});
+			throw new thx.error.AbstractMethod({ fileName : "Selection.hx", lineNumber : 566, className : "thx.js.BaseSelection", methodName : "createSelection"});
 			return $r;
 		}(this));
 		$s.pop();
@@ -4702,7 +4688,7 @@ thx.js.BaseSelection.prototype = {
 				if(null != node1) {
 					subgroup.parentNode = node1;
 					subgroup.nodes.push(subnode = selectf(node1));
-					if(null != subnode) Reflect.setField(subnode,"__data__",Reflect.field(node1,"__data__"));
+					if(null != subnode) subnode["__data__"] = Reflect.field(node1,"__data__");
 				} else subgroup.nodes.push(null);
 			}
 		}
@@ -4735,7 +4721,6 @@ thx.js.BaseSelection.prototype = {
 	}
 	,__class__: thx.js.BaseSelection
 }
-thx.js.BaseSelection.__properties__ = {}
 thx.js.UnboundSelection = function(groups) {
 	$s.push("thx.js.UnboundSelection::new");
 	var $spos = $s.length;
@@ -4744,8 +4729,8 @@ thx.js.UnboundSelection = function(groups) {
 }
 thx.js.UnboundSelection.__name__ = ["thx","js","UnboundSelection"];
 thx.js.UnboundSelection.__super__ = thx.js.BaseSelection;
-thx.js.UnboundSelection.prototype = $extend(thx.js.BaseSelection.prototype, {
-	 html: function() {
+thx.js.UnboundSelection.prototype = $extend(thx.js.BaseSelection.prototype,{
+	html: function() {
 		$s.push("thx.js.UnboundSelection::html");
 		var $spos = $s.length;
 		var $tmp = new thx.js.AccessHtml(this);
@@ -4836,7 +4821,6 @@ thx.js.UnboundSelection.prototype = $extend(thx.js.BaseSelection.prototype, {
 	}
 	,__class__: thx.js.UnboundSelection
 });
-thx.js.UnboundSelection.__properties__ = $extend(thx.js.BaseSelection.__properties__, {});
 thx.js.Selection = function(groups) {
 	$s.push("thx.js.Selection::new");
 	var $spos = $s.length;
@@ -4845,6 +4829,7 @@ thx.js.Selection = function(groups) {
 }
 thx.js.Selection.__name__ = ["thx","js","Selection"];
 thx.js.Selection.current = null;
+thx.js.Selection.currentNode = null;
 thx.js.Selection.create = function(groups) {
 	$s.push("thx.js.Selection::create");
 	var $spos = $s.length;
@@ -4856,14 +4841,22 @@ thx.js.Selection.create = function(groups) {
 thx.js.Selection.getCurrent = function() {
 	$s.push("thx.js.Selection::getCurrent");
 	var $spos = $s.length;
-	var $tmp = thx.js.Dom.selectNode(thx.js.Group.current);
+	var $tmp = thx.js.Selection.create([new thx.js.Group([thx.js.Group.current])]);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.Selection.getCurrentNode = function() {
+	$s.push("thx.js.Selection::getCurrentNode");
+	var $spos = $s.length;
+	var $tmp = thx.js.Group.current;
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
 thx.js.Selection.__super__ = thx.js.UnboundSelection;
-thx.js.Selection.prototype = $extend(thx.js.UnboundSelection.prototype, {
-	 createSelection: function(groups) {
+thx.js.Selection.prototype = $extend(thx.js.UnboundSelection.prototype,{
+	createSelection: function(groups) {
 		$s.push("thx.js.Selection::createSelection");
 		var $spos = $s.length;
 		var $tmp = new thx.js.Selection(groups);
@@ -4873,15 +4866,13 @@ thx.js.Selection.prototype = $extend(thx.js.UnboundSelection.prototype, {
 	}
 	,__class__: thx.js.Selection
 });
-thx.js.Selection.__properties__ = $extend(thx.js.UnboundSelection.__properties__, {});
 thx.js.ISelectorEngine = function() { }
 thx.js.ISelectorEngine.__name__ = ["thx","js","ISelectorEngine"];
 thx.js.ISelectorEngine.prototype = {
-	 select: null
+	select: null
 	,selectAll: null
 	,__class__: thx.js.ISelectorEngine
 }
-thx.js.ISelectorEngine.__properties__ = {}
 thx.js.SizzleEngine = function() {
 	$s.push("thx.js.SizzleEngine::new");
 	var $spos = $s.length;
@@ -4890,7 +4881,7 @@ thx.js.SizzleEngine = function() {
 thx.js.SizzleEngine.__name__ = ["thx","js","SizzleEngine"];
 thx.js.SizzleEngine.__interfaces__ = [thx.js.ISelectorEngine];
 thx.js.SizzleEngine.prototype = {
-	 select: function(selector,node) {
+	select: function(selector,node) {
 		$s.push("thx.js.SizzleEngine::select");
 		var $spos = $s.length;
 		var $tmp = thx.js.Sizzle.select(selector,node)[0];
@@ -4916,7 +4907,6 @@ thx.js.SizzleEngine.prototype = {
 	}
 	,__class__: thx.js.SizzleEngine
 }
-thx.js.SizzleEngine.__properties__ = {}
 thx.js.Dom = function() { }
 thx.js.Dom.__name__ = ["thx","js","Dom"];
 thx.js.Dom.select = function(selector) {
@@ -4953,9 +4943,8 @@ thx.js.Dom.selectNodeData = function(node) {
 }
 thx.js.Dom.event = null;
 thx.js.Dom.prototype = {
-	 __class__: thx.js.Dom
+	__class__: thx.js.Dom
 }
-thx.js.Dom.__properties__ = {}
 thx.xml.ValueFormat = function() {
 	$s.push("thx.xml.ValueFormat::new");
 	var $spos = $s.length;
@@ -4963,7 +4952,7 @@ thx.xml.ValueFormat = function() {
 }
 thx.xml.ValueFormat.__name__ = ["thx","xml","ValueFormat"];
 thx.xml.ValueFormat.prototype = {
-	 format: function(value) {
+	format: function(value) {
 		$s.push("thx.xml.ValueFormat::format");
 		var $spos = $s.length;
 		$s.pop();
@@ -4972,7 +4961,6 @@ thx.xml.ValueFormat.prototype = {
 	}
 	,__class__: thx.xml.ValueFormat
 }
-thx.xml.ValueFormat.__properties__ = {}
 thx.xml.NormalizeWhitespaceValueFormat = function() {
 	$s.push("thx.xml.NormalizeWhitespaceValueFormat::new");
 	var $spos = $s.length;
@@ -4982,8 +4970,8 @@ thx.xml.NormalizeWhitespaceValueFormat = function() {
 }
 thx.xml.NormalizeWhitespaceValueFormat.__name__ = ["thx","xml","NormalizeWhitespaceValueFormat"];
 thx.xml.NormalizeWhitespaceValueFormat.__super__ = thx.xml.ValueFormat;
-thx.xml.NormalizeWhitespaceValueFormat.prototype = $extend(thx.xml.ValueFormat.prototype, {
-	 _wsReplace: null
+thx.xml.NormalizeWhitespaceValueFormat.prototype = $extend(thx.xml.ValueFormat.prototype,{
+	_wsReplace: null
 	,_wsTestStart: null
 	,_wsTestEnd: null
 	,format: function(value) {
@@ -5001,7 +4989,6 @@ thx.xml.NormalizeWhitespaceValueFormat.prototype = $extend(thx.xml.ValueFormat.p
 	}
 	,__class__: thx.xml.NormalizeWhitespaceValueFormat
 });
-thx.xml.NormalizeWhitespaceValueFormat.__properties__ = $extend(thx.xml.ValueFormat.__properties__, {});
 thx.culture.Language = function() { }
 thx.culture.Language.__name__ = ["thx","culture","Language"];
 thx.culture.Language.languages = null;
@@ -5037,10 +5024,9 @@ thx.culture.Language.add = function(language) {
 	$s.pop();
 }
 thx.culture.Language.__super__ = thx.culture.Info;
-thx.culture.Language.prototype = $extend(thx.culture.Info.prototype, {
-	 __class__: thx.culture.Language
+thx.culture.Language.prototype = $extend(thx.culture.Info.prototype,{
+	__class__: thx.culture.Language
 });
-thx.culture.Language.__properties__ = $extend(thx.culture.Info.__properties__, {});
 thx.js.TestAll = function() {
 	$s.push("thx.js.TestAll::new");
 	var $spos = $s.length;
@@ -5066,9 +5052,8 @@ thx.js.TestAll.main = function() {
 	$s.pop();
 }
 thx.js.TestAll.prototype = {
-	 __class__: thx.js.TestAll
+	__class__: thx.js.TestAll
 }
-thx.js.TestAll.__properties__ = {}
 thx.culture.FormatParams = function() { }
 thx.culture.FormatParams.__name__ = ["thx","culture","FormatParams"];
 thx.culture.FormatParams.cleanQuotes = function(p) {
@@ -5125,9 +5110,8 @@ thx.culture.FormatParams.params = function(p,ps,alt) {
 	$s.pop();
 }
 thx.culture.FormatParams.prototype = {
-	 __class__: thx.culture.FormatParams
+	__class__: thx.culture.FormatParams
 }
-thx.culture.FormatParams.__properties__ = {}
 thx.error.TestAll = function() {
 	$s.push("thx.error.TestAll::new");
 	var $spos = $s.length;
@@ -5151,9 +5135,8 @@ thx.error.TestAll.main = function() {
 	$s.pop();
 }
 thx.error.TestAll.prototype = {
-	 __class__: thx.error.TestAll
+	__class__: thx.error.TestAll
 }
-thx.error.TestAll.__properties__ = {}
 thx.html.TestXHtmlFormat = function() {
 	$s.push("thx.html.TestXHtmlFormat::new");
 	var $spos = $s.length;
@@ -5161,7 +5144,7 @@ thx.html.TestXHtmlFormat = function() {
 }
 thx.html.TestXHtmlFormat.__name__ = ["thx","html","TestXHtmlFormat"];
 thx.html.TestXHtmlFormat.prototype = {
-	 format: null
+	format: null
 	,setup: function() {
 		$s.push("thx.html.TestXHtmlFormat::setup");
 		var $spos = $s.length;
@@ -5246,16 +5229,14 @@ thx.html.TestXHtmlFormat.prototype = {
 	}
 	,__class__: thx.html.TestXHtmlFormat
 }
-thx.html.TestXHtmlFormat.__properties__ = {}
 utest.ui.common.IReport = function() { }
 utest.ui.common.IReport.__name__ = ["utest","ui","common","IReport"];
 utest.ui.common.IReport.prototype = {
-	 displaySuccessResults: null
+	displaySuccessResults: null
 	,displayHeader: null
 	,setHandler: null
 	,__class__: utest.ui.common.IReport
 }
-utest.ui.common.IReport.__properties__ = {}
 if(!utest.ui.text) utest.ui.text = {}
 utest.ui.text.HtmlReport = function(runner,outputHandler,traceRedirected) {
 	$s.push("utest.ui.text.HtmlReport::new");
@@ -5273,7 +5254,7 @@ utest.ui.text.HtmlReport = function(runner,outputHandler,traceRedirected) {
 utest.ui.text.HtmlReport.__name__ = ["utest","ui","text","HtmlReport"];
 utest.ui.text.HtmlReport.__interfaces__ = [utest.ui.common.IReport];
 utest.ui.text.HtmlReport.prototype = {
-	 traceRedirected: null
+	traceRedirected: null
 	,displaySuccessResults: null
 	,displayHeader: null
 	,handler: null
@@ -5694,7 +5675,6 @@ utest.ui.text.HtmlReport.prototype = {
 	}
 	,__class__: utest.ui.text.HtmlReport
 }
-utest.ui.text.HtmlReport.__properties__ = {}
 thx.html.TestHtmlFormat = function() {
 	$s.push("thx.html.TestHtmlFormat::new");
 	var $spos = $s.length;
@@ -5702,7 +5682,7 @@ thx.html.TestHtmlFormat = function() {
 }
 thx.html.TestHtmlFormat.__name__ = ["thx","html","TestHtmlFormat"];
 thx.html.TestHtmlFormat.prototype = {
-	 format: null
+	format: null
 	,setup: function() {
 		$s.push("thx.html.TestHtmlFormat::setup");
 		var $spos = $s.length;
@@ -5771,7 +5751,6 @@ thx.html.TestHtmlFormat.prototype = {
 	}
 	,__class__: thx.html.TestHtmlFormat
 }
-thx.html.TestHtmlFormat.__properties__ = {}
 var TestArrays = function() {
 	$s.push("TestArrays::new");
 	var $spos = $s.length;
@@ -5794,7 +5773,7 @@ TestArrays.main = function() {
 	$s.pop();
 }
 TestArrays.prototype = {
-	 testCreate: function() {
+	testCreate: function() {
 		$s.push("TestArrays::testCreate");
 		var $spos = $s.length;
 		utest.Assert.same(2,Arrays.min([4,2,6]),null,null,{ fileName : "TestArrays.hx", lineNumber : 10, className : "TestArrays", methodName : "testCreate"});
@@ -5935,7 +5914,6 @@ TestArrays.prototype = {
 	}
 	,__class__: TestArrays
 }
-TestArrays.__properties__ = {}
 thx.csv.Csv = function() { }
 thx.csv.Csv.__name__ = ["thx","csv","Csv"];
 thx.csv.Csv.encode = function(value,delimiter,nulltoempty,newline) {
@@ -5959,9 +5937,8 @@ thx.csv.Csv.decode = function(value) {
 	$s.pop();
 }
 thx.csv.Csv.prototype = {
-	 __class__: thx.csv.Csv
+	__class__: thx.csv.Csv
 }
-thx.csv.Csv.__properties__ = {}
 thx.validation.TestEmail = function() {
 	$s.push("thx.validation.TestEmail::new");
 	var $spos = $s.length;
@@ -5969,8 +5946,8 @@ thx.validation.TestEmail = function() {
 }
 thx.validation.TestEmail.__name__ = ["thx","validation","TestEmail"];
 thx.validation.TestEmail.__super__ = thx.validation.TestAll;
-thx.validation.TestEmail.prototype = $extend(thx.validation.TestAll.prototype, {
-	 testValidEmails: function() {
+thx.validation.TestEmail.prototype = $extend(thx.validation.TestAll.prototype,{
+	testValidEmails: function() {
 		$s.push("thx.validation.TestEmail::testValidEmails");
 		var $spos = $s.length;
 		var validator = new thx.validation.EmailValidator(false);
@@ -6007,7 +5984,6 @@ thx.validation.TestEmail.prototype = $extend(thx.validation.TestAll.prototype, {
 	}
 	,__class__: thx.validation.TestEmail
 });
-thx.validation.TestEmail.__properties__ = $extend(thx.validation.TestAll.__properties__, {});
 thx.svg.Chord = function(source,target,radius,startAngle,endAngle) {
 	$s.push("thx.svg.Chord::new");
 	var $spos = $s.length;
@@ -6063,7 +6039,7 @@ thx.svg.Chord.pathObject = function() {
 	$s.pop();
 }
 thx.svg.Chord.prototype = {
-	 _source: null
+	_source: null
 	,_target: null
 	,_radius: null
 	,_startAngle: null
@@ -6262,7 +6238,6 @@ thx.svg.Chord.prototype = {
 	}
 	,__class__: thx.svg.Chord
 }
-thx.svg.Chord.__properties__ = {}
 thx.validation.TestDateRange = function() {
 	$s.push("thx.validation.TestDateRange::new");
 	var $spos = $s.length;
@@ -6270,8 +6245,8 @@ thx.validation.TestDateRange = function() {
 }
 thx.validation.TestDateRange.__name__ = ["thx","validation","TestDateRange"];
 thx.validation.TestDateRange.__super__ = thx.validation.TestAll;
-thx.validation.TestDateRange.prototype = $extend(thx.validation.TestAll.prototype, {
-	 testValidation: function() {
+thx.validation.TestDateRange.prototype = $extend(thx.validation.TestAll.prototype,{
+	testValidation: function() {
 		$s.push("thx.validation.TestDateRange::testValidation");
 		var $spos = $s.length;
 		var validator = new thx.validation.DateRangeValidator(Date.fromString("2011-01-01"),Date.fromString("2011-01-31"));
@@ -6288,7 +6263,6 @@ thx.validation.TestDateRange.prototype = $extend(thx.validation.TestAll.prototyp
 	}
 	,__class__: thx.validation.TestDateRange
 });
-thx.validation.TestDateRange.__properties__ = $extend(thx.validation.TestAll.__properties__, {});
 if(!thx.culture.core) thx.culture.core = {}
 thx.culture.core.DateTimeInfo = function(months,abbrMonths,days,abbrDays,shortDays,am,pm,separatorDate,separatorTime,firstWeekDay,patternYearMonth,patternMonthDay,patternDate,patternDateShort,patternDateRfc,patternDateTime,patternUniversal,patternSortable,patternTime,patternTimeShort) {
 	$s.push("thx.culture.core.DateTimeInfo::new");
@@ -6317,7 +6291,7 @@ thx.culture.core.DateTimeInfo = function(months,abbrMonths,days,abbrDays,shortDa
 }
 thx.culture.core.DateTimeInfo.__name__ = ["thx","culture","core","DateTimeInfo"];
 thx.culture.core.DateTimeInfo.prototype = {
-	 months: null
+	months: null
 	,abbrMonths: null
 	,days: null
 	,abbrDays: null
@@ -6339,7 +6313,6 @@ thx.culture.core.DateTimeInfo.prototype = {
 	,patternTimeShort: null
 	,__class__: thx.culture.core.DateTimeInfo
 }
-thx.culture.core.DateTimeInfo.__properties__ = {}
 thx.js.Timer = function() { }
 thx.js.Timer.__name__ = ["thx","js","Timer"];
 thx.js.Timer.timer = function(f,delay) {
@@ -6416,9 +6389,8 @@ thx.js.Timer._flush = function() {
 	$s.pop();
 }
 thx.js.Timer.prototype = {
-	 __class__: thx.js.Timer
+	__class__: thx.js.Timer
 }
-thx.js.Timer.__properties__ = {}
 if(!thx.js.behavior) thx.js.behavior = {}
 thx.js.behavior.ZoomEvent = function(scale,tx,ty) {
 	$s.push("thx.js.behavior.ZoomEvent::new");
@@ -6430,7 +6402,7 @@ thx.js.behavior.ZoomEvent = function(scale,tx,ty) {
 }
 thx.js.behavior.ZoomEvent.__name__ = ["thx","js","behavior","ZoomEvent"];
 thx.js.behavior.ZoomEvent.prototype = {
-	 scale: null
+	scale: null
 	,tx: null
 	,ty: null
 	,toString: function() {
@@ -6443,7 +6415,6 @@ thx.js.behavior.ZoomEvent.prototype = {
 	}
 	,__class__: thx.js.behavior.ZoomEvent
 }
-thx.js.behavior.ZoomEvent.__properties__ = {}
 thx.math.scale.Quantile = function() {
 	$s.push("thx.math.scale.Quantile::new");
 	var $spos = $s.length;
@@ -6455,7 +6426,7 @@ thx.math.scale.Quantile = function() {
 thx.math.scale.Quantile.__name__ = ["thx","math","scale","Quantile"];
 thx.math.scale.Quantile.__interfaces__ = [thx.math.scale.IScale];
 thx.math.scale.Quantile.prototype = {
-	 _domain: null
+	_domain: null
 	,_range: null
 	,_thresolds: null
 	,rescale: function() {
@@ -6526,7 +6497,6 @@ thx.math.scale.Quantile.prototype = {
 	}
 	,__class__: thx.math.scale.Quantile
 }
-thx.math.scale.Quantile.__properties__ = {}
 if(!thx.text) thx.text = {}
 thx.text.ERegs = function() { }
 thx.text.ERegs.__name__ = ["thx","text","ERegs"];
@@ -6546,9 +6516,8 @@ thx.text.ERegs.escapeERegChars = function(s) {
 	$s.pop();
 }
 thx.text.ERegs.prototype = {
-	 __class__: thx.text.ERegs
+	__class__: thx.text.ERegs
 }
-thx.text.ERegs.__properties__ = {}
 thx.math.scale.TestPow = function() {
 	$s.push("thx.math.scale.TestPow::new");
 	var $spos = $s.length;
@@ -6557,8 +6526,8 @@ thx.math.scale.TestPow = function() {
 }
 thx.math.scale.TestPow.__name__ = ["thx","math","scale","TestPow"];
 thx.math.scale.TestPow.__super__ = thx.math.scale.TestAll;
-thx.math.scale.TestPow.prototype = $extend(thx.math.scale.TestAll.prototype, {
-	 testDomain: function() {
+thx.math.scale.TestPow.prototype = $extend(thx.math.scale.TestAll.prototype,{
+	testDomain: function() {
 		$s.push("thx.math.scale.TestPow::testDomain");
 		var $spos = $s.length;
 		var scale = new thx.math.scale.Pow().exponent(2);
@@ -6596,13 +6565,11 @@ thx.math.scale.TestPow.prototype = $extend(thx.math.scale.TestAll.prototype, {
 	}
 	,__class__: thx.math.scale.TestPow
 });
-thx.math.scale.TestPow.__properties__ = $extend(thx.math.scale.TestAll.__properties__, {});
 thx.util.Imports = function() { }
 thx.util.Imports.__name__ = ["thx","util","Imports"];
 thx.util.Imports.prototype = {
-	 __class__: thx.util.Imports
+	__class__: thx.util.Imports
 }
-thx.util.Imports.__properties__ = {}
 thx.cultures.EnUS = function() {
 	$s.push("thx.cultures.EnUS::new");
 	var $spos = $s.length;
@@ -6646,10 +6613,9 @@ thx.cultures.EnUS.getCulture = function() {
 	$s.pop();
 }
 thx.cultures.EnUS.__super__ = thx.culture.Culture;
-thx.cultures.EnUS.prototype = $extend(thx.culture.Culture.prototype, {
-	 __class__: thx.cultures.EnUS
+thx.cultures.EnUS.prototype = $extend(thx.culture.Culture.prototype,{
+	__class__: thx.cultures.EnUS
 });
-thx.cultures.EnUS.__properties__ = $extend(thx.culture.Culture.__properties__, {});
 if(!thx.date) thx.date = {}
 thx.date.DateParser = function() { }
 thx.date.DateParser.__name__ = ["thx","date","DateParser"];
@@ -6928,9 +6894,8 @@ thx.date.DateParser.plusPm = function(s) {
 	$s.pop();
 }
 thx.date.DateParser.prototype = {
-	 __class__: thx.date.DateParser
+	__class__: thx.date.DateParser
 }
-thx.date.DateParser.__properties__ = {}
 if(!thx.languages) thx.languages = {}
 thx.languages.En = function() {
 	$s.push("thx.languages.En::new");
@@ -6956,10 +6921,9 @@ thx.languages.En.getLanguage = function() {
 	$s.pop();
 }
 thx.languages.En.__super__ = thx.culture.Language;
-thx.languages.En.prototype = $extend(thx.culture.Language.prototype, {
-	 __class__: thx.languages.En
+thx.languages.En.prototype = $extend(thx.culture.Language.prototype,{
+	__class__: thx.languages.En
 });
-thx.languages.En.__properties__ = $extend(thx.culture.Language.__properties__, {});
 thx.xml.NodeFormat = function() {
 	$s.push("thx.xml.NodeFormat::new");
 	var $spos = $s.length;
@@ -6967,7 +6931,7 @@ thx.xml.NodeFormat = function() {
 }
 thx.xml.NodeFormat.__name__ = ["thx","xml","NodeFormat"];
 thx.xml.NodeFormat.prototype = {
-	 valueFormat: null
+	valueFormat: null
 	,attributeFormat: null
 	,formatEmptyElement: function(node) {
 		$s.push("thx.xml.NodeFormat::formatEmptyElement");
@@ -7035,7 +6999,6 @@ thx.xml.NodeFormat.prototype = {
 	}
 	,__class__: thx.xml.NodeFormat
 }
-thx.xml.NodeFormat.__properties__ = {}
 thx.html.HtmlNodeFormat = function() {
 	$s.push("thx.html.HtmlNodeFormat::new");
 	var $spos = $s.length;
@@ -7044,8 +7007,8 @@ thx.html.HtmlNodeFormat = function() {
 }
 thx.html.HtmlNodeFormat.__name__ = ["thx","html","HtmlNodeFormat"];
 thx.html.HtmlNodeFormat.__super__ = thx.xml.NodeFormat;
-thx.html.HtmlNodeFormat.prototype = $extend(thx.xml.NodeFormat.prototype, {
-	 formatEmptyElement: function(node) {
+thx.html.HtmlNodeFormat.prototype = $extend(thx.xml.NodeFormat.prototype,{
+	formatEmptyElement: function(node) {
 		$s.push("thx.html.HtmlNodeFormat::formatEmptyElement");
 		var $spos = $s.length;
 		var $tmp = "<" + node.getNodeName() + this.attributeFormat.formatAttributes(node) + ">";
@@ -7055,7 +7018,6 @@ thx.html.HtmlNodeFormat.prototype = $extend(thx.xml.NodeFormat.prototype, {
 	}
 	,__class__: thx.html.HtmlNodeFormat
 });
-thx.html.HtmlNodeFormat.__properties__ = $extend(thx.xml.NodeFormat.__properties__, {});
 thx.validation.TestOptionValidator = function() {
 	$s.push("thx.validation.TestOptionValidator::new");
 	var $spos = $s.length;
@@ -7063,8 +7025,8 @@ thx.validation.TestOptionValidator = function() {
 }
 thx.validation.TestOptionValidator.__name__ = ["thx","validation","TestOptionValidator"];
 thx.validation.TestOptionValidator.__super__ = thx.validation.TestAll;
-thx.validation.TestOptionValidator.prototype = $extend(thx.validation.TestAll.prototype, {
-	 testValidation: function() {
+thx.validation.TestOptionValidator.prototype = $extend(thx.validation.TestAll.prototype,{
+	testValidation: function() {
 		$s.push("thx.validation.TestOptionValidator::testValidation");
 		var $spos = $s.length;
 		var validator = new thx.validation.OptionValidator(null,["a","b","c"]);
@@ -7078,7 +7040,6 @@ thx.validation.TestOptionValidator.prototype = $extend(thx.validation.TestAll.pr
 	}
 	,__class__: thx.validation.TestOptionValidator
 });
-thx.validation.TestOptionValidator.__properties__ = $extend(thx.validation.TestAll.__properties__, {});
 thx.validation.StringLengthValidator = function(minlength,maxlength) {
 	$s.push("thx.validation.StringLengthValidator::new");
 	var $spos = $s.length;
@@ -7089,8 +7050,8 @@ thx.validation.StringLengthValidator = function(minlength,maxlength) {
 }
 thx.validation.StringLengthValidator.__name__ = ["thx","validation","StringLengthValidator"];
 thx.validation.StringLengthValidator.__super__ = thx.validation.Validator;
-thx.validation.StringLengthValidator.prototype = $extend(thx.validation.Validator.prototype, {
-	 minLength: null
+thx.validation.StringLengthValidator.prototype = $extend(thx.validation.Validator.prototype,{
+	minLength: null
 	,maxLength: null
 	,validate: function(value) {
 		$s.push("thx.validation.StringLengthValidator::validate");
@@ -7112,7 +7073,6 @@ thx.validation.StringLengthValidator.prototype = $extend(thx.validation.Validato
 	}
 	,__class__: thx.validation.StringLengthValidator
 });
-thx.validation.StringLengthValidator.__properties__ = $extend(thx.validation.Validator.__properties__, {});
 thx.text.TestPaths = function() {
 	$s.push("thx.text.TestPaths::new");
 	var $spos = $s.length;
@@ -7135,18 +7095,16 @@ thx.text.TestPaths.main = function() {
 	$s.pop();
 }
 thx.text.TestPaths.prototype = {
-	 __class__: thx.text.TestPaths
+	__class__: thx.text.TestPaths
 }
-thx.text.TestPaths.__properties__ = {}
 if(!thx.util.type) thx.util.type = {}
 thx.util.type.ITest = function() { }
 thx.util.type.ITest.__name__ = ["thx","util","type","ITest"];
 thx.util.type.ITest.prototype = {
-	 sayHello: null
+	sayHello: null
 	,counter: null
 	,__class__: thx.util.type.ITest
 }
-thx.util.type.ITest.__properties__ = {}
 thx.util.type.TestImplementation = function() {
 	$s.push("thx.util.type.TestImplementation::new");
 	var $spos = $s.length;
@@ -7156,7 +7114,7 @@ thx.util.type.TestImplementation = function() {
 thx.util.type.TestImplementation.__name__ = ["thx","util","type","TestImplementation"];
 thx.util.type.TestImplementation.__interfaces__ = [thx.util.type.ITest];
 thx.util.type.TestImplementation.prototype = {
-	 counter: null
+	counter: null
 	,sayHello: function() {
 		$s.push("thx.util.type.TestImplementation::sayHello");
 		var $spos = $s.length;
@@ -7166,19 +7124,14 @@ thx.util.type.TestImplementation.prototype = {
 	}
 	,__class__: thx.util.type.TestImplementation
 }
-thx.util.type.TestImplementation.__properties__ = {}
 if(!thx.translation) thx.translation = {}
 thx.translation.ITranslation = function() { }
 thx.translation.ITranslation.__name__ = ["thx","translation","ITranslation"];
 thx.translation.ITranslation.prototype = {
-	 domain: null
+	domain: null
 	,_: null
 	,__: null
 	,__class__: thx.translation.ITranslation
-}
-thx.translation.ITranslation.__properties__ = {
-	 set_domain: thx.translation.ITranslation.prototype.setDomain
-	,get_domain: thx.translation.ITranslation.prototype.getDomain
 }
 thx.util.TypeServiceLocator = function() {
 	$s.push("thx.util.TypeServiceLocator::new");
@@ -7188,7 +7141,7 @@ thx.util.TypeServiceLocator = function() {
 }
 thx.util.TypeServiceLocator.__name__ = ["thx","util","TypeServiceLocator"];
 thx.util.TypeServiceLocator.prototype = {
-	 _binders: null
+	_binders: null
 	,instance: function(cls,o) {
 		$s.push("thx.util.TypeServiceLocator::instance");
 		var $spos = $s.length;
@@ -7251,7 +7204,6 @@ thx.util.TypeServiceLocator.prototype = {
 	}
 	,__class__: thx.util.TypeServiceLocator
 }
-thx.util.TypeServiceLocator.__properties__ = {}
 thx.color.TestHsl = function() {
 	$s.push("thx.color.TestHsl::new");
 	var $spos = $s.length;
@@ -7259,7 +7211,7 @@ thx.color.TestHsl = function() {
 }
 thx.color.TestHsl.__name__ = ["thx","color","TestHsl"];
 thx.color.TestHsl.prototype = {
-	 testBasics: function() {
+	testBasics: function() {
 		$s.push("thx.color.TestHsl::testBasics");
 		var $spos = $s.length;
 		var tests = [{ rgb : thx.color.Rgb.fromFloats(1.00,1.00,1.00), hsl : new thx.color.Hsl(0,0,1)},{ rgb : thx.color.Rgb.fromFloats(0.50,0.50,0.50), hsl : new thx.color.Hsl(0,0,0.5)},{ rgb : thx.color.Rgb.fromFloats(0.00,0.00,0.00), hsl : new thx.color.Hsl(0,0,0)},{ rgb : thx.color.Rgb.fromFloats(1.00,0.00,0.00), hsl : new thx.color.Hsl(0,1,0.5)},{ rgb : thx.color.Rgb.fromFloats(0.75,0.75,0.00), hsl : new thx.color.Hsl(60,1,0.375)},{ rgb : thx.color.Rgb.fromFloats(0.00,0.50,0.00), hsl : new thx.color.Hsl(120,1,0.25)},{ rgb : thx.color.Rgb.fromFloats(0.50,1.00,1.00), hsl : new thx.color.Hsl(180,1,0.75)},{ rgb : thx.color.Rgb.fromFloats(0.50,0.50,1.00), hsl : new thx.color.Hsl(240,1,0.75)},{ rgb : thx.color.Rgb.fromFloats(0.75,0.25,0.75), hsl : new thx.color.Hsl(300,0.5,0.5)}];
@@ -7275,7 +7227,6 @@ thx.color.TestHsl.prototype = {
 	}
 	,__class__: thx.color.TestHsl
 }
-thx.color.TestHsl.__properties__ = {}
 thx.svg.Diagonal = function() {
 	$s.push("thx.svg.Diagonal::new");
 	var $spos = $s.length;
@@ -7313,7 +7264,7 @@ thx.svg.Diagonal.forObject = function() {
 	$s.pop();
 }
 thx.svg.Diagonal.prototype = {
-	 _source: null
+	_source: null
 	,_target: null
 	,_projection: null
 	,diagonal: function(d,i) {
@@ -7376,7 +7327,6 @@ thx.svg.Diagonal.prototype = {
 	}
 	,__class__: thx.svg.Diagonal
 }
-thx.svg.Diagonal.__properties__ = {}
 thx.js.Svg = function() { }
 thx.js.Svg.__name__ = ["thx","js","Svg"];
 thx.js.Svg.mouse = function(dom) {
@@ -7384,7 +7334,7 @@ thx.js.Svg.mouse = function(dom) {
 	var $spos = $s.length;
 	var point = (null != dom.ownerSVGElement?dom.ownerSVGElement:dom).createSVGPoint();
 	if(thx.js.Svg._usepage && (js.Lib.window.scrollX || js.Lib.window.scrollY)) {
-		var svg = thx.js.Dom.selectNode(js.Lib.document.body).append("svg:svg").style("position").string("absolute").style("top")["float"](0).style("left")["float"](0);
+		var svg = thx.js.Selection.create([new thx.js.Group([js.Lib.document.body])]).append("svg:svg").style("position").string("absolute").style("top")["float"](0).style("left")["float"](0);
 		var ctm = svg.node().getScreenCTM();
 		thx.js.Svg._usepage = !(ctm.f || ctm.e);
 		svg.remove();
@@ -7403,9 +7353,8 @@ thx.js.Svg.mouse = function(dom) {
 	$s.pop();
 }
 thx.js.Svg.prototype = {
-	 __class__: thx.js.Svg
+	__class__: thx.js.Svg
 }
-thx.js.Svg.__properties__ = {}
 thx.date.TestAll = function() {
 	$s.push("thx.date.TestAll::new");
 	var $spos = $s.length;
@@ -7428,9 +7377,8 @@ thx.date.TestAll.main = function() {
 	$s.pop();
 }
 thx.date.TestAll.prototype = {
-	 __class__: thx.date.TestAll
+	__class__: thx.date.TestAll
 }
-thx.date.TestAll.__properties__ = {}
 thx.math.scale.TestQuantile = function() {
 	$s.push("thx.math.scale.TestQuantile::new");
 	var $spos = $s.length;
@@ -7439,8 +7387,8 @@ thx.math.scale.TestQuantile = function() {
 }
 thx.math.scale.TestQuantile.__name__ = ["thx","math","scale","TestQuantile"];
 thx.math.scale.TestQuantile.__super__ = thx.math.scale.TestAll;
-thx.math.scale.TestQuantile.prototype = $extend(thx.math.scale.TestAll.prototype, {
-	 testQuantile: function() {
+thx.math.scale.TestQuantile.prototype = $extend(thx.math.scale.TestAll.prototype,{
+	testQuantile: function() {
 		$s.push("thx.math.scale.TestQuantile::testQuantile");
 		var $spos = $s.length;
 		var x = ($_=new thx.math.scale.Quantile().domain([3.0,6,7,8,8,10,13,15,16,20]).range([0.0,1,2,3]),$_.scale.$bind($_));
@@ -7471,7 +7419,6 @@ thx.math.scale.TestQuantile.prototype = $extend(thx.math.scale.TestAll.prototype
 	}
 	,__class__: thx.math.scale.TestQuantile
 });
-thx.math.scale.TestQuantile.__properties__ = $extend(thx.math.scale.TestAll.__properties__, {});
 thx.svg.TestArc = function() {
 	$s.push("thx.svg.TestArc::new");
 	var $spos = $s.length;
@@ -7480,8 +7427,8 @@ thx.svg.TestArc = function() {
 }
 thx.svg.TestArc.__name__ = ["thx","svg","TestArc"];
 thx.svg.TestArc.__super__ = thx.svg.TestAll;
-thx.svg.TestArc.prototype = $extend(thx.svg.TestAll.prototype, {
-	 testDefault: function() {
+thx.svg.TestArc.prototype = $extend(thx.svg.TestAll.prototype,{
+	testDefault: function() {
 		$s.push("thx.svg.TestArc::testDefault");
 		var $spos = $s.length;
 		var arc = new thx.svg.Arc().innerRadius(0).outerRadius(1).startAngle(0).endAngle(Math.PI);
@@ -7492,7 +7439,6 @@ thx.svg.TestArc.prototype = $extend(thx.svg.TestAll.prototype, {
 	}
 	,__class__: thx.svg.TestArc
 });
-thx.svg.TestArc.__properties__ = $extend(thx.svg.TestAll.__properties__, {});
 thx.validation.OptionValidator = function(options,it,showOptionsInFailureMessage) {
 	$s.push("thx.validation.OptionValidator::new");
 	var $spos = $s.length;
@@ -7517,8 +7463,8 @@ thx.validation.OptionValidator = function(options,it,showOptionsInFailureMessage
 }
 thx.validation.OptionValidator.__name__ = ["thx","validation","OptionValidator"];
 thx.validation.OptionValidator.__super__ = thx.validation.Validator;
-thx.validation.OptionValidator.prototype = $extend(thx.validation.Validator.prototype, {
-	 options: null
+thx.validation.OptionValidator.prototype = $extend(thx.validation.Validator.prototype,{
+	options: null
 	,showOptionsInFailureMessage: null
 	,valueExists: function(v) {
 		$s.push("thx.validation.OptionValidator::valueExists");
@@ -7583,7 +7529,6 @@ thx.validation.OptionValidator.prototype = $extend(thx.validation.Validator.prot
 	}
 	,__class__: thx.validation.OptionValidator
 });
-thx.validation.OptionValidator.__properties__ = $extend(thx.validation.Validator.__properties__, {});
 if(!haxe.io) haxe.io = {}
 haxe.io.Bytes = function(length,b) {
 	$s.push("haxe.io.Bytes::new");
@@ -7643,7 +7588,7 @@ haxe.io.Bytes.ofData = function(b) {
 	$s.pop();
 }
 haxe.io.Bytes.prototype = {
-	 length: null
+	length: null
 	,b: null
 	,get: function(pos) {
 		$s.push("haxe.io.Bytes::get");
@@ -7778,13 +7723,11 @@ haxe.io.Bytes.prototype = {
 	}
 	,__class__: haxe.io.Bytes
 }
-haxe.io.Bytes.__properties__ = {}
 thx.math.Const = function() { }
 thx.math.Const.__name__ = ["thx","math","Const"];
 thx.math.Const.prototype = {
-	 __class__: thx.math.Const
+	__class__: thx.math.Const
 }
-thx.math.Const.__properties__ = {}
 thx.collection.TestAll = function() {
 	$s.push("thx.collection.TestAll::new");
 	var $spos = $s.length;
@@ -7806,9 +7749,8 @@ thx.collection.TestAll.main = function() {
 	$s.pop();
 }
 thx.collection.TestAll.prototype = {
-	 __class__: thx.collection.TestAll
+	__class__: thx.collection.TestAll
 }
-thx.collection.TestAll.__properties__ = {}
 thx.xml.TestXmlWriter = function() {
 	$s.push("thx.xml.TestXmlWriter::new");
 	var $spos = $s.length;
@@ -7831,7 +7773,7 @@ thx.xml.TestXmlWriter.main = function() {
 	$s.pop();
 }
 thx.xml.TestXmlWriter.prototype = {
-	 w: null
+	w: null
 	,testBasics: function() {
 		$s.push("thx.xml.TestXmlWriter::testBasics");
 		var $spos = $s.length;
@@ -7859,9 +7801,6 @@ thx.xml.TestXmlWriter.prototype = {
 		$s.pop();
 	}
 	,__class__: thx.xml.TestXmlWriter
-}
-thx.xml.TestXmlWriter.__properties__ = {
-	 get_w: thx.xml.TestXmlWriter.prototype.getWriter
 }
 var Floats = function() { }
 Floats.__name__ = ["Floats"];
@@ -8210,9 +8149,8 @@ Floats.round = function(number,precision) {
 	$s.pop();
 }
 Floats.prototype = {
-	 __class__: Floats
+	__class__: Floats
 }
-Floats.__properties__ = {}
 thx.color.TestCmyk = function() {
 	$s.push("thx.color.TestCmyk::new");
 	var $spos = $s.length;
@@ -8220,7 +8158,7 @@ thx.color.TestCmyk = function() {
 }
 thx.color.TestCmyk.__name__ = ["thx","color","TestCmyk"];
 thx.color.TestCmyk.prototype = {
-	 testBasics: function() {
+	testBasics: function() {
 		$s.push("thx.color.TestCmyk::testBasics");
 		var $spos = $s.length;
 		var tests = [{ rgb : new thx.color.Rgb(255,0,0), cmyk : new thx.color.Cmyk(0,1,1,0)},{ rgb : new thx.color.Rgb(255,102,0), cmyk : new thx.color.Cmyk(0,0.6,1,0)},{ rgb : new thx.color.Rgb(0,255,0), cmyk : new thx.color.Cmyk(1,0,1,0)},{ rgb : new thx.color.Rgb(102,255,102), cmyk : new thx.color.Cmyk(0.6,0,0.6,0)},{ rgb : new thx.color.Rgb(0,102,255), cmyk : new thx.color.Cmyk(1,0.6,0,0)}];
@@ -8236,7 +8174,6 @@ thx.color.TestCmyk.prototype = {
 	}
 	,__class__: thx.color.TestCmyk
 }
-thx.color.TestCmyk.__properties__ = {}
 var StringTools = function() { }
 StringTools.__name__ = ["StringTools"];
 StringTools.urlEncode = function(s) {
@@ -8415,9 +8352,8 @@ StringTools.isEOF = function(c) {
 	$s.pop();
 }
 StringTools.prototype = {
-	 __class__: StringTools
+	__class__: StringTools
 }
-StringTools.__properties__ = {}
 utest.TestResult = function() {
 	$s.push("utest.TestResult::new");
 	var $spos = $s.length;
@@ -8440,7 +8376,7 @@ utest.TestResult.ofHandler = function(handler) {
 	$s.pop();
 }
 utest.TestResult.prototype = {
-	 pack: null
+	pack: null
 	,cls: null
 	,method: null
 	,setup: null
@@ -8471,7 +8407,6 @@ utest.TestResult.prototype = {
 	}
 	,__class__: utest.TestResult
 }
-utest.TestResult.__properties__ = {}
 thx.validation.TestStringLength = function() {
 	$s.push("thx.validation.TestStringLength::new");
 	var $spos = $s.length;
@@ -8479,8 +8414,8 @@ thx.validation.TestStringLength = function() {
 }
 thx.validation.TestStringLength.__name__ = ["thx","validation","TestStringLength"];
 thx.validation.TestStringLength.__super__ = thx.validation.TestAll;
-thx.validation.TestStringLength.prototype = $extend(thx.validation.TestAll.prototype, {
-	 testValidation: function() {
+thx.validation.TestStringLength.prototype = $extend(thx.validation.TestAll.prototype,{
+	testValidation: function() {
 		$s.push("thx.validation.TestStringLength::testValidation");
 		var $spos = $s.length;
 		var validator = new thx.validation.StringLengthValidator(3,5);
@@ -8492,7 +8427,6 @@ thx.validation.TestStringLength.prototype = $extend(thx.validation.TestAll.proto
 	}
 	,__class__: thx.validation.TestStringLength
 });
-thx.validation.TestStringLength.__properties__ = $extend(thx.validation.TestAll.__properties__, {});
 thx.util.TestAll = function() { }
 thx.util.TestAll.__name__ = ["thx","util","TestAll"];
 thx.util.TestAll.addTests = function(runner) {
@@ -8513,9 +8447,8 @@ thx.util.TestAll.main = function() {
 	$s.pop();
 }
 thx.util.TestAll.prototype = {
-	 __class__: thx.util.TestAll
+	__class__: thx.util.TestAll
 }
-thx.util.TestAll.__properties__ = {}
 var Iterables = function() { }
 Iterables.__name__ = ["Iterables"];
 Iterables.indexOf = function(it,v,f) {
@@ -8644,9 +8577,8 @@ Iterables.isIterable = function(v) {
 	$s.pop();
 }
 Iterables.prototype = {
-	 __class__: Iterables
+	__class__: Iterables
 }
-Iterables.__properties__ = {}
 thx.validation.PatternValidator = function(pattern,failureMessage) {
 	$s.push("thx.validation.PatternValidator::new");
 	var $spos = $s.length;
@@ -8657,8 +8589,8 @@ thx.validation.PatternValidator = function(pattern,failureMessage) {
 }
 thx.validation.PatternValidator.__name__ = ["thx","validation","PatternValidator"];
 thx.validation.PatternValidator.__super__ = thx.validation.Validator;
-thx.validation.PatternValidator.prototype = $extend(thx.validation.Validator.prototype, {
-	 pattern: null
+thx.validation.PatternValidator.prototype = $extend(thx.validation.Validator.prototype,{
+	pattern: null
 	,failureMessage: null
 	,validate: function(value) {
 		$s.push("thx.validation.PatternValidator::validate");
@@ -8676,7 +8608,6 @@ thx.validation.PatternValidator.prototype = $extend(thx.validation.Validator.pro
 	}
 	,__class__: thx.validation.PatternValidator
 });
-thx.validation.PatternValidator.__properties__ = $extend(thx.validation.Validator.__properties__, {});
 thx.culture.core.NumberInfo = function(decimals,decimalsSeparator,groups,groupsSeparator,patternNegative,patternPositive) {
 	$s.push("thx.culture.core.NumberInfo::new");
 	var $spos = $s.length;
@@ -8690,7 +8621,7 @@ thx.culture.core.NumberInfo = function(decimals,decimalsSeparator,groups,groupsS
 }
 thx.culture.core.NumberInfo.__name__ = ["thx","culture","core","NumberInfo"];
 thx.culture.core.NumberInfo.prototype = {
-	 decimals: null
+	decimals: null
 	,decimalsSeparator: null
 	,groups: null
 	,groupsSeparator: null
@@ -8698,7 +8629,6 @@ thx.culture.core.NumberInfo.prototype = {
 	,patternPositive: null
 	,__class__: thx.culture.core.NumberInfo
 }
-thx.culture.core.NumberInfo.__properties__ = {}
 haxe.macro.Constant = { __ename__ : ["haxe","macro","Constant"], __constructs__ : ["CInt","CFloat","CString","CIdent","CType","CRegexp"] }
 haxe.macro.Constant.CInt = function(v) { var $x = ["CInt",0,v]; $x.__enum__ = haxe.macro.Constant; $x.toString = $estr; return $x; }
 haxe.macro.Constant.CFloat = function(f) { var $x = ["CFloat",1,f]; $x.__enum__ = haxe.macro.Constant; $x.toString = $estr; return $x; }
@@ -8787,7 +8717,7 @@ haxe.macro.Unop.OpNeg.__enum__ = haxe.macro.Unop;
 haxe.macro.Unop.OpNegBits = ["OpNegBits",4];
 haxe.macro.Unop.OpNegBits.toString = $estr;
 haxe.macro.Unop.OpNegBits.__enum__ = haxe.macro.Unop;
-haxe.macro.ExprDef = { __ename__ : ["haxe","macro","ExprDef"], __constructs__ : ["EConst","EArray","EBinop","EField","EType","EParenthesis","EObjectDecl","EArrayDecl","ECall","ENew","EUnop","EVars","EFunction","EBlock","EFor","EIn","EIf","EWhile","ESwitch","ETry","EReturn","EBreak","EContinue","EUntyped","EThrow","ECast","EDisplay","EDisplayNew","ETernary"] }
+haxe.macro.ExprDef = { __ename__ : ["haxe","macro","ExprDef"], __constructs__ : ["EConst","EArray","EBinop","EField","EType","EParenthesis","EObjectDecl","EArrayDecl","ECall","ENew","EUnop","EVars","EFunction","EBlock","EFor","EIn","EIf","EWhile","ESwitch","ETry","EReturn","EBreak","EContinue","EUntyped","EThrow","ECast","EDisplay","EDisplayNew","ETernary","ECheckType"] }
 haxe.macro.ExprDef.EConst = function(c) { var $x = ["EConst",0,c]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
 haxe.macro.ExprDef.EArray = function(e1,e2) { var $x = ["EArray",1,e1,e2]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
 haxe.macro.ExprDef.EBinop = function(op,e1,e2) { var $x = ["EBinop",2,op,e1,e2]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
@@ -8821,6 +8751,7 @@ haxe.macro.ExprDef.ECast = function(e,t) { var $x = ["ECast",25,e,t]; $x.__enum_
 haxe.macro.ExprDef.EDisplay = function(e,isCall) { var $x = ["EDisplay",26,e,isCall]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
 haxe.macro.ExprDef.EDisplayNew = function(t) { var $x = ["EDisplayNew",27,t]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
 haxe.macro.ExprDef.ETernary = function(econd,eif,eelse) { var $x = ["ETernary",28,econd,eif,eelse]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
+haxe.macro.ExprDef.ECheckType = function(e,t) { var $x = ["ECheckType",29,e,t]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
 haxe.macro.ComplexType = { __ename__ : ["haxe","macro","ComplexType"], __constructs__ : ["TPath","TFunction","TAnonymous","TParent","TExtend"] }
 haxe.macro.ComplexType.TPath = function(p) { var $x = ["TPath",0,p]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
 haxe.macro.ComplexType.TFunction = function(args,ret) { var $x = ["TFunction",1,args,ret]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
@@ -8870,11 +8801,10 @@ haxe.macro.Error = function(m,p) {
 }
 haxe.macro.Error.__name__ = ["haxe","macro","Error"];
 haxe.macro.Error.prototype = {
-	 message: null
+	message: null
 	,pos: null
 	,__class__: haxe.macro.Error
 }
-haxe.macro.Error.__properties__ = {}
 js.Boot = function() { }
 js.Boot.__name__ = ["js","Boot"];
 js.Boot.__unhtml = function(s) {
@@ -8889,9 +8819,9 @@ js.Boot.__trace = function(v,i) {
 	$s.push("js.Boot::__trace");
 	var $spos = $s.length;
 	var msg = i != null?i.fileName + ":" + i.lineNumber + ": ":"";
-	msg += js.Boot.__unhtml(js.Boot.__string_rec(v,"")) + "<br/>";
+	msg += js.Boot.__string_rec(v,"");
 	var d = document.getElementById("haxe:trace");
-	if(d == null) alert("No haxe:trace element defined\n" + msg); else d.innerHTML += msg;
+	if(d != null) d.innerHTML += js.Boot.__unhtml(msg) + "<br/>"; else if(typeof(console) != "undefined" && console.log != null) console.log(msg);
 	$s.pop();
 }
 js.Boot.__clear_trace = function() {
@@ -8899,28 +8829,6 @@ js.Boot.__clear_trace = function() {
 	var $spos = $s.length;
 	var d = document.getElementById("haxe:trace");
 	if(d != null) d.innerHTML = "";
-	$s.pop();
-}
-js.Boot.__closure = function(o,f) {
-	$s.push("js.Boot::__closure");
-	var $spos = $s.length;
-	var m = o[f];
-	if(m == null) {
-		$s.pop();
-		return null;
-	}
-	var f1 = function() {
-		$s.push("js.Boot::__closure@67");
-		var $spos = $s.length;
-		var $tmp = m.apply(o,arguments);
-		$s.pop();
-		return $tmp;
-		$s.pop();
-	};
-	f1.scope = o;
-	f1.method = m;
-	$s.pop();
-	return f1;
 	$s.pop();
 }
 js.Boot.__string_rec = function(o,s) {
@@ -9109,13 +9017,13 @@ js.Boot.__init = function() {
 	js.Lib.isOpera = typeof window!='undefined' && window.opera != null;
 	Array.prototype.copy = Array.prototype.slice;
 	Array.prototype.insert = function(i,x) {
-		$s.push("js.Boot::__init@205");
+		$s.push("js.Boot::__init@193");
 		var $spos = $s.length;
 		this.splice(i,0,x);
 		$s.pop();
 	};
 	Array.prototype.remove = Array.prototype.indexOf?function(obj) {
-		$s.push("js.Boot::__init@208");
+		$s.push("js.Boot::__init@196");
 		var $spos = $s.length;
 		var idx = this.indexOf(obj);
 		if(idx == -1) {
@@ -9127,7 +9035,7 @@ js.Boot.__init = function() {
 		return true;
 		$s.pop();
 	}:function(obj) {
-		$s.push("js.Boot::__init@213");
+		$s.push("js.Boot::__init@201");
 		var $spos = $s.length;
 		var i = 0;
 		var l = this.length;
@@ -9144,17 +9052,17 @@ js.Boot.__init = function() {
 		$s.pop();
 	};
 	Array.prototype.iterator = function() {
-		$s.push("js.Boot::__init@225");
+		$s.push("js.Boot::__init@213");
 		var $spos = $s.length;
 		var $tmp = { cur : 0, arr : this, hasNext : function() {
-			$s.push("js.Boot::__init@225@229");
+			$s.push("js.Boot::__init@213@217");
 			var $spos = $s.length;
 			var $tmp = this.cur < this.arr.length;
 			$s.pop();
 			return $tmp;
 			$s.pop();
 		}, next : function() {
-			$s.push("js.Boot::__init@225@232");
+			$s.push("js.Boot::__init@213@220");
 			var $spos = $s.length;
 			var $tmp = this.arr[this.cur++];
 			$s.pop();
@@ -9167,7 +9075,7 @@ js.Boot.__init = function() {
 	};
 	if(String.prototype.cca == null) String.prototype.cca = String.prototype.charCodeAt;
 	String.prototype.charCodeAt = function(i) {
-		$s.push("js.Boot::__init@239");
+		$s.push("js.Boot::__init@227");
 		var $spos = $s.length;
 		var x = this.cca(i);
 		if(x != x) {
@@ -9180,7 +9088,7 @@ js.Boot.__init = function() {
 	};
 	var oldsub = String.prototype.substr;
 	String.prototype.substr = function(pos,len) {
-		$s.push("js.Boot::__init@246");
+		$s.push("js.Boot::__init@234");
 		var $spos = $s.length;
 		if(pos != null && pos != 0 && len != null && len < 0) {
 			$s.pop();
@@ -9197,10 +9105,10 @@ js.Boot.__init = function() {
 		$s.pop();
 	};
 	Function.prototype["$bind"] = function(o) {
-		$s.push("js.Boot::__init@257");
+		$s.push("js.Boot::__init@245");
 		var $spos = $s.length;
 		var f = function() {
-			$s.push("js.Boot::__init@257@258");
+			$s.push("js.Boot::__init@245@246");
 			var $spos = $s.length;
 			var $tmp = f.method.apply(f.scope,arguments);
 			$s.pop();
@@ -9213,17 +9121,15 @@ js.Boot.__init = function() {
 		return f;
 		$s.pop();
 	};
-	$closure = js.Boot.__closure;
 	$s.pop();
 }
 js.Boot.prototype = {
-	 __class__: js.Boot
+	__class__: js.Boot
 }
-js.Boot.__properties__ = {}
 thx.html.HtmlHandler = function() { }
 thx.html.HtmlHandler.__name__ = ["thx","html","HtmlHandler"];
 thx.html.HtmlHandler.prototype = {
-	 start: null
+	start: null
 	,end: null
 	,chars: null
 	,comment: null
@@ -9231,7 +9137,6 @@ thx.html.HtmlHandler.prototype = {
 	,declaration: null
 	,__class__: thx.html.HtmlHandler
 }
-thx.html.HtmlHandler.__properties__ = {}
 var Dynamics = function() { }
 Dynamics.__name__ = ["Dynamics"];
 Dynamics.format = function(v,param,params,nullstring,culture) {
@@ -9628,7 +9533,7 @@ Dynamics.clone = function(v) {
 			while(_g < _g1.length) {
 				var field = _g1[_g];
 				++_g;
-				Reflect.setField(o,field,Dynamics.clone(Reflect.field(v,field)));
+				o[field] = Dynamics.clone(Reflect.field(v,field));
 			}
 			$s.pop();
 			return o;
@@ -9847,9 +9752,8 @@ Dynamics.number = function(v) {
 	$s.pop();
 }
 Dynamics.prototype = {
-	 __class__: Dynamics
+	__class__: Dynamics
 }
-Dynamics.__properties__ = {}
 thx.util.Result = { __ename__ : ["thx","util","Result"], __constructs__ : ["Ok","Failure"] }
 thx.util.Result.Ok = ["Ok",0];
 thx.util.Result.Ok.toString = $estr;
@@ -9863,8 +9767,8 @@ thx.js.AccessText = function(selection) {
 }
 thx.js.AccessText.__name__ = ["thx","js","AccessText"];
 thx.js.AccessText.__super__ = thx.js.Access;
-thx.js.AccessText.prototype = $extend(thx.js.Access.prototype, {
-	 get: function() {
+thx.js.AccessText.prototype = $extend(thx.js.Access.prototype,{
+	get: function() {
 		$s.push("thx.js.AccessText::get");
 		var $spos = $s.length;
 		var $tmp = this.selection.firstNode(function(node) {
@@ -9908,7 +9812,7 @@ thx.js.AccessText.prototype = $extend(thx.js.Access.prototype, {
 		return $tmp;
 		$s.pop();
 	}
-	,float: function(v) {
+	,'float': function(v) {
 		$s.push("thx.js.AccessText::float");
 		var $spos = $s.length;
 		this.clear();
@@ -9957,7 +9861,6 @@ thx.js.AccessText.prototype = $extend(thx.js.Access.prototype, {
 	}
 	,__class__: thx.js.AccessText
 });
-thx.js.AccessText.__properties__ = $extend(thx.js.Access.__properties__, {});
 thx.js.AccessDataText = function(selection) {
 	$s.push("thx.js.AccessDataText::new");
 	var $spos = $s.length;
@@ -9966,8 +9869,8 @@ thx.js.AccessDataText = function(selection) {
 }
 thx.js.AccessDataText.__name__ = ["thx","js","AccessDataText"];
 thx.js.AccessDataText.__super__ = thx.js.AccessText;
-thx.js.AccessDataText.prototype = $extend(thx.js.AccessText.prototype, {
-	 stringf: function(v) {
+thx.js.AccessDataText.prototype = $extend(thx.js.AccessText.prototype,{
+	stringf: function(v) {
 		$s.push("thx.js.AccessDataText::stringf");
 		var $spos = $s.length;
 		this.clear();
@@ -10016,7 +9919,6 @@ thx.js.AccessDataText.prototype = $extend(thx.js.AccessText.prototype, {
 	}
 	,__class__: thx.js.AccessDataText
 });
-thx.js.AccessDataText.__properties__ = $extend(thx.js.AccessText.__properties__, {});
 thx.js.TestSizzle = function() {
 	$s.push("thx.js.TestSizzle::new");
 	var $spos = $s.length;
@@ -10024,7 +9926,7 @@ thx.js.TestSizzle = function() {
 }
 thx.js.TestSizzle.__name__ = ["thx","js","TestSizzle"];
 thx.js.TestSizzle.prototype = {
-	 node: null
+	node: null
 	,setup: function() {
 		$s.push("thx.js.TestSizzle::setup");
 		var $spos = $s.length;
@@ -10049,7 +9951,6 @@ thx.js.TestSizzle.prototype = {
 	}
 	,__class__: thx.js.TestSizzle
 }
-thx.js.TestSizzle.__properties__ = {}
 thx.html.HtmlVersion = { __ename__ : ["thx","html","HtmlVersion"], __constructs__ : ["Html401Strict","Html401Transitional","Html401Frameset","Html5","XHtml10Transitional","XHtml10Strict","XHtml10Frameset","XHtml11"] }
 thx.html.HtmlVersion.Html401Strict = ["Html401Strict",0];
 thx.html.HtmlVersion.Html401Strict.toString = $estr;
@@ -10084,7 +9985,7 @@ thx.js.AccessTween = function(transition,tweens) {
 }
 thx.js.AccessTween.__name__ = ["thx","js","AccessTween"];
 thx.js.AccessTween.prototype = {
-	 transition: null
+	transition: null
 	,tweens: null
 	,transitionColorTween: function(value) {
 		$s.push("thx.js.AccessTween::transitionColorTween");
@@ -10216,7 +10117,6 @@ thx.js.AccessTween.prototype = {
 	}
 	,__class__: thx.js.AccessTween
 }
-thx.js.AccessTween.__properties__ = {}
 thx.js.AccessTweenStyle = function(name,transition,tweens) {
 	$s.push("thx.js.AccessTweenStyle::new");
 	var $spos = $s.length;
@@ -10226,8 +10126,8 @@ thx.js.AccessTweenStyle = function(name,transition,tweens) {
 }
 thx.js.AccessTweenStyle.__name__ = ["thx","js","AccessTweenStyle"];
 thx.js.AccessTweenStyle.__super__ = thx.js.AccessTween;
-thx.js.AccessTweenStyle.prototype = $extend(thx.js.AccessTween.prototype, {
-	 name: null
+thx.js.AccessTweenStyle.prototype = $extend(thx.js.AccessTween.prototype,{
+	name: null
 	,floatNodef: function(f,priority) {
 		$s.push("thx.js.AccessTweenStyle::floatNodef");
 		var $spos = $s.length;
@@ -10236,7 +10136,7 @@ thx.js.AccessTweenStyle.prototype = $extend(thx.js.AccessTween.prototype, {
 		return $tmp;
 		$s.pop();
 	}
-	,float: function(value,priority) {
+	,'float': function(value,priority) {
 		$s.push("thx.js.AccessTweenStyle::float");
 		var $spos = $s.length;
 		var $tmp = this.floatTweenNodef(this.transitionFloatTween(value),priority);
@@ -10353,7 +10253,6 @@ thx.js.AccessTweenStyle.prototype = $extend(thx.js.AccessTween.prototype, {
 	}
 	,__class__: thx.js.AccessTweenStyle
 });
-thx.js.AccessTweenStyle.__properties__ = $extend(thx.js.AccessTween.__properties__, {});
 thx.js.AccessDataTweenStyle = function(name,transition,tweens) {
 	$s.push("thx.js.AccessDataTweenStyle::new");
 	var $spos = $s.length;
@@ -10362,8 +10261,8 @@ thx.js.AccessDataTweenStyle = function(name,transition,tweens) {
 }
 thx.js.AccessDataTweenStyle.__name__ = ["thx","js","AccessDataTweenStyle"];
 thx.js.AccessDataTweenStyle.__super__ = thx.js.AccessTweenStyle;
-thx.js.AccessDataTweenStyle.prototype = $extend(thx.js.AccessTweenStyle.prototype, {
-	 floatf: function(f,priority) {
+thx.js.AccessDataTweenStyle.prototype = $extend(thx.js.AccessTweenStyle.prototype,{
+	floatf: function(f,priority) {
 		$s.push("thx.js.AccessDataTweenStyle::floatf");
 		var $spos = $s.length;
 		var $tmp = this.floatTweenNodef(this.transitionFloatTweenf(function(n,i) {
@@ -10485,7 +10384,6 @@ thx.js.AccessDataTweenStyle.prototype = $extend(thx.js.AccessTweenStyle.prototyp
 	}
 	,__class__: thx.js.AccessDataTweenStyle
 });
-thx.js.AccessDataTweenStyle.__properties__ = $extend(thx.js.AccessTweenStyle.__properties__, {});
 thx.color.TestRgb = function() {
 	$s.push("thx.color.TestRgb::new");
 	var $spos = $s.length;
@@ -10493,7 +10391,7 @@ thx.color.TestRgb = function() {
 }
 thx.color.TestRgb.__name__ = ["thx","color","TestRgb"];
 thx.color.TestRgb.prototype = {
-	 testBasics: function() {
+	testBasics: function() {
 		$s.push("thx.color.TestRgb::testBasics");
 		var $spos = $s.length;
 		utest.Assert.isTrue(thx.color.Rgb.equals(thx.color.NamedColors.black,new thx.color.Rgb(0,0,0)),null,{ fileName : "TestRgb.hx", lineNumber : 15, className : "thx.color.TestRgb", methodName : "testBasics"});
@@ -10504,7 +10402,6 @@ thx.color.TestRgb.prototype = {
 	}
 	,__class__: thx.color.TestRgb
 }
-thx.color.TestRgb.__properties__ = {}
 if(!thx.json) thx.json = {}
 thx.json.Json = function() { }
 thx.json.Json.__name__ = ["thx","json","Json"];
@@ -10541,9 +10438,8 @@ thx.json.Json.decode = function(value) {
 	$s.pop();
 }
 thx.json.Json.prototype = {
-	 __class__: thx.json.Json
+	__class__: thx.json.Json
 }
-thx.json.Json.__properties__ = {}
 utest.Assert = function() { }
 utest.Assert.__name__ = ["utest","Assert"];
 utest.Assert.results = null;
@@ -11265,9 +11161,8 @@ utest.Assert.typeToString = function(t) {
 	$s.pop();
 }
 utest.Assert.prototype = {
-	 __class__: utest.Assert
+	__class__: utest.Assert
 }
-utest.Assert.__properties__ = {}
 haxe.io.Error = { __ename__ : ["haxe","io","Error"], __constructs__ : ["Blocked","Overflow","OutsideBounds","Custom"] }
 haxe.io.Error.Blocked = ["Blocked",0];
 haxe.io.Error.Blocked.toString = $estr;
@@ -11961,9 +11856,177 @@ Strings.compare = function(a,b) {
 	$s.pop();
 }
 Strings.prototype = {
-	 __class__: Strings
+	__class__: Strings
 }
-Strings.__properties__ = {}
+thx.js.HostType = { __ename__ : ["thx","js","HostType"], __constructs__ : ["UnknownServer","NodeJs","IE","Firefox","Safari","Chrome","Opera","Unknown"] }
+thx.js.HostType.UnknownServer = ["UnknownServer",0];
+thx.js.HostType.UnknownServer.toString = $estr;
+thx.js.HostType.UnknownServer.__enum__ = thx.js.HostType;
+thx.js.HostType.NodeJs = ["NodeJs",1];
+thx.js.HostType.NodeJs.toString = $estr;
+thx.js.HostType.NodeJs.__enum__ = thx.js.HostType;
+thx.js.HostType.IE = function(version) { var $x = ["IE",2,version]; $x.__enum__ = thx.js.HostType; $x.toString = $estr; return $x; }
+thx.js.HostType.Firefox = function(version) { var $x = ["Firefox",3,version]; $x.__enum__ = thx.js.HostType; $x.toString = $estr; return $x; }
+thx.js.HostType.Safari = function(version) { var $x = ["Safari",4,version]; $x.__enum__ = thx.js.HostType; $x.toString = $estr; return $x; }
+thx.js.HostType.Chrome = function(version) { var $x = ["Chrome",5,version]; $x.__enum__ = thx.js.HostType; $x.toString = $estr; return $x; }
+thx.js.HostType.Opera = function(version) { var $x = ["Opera",6,version]; $x.__enum__ = thx.js.HostType; $x.toString = $estr; return $x; }
+thx.js.HostType.Unknown = function(what) { var $x = ["Unknown",7,what]; $x.__enum__ = thx.js.HostType; $x.toString = $estr; return $x; }
+thx.js.EnvironmentType = { __ename__ : ["thx","js","EnvironmentType"], __constructs__ : ["Mobile","Desktop","Server","UnknownEnvironment"] }
+thx.js.EnvironmentType.Mobile = ["Mobile",0];
+thx.js.EnvironmentType.Mobile.toString = $estr;
+thx.js.EnvironmentType.Mobile.__enum__ = thx.js.EnvironmentType;
+thx.js.EnvironmentType.Desktop = ["Desktop",1];
+thx.js.EnvironmentType.Desktop.toString = $estr;
+thx.js.EnvironmentType.Desktop.__enum__ = thx.js.EnvironmentType;
+thx.js.EnvironmentType.Server = ["Server",2];
+thx.js.EnvironmentType.Server.toString = $estr;
+thx.js.EnvironmentType.Server.__enum__ = thx.js.EnvironmentType;
+thx.js.EnvironmentType.UnknownEnvironment = ["UnknownEnvironment",3];
+thx.js.EnvironmentType.UnknownEnvironment.toString = $estr;
+thx.js.EnvironmentType.UnknownEnvironment.__enum__ = thx.js.EnvironmentType;
+thx.js.OSType = { __ename__ : ["thx","js","OSType"], __constructs__ : ["Windows","IOs","Android","Mac","Linux","UnknownOs"] }
+thx.js.OSType.Windows = function(version) { var $x = ["Windows",0,version]; $x.__enum__ = thx.js.OSType; $x.toString = $estr; return $x; }
+thx.js.OSType.IOs = ["IOs",1];
+thx.js.OSType.IOs.toString = $estr;
+thx.js.OSType.IOs.__enum__ = thx.js.OSType;
+thx.js.OSType.Android = ["Android",2];
+thx.js.OSType.Android.toString = $estr;
+thx.js.OSType.Android.__enum__ = thx.js.OSType;
+thx.js.OSType.Mac = ["Mac",3];
+thx.js.OSType.Mac.toString = $estr;
+thx.js.OSType.Mac.__enum__ = thx.js.OSType;
+thx.js.OSType.Linux = ["Linux",4];
+thx.js.OSType.Linux.toString = $estr;
+thx.js.OSType.Linux.__enum__ = thx.js.OSType;
+thx.js.OSType.UnknownOs = ["UnknownOs",5];
+thx.js.OSType.UnknownOs.toString = $estr;
+thx.js.OSType.UnknownOs.__enum__ = thx.js.OSType;
+thx.js.ClientHost = function() { }
+thx.js.ClientHost.__name__ = ["thx","js","ClientHost"];
+thx.js.ClientHost.host = null;
+thx.js.ClientHost.environment = null;
+thx.js.ClientHost.os = null;
+thx.js.ClientHost.isIE = function() {
+	$s.push("thx.js.ClientHost::isIE");
+	var $spos = $s.length;
+	var $tmp = (function($this) {
+		var $r;
+		switch( (thx.js.ClientHost.host)[1] ) {
+		case 2:
+			$r = true;
+			break;
+		default:
+			$r = false;
+		}
+		return $r;
+	}(this));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.ClientHost.hostVersion = function() {
+	$s.push("thx.js.ClientHost::hostVersion");
+	var $spos = $s.length;
+	var $tmp = (function($this) {
+		var $r;
+		var $e = (thx.js.ClientHost.host);
+		switch( $e[1] ) {
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+			var v = $e[2];
+			$r = v;
+			break;
+		default:
+			$r = null;
+		}
+		return $r;
+	}(this));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.ClientHost.hostString = function() {
+	$s.push("thx.js.ClientHost::hostString");
+	var $spos = $s.length;
+	var $tmp = (function($this) {
+		var $r;
+		switch( (thx.js.ClientHost.host)[1] ) {
+		case 0:
+			$r = "unknown_server";
+			break;
+		case 7:
+			$r = "unknown";
+			break;
+		case 1:
+			$r = "nodejs";
+			break;
+		default:
+			$r = thx.js.ClientHost.host[0];
+		}
+		return $r;
+	}(this));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.ClientHost.osString = function() {
+	$s.push("thx.js.ClientHost::osString");
+	var $spos = $s.length;
+	var $tmp = thx.js.ClientHost.os[0];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.ClientHost.osVersion = function() {
+	$s.push("thx.js.ClientHost::osVersion");
+	var $spos = $s.length;
+	var $tmp = (function($this) {
+		var $r;
+		var $e = (thx.js.ClientHost.os);
+		switch( $e[1] ) {
+		case 0:
+			var v = $e[2];
+			$r = v;
+			break;
+		default:
+			$r = null;
+		}
+		return $r;
+	}(this));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.ClientHost.environmentString = function() {
+	$s.push("thx.js.ClientHost::environmentString");
+	var $spos = $s.length;
+	var $tmp = thx.js.ClientHost.environment[0];
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.ClientHost.userAgent = function() {
+	$s.push("thx.js.ClientHost::userAgent");
+	var $spos = $s.length;
+	var $tmp = "" + navigator.userAgent;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.ClientHost.hasNavigator = function() {
+	$s.push("thx.js.ClientHost::hasNavigator");
+	var $spos = $s.length;
+	var $tmp = typeof navigator !== 'undefined';
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+thx.js.ClientHost.prototype = {
+	__class__: thx.js.ClientHost
+}
 thx.json.JsonDecoder = function(handler,tabsize) {
 	$s.push("thx.json.JsonDecoder::new");
 	var $spos = $s.length;
@@ -11974,11 +12037,11 @@ thx.json.JsonDecoder = function(handler,tabsize) {
 }
 thx.json.JsonDecoder.__name__ = ["thx","json","JsonDecoder"];
 thx.json.JsonDecoder.prototype = {
-	 col: null
+	col: null
 	,line: null
 	,tabsize: null
 	,src: null
-	,char: null
+	,'char': null
 	,pos: null
 	,handler: null
 	,decode: function(s) {
@@ -12310,7 +12373,6 @@ thx.json.JsonDecoder.prototype = {
 	}
 	,__class__: thx.json.JsonDecoder
 }
-thx.json.JsonDecoder.__properties__ = {}
 if(!thx.json._JsonDecoder) thx.json._JsonDecoder = {}
 thx.json._JsonDecoder.StreamError = { __ename__ : ["thx","json","_JsonDecoder","StreamError"], __constructs__ : ["Eof"] }
 thx.json._JsonDecoder.StreamError.Eof = ["Eof",0];
@@ -12331,7 +12393,7 @@ utest.ui.common.ClassResult = function(className,setupName,teardownName) {
 }
 utest.ui.common.ClassResult.__name__ = ["utest","ui","common","ClassResult"];
 utest.ui.common.ClassResult.prototype = {
-	 fixtures: null
+	fixtures: null
 	,className: null
 	,setupName: null
 	,teardownName: null
@@ -12423,7 +12485,6 @@ utest.ui.common.ClassResult.prototype = {
 	}
 	,__class__: utest.ui.common.ClassResult
 }
-utest.ui.common.ClassResult.__properties__ = {}
 thx.csv.CsvDecoder = function(handler,delimiter,emptytonull) {
 	$s.push("thx.csv.CsvDecoder::new");
 	var $spos = $s.length;
@@ -12437,7 +12498,7 @@ thx.csv.CsvDecoder = function(handler,delimiter,emptytonull) {
 }
 thx.csv.CsvDecoder.__name__ = ["thx","csv","CsvDecoder"];
 thx.csv.CsvDecoder.prototype = {
-	 delimiter: null
+	delimiter: null
 	,emptytonull: null
 	,line: null
 	,column: null
@@ -12577,7 +12638,6 @@ thx.csv.CsvDecoder.prototype = {
 	}
 	,__class__: thx.csv.CsvDecoder
 }
-thx.csv.CsvDecoder.__properties__ = {}
 thx.xml.AttributeFormat = function() {
 	$s.push("thx.xml.AttributeFormat::new");
 	var $spos = $s.length;
@@ -12585,7 +12645,7 @@ thx.xml.AttributeFormat = function() {
 }
 thx.xml.AttributeFormat.__name__ = ["thx","xml","AttributeFormat"];
 thx.xml.AttributeFormat.prototype = {
-	 formatAttributes: function(node) {
+	formatAttributes: function(node) {
 		$s.push("thx.xml.AttributeFormat::formatAttributes");
 		var $spos = $s.length;
 		var buf = new StringBuf();
@@ -12610,7 +12670,6 @@ thx.xml.AttributeFormat.prototype = {
 	}
 	,__class__: thx.xml.AttributeFormat
 }
-thx.xml.AttributeFormat.__properties__ = {}
 thx.html.UnquotedHtmlAttributeFormat = function() {
 	$s.push("thx.html.UnquotedHtmlAttributeFormat::new");
 	var $spos = $s.length;
@@ -12620,8 +12679,8 @@ thx.html.UnquotedHtmlAttributeFormat = function() {
 }
 thx.html.UnquotedHtmlAttributeFormat.__name__ = ["thx","html","UnquotedHtmlAttributeFormat"];
 thx.html.UnquotedHtmlAttributeFormat.__super__ = thx.xml.AttributeFormat;
-thx.html.UnquotedHtmlAttributeFormat.prototype = $extend(thx.xml.AttributeFormat.prototype, {
-	 _containsWS: null
+thx.html.UnquotedHtmlAttributeFormat.prototype = $extend(thx.xml.AttributeFormat.prototype,{
+	_containsWS: null
 	,formatAttribute: function(name,value) {
 		$s.push("thx.html.UnquotedHtmlAttributeFormat::formatAttribute");
 		var $spos = $s.length;
@@ -12650,7 +12709,6 @@ thx.html.UnquotedHtmlAttributeFormat.prototype = $extend(thx.xml.AttributeFormat
 	}
 	,__class__: thx.html.UnquotedHtmlAttributeFormat
 });
-thx.html.UnquotedHtmlAttributeFormat.__properties__ = $extend(thx.xml.AttributeFormat.__properties__, {});
 thx.math.scale.Linear = function() {
 	$s.push("thx.math.scale.Linear::new");
 	var $spos = $s.length;
@@ -12660,8 +12718,8 @@ thx.math.scale.Linear = function() {
 }
 thx.math.scale.Linear.__name__ = ["thx","math","scale","Linear"];
 thx.math.scale.Linear.__super__ = thx.math.scale.NumericScale;
-thx.math.scale.Linear.prototype = $extend(thx.math.scale.NumericScale.prototype, {
-	 m: null
+thx.math.scale.Linear.prototype = $extend(thx.math.scale.NumericScale.prototype,{
+	m: null
 	,getModulo: function() {
 		$s.push("thx.math.scale.Linear::getModulo");
 		var $spos = $s.length;
@@ -12709,7 +12767,6 @@ thx.math.scale.Linear.prototype = $extend(thx.math.scale.NumericScale.prototype,
 	}
 	,__class__: thx.math.scale.Linear
 });
-thx.math.scale.Linear.__properties__ = $extend(thx.math.scale.NumericScale.__properties__, {});
 var TestHashes = function() {
 	$s.push("TestHashes::new");
 	var $spos = $s.length;
@@ -12732,7 +12789,7 @@ TestHashes.main = function() {
 	$s.pop();
 }
 TestHashes.prototype = {
-	 testCreate: function() {
+	testCreate: function() {
 		$s.push("TestHashes::testCreate");
 		var $spos = $s.length;
 		var hash = DynamicsT.toHash({ name : "haxe", author : "nicolas"});
@@ -12742,7 +12799,6 @@ TestHashes.prototype = {
 	}
 	,__class__: TestHashes
 }
-TestHashes.__properties__ = {}
 thx.xml.AutoDocumentFormat = function() {
 	$s.push("thx.xml.AutoDocumentFormat::new");
 	var $spos = $s.length;
@@ -12756,8 +12812,8 @@ thx.xml.AutoDocumentFormat = function() {
 }
 thx.xml.AutoDocumentFormat.__name__ = ["thx","xml","AutoDocumentFormat"];
 thx.xml.AutoDocumentFormat.__super__ = thx.xml.DocumentFormat;
-thx.xml.AutoDocumentFormat.prototype = $extend(thx.xml.DocumentFormat.prototype, {
-	 indent: null
+thx.xml.AutoDocumentFormat.prototype = $extend(thx.xml.DocumentFormat.prototype,{
+	indent: null
 	,newline: null
 	,wrapColumns: null
 	,_level: null
@@ -12867,7 +12923,6 @@ thx.xml.AutoDocumentFormat.prototype = $extend(thx.xml.DocumentFormat.prototype,
 	}
 	,__class__: thx.xml.AutoDocumentFormat
 });
-thx.xml.AutoDocumentFormat.__properties__ = $extend(thx.xml.DocumentFormat.__properties__, {});
 thx.util.TestTypeFactory = function() {
 	$s.push("thx.util.TestTypeFactory::new");
 	var $spos = $s.length;
@@ -12890,7 +12945,7 @@ thx.util.TestTypeFactory.main = function() {
 	$s.pop();
 }
 thx.util.TestTypeFactory.prototype = {
-	 testBind: function() {
+	testBind: function() {
 		$s.push("thx.util.TestTypeFactory::testBind");
 		var $spos = $s.length;
 		var factory = new thx.util.TypeFactory().bind(thx.util.type.ITest,function() {
@@ -12986,7 +13041,6 @@ thx.util.TestTypeFactory.prototype = {
 	}
 	,__class__: thx.util.TestTypeFactory
 }
-thx.util.TestTypeFactory.__properties__ = {}
 thx.svg.Arc = function() {
 	$s.push("thx.svg.Arc::new");
 	var $spos = $s.length;
@@ -13081,7 +13135,7 @@ thx.svg.Arc.fromAngleObject = function() {
 	$s.pop();
 }
 thx.svg.Arc.prototype = {
-	 _r0: null
+	_r0: null
 	,_r1: null
 	,_a0: null
 	,_a1: null
@@ -13225,7 +13279,6 @@ thx.svg.Arc.prototype = {
 	}
 	,__class__: thx.svg.Arc
 }
-thx.svg.Arc.__properties__ = {}
 thx.html.HtmlParser = function(html) {
 	$s.push("thx.html.HtmlParser::new");
 	var $spos = $s.length;
@@ -13235,7 +13288,7 @@ thx.html.HtmlParser = function(html) {
 }
 thx.html.HtmlParser.__name__ = ["thx","html","HtmlParser"];
 thx.html.HtmlParser.prototype = {
-	 handler: null
+	handler: null
 	,html: null
 	,stack: null
 	,process: function(handler) {
@@ -13374,7 +13427,6 @@ thx.html.HtmlParser.prototype = {
 	}
 	,__class__: thx.html.HtmlParser
 }
-thx.html.HtmlParser.__properties__ = {}
 utest.TestFixture = function(target,method,setup,teardown) {
 	$s.push("utest.TestFixture::new");
 	var $spos = $s.length;
@@ -13386,7 +13438,7 @@ utest.TestFixture = function(target,method,setup,teardown) {
 }
 utest.TestFixture.__name__ = ["utest","TestFixture"];
 utest.TestFixture.prototype = {
-	 target: null
+	target: null
 	,method: null
 	,setup: null
 	,teardown: null
@@ -13400,7 +13452,6 @@ utest.TestFixture.prototype = {
 	}
 	,__class__: utest.TestFixture
 }
-utest.TestFixture.__properties__ = {}
 var List = function() {
 	$s.push("List::new");
 	var $spos = $s.length;
@@ -13409,7 +13460,7 @@ var List = function() {
 }
 List.__name__ = ["List"];
 List.prototype = {
-	 h: null
+	h: null
 	,q: null
 	,length: null
 	,add: function(item) {
@@ -13588,7 +13639,6 @@ List.prototype = {
 	}
 	,__class__: List
 }
-List.__properties__ = {}
 thx.error.AbstractMethod = function(posInfo) {
 	$s.push("thx.error.AbstractMethod::new");
 	var $spos = $s.length;
@@ -13597,10 +13647,9 @@ thx.error.AbstractMethod = function(posInfo) {
 }
 thx.error.AbstractMethod.__name__ = ["thx","error","AbstractMethod"];
 thx.error.AbstractMethod.__super__ = thx.error.Error;
-thx.error.AbstractMethod.prototype = $extend(thx.error.Error.prototype, {
-	 __class__: thx.error.AbstractMethod
+thx.error.AbstractMethod.prototype = $extend(thx.error.Error.prototype,{
+	__class__: thx.error.AbstractMethod
 });
-thx.error.AbstractMethod.__properties__ = $extend(thx.error.Error.__properties__, {});
 utest.ui.common.HeaderDisplayMode = { __ename__ : ["utest","ui","common","HeaderDisplayMode"], __constructs__ : ["AlwaysShowHeader","NeverShowHeader","ShowHeaderWithResults"] }
 utest.ui.common.HeaderDisplayMode.AlwaysShowHeader = ["AlwaysShowHeader",0];
 utest.ui.common.HeaderDisplayMode.AlwaysShowHeader.toString = $estr;
@@ -13625,7 +13674,7 @@ if(!thx.data) thx.data = {}
 thx.data.IDataHandler = function() { }
 thx.data.IDataHandler.__name__ = ["thx","data","IDataHandler"];
 thx.data.IDataHandler.prototype = {
-	 start: null
+	start: null
 	,end: null
 	,startObject: null
 	,startField: null
@@ -13637,14 +13686,13 @@ thx.data.IDataHandler.prototype = {
 	,endArray: null
 	,date: null
 	,string: null
-	,int: null
-	,float: null
-	,null: null
+	,'int': null
+	,'float': null
+	,'null': null
 	,bool: null
 	,comment: null
 	,__class__: thx.data.IDataHandler
 }
-thx.data.IDataHandler.__properties__ = {}
 thx.csv.CsvEncoder = function(delimiter,nulltoempty,newline) {
 	$s.push("thx.csv.CsvEncoder::new");
 	var $spos = $s.length;
@@ -13660,7 +13708,7 @@ thx.csv.CsvEncoder = function(delimiter,nulltoempty,newline) {
 thx.csv.CsvEncoder.__name__ = ["thx","csv","CsvEncoder"];
 thx.csv.CsvEncoder.__interfaces__ = [thx.data.IDataHandler];
 thx.csv.CsvEncoder.prototype = {
-	 delimiter: null
+	delimiter: null
 	,nulltoempty: null
 	,newline: null
 	,encodedString: null
@@ -13743,19 +13791,19 @@ thx.csv.CsvEncoder.prototype = {
 		if(this.re.match(s)) this.buf.add("\"" + StringTools.replace(s,"\"","\"\"") + "\""); else this.buf.add(s);
 		$s.pop();
 	}
-	,int: function(i) {
+	,'int': function(i) {
 		$s.push("thx.csv.CsvEncoder::int");
 		var $spos = $s.length;
 		this.buf.add(i);
 		$s.pop();
 	}
-	,float: function(f) {
+	,'float': function(f) {
 		$s.push("thx.csv.CsvEncoder::float");
 		var $spos = $s.length;
 		this.buf.add(f);
 		$s.pop();
 	}
-	,null: function() {
+	,'null': function() {
 		$s.push("thx.csv.CsvEncoder::null");
 		var $spos = $s.length;
 		if(!this.nulltoempty) this.buf.add("null");
@@ -13774,7 +13822,6 @@ thx.csv.CsvEncoder.prototype = {
 	}
 	,__class__: thx.csv.CsvEncoder
 }
-thx.csv.CsvEncoder.__properties__ = {}
 thx.html.Element = function() { }
 thx.html.Element.__name__ = ["thx","html","Element"];
 thx.html.Element.shouldPreserve = function(el) {
@@ -13834,9 +13881,8 @@ thx.html.Element.isSpecial = function(el) {
 	$s.pop();
 }
 thx.html.Element.prototype = {
-	 __class__: thx.html.Element
+	__class__: thx.html.Element
 }
-thx.html.Element.__properties__ = {}
 thx.svg.TestChord = function() {
 	$s.push("thx.svg.TestChord::new");
 	var $spos = $s.length;
@@ -13844,9 +13890,8 @@ thx.svg.TestChord = function() {
 }
 thx.svg.TestChord.__name__ = ["thx","svg","TestChord"];
 thx.svg.TestChord.prototype = {
-	 __class__: thx.svg.TestChord
+	__class__: thx.svg.TestChord
 }
-thx.svg.TestChord.__properties__ = {}
 thx.math.scale.Ordinal = function() {
 	$s.push("thx.math.scale.Ordinal::new");
 	var $spos = $s.length;
@@ -13858,7 +13903,7 @@ thx.math.scale.Ordinal = function() {
 thx.math.scale.Ordinal.__name__ = ["thx","math","scale","Ordinal"];
 thx.math.scale.Ordinal.__interfaces__ = [thx.math.scale.IScale];
 thx.math.scale.Ordinal.prototype = {
-	 _domain: null
+	_domain: null
 	,_range: null
 	,rangeBand: null
 	,scale: function(x,_) {
@@ -13944,7 +13989,6 @@ thx.math.scale.Ordinal.prototype = {
 	}
 	,__class__: thx.math.scale.Ordinal
 }
-thx.math.scale.Ordinal.__properties__ = {}
 var IntIter = function(min,max) {
 	$s.push("IntIter::new");
 	var $spos = $s.length;
@@ -13954,7 +13998,7 @@ var IntIter = function(min,max) {
 }
 IntIter.__name__ = ["IntIter"];
 IntIter.prototype = {
-	 min: null
+	min: null
 	,max: null
 	,hasNext: function() {
 		$s.push("IntIter::hasNext");
@@ -13974,7 +14018,6 @@ IntIter.prototype = {
 	}
 	,__class__: IntIter
 }
-IntIter.__properties__ = {}
 thx.math.scale.TestLinear = function() {
 	$s.push("thx.math.scale.TestLinear::new");
 	var $spos = $s.length;
@@ -13983,8 +14026,8 @@ thx.math.scale.TestLinear = function() {
 }
 thx.math.scale.TestLinear.__name__ = ["thx","math","scale","TestLinear"];
 thx.math.scale.TestLinear.__super__ = thx.math.scale.TestAll;
-thx.math.scale.TestLinear.prototype = $extend(thx.math.scale.TestAll.prototype, {
-	 testDomain: function() {
+thx.math.scale.TestLinear.prototype = $extend(thx.math.scale.TestAll.prototype,{
+	testDomain: function() {
 		$s.push("thx.math.scale.TestLinear::testDomain");
 		var $spos = $s.length;
 		var scale = new thx.math.scale.Linear();
@@ -14053,7 +14096,6 @@ thx.math.scale.TestLinear.prototype = $extend(thx.math.scale.TestAll.prototype, 
 	}
 	,__class__: thx.math.scale.TestLinear
 });
-thx.math.scale.TestLinear.__properties__ = $extend(thx.math.scale.TestAll.__properties__, {});
 thx.js.AccessAttribute = function(name,selection) {
 	$s.push("thx.js.AccessAttribute::new");
 	var $spos = $s.length;
@@ -14064,8 +14106,8 @@ thx.js.AccessAttribute = function(name,selection) {
 }
 thx.js.AccessAttribute.__name__ = ["thx","js","AccessAttribute"];
 thx.js.AccessAttribute.__super__ = thx.js.Access;
-thx.js.AccessAttribute.prototype = $extend(thx.js.Access.prototype, {
-	 name: null
+thx.js.AccessAttribute.prototype = $extend(thx.js.Access.prototype,{
+	name: null
 	,qname: null
 	,get: function() {
 		$s.push("thx.js.AccessAttribute::get");
@@ -14148,7 +14190,7 @@ thx.js.AccessAttribute.prototype = $extend(thx.js.Access.prototype, {
 		return $tmp;
 		$s.pop();
 	}
-	,float: function(v) {
+	,'float': function(v) {
 		$s.push("thx.js.AccessAttribute::float");
 		var $spos = $s.length;
 		var s = "" + v;
@@ -14176,7 +14218,6 @@ thx.js.AccessAttribute.prototype = $extend(thx.js.Access.prototype, {
 	}
 	,__class__: thx.js.AccessAttribute
 });
-thx.js.AccessAttribute.__properties__ = $extend(thx.js.Access.__properties__, {});
 thx.js.AccessDataAttribute = function(name,selection) {
 	$s.push("thx.js.AccessDataAttribute::new");
 	var $spos = $s.length;
@@ -14185,8 +14226,8 @@ thx.js.AccessDataAttribute = function(name,selection) {
 }
 thx.js.AccessDataAttribute.__name__ = ["thx","js","AccessDataAttribute"];
 thx.js.AccessDataAttribute.__super__ = thx.js.AccessAttribute;
-thx.js.AccessDataAttribute.prototype = $extend(thx.js.AccessAttribute.prototype, {
-	 stringf: function(v) {
+thx.js.AccessDataAttribute.prototype = $extend(thx.js.AccessAttribute.prototype,{
+	stringf: function(v) {
 		$s.push("thx.js.AccessDataAttribute::stringf");
 		var $spos = $s.length;
 		if(null == this.qname) {
@@ -14257,7 +14298,6 @@ thx.js.AccessDataAttribute.prototype = $extend(thx.js.AccessAttribute.prototype,
 	}
 	,__class__: thx.js.AccessDataAttribute
 });
-thx.js.AccessDataAttribute.__properties__ = $extend(thx.js.AccessAttribute.__properties__, {});
 thx.languages.It = function() {
 	$s.push("thx.languages.It::new");
 	var $spos = $s.length;
@@ -14282,10 +14322,9 @@ thx.languages.It.getLanguage = function() {
 	$s.pop();
 }
 thx.languages.It.__super__ = thx.culture.Language;
-thx.languages.It.prototype = $extend(thx.culture.Language.prototype, {
-	 __class__: thx.languages.It
+thx.languages.It.prototype = $extend(thx.culture.Language.prototype,{
+	__class__: thx.languages.It
 });
-thx.languages.It.__properties__ = $extend(thx.culture.Language.__properties__, {});
 thx.math.TestEquations = function() {
 	$s.push("thx.math.TestEquations::new");
 	var $spos = $s.length;
@@ -14293,7 +14332,7 @@ thx.math.TestEquations = function() {
 }
 thx.math.TestEquations.__name__ = ["thx","math","TestEquations"];
 thx.math.TestEquations.prototype = {
-	 testLinear: function() {
+	testLinear: function() {
 		$s.push("thx.math.TestEquations::testLinear");
 		var $spos = $s.length;
 		this.assertEquation([0.0,0.25,0.5,0.75,1.0],thx.math.Equations.linear,"linear");
@@ -14362,7 +14401,6 @@ thx.math.TestEquations.prototype = {
 	}
 	,__class__: thx.math.TestEquations
 }
-thx.math.TestEquations.__properties__ = {}
 if(!thx.ini) thx.ini = {}
 thx.ini.TestIni = function() {
 	$s.push("thx.ini.TestIni::new");
@@ -14371,7 +14409,7 @@ thx.ini.TestIni = function() {
 }
 thx.ini.TestIni.__name__ = ["thx","ini","TestIni"];
 thx.ini.TestIni.prototype = {
-	 testEncode: function() {
+	testEncode: function() {
 		$s.push("thx.ini.TestIni::testEncode");
 		var $spos = $s.length;
 		utest.Assert.same(thx.ini.TestIni.v,thx.ini.Ini.decode(thx.ini.Ini.encode(thx.ini.TestIni.v)),null,null,{ fileName : "TestIni.hx", lineNumber : 64, className : "thx.ini.TestIni", methodName : "testEncode"});
@@ -14386,7 +14424,6 @@ thx.ini.TestIni.prototype = {
 	}
 	,__class__: thx.ini.TestIni
 }
-thx.ini.TestIni.__properties__ = {}
 thx.js.TestBaseDom = function() {
 	$s.push("thx.js.TestBaseDom::new");
 	var $spos = $s.length;
@@ -14394,7 +14431,7 @@ thx.js.TestBaseDom = function() {
 }
 thx.js.TestBaseDom.__name__ = ["thx","js","TestBaseDom"];
 thx.js.TestBaseDom.prototype = {
-	 sel: null
+	sel: null
 	,setup: function() {
 		$s.push("thx.js.TestBaseDom::setup");
 		var $spos = $s.length;
@@ -14409,7 +14446,6 @@ thx.js.TestBaseDom.prototype = {
 	}
 	,__class__: thx.js.TestBaseDom
 }
-thx.js.TestBaseDom.__properties__ = {}
 var Enums = function() { }
 Enums.__name__ = ["Enums"];
 Enums.string = function(e) {
@@ -14442,9 +14478,8 @@ Enums.compare = function(a,b) {
 	$s.pop();
 }
 Enums.prototype = {
-	 __class__: Enums
+	__class__: Enums
 }
-Enums.__properties__ = {}
 thx.html.TextHandler = function() {
 	$s.push("thx.html.TextHandler::new");
 	var $spos = $s.length;
@@ -14454,7 +14489,7 @@ thx.html.TextHandler = function() {
 thx.html.TextHandler.__name__ = ["thx","html","TextHandler"];
 thx.html.TextHandler.__interfaces__ = [thx.html.HtmlHandler];
 thx.html.TextHandler.prototype = {
-	 results: null
+	results: null
 	,start: function(tag,attrs,unary) {
 		$s.push("thx.html.TextHandler::start");
 		var $spos = $s.length;
@@ -14499,7 +14534,6 @@ thx.html.TextHandler.prototype = {
 	}
 	,__class__: thx.html.TextHandler
 }
-thx.html.TextHandler.__properties__ = {}
 thx.js.TestDom = function() {
 	$s.push("thx.js.TestDom::new");
 	var $spos = $s.length;
@@ -14507,7 +14541,7 @@ thx.js.TestDom = function() {
 }
 thx.js.TestDom.__name__ = ["thx","js","TestDom"];
 thx.js.TestDom.prototype = {
-	 testDocument: function() {
+	testDocument: function() {
 		$s.push("thx.js.TestDom::testDocument");
 		var $spos = $s.length;
 		utest.Assert.isFalse(thx.js.Dom.doc.empty(),null,{ fileName : "TestDom.hx", lineNumber : 25, className : "thx.js.TestDom", methodName : "testDocument"});
@@ -14516,7 +14550,6 @@ thx.js.TestDom.prototype = {
 	}
 	,__class__: thx.js.TestDom
 }
-thx.js.TestDom.__properties__ = {}
 thx.math.scale.LinearT = function() {
 	$s.push("thx.math.scale.LinearT::new");
 	var $spos = $s.length;
@@ -14583,7 +14616,7 @@ thx.math.scale.LinearT.scalePolylinear = function(domain,range,uninterpolate,int
 	$s.pop();
 }
 thx.math.scale.LinearT.prototype = {
-	 _domain: null
+	_domain: null
 	,_range: null
 	,f: null
 	,_clamp: null
@@ -14707,7 +14740,6 @@ thx.math.scale.LinearT.prototype = {
 	}
 	,__class__: thx.math.scale.LinearT
 }
-thx.math.scale.LinearT.__properties__ = {}
 thx.culture.FormatDate = function() { }
 thx.culture.FormatDate.__name__ = ["thx","culture","FormatDate"];
 thx.culture.FormatDate.format = function(pattern,date,culture,leadingspace) {
@@ -15044,9 +15076,8 @@ thx.culture.FormatDate.weekDayNameShort = function(date,culture) {
 	$s.pop();
 }
 thx.culture.FormatDate.prototype = {
-	 __class__: thx.culture.FormatDate
+	__class__: thx.culture.FormatDate
 }
-thx.culture.FormatDate.__properties__ = {}
 utest.Runner = function() {
 	$s.push("utest.Runner::new");
 	var $spos = $s.length;
@@ -15059,7 +15090,7 @@ utest.Runner = function() {
 }
 utest.Runner.__name__ = ["utest","Runner"];
 utest.Runner.prototype = {
-	 fixtures: null
+	fixtures: null
 	,onProgress: null
 	,onStart: null
 	,onComplete: null
@@ -15158,7 +15189,6 @@ utest.Runner.prototype = {
 	}
 	,__class__: utest.Runner
 }
-utest.Runner.__properties__ = {}
 thx.validation.SingleLineValidator = function() {
 	$s.push("thx.validation.SingleLineValidator::new");
 	var $spos = $s.length;
@@ -15166,8 +15196,8 @@ thx.validation.SingleLineValidator = function() {
 }
 thx.validation.SingleLineValidator.__name__ = ["thx","validation","SingleLineValidator"];
 thx.validation.SingleLineValidator.__super__ = thx.validation.Validator;
-thx.validation.SingleLineValidator.prototype = $extend(thx.validation.Validator.prototype, {
-	 validate: function(value) {
+thx.validation.SingleLineValidator.prototype = $extend(thx.validation.Validator.prototype,{
+	validate: function(value) {
 		$s.push("thx.validation.SingleLineValidator::validate");
 		var $spos = $s.length;
 		if(thx.validation.SingleLineValidator._re.match(value)) {
@@ -15183,7 +15213,6 @@ thx.validation.SingleLineValidator.prototype = $extend(thx.validation.Validator.
 	}
 	,__class__: thx.validation.SingleLineValidator
 });
-thx.validation.SingleLineValidator.__properties__ = $extend(thx.validation.Validator.__properties__, {});
 var Xml = function() {
 	$s.push("Xml::new");
 	var $spos = $s.length;
@@ -15380,7 +15409,7 @@ Xml.createDocument = function() {
 	$s.pop();
 }
 Xml.prototype = {
-	 nodeType: null
+	nodeType: null
 	,nodeName: null
 	,nodeValue: null
 	,parent: null
@@ -15699,13 +15728,6 @@ Xml.prototype = {
 	}
 	,__class__: Xml
 }
-Xml.__properties__ = {
-	 set_nodeValue: Xml.prototype.setNodeValue
-	,set_nodeName: Xml.prototype.setNodeName
-	,get_parent: Xml.prototype.getParent
-	,get_nodeValue: Xml.prototype.getNodeValue
-	,get_nodeName: Xml.prototype.getNodeName
-}
 if(!thx.geom) thx.geom = {}
 thx.geom.Polygon = function(coordinates) {
 	$s.push("thx.geom.Polygon::new");
@@ -15732,7 +15754,7 @@ thx.geom.Polygon.polygonIntersect = function(c,d,a,b) {
 	$s.pop();
 }
 thx.geom.Polygon.prototype = {
-	 coordinates: null
+	coordinates: null
 	,area: function() {
 		$s.push("thx.geom.Polygon::area");
 		var $spos = $s.length;
@@ -15796,7 +15818,6 @@ thx.geom.Polygon.prototype = {
 	}
 	,__class__: thx.geom.Polygon
 }
-thx.geom.Polygon.__properties__ = {}
 thx.math.scale.TestLog = function() {
 	$s.push("thx.math.scale.TestLog::new");
 	var $spos = $s.length;
@@ -15805,8 +15826,8 @@ thx.math.scale.TestLog = function() {
 }
 thx.math.scale.TestLog.__name__ = ["thx","math","scale","TestLog"];
 thx.math.scale.TestLog.__super__ = thx.math.scale.TestAll;
-thx.math.scale.TestLog.prototype = $extend(thx.math.scale.TestAll.prototype, {
-	 testRange: function() {
+thx.math.scale.TestLog.prototype = $extend(thx.math.scale.TestAll.prototype,{
+	testRange: function() {
 		$s.push("thx.math.scale.TestLog::testRange");
 		var $spos = $s.length;
 		var scale = new thx.math.scale.Log().domain([1.0,10.0]).range([0.0,1.0]);
@@ -15844,7 +15865,6 @@ thx.math.scale.TestLog.prototype = $extend(thx.math.scale.TestAll.prototype, {
 	}
 	,__class__: thx.math.scale.TestLog
 });
-thx.math.scale.TestLog.__properties__ = $extend(thx.math.scale.TestAll.__properties__, {});
 var DateTools = function() { }
 DateTools.__name__ = ["DateTools"];
 DateTools.__format_get = function(d,e) {
@@ -16041,9 +16061,8 @@ DateTools.make = function(o) {
 	$s.pop();
 }
 DateTools.prototype = {
-	 __class__: DateTools
+	__class__: DateTools
 }
-DateTools.__properties__ = {}
 thx.math.scale.TestOrdinal = function() {
 	$s.push("thx.math.scale.TestOrdinal::new");
 	var $spos = $s.length;
@@ -16052,8 +16071,8 @@ thx.math.scale.TestOrdinal = function() {
 }
 thx.math.scale.TestOrdinal.__name__ = ["thx","math","scale","TestOrdinal"];
 thx.math.scale.TestOrdinal.__super__ = thx.math.scale.TestAll;
-thx.math.scale.TestOrdinal.prototype = $extend(thx.math.scale.TestAll.prototype, {
-	 testRange: function() {
+thx.math.scale.TestOrdinal.prototype = $extend(thx.math.scale.TestAll.prototype,{
+	testRange: function() {
 		$s.push("thx.math.scale.TestOrdinal::testRange");
 		var $spos = $s.length;
 		var scale = new thx.math.scale.Ordinal().domain(thx.math.scale.TestOrdinal.data).range([0,1,2,3,4]);
@@ -16076,7 +16095,6 @@ thx.math.scale.TestOrdinal.prototype = $extend(thx.math.scale.TestAll.prototype,
 	}
 	,__class__: thx.math.scale.TestOrdinal
 });
-thx.math.scale.TestOrdinal.__properties__ = $extend(thx.math.scale.TestAll.__properties__, {});
 thx.xml.NormalizeNewlineValueFormat = function(newline) {
 	$s.push("thx.xml.NormalizeNewlineValueFormat::new");
 	var $spos = $s.length;
@@ -16088,8 +16106,8 @@ thx.xml.NormalizeNewlineValueFormat = function(newline) {
 }
 thx.xml.NormalizeNewlineValueFormat.__name__ = ["thx","xml","NormalizeNewlineValueFormat"];
 thx.xml.NormalizeNewlineValueFormat.__super__ = thx.xml.ValueFormat;
-thx.xml.NormalizeNewlineValueFormat.prototype = $extend(thx.xml.ValueFormat.prototype, {
-	 _newLineReplace: null
+thx.xml.NormalizeNewlineValueFormat.prototype = $extend(thx.xml.ValueFormat.prototype,{
+	_newLineReplace: null
 	,_newline: null
 	,format: function(value) {
 		$s.push("thx.xml.NormalizeNewlineValueFormat::format");
@@ -16101,7 +16119,6 @@ thx.xml.NormalizeNewlineValueFormat.prototype = $extend(thx.xml.ValueFormat.prot
 	}
 	,__class__: thx.xml.NormalizeNewlineValueFormat
 });
-thx.xml.NormalizeNewlineValueFormat.__properties__ = $extend(thx.xml.ValueFormat.__properties__, {});
 var Bools = function() { }
 Bools.__name__ = ["Bools"];
 Bools.format = function(v,param,params,culture) {
@@ -16219,9 +16236,8 @@ Bools.compare = function(a,b) {
 	$s.pop();
 }
 Bools.prototype = {
-	 __class__: Bools
+	__class__: Bools
 }
-Bools.__properties__ = {}
 haxe.StackItem = { __ename__ : ["haxe","StackItem"], __constructs__ : ["CFunction","Module","FilePos","Method","Lambda"] }
 haxe.StackItem.CFunction = ["CFunction",0];
 haxe.StackItem.CFunction.toString = $estr;
@@ -16333,9 +16349,8 @@ haxe.Stack.makeStack = function(s) {
 	$s.pop();
 }
 haxe.Stack.prototype = {
-	 __class__: haxe.Stack
+	__class__: haxe.Stack
 }
-haxe.Stack.__properties__ = {}
 thx.util.TypeFactory = function() {
 	$s.push("thx.util.TypeFactory::new");
 	var $spos = $s.length;
@@ -16344,7 +16359,7 @@ thx.util.TypeFactory = function() {
 }
 thx.util.TypeFactory.__name__ = ["thx","util","TypeFactory"];
 thx.util.TypeFactory.prototype = {
-	 _binders: null
+	_binders: null
 	,instance: function(cls,o) {
 		$s.push("thx.util.TypeFactory::instance");
 		var $spos = $s.length;
@@ -16407,7 +16422,6 @@ thx.util.TypeFactory.prototype = {
 	}
 	,__class__: thx.util.TypeFactory
 }
-thx.util.TypeFactory.__properties__ = {}
 thx.geo.Mercator = function() {
 	$s.push("thx.geo.Mercator::new");
 	var $spos = $s.length;
@@ -16418,7 +16432,7 @@ thx.geo.Mercator = function() {
 thx.geo.Mercator.__name__ = ["thx","geo","Mercator"];
 thx.geo.Mercator.__interfaces__ = [thx.geo.IProjection];
 thx.geo.Mercator.prototype = {
-	 scale: null
+	scale: null
 	,translate: null
 	,project: function(coords) {
 		$s.push("thx.geo.Mercator::project");
@@ -16471,12 +16485,6 @@ thx.geo.Mercator.prototype = {
 		$s.pop();
 	}
 	,__class__: thx.geo.Mercator
-}
-thx.geo.Mercator.__properties__ = {
-	 set_translate: thx.geo.Mercator.prototype.setTranslate
-	,set_scale: thx.geo.Mercator.prototype.setScale
-	,get_translate: thx.geo.Mercator.prototype.getTranslate
-	,get_scale: thx.geo.Mercator.prototype.getScale
 }
 thx.svg.PathGeoJson = function() {
 	$s.push("thx.svg.PathGeoJson::new");
@@ -16586,7 +16594,7 @@ thx.svg.PathGeoJson.applyBounds = function(d,f) {
 	$s.pop();
 }
 thx.svg.PathGeoJson.prototype = {
-	 pointRadius: null
+	pointRadius: null
 	,projection: null
 	,pathCircle: null
 	,pathTypes: null
@@ -16635,10 +16643,6 @@ thx.svg.PathGeoJson.prototype = {
 	}
 	,__class__: thx.svg.PathGeoJson
 }
-thx.svg.PathGeoJson.__properties__ = {
-	 set_projection: thx.svg.PathGeoJson.prototype.setProjection
-	,set_pointRadius: thx.svg.PathGeoJson.prototype.setPointRadius
-}
 thx.svg.PathTypes = function(geo) {
 	$s.push("thx.svg.PathTypes::new");
 	var $spos = $s.length;
@@ -16647,7 +16651,7 @@ thx.svg.PathTypes = function(geo) {
 }
 thx.svg.PathTypes.__name__ = ["thx","svg","PathTypes"];
 thx.svg.PathTypes.prototype = {
-	 geo: null
+	geo: null
 	,path: function(geo) {
 		$s.push("thx.svg.PathTypes::path");
 		var $spos = $s.length;
@@ -16816,7 +16820,6 @@ thx.svg.PathTypes.prototype = {
 	}
 	,__class__: thx.svg.PathTypes
 }
-thx.svg.PathTypes.__properties__ = {}
 thx.svg.AreaTypes = function(geo) {
 	$s.push("thx.svg.AreaTypes::new");
 	var $spos = $s.length;
@@ -16825,7 +16828,7 @@ thx.svg.AreaTypes = function(geo) {
 }
 thx.svg.AreaTypes.__name__ = ["thx","svg","AreaTypes"];
 thx.svg.AreaTypes.prototype = {
-	 geo: null
+	geo: null
 	,area: function(geo) {
 		$s.push("thx.svg.AreaTypes::area");
 		var $spos = $s.length;
@@ -16956,7 +16959,6 @@ thx.svg.AreaTypes.prototype = {
 	}
 	,__class__: thx.svg.AreaTypes
 }
-thx.svg.AreaTypes.__properties__ = {}
 thx.svg.CentroidTypes = function(geo) {
 	$s.push("thx.svg.CentroidTypes::new");
 	var $spos = $s.length;
@@ -16965,7 +16967,7 @@ thx.svg.CentroidTypes = function(geo) {
 }
 thx.svg.CentroidTypes.__name__ = ["thx","svg","CentroidTypes"];
 thx.svg.CentroidTypes.prototype = {
-	 geo: null
+	geo: null
 	,centroid: function(geo) {
 		$s.push("thx.svg.CentroidTypes::centroid");
 		var $spos = $s.length;
@@ -16976,6 +16978,14 @@ thx.svg.CentroidTypes.prototype = {
 			return $tmp;
 		}
 		var $tmp = field.apply(this,[geo]);
+		$s.pop();
+		return $tmp;
+		$s.pop();
+	}
+	,point: function(o) {
+		$s.push("thx.svg.CentroidTypes::point");
+		var $spos = $s.length;
+		var $tmp = this.project(o.coordinates);
 		$s.pop();
 		return $tmp;
 		$s.pop();
@@ -17043,7 +17053,6 @@ thx.svg.CentroidTypes.prototype = {
 	}
 	,__class__: thx.svg.CentroidTypes
 }
-thx.svg.CentroidTypes.__properties__ = {}
 thx.math.TestAll = function() {
 	$s.push("thx.math.TestAll::new");
 	var $spos = $s.length;
@@ -17068,9 +17077,8 @@ thx.math.TestAll.main = function() {
 	$s.pop();
 }
 thx.math.TestAll.prototype = {
-	 __class__: thx.math.TestAll
+	__class__: thx.math.TestAll
 }
-thx.math.TestAll.__properties__ = {}
 thx.math.scale.TestLinearT = function() {
 	$s.push("thx.math.scale.TestLinearT::new");
 	var $spos = $s.length;
@@ -17079,8 +17087,8 @@ thx.math.scale.TestLinearT = function() {
 }
 thx.math.scale.TestLinearT.__name__ = ["thx","math","scale","TestLinearT"];
 thx.math.scale.TestLinearT.__super__ = thx.math.scale.TestAll;
-thx.math.scale.TestLinearT.prototype = $extend(thx.math.scale.TestAll.prototype, {
-	 testRange: function() {
+thx.math.scale.TestLinearT.prototype = $extend(thx.math.scale.TestAll.prototype,{
+	testRange: function() {
 		$s.push("thx.math.scale.TestLinearT::testRange");
 		var $spos = $s.length;
 		var scale = thx.math.scale.Linears.forString().domain([Arrays.min(thx.math.scale.TestLinearT.data),Arrays.max(thx.math.scale.TestLinearT.data)]).range(["0px","120px"]);
@@ -17096,7 +17104,6 @@ thx.math.scale.TestLinearT.prototype = $extend(thx.math.scale.TestAll.prototype,
 	}
 	,__class__: thx.math.scale.TestLinearT
 });
-thx.math.scale.TestLinearT.__properties__ = $extend(thx.math.scale.TestAll.__properties__, {});
 thx.validation.TestPatternValidator = function() {
 	$s.push("thx.validation.TestPatternValidator::new");
 	var $spos = $s.length;
@@ -17104,8 +17111,8 @@ thx.validation.TestPatternValidator = function() {
 }
 thx.validation.TestPatternValidator.__name__ = ["thx","validation","TestPatternValidator"];
 thx.validation.TestPatternValidator.__super__ = thx.validation.TestAll;
-thx.validation.TestPatternValidator.prototype = $extend(thx.validation.TestAll.prototype, {
-	 testValidation: function() {
+thx.validation.TestPatternValidator.prototype = $extend(thx.validation.TestAll.prototype,{
+	testValidation: function() {
 		$s.push("thx.validation.TestPatternValidator::testValidation");
 		var $spos = $s.length;
 		var validator = new thx.validation.PatternValidator(new EReg("^[aeiou]+$","i"));
@@ -17117,7 +17124,6 @@ thx.validation.TestPatternValidator.prototype = $extend(thx.validation.TestAll.p
 	}
 	,__class__: thx.validation.TestPatternValidator
 });
-thx.validation.TestPatternValidator.__properties__ = $extend(thx.validation.TestAll.__properties__, {});
 thx.validation.EmailValidator = function(validatedomain) {
 	$s.push("thx.validation.EmailValidator::new");
 	var $spos = $s.length;
@@ -17127,8 +17133,8 @@ thx.validation.EmailValidator = function(validatedomain) {
 }
 thx.validation.EmailValidator.__name__ = ["thx","validation","EmailValidator"];
 thx.validation.EmailValidator.__super__ = thx.validation.Validator;
-thx.validation.EmailValidator.prototype = $extend(thx.validation.Validator.prototype, {
-	 validateDomain: null
+thx.validation.EmailValidator.prototype = $extend(thx.validation.Validator.prototype,{
+	validateDomain: null
 	,validate: function(value) {
 		$s.push("thx.validation.EmailValidator::validate");
 		var $spos = $s.length;
@@ -17149,7 +17155,6 @@ thx.validation.EmailValidator.prototype = $extend(thx.validation.Validator.proto
 	}
 	,__class__: thx.validation.EmailValidator
 });
-thx.validation.EmailValidator.__properties__ = $extend(thx.validation.Validator.__properties__, {});
 utest.ui.common.ResultStats = function() {
 	$s.push("utest.ui.common.ResultStats::new");
 	var $spos = $s.length;
@@ -17170,7 +17175,7 @@ utest.ui.common.ResultStats = function() {
 }
 utest.ui.common.ResultStats.__name__ = ["utest","ui","common","ResultStats"];
 utest.ui.common.ResultStats.prototype = {
-	 assertations: null
+	assertations: null
 	,successes: null
 	,failures: null
 	,errors: null
@@ -17277,7 +17282,6 @@ utest.ui.common.ResultStats.prototype = {
 	}
 	,__class__: utest.ui.common.ResultStats
 }
-utest.ui.common.ResultStats.__properties__ = {}
 thx.js.TestSelection = function() {
 	$s.push("thx.js.TestSelection::new");
 	var $spos = $s.length;
@@ -17286,8 +17290,8 @@ thx.js.TestSelection = function() {
 }
 thx.js.TestSelection.__name__ = ["thx","js","TestSelection"];
 thx.js.TestSelection.__super__ = thx.js.TestBaseDom;
-thx.js.TestSelection.prototype = $extend(thx.js.TestBaseDom.prototype, {
-	 testAppendRemove: function() {
+thx.js.TestSelection.prototype = $extend(thx.js.TestBaseDom.prototype,{
+	testAppendRemove: function() {
 		$s.push("thx.js.TestSelection::testAppendRemove");
 		var $spos = $s.length;
 		utest.Assert.isTrue(this.sel.select("div").empty(),null,{ fileName : "TestSelection.hx", lineNumber : 10, className : "thx.js.TestSelection", methodName : "testAppendRemove"});
@@ -17446,7 +17450,6 @@ thx.js.TestSelection.prototype = $extend(thx.js.TestBaseDom.prototype, {
 	}
 	,__class__: thx.js.TestSelection
 });
-thx.js.TestSelection.__properties__ = $extend(thx.js.TestBaseDom.__properties__, {});
 thx.html.Html = function() { }
 thx.html.Html.__name__ = ["thx","html","Html"];
 thx.html.Html.getFormatter = function(version) {
@@ -17664,9 +17667,8 @@ thx.html.Html.toXmlString = function(html) {
 	$s.pop();
 }
 thx.html.Html.prototype = {
-	 __class__: thx.html.Html
+	__class__: thx.html.Html
 }
-thx.html.Html.__properties__ = {}
 thx.html.HtmlDocumentFormat = function() {
 	$s.push("thx.html.HtmlDocumentFormat::new");
 	var $spos = $s.length;
@@ -17681,8 +17683,8 @@ thx.html.HtmlDocumentFormat = function() {
 }
 thx.html.HtmlDocumentFormat.__name__ = ["thx","html","HtmlDocumentFormat"];
 thx.html.HtmlDocumentFormat.__super__ = thx.xml.DocumentFormat;
-thx.html.HtmlDocumentFormat.prototype = $extend(thx.xml.DocumentFormat.prototype, {
-	 indent: null
+thx.html.HtmlDocumentFormat.prototype = $extend(thx.xml.DocumentFormat.prototype,{
+	indent: null
 	,newline: null
 	,wrapColumns: null
 	,specialElementContentFormat: null
@@ -18035,7 +18037,6 @@ thx.html.HtmlDocumentFormat.prototype = $extend(thx.xml.DocumentFormat.prototype
 	}
 	,__class__: thx.html.HtmlDocumentFormat
 });
-thx.html.HtmlDocumentFormat.__properties__ = $extend(thx.xml.DocumentFormat.__properties__, {});
 thx.html.SpecialElementContentFormat = { __ename__ : ["thx","html","SpecialElementContentFormat"], __constructs__ : ["AsPlainText","AsCData","AsCommentedText"] }
 thx.html.SpecialElementContentFormat.AsPlainText = ["AsPlainText",0];
 thx.html.SpecialElementContentFormat.AsPlainText.toString = $estr;
@@ -18053,7 +18054,7 @@ thx.date.TestDateParser = function() {
 }
 thx.date.TestDateParser.__name__ = ["thx","date","TestDateParser"];
 thx.date.TestDateParser.prototype = {
-	 testParseSpecificDates: function() {
+	testParseSpecificDates: function() {
 		$s.push("thx.date.TestDateParser::testParseSpecificDates");
 		var $spos = $s.length;
 		var tests = [{ expected : "2011-01-05", test : "January 5"},{ expected : "2011-12-25", test : "dec 25"},{ expected : "2011-05-27", test : "may 27th"},{ expected : "2006-10-01", test : "October 2006"},{ expected : "2011-10-06", test : "oct 06"},{ expected : "2010-01-03", test : "jan 3 2010"},{ expected : "2004-02-14", test : "february 14, 2004"},{ expected : "2000-01-03", test : "3 jan 2000"},{ expected : "1985-04-17", test : "17 april 85"},{ expected : "1979-05-27", test : "5/27/1979"},{ expected : "1979-05-27", test : "27/5/1979"},{ expected : "2011-05-06", test : "05/06"},{ expected : "1979-05-27", test : "1979-05-27"},{ expected : "2011-05-06", test : "6"},{ expected : "2011-05-31 04:00:00", test : "4:00"},{ expected : "2011-05-31 17:00:00", test : "17:00"},{ expected : "2011-05-31 08:00:00", test : "0800"}];
@@ -18103,7 +18104,6 @@ thx.date.TestDateParser.prototype = {
 	}
 	,__class__: thx.date.TestDateParser
 }
-thx.date.TestDateParser.__properties__ = {}
 var Arrays = function() { }
 Arrays.__name__ = ["Arrays"];
 Arrays.addIf = function(arr,condition,value) {
@@ -18935,10 +18935,22 @@ Arrays.rotate = function(a) {
 	return result;
 	$s.pop();
 }
-Arrays.prototype = {
-	 __class__: Arrays
+Arrays.shuffle = function(a) {
+	$s.push("Arrays::shuffle");
+	var $spos = $s.length;
+	var t = Ints.range(a.length), arr = [];
+	while(t.length > 0) {
+		var pos = Std.random(t.length), index = t[pos];
+		t.splice(pos,1);
+		arr.push(a[index]);
+	}
+	$s.pop();
+	return arr;
+	$s.pop();
 }
-Arrays.__properties__ = {}
+Arrays.prototype = {
+	__class__: Arrays
+}
 utest.Assertation = { __ename__ : ["utest","Assertation"], __constructs__ : ["Success","Failure","Error","SetupError","TeardownError","TimeoutError","AsyncError","Warning"] }
 utest.Assertation.Success = function(pos) { var $x = ["Success",0,pos]; $x.__enum__ = utest.Assertation; $x.toString = $estr; return $x; }
 utest.Assertation.Failure = function(msg,pos) { var $x = ["Failure",1,msg,pos]; $x.__enum__ = utest.Assertation; $x.toString = $estr; return $x; }
@@ -18959,9 +18971,8 @@ thx.html.Attribute.isFill = function(el) {
 	$s.pop();
 }
 thx.html.Attribute.prototype = {
-	 __class__: thx.html.Attribute
+	__class__: thx.html.Attribute
 }
-thx.html.Attribute.__properties__ = {}
 thx.ini.Ini = function() { }
 thx.ini.Ini.__name__ = ["thx","ini","Ini"];
 thx.ini.Ini.encode = function(value) {
@@ -18985,9 +18996,8 @@ thx.ini.Ini.decode = function(value) {
 	$s.pop();
 }
 thx.ini.Ini.prototype = {
-	 __class__: thx.ini.Ini
+	__class__: thx.ini.Ini
 }
-thx.ini.Ini.__properties__ = {}
 thx.error.NotImplemented = function(posInfo) {
 	$s.push("thx.error.NotImplemented::new");
 	var $spos = $s.length;
@@ -18996,10 +19006,9 @@ thx.error.NotImplemented = function(posInfo) {
 }
 thx.error.NotImplemented.__name__ = ["thx","error","NotImplemented"];
 thx.error.NotImplemented.__super__ = thx.error.Error;
-thx.error.NotImplemented.prototype = $extend(thx.error.Error.prototype, {
-	 __class__: thx.error.NotImplemented
+thx.error.NotImplemented.prototype = $extend(thx.error.Error.prototype,{
+	__class__: thx.error.NotImplemented
 });
-thx.error.NotImplemented.__properties__ = $extend(thx.error.Error.__properties__, {});
 thx.collection.IntHashList = function() {
 	$s.push("thx.collection.IntHashList::new");
 	var $spos = $s.length;
@@ -19010,7 +19019,7 @@ thx.collection.IntHashList = function() {
 }
 thx.collection.IntHashList.__name__ = ["thx","collection","IntHashList"];
 thx.collection.IntHashList.prototype = {
-	 length: null
+	length: null
 	,set: function(key,value) {
 		$s.push("thx.collection.IntHashList::set");
 		var $spos = $s.length;
@@ -19137,7 +19146,6 @@ thx.collection.IntHashList.prototype = {
 	,__hash: null
 	,__class__: thx.collection.IntHashList
 }
-thx.collection.IntHashList.__properties__ = {}
 thx.svg.TestLine = function() {
 	$s.push("thx.svg.TestLine::new");
 	var $spos = $s.length;
@@ -19146,8 +19154,8 @@ thx.svg.TestLine = function() {
 }
 thx.svg.TestLine.__name__ = ["thx","svg","TestLine"];
 thx.svg.TestLine.__super__ = thx.svg.TestAll;
-thx.svg.TestLine.prototype = $extend(thx.svg.TestAll.prototype, {
-	 testDefault: function() {
+thx.svg.TestLine.prototype = $extend(thx.svg.TestAll.prototype,{
+	testDefault: function() {
 		$s.push("thx.svg.TestLine::testDefault");
 		var $spos = $s.length;
 		var line = thx.svg.Line.pointArray();
@@ -19236,7 +19244,6 @@ thx.svg.TestLine.prototype = $extend(thx.svg.TestAll.prototype, {
 	}
 	,__class__: thx.svg.TestLine
 });
-thx.svg.TestLine.__properties__ = $extend(thx.svg.TestAll.__properties__, {});
 var Types = function() { }
 Types.__name__ = ["Types"];
 Types.className = function(o) {
@@ -19406,9 +19413,8 @@ Types.isPrimitive = function(v) {
 	$s.pop();
 }
 Types.prototype = {
-	 __class__: Types
+	__class__: Types
 }
-Types.__properties__ = {}
 utest.ui.text.PlainTextReport = function(runner,outputHandler) {
 	$s.push("utest.ui.text.PlainTextReport::new");
 	var $spos = $s.length;
@@ -19423,7 +19429,7 @@ utest.ui.text.PlainTextReport = function(runner,outputHandler) {
 utest.ui.text.PlainTextReport.__name__ = ["utest","ui","text","PlainTextReport"];
 utest.ui.text.PlainTextReport.__interfaces__ = [utest.ui.common.IReport];
 utest.ui.text.PlainTextReport.prototype = {
-	 displaySuccessResults: null
+	displaySuccessResults: null
 	,displayHeader: null
 	,handler: null
 	,aggregator: null
@@ -19588,7 +19594,6 @@ utest.ui.text.PlainTextReport.prototype = {
 	}
 	,__class__: utest.ui.text.PlainTextReport
 }
-utest.ui.text.PlainTextReport.__properties__ = {}
 utest.ui.text.PrintReport = function(runner) {
 	$s.push("utest.ui.text.PrintReport::new");
 	var $spos = $s.length;
@@ -19599,8 +19604,8 @@ utest.ui.text.PrintReport = function(runner) {
 }
 utest.ui.text.PrintReport.__name__ = ["utest","ui","text","PrintReport"];
 utest.ui.text.PrintReport.__super__ = utest.ui.text.PlainTextReport;
-utest.ui.text.PrintReport.prototype = $extend(utest.ui.text.PlainTextReport.prototype, {
-	 useTrace: null
+utest.ui.text.PrintReport.prototype = $extend(utest.ui.text.PlainTextReport.prototype,{
+	useTrace: null
 	,_handler: function(report) {
 		$s.push("utest.ui.text.PrintReport::_handler");
 		var $spos = $s.length;
@@ -19617,7 +19622,6 @@ utest.ui.text.PrintReport.prototype = $extend(utest.ui.text.PlainTextReport.prot
 	}
 	,__class__: utest.ui.text.PrintReport
 });
-utest.ui.text.PrintReport.__properties__ = $extend(utest.ui.text.PlainTextReport.__properties__, {});
 var TestObjects = function() {
 	$s.push("TestObjects::new");
 	var $spos = $s.length;
@@ -19640,7 +19644,7 @@ TestObjects.main = function() {
 	$s.pop();
 }
 TestObjects.prototype = {
-	 testKeys: function() {
+	testKeys: function() {
 		$s.push("TestObjects::testKeys");
 		var $spos = $s.length;
 		utest.Assert.same(["a","b","c"],Arrays.order(Reflect.fields(TestObjects.testObject)),null,null,{ fileName : "TestObjects.hx", lineNumber : 12, className : "TestObjects", methodName : "testKeys"});
@@ -19685,7 +19689,6 @@ TestObjects.prototype = {
 	}
 	,__class__: TestObjects
 }
-TestObjects.__properties__ = {}
 thx.html.CloseSelfHtmlNodeFormat = function() {
 	$s.push("thx.html.CloseSelfHtmlNodeFormat::new");
 	var $spos = $s.length;
@@ -19694,8 +19697,8 @@ thx.html.CloseSelfHtmlNodeFormat = function() {
 }
 thx.html.CloseSelfHtmlNodeFormat.__name__ = ["thx","html","CloseSelfHtmlNodeFormat"];
 thx.html.CloseSelfHtmlNodeFormat.__super__ = thx.html.HtmlNodeFormat;
-thx.html.CloseSelfHtmlNodeFormat.prototype = $extend(thx.html.HtmlNodeFormat.prototype, {
-	 formatCloseElement: function(node) {
+thx.html.CloseSelfHtmlNodeFormat.prototype = $extend(thx.html.HtmlNodeFormat.prototype,{
+	formatCloseElement: function(node) {
 		$s.push("thx.html.CloseSelfHtmlNodeFormat::formatCloseElement");
 		var $spos = $s.length;
 		if(thx.html.Element._closeSelf.exists(node.getNodeName())) {
@@ -19710,7 +19713,6 @@ thx.html.CloseSelfHtmlNodeFormat.prototype = $extend(thx.html.HtmlNodeFormat.pro
 	}
 	,__class__: thx.html.CloseSelfHtmlNodeFormat
 });
-thx.html.CloseSelfHtmlNodeFormat.__properties__ = $extend(thx.html.HtmlNodeFormat.__properties__, {});
 thx.data.ValueEncoder = function(handler) {
 	$s.push("thx.data.ValueEncoder::new");
 	var $spos = $s.length;
@@ -19719,7 +19721,7 @@ thx.data.ValueEncoder = function(handler) {
 }
 thx.data.ValueEncoder.__name__ = ["thx","data","ValueEncoder"];
 thx.data.ValueEncoder.prototype = {
-	 handler: null
+	handler: null
 	,encode: function(o) {
 		$s.push("thx.data.ValueEncoder::encode");
 		var $spos = $s.length;
@@ -19825,7 +19827,6 @@ thx.data.ValueEncoder.prototype = {
 	}
 	,__class__: thx.data.ValueEncoder
 }
-thx.data.ValueEncoder.__properties__ = {}
 thx.error.TestError = function() {
 	$s.push("thx.error.TestError::new");
 	var $spos = $s.length;
@@ -19833,9 +19834,8 @@ thx.error.TestError = function() {
 }
 thx.error.TestError.__name__ = ["thx","error","TestError"];
 thx.error.TestError.prototype = {
-	 __class__: thx.error.TestError
+	__class__: thx.error.TestError
 }
-thx.error.TestError.__properties__ = {}
 thx.xml.TestXmlFormat = function() {
 	$s.push("thx.xml.TestXmlFormat::new");
 	var $spos = $s.length;
@@ -19879,7 +19879,7 @@ thx.xml.TestXmlFormat.main = function() {
 	$s.pop();
 }
 thx.xml.TestXmlFormat.prototype = {
-	 testBase: function() {
+	testBase: function() {
 		$s.push("thx.xml.TestXmlFormat::testBase");
 		var $spos = $s.length;
 		var writer = new thx.xml.XmlFormat(false);
@@ -19929,18 +19929,17 @@ thx.xml.TestXmlFormat.prototype = {
 	}
 	,__class__: thx.xml.TestXmlFormat
 }
-thx.xml.TestXmlFormat.__properties__ = {}
 thx.js.behavior.Zoom = function() {
 	$s.push("thx.js.behavior.Zoom::new");
 	var $spos = $s.length;
-	if(null == thx.js.behavior.Zoom._outer) thx.js.behavior.Zoom._outer = thx.js.Dom.select("body").append("div").style("visibility").string("hidden").style("position").string("absolute").style("top").string("-3000px").style("height")["float"](0).style("overflow-y").string("scroll").append("div").style("height").string("2000px").node().parentNode;
+	if(null == thx.js.behavior.Zoom._outer) thx.js.behavior.Zoom._outer = thx.js.Dom.doc.select("body").append("div").style("visibility").string("hidden").style("position").string("absolute").style("top").string("-3000px").style("height")["float"](0).style("overflow-y").string("scroll").append("div").style("height").string("2000px").node().parentNode;
 	$s.pop();
 }
 thx.js.behavior.Zoom.__name__ = ["thx","js","behavior","Zoom"];
 thx.js.behavior.Zoom._outer = null;
 thx.js.behavior.Zoom.event = null;
 thx.js.behavior.Zoom.prototype = {
-	 _dispatcher: null
+	_dispatcher: null
 	,webkit533: null
 	,_pan: null
 	,_zoom: null
@@ -20031,9 +20030,9 @@ thx.js.behavior.Zoom.prototype = {
 	,attach: function(dom,i) {
 		$s.push("thx.js.behavior.Zoom::attach");
 		var $spos = $s.length;
-		var container = thx.js.Dom.selectNode(dom);
+		var container = thx.js.Selection.create([new thx.js.Group([dom])]);
 		container.onNode("mousedown",this.mousedown.$bind(this)).onNode("mousewheel",this.mousewheel.$bind(this)).onNode("DOMMouseScroll",this.mousewheel.$bind(this)).onNode("dblclick",this.mousewheel.$bind(this));
-		thx.js.Dom.selectNode(js.Lib.window).onNode("mousemove",this.mousemove.$bind(this)).onNode("mouseup",this.mouseup.$bind(this));
+		thx.js.Selection.create([new thx.js.Group([js.Lib.window])]).onNode("mousemove",this.mousemove.$bind(this)).onNode("mouseup",this.mouseup.$bind(this));
 		$s.pop();
 	}
 	,zoom: function(f) {
@@ -20047,7 +20046,6 @@ thx.js.behavior.Zoom.prototype = {
 	}
 	,__class__: thx.js.behavior.Zoom
 }
-thx.js.behavior.Zoom.__properties__ = {}
 thx.math.EaseMode = { __ename__ : ["thx","math","EaseMode"], __constructs__ : ["EaseIn","EaseOut","EaseInEaseOut","EaseOutEaseIn"] }
 thx.math.EaseMode.EaseIn = ["EaseIn",0];
 thx.math.EaseMode.EaseIn.toString = $estr;
@@ -20071,7 +20069,7 @@ thx.js.DataChoice = function(update,enter,exit) {
 }
 thx.js.DataChoice.__name__ = ["thx","js","DataChoice"];
 thx.js.DataChoice.prototype = {
-	 _update: null
+	_update: null
 	,_enter: null
 	,_exit: null
 	,enter: function() {
@@ -20100,7 +20098,6 @@ thx.js.DataChoice.prototype = {
 	}
 	,__class__: thx.js.DataChoice
 }
-thx.js.DataChoice.__properties__ = {}
 thx.js.BoundSelection = function(groups) {
 	$s.push("thx.js.BoundSelection::new");
 	var $spos = $s.length;
@@ -20109,8 +20106,8 @@ thx.js.BoundSelection = function(groups) {
 }
 thx.js.BoundSelection.__name__ = ["thx","js","BoundSelection"];
 thx.js.BoundSelection.__super__ = thx.js.BaseSelection;
-thx.js.BoundSelection.prototype = $extend(thx.js.BaseSelection.prototype, {
-	 html: function() {
+thx.js.BoundSelection.prototype = $extend(thx.js.BaseSelection.prototype,{
+	html: function() {
 		$s.push("thx.js.BoundSelection::html");
 		var $spos = $s.length;
 		var $tmp = new thx.js.AccessDataHtml(this);
@@ -20222,7 +20219,7 @@ thx.js.BoundSelection.prototype = $extend(thx.js.BaseSelection.prototype, {
 		$s.push("thx.js.BoundSelection::selfData");
 		var $spos = $s.length;
 		var $tmp = this.dataf(function(d,_) {
-			$s.push("thx.js.BoundSelection::selfData@167");
+			$s.push("thx.js.BoundSelection::selfData@170");
 			var $spos = $s.length;
 			var $tmp = d;
 			$s.pop();
@@ -20237,7 +20234,7 @@ thx.js.BoundSelection.prototype = $extend(thx.js.BaseSelection.prototype, {
 		$s.push("thx.js.BoundSelection::each");
 		var $spos = $s.length;
 		var $tmp = this.eachNode(function(n,i) {
-			$s.push("thx.js.BoundSelection::each@172");
+			$s.push("thx.js.BoundSelection::each@175");
 			var $spos = $s.length;
 			f(Reflect.field(n,"__data__"),i);
 			$s.pop();
@@ -20250,7 +20247,7 @@ thx.js.BoundSelection.prototype = $extend(thx.js.BaseSelection.prototype, {
 		$s.push("thx.js.BoundSelection::sort");
 		var $spos = $s.length;
 		var $tmp = this.sortNode(function(a,b) {
-			$s.push("thx.js.BoundSelection::sort@177");
+			$s.push("thx.js.BoundSelection::sort@180");
 			var $spos = $s.length;
 			var $tmp = comparator(Reflect.field(a,"__data__"),Reflect.field(b,"__data__"));
 			$s.pop();
@@ -20265,7 +20262,7 @@ thx.js.BoundSelection.prototype = $extend(thx.js.BaseSelection.prototype, {
 		$s.push("thx.js.BoundSelection::filter");
 		var $spos = $s.length;
 		var $tmp = this.filterNode(function(n,i) {
-			$s.push("thx.js.BoundSelection::filter@182");
+			$s.push("thx.js.BoundSelection::filter@185");
 			var $spos = $s.length;
 			var $tmp = f(Reflect.field(n,"__data__"),i);
 			$s.pop();
@@ -20289,7 +20286,7 @@ thx.js.BoundSelection.prototype = $extend(thx.js.BaseSelection.prototype, {
 			var $it0 = group.nodes.iterator();
 			while( $it0.hasNext() ) {
 				var node = $it0.next();
-				if(null != node) Reflect.setField(node,"__data__",f(Reflect.field(node,"__data__"),i++));
+				if(null != node) node["__data__"] = f(Reflect.field(node,"__data__"),i++);
 				ngroup.nodes.push(node);
 			}
 			ngroups.push(ngroup);
@@ -20303,7 +20300,7 @@ thx.js.BoundSelection.prototype = $extend(thx.js.BaseSelection.prototype, {
 		$s.push("thx.js.BoundSelection::first");
 		var $spos = $s.length;
 		var $tmp = this.firstNode(function(n) {
-			$s.push("thx.js.BoundSelection::first@205");
+			$s.push("thx.js.BoundSelection::first@208");
 			var $spos = $s.length;
 			var $tmp = f(Reflect.field(n,"__data__"));
 			$s.pop();
@@ -20319,7 +20316,7 @@ thx.js.BoundSelection.prototype = $extend(thx.js.BaseSelection.prototype, {
 		var $spos = $s.length;
 		if(capture == null) capture = false;
 		var $tmp = this.onNode(type,null == listener?null:function(n,i) {
-			$s.push("thx.js.BoundSelection::on@210");
+			$s.push("thx.js.BoundSelection::on@213");
 			var $spos = $s.length;
 			listener(Reflect.field(n,"__data__"),i);
 			$s.pop();
@@ -20330,7 +20327,6 @@ thx.js.BoundSelection.prototype = $extend(thx.js.BaseSelection.prototype, {
 	}
 	,__class__: thx.js.BoundSelection
 });
-thx.js.BoundSelection.__properties__ = $extend(thx.js.BaseSelection.__properties__, {});
 thx.js.ResumeSelection = function(groups) {
 	$s.push("thx.js.ResumeSelection::new");
 	var $spos = $s.length;
@@ -20347,8 +20343,8 @@ thx.js.ResumeSelection.create = function(groups) {
 	$s.pop();
 }
 thx.js.ResumeSelection.__super__ = thx.js.BoundSelection;
-thx.js.ResumeSelection.prototype = $extend(thx.js.BoundSelection.prototype, {
-	 createSelection: function(groups) {
+thx.js.ResumeSelection.prototype = $extend(thx.js.BoundSelection.prototype,{
+	createSelection: function(groups) {
 		$s.push("thx.js.ResumeSelection::createSelection");
 		var $spos = $s.length;
 		var $tmp = new thx.js.ResumeSelection(groups);
@@ -20358,7 +20354,6 @@ thx.js.ResumeSelection.prototype = $extend(thx.js.BoundSelection.prototype, {
 	}
 	,__class__: thx.js.ResumeSelection
 });
-thx.js.ResumeSelection.__properties__ = $extend(thx.js.BoundSelection.__properties__, {});
 thx.js.PreEnterSelection = function(enter,choice) {
 	$s.push("thx.js.PreEnterSelection::new");
 	var $spos = $s.length;
@@ -20368,14 +20363,14 @@ thx.js.PreEnterSelection = function(enter,choice) {
 }
 thx.js.PreEnterSelection.__name__ = ["thx","js","PreEnterSelection"];
 thx.js.PreEnterSelection.prototype = {
-	 groups: null
+	groups: null
 	,_choice: null
 	,append: function(name) {
 		$s.push("thx.js.PreEnterSelection::append");
 		var $spos = $s.length;
 		var qname = thx.xml.Namespace.qualify(name);
 		var append = function(node) {
-			$s.push("thx.js.PreEnterSelection::append@229");
+			$s.push("thx.js.PreEnterSelection::append@232");
 			var $spos = $s.length;
 			var n = js.Lib.document.createElement(name);
 			node.appendChild(n);
@@ -20384,7 +20379,7 @@ thx.js.PreEnterSelection.prototype = {
 			$s.pop();
 		};
 		var appendNS = function(node) {
-			$s.push("thx.js.PreEnterSelection::append@236");
+			$s.push("thx.js.PreEnterSelection::append@239");
 			var $spos = $s.length;
 			var n = js.Lib.document.createElementNS(qname.space,qname.local);
 			node.appendChild(n);
@@ -20402,18 +20397,18 @@ thx.js.PreEnterSelection.prototype = {
 		var $spos = $s.length;
 		var qname = thx.xml.Namespace.qualify(name);
 		var insertDom = function(node) {
-			$s.push("thx.js.PreEnterSelection::insert@249");
+			$s.push("thx.js.PreEnterSelection::insert@252");
 			var $spos = $s.length;
-			var n = js.Lib.document.createElement(name), bf = null != before?before:thx.js.Dom.selectNode(node).select(beforeSelector).node();
+			var n = js.Lib.document.createElement(name), bf = null != before?before:thx.js.Selection.create([new thx.js.Group([node])]).select(beforeSelector).node();
 			node.insertBefore(n,bf);
 			$s.pop();
 			return n;
 			$s.pop();
 		};
 		var insertNsDom = function(node) {
-			$s.push("thx.js.PreEnterSelection::insert@256");
+			$s.push("thx.js.PreEnterSelection::insert@259");
 			var $spos = $s.length;
-			var n = js.Lib.document.createElementNS(qname.space,qname.local), bf = null != before?before:thx.js.Dom.selectNode(node).select(beforeSelector).node();
+			var n = js.Lib.document.createElementNS(qname.space,qname.local), bf = null != before?before:thx.js.Selection.create([new thx.js.Group([node])]).select(beforeSelector).node();
 			node.insertBefore(n,bf);
 			$s.pop();
 			return n;
@@ -20447,7 +20442,7 @@ thx.js.PreEnterSelection.prototype = {
 				var node1 = $it0.next();
 				if(null != node1) {
 					subgroup.nodes.push(subnode = selectf(group.parentNode));
-					Reflect.setField(subnode,"__data__",Reflect.field(node1,"__data__"));
+					subnode["__data__"] = Reflect.field(node1,"__data__");
 				} else subgroup.nodes.push(null);
 			}
 		}
@@ -20458,7 +20453,6 @@ thx.js.PreEnterSelection.prototype = {
 	}
 	,__class__: thx.js.PreEnterSelection
 }
-thx.js.PreEnterSelection.__properties__ = {}
 thx.js.EnterSelection = function(enter,choice) {
 	$s.push("thx.js.EnterSelection::new");
 	var $spos = $s.length;
@@ -20468,8 +20462,8 @@ thx.js.EnterSelection = function(enter,choice) {
 }
 thx.js.EnterSelection.__name__ = ["thx","js","EnterSelection"];
 thx.js.EnterSelection.__super__ = thx.js.BoundSelection;
-thx.js.EnterSelection.prototype = $extend(thx.js.BoundSelection.prototype, {
-	 _choice: null
+thx.js.EnterSelection.prototype = $extend(thx.js.BoundSelection.prototype,{
+	_choice: null
 	,createSelection: function(groups) {
 		$s.push("thx.js.EnterSelection::createSelection");
 		var $spos = $s.length;
@@ -20496,7 +20490,6 @@ thx.js.EnterSelection.prototype = $extend(thx.js.BoundSelection.prototype, {
 	}
 	,__class__: thx.js.EnterSelection
 });
-thx.js.EnterSelection.__properties__ = $extend(thx.js.BoundSelection.__properties__, {});
 thx.js.ExitSelection = function(exit,choice) {
 	$s.push("thx.js.ExitSelection::new");
 	var $spos = $s.length;
@@ -20506,8 +20499,8 @@ thx.js.ExitSelection = function(exit,choice) {
 }
 thx.js.ExitSelection.__name__ = ["thx","js","ExitSelection"];
 thx.js.ExitSelection.__super__ = thx.js.UnboundSelection;
-thx.js.ExitSelection.prototype = $extend(thx.js.UnboundSelection.prototype, {
-	 _choice: null
+thx.js.ExitSelection.prototype = $extend(thx.js.UnboundSelection.prototype,{
+	_choice: null
 	,createSelection: function(groups) {
 		$s.push("thx.js.ExitSelection::createSelection");
 		var $spos = $s.length;
@@ -20534,7 +20527,6 @@ thx.js.ExitSelection.prototype = $extend(thx.js.UnboundSelection.prototype, {
 	}
 	,__class__: thx.js.ExitSelection
 });
-thx.js.ExitSelection.__properties__ = $extend(thx.js.UnboundSelection.__properties__, {});
 thx.js.UpdateSelection = function(update,choice) {
 	$s.push("thx.js.UpdateSelection::new");
 	var $spos = $s.length;
@@ -20544,8 +20536,8 @@ thx.js.UpdateSelection = function(update,choice) {
 }
 thx.js.UpdateSelection.__name__ = ["thx","js","UpdateSelection"];
 thx.js.UpdateSelection.__super__ = thx.js.BoundSelection;
-thx.js.UpdateSelection.prototype = $extend(thx.js.BoundSelection.prototype, {
-	 _choice: null
+thx.js.UpdateSelection.prototype = $extend(thx.js.BoundSelection.prototype,{
+	_choice: null
 	,createSelection: function(groups) {
 		$s.push("thx.js.UpdateSelection::createSelection");
 		var $spos = $s.length;
@@ -20572,7 +20564,6 @@ thx.js.UpdateSelection.prototype = $extend(thx.js.BoundSelection.prototype, {
 	}
 	,__class__: thx.js.UpdateSelection
 });
-thx.js.UpdateSelection.__properties__ = $extend(thx.js.BoundSelection.__properties__, {});
 thx.svg.TestArea = function() {
 	$s.push("thx.svg.TestArea::new");
 	var $spos = $s.length;
@@ -20581,8 +20572,8 @@ thx.svg.TestArea = function() {
 }
 thx.svg.TestArea.__name__ = ["thx","svg","TestArea"];
 thx.svg.TestArea.__super__ = thx.svg.TestAll;
-thx.svg.TestArea.prototype = $extend(thx.svg.TestAll.prototype, {
-	 testArea: function() {
+thx.svg.TestArea.prototype = $extend(thx.svg.TestAll.prototype,{
+	testArea: function() {
 		$s.push("thx.svg.TestArea::testArea");
 		var $spos = $s.length;
 		var area = thx.svg.Area.pointArray2();
@@ -20687,7 +20678,6 @@ thx.svg.TestArea.prototype = $extend(thx.svg.TestAll.prototype, {
 	}
 	,__class__: thx.svg.TestArea
 });
-thx.svg.TestArea.__properties__ = $extend(thx.svg.TestAll.__properties__, {});
 thx.text.TestInflections = function() {
 	$s.push("thx.text.TestInflections::new");
 	var $spos = $s.length;
@@ -20710,7 +20700,7 @@ thx.text.TestInflections.main = function() {
 	$s.pop();
 }
 thx.text.TestInflections.prototype = {
-	 testUncountable: function() {
+	testUncountable: function() {
 		$s.push("thx.text.TestInflections::testUncountable");
 		var $spos = $s.length;
 		utest.Assert.equals("information",thx.text.Inflections.pluralize("information"),null,{ fileName : "TestInflections.hx", lineNumber : 16, className : "thx.text.TestInflections", methodName : "testUncountable"});
@@ -20737,7 +20727,6 @@ thx.text.TestInflections.prototype = {
 	}
 	,__class__: thx.text.TestInflections
 }
-thx.text.TestInflections.__properties__ = {}
 thx.validation.TestRange = function() {
 	$s.push("thx.validation.TestRange::new");
 	var $spos = $s.length;
@@ -20745,8 +20734,8 @@ thx.validation.TestRange = function() {
 }
 thx.validation.TestRange.__name__ = ["thx","validation","TestRange"];
 thx.validation.TestRange.__super__ = thx.validation.TestAll;
-thx.validation.TestRange.prototype = $extend(thx.validation.TestAll.prototype, {
-	 testValidation: function() {
+thx.validation.TestRange.prototype = $extend(thx.validation.TestAll.prototype,{
+	testValidation: function() {
 		$s.push("thx.validation.TestRange::testValidation");
 		var $spos = $s.length;
 		var validator = new thx.validation.RangeValidator(-5.0,5.0);
@@ -20765,7 +20754,6 @@ thx.validation.TestRange.prototype = $extend(thx.validation.TestAll.prototype, {
 	}
 	,__class__: thx.validation.TestRange
 });
-thx.validation.TestRange.__properties__ = $extend(thx.validation.TestAll.__properties__, {});
 utest.ui.common.PackageResult = function(packageName) {
 	$s.push("utest.ui.common.PackageResult::new");
 	var $spos = $s.length;
@@ -20777,7 +20765,7 @@ utest.ui.common.PackageResult = function(packageName) {
 }
 utest.ui.common.PackageResult.__name__ = ["utest","ui","common","PackageResult"];
 utest.ui.common.PackageResult.prototype = {
-	 packageName: null
+	packageName: null
 	,classes: null
 	,packages: null
 	,stats: null
@@ -21014,7 +21002,6 @@ utest.ui.common.PackageResult.prototype = {
 	}
 	,__class__: utest.ui.common.PackageResult
 }
-utest.ui.common.PackageResult.__properties__ = {}
 utest.ui.common.FixtureResult = function(methodName) {
 	$s.push("utest.ui.common.FixtureResult::new");
 	var $spos = $s.length;
@@ -21030,7 +21017,7 @@ utest.ui.common.FixtureResult = function(methodName) {
 }
 utest.ui.common.FixtureResult.__name__ = ["utest","ui","common","FixtureResult"];
 utest.ui.common.FixtureResult.prototype = {
-	 methodName: null
+	methodName: null
 	,hasTestError: null
 	,hasSetupError: null
 	,hasTeardownError: null
@@ -21084,7 +21071,6 @@ utest.ui.common.FixtureResult.prototype = {
 	}
 	,__class__: utest.ui.common.FixtureResult
 }
-utest.ui.common.FixtureResult.__properties__ = {}
 thx.color.Cmyk = function(cyan,magenta,yellow,black) {
 	$s.push("thx.color.Cmyk::new");
 	var $spos = $s.length;
@@ -21140,8 +21126,8 @@ thx.color.Cmyk.interpolate = function(a,b,t,equation) {
 	$s.pop();
 }
 thx.color.Cmyk.__super__ = thx.color.Rgb;
-thx.color.Cmyk.prototype = $extend(thx.color.Rgb.prototype, {
-	 black: null
+thx.color.Cmyk.prototype = $extend(thx.color.Rgb.prototype,{
+	black: null
 	,cyan: null
 	,magenta: null
 	,yellow: null
@@ -21155,7 +21141,6 @@ thx.color.Cmyk.prototype = $extend(thx.color.Rgb.prototype, {
 	}
 	,__class__: thx.color.Cmyk
 });
-thx.color.Cmyk.__properties__ = $extend(thx.color.Rgb.__properties__, {});
 thx.validation.UrlValidator = function() {
 	$s.push("thx.validation.UrlValidator::new");
 	var $spos = $s.length;
@@ -21163,8 +21148,8 @@ thx.validation.UrlValidator = function() {
 }
 thx.validation.UrlValidator.__name__ = ["thx","validation","UrlValidator"];
 thx.validation.UrlValidator.__super__ = thx.validation.Validator;
-thx.validation.UrlValidator.prototype = $extend(thx.validation.Validator.prototype, {
-	 validate: function(value) {
+thx.validation.UrlValidator.prototype = $extend(thx.validation.Validator.prototype,{
+	validate: function(value) {
 		$s.push("thx.validation.UrlValidator::validate");
 		var $spos = $s.length;
 		if(!thx.validation.UrlValidator._reUrl.match(value)) {
@@ -21180,7 +21165,6 @@ thx.validation.UrlValidator.prototype = $extend(thx.validation.Validator.prototy
 	}
 	,__class__: thx.validation.UrlValidator
 });
-thx.validation.UrlValidator.__properties__ = $extend(thx.validation.Validator.__properties__, {});
 thx.math.scale.Pow = function() {
 	$s.push("thx.math.scale.Pow::new");
 	var $spos = $s.length;
@@ -21236,8 +21220,8 @@ thx.math.scale.Pow._pown = function(e) {
 	$s.pop();
 }
 thx.math.scale.Pow.__super__ = thx.math.scale.NumericScale;
-thx.math.scale.Pow.prototype = $extend(thx.math.scale.NumericScale.prototype, {
-	 tick: null
+thx.math.scale.Pow.prototype = $extend(thx.math.scale.NumericScale.prototype,{
+	tick: null
 	,_exponent: null
 	,powp: null
 	,powb: null
@@ -21337,7 +21321,6 @@ thx.math.scale.Pow.prototype = $extend(thx.math.scale.NumericScale.prototype, {
 	}
 	,__class__: thx.math.scale.Pow
 });
-thx.math.scale.Pow.__properties__ = $extend(thx.math.scale.NumericScale.__properties__, {});
 thx.data.ValueHandler = function() {
 	$s.push("thx.data.ValueHandler::new");
 	var $spos = $s.length;
@@ -21346,7 +21329,7 @@ thx.data.ValueHandler = function() {
 thx.data.ValueHandler.__name__ = ["thx","data","ValueHandler"];
 thx.data.ValueHandler.__interfaces__ = [thx.data.IDataHandler];
 thx.data.ValueHandler.prototype = {
-	 value: null
+	value: null
 	,_stack: null
 	,_names: null
 	,start: function() {
@@ -21384,7 +21367,7 @@ thx.data.ValueHandler.prototype = {
 		var $spos = $s.length;
 		var value = this._stack.pop();
 		var last = Arrays.last(this._stack);
-		Reflect.setField(last,this._names.pop(),value);
+		last[this._names.pop()] = value;
 		$s.pop();
 	}
 	,startArray: function() {
@@ -21423,19 +21406,19 @@ thx.data.ValueHandler.prototype = {
 		this._stack.push(s);
 		$s.pop();
 	}
-	,int: function(i) {
+	,'int': function(i) {
 		$s.push("thx.data.ValueHandler::int");
 		var $spos = $s.length;
 		this._stack.push(i);
 		$s.pop();
 	}
-	,float: function(f) {
+	,'float': function(f) {
 		$s.push("thx.data.ValueHandler::float");
 		var $spos = $s.length;
 		this._stack.push(f);
 		$s.pop();
 	}
-	,null: function() {
+	,'null': function() {
 		$s.push("thx.data.ValueHandler::null");
 		var $spos = $s.length;
 		this._stack.push(null);
@@ -21454,7 +21437,6 @@ thx.data.ValueHandler.prototype = {
 	}
 	,__class__: thx.data.ValueHandler
 }
-thx.data.ValueHandler.__properties__ = {}
 thx.color.Grey = function(value) {
 	$s.push("thx.color.Grey::new");
 	var $spos = $s.length;
@@ -21510,11 +21492,10 @@ thx.color.Grey.interpolate = function(a,b,t,equation) {
 	$s.pop();
 }
 thx.color.Grey.__super__ = thx.color.Rgb;
-thx.color.Grey.prototype = $extend(thx.color.Rgb.prototype, {
-	 grey: null
+thx.color.Grey.prototype = $extend(thx.color.Rgb.prototype,{
+	grey: null
 	,__class__: thx.color.Grey
 });
-thx.color.Grey.__properties__ = $extend(thx.color.Rgb.__properties__, {});
 thx.color.PerceivedLuminance = { __ename__ : ["thx","color","PerceivedLuminance"], __constructs__ : ["Standard","Perceived","PerceivedAccurate"] }
 thx.color.PerceivedLuminance.Standard = ["Standard",0];
 thx.color.PerceivedLuminance.Standard.toString = $estr;
@@ -21532,7 +21513,7 @@ thx.math.TestRandom = function() {
 }
 thx.math.TestRandom.__name__ = ["thx","math","TestRandom"];
 thx.math.TestRandom.prototype = {
-	 testSequenceDefault: function() {
+	testSequenceDefault: function() {
 		$s.push("thx.math.TestRandom::testSequenceDefault");
 		var $spos = $s.length;
 		var s = [16807,282475249,548908249,984943658,70367106,470211272,101027544,384109054,385036099,933495885];
@@ -21560,7 +21541,6 @@ thx.math.TestRandom.prototype = {
 	}
 	,__class__: thx.math.TestRandom
 }
-thx.math.TestRandom.__properties__ = {}
 thx.validation.TestCustomValidator = function() {
 	$s.push("thx.validation.TestCustomValidator::new");
 	var $spos = $s.length;
@@ -21568,7 +21548,7 @@ thx.validation.TestCustomValidator = function() {
 }
 thx.validation.TestCustomValidator.__name__ = ["thx","validation","TestCustomValidator"];
 thx.validation.TestCustomValidator.prototype = {
-	 testValidation: function() {
+	testValidation: function() {
 		$s.push("thx.validation.TestCustomValidator::testValidation");
 		var $spos = $s.length;
 		var validator = new thx.validation.CustomValidator();
@@ -21619,7 +21599,6 @@ thx.validation.TestCustomValidator.prototype = {
 	}
 	,__class__: thx.validation.TestCustomValidator
 }
-thx.validation.TestCustomValidator.__properties__ = {}
 thx.html.DomHandler = function() {
 	$s.push("thx.html.DomHandler::new");
 	var $spos = $s.length;
@@ -21630,7 +21609,7 @@ thx.html.DomHandler = function() {
 thx.html.DomHandler.__name__ = ["thx","html","DomHandler"];
 thx.html.DomHandler.__interfaces__ = [thx.html.HtmlHandler];
 thx.html.DomHandler.prototype = {
-	 document: null
+	document: null
 	,current: null
 	,start: function(tag,attrs,unary) {
 		$s.push("thx.html.DomHandler::start");
@@ -21678,7 +21657,6 @@ thx.html.DomHandler.prototype = {
 	}
 	,__class__: thx.html.DomHandler
 }
-thx.html.DomHandler.__properties__ = {}
 thx.validation.TestSingleLine = function() {
 	$s.push("thx.validation.TestSingleLine::new");
 	var $spos = $s.length;
@@ -21686,8 +21664,8 @@ thx.validation.TestSingleLine = function() {
 }
 thx.validation.TestSingleLine.__name__ = ["thx","validation","TestSingleLine"];
 thx.validation.TestSingleLine.__super__ = thx.validation.TestAll;
-thx.validation.TestSingleLine.prototype = $extend(thx.validation.TestAll.prototype, {
-	 testValidation: function() {
+thx.validation.TestSingleLine.prototype = $extend(thx.validation.TestAll.prototype,{
+	testValidation: function() {
 		$s.push("thx.validation.TestSingleLine::testValidation");
 		var $spos = $s.length;
 		var validator = new thx.validation.SingleLineValidator();
@@ -21697,7 +21675,6 @@ thx.validation.TestSingleLine.prototype = $extend(thx.validation.TestAll.prototy
 	}
 	,__class__: thx.validation.TestSingleLine
 });
-thx.validation.TestSingleLine.__properties__ = $extend(thx.validation.TestAll.__properties__, {});
 haxe.Log = function() { }
 haxe.Log.__name__ = ["haxe","Log"];
 haxe.Log.trace = function(v,infos) {
@@ -21713,9 +21690,8 @@ haxe.Log.clear = function() {
 	$s.pop();
 }
 haxe.Log.prototype = {
-	 __class__: haxe.Log
+	__class__: haxe.Log
 }
-haxe.Log.__properties__ = {}
 thx.data.TestValueHandler = function() {
 	$s.push("thx.data.TestValueHandler::new");
 	var $spos = $s.length;
@@ -21723,7 +21699,7 @@ thx.data.TestValueHandler = function() {
 }
 thx.data.TestValueHandler.__name__ = ["thx","data","TestValueHandler"];
 thx.data.TestValueHandler.prototype = {
-	 testBasicValues: function() {
+	testBasicValues: function() {
 		$s.push("thx.data.TestValueHandler::testBasicValues");
 		var $spos = $s.length;
 		var ed = Date.fromString("2001-01-02");
@@ -21886,7 +21862,6 @@ thx.data.TestValueHandler.prototype = {
 	}
 	,__class__: thx.data.TestValueHandler
 }
-thx.data.TestValueHandler.__properties__ = {}
 thx.geo.AlbersUsa = function() {
 	$s.push("thx.geo.AlbersUsa::new");
 	var $spos = $s.length;
@@ -21906,7 +21881,7 @@ thx.geo.AlbersUsa = function() {
 thx.geo.AlbersUsa.__name__ = ["thx","geo","AlbersUsa"];
 thx.geo.AlbersUsa.__interfaces__ = [thx.geo.IProjection];
 thx.geo.AlbersUsa.prototype = {
-	 translate: null
+	translate: null
 	,scale: null
 	,lower48: null
 	,alaska: null
@@ -21976,12 +21951,6 @@ thx.geo.AlbersUsa.prototype = {
 	}
 	,__class__: thx.geo.AlbersUsa
 }
-thx.geo.AlbersUsa.__properties__ = {
-	 set_scale: thx.geo.AlbersUsa.prototype.setScale
-	,set_translate: thx.geo.AlbersUsa.prototype.setTranslate
-	,get_scale: thx.geo.AlbersUsa.prototype.getScale
-	,get_translate: thx.geo.AlbersUsa.prototype.getTranslate
-}
 thx.js.AccessStyle = function(name,selection) {
 	$s.push("thx.js.AccessStyle::new");
 	var $spos = $s.length;
@@ -21991,8 +21960,8 @@ thx.js.AccessStyle = function(name,selection) {
 }
 thx.js.AccessStyle.__name__ = ["thx","js","AccessStyle"];
 thx.js.AccessStyle.__super__ = thx.js.Access;
-thx.js.AccessStyle.prototype = $extend(thx.js.Access.prototype, {
-	 name: null
+thx.js.AccessStyle.prototype = $extend(thx.js.Access.prototype,{
+	name: null
 	,get: function() {
 		$s.push("thx.js.AccessStyle::get");
 		var $spos = $s.length;
@@ -22055,7 +22024,7 @@ thx.js.AccessStyle.prototype = $extend(thx.js.Access.prototype, {
 		return $tmp;
 		$s.pop();
 	}
-	,float: function(v,priority) {
+	,'float': function(v,priority) {
 		$s.push("thx.js.AccessStyle::float");
 		var $spos = $s.length;
 		var s = "" + v, n = this.name;
@@ -22089,7 +22058,6 @@ thx.js.AccessStyle.prototype = $extend(thx.js.Access.prototype, {
 	}
 	,__class__: thx.js.AccessStyle
 });
-thx.js.AccessStyle.__properties__ = $extend(thx.js.Access.__properties__, {});
 thx.js.AccessDataStyle = function(name,selection) {
 	$s.push("thx.js.AccessDataStyle::new");
 	var $spos = $s.length;
@@ -22098,8 +22066,8 @@ thx.js.AccessDataStyle = function(name,selection) {
 }
 thx.js.AccessDataStyle.__name__ = ["thx","js","AccessDataStyle"];
 thx.js.AccessDataStyle.__super__ = thx.js.AccessStyle;
-thx.js.AccessDataStyle.prototype = $extend(thx.js.AccessStyle.prototype, {
-	 stringf: function(v,priority) {
+thx.js.AccessDataStyle.prototype = $extend(thx.js.AccessStyle.prototype,{
+	stringf: function(v,priority) {
 		$s.push("thx.js.AccessDataStyle::stringf");
 		var $spos = $s.length;
 		var n = this.name;
@@ -22167,7 +22135,6 @@ thx.js.AccessDataStyle.prototype = $extend(thx.js.AccessStyle.prototype, {
 	}
 	,__class__: thx.js.AccessDataStyle
 });
-thx.js.AccessDataStyle.__properties__ = $extend(thx.js.AccessStyle.__properties__, {});
 thx.util.TestResults = function() {
 	$s.push("thx.util.TestResults::new");
 	var $spos = $s.length;
@@ -22175,7 +22142,7 @@ thx.util.TestResults = function() {
 }
 thx.util.TestResults.__name__ = ["thx","util","TestResults"];
 thx.util.TestResults.prototype = {
-	 testToString: function() {
+	testToString: function() {
 		$s.push("thx.util.TestResults::testToString");
 		var $spos = $s.length;
 		utest.Assert.equals("Ok",thx.util.Results.toString(thx.util.Result.Ok),null,{ fileName : "TestResults.hx", lineNumber : 11, className : "thx.util.TestResults", methodName : "testToString"});
@@ -22186,7 +22153,6 @@ thx.util.TestResults.prototype = {
 	}
 	,__class__: thx.util.TestResults
 }
-thx.util.TestResults.__properties__ = {}
 utest.TestHandler = function(fixture) {
 	$s.push("utest.TestHandler::new");
 	var $spos = $s.length;
@@ -22211,7 +22177,7 @@ utest.TestHandler.exceptionStack = function(pops) {
 	$s.pop();
 }
 utest.TestHandler.prototype = {
-	 results: null
+	results: null
 	,fixture: null
 	,asyncStack: null
 	,onTested: null
@@ -22400,7 +22366,6 @@ utest.TestHandler.prototype = {
 	}
 	,__class__: utest.TestHandler
 }
-utest.TestHandler.__properties__ = {}
 thx.js.BaseTransition = function(selection) {
 	$s.push("thx.js.BaseTransition::new");
 	var $spos = $s.length;
@@ -22417,7 +22382,7 @@ thx.js.BaseTransition = function(selection) {
 	selection.eachNode(function(n,_) {
 		$s.push("thx.js.BaseTransition::new@55");
 		var $spos = $s.length;
-		if(Reflect.hasField(n,"__transition__")) Reflect.field(n,"__transition__").owner = tid; else Reflect.setField(n,"__transition__",{ owner : tid});
+		if(Reflect.hasField(n,"__transition__")) Reflect.field(n,"__transition__").owner = tid; else n["__transition__"] = { owner : tid};
 		$s.pop();
 	});
 	this.delay(null,0);
@@ -22426,7 +22391,7 @@ thx.js.BaseTransition = function(selection) {
 }
 thx.js.BaseTransition.__name__ = ["thx","js","BaseTransition"];
 thx.js.BaseTransition.prototype = {
-	 _transitionId: null
+	_transitionId: null
 	,_tweens: null
 	,_interpolators: null
 	,_remove: null
@@ -22693,7 +22658,6 @@ thx.js.BaseTransition.prototype = {
 	}
 	,__class__: thx.js.BaseTransition
 }
-thx.js.BaseTransition.__properties__ = {}
 thx.js.UnboundTransition = function(selection) {
 	$s.push("thx.js.UnboundTransition::new");
 	var $spos = $s.length;
@@ -22702,8 +22666,8 @@ thx.js.UnboundTransition = function(selection) {
 }
 thx.js.UnboundTransition.__name__ = ["thx","js","UnboundTransition"];
 thx.js.UnboundTransition.__super__ = thx.js.BaseTransition;
-thx.js.UnboundTransition.prototype = $extend(thx.js.BaseTransition.prototype, {
-	 text: function() {
+thx.js.UnboundTransition.prototype = $extend(thx.js.BaseTransition.prototype,{
+	text: function() {
 		$s.push("thx.js.UnboundTransition::text");
 		var $spos = $s.length;
 		var $tmp = new thx.js.AccessTweenText(this,this._tweens);
@@ -22737,7 +22701,6 @@ thx.js.UnboundTransition.prototype = $extend(thx.js.BaseTransition.prototype, {
 	}
 	,__class__: thx.js.UnboundTransition
 });
-thx.js.UnboundTransition.__properties__ = $extend(thx.js.BaseTransition.__properties__, {});
 thx.js.BoundTransition = function(selection) {
 	$s.push("thx.js.BoundTransition::new");
 	var $spos = $s.length;
@@ -22746,8 +22709,8 @@ thx.js.BoundTransition = function(selection) {
 }
 thx.js.BoundTransition.__name__ = ["thx","js","BoundTransition"];
 thx.js.BoundTransition.__super__ = thx.js.BaseTransition;
-thx.js.BoundTransition.prototype = $extend(thx.js.BaseTransition.prototype, {
-	 text: function() {
+thx.js.BoundTransition.prototype = $extend(thx.js.BaseTransition.prototype,{
+	text: function() {
 		$s.push("thx.js.BoundTransition::text");
 		var $spos = $s.length;
 		var $tmp = new thx.js.AccessDataTweenText(this,this._tweens);
@@ -22807,7 +22770,6 @@ thx.js.BoundTransition.prototype = $extend(thx.js.BaseTransition.prototype, {
 	}
 	,__class__: thx.js.BoundTransition
 });
-thx.js.BoundTransition.__properties__ = $extend(thx.js.BaseTransition.__properties__, {});
 thx.ini.IniDecoder = function(handler,explodesections,emptytonull) {
 	$s.push("thx.ini.IniDecoder::new");
 	var $spos = $s.length;
@@ -22836,20 +22798,20 @@ thx.ini.IniDecoder.explodeSections = function(o) {
 		while(_g3 < _g2) {
 			var i = _g3++;
 			var name = parts[i];
-			if(!Reflect.hasField(ref,name)) Reflect.setField(ref,name,{ });
+			if(!Reflect.hasField(ref,name)) ref[name] = { };
 			ref = Reflect.field(ref,name);
 		}
 		var last = parts[parts.length - 1];
 		var v = Reflect.field(o,field);
 		Reflect.deleteField(o,field);
-		Reflect.setField(ref,last,v);
+		ref[last] = v;
 	}
 	$s.pop();
 	return o;
 	$s.pop();
 }
 thx.ini.IniDecoder.prototype = {
-	 emptytonull: null
+	emptytonull: null
 	,explodesections: null
 	,handler: null
 	,other: null
@@ -22970,7 +22932,6 @@ thx.ini.IniDecoder.prototype = {
 	}
 	,__class__: thx.ini.IniDecoder
 }
-thx.ini.IniDecoder.__properties__ = {}
 if(!thx.type) thx.type = {}
 thx.type.TestAll = function() {
 	$s.push("thx.type.TestAll::new");
@@ -22994,9 +22955,8 @@ thx.type.TestAll.main = function() {
 	$s.pop();
 }
 thx.type.TestAll.prototype = {
-	 __class__: thx.type.TestAll
+	__class__: thx.type.TestAll
 }
-thx.type.TestAll.__properties__ = {}
 thx.html.HtmlAttributeFormat = function() {
 	$s.push("thx.html.HtmlAttributeFormat::new");
 	var $spos = $s.length;
@@ -23005,8 +22965,8 @@ thx.html.HtmlAttributeFormat = function() {
 }
 thx.html.HtmlAttributeFormat.__name__ = ["thx","html","HtmlAttributeFormat"];
 thx.html.HtmlAttributeFormat.__super__ = thx.xml.AttributeFormat;
-thx.html.HtmlAttributeFormat.prototype = $extend(thx.xml.AttributeFormat.prototype, {
-	 formatAttribute: function(name,value) {
+thx.html.HtmlAttributeFormat.prototype = $extend(thx.xml.AttributeFormat.prototype,{
+	formatAttribute: function(name,value) {
 		$s.push("thx.html.HtmlAttributeFormat::formatAttribute");
 		var $spos = $s.length;
 		if(thx.html.Attribute._fill.exists(name)) {
@@ -23021,7 +22981,6 @@ thx.html.HtmlAttributeFormat.prototype = $extend(thx.xml.AttributeFormat.prototy
 	}
 	,__class__: thx.html.HtmlAttributeFormat
 });
-thx.html.HtmlAttributeFormat.__properties__ = $extend(thx.xml.AttributeFormat.__properties__, {});
 var Ints = function() { }
 Ints.__name__ = ["Ints"];
 Ints.range = function(start,stop,step) {
@@ -23182,9 +23141,8 @@ Ints.compare = function(a,b) {
 	$s.pop();
 }
 Ints.prototype = {
-	 __class__: Ints
+	__class__: Ints
 }
-Ints.__properties__ = {}
 thx.svg.Line = function(x,y,interpolator) {
 	$s.push("thx.svg.Line::new");
 	var $spos = $s.length;
@@ -23239,7 +23197,7 @@ thx.svg.Line.pointObject = function(interpolator) {
 	$s.pop();
 }
 thx.svg.Line.prototype = {
-	 _x: null
+	_x: null
 	,_y: null
 	,_interpolator: null
 	,shape: function(data,i) {
@@ -23300,7 +23258,6 @@ thx.svg.Line.prototype = {
 	}
 	,__class__: thx.svg.Line
 }
-thx.svg.Line.__properties__ = {}
 thx.xml.Namespace = function() { }
 thx.xml.Namespace.__name__ = ["thx","xml","Namespace"];
 thx.xml.Namespace.qualify = function(name) {
@@ -23320,9 +23277,8 @@ thx.xml.Namespace.qualify = function(name) {
 	$s.pop();
 }
 thx.xml.Namespace.prototype = {
-	 __class__: thx.xml.Namespace
+	__class__: thx.xml.Namespace
 }
-thx.xml.Namespace.__properties__ = {}
 thx.xml.NSQualifier = function(space,local) {
 	$s.push("thx.xml.NSQualifier::new");
 	var $spos = $s.length;
@@ -23332,11 +23288,10 @@ thx.xml.NSQualifier = function(space,local) {
 }
 thx.xml.NSQualifier.__name__ = ["thx","xml","NSQualifier"];
 thx.xml.NSQualifier.prototype = {
-	 space: null
+	space: null
 	,local: null
 	,__class__: thx.xml.NSQualifier
 }
-thx.xml.NSQualifier.__properties__ = {}
 thx.color.TestAll = function() {
 	$s.push("thx.color.TestAll::new");
 	var $spos = $s.length;
@@ -23362,9 +23317,8 @@ thx.color.TestAll.main = function() {
 	$s.pop();
 }
 thx.color.TestAll.prototype = {
-	 __class__: thx.color.TestAll
+	__class__: thx.color.TestAll
 }
-thx.color.TestAll.__properties__ = {}
 var ValueType = { __ename__ : ["ValueType"], __constructs__ : ["TNull","TInt","TFloat","TBool","TObject","TFunction","TClass","TEnum","TUnknown"] }
 ValueType.TNull = ["TNull",0];
 ValueType.TNull.toString = $estr;
@@ -23537,7 +23491,8 @@ Type.createEnumIndex = function(e,index,params) {
 Type.getInstanceFields = function(c) {
 	$s.push("Type::getInstanceFields");
 	var $spos = $s.length;
-	var a = Reflect.fields(c.prototype);
+	var a = [];
+	for(var i in c.prototype) a.push(i);
 	a.remove("__class__");
 	$s.pop();
 	return a;
@@ -23703,9 +23658,8 @@ Type.allEnums = function(e) {
 	$s.pop();
 }
 Type.prototype = {
-	 __class__: Type
+	__class__: Type
 }
-Type.__properties__ = {}
 thx.html.TestHtmlParser = function() {
 	$s.push("thx.html.TestHtmlParser::new");
 	var $spos = $s.length;
@@ -23725,7 +23679,7 @@ thx.html.TestHtmlParser.assertHasElement = function(xml,element,pos) {
 	$s.pop();
 }
 thx.html.TestHtmlParser.prototype = {
-	 testMain: function() {
+	testMain: function() {
 		$s.push("thx.html.TestHtmlParser::testMain");
 		var $spos = $s.length;
 		var xml = thx.html.Html.toXml("<?xml version=\"1.0\"?><!doctype html><html><head><title></title></head><body></body></html>");
@@ -23740,7 +23694,6 @@ thx.html.TestHtmlParser.prototype = {
 	}
 	,__class__: thx.html.TestHtmlParser
 }
-thx.html.TestHtmlParser.__properties__ = {}
 thx.text.Inflections = function() { }
 thx.text.Inflections.__name__ = ["thx","text","Inflections"];
 thx.text.Inflections.pluralize = function(singular) {
@@ -23781,9 +23734,8 @@ thx.text.Inflections.process = function(word,rules) {
 	$s.pop();
 }
 thx.text.Inflections.prototype = {
-	 __class__: thx.text.Inflections
+	__class__: thx.text.Inflections
 }
-thx.text.Inflections.__properties__ = {}
 thx.ini.IniEncoder = function(newline,ignorecomments) {
 	$s.push("thx.ini.IniEncoder::new");
 	var $spos = $s.length;
@@ -23796,7 +23748,7 @@ thx.ini.IniEncoder = function(newline,ignorecomments) {
 thx.ini.IniEncoder.__name__ = ["thx","ini","IniEncoder"];
 thx.ini.IniEncoder.__interfaces__ = [thx.data.IDataHandler];
 thx.ini.IniEncoder.prototype = {
-	 ignorecomments: null
+	ignorecomments: null
 	,newline: null
 	,buf: null
 	,encodedString: null
@@ -23932,19 +23884,19 @@ thx.ini.IniEncoder.prototype = {
 		return $tmp;
 		$s.pop();
 	}
-	,int: function(i) {
+	,'int': function(i) {
 		$s.push("thx.ini.IniEncoder::int");
 		var $spos = $s.length;
 		this.value += i;
 		$s.pop();
 	}
-	,float: function(f) {
+	,'float': function(f) {
 		$s.push("thx.ini.IniEncoder::float");
 		var $spos = $s.length;
 		this.value += f;
 		$s.pop();
 	}
-	,null: function() {
+	,'null': function() {
 		$s.push("thx.ini.IniEncoder::null");
 		var $spos = $s.length;
 		this.value += "";
@@ -23964,7 +23916,6 @@ thx.ini.IniEncoder.prototype = {
 	}
 	,__class__: thx.ini.IniEncoder
 }
-thx.ini.IniEncoder.__properties__ = {}
 thx.svg.Area = function(x,y0,y1,interpolator) {
 	$s.push("thx.svg.Area::new");
 	var $spos = $s.length;
@@ -24090,7 +24041,7 @@ thx.svg.Area.pointObjectXY = function(interpolator) {
 	$s.pop();
 }
 thx.svg.Area.prototype = {
-	 _x: null
+	_x: null
 	,_y0: null
 	,_y1: null
 	,_interpolator: null
@@ -24170,7 +24121,6 @@ thx.svg.Area.prototype = {
 	}
 	,__class__: thx.svg.Area
 }
-thx.svg.Area.__properties__ = {}
 thx.type.TestTypes = function() {
 	$s.push("thx.type.TestTypes::new");
 	var $spos = $s.length;
@@ -24193,7 +24143,7 @@ thx.type.TestTypes.main = function() {
 	$s.pop();
 }
 thx.type.TestTypes.prototype = {
-	 testSameAs: function() {
+	testSameAs: function() {
 		$s.push("thx.type.TestTypes::testSameAs");
 		var $spos = $s.length;
 		utest.Assert.isTrue(Types.sameType(1,2),null,{ fileName : "TestTypes.hx", lineNumber : 33, className : "thx.type.TestTypes", methodName : "testSameAs"});
@@ -24240,7 +24190,6 @@ thx.type.TestTypes.prototype = {
 	}
 	,__class__: thx.type.TestTypes
 }
-thx.type.TestTypes.__properties__ = {}
 thx.json.JsonEncoder = function() {
 	$s.push("thx.json.JsonEncoder::new");
 	var $spos = $s.length;
@@ -24249,7 +24198,7 @@ thx.json.JsonEncoder = function() {
 thx.json.JsonEncoder.__name__ = ["thx","json","JsonEncoder"];
 thx.json.JsonEncoder.__interfaces__ = [thx.data.IDataHandler];
 thx.json.JsonEncoder.prototype = {
-	 encodedString: null
+	encodedString: null
 	,buf: null
 	,lvl: null
 	,count: null
@@ -24332,19 +24281,19 @@ thx.json.JsonEncoder.prototype = {
 		this.buf.add(this.quote(s));
 		$s.pop();
 	}
-	,int: function(i) {
+	,'int': function(i) {
 		$s.push("thx.json.JsonEncoder::int");
 		var $spos = $s.length;
 		this.buf.add(i);
 		$s.pop();
 	}
-	,float: function(f) {
+	,'float': function(f) {
 		$s.push("thx.json.JsonEncoder::float");
 		var $spos = $s.length;
 		this.buf.add(f);
 		$s.pop();
 	}
-	,null: function() {
+	,'null': function() {
 		$s.push("thx.json.JsonEncoder::null");
 		var $spos = $s.length;
 		this.buf.add("null");
@@ -24379,7 +24328,6 @@ thx.json.JsonEncoder.prototype = {
 	}
 	,__class__: thx.json.JsonEncoder
 }
-thx.json.JsonEncoder.__properties__ = {}
 var Reflect = function() { }
 Reflect.__name__ = ["Reflect"];
 Reflect.hasField = function(o,field) {
@@ -24408,8 +24356,7 @@ Reflect.field = function(o,field) {
 	var $spos = $s.length;
 	var v = null;
 	try {
-		var getter = o.__class__?o.__class__.__properties__["get_" + field]:null;
-		if(getter != null) v = getter.call(o); else v = o[field];
+		v = o[field];
 	} catch( e ) {
 		$e = [];
 		while($s.length >= $spos) $e.unshift($s.pop());
@@ -24422,8 +24369,7 @@ Reflect.field = function(o,field) {
 Reflect.setField = function(o,field,value) {
 	$s.push("Reflect::setField");
 	var $spos = $s.length;
-	var setter = o.__class__?o.__class__.__properties__["set_" + field]:null;
-	if(setter != null) setter.call(o,value); else o[field] = value;
+	o[field] = value;
 	$s.pop();
 }
 Reflect.callMethod = function(o,func,args) {
@@ -24432,32 +24378,6 @@ Reflect.callMethod = function(o,func,args) {
 	var $tmp = func.apply(o,args);
 	$s.pop();
 	return $tmp;
-	$s.pop();
-}
-Reflect.hasGetter = function(o,field) {
-	$s.push("Reflect::hasGetter");
-	var $spos = $s.length;
-	if(o.__class__) {
-		var $tmp = o.__class__.__properties__["get_" + field];
-		$s.pop();
-		return $tmp;
-	} else {
-		$s.pop();
-		return null;
-	}
-	$s.pop();
-}
-Reflect.hasSetter = function(o,field) {
-	$s.push("Reflect::hasSetter");
-	var $spos = $s.length;
-	if(o.__class__) {
-		var $tmp = o.__class__.__properties__["set_" + field];
-		$s.pop();
-		return $tmp;
-	} else {
-		$s.pop();
-		return null;
-	}
 	$s.pop();
 }
 Reflect.fields = function(o) {
@@ -24554,7 +24474,7 @@ Reflect.copy = function(o) {
 	while(_g < _g1.length) {
 		var f = _g1[_g];
 		++_g;
-		Reflect.setField(o2,f,Reflect.field(o,f));
+		o2[f] = Reflect.field(o,f);
 	}
 	$s.pop();
 	return o2;
@@ -24564,7 +24484,7 @@ Reflect.makeVarArgs = function(f) {
 	$s.push("Reflect::makeVarArgs");
 	var $spos = $s.length;
 	var $tmp = function() {
-		$s.push("Reflect::makeVarArgs@120");
+		$s.push("Reflect::makeVarArgs@108");
 		var $spos = $s.length;
 		var a = new Array();
 		var _g1 = 0, _g = arguments.length;
@@ -24582,9 +24502,8 @@ Reflect.makeVarArgs = function(f) {
 	$s.pop();
 }
 Reflect.prototype = {
-	 __class__: Reflect
+	__class__: Reflect
 }
-Reflect.__properties__ = {}
 var TestAll = function() { }
 TestAll.__name__ = ["TestAll"];
 TestAll.addTests = function(runner) {
@@ -24629,9 +24548,8 @@ TestAll.main = function() {
 	$s.pop();
 }
 TestAll.prototype = {
-	 __class__: TestAll
+	__class__: TestAll
 }
-TestAll.__properties__ = {}
 var TestStrings = function() {
 	$s.push("TestStrings::new");
 	var $spos = $s.length;
@@ -24654,7 +24572,7 @@ TestStrings.main = function() {
 	$s.pop();
 }
 TestStrings.prototype = {
-	 testUcwordsws: function() {
+	testUcwordsws: function() {
 		$s.push("TestStrings::testUcwordsws");
 		var $spos = $s.length;
 		var tests = [{ expected : "Test", test : "test"},{ expected : "Test Test", test : "test test"},{ expected : " Test Test  Test ", test : " test test  test "},{ expected : "Test\nTest", test : "test\ntest"},{ expected : "Test\tTest", test : "test\ttest"}];
@@ -24822,7 +24740,6 @@ TestStrings.prototype = {
 	}
 	,__class__: TestStrings
 }
-TestStrings.__properties__ = {}
 var TestFloats = function() {
 	$s.push("TestFloats::new");
 	var $spos = $s.length;
@@ -24845,7 +24762,7 @@ TestFloats.main = function() {
 	$s.pop();
 }
 TestFloats.prototype = {
-	 testNormalize: function() {
+	testNormalize: function() {
 		$s.push("TestFloats::testNormalize");
 		var $spos = $s.length;
 		utest.Assert.floatEquals(0.0,Floats.normalize(0.0),null,null,{ fileName : "TestFloats.hx", lineNumber : 11, className : "TestFloats", methodName : "testNormalize"});
@@ -24955,7 +24872,6 @@ TestFloats.prototype = {
 	}
 	,__class__: TestFloats
 }
-TestFloats.__properties__ = {}
 thx.js.TestAccessClassed = function() {
 	$s.push("thx.js.TestAccessClassed::new");
 	var $spos = $s.length;
@@ -24964,8 +24880,8 @@ thx.js.TestAccessClassed = function() {
 }
 thx.js.TestAccessClassed.__name__ = ["thx","js","TestAccessClassed"];
 thx.js.TestAccessClassed.__super__ = thx.js.TestBaseDom;
-thx.js.TestAccessClassed.prototype = $extend(thx.js.TestBaseDom.prototype, {
-	 testAddRemove: function() {
+thx.js.TestAccessClassed.prototype = $extend(thx.js.TestBaseDom.prototype,{
+	testAddRemove: function() {
 		$s.push("thx.js.TestAccessClassed::testAddRemove");
 		var $spos = $s.length;
 		this.sel.classed().add("something");
@@ -24986,7 +24902,6 @@ thx.js.TestAccessClassed.prototype = $extend(thx.js.TestBaseDom.prototype, {
 	}
 	,__class__: thx.js.TestAccessClassed
 });
-thx.js.TestAccessClassed.__properties__ = $extend(thx.js.TestBaseDom.__properties__, {});
 thx.util.Results = function() { }
 thx.util.Results.__name__ = ["thx","util","Results"];
 thx.util.Results.toString = function(value,glue) {
@@ -25022,9 +24937,8 @@ thx.util.Results.failure = function(msg,params,param,pos) {
 	$s.pop();
 }
 thx.util.Results.prototype = {
-	 __class__: thx.util.Results
+	__class__: thx.util.Results
 }
-thx.util.Results.__properties__ = {}
 thx.js.AccessTweenText = function(transition,tweens) {
 	$s.push("thx.js.AccessTweenText::new");
 	var $spos = $s.length;
@@ -25033,8 +24947,8 @@ thx.js.AccessTweenText = function(transition,tweens) {
 }
 thx.js.AccessTweenText.__name__ = ["thx","js","AccessTweenText"];
 thx.js.AccessTweenText.__super__ = thx.js.AccessTween;
-thx.js.AccessTweenText.prototype = $extend(thx.js.AccessTween.prototype, {
-	 stringNodef: function(f) {
+thx.js.AccessTweenText.prototype = $extend(thx.js.AccessTween.prototype,{
+	stringNodef: function(f) {
 		$s.push("thx.js.AccessTweenText::stringNodef");
 		var $spos = $s.length;
 		var $tmp = this.stringTweenNodef(this.transitionStringTweenf(f));
@@ -25091,7 +25005,6 @@ thx.js.AccessTweenText.prototype = $extend(thx.js.AccessTween.prototype, {
 	}
 	,__class__: thx.js.AccessTweenText
 });
-thx.js.AccessTweenText.__properties__ = $extend(thx.js.AccessTween.__properties__, {});
 thx.js.AccessDataTweenText = function(transition,tweens) {
 	$s.push("thx.js.AccessDataTweenText::new");
 	var $spos = $s.length;
@@ -25100,8 +25013,8 @@ thx.js.AccessDataTweenText = function(transition,tweens) {
 }
 thx.js.AccessDataTweenText.__name__ = ["thx","js","AccessDataTweenText"];
 thx.js.AccessDataTweenText.__super__ = thx.js.AccessTweenText;
-thx.js.AccessDataTweenText.prototype = $extend(thx.js.AccessTweenText.prototype, {
-	 stringf: function(f) {
+thx.js.AccessDataTweenText.prototype = $extend(thx.js.AccessTweenText.prototype,{
+	stringf: function(f) {
 		$s.push("thx.js.AccessDataTweenText::stringf");
 		var $spos = $s.length;
 		var $tmp = this.stringTweenNodef(this.transitionStringTweenf(function(n,i) {
@@ -25156,7 +25069,6 @@ thx.js.AccessDataTweenText.prototype = $extend(thx.js.AccessTweenText.prototype,
 	}
 	,__class__: thx.js.AccessDataTweenText
 });
-thx.js.AccessDataTweenText.__properties__ = $extend(thx.js.AccessTweenText.__properties__, {});
 thx.color.TestColors = function() {
 	$s.push("thx.color.TestColors::new");
 	var $spos = $s.length;
@@ -25164,7 +25076,7 @@ thx.color.TestColors = function() {
 }
 thx.color.TestColors.__name__ = ["thx","color","TestColors"];
 thx.color.TestColors.prototype = {
-	 testParse: function() {
+	testParse: function() {
 		$s.push("thx.color.TestColors::testParse");
 		var $spos = $s.length;
 		var ab = thx.color.NamedColors.aliceblue;
@@ -25181,7 +25093,6 @@ thx.color.TestColors.prototype = {
 	}
 	,__class__: thx.color.TestColors
 }
-thx.color.TestColors.__properties__ = {}
 thx.math.Random = function(seed) {
 	$s.push("thx.math.Random::new");
 	var $spos = $s.length;
@@ -25191,8 +25102,8 @@ thx.math.Random = function(seed) {
 }
 thx.math.Random.__name__ = ["thx","math","Random"];
 thx.math.Random.prototype = {
-	 seed: null
-	,int: function() {
+	seed: null
+	,'int': function() {
 		$s.push("thx.math.Random::int");
 		var $spos = $s.length;
 		var $tmp = (this.seed = this.seed * 16807 % 2147483647) & 1073741823;
@@ -25200,7 +25111,7 @@ thx.math.Random.prototype = {
 		return $tmp;
 		$s.pop();
 	}
-	,float: function() {
+	,'float': function() {
 		$s.push("thx.math.Random::float");
 		var $spos = $s.length;
 		var $tmp = ((this.seed = this.seed * 16807 % 2147483647) & 1073741823) / 1073741823.0;
@@ -25210,7 +25121,6 @@ thx.math.Random.prototype = {
 	}
 	,__class__: thx.math.Random
 }
-thx.math.Random.__properties__ = {}
 thx.svg.LineInterpolators = function() { }
 thx.svg.LineInterpolators.__name__ = ["thx","svg","LineInterpolators"];
 thx.svg.LineInterpolators.parse = function(s,sep) {
@@ -25272,9 +25182,8 @@ thx.svg.LineInterpolators.argument = function(s) {
 	$s.pop();
 }
 thx.svg.LineInterpolators.prototype = {
-	 __class__: thx.svg.LineInterpolators
+	__class__: thx.svg.LineInterpolators
 }
-thx.svg.LineInterpolators.__properties__ = {}
 thx.json.TestJson = function() {
 	$s.push("thx.json.TestJson::new");
 	var $spos = $s.length;
@@ -25282,7 +25191,7 @@ thx.json.TestJson = function() {
 }
 thx.json.TestJson.__name__ = ["thx","json","TestJson"];
 thx.json.TestJson.prototype = {
-	 testEncode: function() {
+	testEncode: function() {
 		$s.push("thx.json.TestJson::testEncode");
 		var $spos = $s.length;
 		var _g = 0, _g1 = thx.json.TestJson.tests;
@@ -25314,7 +25223,6 @@ thx.json.TestJson.prototype = {
 	}
 	,__class__: thx.json.TestJson
 }
-thx.json.TestJson.__properties__ = {}
 thx.xml.TestAll = function() { }
 thx.xml.TestAll.__name__ = ["thx","xml","TestAll"];
 thx.xml.TestAll.addTests = function(runner) {
@@ -25334,9 +25242,8 @@ thx.xml.TestAll.main = function() {
 	$s.pop();
 }
 thx.xml.TestAll.prototype = {
-	 __class__: thx.xml.TestAll
+	__class__: thx.xml.TestAll
 }
-thx.xml.TestAll.__properties__ = {}
 thx.validation.TestUrl = function() {
 	$s.push("thx.validation.TestUrl::new");
 	var $spos = $s.length;
@@ -25344,8 +25251,8 @@ thx.validation.TestUrl = function() {
 }
 thx.validation.TestUrl.__name__ = ["thx","validation","TestUrl"];
 thx.validation.TestUrl.__super__ = thx.validation.TestAll;
-thx.validation.TestUrl.prototype = $extend(thx.validation.TestAll.prototype, {
-	 testValidUrls: function() {
+thx.validation.TestUrl.prototype = $extend(thx.validation.TestAll.prototype,{
+	testValidUrls: function() {
 		$s.push("thx.validation.TestUrl::testValidUrls");
 		var $spos = $s.length;
 		var validator = new thx.validation.UrlValidator();
@@ -25373,7 +25280,6 @@ thx.validation.TestUrl.prototype = $extend(thx.validation.TestAll.prototype, {
 	}
 	,__class__: thx.validation.TestUrl
 });
-thx.validation.TestUrl.__properties__ = $extend(thx.validation.TestAll.__properties__, {});
 thx.svg.LineInternals = function() { }
 thx.svg.LineInternals.__name__ = ["thx","svg","LineInternals"];
 thx.svg.LineInternals.linePoints = function(data,x,y) {
@@ -25631,9 +25537,8 @@ thx.svg.LineInternals._lineCardinalTangents = function(points,tension) {
 	$s.pop();
 }
 thx.svg.LineInternals.prototype = {
-	 __class__: thx.svg.LineInternals
+	__class__: thx.svg.LineInternals
 }
-thx.svg.LineInternals.__properties__ = {}
 thx.math.scale.Quantize = function() {
 	$s.push("thx.math.scale.Quantize::new");
 	var $spos = $s.length;
@@ -25647,7 +25552,7 @@ thx.math.scale.Quantize = function() {
 thx.math.scale.Quantize.__name__ = ["thx","math","scale","Quantize"];
 thx.math.scale.Quantize.__interfaces__ = [thx.math.scale.IScale];
 thx.math.scale.Quantize.prototype = {
-	 x0: null
+	x0: null
 	,x1: null
 	,kx: null
 	,i: null
@@ -25698,7 +25603,6 @@ thx.math.scale.Quantize.prototype = {
 	}
 	,__class__: thx.math.scale.Quantize
 }
-thx.math.scale.Quantize.__properties__ = {}
 thx.js.AccessTweenAttribute = function(name,transition,tweens) {
 	$s.push("thx.js.AccessTweenAttribute::new");
 	var $spos = $s.length;
@@ -25709,8 +25613,8 @@ thx.js.AccessTweenAttribute = function(name,transition,tweens) {
 }
 thx.js.AccessTweenAttribute.__name__ = ["thx","js","AccessTweenAttribute"];
 thx.js.AccessTweenAttribute.__super__ = thx.js.AccessTween;
-thx.js.AccessTweenAttribute.prototype = $extend(thx.js.AccessTween.prototype, {
-	 name: null
+thx.js.AccessTweenAttribute.prototype = $extend(thx.js.AccessTween.prototype,{
+	name: null
 	,qname: null
 	,stringNodef: function(f) {
 		$s.push("thx.js.AccessTweenAttribute::stringNodef");
@@ -25774,7 +25678,7 @@ thx.js.AccessTweenAttribute.prototype = $extend(thx.js.AccessTween.prototype, {
 		return $tmp;
 		$s.pop();
 	}
-	,float: function(value) {
+	,'float': function(value) {
 		$s.push("thx.js.AccessTweenAttribute::float");
 		var $spos = $s.length;
 		var $tmp = this.floatTweenNodef(this.transitionFloatTween(value));
@@ -25822,7 +25726,6 @@ thx.js.AccessTweenAttribute.prototype = $extend(thx.js.AccessTween.prototype, {
 	}
 	,__class__: thx.js.AccessTweenAttribute
 });
-thx.js.AccessTweenAttribute.__properties__ = $extend(thx.js.AccessTween.__properties__, {});
 thx.js.AccessDataTweenAttribute = function(name,transition,tweens) {
 	$s.push("thx.js.AccessDataTweenAttribute::new");
 	var $spos = $s.length;
@@ -25831,8 +25734,8 @@ thx.js.AccessDataTweenAttribute = function(name,transition,tweens) {
 }
 thx.js.AccessDataTweenAttribute.__name__ = ["thx","js","AccessDataTweenAttribute"];
 thx.js.AccessDataTweenAttribute.__super__ = thx.js.AccessTweenAttribute;
-thx.js.AccessDataTweenAttribute.prototype = $extend(thx.js.AccessTweenAttribute.prototype, {
-	 stringf: function(f) {
+thx.js.AccessDataTweenAttribute.prototype = $extend(thx.js.AccessTweenAttribute.prototype,{
+	stringf: function(f) {
 		$s.push("thx.js.AccessDataTweenAttribute::stringf");
 		var $spos = $s.length;
 		var $tmp = this.stringTweenNodef(this.transitionStringTweenf(function(n,i) {
@@ -25940,7 +25843,6 @@ thx.js.AccessDataTweenAttribute.prototype = $extend(thx.js.AccessTweenAttribute.
 	}
 	,__class__: thx.js.AccessDataTweenAttribute
 });
-thx.js.AccessDataTweenAttribute.__properties__ = $extend(thx.js.AccessTweenAttribute.__properties__, {});
 thx.validation.RangeValidator = function(min,max,mininclusive,maxinclusive) {
 	$s.push("thx.validation.RangeValidator::new");
 	var $spos = $s.length;
@@ -25954,8 +25856,8 @@ thx.validation.RangeValidator = function(min,max,mininclusive,maxinclusive) {
 }
 thx.validation.RangeValidator.__name__ = ["thx","validation","RangeValidator"];
 thx.validation.RangeValidator.__super__ = thx.validation.Validator;
-thx.validation.RangeValidator.prototype = $extend(thx.validation.Validator.prototype, {
-	 min: null
+thx.validation.RangeValidator.prototype = $extend(thx.validation.Validator.prototype,{
+	min: null
 	,max: null
 	,minInclusive: null
 	,maxInclusive: null
@@ -25991,7 +25893,6 @@ thx.validation.RangeValidator.prototype = $extend(thx.validation.Validator.proto
 	}
 	,__class__: thx.validation.RangeValidator
 });
-thx.validation.RangeValidator.__properties__ = $extend(thx.validation.Validator.__properties__, {});
 var TestIterators = function() {
 	$s.push("TestIterators::new");
 	var $spos = $s.length;
@@ -26014,9 +25915,8 @@ TestIterators.main = function() {
 	$s.pop();
 }
 TestIterators.prototype = {
-	 __class__: TestIterators
+	__class__: TestIterators
 }
-TestIterators.__properties__ = {}
 var StringBuf = function() {
 	$s.push("StringBuf::new");
 	var $spos = $s.length;
@@ -26025,7 +25925,7 @@ var StringBuf = function() {
 }
 StringBuf.__name__ = ["StringBuf"];
 StringBuf.prototype = {
-	 add: function(x) {
+	add: function(x) {
 		$s.push("StringBuf::add");
 		var $spos = $s.length;
 		this.b[this.b.length] = x == null?"null":x;
@@ -26054,7 +25954,6 @@ StringBuf.prototype = {
 	,b: null
 	,__class__: StringBuf
 }
-StringBuf.__properties__ = {}
 thx.js.AccessHtml = function(selection) {
 	$s.push("thx.js.AccessHtml::new");
 	var $spos = $s.length;
@@ -26063,8 +25962,8 @@ thx.js.AccessHtml = function(selection) {
 }
 thx.js.AccessHtml.__name__ = ["thx","js","AccessHtml"];
 thx.js.AccessHtml.__super__ = thx.js.Access;
-thx.js.AccessHtml.prototype = $extend(thx.js.Access.prototype, {
-	 get: function() {
+thx.js.AccessHtml.prototype = $extend(thx.js.Access.prototype,{
+	get: function() {
 		$s.push("thx.js.AccessHtml::get");
 		var $spos = $s.length;
 		var $tmp = this.selection.firstNode(function(node) {
@@ -26107,7 +26006,7 @@ thx.js.AccessHtml.prototype = $extend(thx.js.Access.prototype, {
 		return $tmp;
 		$s.pop();
 	}
-	,float: function(v) {
+	,'float': function(v) {
 		$s.push("thx.js.AccessHtml::float");
 		var $spos = $s.length;
 		this.selection.eachNode(function(node,i) {
@@ -26123,7 +26022,6 @@ thx.js.AccessHtml.prototype = $extend(thx.js.Access.prototype, {
 	}
 	,__class__: thx.js.AccessHtml
 });
-thx.js.AccessHtml.__properties__ = $extend(thx.js.Access.__properties__, {});
 thx.js.AccessDataHtml = function(selection) {
 	$s.push("thx.js.AccessDataHtml::new");
 	var $spos = $s.length;
@@ -26132,8 +26030,8 @@ thx.js.AccessDataHtml = function(selection) {
 }
 thx.js.AccessDataHtml.__name__ = ["thx","js","AccessDataHtml"];
 thx.js.AccessDataHtml.__super__ = thx.js.AccessHtml;
-thx.js.AccessDataHtml.prototype = $extend(thx.js.AccessHtml.prototype, {
-	 stringf: function(v) {
+thx.js.AccessDataHtml.prototype = $extend(thx.js.AccessHtml.prototype,{
+	stringf: function(v) {
 		$s.push("thx.js.AccessDataHtml::stringf");
 		var $spos = $s.length;
 		this.selection.eachNode(function(node,i) {
@@ -26181,7 +26079,6 @@ thx.js.AccessDataHtml.prototype = $extend(thx.js.AccessHtml.prototype, {
 	}
 	,__class__: thx.js.AccessDataHtml
 });
-thx.js.AccessDataHtml.__properties__ = $extend(thx.js.AccessHtml.__properties__, {});
 var Iterators = function() { }
 Iterators.__name__ = ["Iterators"];
 Iterators.indexOf = function(it,v,f) {
@@ -26375,9 +26272,8 @@ Iterators.isIterator = function(v) {
 	$s.pop();
 }
 Iterators.prototype = {
-	 __class__: Iterators
+	__class__: Iterators
 }
-Iterators.__properties__ = {}
 thx.text.TestAll = function() {
 	$s.push("thx.text.TestAll::new");
 	var $spos = $s.length;
@@ -26401,9 +26297,8 @@ thx.text.TestAll.main = function() {
 	$s.pop();
 }
 thx.text.TestAll.prototype = {
-	 __class__: thx.text.TestAll
+	__class__: thx.text.TestAll
 }
-thx.text.TestAll.__properties__ = {}
 thx.geo.Azimuthal = function() {
 	$s.push("thx.geo.Azimuthal::new");
 	var $spos = $s.length;
@@ -26416,7 +26311,7 @@ thx.geo.Azimuthal = function() {
 thx.geo.Azimuthal.__name__ = ["thx","geo","Azimuthal"];
 thx.geo.Azimuthal.__interfaces__ = [thx.geo.IProjection];
 thx.geo.Azimuthal.prototype = {
-	 mode: null
+	mode: null
 	,origin: null
 	,scale: null
 	,translate: null
@@ -26534,16 +26429,6 @@ thx.geo.Azimuthal.prototype = {
 	}
 	,__class__: thx.geo.Azimuthal
 }
-thx.geo.Azimuthal.__properties__ = {
-	 set_translate: thx.geo.Azimuthal.prototype.setTranslate
-	,set_scale: thx.geo.Azimuthal.prototype.setScale
-	,set_origin: thx.geo.Azimuthal.prototype.setOrigin
-	,set_mode: thx.geo.Azimuthal.prototype.setMode
-	,get_translate: thx.geo.Azimuthal.prototype.getTranslate
-	,get_scale: thx.geo.Azimuthal.prototype.getScale
-	,get_origin: thx.geo.Azimuthal.prototype.getOrigin
-	,get_mode: thx.geo.Azimuthal.prototype.getMode
-}
 thx.geo.ProjectionMode = { __ename__ : ["thx","geo","ProjectionMode"], __constructs__ : ["Orthographic","Stereographic"] }
 thx.geo.ProjectionMode.Orthographic = ["Orthographic",0];
 thx.geo.ProjectionMode.Orthographic.toString = $estr;
@@ -26560,8 +26445,8 @@ thx.validation.IncrementValidator = function(increment) {
 }
 thx.validation.IncrementValidator.__name__ = ["thx","validation","IncrementValidator"];
 thx.validation.IncrementValidator.__super__ = thx.validation.Validator;
-thx.validation.IncrementValidator.prototype = $extend(thx.validation.Validator.prototype, {
-	 increment: null
+thx.validation.IncrementValidator.prototype = $extend(thx.validation.Validator.prototype,{
+	increment: null
 	,validate: function(value) {
 		$s.push("thx.validation.IncrementValidator::validate");
 		var $spos = $s.length;
@@ -26579,7 +26464,6 @@ thx.validation.IncrementValidator.prototype = $extend(thx.validation.Validator.p
 	}
 	,__class__: thx.validation.IncrementValidator
 });
-thx.validation.IncrementValidator.__properties__ = $extend(thx.validation.Validator.__properties__, {});
 var Objects = function() { }
 Objects.__name__ = ["Objects"];
 Objects.field = function(o,fieldname,alt) {
@@ -26674,15 +26558,15 @@ Objects.interpolatef = function(a,b,equation) {
 		++_g;
 		if(Reflect.hasField(b,key)) {
 			var va = Reflect.field(a,key);
-			Reflect.setField(i,key,(Objects.interpolateByName(key,va))(va,Reflect.field(b,key)));
-		} else Reflect.setField(c,key,Reflect.field(a,key));
+			i[key] = (Objects.interpolateByName(key,va))(va,Reflect.field(b,key));
+		} else c[key] = Reflect.field(a,key);
 	}
 	keys = Reflect.fields(b);
 	var _g = 0;
 	while(_g < keys.length) {
 		var key = keys[_g];
 		++_g;
-		if(!Reflect.hasField(a,key)) Reflect.setField(c,key,Reflect.field(b,key));
+		if(!Reflect.hasField(a,key)) c[key] = Reflect.field(b,key);
 	}
 	var $tmp = function(t) {
 		$s.push("Objects::interpolatef@85");
@@ -26691,7 +26575,7 @@ Objects.interpolatef = function(a,b,equation) {
 		while(_g < _g1.length) {
 			var k = _g1[_g];
 			++_g;
-			Reflect.setField(c,k,Reflect.field(i,k).apply(i,[t]));
+			c[k] = Reflect.field(i,k).apply(i,[t]);
 		}
 		$s.pop();
 		return c;
@@ -26718,7 +26602,7 @@ Objects.copyTo = function(src,dst) {
 		++_g;
 		var sv = Dynamics.clone(Reflect.field(src,field));
 		var dv = Reflect.field(dst,field);
-		if(Reflect.isObject(sv) && null == Type.getClass(sv) && (Reflect.isObject(dv) && null == Type.getClass(dv))) Objects.copyTo(sv,dv); else Reflect.setField(dst,field,sv);
+		if(Reflect.isObject(sv) && null == Type.getClass(sv) && (Reflect.isObject(dv) && null == Type.getClass(dv))) Objects.copyTo(sv,dv); else dst[field] = sv;
 	}
 	$s.pop();
 	return dst;
@@ -26743,8 +26627,8 @@ Objects.mergef = function(ob,new_ob,f) {
 		var new_val = Reflect.field(new_ob,field);
 		if(Reflect.hasField(ob,field)) {
 			var old_val = Reflect.field(ob,field);
-			Reflect.setField(ob,field,f(field,old_val,new_val));
-		} else Reflect.setField(ob,field,new_val);
+			ob[field] = f(field,old_val,new_val);
+		} else ob[field] = new_val;
 	}
 	$s.pop();
 }
@@ -26832,7 +26716,7 @@ Objects.addFields = function(o,fields,values) {
 Objects.addField = function(o,field,value) {
 	$s.push("Objects::addField");
 	var $spos = $s.length;
-	Reflect.setField(o,field,value);
+	o[field] = value;
 	$s.pop();
 	return o;
 	$s.pop();
@@ -26892,9 +26776,8 @@ Objects.formatf = function(param,params,culture) {
 	$s.pop();
 }
 Objects.prototype = {
-	 __class__: Objects
+	__class__: Objects
 }
-Objects.__properties__ = {}
 if(!utest._Dispatcher) utest._Dispatcher = {}
 utest._Dispatcher.EventException = { __ename__ : ["utest","_Dispatcher","EventException"], __constructs__ : ["StopPropagation"] }
 utest._Dispatcher.EventException.StopPropagation = ["StopPropagation",0];
@@ -26914,7 +26797,7 @@ utest.Dispatcher.stop = function() {
 	$s.pop();
 }
 utest.Dispatcher.prototype = {
-	 handlers: null
+	handlers: null
 	,add: function(h) {
 		$s.push("utest.Dispatcher::add");
 		var $spos = $s.length;
@@ -26979,7 +26862,6 @@ utest.Dispatcher.prototype = {
 	}
 	,__class__: utest.Dispatcher
 }
-utest.Dispatcher.__properties__ = {}
 utest.Notifier = function() {
 	$s.push("utest.Notifier::new");
 	var $spos = $s.length;
@@ -26994,7 +26876,7 @@ utest.Notifier.stop = function() {
 	$s.pop();
 }
 utest.Notifier.prototype = {
-	 handlers: null
+	handlers: null
 	,add: function(h) {
 		$s.push("utest.Notifier::add");
 		var $spos = $s.length;
@@ -27059,7 +26941,6 @@ utest.Notifier.prototype = {
 	}
 	,__class__: utest.Notifier
 }
-utest.Notifier.__properties__ = {}
 var Lambda = function() { }
 Lambda.__name__ = ["Lambda"];
 Lambda.array = function(it) {
@@ -27271,9 +27152,8 @@ Lambda.concat = function(a,b) {
 	$s.pop();
 }
 Lambda.prototype = {
-	 __class__: Lambda
+	__class__: Lambda
 }
-Lambda.__properties__ = {}
 thx.color.Colors = function() { }
 thx.color.Colors.__name__ = ["thx","color","Colors"];
 thx.color.Colors.interpolatef = function(a,b,equation) {
@@ -27305,7 +27185,7 @@ thx.color.Colors.interpolate = function(v,a,b,equation) {
 thx.color.Colors.parse = function(s) {
 	$s.push("thx.color.Colors::parse");
 	var $spos = $s.length;
-	if(!thx.color.Colors._reParse.match(s = s.toLowerCase())) {
+	if(!thx.color.Colors._reParse.match(s = StringTools.trim(s.toLowerCase()))) {
 		var v = thx.color.NamedColors.byName.get(s);
 		if(null == v) {
 			if("transparent" == s) {
@@ -27390,9 +27270,8 @@ thx.color.Colors._p = function(s) {
 	$s.pop();
 }
 thx.color.Colors.prototype = {
-	 __class__: thx.color.Colors
+	__class__: thx.color.Colors
 }
-thx.color.Colors.__properties__ = {}
 haxe.Timer = function(time_ms) {
 	$s.push("haxe.Timer::new");
 	var $spos = $s.length;
@@ -27437,7 +27316,7 @@ haxe.Timer.stamp = function() {
 	$s.pop();
 }
 haxe.Timer.prototype = {
-	 id: null
+	id: null
 	,timerId: null
 	,stop: function() {
 		$s.push("haxe.Timer::stop");
@@ -27464,7 +27343,6 @@ haxe.Timer.prototype = {
 	}
 	,__class__: haxe.Timer
 }
-haxe.Timer.__properties__ = {}
 var TestInts = function() {
 	$s.push("TestInts::new");
 	var $spos = $s.length;
@@ -27487,7 +27365,7 @@ TestInts.main = function() {
 	$s.pop();
 }
 TestInts.prototype = {
-	 testRange: function() {
+	testRange: function() {
 		$s.push("TestInts::testRange");
 		var $spos = $s.length;
 		utest.Assert.same([0,1,2],Ints.range(3),null,null,{ fileName : "TestInts.hx", lineNumber : 14, className : "TestInts", methodName : "testRange"});
@@ -27506,7 +27384,6 @@ TestInts.prototype = {
 	}
 	,__class__: TestInts
 }
-TestInts.__properties__ = {}
 thx.svg.LineInterpolator = { __ename__ : ["thx","svg","LineInterpolator"], __constructs__ : ["Linear","StepBefore","StepAfter","Basis","BasisOpen","BasisClosed","Cardinal","CardinalOpen","CardinalClosed","Monotone"] }
 thx.svg.LineInterpolator.Linear = ["Linear",0];
 thx.svg.LineInterpolator.Linear.toString = $estr;
@@ -27539,7 +27416,7 @@ thx.data.TestValueEncoder = function() {
 }
 thx.data.TestValueEncoder.__name__ = ["thx","data","TestValueEncoder"];
 thx.data.TestValueEncoder.prototype = {
-	 testEncodeSequence: function() {
+	testEncodeSequence: function() {
 		$s.push("thx.data.TestValueEncoder::testEncodeSequence");
 		var $spos = $s.length;
 		var handler = new thx.data.CustomerEncoder();
@@ -27550,7 +27427,6 @@ thx.data.TestValueEncoder.prototype = {
 	}
 	,__class__: thx.data.TestValueEncoder
 }
-thx.data.TestValueEncoder.__properties__ = {}
 thx.data.CustomerEncoder = function() {
 	$s.push("thx.data.CustomerEncoder::new");
 	var $spos = $s.length;
@@ -27559,7 +27435,7 @@ thx.data.CustomerEncoder = function() {
 thx.data.CustomerEncoder.__name__ = ["thx","data","CustomerEncoder"];
 thx.data.CustomerEncoder.__interfaces__ = [thx.data.IDataHandler];
 thx.data.CustomerEncoder.prototype = {
-	 result: null
+	result: null
 	,start: function() {
 		$s.push("thx.data.CustomerEncoder::start");
 		var $spos = $s.length;
@@ -27632,19 +27508,19 @@ thx.data.CustomerEncoder.prototype = {
 		this.result.push("string:" + s);
 		$s.pop();
 	}
-	,int: function(i) {
+	,'int': function(i) {
 		$s.push("thx.data.CustomerEncoder::int");
 		var $spos = $s.length;
 		this.result.push("int:" + i);
 		$s.pop();
 	}
-	,float: function(f) {
+	,'float': function(f) {
 		$s.push("thx.data.CustomerEncoder::float");
 		var $spos = $s.length;
 		this.result.push("float:" + f);
 		$s.pop();
 	}
-	,null: function() {
+	,'null': function() {
 		$s.push("thx.data.CustomerEncoder::null");
 		var $spos = $s.length;
 		this.result.push("null");
@@ -27664,7 +27540,6 @@ thx.data.CustomerEncoder.prototype = {
 	}
 	,__class__: thx.data.CustomerEncoder
 }
-thx.data.CustomerEncoder.__properties__ = {}
 thx.math.scale.TestQuantize = function() {
 	$s.push("thx.math.scale.TestQuantize::new");
 	var $spos = $s.length;
@@ -27673,10 +27548,9 @@ thx.math.scale.TestQuantize = function() {
 }
 thx.math.scale.TestQuantize.__name__ = ["thx","math","scale","TestQuantize"];
 thx.math.scale.TestQuantize.__super__ = thx.math.scale.TestAll;
-thx.math.scale.TestQuantize.prototype = $extend(thx.math.scale.TestAll.prototype, {
-	 __class__: thx.math.scale.TestQuantize
+thx.math.scale.TestQuantize.prototype = $extend(thx.math.scale.TestAll.prototype,{
+	__class__: thx.math.scale.TestQuantize
 });
-thx.math.scale.TestQuantize.__properties__ = $extend(thx.math.scale.TestAll.__properties__, {});
 thx.svg.Symbol = function() { }
 thx.svg.Symbol.__name__ = ["thx","svg","Symbol"];
 thx.svg.Symbol.triangleDown = function(size) {
@@ -27788,9 +27662,8 @@ thx.svg.Symbol.star = function(size) {
 	$s.pop();
 }
 thx.svg.Symbol.prototype = {
-	 __class__: thx.svg.Symbol
+	__class__: thx.svg.Symbol
 }
-thx.svg.Symbol.__properties__ = {}
 thx.math.Equations = function() { }
 thx.math.Equations.__name__ = ["thx","math","Equations"];
 thx.math.Equations.linear = function(v) {
@@ -27930,9 +27803,8 @@ thx.math.Equations.polynomialf = function(e) {
 	$s.pop();
 }
 thx.math.Equations.prototype = {
-	 __class__: thx.math.Equations
+	__class__: thx.math.Equations
 }
-thx.math.Equations.__properties__ = {}
 js.Boot.__res = {}
 $s = [];
 $e = [];
@@ -28189,10 +28061,8 @@ thx.cultures.ItIT.getCulture();
 {
 	String.prototype.__class__ = String;
 	String.__name__ = ["String"];
-	String.__properties__ = { };
 	Array.prototype.__class__ = Array;
 	Array.__name__ = ["Array"];
-	Array.__properties__ = { };
 	Int = { __name__ : ["Int"]};
 	Dynamic = { __name__ : ["Dynamic"]};
 	Float = Number;
@@ -28234,6 +28104,94 @@ thx.languages.En.getLanguage();
 		thx.json.Json.nativeDecoder = JSON.parse;
 		thx.json.Json.nativeEncoder = JSON.stringify;
 	}
+}
+{
+	var useragent = thx.js.ClientHost.userAgent(), hasnavigator = thx.js.ClientHost.hasNavigator(), pattern;
+	thx.js.ClientHost.host = !hasnavigator?thx.js.HostType.UnknownServer:typeof module !== 'undefined' && module.exports?thx.js.HostType.NodeJs:(pattern = new EReg("MSIE(?:/| )(\\S*);","")).match(useragent)?thx.js.HostType.IE(pattern.matched(1)):(pattern = new EReg("Firefox(?:/| )(\\S*)","")).match(useragent)?thx.js.HostType.Firefox(pattern.matched(1)):(pattern = new EReg("Chrome(?:/| )(\\S*)","")).match(useragent)?thx.js.HostType.Chrome(pattern.matched(1)):(pattern = new EReg("Version(?:/| )(\\S*) Safari(?:/| )(\\S*)","")).match(useragent)?thx.js.HostType.Safari(pattern.matched(1)):(pattern = new EReg("Opera(?:/| )(\\S*)","")).match(useragent)?thx.js.HostType.Opera(pattern.matched(1)):thx.js.HostType.Unknown(useragent);
+	thx.js.ClientHost.os = !hasnavigator?thx.js.OSType.UnknownOs:(pattern = new EReg("Windows NT\\s+(\\d+\\.\\d+)","")).match(useragent)?(function($this) {
+		var $r;
+		var version = (function($this) {
+			var $r;
+			switch(pattern.matched(1)) {
+			case "5.1":
+				$r = "XP";
+				break;
+			case "5.2":
+				$r = "2003/XP x64";
+				break;
+			case "6.0":
+				$r = "Vista";
+				break;
+			case "6.1":
+				$r = "7";
+				break;
+			case "6.2":
+				$r = "8";
+				break;
+			default:
+				$r = "unknown";
+			}
+			return $r;
+		}($this));
+		$r = thx.js.OSType.Windows(version);
+		return $r;
+	}(this)):new EReg("Mac OS X","").match(useragent)?thx.js.OSType.Mac:new EReg("(iPhone|iPad|iPod)","").match(useragent)?thx.js.OSType.IOs:new EReg("Linux","").match(useragent)?thx.js.OSType.Linux:new EReg("Android","").match(useragent)?thx.js.OSType.Android:thx.js.OSType.UnknownOs;
+	thx.js.ClientHost.environment = (function($this) {
+		var $r;
+		switch( (thx.js.ClientHost.host)[1] ) {
+		case 0:
+			$r = thx.js.EnvironmentType.Server;
+			break;
+		case 1:
+			$r = thx.js.EnvironmentType.Server;
+			break;
+		case 2:
+		case 6:
+		case 3:
+			$r = thx.js.EnvironmentType.Desktop;
+			break;
+		case 4:
+			$r = (function($this) {
+				var $r;
+				switch( (thx.js.ClientHost.os)[1] ) {
+				case 1:
+					$r = thx.js.EnvironmentType.Mobile;
+					break;
+				default:
+					$r = thx.js.EnvironmentType.Desktop;
+				}
+				return $r;
+			}($this));
+			break;
+		case 5:
+			$r = (function($this) {
+				var $r;
+				switch( (thx.js.ClientHost.os)[1] ) {
+				case 2:
+					$r = thx.js.EnvironmentType.Mobile;
+					break;
+				default:
+					$r = thx.js.EnvironmentType.Desktop;
+				}
+				return $r;
+			}($this));
+			break;
+		case 7:
+			$r = (function($this) {
+				var $r;
+				switch( (thx.js.ClientHost.os)[1] ) {
+				case 5:
+					$r = thx.js.EnvironmentType.UnknownEnvironment;
+					break;
+				default:
+					$r = thx.js.EnvironmentType.Desktop;
+				}
+				return $r;
+			}($this));
+			break;
+		}
+		return $r;
+	}(this));
 }
 thx.languages.It.getLanguage();
 {
@@ -29904,7 +29862,7 @@ thx.svg.LineInternals._lineBasisBezier1 = [0,2 / 3,1 / 3,0];
 thx.svg.LineInternals._lineBasisBezier2 = [0,1 / 3,2 / 3,0];
 thx.svg.LineInternals._lineBasisBezier3 = [0,1 / 6,2 / 3,1 / 6];
 Objects._reCheckKeyIsColor = new EReg("color\\b|\\bbackground\\b|\\bstroke\\b|\\bfill\\b","");
-thx.color.Colors._reParse = new EReg("^\\s*(?:(hsl|rgb|rgba|cmyk)\\(([^)]+)\\))|(?:(?:0x|#)([a-f0-9]{3,6}))\\s*$","i");
+thx.color.Colors._reParse = new EReg("^(?:(hsl|rgb|rgba|cmyk)\\(([^)]+)\\))|(?:(?:0x|#)([a-f0-9]{3,6}))$","i");
 thx.svg.Symbol.sqrt3 = Math.sqrt(3);
 thx.svg.Symbol.tan30 = Math.tan(30 * Math.PI / 180);
 TestAll.main()
