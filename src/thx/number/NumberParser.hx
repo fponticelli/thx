@@ -91,8 +91,6 @@ class NumberParser
 			reg_string  = "[+-]?" + reg_string;
 		}
 		reg_string = "^"+ reg_string + "$";
-		haxe.Firebug.trace(cul);
-		haxe.Firebug.trace(reg_string);
 		var reg = new EReg(reg_string,'gi');
 		return reg;
 		
