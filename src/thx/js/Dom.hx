@@ -36,6 +36,11 @@ class Dom
 		return Selection.create([new Group([node])]);
 	}
 	
+	public static function selectNodes(nodes : Array<HtmlDom>) : Selection
+	{
+		return Selection.create([new Group(nodes)]);
+	}
+	
 	public static function selectNodeData<T>(node : HtmlDom) : ResumeSelection<T>
 	{
 		return ResumeSelection.create([new Group([node])]);
