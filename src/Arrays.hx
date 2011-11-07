@@ -76,6 +76,27 @@ class Arrays
 		return a;
 	}
 	
+	public static function range<T>(arr : Array<T>, ?f : T -> Float) : Array<Null<T>>
+	{
+		if (arr.length == 0)
+			return null;
+		if (null == f) {
+			var a = arr[0], p = 0;
+			var b = arr[0], q = 0;			
+			for(i in 1...arr.length) {
+				if(Reflect.compare(a, arr[i]) > 0) a = arr[p = i];
+				if(Reflect.compare(b, arr[i]) < 0) b = arr[q = i];
+			}
+			return [arr[p], arr[q]];
+		} else {
+			var a = f(arr[0]), p = 0, b;
+			var c = f(arr[0]), q = 0, d;
+			for(i in 1...arr.length) if(a > (b = f(arr[i]))) { a = b; p = i; }
+			for(i in 1...arr.length) if(c < (d = f(arr[i]))) { c = d; q = i; }
+			return [arr[p], arr[q]];
+		}
+	}
+	
 	public static function max<T>(arr : Array<T>, ?f : T -> Float) : Null<T>
 	{
 		if (arr.length == 0)
@@ -90,6 +111,7 @@ class Arrays
 			return arr[p];
 		}
 	}
+	
 	
 	public static function floatMax<T>(arr : Array<T>, f : T -> Float) : Float
 	{
