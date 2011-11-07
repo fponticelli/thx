@@ -97,6 +97,19 @@ class Arrays
 		}
 	}
 	
+	public static function rangeFloat<T>(arr : Array<T>, f : T -> Float) : Array<Float>
+	{
+		if (arr.length == 0)
+			return null;
+		var a = f(arr[0]), b;
+		var c = f(arr[0]), d;
+		for(i in 1...arr.length) {
+			if(a > (b = f(arr[i]))) { a = b; }
+			if(c < (d = f(arr[i]))) { c = d; }
+		}
+			return [a, c];
+	}
+	
 	public static function max<T>(arr : Array<T>, ?f : T -> Float) : Null<T>
 	{
 		if (arr.length == 0)
