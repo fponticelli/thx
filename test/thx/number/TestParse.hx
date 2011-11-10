@@ -24,6 +24,7 @@ class TestParse
 		Assert.equals(100, N.parse("100", EnIN.culture));
 		Assert.isTrue(N.parse("1,00,0", EnIN.culture).isNaN());
 		Assert.equals(1000, N.parse("1,000", EnUS.culture));
+		Assert.equals(1000000, N.parse("1,000,000", EnUS.culture));
 		Assert.isTrue(N.parse("1,00,000", EnUS.culture).isNaN());
 		Assert.equals(100000, N.parse("1,00,000", EnIN.culture));
 		Assert.equals(-10, N.parse("10-", ArMA.culture));
