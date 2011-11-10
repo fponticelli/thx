@@ -34,6 +34,22 @@ class Group
 	inline public function count() return nodes.length
 	
 	inline public function push(node : HtmlDom) nodes.push(node)
+	
+	inline public static function merge(source:Array<Group>, target:Array<Group>){
+		if (target.length != source.length) throw ("Group length not equal");
+		for (i in 0...target.length){
+			var s = source[i];
+			var t = target[i];
+			if (s.parentNode != t.parentNode) throw ("parentNodes not the same!");
+			else if (s.nodes.length != t.nodes.length) throw("node length mismatch!")
+			else{
+				for (i in 0...t.nodes.length){
+					if (null == t.nodes[i]) t.nodes[i] = s.nodes[i];
+				}
+			}
+		}
+		return target;
+	}
 
 	inline public function sort(comparator : HtmlDom -> HtmlDom -> Int) nodes.sort(comparator)
 }

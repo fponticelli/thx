@@ -98,6 +98,11 @@ class DataChoice<T>
 	{
 		return new UpdateSelection(_update, this);
 	}
+	
+	public static function mergeUpdate<T>(dc:DataChoice<T>, groups:Array<Group>){
+		Group.merge(dc._update, groups);
+	}
+
 }
 
 class ResumeSelection<T> extends BoundSelection<T, ResumeSelection<T>>
@@ -306,9 +311,12 @@ class EnterSelection<T> extends BoundSelection<T, EnterSelection<T>>
 	{
 		return new EnterSelection(groups, _choice);
 	}
-	
 	public function exit() return _choice.exit()
 	public function update() return _choice.update()
+	public function updateMerge() {
+		DataChoice.mergeUpdate(_choice,this.groups);
+		return this;
+	}
 }
 
 class ExitSelection<T> extends UnboundSelection<ExitSelection<T>>
