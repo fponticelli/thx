@@ -72,7 +72,7 @@ class UnboundSelection<This> extends BaseSelection<This>
 	}
 }
 
-class DataChoice<T>
+class DataChoice<T> extends UpdateSelection<T>
 {
 	var _update : Array<Group>;
 	var _enter : Array<Group>;
@@ -82,25 +82,27 @@ class DataChoice<T>
 		_update = update;
 		_enter = enter;
 		_exit = exit;
+		super(_update,this);
 	}
 	
-	public function enter()
+	override public function enter()
 	{
 		return new PreEnterSelection(_enter, this);
 	}
 	
-	public function exit()
+	override public function exit()
 	{
 		return new ExitSelection(_exit, this);
 	}
 	
-	public function update()
+/*	public function update()
 	{
 		return new UpdateSelection(_update, this);
 	}
+*/
 	
-	public static function mergeUpdate<T>(dc:DataChoice<T>, groups:Array<Group>){
-		Group.merge(dc._update, groups);
+	public static function merge<T>(groups:Array<Group>,dc:DataChoice<T>){
+		Group.merge(groups, dc._update);
 	}
 
 }
@@ -244,8 +246,8 @@ class PreEnterSelection<T>
 			node.appendChild(n);
 			return n;
 		}
-		
 		return _select(null == qname ? append : appendNS);
+		
 	}
 	
 	public function insert(name : String, ?before : HtmlDom, ?beforeSelector : String)
@@ -287,6 +289,7 @@ class PreEnterSelection<T>
 			{
 				if (null != node)
 				{
+					
 					subgroup.push(subnode = selectf(group.parentNode));
 					Access.setData(subnode, Access.getData(node));
 				} else {
@@ -294,6 +297,7 @@ class PreEnterSelection<T>
 				}
 			}
 		}
+		DataChoice.merge(subgroups, _choice);
 		return createSelection(subgroups);
 	}
 }
@@ -312,11 +316,7 @@ class EnterSelection<T> extends BoundSelection<T, EnterSelection<T>>
 		return new EnterSelection(groups, _choice);
 	}
 	public function exit() return _choice.exit()
-	public function update() return _choice.update()
-	public function updateMerge() {
-		DataChoice.mergeUpdate(_choice,this.groups);
-		return this;
-	}
+	public function update() return _choice
 }
 
 class ExitSelection<T> extends UnboundSelection<ExitSelection<T>>
@@ -334,7 +334,7 @@ class ExitSelection<T> extends UnboundSelection<ExitSelection<T>>
 	}
 	
 	public function enter() return _choice.enter()
-	public function update() return _choice.update()
+	public function update() return _choice
 }
 
 class UpdateSelection<T> extends BoundSelection<T, UpdateSelection<T>>
@@ -351,6 +351,7 @@ class UpdateSelection<T> extends BoundSelection<T, UpdateSelection<T>>
 		return new UpdateSelection(groups, _choice);
 	}
 	
+	public function update() return this
 	public function enter() return _choice.enter()
 	public function exit() return _choice.exit()
 }

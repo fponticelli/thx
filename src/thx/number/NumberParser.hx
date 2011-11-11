@@ -68,8 +68,8 @@ class NumberParser
 		
 		if (groups.length == 1){
 			group_length = groups[0];
-			regex.add( "((" + digits + "{1," + groups[0] + "}" + gsep + ")"); // {1,initial group_count} number of digits
-			regex.add( "(" + digits + "{" + groups[0] + "}" + ")+)|"); // {1,initial group_count} number of digits
+			regex.add( "((" + digits + "{1," + groups[0] + "})"); // {1,initial group_count} number of digits
+			regex.add( "("+ gsep + digits + "{" + groups[0] + "}" + ")+)|"); // {1,initial group_count} number of digits
 			regex.add( "(" + digits + "+)"); // {1, final_group_count} number of digits (alone)
 		}
 		
@@ -97,10 +97,8 @@ class NumberParser
 	}
 	
 	public static function canParse(val:String, ?cul:Culture){
-/*		haxe.Firebug.trace(val);*/
 		if (cul == null) cul = Culture.defaultCulture;
 		var reg = cultureNumberEReg(cul);
-		
 		if (reg.match(val)) {
 
 			return true;
