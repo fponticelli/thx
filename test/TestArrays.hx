@@ -62,6 +62,15 @@ class TestArrays
 		Assert.same([20, 10], Arrays.interpolateInts(0.5, [10,20], [30,0]));
 	}
 	
+	public function testBounds()
+	{	
+		Assert.same([1,10], Arrays.bounds([1,9,3,4,10,2]));
+		var arr:Array<{x:Int}> = [{x:1},{x:10},{x:4},{x:2}];
+		Assert.same([1,10], Arrays.boundsFloat(arr, function(x){
+			return x.x;
+		}));
+	}
+	
 	public static function addTests(runner : Runner)
 	{
 		runner.addCase(new TestArrays());
@@ -74,6 +83,7 @@ class TestArrays
 		Report.create(runner);
 		runner.run();
 	}
+	
 	
 	public function testBisect()
 	{

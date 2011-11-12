@@ -58,7 +58,8 @@ class Arrays
 			return null;
 		if (null == f) {
 			var a = arr[0], p = 0;
-			for(i in 1...arr.length) if(Reflect.compare(a, arr[i]) > 0) a = arr[p = i];
+			var comp = Dynamics.comparef(a);
+			for(i in 1...arr.length) if(comp(a, arr[i]) > 0) a = arr[p = i];
 			return arr[p];
 		} else {
 			var a = f(arr[0]), p = 0, b;
@@ -76,7 +77,7 @@ class Arrays
 		return a;
 	}
 	
-	public static function range<T>(arr : Array<T>, ?f : T -> Float) : Array<Null<T>>
+	public static function bounds<T>(arr : Array<T>, ?f : T -> Float) : Array<Null<T>>
 	{
 		if (arr.length == 0)
 			return null;
@@ -84,8 +85,9 @@ class Arrays
 			var a = arr[0], p = 0;
 			var b = arr[0], q = 0;			
 			for(i in 1...arr.length) {
-				if(Reflect.compare(a, arr[i]) > 0) a = arr[p = i];
-				if(Reflect.compare(b, arr[i]) < 0) b = arr[q = i];
+				var comp = Dynamics.comparef(a);
+				if(comp(a, arr[i]) > 0) a = arr[p = i];
+				if(comp(b, arr[i]) < 0) b = arr[q = i];
 			}
 			return [arr[p], arr[q]];
 		} else {
@@ -97,7 +99,7 @@ class Arrays
 		}
 	}
 	
-	public static function rangeFloat<T>(arr : Array<T>, f : T -> Float) : Array<Float>
+	public static function boundsFloat<T>(arr : Array<T>, f : T -> Float) : Array<Float>
 	{
 		if (arr.length == 0)
 			return null;
@@ -116,7 +118,8 @@ class Arrays
 			return null;
 		if (null == f) {
 			var a = arr[0], p = 0;
-			for(i in 1...arr.length) if(Reflect.compare(a, arr[i]) < 0) a = arr[p = i];
+			var comp = Dynamics.comparef(a);
+			for(i in 1...arr.length) if(comp(a, arr[i]) < 0) a = arr[p = i];
 			return arr[p];
 		} else {
 			var a = f(arr[0]), p = 0, b;
