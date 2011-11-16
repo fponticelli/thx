@@ -22,6 +22,8 @@ import thx.js.Transition;
 class Selection extends UnboundSelection<Selection>
 {
 	public static var current(getCurrent, null) : Selection;
+	public static var currentNode(getCurrentNode, null) : HtmlDom;
+	
 	public static function create(groups : Array<Group>) return new Selection(groups)
 	private function new(groups : Array<Group>) super(groups)
 	override function createSelection(groups : Array<Group>) : Selection
@@ -29,7 +31,8 @@ class Selection extends UnboundSelection<Selection>
 		return new Selection(groups);
 	}
 	
-	static function getCurrent() return Dom.selectNode(Group.current)
+	inline static function getCurrent() return Dom.selectNode(Group.current)
+	inline static function getCurrentNode() return Group.current
 }
 
 class UnboundSelection<This> extends BaseSelection<This>
@@ -358,7 +361,7 @@ class UpdateSelection<T> extends BoundSelection<T, UpdateSelection<T>>
 
 class BaseSelection<This>
 {
-	public var parentNode : HtmlDom;
+	var parentNode : HtmlDom;
 	
 	var groups : Array<Group>;
 
