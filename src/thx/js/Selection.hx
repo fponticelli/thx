@@ -361,7 +361,7 @@ class UpdateSelection<T> extends BoundSelection<T, UpdateSelection<T>>
 
 class BaseSelection<This>
 {
-	var parentNode : HtmlDom;
+	public var parentNode : HtmlDom;
 	
 	var groups : Array<Group>;
 
