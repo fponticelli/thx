@@ -4,6 +4,7 @@
  */
 
 import thx.culture.Culture;
+import EReg;
 import thx.error.Error;
 import thx.culture.FormatParams;
 using StringTools;
@@ -497,6 +498,7 @@ Other things to do. Nested placeholders
 	
 	public static function interpolateCharsf(a : String, b : String, ?equation : Float -> Float) : Float -> String
 	{
+	
 		var aa = a.split(""),
 			ab = b.split("");
 		while (aa.length > ab.length)
@@ -522,6 +524,9 @@ Other things to do. Nested placeholders
 	
 	public static function interpolateCharf(a : String, b : String, ?equation : Float -> Float) : Float -> String
 	{
+		if (~/^\d/.match(b) && a == ' ') a = '0';
+		var r = ~/^[^a-zA-Z0-9]/;
+		if (r.match(b) && a == ' ')  a = r.matched(0);
 		var ca = a.charCodeAt(0),
 			cb = b.charCodeAt(0),
 			i = Ints.interpolatef(ca, cb, equation);
