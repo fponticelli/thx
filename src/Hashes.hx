@@ -15,31 +15,31 @@ class Hashes
 			Reflect.setField(o, key, hash.get(key));
 		return o;
 	}
-	
+
 	public static function importObject<T>(hash : Hash<T>, ob : Dynamic<T>) : Hash<T>
 	{
 		return DynamicsT.copyToHash(ob, hash);
 	}
-	
+
 	public static function copyTo<T>(from : Hash<T>, to : Hash<T>)
 	{
 		for (k in from.keys())
 			to.set(k, from.get(k));
 		return to;
 	}
-	
+
 	public static function clone<T>(src : Hash<T>)
 	{
 		var h = new Hash();
 		Hashes.copyTo(src, h);
 		return h;
 	}
-	
+
 	public static inline function arrayOfKeys(hash : Hash<Dynamic>)
 	{
 		return Iterators.array(hash.keys());
 	}
-	
+
 	public static function setOfKeys(hash : Hash<Dynamic>) : Set<String>
 	{
 		var set = new Set();
@@ -47,7 +47,9 @@ class Hashes
 			set.add(k);
 		return set;
 	}
-	
+
+	public static inline function empty(hash : Hash<Dynamic>) return count(hash) == 0
+
 	public static function count(hash : Hash<Dynamic>)
 	{
 		#if neko
@@ -61,7 +63,7 @@ class Hashes
 		return i;
 		#end
 	}
-	
+
 	public static function mergef<T>(hash : Hash<T> , new_hash : Hash<T> , f:String->T->T->T)
 	{
 		for (k in new_hash.keys()){
@@ -72,14 +74,14 @@ class Hashes
 			} else{
 				hash.set(k,new_val);
 			}
-		} 
+		}
 	}
-	
+
 	public static function merge<T>(hash : Hash<T> , new_hash : Hash<T>)
 	{
 		mergef(hash,new_hash, function(key, old_v,new_v) return new_v);
 	}
-	
+
 	public static function clear(hash : Hash<Dynamic>)
 	{
 		#if cpp

@@ -28,7 +28,7 @@ class Diagonal<T> {
 		_source = x;
 		return this;
 	}
-	
+
 	public function getTarget() return _target
 	public function targetf(x : T->Int->Array<Float>)
 	{
@@ -43,7 +43,7 @@ class Diagonal<T> {
 		return this;
 	}
 
-	public static function diagonalProjection(d:Array<Float>, ?_):Array<Float>
+	public static function diagonalProjection(d:Array<Float>, ?_) : Array<Float>
 	{
 		return d;
 	}
@@ -53,6 +53,13 @@ class Diagonal<T> {
 		return new Diagonal<{ x0 : Float, y0 : Float, x1 : Float, y1 : Float }>()
 			.sourcef(function(d, _i) return [d.x0, d.y0])
 			.targetf(function(d, _i) return [d.x1, d.y1]);
+	}
+
+	public static function forArray()
+	{
+		return new Diagonal<Array<Float>>()
+			.sourcef(function(d, _i) return [d[0], d[1]])
+			.targetf(function(d, _i) return [d[2], d[3]]);
 	}
 }
 

@@ -29,29 +29,29 @@ class Rgb
 		green = g.clamp(0, 255);
 		blue  = b.clamp(0, 255);
 	}
-	
+
 	public function int()
 	{
 		return ( ( red & 0xFF ) << 16 ) | ( ( green & 0xFF ) << 8 ) | ( ( blue & 0xFF ) << 0 );
 	}
-	
+
 	public function hex(?prefix = "")
 	{
 		return prefix + red.hex(2) + green.hex(2) + blue.hex(2);
 	}
-	
+
 	inline public function toCss() return hex('#')
-		
+
 	public function toRgbString()
 	{
 		return "rgb(" + red + "," + green + "," + blue + ")";
 	}
-	
+
 	public function toString()
 	{
 		return toRgbString();
 	}
-	
+
 	public static function fromFloats(r : Float, g : Float, b : Float)
 	{
 		return new Rgb(
@@ -59,17 +59,17 @@ class Rgb
 			g.interpolate(0, 255),
 			b.interpolate(0, 255));
 	}
-	
+
 	public static function fromInt( v: Int ): Rgb
 	{
 		return new Rgb((v >> 16) & 0xFF, (v >> 8) & 0xFF, (v >> 0 ) & 0xFF);
 	}
-	
+
 	public static function equals(a : Rgb, b : Rgb)
 	{
 		return a.red == b.red && a.green == b.green && a.blue == b.blue;
 	}
-	
+
 	public static function darker(color : Rgb, t : Float, ?equation : Float -> Float) : Rgb
 	{
 		var interpolator = Ints.interpolatef(0, 255, equation);
@@ -80,7 +80,7 @@ class Rgb
 			interpolator(t * color.blue)
 		);
 	}
-	
+
 	public static function interpolate(a : Rgb, b : Rgb, t : Float, ?equation : Float -> Float)
 	{
 		return new Rgb(
@@ -89,7 +89,7 @@ class Rgb
 			t.interpolate(a.blue, b.blue, equation)
 		);
 	}
-	
+
 	public static function interpolatef(a : Rgb, b : Rgb, ?equation : Float -> Float)
 	{
 		var r = Ints.interpolatef(a.red, b.red, equation),
@@ -97,7 +97,7 @@ class Rgb
 			b = Ints.interpolatef(a.blue, b.blue, equation);
 		return function(t) return new Rgb(r(t), g(t), b(t));
 	}
-	
+
 	public static function contrast(c : Rgb)
 	{
 		var nc = Hsl.toHsl(c);
@@ -106,7 +106,7 @@ class Rgb
 		else
 			return new Hsl(nc.hue, nc.saturation, nc.lightness - 0.5);
 	}
-	
+
 	public static function contrastBW(c : Rgb)
 	{
 		var g = Grey.toGrey(c);
@@ -116,19 +116,19 @@ class Rgb
 		else
 			return new Hsl(nc.hue, nc.saturation, 0);
 	}
-	
+
 	public static function interpolateBrightness(t : Float, ?equation : Float -> Float) return interpolateBrightnessf(equation)(t)
 	public static function interpolateBrightnessf(?equation : Float -> Float)
 	{
 		var i = Ints.interpolatef(0, 255, equation);
-		return function(t) 
+		return function(t)
 		{
 			var g = i(t);
 			return new Rgb(g, g, g);
 		};
 	}
-	
-	
+
+
 	public static function interpolateHeat(t : Float, ?middle, ?equation : Float -> Float) return interpolateHeatf(middle, equation)(t)
 	public static function interpolateHeatf(?middle : Rgb, ?equation : Float -> Float)
 	{
@@ -138,7 +138,7 @@ class Rgb
 			new Rgb(255, 255, 255),
 		], equation);
 	}
-	
+
 	public static function interpolateRainbow(t : Float, ?equation : Float -> Float) return interpolateRainbowf(equation)(t)
 	public static function interpolateRainbowf(?equation : Float -> Float)
 	{
@@ -150,7 +150,7 @@ class Rgb
 			new Rgb(255, 0,   0),
 		], equation);
 	}
-	
+
 	public static function interpolateStepsf(steps : Array<Rgb>, ?equation : Float -> Float)
 	{
 		if (steps.length <= 0)
@@ -159,7 +159,7 @@ class Rgb
 			return function(t) return steps[0];
 		else if (steps.length == 2)
 			return interpolatef(steps[0], steps[1], equation);
-			
+
 		var len = steps.length - 1,
 			step = 1 / len,
 			f = [];

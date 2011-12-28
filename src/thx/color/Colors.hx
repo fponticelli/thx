@@ -18,14 +18,14 @@ class Colors
 		var f = Rgb.interpolatef(ca, cb, equation);
 		return function(v) return f(v).toString();
 	}
-	
+
 	public static function interpolate(v : Float, a : String, b : String, ?equation : Float -> Float)
 	{
 		return interpolatef(a, b, equation)(v);
 	}
-	
+
 	static var _reParse = ~/^(?:(hsl|rgb|rgba|cmyk)\(([^)]+)\))|(?:(?:0x|#)([a-f0-9]{3,6}))$/i;
-	
+
 	// hsl(h,s,l)
 	// rgb(r,g,b)
 	// rgba(r,g,b,a)
@@ -66,12 +66,12 @@ class Colors
 			return null;
 		return Rgb.fromInt(Std.parseInt("0x" + color));
 	}
-	
+
 	static function _c(s : String) : Int
 	{
 		return Std.parseInt(s.trim());
 	}
-	
+
 	static function _d(s : String) : Float
 	{
 		var s = s.trim();
@@ -81,7 +81,7 @@ class Colors
 			s = s.substr(0, -1);
 		return Std.parseFloat(s);
 	}
-	
+
 	static function _p(s : String) : Float
 	{
 		var s = s.trim();
