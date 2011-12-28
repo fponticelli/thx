@@ -19,7 +19,7 @@ class Floats
 		else
 			return v;
 	}
-	
+
 	public static function clamp(v : Float, min : Float, max : Float) : Float
 	{
 		if (v < min)
@@ -29,7 +29,7 @@ class Floats
 		else
 			return v;
 	}
-	
+
 	public static function clampSym(v : Float, max : Float) : Float
 	{
 		if (v < -max)
@@ -39,7 +39,7 @@ class Floats
 		else
 			return v;
 	}
-	
+
 	public static function range(start : Float, ?stop : Float, step = 1.0) : Array<Float>
 	{
 		if (null == stop)
@@ -55,34 +55,34 @@ class Floats
 			while ((j = start + step * ++i) < stop) range.push(j);
 		return range;
 	}
-	
+
 	inline public static function sign(v : Float)
 	{
 		return v < 0 ? -1 : 1;
 	}
-	
+
 	inline public static function abs(a : Float)
 	{
 		return a < 0 ? -a : a;
 	}
-	
+
 	inline public static function min(a : Float, b : Float)
 	{
 		return a < b ? a : b;
 	}
-	
+
 	inline public static function max(a : Float, b : Float)
 	{
 		return a > b ? a : b;
 	}
-	
+
 	public static function wrap(v : Float, min : Float, max : Float) : Float
 	{
 		var range = max - min + 1;
 		if (v < min) v += range * ((min - v) / range + 1);
 		return min + (v - min) % range;
 	}
-	
+
 	public static function circularWrap(v : Float, max : Float) : Float
 	{
 		v = v % max;
@@ -90,14 +90,14 @@ class Floats
 			v += max;
 		return v;
 	}
-	
+
 	public static function interpolate(f : Float, a = 0.0, b = 1.0, ?equation : Float -> Float)
 	{
 		if (null == equation)
 			equation = Equations.linear;
 		return a + equation(f) * (b - a);
 	}
-	
+
 	public static function interpolatef(a = 0.0, b = 1.0, ?equation : Float -> Float)
 	{
 		if (null == equation)
@@ -105,8 +105,8 @@ class Floats
 		var d = b - a;
 		return function(f) return a + equation(f) * d;
 	}
-	
-	
+
+
 	public static function interpolateClampf(min : Float, max : Float, ?equation : Float -> Float)
 	{
 		if (null == equation)
@@ -117,12 +117,12 @@ class Floats
 			return function(f) return a + equation(clamp(f, min, max)) * d;
 		}
 	}
-	
+
 	public static function format(v : Float, ?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return formatf(param, params, culture)(v);
 	}
-	
+
 	public static function formatf(?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		params = FormatParams.params(param, params, 'D');
@@ -145,7 +145,7 @@ class Floats
 				return throw new Error("Unsupported number format: {0}", format);
 		}
 	}
-	
+
 	static var _reparse = ~/^(\+|-)?\d+(\.\d+)?(e-?\d+)?$/;
 	public static function canParse(s : String)
 	{
@@ -163,12 +163,12 @@ class Floats
 	{
 		return a < b ? -1 : (a > b ? 1 : 0);
 	}
-	
+
 	inline public static function isNumeric(v : Dynamic)
 	{
 		return Std.is(v, Float) || Std.is(v, Int);
 	}
-	
+
 	public static function equals(a : Float, b : Float, ?approx : Float = 1e-5)
 	{
 		if (Math.isNaN(a))
@@ -179,7 +179,7 @@ class Floats
 			return (a > 0) == (b > 0);
 		return Math.abs(b-a) < approx;
 	}
-	
+
 	public static function uninterpolatef(a : Float, b : Float)
 	{
 		b = 1 / (b - a);
@@ -191,11 +191,11 @@ class Floats
 		b = 1 / (b - a);
 		return function(x : Float) return clamp((x - a) * b, 0.0, 1.0);
 	}
-	
+
 	public static function round( number : Float, precision = 2): Float {
 		number *= Math.pow(10, precision);
 		return Math.round( number ) / Math.pow(10, precision);
 	}
-	
+
 
 }

@@ -24,12 +24,12 @@ class Hsl extends Rgb
 			Ints.interpolate(_c(h, s, l), 0, 255),
 			Ints.interpolate(_c(h - 120, s, l), 0, 255));
 	}
-	
+
 	// Based on D3.js by Michael Bostock
 	static function _c(d : Float, s : Float, l : Float) {
 		var m2 = l <= 0.5 ? l * (1 + s) : l + s - l * s;
 		var m1 = 2 * l - m2;
-	
+
 		d = d.circularWrap(360);
 		if (d < 60)
 			return m1 + (m2 - m1) * d / 60;
@@ -40,12 +40,12 @@ class Hsl extends Rgb
 		else
 			return m1;
 	}
-	
+
 	public function toHslString()
 	{
 		return "hsl(" + hue + "," + (saturation*100) + "%," + (lightness*100) + "%)";
 	}
-	
+
 	public static function toHsl(c : Rgb)
 	{
 		var	r : Float = c.red / 255.0;
@@ -71,12 +71,12 @@ class Hsl extends Rgb
 		}
 		return new Hsl(h, s, l);
 	}
-	
+
 	public static function equals(a : Hsl, b : Hsl)
 	{
 		return a.hue == b.hue && a.saturation == b.saturation && a.lightness == b.lightness;
 	}
-	
+
 	public static function darker(color : Hsl, t : Float, ?equation : Float -> Float) : Hsl
 	{
 		var v = color.lightness * t;
@@ -86,7 +86,7 @@ class Hsl extends Rgb
 			Floats.interpolate(v, 0, 1, equation)
 		);
 	}
-	
+
 	public static function interpolate(a : Hsl, b : Hsl, t : Float, ?equation : Float -> Float) : Hsl
 	{
 		return new Hsl(
@@ -95,7 +95,7 @@ class Hsl extends Rgb
 			t.interpolate(a.lightness,	b.lightness,	equation)
 		);
 	}
-	
+
 	public static function interpolatef(a : Hsl, b : Hsl, ?equation : Float -> Float) : Float -> Hsl
 	{
 		return function(t : Float) return new Hsl(

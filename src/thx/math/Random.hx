@@ -10,12 +10,12 @@ package thx.math;
 class Random
 {
 	public var seed : Int;
-	
+
 	public function new(seed = 1)
 	{
 		this.seed = seed;
 	}
-	
+
 	public inline function int() : Int
 	{
 #if neko

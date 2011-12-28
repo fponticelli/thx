@@ -1,10 +1,11 @@
-package thx.geom.layout;
-
 /**
  * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
  * @todo update to version 1.16 (from 1.11)
  */
+
+package thx.geom.layout;
+
 using Arrays;
 
 class Stack
@@ -16,7 +17,7 @@ class Stack
 		_order = DefaultOrder;
 		_offset = ZeroOffset;
 	}
-	
+
 	public function stack(data : Array<Array<Point>>) : Array<Array<Point0>>
 	{
 		var n = data.length,
@@ -25,7 +26,7 @@ class Stack
 			j,
 			y0,
 			result = [];
-			
+
 		// copy
 		for (i in 0...n)
 		{
@@ -37,7 +38,7 @@ class Stack
 				r[j] = { x : s.x, y : s.y, y0 : 0.0 };
 			}
 		}
-			
+
 		var index = getStackOrder(_order, result);
 		getStackOffset(_offset, index, result);
 
@@ -51,21 +52,21 @@ class Stack
 		}
 		return result;
 	}
-	
+
 	public function getOrder() return _order
 	public function order(x : StackOrder)
 	{
 		_order = x;
 		return this;
 	}
-	
+
 	public function getOffset() return _offset
 	public function offset(x : StackOffset)
 	{
 		_offset = x;
 		return this;
 	}
-	
+
 	static function getStackOrder(order : StackOrder, data : Array<Array<Point0>>)
 	{
 		switch(order)
@@ -102,7 +103,7 @@ class Stack
 				return index;
 		}
 	}
-	
+
 	static function getStackOffset(offset : StackOffset, index : Array<Int>, data : Array<Array<Point0>>)
 	{
 		switch(offset)
@@ -173,7 +174,7 @@ class Stack
 				}
 		}
 	}
-	
+
 	static function stackMaxIndex(data : Array<Point0>, _)
 	{
 		var j = 0,
@@ -190,12 +191,12 @@ class Stack
 		}
 		return j;
 	}
-	
+
 	static function stackReduceSum(data : Array<Point0>, _) : Float
 	{
 		return data.reduce(stackSum, 0.0);
 	}
-	
+
 	static function stackSum(p : Float, c : Point0, i : Int) : Float
 	{
 		return p + c.y;
