@@ -21,7 +21,7 @@ class Arrays
 			arr.push(value);
 		return arr;
 	}
-	
+
 	/**
 	 * push the value into the array and return the array itself
 	 */
@@ -30,7 +30,7 @@ class Arrays
 		arr.push(value);
 		return arr;
 	}
-	
+
 	/**
 	 * removes the value from the array and return the array itself
 	 */
@@ -39,7 +39,28 @@ class Arrays
 		arr.remove(value);
 		return arr;
 	}
-	
+
+	public static function removef<T>(arr : Array<T>, f : T -> Bool) : Bool
+	{
+		var index = -1;
+		for(i in 0...arr.length)
+			if(f(arr[i]))
+			{
+				index = i;
+				break;
+			}
+		if(index < 0)
+			return false;
+		arr.splice(index, 1);
+		return true;
+	}
+
+	inline public static function deletef<T>(arr : Array<T>, f : T -> Bool) : Array<T>
+	{
+		Arrays.removef(arr, f);
+		return arr;
+	}
+
 	/**
 	 * creates a new array filtered by the 'f' function
 	 */
@@ -67,7 +88,7 @@ class Arrays
 			return arr[p];
 		}
 	}
-	
+
 	public static function floatMin<T>(arr : Array<T>, f : T -> Float) : Float
 	{
 		if (arr.length == 0)
@@ -76,14 +97,14 @@ class Arrays
 		for(i in 1...arr.length) if(a > (b = f(arr[i]))) { a = b; }
 		return a;
 	}
-	
+
 	public static function bounds<T>(arr : Array<T>, ?f : T -> Float) : Array<Null<T>>
 	{
 		if (arr.length == 0)
 			return null;
 		if (null == f) {
 			var a = arr[0], p = 0;
-			var b = arr[0], q = 0;			
+			var b = arr[0], q = 0;
 			for(i in 1...arr.length) {
 				var comp = Dynamics.comparef(a);
 				if(comp(a, arr[i]) > 0) a = arr[p = i];
@@ -98,7 +119,7 @@ class Arrays
 			return [arr[p], arr[q]];
 		}
 	}
-	
+
 	public static function boundsFloat<T>(arr : Array<T>, f : T -> Float) : Array<Float>
 	{
 		if (arr.length == 0)
@@ -111,7 +132,7 @@ class Arrays
 		}
 			return [a, c];
 	}
-	
+
 	public static function max<T>(arr : Array<T>, ?f : T -> Float) : Null<T>
 	{
 		if (arr.length == 0)
@@ -127,8 +148,8 @@ class Arrays
 			return arr[p];
 		}
 	}
-	
-	
+
+
 	public static function floatMax<T>(arr : Array<T>, f : T -> Float) : Float
 	{
 		if (arr.length == 0)
@@ -137,7 +158,7 @@ class Arrays
 		for(i in 1...arr.length) if(a < (b = f(arr[i]))) { a = b; }
 		return a;
 	}
-	
+
 	public static function flatten<T>(arr : Array<Array<T>>) : Array<T>
 	{
 		var r = [];
@@ -145,31 +166,31 @@ class Arrays
 			r = r.concat(v);
 		return r;
 	}
-	
+
 	inline public static function map<TIn,TOut>(arr : Array<TIn>, f : TIn -> Int -> TOut) : Array<TOut>
 	{
-		#if js
+#if js
 		return untyped arr.map(f);
-		#else
+#else
 		return Iterators.map(arr.iterator(), f);
-		#end
+#end
 	}
-	
+
 	inline public static function reduce<TIn,TOut>(arr : Array<TIn>, f : TOut -> TIn -> Int -> TOut, initialValue : TOut) : TOut
 	{
-	//	#if js
-	//	return untyped arr.reduce(f, initialValue);
-	//	#else
+#if js
+		return untyped arr.reduce(f, initialValue);
+#else
 		return Iterators.reduce(arr.iterator(), f, initialValue);
-	//	#end
+#end
 	}
-	
+
 	inline public static function order<T>(arr : Array<T>, ?f : T -> T -> Int)
 	{
 		arr.sort(null == f ? Dynamics.compare : f);
 		return arr;
 	}
-	
+
 	public static function orderMultiple<T>(arr : Array<T>, ?f : T -> T -> Int, rest : Array<Array<Dynamic>>)
 	{
 		var swap = true,
@@ -198,7 +219,7 @@ class Arrays
 			}
 		}
 	}
-	
+
 	public static function split<T>(arr : Array<T>, ?f : T -> Int -> Bool) : Array<Array<T>>
 	{
 		if (null == f) f = function(v, _) return v == null;
@@ -217,7 +238,7 @@ class Arrays
 		}
 		return arrays;
 	}
-	
+
 	public static function exists<T>(arr : Array<T>, ?value : T, ?f : T -> Bool)
 	{
 		if (null != f)
@@ -232,7 +253,7 @@ class Arrays
 		}
 		return false;
 	}
-	
+
 	public static function format(v : Array<Dynamic>, ?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		params = FormatParams.params(param, params, 'J');
@@ -245,7 +266,7 @@ class Arrays
 					var empty = null == params[1] ? '[]' : params[1];
 					return empty;
 				}
-				
+
 				var sep = null == params[2] ? ', ' : params[2];
 				var max : Null<Int> = params[3] == null ? null : ('' == params[3] ? null : Std.parseInt(params[3]));
 				if (null != max && max < v.length)
@@ -260,7 +281,7 @@ class Arrays
 				throw "Unsupported array format: " + format;
 		}
 	}
-	
+
 	public static function formatf(?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		params = FormatParams.params(param, params, 'J');
@@ -275,7 +296,7 @@ class Arrays
 						var empty = null == params[1] ? '[]' : params[1];
 						return empty;
 					}
-					
+
 					var sep = null == params[2] ? ', ' : params[2];
 					var max : Null<Int> = params[3] == null ? null : ('' == params[3] ? null : Std.parseInt(params[3]));
 					if (null != max && max < v.length)
@@ -292,18 +313,18 @@ class Arrays
 				throw "Unsupported array format: " + format;
 		}
 	}
-	
+
 	public static function interpolate(v : Float, a : Array<Float>, b : Array<Float>, ?equation : Float -> Float) : Array<Float>
 	{
 		return interpolatef(a, b, equation)(v);
 	}
-	
+
 	public static function interpolatef(a : Array<Float>, b : Array<Float>, ?equation : Float -> Float)
 	{
 		var functions = [],
 			i = 0,
 			min = Ints.min(a.length, b.length);
-			
+
 		while (i < min)
 		{
 			if (a[i] == b[i])
@@ -322,18 +343,18 @@ class Arrays
 		}
 		return function(t) return Arrays.map(functions, function(f, _) return f(t));
 	}
-	
+
 	public static function interpolateStrings(v : Float, a : Array<String>, b : Array<String>, ?equation : Float -> Float) : Array<String>
 	{
 		return interpolateStringsf(a, b, equation)(v);
 	}
-	
+
 	public static function interpolateStringsf(a : Array<String>, b : Array<String>, ?equation : Float -> Float)
 	{
 		var functions = [],
 			i = 0,
 			min = Ints.min(a.length, b.length);
-			
+
 		while (i < min)
 		{
 			if (a[i] == b[i])
@@ -352,18 +373,18 @@ class Arrays
 		}
 		return function(t) return Arrays.map(functions, function(f, _) return f(t));
 	}
-	
+
 	public static function interpolateInts(v : Float, a : Array<Int>, b : Array<Int>, ?equation : Float -> Float) : Array<Int>
 	{
 		return interpolateIntsf(a, b, equation)(v);
 	}
-	
+
 	public static function interpolateIntsf(a : Array<Int>, b : Array<Int>, ?equation : Float -> Float)
 	{
 		var functions = [],
 			i = 0,
 			min = Ints.min(a.length, b.length);
-			
+
 		while (i < min)
 		{
 			if (a[i] == b[i])
@@ -382,7 +403,7 @@ class Arrays
 		}
 		return function(t) return Arrays.map(functions, function(f, _) return f(t));
 	}
-	
+
 	#if js inline #end public static function indexOf<T>(arr : Array<T>, el : T)
 	{
 #if js
@@ -395,7 +416,7 @@ class Arrays
 		return -1;
 #end
 	}
-	
+
 	#if js inline #end public static function every<T>(arr : Array<T>, f : T -> Int -> Bool) : Bool
 	{
 #if js
@@ -407,7 +428,7 @@ class Arrays
 		return true;
 #end
 	}
-	
+
 	#if js inline #end public static function each<T>(arr : Array<T>, f : T -> Int -> Void) : Void
 	{
 #if js
@@ -417,32 +438,32 @@ class Arrays
 			f(arr[i], i);
 #end
 	}
-	
+
 	inline public static function any<T>(arr : Array<T>, f : T -> Bool) : Bool
 	{
 		return Iterators.any(arr.iterator(), f);
 	}
-	
+
 	inline public static function all<T>(arr : Array<T>, f : T -> Bool) : Bool
 	{
 		return Iterators.all(arr.iterator(), f);
 	}
-	
+
 	public static function random<T>(arr : Array<T>) : T
 	{
 		return arr[Std.random(arr.length)];
 	}
-	
+
 	public static function string<T>(arr : Array<T>)
 	{
 		return "[" + Arrays.map(arr, function(v, _) return Dynamics.string(v)).join(", ") + "]";
 	}
-	
+
 	inline public static function last<T>(arr : Array<T>) : Null<T>
 	{
 		return arr[arr.length - 1];
 	}
-	
+
 	public static function lastf<T>(arr : Array<T>, f : T -> Bool) : Null<T>
 	{
 		var i = arr.length;
@@ -451,12 +472,12 @@ class Arrays
 				return arr[i];
 		return null;
 	}
-	
+
 	inline public static function first<T>(arr : Array<T>) : Null<T>
 	{
 		return arr[0];
 	}
-	
+
 	public static function firstf<T>(arr : Array<T>, f : T -> Bool) : Null<T>
 	{
 		for (v in arr)
@@ -464,12 +485,12 @@ class Arrays
 				return v;
 		return null;
 	}
-	
+
 	inline public static function bisect(a : Array<Float>, x : Float, lo = 0, ?hi : Int)
 	{
 		return bisectRight(a, x, lo, hi);
 	}
-	
+
 	public static function bisectRight(a : Array<Float>, x : Float, lo = 0, ?hi : Int)
 	{
 		if (null == hi)
@@ -484,7 +505,7 @@ class Arrays
 		}
 		return lo;
 	}
-	
+
 	public static function bisectLeft(a : Array<Float>, x : Float, lo = 0, ?hi : Int)
 	{
 		if (null == hi)
@@ -499,7 +520,7 @@ class Arrays
 		}
 		return lo;
 	}
-	
+
 	public static function nearest<T>(a : Array<T>, x : Float, f : T -> Float) : T
 	{
 		var delta = [];
@@ -508,7 +529,7 @@ class Arrays
 		delta.sort(function(a, b) return Floats.compare(a.v, b.v));
 		return a[delta[0].i];
 	}
-	
+
 	public static function compare<T>(a : Array<T>, b : Array<T>)
 	{
 		var v : Int;
@@ -521,7 +542,7 @@ class Arrays
 		}
 		return 0;
 	}
-	
+
 	public static function product<T>(a : Array<Array<T>>) : Array<Array<T>>
 	{
 		if (a.length == 0)
@@ -530,7 +551,7 @@ class Arrays
 		var arr = a.copy(),
 			result : Array<Array<T>> = [],
 			temp : Array<Array<T>>;
-		
+
 		for (value in arr[0])
 			result.push([value]);
 		for (i in 1...arr.length)
@@ -543,12 +564,12 @@ class Arrays
 		}
 		return result;
 	}
-	
+
 	public static function rotate<T>(a : Array<Array<T>>) : Array<Array<T>>
 	{
 		if (a.length == 0)
 			return [];
-		
+
 		var result = [];
 		for (i in 0...a[0].length)
 			result[i] = [];
@@ -557,7 +578,7 @@ class Arrays
 				result[i][j] = a[j][i];
 		return result;
 	}
-	
+
 	public static function shuffle<T>(a : Array<T>) : Array<T>
 	{
 		var t = Ints.range(a.length),

@@ -6,14 +6,14 @@
 package thx.geom;
 using Arrays;
 
-class Polygon 
+class Polygon
 {
 	var coordinates : Array<Array<Float>>;
-	public function new(coordinates : Array<Array<Float>>) 
+	public function new(coordinates : Array<Array<Float>>)
 	{
 		this.coordinates = coordinates;
 	}
-	
+
 	public function area()
 	{
 		var n = coordinates.length,
@@ -26,7 +26,7 @@ class Polygon
 		}
 		return (b - a) * .5;
 	}
-	
+
 	public function centroid(?k : Float)
 	{
 		var a, b, c, x = 0.0, y = 0.0;
@@ -42,7 +42,7 @@ class Polygon
 		}
 		return [x * k, y * k];
 	}
-	
+
 	/**
 	 * The Sutherland-Hodgman clipping algorithm.
 	 */
@@ -71,12 +71,12 @@ class Polygon
 		}
 		return subject;
 	}
-	
+
 	static function polygonInside(p : Array<Float>, a : Array<Float>, b : Array<Float>)
 	{
 		return (b[0] - a[0]) * (p[1] - a[1]) < (b[1] - a[1]) * (p[0] - a[0]);
 	}
-	
+
 	static function polygonIntersect(c : Array<Float>, d : Array<Float>, a : Array<Float>, b : Array<Float>)
 	{
 		var x1 = c[0], x2 = d[0], x3 = a[0], x4 = b[0],

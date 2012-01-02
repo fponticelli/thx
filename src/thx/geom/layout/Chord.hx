@@ -1,9 +1,9 @@
-package thx.geom.layout;
-
 /**
  * Based on D3.js by Michael Bostock
  * @author Franco Ponticelli
  */
+
+package thx.geom.layout;
 
 using Arrays;
 
@@ -21,7 +21,7 @@ class Chord
 	{
 		_padding = 0;
 	}
-	
+
 	function relayout()
 	{
 		var subgroups : Hash<ItemType> = new Hash(),
@@ -33,10 +33,10 @@ class Chord
 			x0,
 			i : Int,
 			j : Int;
-		
+
 		_chords = [];
 		_groups = [];
-		
+
 		// compute the sum
 		k = 0;
 		i = -1;
@@ -52,7 +52,7 @@ class Chord
 			subgroupIndex.push(Ints.range(_n));
 			k += x;
 		}
-		
+
 		// sort groups
 		if (null != _sortGroups)
 		{
@@ -61,7 +61,7 @@ class Chord
 				return sg(groupSums[a], groupSums[b]);
 			});
 		}
-		
+
 		// sort subgroups
 		if (null != _sortSubgroups)
 		{
@@ -73,10 +73,10 @@ class Chord
 				});
 			});
 		}
-		
+
 		// Convert the sum to scaling factor for [0, 2pi].
 		k = (2 * Math.PI - _padding * _n) / k;
-		
+
 		// compute the start and end angle for each group and subgroup
 		x = 0;
 		i = -1;
@@ -107,7 +107,7 @@ class Chord
 			});
 			x += _padding;
 		}
-		
+
 		// generate _chords for each (non-empty) subgroup-subgroup link
 		i = -1;
 		while (++i < _n)
@@ -128,7 +128,7 @@ class Chord
 		}
 		if (null != _sortChords) resort();
 	}
-	
+
 	function resort()
 	{
 		var sc = _sortChords;
@@ -138,12 +138,12 @@ class Chord
 			return sc(aa, bb);
 		});
 	}
-	
+
 	public function getMatrix()
 	{
 		return _matrix;
 	}
-	
+
 	public function matrix(x)
 	{
 		_matrix = x;
@@ -152,9 +152,9 @@ class Chord
 		_groups = null;
 		return this;
 	}
-	
+
 	public function getPadding() return _padding
-	
+
 	public function padding(v : Float)
 	{
 		_padding = v;
@@ -162,9 +162,9 @@ class Chord
 		_groups = null;
 		return this;
 	}
-	
+
 	public function getSortGroups() return _sortGroups
-	
+
 	public function sortGroups(v : Float -> Float -> Int)
 	{
 		_sortGroups = v;
@@ -172,25 +172,25 @@ class Chord
 		_groups = null;
 		return this;
 	}
-	
+
 	public function getSortSubgroups() return _sortSubgroups
-	
+
 	public function sortSubgroups(v : Float -> Float -> Int)
 	{
 		_sortSubgroups = v;
 		_chords = null;
 		return this;
 	}
-	
+
 	public function getSortChords() return _sortChords
-	
+
 	public function sortChords(v : Float -> Float -> Int)
 	{
 		_sortChords = v;
 		if (null != _chords) resort();
 		return this;
 	}
-	
+
 
 	public function chords()
 	{
@@ -198,7 +198,7 @@ class Chord
 			relayout();
 		return _chords;
 	}
-	
+
 	public function groups()
 	{
 		if (null == _groups)

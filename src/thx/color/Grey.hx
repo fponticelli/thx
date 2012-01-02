@@ -19,7 +19,7 @@ class Grey extends Rgb
 		var c = Ints.interpolate(grey, 0, 255);
 		super(c, c, c);
 	}
-	
+
 	public static function toGrey(rgb : Rgb, ?luminance : PerceivedLuminance)
 	{
 		if (null == luminance)
@@ -38,18 +38,18 @@ class Grey extends Rgb
 				));
 		}
 	}
-	
+
 	public static function equals(a : Grey, b : Grey)
 	{
 		return a.grey == b.grey;
 	}
-	
+
 	public static function darker(color : Grey, t : Float, ?equation : Float -> Float) : Grey
 	{
 		var v = t * color.grey;
 		return new Grey(Floats.interpolate(v, 0, 1, equation));
 	}
-	
+
 	public static function interpolate(a : Grey, b : Grey, t : Float, ?equation : Float -> Float)
 	{
 		return new Grey(Floats.interpolate(t, a.grey, b.grey, equation));

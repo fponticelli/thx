@@ -23,14 +23,14 @@ class Selection extends UnboundSelection<Selection>
 {
 	public static var current(getCurrent, null) : Selection;
 	public static var currentNode(getCurrentNode, null) : HtmlDom;
-	
+
 	public static function create(groups : Array<Group>) return new Selection(groups)
 	private function new(groups : Array<Group>) super(groups)
 	override function createSelection(groups : Array<Group>) : Selection
 	{
 		return new Selection(groups);
 	}
-	
+
 	inline static function getCurrent() return Dom.selectNode(Group.current)
 	inline static function getCurrentNode() return Group.current
 }
@@ -43,19 +43,19 @@ class UnboundSelection<This> extends BaseSelection<This>
 	public function classed() return new AccessClassed(this)
 	public function property(name : String) return new AccessProperty(name, this)
 	public function style(name : String) return new AccessStyle(name, this)
-	
+
 	// TRANSITION
-	
+
 	public function transition()
 	{
 		return new UnboundTransition(this);
 	}
-	
+
 	// DATA BINDING
 	public function data<T>(d : Array<T>, ?join : T -> Int -> String) : DataChoice<T>
 	{
 		var update = [], enter = [], exit = [];
-		
+
 		if (null == join)
 		{
 			for (group in groups)
@@ -64,10 +64,10 @@ class UnboundSelection<This> extends BaseSelection<This>
 			for (group in groups)
 				BaseSelection.bindJoin(join, group, d, update, enter, exit);
 		}
-		
+
 		return new DataChoice(update, enter, exit);
 	}
-	
+
 	public function selectAllData<T>(selector : String)
 	{
 		var selection : { private var groups : Array<Group>; } = cast selectAll(selector);
@@ -87,23 +87,23 @@ class DataChoice<T> extends UpdateSelection<T>
 		_exit = exit;
 		super(_update,this);
 	}
-	
+
 	override public function enter()
 	{
 		return new PreEnterSelection(_enter, this);
 	}
-	
+
 	override public function exit()
 	{
 		return new ExitSelection(_exit, this);
 	}
-	
+
 /*	public function update()
 	{
 		return new UpdateSelection(_update, this);
 	}
 */
-	
+
 	public static function merge<T>(groups:Array<Group>,dc:DataChoice<T>){
 		Group.merge(groups, dc._update);
 	}
@@ -127,23 +127,23 @@ class BoundSelection<T, This> extends BaseSelection<This>
 	public function classed() return new AccessDataClassed(this)
 	public function property(name : String) return new AccessDataProperty(name, this)
 	public function style(name : String) return new AccessDataStyle(name, this)
-	
+
 	// TRANSITION
 	public function transition()
 	{
 		return new BoundTransition<T>(this);
 	}
-	
+
 	public function new(groups : Array<Group>)
 	{
 		super(groups);
 	}
-	
+
 	// DATA BINDING
 	public function data<T>(d : Array<T>, ?join : T -> Int -> String) : DataChoice<T>
 	{
 		var update = [], enter = [], exit = [];
-		
+
 		if (null == join)
 		{
 			for (group in groups)
@@ -152,10 +152,10 @@ class BoundSelection<T, This> extends BaseSelection<This>
 			for (group in groups)
 				BaseSelection.bindJoin(join, group, d, update, enter, exit);
 		}
-		
+
 		return new DataChoice(update, enter, exit);
 	}
-	
+
 	public function dataf<TOut>(fd : T -> Int -> Array<TOut>, ?join : TOut -> Int -> String) : DataChoice<TOut>
 	{
 		if (null == join)
@@ -171,27 +171,27 @@ class BoundSelection<T, This> extends BaseSelection<This>
 			return new DataChoice(update, enter, exit);
 		}
 	}
-	
+
 	public function selfData<TOut>() : Array<TOut>
 	{
 		return cast dataf(function(d : T, _) return cast d);
 	}
-	
+
 	public function each<T>(f : T -> Int -> Void)
 	{
 		return eachNode(function(n,i) f(Access.getData(n),i));
 	}
-	
+
 	public function sort<T>(comparator : T -> T -> Int)
 	{
 		return sortNode(function(a,b) return comparator(Access.getData(a), Access.getData(b)));
 	}
-	
+
 	public function filter<T>(f : T -> Int -> Bool)
 	{
 		return filterNode(function(n,i) return f(Access.getData(n),i));
 	}
-	
+
 	public function map<TIn, TOut>(f : TIn -> Int -> TOut)
 	{
 		var ngroups = [];
@@ -209,12 +209,12 @@ class BoundSelection<T, This> extends BaseSelection<This>
 		}
 		return createSelection(ngroups);
 	}
-	
+
 	public function first<TIn, TOut>(f : TIn -> TOut) : TOut
 	{
 		return firstNode(function(n) return f(Access.getData(n)));
 	}
-	
+
 	public function on<T>(type : String, ?listener : T -> Int -> Void, capture = false)
 	{
 		return onNode(type, null == listener ? null : function(n, i) {
@@ -232,7 +232,7 @@ class PreEnterSelection<T>
 		this.groups = enter;
 		this._choice = choice;
 	}
-	
+
 	public function append(name : String)
 	{
 		var qname = Namespace.qualify(name);
@@ -242,7 +242,7 @@ class PreEnterSelection<T>
 			node.appendChild(n);
 			return n;
 		}
-		
+
 		function appendNS(node : HtmlDom)
 		{
 			var n : HtmlDom = untyped Lib.document.createElementNS(qname.space, qname.local);
@@ -250,9 +250,9 @@ class PreEnterSelection<T>
 			return n;
 		}
 		return _select(null == qname ? append : appendNS);
-		
+
 	}
-	
+
 	public function insert(name : String, ?before : HtmlDom, ?beforeSelector : String)
 	{
 		var qname = Namespace.qualify(name);
@@ -262,22 +262,22 @@ class PreEnterSelection<T>
 			node.insertBefore(n, bf);
 			return n;
 		}
-		
+
 		function insertNsDom(node : HtmlDom) {
 			var n : HtmlDom = untyped js.Lib.document.createElementNS(qname.space, qname.local),
 				bf = null != before ? before : Dom.selectNode(node).select(beforeSelector).node();
 			node.insertBefore(n, bf);
 			return n;
 		}
-		
+
 		return _select(null == qname ? insertDom : insertNsDom);
 	}
-	
+
 	function createSelection(groups : Array<Group>)
 	{
 		return new EnterSelection(groups, _choice);
 	}
-	
+
 	function _select(selectf : HtmlDom -> HtmlDom)
 	{
 		var subgroups = [],
@@ -292,7 +292,7 @@ class PreEnterSelection<T>
 			{
 				if (null != node)
 				{
-					
+
 					subgroup.push(subnode = selectf(group.parentNode));
 					Access.setData(subnode, Access.getData(node));
 				} else {
@@ -313,7 +313,7 @@ class EnterSelection<T> extends BoundSelection<T, EnterSelection<T>>
 		super(enter);
 		this._choice = choice;
 	}
-	
+
 	override function createSelection(groups : Array<Group>)
 	{
 		return new EnterSelection(groups, _choice);
@@ -330,12 +330,12 @@ class ExitSelection<T> extends UnboundSelection<ExitSelection<T>>
 		super(exit);
 		this._choice = choice;
 	}
-	
+
 	override function createSelection(groups : Array<Group>)
 	{
 		return new ExitSelection(groups, _choice);
 	}
-	
+
 	public function enter() return _choice.enter()
 	public function update() return _choice
 }
@@ -348,12 +348,12 @@ class UpdateSelection<T> extends BoundSelection<T, UpdateSelection<T>>
 		super(update);
 		this._choice = choice;
 	}
-	
+
 	override function createSelection(groups : Array<Group>)
 	{
 		return new UpdateSelection(groups, _choice);
 	}
-	
+
 	public function update() return this
 	public function enter() return _choice.enter()
 	public function exit() return _choice.exit()
@@ -362,7 +362,7 @@ class UpdateSelection<T> extends BoundSelection<T, UpdateSelection<T>>
 class BaseSelection<This>
 {
 	public var parentNode : HtmlDom;
-	
+
 	var groups : Array<Group>;
 
 	function new(groups : Array<Group>)
@@ -377,7 +377,7 @@ class BaseSelection<This>
 			return Dom.selectionEngine.select(selector, el);
 		});
 	}
-	
+
 	public function selectAll(selector : String) : This
 	{
 		return _selectAll(function(el) {
@@ -397,17 +397,17 @@ class BaseSelection<This>
 			node.appendChild(n);
 			return n;
 		}
-		
+
 		function appendNS(node : HtmlDom)
 		{
 			var n : HtmlDom = untyped Lib.document.createElementNS(qname.space, qname.local);
 			node.appendChild(n);
 			return n;
 		}
-		
+
 		return _select(null == qname ? append : appendNS);
 	}
-	
+
 	public function remove() : This
 	{
 		return eachNode(function(node : HtmlDom, i : Int)  {
@@ -416,14 +416,14 @@ class BaseSelection<This>
 				parent.removeChild(node);
 		});
 	}
-	
+
 	public function eachNode(f : HtmlDom -> Int -> Void)
 	{
 		for (group in groups)
 			group.each(f);
 		return _this();
 	}
-	
+
 	public function insert(name : String, ?before : HtmlDom, ?beforeSelector : String)
 	{
 		var qname = Namespace.qualify(name);
@@ -432,16 +432,16 @@ class BaseSelection<This>
 			node.insertBefore(n, null != before ? before : Dom.select(beforeSelector).node());
 			return n;
 		}
-		
+
 		function insertNsDom(node) {
 			var n : HtmlDom = untyped js.Lib.document.createElementNS(qname.space, qname.local);
 			node.insertBefore(n, null != before ? before : Dom.select(beforeSelector).node());
 			return n;
 		}
-		
+
 		return _select(null == qname ? insertDom : insertNsDom);
 	}
-	
+
 	public function sortNode(comparator : HtmlDom -> HtmlDom -> Int)
 	{
 		var m = groups.length;
@@ -464,7 +464,7 @@ class BaseSelection<This>
 		}
 		return this;
 	}
-	
+
 	// NODE QUERY
 	public function firstNode<T>(f : HtmlDom -> T) : Null<T>
 	{
@@ -474,17 +474,17 @@ class BaseSelection<This>
 					return f(node);
 		return null;
 	}
-	
+
 	public function node() : HtmlDom
 	{
 		return firstNode(function(n) return n);
 	}
-	
+
 	public function empty() : Bool
 	{
 		return null == firstNode(function(n) return n);
 	}
-	
+
 	public function filterNode(f : HtmlDom -> Int -> Bool)
 	{
 		var subgroups = [],
@@ -502,11 +502,11 @@ class BaseSelection<This>
 					subgroup.push(node);
 				}
 			}
-			
+
 		}
 		return createSelection(subgroups);
 	}
-	
+
 	static function listenerEnterLeave(f, dom, i)
 	{
 		var e = Dom.event,
@@ -515,7 +515,7 @@ class BaseSelection<This>
 			return;
 		f(dom, i);
 	}
-	
+
 	static function isChild(parent : HtmlDom, child : HtmlDom)
 	{
 		if (child == parent)
@@ -528,13 +528,13 @@ class BaseSelection<This>
 		}
 		return false;
 	}
-	
+
 	// NODE EVENT
 	public function onNode(type : String, ?listener : HtmlDom -> Int -> Void, capture = false)
 	{
 		var i = type.indexOf("."),
 			typo = i < 0 ? type : type.substr(0, i);
-		
+
 		if ((typo == "mouseenter" || typo == "mouseleave") && !ClientHost.isIE())
 		{
 			listener = callback(listenerEnterLeave, listener);
@@ -545,7 +545,7 @@ class BaseSelection<This>
 				typo = "mouseout";
 			}
 		}
-			
+
 		return eachNode(function(n, i) {
 			function l(e) {
 				var o = Dom.event;
@@ -600,7 +600,7 @@ class BaseSelection<This>
 		}
 		return createSelection(subgroups);
 	}
-	
+
 	function _selectAll(selectallf : HtmlDom -> Array<HtmlDom>) : This
 	{
 		var subgroups = [],
@@ -618,7 +618,7 @@ class BaseSelection<This>
 		}
 		return createSelection(subgroups);
 	}
-	
+
 	static function bindJoin<TData>(join : TData -> Int -> String, group : Group, groupData : Array<TData>, update : Array<Group>, enter : Array<Group>, exit : Array<Group>)
 	{
 		var n = group.count(),
@@ -633,7 +633,7 @@ class BaseSelection<This>
 			keys = [],
 			key,
 			j = groupData.length;
-			
+
 		for (i in 0...n)
 		{
 			node = group.get(i);
@@ -647,7 +647,7 @@ class BaseSelection<This>
 			}
 			keys.push(key);
 		}
-		
+
 		for (i in 0...m)
 		{
 			node = nodeByKey.get(key = join(nodeData = groupData[i], i));
@@ -663,13 +663,13 @@ class BaseSelection<This>
 			}
 			nodeByKey.remove(key);
 		}
-		
+
 		for (i in 0...n)
 		{
 			if (nodeByKey.exists(keys[i]))
 				exitHtmlDoms[i] = group.get(i);
 		}
-	
+
 		var enterGroup = new Group(enterHtmlDoms);
 		enterGroup.parentNode = group.parentNode;
 		enter.push(enterGroup);
@@ -680,7 +680,7 @@ class BaseSelection<This>
 		exitGroup.parentNode = group.parentNode;
 		exit.push(exitGroup);
 	}
-	
+
 	static function bind<TData>(group : Group, groupData : Array<TData>, update : Array<Group>, enter : Array<Group>, exit : Array<Group>)
 	{
 		var n0 = Ints.min(group.count(), groupData.length),
@@ -717,7 +717,7 @@ class BaseSelection<This>
 			exitHtmlDoms[i] = group.get(i);
 			enterHtmlDoms[i] = updateHtmlDoms[i] = null;
 		}
-	
+
 		var enterGroup = new Group(enterHtmlDoms);
 		enterGroup.parentNode = group.parentNode;
 		enter.push(enterGroup);
