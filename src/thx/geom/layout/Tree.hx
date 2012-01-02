@@ -290,8 +290,10 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 		// Clear temporary layout variables; transform x and y.
 		var t = this;
 		Tree.visitAfter(root, function(node:TreeNode<T>,_) {
-			node.x = (node.x - x0) / (x1 - x0) * t._size[0];
-			node.y = node.depth / Math.max(y1,1) * t._size[1];
+			node.x = node.x - x0;
+			node.y = node.depth;
+			if (x1 - x0 != 0) node.x /= (x1 - x0) * t._size[0];
+			if (y1 != 0) node.y /=  y1 * t._size[1];
 			node._tree = null;
 		});
 		return nodes;

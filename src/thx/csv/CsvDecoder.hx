@@ -23,6 +23,7 @@ class CsvDecoder
 	public var line(default, null) : Int;
 	public var column(default, null) : Int;
 	public var check_type(default, null) : Bool;
+	public static var leading_space = ~/ */;
 	var handler : IDataHandler;
 	
 	public function new(handler : IDataHandler, check_type = true, delimiter = ",", emptytonull = false, newline = "\r\n|\n|\r", 
@@ -75,7 +76,7 @@ class CsvDecoder
 	
 	function parseValue()
 	{	
-		if (trim_whitespace) this._s = ~/ */.replace(this._s,''); // LEADING SPACES... NOT LTRIM
+		if (trim_whitespace && _s.substr(0,1) == ' ') _s = leading_space.replace(this._s,''); // LEADING SPACES... NOT LTRIM
 		if (_s.substr(0, 1) == quote) // QUOTED VALUE
 		{
 			var pos = _s.indexOf(quote, 1);
