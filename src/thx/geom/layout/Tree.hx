@@ -1,32 +1,32 @@
-/**
- * Based on D3.js by Michael Bostock
- * @author Justin Donaldson
- */
-
 // Node-link tree diagram using the Reingold-Tilford "tidy" algorithm
 package thx.geom.layout;
 import thx.svg.Diagonal;
 import thx.geom.layout.Hierarchy;
 using Arrays;
 
-class Tree<T> extends AbstractTree<T,Tree<T>>{
+/**
+ * Based on D3.js by Michael Bostock
+ * @author Justin Donaldson
+ */
 
+class Tree<T> extends AbstractTree<T,Tree<T>>{
+	
 	public function new(){
 		super();
 	}
 	// Returns an array of source+target objects for the specified nodes.
 	public static function treeLinks<T>(nodes:Array<TreeNode<T>>) : Array<SourceTarget<TreeNode<T>>> {
-
+		
 		return Arrays.flatten(nodes.map( function(parent,_) {
 			var map_arr = parent.children != null ? parent.children: new Array<TreeNode<T>>();
-
+			
 			return map_arr.map(function(child:TreeNode<T>,_) {
 				return {source: parent, target: child};
 			});
 		}));
 	}
-
-
+	
+	
 	public static function treeLinkDiagonal(){
 		return new Diagonal()
 			.sourcef(function(x:SourceTarget<TreeNode<Dynamic>>,_){
@@ -35,9 +35,10 @@ class Tree<T> extends AbstractTree<T,Tree<T>>{
 			.targetf(function(x,_){
 				return [x.target.x, x.target.y];
 			});
+			
 	}
-
-
+	
+	
 	public static function treeSeparation<T>(a:TreeNode<T>, b:TreeNode<T>) {
 		return a.parent == b.parent ? 1 : 2;
 	}
@@ -58,7 +59,7 @@ class Tree<T> extends AbstractTree<T,Tree<T>>{
 			n = children.length,
 			i = -1;
 			while (++i < n) {
-				var child = Tree.search(children[i], compare);
+				var child = Tree.search(children[i], compare);	
 				if (compare(child, node) > 0) {
 					node = child;
 				}
@@ -130,7 +131,7 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 	var _size : Array<Float>;
 	var _links : Array<Node<T>>->Array<Link<T>>;
 	var _treeHierarchy : T->Int->Array<Node<T>>;
-
+	
 	public function new(){
 		super();
 		_treeHierarchy = hierarchy;
@@ -148,11 +149,11 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 		_separation = x;
 		return this;
 	}
-
+	
 	public function getSeparation(x){
 		return _separation;
 	}
-
+	
 	public function size(x) {
 		_size = x;
 		return this;
@@ -160,7 +161,7 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 	public function getSize(x){
 		return _size;
 	}
-
+	
 	public function treeHierarchy(x){
 		_treeHierarchy = x;
 		return this;
@@ -168,7 +169,7 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 	public function getTreeHierarchy(x){
 		return _treeHierarchy;
 	}
-
+	
 	function apportion(node:TreeNode<T>, previousSibling:TreeNode<T>, ancestor:TreeNode<T>) {
 		if (previousSibling != null) {
 			var vip = node;
@@ -179,12 +180,12 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 			var sop = vop._tree.mod;
 			var sim = vim._tree.mod;
 			var som = vom._tree.mod;
-
+			
 			var shift = null;
 			vim = Tree.right(vim);
 			vip = Tree.left(vip);
-
-
+			
+			
 			while (vim != null && vip != null) {
 				vom = Tree.left(vom);
 				vop = Tree.right(vop);
@@ -245,7 +246,7 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 			}
 		}
 	}
-
+	
 	function secondWalk(node : TreeNode<T>, x:Float) {
 		node.x = node._tree.prelim + x;
 		var children = node.children;
@@ -258,11 +259,11 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 			}
 		}
 	}
-
+	
 	public function tree(d:T, ?i:Int) {
 		var nodes = cast _treeHierarchy(d, i);
 		var root = nodes[0];
-
+				
 		// Initialize temporary layout variables.
 		Tree.visitAfter(root, function(node:TreeNode<T>, previousSibling:TreeNode<T>) {
 			node._tree = cast {
@@ -289,10 +290,10 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 		// Clear temporary layout variables; transform x and y.
 		var t = this;
 		Tree.visitAfter(root, function(node:TreeNode<T>,_) {
-			node.x = node.x - x0;
-			node.y = node.depth;
-			if (x1 - x0 != 0) node.x /= (x1 - x0) * t._size[0];
-			if (y1 != 0) node.y /=  y1 * t._size[1];
+			node.x = (node.x - x0) * t_size[0];
+			node.y = node.depth * t._size[1];
+			if (x1-x0 != 0) node.x /= (x1-x0);
+			if (y1 != 0) node.y /= y1;
 			node._tree = null;
 		});
 		return nodes;
