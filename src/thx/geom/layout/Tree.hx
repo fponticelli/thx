@@ -288,11 +288,13 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 		y1 = deep.depth;
 		var t = this;
 
-		
+		// if these numbers are the same, then it's a single node tree, or 
+		// every branch has one child.  Therefore, center it in the middle.
 		if (x0 == x1){
 			x0 = -.5;
 			x1 = -.5;
 		}
+		
 		// Clear temporary layout variables; transform x and y.
 
 
