@@ -75,14 +75,16 @@ class CsvDecoder
 	
 	function parseValue()
 	{	
-		if (trim_whitespace) this._s = ~/ */.replace(this._s,''); // LEADING SPACES... NOT LTRIM
 		if (_s.substr(0, 1) == quote) // QUOTED VALUE
 		{
 			var pos = _s.indexOf(quote, 1);
-			if (doublequotations){
-				while (_s.substr(pos+1, 1) == quote) // DOUBLE DOUBLE QUOTE
-					pos = _s.indexOf(quote, pos + 2);
-			}
+			
+			if (pos != -1){
+    			if (doublequotations){
+    				while (_s.substr(pos+1, 1) == quote) // DOUBLE DOUBLE QUOTE
+    					pos = _s.indexOf(quote, pos + 2);
+    			}
+			} else pos = _s.length;
 			
 			var v = _s.substr(1, pos - 1);
 			_s = _s.substr(pos + 1);

@@ -2618,7 +2618,7 @@ thx.js.BaseSelection.prototype = {
 	,createSelection: function(groups) {
 		return (function($this) {
 			var $r;
-			throw new thx.error.AbstractMethod({ fileName : "Selection.hx", lineNumber : 572, className : "thx.js.BaseSelection", methodName : "createSelection"});
+			throw new thx.error.AbstractMethod({ fileName : "Selection.hx", lineNumber : 575, className : "thx.js.BaseSelection", methodName : "createSelection"});
 			return $r;
 		}(this));
 	}
@@ -2718,11 +2718,15 @@ thx.js.Selection = $hxClasses["thx.js.Selection"] = function(groups) {
 }
 thx.js.Selection.__name__ = ["thx","js","Selection"];
 thx.js.Selection.current = null;
+thx.js.Selection.currentNode = null;
 thx.js.Selection.create = function(groups) {
 	return new thx.js.Selection(groups);
 }
 thx.js.Selection.getCurrent = function() {
 	return thx.js.Dom.selectNode(thx.js.Group.current);
+}
+thx.js.Selection.getCurrentNode = function() {
+	return thx.js.Group.current;
 }
 thx.js.Selection.__super__ = thx.js.UnboundSelection;
 thx.js.Selection.prototype = $extend(thx.js.UnboundSelection.prototype,{
@@ -4308,6 +4312,13 @@ thx.svg.Diagonal.forObject = function() {
 		return [d.x1,d.y1];
 	});
 }
+thx.svg.Diagonal.forArray = function() {
+	return new thx.svg.Diagonal().sourcef(function(d,_i) {
+		return [d[0],d[1]];
+	}).targetf(function(d,_i) {
+		return [d[2],d[3]];
+	});
+}
 thx.svg.Diagonal.prototype = {
 	_source: null
 	,_target: null
@@ -4986,6 +4997,9 @@ thx.util.TestAll.prototype = {
 }
 var Iterables = $hxClasses["Iterables"] = function() { }
 Iterables.__name__ = ["Iterables"];
+Iterables.count = function(it) {
+	return Iterators.count(it.iterator());
+}
 Iterables.indexOf = function(it,v,f) {
 	return Iterators.indexOf(it.iterator(),v,f);
 }
@@ -4995,11 +5009,18 @@ Iterables.contains = function(it,v,f) {
 Iterables.array = function(it) {
 	return Iterators.array(it.iterator());
 }
+Iterables.join = function(it,glue) {
+	if(glue == null) glue = ", ";
+	return Iterators.array(it.iterator()).join(glue);
+}
 Iterables.map = function(it,f) {
 	return Iterators.map(it.iterator(),f);
 }
 Iterables.each = function(it,f) {
 	return Iterators.each(it.iterator(),f);
+}
+Iterables.filter = function(it,f) {
+	return Iterators.filter(it.iterator(),f);
 }
 Iterables.reduce = function(it,f,initialValue) {
 	return Iterators.reduce(it.iterator(),f,initialValue);
@@ -6921,6 +6942,9 @@ Strings.interpolateChar = function(v,a,b,equation) {
 	return (Strings.interpolateCharf(a,b,equation))(v);
 }
 Strings.interpolateCharf = function(a,b,equation) {
+	if(new EReg("^\\d","").match(b) && a == " ") a = "0";
+	var r = new EReg("^[^a-zA-Z0-9]","");
+	if(r.match(b) && a == " ") a = r.matched(0);
 	var ca = a.charCodeAt(0), cb = b.charCodeAt(0), i = Ints.interpolatef(ca,cb,equation);
 	return function(v) {
 		return String.fromCharCode(i(v));
@@ -7488,10 +7512,11 @@ thx.csv.CsvDecoder.prototype = {
 		this.handler.endItem();
 	}
 	,parseValue: function() {
-		if(this.trim_whitespace) this._s = new EReg(" *","").replace(this._s,"");
 		if(this._s.substr(0,1) == this.quote) {
 			var pos = this._s.indexOf(this.quote,1);
-			if(this.doublequotations) while(this._s.substr(pos + 1,1) == this.quote) pos = this._s.indexOf(this.quote,pos + 2);
+			if(pos != -1) {
+				if(this.doublequotations) while(this._s.substr(pos + 1,1) == this.quote) pos = this._s.indexOf(this.quote,pos + 2);
+			} else pos = this._s.length;
 			var v = this._s.substr(1,pos - 1);
 			this._s = this._s.substr(pos + 1);
 			this.typeString(StringTools.replace(v,this.quote + this.quote,this.quote));
@@ -7518,7 +7543,7 @@ thx.csv.CsvDecoder.prototype = {
 	,error: function(e) {
 		return (function($this) {
 			var $r;
-			throw new thx.error.Error("invalid string value '{0}' at line {1}, column {2}",[Strings.ellipsis(e,50),$this.line,$this.column],null,{ fileName : "CsvDecoder.hx", lineNumber : 121, className : "thx.csv.CsvDecoder", methodName : "error"});
+			throw new thx.error.Error("invalid string value '{0}' at line {1}, column {2}",[Strings.ellipsis(e,50),$this.line,$this.column],null,{ fileName : "CsvDecoder.hx", lineNumber : 125, className : "thx.csv.CsvDecoder", methodName : "error"});
 			return $r;
 		}(this));
 	}
@@ -10872,6 +10897,24 @@ Arrays["delete"] = function(arr,value) {
 	arr.remove(value);
 	return arr;
 }
+Arrays.removef = function(arr,f) {
+	var index = -1;
+	var _g1 = 0, _g = arr.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		if(f(arr[i])) {
+			index = i;
+			break;
+		}
+	}
+	if(index < 0) return false;
+	arr.splice(index,1);
+	return true;
+}
+Arrays.deletef = function(arr,f) {
+	Arrays.removef(arr,f);
+	return arr;
+}
 Arrays.filter = function(arr,f) {
 	var result = [];
 	var _g = 0;
@@ -11011,7 +11054,7 @@ Arrays.map = function(arr,f) {
 	return arr.map(f);
 }
 Arrays.reduce = function(arr,f,initialValue) {
-	return Iterators.reduce(arr.iterator(),f,initialValue);
+	return arr.reduce(f,initialValue);
 }
 Arrays.order = function(arr,f) {
 	arr.sort(null == f?Dynamics.compare:f);
@@ -15658,6 +15701,14 @@ thx.js.AccessDataHtml.prototype = $extend(thx.js.AccessHtml.prototype,{
 });
 var Iterators = $hxClasses["Iterators"] = function() { }
 Iterators.__name__ = ["Iterators"];
+Iterators.count = function(it) {
+	var i = 0;
+	while( it.hasNext() ) {
+		var _ = it.next();
+		i++;
+	}
+	return i;
+}
 Iterators.indexOf = function(it,v,f) {
 	if(null == f) f = function(v2) {
 		return v == v2;
@@ -15688,6 +15739,10 @@ Iterators.array = function(it) {
 	}
 	return result;
 }
+Iterators.join = function(it,glue) {
+	if(glue == null) glue = ", ";
+	return Iterators.array(it).join(glue);
+}
 Iterators.map = function(it,f) {
 	var result = [], i = 0;
 	while( it.hasNext() ) {
@@ -15702,6 +15757,14 @@ Iterators.each = function(it,f) {
 		var o = it.next();
 		f(o,i++);
 	}
+}
+Iterators.filter = function(it,f) {
+	var result = [];
+	while( it.hasNext() ) {
+		var i = it.next();
+		if(f(i)) result.push(i);
+	}
+	return result;
 }
 Iterators.reduce = function(it,f,initialValue) {
 	var accumulator = initialValue, i = 0;
@@ -18577,6 +18640,7 @@ Strings.__ucwordswsPattern = new EReg("\\s([a-z])","");
 Strings.__alphaNumPattern = new EReg("^[a-z0-9]+$","i");
 Strings.__digitsPattern = new EReg("^[0-9]+$","");
 Strings._reInterpolateNumber = new EReg("[-+]?(?:\\d+\\.\\d+|\\d+\\.|\\.\\d+|\\d+)(?:[eE][-]?\\d+)?","");
+thx.csv.CsvDecoder.leading_space = new EReg(" *","");
 thx.html.HtmlParser.startTag = new EReg("^<(\\w+)((?:\\s+\\w+(?:\\s*=\\s*(?:(?:\"[^\"]*\")|(?:'[^']*')|[^>\\s]+))?)*)\\s*(/?)>","");
 thx.html.HtmlParser.endTag = new EReg("^</(\\w+)[^>]*>","");
 thx.html.HtmlParser.attr = new EReg("(\\w+)(?:\\s*=\\s*(?:(?:\"((?:\\\\.|[^\"])*)\")|(?:'((?:\\\\.|[^'])*)')|([^>\\s]+)))?","g");
@@ -18596,10 +18660,10 @@ thx.ini.TestIni.s = "\nroot=value\n\t\n[owner]\nname=John Doe\norganization=Acme
 thx.ini.TestIni.s2 = "root=value\n\n[database]\nserver=192.0.2.62\nport=143\nfile=payroll.dat\n\n[database.more]\nsequence=1, 2, 3\n\n[owner]\nname=John Doe\norganization=Acme Widgets Inc.";
 thx.ini.TestIni.v = { root : "value", owner : { name : "John Doe", organization : "Acme Widgets Inc."}, database : { server : "192.0.2.62", port : 143, file : "payroll.dat", more : { sequence : [1,2,3]}}};
 thx.validation.SingleLineValidator._re = new EReg("(\n|\r)","m");
-Xml.enode = new EReg("^<([a-zA-Z0-9:_-]+)","");
+Xml.enode = new EReg("^<([a-zA-Z0-9:._-]+)","");
 Xml.ecdata = new EReg("^<!\\[CDATA\\[","i");
 Xml.edoctype = new EReg("^<!DOCTYPE ","i");
-Xml.eend = new EReg("^</([a-zA-Z0-9:_-]+)>","");
+Xml.eend = new EReg("^</([a-zA-Z0-9:._-]+)>","");
 Xml.epcdata = new EReg("^[^<]+","");
 Xml.ecomment = new EReg("^<!--","");
 Xml.eprolog = new EReg("^<\\?[^\\?]+\\?>","");
