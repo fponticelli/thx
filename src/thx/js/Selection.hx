@@ -33,6 +33,21 @@ class Selection extends UnboundSelection<Selection>
 
 	inline static function getCurrent() return Dom.selectNode(Group.current)
 	inline static function getCurrentNode() return Group.current
+
+#if (js && js_shims)
+	static function __init__()
+	{
+		untyped __js__("if(!('createElementNS' in document))
+	document.createElementNS = function(_, name) { return document.createElement(name); }
+var N = window.DOMElement || window.Element;
+if (!('setAttributeNS' in N.prototype))
+	N.prototype.setAttributeNS = function(_, attr, v){ return this.setAttribute(attr, v); }
+if (!('getAttributeNS' in N.prototype))
+	N.prototype.getAttributeNS = function(_, attr){ return this.getAttribute(attr); }
+//delete N;
+");
+	}
+#end
 }
 
 class UnboundSelection<This> extends BaseSelection<This>
@@ -558,16 +573,59 @@ class BaseSelection<This>
 			}
 			if (Access.hasEvent(n, type))
 			{
-				untyped n.removeEventListener(typo, thx.js.Access.getEvent(n, type), capture);
+				removeEvent(n, typo, type, capture);
+//				untyped n.removeEventListener(typo, thx.js.Access.getEvent(n, type), capture);
 				Access.removeEvent(n, type);
 			}
 			if (null != listener)
 			{
 				Access.addEvent(n, type, l);
-				untyped n.addEventListener(typo, l, capture);
+				addEvent(n, typo, l, capture);
+//				untyped n.addEventListener(typo, l, capture);
 			}
 		});
 	}
+#if (js && js_shims)
+	public static dynamic function addEvent(target : HtmlDom, typo : String, handler : Event -> Void, capture : Bool)
+	{
+		untyped if (target.addEventListener != null)
+		{
+			addEvent = function(target, typo, handler, capture) {
+				target.addEventListener(typo, handler, capture);
+			};
+		} else if (target.attachEvent != null ) {
+			addEvent = function(target, typo, handler, capture) {
+				target.attachEvent(typo, handler);
+			};
+		}
+		addEvent(target, typo, handler, capture);
+	}
+
+	public static dynamic function removeEvent(target : HtmlDom, typo : String, type : String, capture : Bool)
+	{
+		untyped if (target.removeEventListener != null)
+		{
+			removeEvent = function(target, typo, type, capture) {
+				target.removeEventListener(typo, thx.js.Access.getEvent(target, type), false);
+			};
+		} else if (target.attachEvent != null ) {
+			removeEvent = function(target, typo, type, capture) {
+				target.detachEvent(typo, thx.js.Access.getEvent(target, type));
+			};
+		}
+		removeEvent(target, typo, type, capture);
+	}
+#else
+	inline public static function addEvent(node : HtmlDom, typo : String, handler : Event -> Void, capture : Bool)
+	{
+		untyped node.addEventListener(typo, handler, capture);
+	}
+
+	inline public static function removeEvent(node : HtmlDom, typo : String, type : String, capture : Bool)
+	{
+		untyped node.removeEventListener(typo, thx.js.Access.getEvent(node, type), capture);
+	}
+#end
 
 	// PRIVATE HELPERS
 	function createSelection(groups : Array<Group>) : This

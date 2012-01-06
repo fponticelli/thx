@@ -10,7 +10,7 @@ class Symbol
 {
 	static var sqrt3 = Math.sqrt(3);
 	static var tan30 = Math.tan(30 * Math.PI / 180);
-	
+
 	public static function triangleDown(size : Float)
 	{
 		var rx = Math.sqrt(size / sqrt3),
@@ -20,7 +20,7 @@ class Symbol
 			+ " " + -rx + "," + -ry
 			+ "Z";
 	}
-	
+
 	public static function triangleUp(size : Float)
 	{
 		var rx = Math.sqrt(size / sqrt3),
@@ -30,7 +30,7 @@ class Symbol
 			+ " " + -rx + "," + ry
 			+ "Z";
 	}
-	
+
 	public static function square(size : Float)
 	{
 		var r = Math.sqrt(size) / 2;
@@ -40,7 +40,7 @@ class Symbol
 			+ " " + -r + "," + r
 			+ "Z";
 	}
-	
+
 	public static function diamond(size : Float)
 	{
 		var ry = Math.sqrt(size / (2 * tan30)),
@@ -51,7 +51,7 @@ class Symbol
 			+ " " + -rx + ",0"
 			+ "Z";
 	}
-	
+
 	public static function cross(size : Float)
 	{
 		var r = Math.sqrt(size / 5) / 2;
@@ -69,7 +69,7 @@ class Symbol
 			+ "H" + -3 * r
 			+ "Z";
 	}
-	
+
 	public static function circle(size : Float)
 	{
 		var r = Math.sqrt(size / Math.PI);
@@ -78,7 +78,7 @@ class Symbol
 			+ "A" + r + "," + r + " 0 1,1 0," + r
 			+ "Z";
 	}
-	
+
 	public static function arrowUp(size : Float)
 	{
 		var r = Math.sqrt(size / 2);
@@ -91,7 +91,7 @@ class Symbol
 			+ "l" + -r + "," + -r
 			+ "Z";
 	}
-	
+
 	public static function arrowDown(size : Float)
 	{
 		var r = Math.sqrt(size / 2);
@@ -104,7 +104,7 @@ class Symbol
 			+ "l" + -r + "," + r
 			+ "Z";
 	}
-	
+
 	public static function arrowDownWide(size : Float)
 	{
 		var r = Math.sqrt(size / 2.5);
@@ -117,7 +117,7 @@ class Symbol
 			+ "l" + -r * 1 + "," + r
 			+ "Z";
 	}
-	
+
 	public static function arrowRight(size : Float)
 	{
 		var r = Math.sqrt(size / 2);
@@ -130,7 +130,7 @@ class Symbol
 			+ "l" + r + "," + -r
 			+ "Z";
 	}
-	
+
 	public static function arrowLeft(size : Float)
 	{
 		var r = Math.sqrt(size / 2);
@@ -143,21 +143,21 @@ class Symbol
 			+ "l" + -r + "," + -r
 			+ "Z";
 	}
-	
+
 	public static function star(size : Float)
 	{
 		var r = Math.sqrt(size / 0.31027) / 2;
-		return 
+		return
 			  "M0," + (-r)
 			+ "L" + (r * 0.236)  + "," + (r * -0.325) + " "
-				  + (r * 0.951)  + "," + (r * -0.309) + " " 
-				  + (r * 0.382)  + "," + (r *  0.124) + " " 
-				  + (r * 0.588)  + "," + (r *  0.809) + " " 
-				  + (r * 0)      + "," + (r *  0.401) + " " 
-				  + (r * -0.588) + "," + (r *  0.809) + " " 
-				  + (r * -0.382) + "," + (r *  0.124) + " " 
-				  + (r * -0.951) + "," + (r * -0.309) + " " 
-				  + (r * -0.236) + "," + (r * -0.325) + " " + 
+				  + (r * 0.951)  + "," + (r * -0.309) + " "
+				  + (r * 0.382)  + "," + (r *  0.124) + " "
+				  + (r * 0.588)  + "," + (r *  0.809) + " "
+				  + (r * 0)      + "," + (r *  0.401) + " "
+				  + (r * -0.588) + "," + (r *  0.809) + " "
+				  + (r * -0.382) + "," + (r *  0.124) + " "
+				  + (r * -0.951) + "," + (r * -0.309) + " "
+				  + (r * -0.236) + "," + (r * -0.325) + " " +
 			"Z";
 	}
 }

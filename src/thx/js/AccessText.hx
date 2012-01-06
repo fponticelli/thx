@@ -22,20 +22,20 @@ class AccessText<That> extends Access<That>
 		selection.eachNode(function(node, _) untyped node.textContent = v);
 		return _that();
 	}
-	
+
 	public function clear()
 	{
 		selection.eachNode(function(node, i) untyped node.textContent = "");
 		return _that();
 	}
-	
+
 	public function float(v : Float)
 	{
 		clear();
 		selection.eachNode(function(node, _) untyped node.textContent = "" + v);
 		return _that();
 	}
-	
+
 	public function stringNodef(v : HtmlDom -> Int -> Null<String>)
 	{
 		clear();
@@ -45,7 +45,7 @@ class AccessText<That> extends Access<That>
 		});
 		return _that();
 	}
-	
+
 	public function floatNodef(v : HtmlDom -> Int -> Null<Float>)
 	{
 		clear();
@@ -63,7 +63,7 @@ class AccessDataText<T, That> extends AccessText<That>
 	{
 		super(selection);
 	}
-	
+
 	public function stringf(v : T -> Int -> Null<String>)
 	{
 		clear();
@@ -73,7 +73,7 @@ class AccessDataText<T, That> extends AccessText<That>
 		});
 		return _that();
 	}
-	
+
 	public function floatf(v : T -> Int -> Null<Float>)
 	{
 		clear();
@@ -83,7 +83,7 @@ class AccessDataText<T, That> extends AccessText<That>
 		});
 		return _that();
 	}
-	
+
 	public function data()
 	{
 		return stringf(function(d, _) return "" + d);

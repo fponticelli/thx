@@ -48,7 +48,7 @@ class AccessDataProperty<T, That> extends AccessProperty<That>
 	{
 		super(name, selection);
 	}
-	
+
 	public function stringf(v : T -> Int -> String)
 	{
 		var n = name;
@@ -73,7 +73,7 @@ class AccessDataProperty<T, That> extends AccessProperty<That>
 		});
 		return _that();
 	}
-	
+
 	public function data()
 	{
 		return stringf(function(d, _) return "" + d);

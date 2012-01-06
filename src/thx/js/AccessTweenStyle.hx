@@ -29,24 +29,22 @@ class AccessTweenStyle<That : BaseTransition<Dynamic>> extends AccessTween<That>
 	{
 		return floatTweenNodef(transitionFloatTween(value), priority);
 	}
-	
+
 	public function floatTweenNodef(tween : HtmlDom -> Int -> Float -> (Float -> Float), ?priority : String)
 	{
-		if (null == priority)
-			priority = null; // FF fix
 		var name = this.name;
 		function styleTween(d : HtmlDom, i : Int) : Float -> Void
 		{
-			var f = tween(d, i, Std.parseFloat(untyped js.Lib.window.getComputedStyle(d, null).getPropertyValue(name)));
+			var f = tween(d, i, Std.parseFloat(AccessStyle.getComputedStyleValue(d, name)));
 			return function(t)
 			{
-				untyped d.style.setProperty(name, "" + f(t), priority);
+				AccessStyle.setStyleProperty(d, name, "" + f(t), priority);
 			}
 		}
 		tweens.set("style." + name, styleTween);
 		return _that();
 	}
-	
+
 	public function stringNodef(f : HtmlDom -> Int -> String, ?priority : String)
 	{
 		return stringTweenNodef(transitionStringTweenf(f), priority);
@@ -56,7 +54,7 @@ class AccessTweenStyle<That : BaseTransition<Dynamic>> extends AccessTween<That>
 	{
 		return stringTweenNodef(transitionStringTween(value), priority);
 	}
-	
+
 	public function stringTweenNodef(tween : HtmlDom -> Int -> String -> (Float -> String), ?priority : String)
 	{
 		if (null == priority)
@@ -64,16 +62,16 @@ class AccessTweenStyle<That : BaseTransition<Dynamic>> extends AccessTween<That>
 		var name = this.name;
 		function styleTween(d : HtmlDom, i : Int) : Float -> Void
 		{
-			var f = tween(d, i, untyped js.Lib.window.getComputedStyle(d, null).getPropertyValue(name));
+			var f = tween(d, i, AccessStyle.getComputedStyleValue(d, name));
 			return function(t)
 			{
-				untyped d.style.setProperty(name, f(t), priority);
+				AccessStyle.setStyleProperty(d, name, f(t), priority);
 			}
 		}
 		tweens.set("style." + name, styleTween);
 		return _that();
 	}
-	
+
 	public function colorNodef(f : HtmlDom -> Int -> Rgb, ?priority : String)
 	{
 		return colorTweenNodef(transitionColorTweenf(f), priority);
@@ -83,7 +81,7 @@ class AccessTweenStyle<That : BaseTransition<Dynamic>> extends AccessTween<That>
 	{
 		return colorTweenNodef(transitionColorTween(Colors.parse(value)), priority);
 	}
-	
+
 	public function colorTweenNodef(tween : HtmlDom -> Int -> Rgb -> (Float -> Rgb), ?priority : String)
 	{
 		if (null == priority)
@@ -91,10 +89,10 @@ class AccessTweenStyle<That : BaseTransition<Dynamic>> extends AccessTween<That>
 		var name = this.name;
 		function styleTween(d : HtmlDom, i : Int) : Float -> Void
 		{
-			var f = tween(d, i, Colors.parse(untyped js.Lib.window.getComputedStyle(d, null).getPropertyValue(name)));
+			var f = tween(d, i, Colors.parse(AccessStyle.getComputedStyleValue(d, name)));
 			return function(t)
 			{
-				untyped d.style.setProperty(name, f(t).toRgbString(), priority);
+				AccessStyle.setStyleProperty(d, name, f(t).toRgbString(), priority);
 			}
 		}
 		tweens.set("style." + name, styleTween);
@@ -108,12 +106,12 @@ class AccessDataTweenStyle<T, That : BaseTransition<Dynamic>> extends AccessTwee
 	{
 		super(name, cast transition, tweens);
 	}
-	
+
 	public function floatf(f : T -> Int -> Float, ?priority : String)
 	{
 		return floatTweenNodef(transitionFloatTweenf(function(n,i) return f(Access.getData(n),i)), priority);
 	}
-	
+
 	public function floatTweenf(tween : T -> Int -> Float -> (Float -> Float), ?priority : String)
 	{
 		if (null == priority)
@@ -121,21 +119,21 @@ class AccessDataTweenStyle<T, That : BaseTransition<Dynamic>> extends AccessTwee
 		var name = this.name;
 		function styleTween(d : HtmlDom, i : Int) : Float -> Void
 		{
-			var f = tween(Access.getData(d), i, Std.parseFloat(untyped js.Lib.window.getComputedStyle(d, null).getPropertyValue(name)));
+			var f = tween(Access.getData(d), i, Std.parseFloat(AccessStyle.getComputedStyleValue(d, name)));
 			return function(t)
 			{
-				untyped d.style.setProperty(name, "" + f(t), priority);
+				AccessStyle.setStyleProperty(d, name, "" + f(t), priority);
 			}
 		}
 		tweens.set("style." + name, styleTween);
 		return _that();
 	}
-	
+
 	public function stringf(f : T -> Int -> String, ?priority : String)
 	{
 		return stringTweenNodef(transitionStringTweenf(function(n,i) return f(Access.getData(n),i)), priority);
 	}
-	
+
 	public function stringTweenf(tween : T -> Int -> String -> (Float -> String), ?priority : String)
 	{
 		if (null == priority)
@@ -143,21 +141,21 @@ class AccessDataTweenStyle<T, That : BaseTransition<Dynamic>> extends AccessTwee
 		var name = this.name;
 		function styleTween(d : HtmlDom, i : Int) : Float -> Void
 		{
-			var f = tween(Access.getData(d), i, untyped js.Lib.window.getComputedStyle(d, null).getPropertyValue(name));
+			var f = tween(Access.getData(d), i, AccessStyle.getComputedStyleValue(d, name));
 			return function(t)
 			{
-				untyped d.style.setProperty(name, f(t), priority);
+				AccessStyle.setStyleProperty(d, name, f(t), priority);
 			}
 		}
 		tweens.set("style." + name, styleTween);
 		return _that();
 	}
-	
+
 	public function colorf(f : T -> Int -> Rgb, ?priority : String)
 	{
 		return colorTweenNodef(transitionColorTweenf(function(n,i) return f(Access.getData(n),i)), priority);
 	}
-	
+
 	public function colorTweenf(tween : T -> Int -> Rgb -> (Float -> Rgb), ?priority : String)
 	{
 		if (null == priority)
@@ -165,10 +163,10 @@ class AccessDataTweenStyle<T, That : BaseTransition<Dynamic>> extends AccessTwee
 		var name = this.name;
 		function styleTween(d : HtmlDom, i : Int) : Float -> Void
 		{
-			var f = tween(Access.getData(d), i, Colors.parse(untyped js.Lib.window.getComputedStyle(d, null).getPropertyValue(name)));
+			var f = tween(Access.getData(d), i, Colors.parse(AccessStyle.getComputedStyleValue(d, name)));
 			return function(t)
 			{
-				untyped d.style.setProperty(name, f(t).toRgbString(), priority);
+				AccessStyle.setStyleProperty(d, name, f(t).toRgbString(), priority);
 			}
 		}
 		tweens.set("style." + name, styleTween);

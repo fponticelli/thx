@@ -6,12 +6,11 @@
 package thx.svg;
 import thx.svg.LineInterpolator;
 
-class LineInterpolators 
+class LineInterpolators
 {
 	public static function parse(s : String, sep = "-")
 	{
-		
-		
+
 		var interp = s.split(sep)[0].toLowerCase();
 		return switch(interp)
 		{
@@ -38,7 +37,7 @@ class LineInterpolators
 				Linear;
 		}
 	}
-	
+
 	static function argument(s : String) : Null<Float>
 	{
 		var v = s.split("-")[1];

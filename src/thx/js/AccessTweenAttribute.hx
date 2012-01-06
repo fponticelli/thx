@@ -19,7 +19,7 @@ class AccessTweenAttribute<That : BaseTransition<Dynamic>> extends AccessTween<T
 		this.name = name;
 		this.qname = Namespace.qualify(name);
 	}
-	
+
 	public function stringNodef(f : HtmlDom -> Int -> String)
 	{
 		return stringTweenNodef(transitionStringTweenf(f));
@@ -29,7 +29,7 @@ class AccessTweenAttribute<That : BaseTransition<Dynamic>> extends AccessTween<T
 	{
 		return stringTweenNodef(transitionStringTween(value));
 	}
-	
+
 	public function stringTweenNodef(tween : HtmlDom -> Int -> String -> (Float -> String))
 	{
 		var name = this.name;
@@ -49,11 +49,11 @@ class AccessTweenAttribute<That : BaseTransition<Dynamic>> extends AccessTween<T
 				untyped d.setAttributeNS(name.space, name.local, f(t));
 			};
 		}
-		
+
 		tweens.set("attr." + name, null == qname ? attrTween : attrTweenNS);
 		return _that();
 	}
-	
+
 	public function floatNodef(f : HtmlDom -> Int -> Float)
 	{
 		return floatTweenNodef(transitionFloatTweenf(f));
@@ -63,7 +63,7 @@ class AccessTweenAttribute<That : BaseTransition<Dynamic>> extends AccessTween<T
 	{
 		return floatTweenNodef(transitionFloatTween(value));
 	}
-	
+
 	public function floatTweenNodef(tween : HtmlDom -> Int -> Float -> (Float -> Float))
 	{
 		var name = this.name;
@@ -83,7 +83,7 @@ class AccessTweenAttribute<That : BaseTransition<Dynamic>> extends AccessTween<T
 				untyped d.setAttributeNS(name.space, name.local, ""  + f(t));
 			};
 		}
-		
+
 		tweens.set("attr." + name, null == qname ? attrTween : attrTweenNS);
 		return _that();
 	}
@@ -100,12 +100,12 @@ class AccessDataTweenAttribute<T, That : BaseTransition<Dynamic>> extends Access
 	{
 		return stringTweenNodef(transitionStringTweenf(function(n,i) return f(Access.getData(n),i)));
 	}
-	
+
 	public function floatf(f : T -> Int -> Float)
 	{
 		return floatTweenNodef(transitionFloatTweenf(function(n,i) return f(Access.getData(n),i)));
 	}
-	
+
 	public function stringTweenf(tween : T -> Int -> String -> (Float -> String))
 	{
 		var name = this.name;
@@ -125,11 +125,11 @@ class AccessDataTweenAttribute<T, That : BaseTransition<Dynamic>> extends Access
 				untyped n.setAttributeNS(name.space, name.local, f(t));
 			};
 		}
-		
+
 		tweens.set("attr." + name, null == qname ? attrTween : attrTweenNS);
 		return _that();
 	}
-	
+
 	public function floatTweenf(tween : T -> Int -> Float -> (Float -> Float))
 	{
 		var name = this.name;
@@ -149,7 +149,7 @@ class AccessDataTweenAttribute<T, That : BaseTransition<Dynamic>> extends Access
 				untyped n.setAttributeNS(name.space, name.local, ""  + f(t));
 			};
 		}
-		
+
 		tweens.set("attr." + name, null == qname ? attrTween : attrTweenNS);
 		return _that();
 	}

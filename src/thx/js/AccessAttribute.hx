@@ -24,7 +24,7 @@ class AccessAttribute<That> extends Access<That>
 			q = qname;
 		return selection.firstNode(function(node : HtmlDom) return q == null ? node.getAttribute(n) : untyped node.getAttributeNS(q.space, q.local));
 	}
-	
+
 	static var refloat = ~/(\d+(?:\.\d+)?)/;
 	public function getFloat()
 	{
@@ -34,7 +34,7 @@ class AccessAttribute<That> extends Access<That>
 		else
 			return Math.NaN;
 	}
-	
+
 	public function remove()
 	{
 		if (null == qname)
@@ -80,7 +80,7 @@ class AccessDataAttribute<T, That> extends AccessAttribute<That>
 	{
 		super(name, selection);
 	}
-	
+
 	public function stringf(v : T -> Int -> String)
 	{
 		if (null == qname)
@@ -129,7 +129,7 @@ class AccessDataAttribute<T, That> extends AccessAttribute<That>
 		}
 		return _that();
 	}
-	
+
 	public function data()
 	{
 		return stringf(function(d, _) return "" + d);

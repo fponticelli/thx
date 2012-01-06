@@ -98,7 +98,7 @@ Object Formats
 ----------------
 O			Uses the Std.string function
 R			Uses the Reflects.string function for each field value
-			
+
 TODO:
 List Formats
 ---------------
@@ -112,7 +112,7 @@ Other things to do. Nested placeholders
 			return pattern;
 		return formatf(pattern, nullstring, culture)(values);
 	}
-	
+
 	public static function formatf(pattern : String, nullstring = 'null', ?culture : Culture)
 	{
 		var buf = [];
@@ -150,12 +150,12 @@ Other things to do. Nested placeholders
 			return buf.map(function(df,_) return df(values)).join("");
 		}
 	}
-	
+
 	public static function formatOne(v : String, ?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return formatOnef(param, params, culture)(v);
 	}
-	
+
 	public static function formatOnef(?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		params = FormatParams.params(param, params, 'S');
@@ -180,7 +180,7 @@ Other things to do. Nested placeholders
 				return throw "Unsupported string format: " + format;
 		}
 	}
-	
+
 	// TODO, test me
 	public static function upTo(value : String, searchFor : String)
 	{
@@ -190,7 +190,7 @@ Other things to do. Nested placeholders
 		else
 			return value.substr(0, pos);
 	}
-	
+
 	// TODO, test me
 	public static function startFrom(value : String, searchFor : String)
 	{
@@ -200,7 +200,7 @@ Other things to do. Nested placeholders
 		else
 			return value.substr(pos + searchFor.length);
 	}
-	
+
 	// TODO, test me
 	public static function rtrim(value : String, charlist : String) : String
 	{
@@ -218,7 +218,7 @@ Other things to do. Nested placeholders
 		return value.substr(0, len);
 #end
 	}
-	
+
 	// TODO, test me
 	public static function ltrim(value : String, charlist : String) : String
 	{
@@ -236,7 +236,7 @@ Other things to do. Nested placeholders
 		return value.substr(start);
 #end
 	}
-	
+
 	public static inline function trim(value : String, charlist : String) : String
 	{
 #if php
@@ -245,28 +245,28 @@ Other things to do. Nested placeholders
 		return rtrim(ltrim(value, charlist), charlist);
 #end
 	}
-	
+
 	static var _reCollapse = ~/\s+/g;
 	public static function collapse(value : String)
 	{
 		return _reCollapse.replace(StringTools.trim(value), " ");
 	}
-	
+
 	public static inline function ucfirst(value : String) : String
 	{
 		return (value == null ? null : value.charAt(0).toUpperCase() + value.substr(1));
 	}
-	
+
 	public static inline function lcfirst(value : String) : String
 	{
 		return (value == null ? null : value.charAt(0).toLowerCase() + value.substr(1));
 	}
-	
+
 	public static function empty(value : String)
 	{
 		return value == null || value == '';
 	}
-	
+
 	public static inline function isAlphaNum(value : String) : Bool
 	{
 #if php
@@ -275,7 +275,7 @@ Other things to do. Nested placeholders
 		return (value == null ? false : __alphaNumPattern.match(value));
 #end
 	}
-	
+
 	public static inline function digitsOnly(value : String) : Bool
 	{
 #if php
@@ -284,12 +284,12 @@ Other things to do. Nested placeholders
 		return (value == null ? false : __digitsPattern.match(value));
 #end
 	}
-	
+
 	public static function ucwords(value : String) : String
 	{
 		return __ucwordsPattern.customReplace(ucfirst(value), __upperMatch);
 	}
-	
+
 	/**
 	 * Like ucwords but uses only white spaces as boundaries
 	 * @param	value
@@ -303,7 +303,7 @@ Other things to do. Nested placeholders
 		return __ucwordswsPattern.customReplace(ucfirst(value), __upperMatch);
 #end
 	}
-	
+
 	static function __upperMatch(re : EReg)
 	{
 		return re.matched(0).toUpperCase();
@@ -329,13 +329,13 @@ Other things to do. Nested placeholders
 	{
 		return s.substr(0, 1).toUpperCase() + s.substr(1);
 	}
-	
+
 	// TO TEST
 	public static function succ(s : String)
 	{
 		return s.substr(0, -1) + String.fromCharCode(s.substr(-1).charCodeAt(0)+1);
 	}
-	
+
 	// TO TEST
 	public static function underscore(s : String)
 	{
@@ -345,12 +345,12 @@ Other things to do. Nested placeholders
 		s = (~/-/g).replace(s, '_');
 		return s.toLowerCase();
 	}
-	
+
 	public static function dasherize(s : String)
 	{
 		return s.replace('_', '-');
 	}
-	
+
 	public static function repeat(s : String, times : Int)
 	{
 		var b = [];
@@ -358,7 +358,7 @@ Other things to do. Nested placeholders
 			b.push(s);
 		return b.join('');
 	}
-	
+
 	public static function wrapColumns(s : String, columns = 78, indent = "", newline = "\n")
 	{
 		var parts = _reSplitWC.split(s);
@@ -369,7 +369,7 @@ Other things to do. Nested placeholders
 		}
 		return result.join(newline);
 	}
-	
+
 	static function _wrapColumns(s : String, columns : Int, indent : String, newline : String)
 	{
 		var parts = [];
@@ -384,7 +384,7 @@ Other things to do. Nested placeholders
 				parts.push(s.substr(pos));
 				break;
 			}
-			
+
 			var i = 0;
 			while(!StringTools.isSpace(s, pos + columns - i) && i < columns)
 			{
@@ -405,10 +405,10 @@ Other things to do. Nested placeholders
 				pos += columns - i + 1;
 			}
 		}
-		
+
 		return indent + parts.join(newline + indent);
 	}
-	
+
 	public static function stripTags(s : String) : String
 	{
 #if php
@@ -417,7 +417,7 @@ Other things to do. Nested placeholders
 		return _reStripTags.replace(s, "");
 #end
 	}
-	
+
 	static var _reInterpolateNumber = ~/[-+]?(?:\d+\.\d+|\d+\.|\.\d+|\d+)(?:[eE][-]?\d+)?/;
 	public static function interpolate(v : Float, a : String, b : String, ?equation : Float -> Float)
 	{
@@ -452,7 +452,7 @@ Other things to do. Nested placeholders
 			fb = [];
 		extract(a, sa, fa);
 		extract(b, sb, fb);
-		
+
 		var functions = [], i = 0;
 		var min = Ints.min(sa.length, sb.length);
 		while (i < min)
@@ -490,15 +490,15 @@ Other things to do. Nested placeholders
 			return Arrays.map(functions, function(f,_) return f(t)).join("");
 		};
 	}
-	
+
 	public static function interpolateChars(v : Float, a : String, b : String, ?equation : Float -> Float)
 	{
 		return interpolateCharsf(a, b, equation)(v);
 	}
-	
+
 	public static function interpolateCharsf(a : String, b : String, ?equation : Float -> Float) : Float -> String
 	{
-	
+
 		var aa = a.split(""),
 			ab = b.split("");
 		while (aa.length > ab.length)
@@ -516,12 +516,12 @@ Other things to do. Nested placeholders
 			return StringTools.trim(r.join(""));
 		}
 	}
-	
+
 	public static function interpolateChar(v : Float, a : String, b : String, ?equation : Float -> Float)
 	{
 		return interpolateCharf(a, b, equation)(v);
 	}
-	
+
 	public static function interpolateCharf(a : String, b : String, ?equation : Float -> Float) : Float -> String
 	{
 		if (~/^\d/.match(b) && a == ' ') a = '0';
@@ -532,7 +532,7 @@ Other things to do. Nested placeholders
 			i = Ints.interpolatef(ca, cb, equation);
 		return function(v) return String.fromCharCode(i(v));
 	}
-	
+
 	public static function ellipsis(s : String, maxlen = 20, symbol = "...")
 	{
 		if (s.length > maxlen)
@@ -540,7 +540,7 @@ Other things to do. Nested placeholders
 		else
 			return s;
 	}
-	
+
 	public static function ellipsisf(maxlen = 20, symbol = "...")
 	{
 		return function(s : String)
@@ -551,6 +551,6 @@ Other things to do. Nested placeholders
 				return s;
 		}
 	}
-	
+
 	public static function compare(a : String, b : String) return a < b ? -1 : a > b ? 1 : 0
 }

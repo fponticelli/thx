@@ -13,19 +13,19 @@ class AccessHtml<TData> extends Access<TData>
 	{
 		return selection.firstNode(function(node) return node.innerHTML);
 	}
-	
+
 	public function string(v : String)
 	{
 		selection.eachNode(function(node, i) node.innerHTML = v);
 		return _that();
 	}
-	
+
 	public function clear()
 	{
 		selection.eachNode(function(node, i) node.innerHTML = "");
 		return _that();
 	}
-	
+
 	public function float(v : Float)
 	{
 		selection.eachNode(function(node, i) node.innerHTML = "" + v);
@@ -39,7 +39,7 @@ class AccessDataHtml<T, That> extends AccessHtml<That>
 	{
 		super(selection);
 	}
-	
+
 	public function stringf(v : T -> Int -> Null<String>)
 	{
 		selection.eachNode(function(node, i) {
@@ -50,7 +50,7 @@ class AccessDataHtml<T, That> extends AccessHtml<That>
 		});
 		return _that();
 	}
-	
+
 	public function floatf(v : T -> Int -> Null<Float>)
 	{
 		selection.eachNode(function(node, i) {
@@ -59,11 +59,11 @@ class AccessDataHtml<T, That> extends AccessHtml<That>
 				node.innerHTML = "";
 			else
 				node.innerHTML = "" + f;
-			
+
 		});
 		return _that();
 	}
-	
+
 	public function data()
 	{
 		return stringf(function(d, _) return "" + d);

@@ -16,7 +16,7 @@ class AccessClassed<That> extends Access<That>
 	{
 		super(selection);
 	}
-	
+
 	public function toggle(name : String)
 	{
 		if (exists(name))
@@ -38,13 +38,13 @@ class AccessClassed<That> extends Access<That>
 			return re.match(null != bv ? bv : cls);
 		});
 	}
-	
+
 	public function remove(name : String)
 	{
 		selection.eachNode(callback(_remove, name));
 		return _that();
 	}
-	
+
 	function _remove(name : String, node : HtmlDom, i : Int) {
 		var list = untyped node.classList;
 		if (null != list)
@@ -52,11 +52,11 @@ class AccessClassed<That> extends Access<That>
 			list.remove(name);
 			return;
 		}
-		
+
 		var cls : String = node.className,
 			clsb : Bool = untyped null != cls.baseVal,
 			clsv : String = clsb ? untyped cls.baseVal : cls;
-		
+
 		var re = getRe(name);
 		clsv = Strings.collapse(re.replace(clsv, " "));
 		if (clsb)
@@ -66,14 +66,14 @@ class AccessClassed<That> extends Access<That>
 			node.className = clsv;
 		}
 	}
-	
+
 	// @todo add tests for this
 	public function add(name : String)
 	{
 		selection.eachNode(callback(_add, name));
 		return _that();
 	}
-	
+
 	function _add(name : String, node : HtmlDom, i : Int)
 	{
 		var list = untyped node.classList;
@@ -82,11 +82,11 @@ class AccessClassed<That> extends Access<That>
 			list.add(name);
 			return;
 		}
-		
+
 		var cls : String = node.className,
 			clsb : Bool = untyped null != cls.baseVal,
 			clsv : String = clsb ? untyped cls.baseVal : cls;
-		
+
 		var re = getRe(name);
 		if (!re.match(clsv))
 		{
@@ -97,7 +97,7 @@ class AccessClassed<That> extends Access<That>
 				node.className = clsv;
 		}
 	}
-	
+
 	public function get() : String
 	{
 		var node = selection.node(),
@@ -106,16 +106,16 @@ class AccessClassed<That> extends Access<That>
 		{
 			return Ints.range(list.length).map(function(_, i) return list.item(i)).join(" ");
 		}
-		
+
 		var cls : String = node.className,
 			clsb : Bool = untyped null != cls.baseVal;
-		
+
 		if (clsb)
 			return untyped cls.baseVal;
 		else
 			return cls;
 	}
-	
+
 	inline static function getRe(name : String)
 	{
 		return new EReg("(^|\\s+)" + ERegs.escapeERegChars(name) + "(\\s+|$)", "g");
@@ -128,7 +128,7 @@ class AccessDataClassed<T, That> extends AccessClassed<That>
 	{
 		super(selection);
 	}
-	
+
 	public function removef(v : T -> Int -> Null<String>)
 	{
 		var f = _remove;
@@ -139,7 +139,7 @@ class AccessDataClassed<T, That> extends AccessClassed<That>
 		});
 		return _that();
 	}
-	
+
 	public function addf(v : T -> Int -> Null<String>)
 	{
 		var f = _add;
