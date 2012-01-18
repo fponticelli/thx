@@ -29,7 +29,7 @@ class AccessStyle<That> extends Access<That>
 	}
 	dynamic public static function getComputedStyleValue(node : HtmlDom, key : String) : Dynamic
 	{
-		if(Reflect.hasField(js.Lib.window, 'getComputedStyle'))
+		if (untyped __js__("'getComputedStyle' in window"))
 		{
 			getComputedStyleValue = function(node, key)
 			{
@@ -52,7 +52,7 @@ class AccessStyle<That> extends Access<That>
 
 	dynamic public static function setStyleProperty(node : HtmlDom, key : String, value : Dynamic, priority : String) : Void
 	{
-		if(Reflect.hasField(node.style, 'setProperty'))
+		if (untyped __js__("'setProperty' in node.style"))
 		{
 			setStyleProperty = function(node, key, value, priority)
 			{
@@ -75,7 +75,7 @@ class AccessStyle<That> extends Access<That>
 
 	dynamic public static function removeStyleProperty(node : HtmlDom, key : String) : Void
 	{
-		if(Reflect.hasField(node.style, 'setProperty'))
+		if (untyped __js__("'removeProperty' in node.style"))
 		{
 			removeStyleProperty = function(node, key)
 			{
@@ -94,7 +94,7 @@ class AccessStyle<That> extends Access<That>
 #else
 	inline public static function getComputedStyleValue(node : HtmlDom, key : String) : Dynamic
 	{
-		return untyped js.Lib.window.getComputedStyle(node, null).getPropertyValue(key);
+		return untyped window.getComputedStyle(node, null).getPropertyValue(key);
 	}
 
 	inline public static function setStyleProperty(node : HtmlDom, key : String, value : Dynamic, priority : String) : Void

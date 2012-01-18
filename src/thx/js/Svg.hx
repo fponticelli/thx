@@ -37,5 +37,4 @@ class Svg
 		point = untyped point.matrixTransform(dom.getScreenCTM().inverse());
 		return [point.x, point.y];
 	}
-	
 }

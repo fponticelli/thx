@@ -34,12 +34,12 @@ class Cmyk extends Rgb
 		this.yellow  = yellow.normalize();
 		this.black   = black.normalize();
 	}
-	
+
 	public function toCmykString()
 	{
 		return "cmyk(" + cyan + "," + magenta + "," + yellow + "," + black + ")";
 	}
-	
+
 	public static function toCmyk(rgb : Rgb)
 	{
 		var c = 0.0, y = 0.0, m = 0.0, k;
@@ -57,23 +57,32 @@ class Cmyk extends Rgb
 		}
 		return new Cmyk(c, m, y, k);
 	}
-	
+
 	public static function equals(a : Cmyk, b : Cmyk)
 	{
 		return a.black == b.black && a.cyan == b.cyan && a.magenta == b.magenta && a.yellow == b.yellow;
 	}
-	
+
 	public static function darker(color : Cmyk, t : Float, ?equation : Float -> Float) : Cmyk
 	{
-		var v = t * color.black;
 		return new Cmyk(
 			color.cyan,
 			color.magenta,
 			color.yellow,
-			Floats.interpolate(v, 0, 1, equation)
+			Floats.interpolate(t, color.black, 0, equation)
 		);
 	}
-	
+
+	public static function lighter(color : Cmyk, t : Float, ?equation : Float -> Float) : Cmyk
+	{
+		return new Cmyk(
+			color.cyan,
+			color.magenta,
+			color.yellow,
+			Floats.interpolate(t, color.black, 1, equation)
+		);
+	}
+
 	public static function interpolate(a : Cmyk, b : Cmyk, t : Float, ?equation : Float -> Float) : Cmyk
 	{
 		return new Cmyk(

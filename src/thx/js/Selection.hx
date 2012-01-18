@@ -33,7 +33,7 @@ class Selection extends UnboundSelection<Selection>
 
 	inline static function getCurrent() return Dom.selectNode(Group.current)
 	inline static function getCurrentNode() return Group.current
-
+/*
 #if (js && js_shims)
 	static function __init__()
 	{
@@ -48,6 +48,7 @@ if (!('getAttributeNS' in N.prototype))
 ");
 	}
 #end
+*/
 }
 
 class UnboundSelection<This> extends BaseSelection<This>
