@@ -1,6 +1,6 @@
 package d3;
 import thx.geom.layout.Pie;
-import thx.math.scale.Categories;
+import thx.color.Categories;
 import thx.svg.Arc;
 
 using Arrays;
@@ -18,10 +18,10 @@ class Pie extends Example
 			h = 400,
 			r = Math.min(w, h) / 2,
 			data = Ints.range(10).map(function(_, _) return Math.random()),
-			color = Categories.cat20(),
-			donut = new thx.geom.layout.Pie().sort(Floats.descending),
+			color = new thx.math.scale.Ordinal().range(Categories.category20),
+			donut = new thx.geom.layout.Pie().sort(function(a,b) return Floats.compare(b,a)),
 			arc = Arc.fromAngleObject().innerRadius(r * .6).outerRadius(r);
-			
+
 		var vis = container
 			.append("svg:svg")
 				.attr("width").float(w)
@@ -50,6 +50,6 @@ class Pie extends Example
 			.attr("display").stringf(function(d, i) return d.value > .15 ? null : "none")
 			.text().stringf(function(d, i) return Floats.format(d.value));
 	}
-	
+
 	override function description() return "Pie Chart from random data. Not interactive."
 }

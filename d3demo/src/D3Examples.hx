@@ -3,13 +3,13 @@ import haxe.Firebug;
 import thx.js.Dom;
 using Strings;
 
-class D3Examples 
+class D3Examples
 {
 	static var example : Example;
 	static function main()
 	{
 		Firebug.redirectTraces();
-		
+
 		var classes = [
 			d3.Area,
 			d3.Bar,
@@ -26,7 +26,7 @@ class D3Examples
 			d3.WebkitTransition,
 			d3.ZoomPan,
 		];
-		
+
 		Dom
 			.select("#examples")
 			.selectAll("li")
@@ -39,12 +39,12 @@ class D3Examples
 						.on("click", click)
 						.first(function(d) click(d,0));
 	}
-	
+
 	static function description(d : Class<Dynamic>, i : Int)
 	{
 		return Type.getClassName(d).split(".").pop().humanize();
 	}
-	
+
 	static function click(d, i)
 	{
 		if (null != example)

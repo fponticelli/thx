@@ -24,32 +24,32 @@ class Ints
 			while ((j = start + step * ++i) < stop) range.push(j);
 		return range;
 	}
-	
+
 	inline public static function sign(v : Int)
 	{
 		return v < 0 ? -1 : 1;
 	}
-	
+
 	inline public static function abs(a : Int)
 	{
 		return a < 0 ? -a : a;
 	}
-	
+
 	inline public static function min(a : Int, b : Int)
 	{
 		return a < b ? a : b;
 	}
-	
+
 	inline public static function max(a : Int, b : Int)
 	{
 		return a > b ? a : b;
 	}
-	
+
 	public static function wrap(v : Int, min : Int, max : Int)
 	{
 		return Math.round(Floats.wrap(v, min, max));
 	}
-	
+
 	public static function clamp(v : Int, min : Int, max : Int) : Int
 	{
 		if (v < min)
@@ -59,7 +59,7 @@ class Ints
 		else
 			return v;
 	}
-	
+
 	public static function clampSym(v : Int, max : Int) : Int
 	{
 		if (v < -max)
@@ -69,7 +69,7 @@ class Ints
 		else
 			return v;
 	}
-	
+
 	inline public static function interpolate(f : Float, min = 0.0, max = 100.0, ?equation : Float -> Float) : Int
 	{
 		if (null == equation)
@@ -84,23 +84,23 @@ class Ints
 		var d = max - min;
 		return function(f) return Math.round(min + equation(f) * d);
 	}
-	
+
 	public static function format(v : Float, ?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return formatf(param, params, culture)(v);
 	}
-	
+
 	public static function formatf(?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return Floats.formatf(FormatParams.params(param, params, 'I'), culture);
 	}
-	
+
 	static var _reparse = ~/^([+-])?\d+$/;
 	public static function canParse(s : String)
 	{
 		return _reparse.match(s);
 	}
-	
+
 	// TODO add proper octal/hex/exp support
 	public static function parse(s : String)
 	{

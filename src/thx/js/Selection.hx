@@ -188,9 +188,9 @@ class BoundSelection<T, This> extends BaseSelection<This>
 		}
 	}
 
-	public function selfData<TOut>() : Array<TOut>
+	public function selfData<TOut>()
 	{
-		return cast dataf(function(d : T, _) return cast d);
+		return dataf(function(d : T, _) return cast d);
 	}
 
 	public function each<T>(f : T -> Int -> Void)

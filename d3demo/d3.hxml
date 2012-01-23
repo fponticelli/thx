@@ -1,6 +1,0 @@
--cp d3demo/src
--cp src
--js d3demo/bin/js/d3examples.js
--main TestCluster
-# --dead-code-elimination
-# @tm-preview

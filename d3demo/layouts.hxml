@@ -1,6 +1,4 @@
--cp d3demo/src
 -cp src
--js d3demo/bin/layout.js
+-cp ../src
+-js bin/js/layout.js
 -main TreeTest.hx
-# @tm-preview
-# @tm-html <div id="chart"></div>
