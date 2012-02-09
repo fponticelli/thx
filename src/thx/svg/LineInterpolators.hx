@@ -28,6 +28,8 @@ class LineInterpolators
 				LineInterpolator.CardinalClosed(argument(s));
 			case "monotone":
 				LineInterpolator.Monotone;
+			case "step":
+				LineInterpolator.Step;
 			case "stepafter":
 				LineInterpolator.StepAfter;
 			case "stepbefore":

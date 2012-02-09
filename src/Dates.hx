@@ -14,7 +14,7 @@ class Dates
 	{
 		return formatf(param, params, culture)(d);
 	}
-	
+
 	public static function formatf(?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		params = FormatParams.params(param, params, 'D');
@@ -71,7 +71,7 @@ class Dates
 				throw new Error("Unsupported date format: {0}", format);
 		}
 	}
-	
+
 	inline public static function interpolate(f : Float, a : Date, b : Date, ?equation : Float -> Float) : Date
 	{
 		return interpolatef(a, b, equation)(f);
@@ -82,7 +82,7 @@ class Dates
 		var f = Floats.interpolatef(a.getTime(), b.getTime(), equation);
 		return function(v) return Date.fromTime(f(v));
 	}
-	
+
 	public static function snap(time : Float, period : String, mode = 0) : Float
 	{
 		if (mode < 0)
@@ -163,7 +163,7 @@ class Dates
 			}
 		}
 	}
-	
+
 	public static function snapToWeekDay(time : Float, day : String)
 	{
 		var d = Date.fromTime(time).getDay();
@@ -187,16 +187,16 @@ class Dates
 			default:
 				throw new Error("unknown week day '{0}'", day);
 		}
-		
+
 		return time - ((d - s) % 7) * 24 * 60 * 60 * 1000;
 	}
-	
+
 	static var _reparse = ~/^\d{4}-\d\d-\d\d(( |T)\d\d:\d\d(:\d\d(\.\d{1,3})?)?)?Z?$/;
 	public static function canParse(s : String)
 	{
 		return _reparse.match(s);
 	}
-	
+
 	public static function parse(s : String) : Date
 	{
 		var parts = s.split(".");
@@ -205,7 +205,7 @@ class Dates
 			date = Date.fromTime(date.getTime() + Std.parseInt(parts[1]));
 		return date;
 	}
-	
+
 	inline public static function compare(a : Date, b : Date)
 	{
 		return Floats.compare(a.getTime(), b.getTime());

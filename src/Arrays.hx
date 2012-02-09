@@ -654,3 +654,70 @@ if (!('every' in Array.prototype)) {
 	}
 #end
 }
+
+/* TODO
+
+sortBy_.sortBy(list, iterator, [context])
+Returns a sorted copy of list, ranked in ascending order by the results of running each value through iterator.
+
+_.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
+=> [5, 4, 6, 3, 1, 2]
+
+groupBy_.groupBy(list, iterator)
+Splits a collection into sets, grouped by the result of running each value through iterator. If iterator is a string instead of a function, groups by the property named by iterator on each of the values.
+
+_.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
+=> {1: [1.3], 2: [2.1, 2.4]}
+
+_.groupBy(['one', 'two', 'three'], 'length');
+=> {3: ["one", "two"], 5: ["three"]}
+
+initial_.initial(array, [n])
+Returns everything but the last entry of the array. Especially useful on the arguments object. Pass n to exclude the last n elements from the result.
+
+_.initial([5, 4, 3, 2, 1]);
+=> [5, 4, 3, 2]
+
+rest_.rest(array, [index]) Alias: tail
+Returns the rest of the elements in an array. Pass an index to return the values of the array from that index onward.
+
+_.rest([5, 4, 3, 2, 1]);
+=> [4, 3, 2, 1]
+
+compact_.compact(array)
+Returns a copy of the array with all falsy values removed. In JavaScript, false, null, 0, "", undefined and NaN are all falsy.
+
+_.compact([0, 1, false, 2, '', 3]);
+=> [1, 2, 3]
+
+without_.without(array, [*values])
+Returns a copy of the array with all instances of the values removed. === is used for the equality test.
+
+_.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
+=> [2, 3, 4]
+union_.union(*arrays)
+Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.
+
+_.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+=> [1, 2, 3, 101, 10]
+intersection_.intersection(*arrays)
+Computes the list of values that are the intersection of all the arrays. Each value in the result is present in each of the arrays.
+
+_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+=> [1, 2]
+difference_.difference(array, *others)
+Similar to without, but returns the values from array that are not present in the other arrays.
+
+_.difference([1, 2, 3, 4, 5], [5, 2, 10]);
+=> [1, 3, 4]
+uniq_.uniq(array, [isSorted], [iterator]) Alias: unique
+Produces a duplicate-free version of the array, using === to test object equality. If you know in advance that the array is sorted, passing true for isSorted will run a much faster algorithm. If you want to compute unique items based on a transformation, pass an iterator function.
+
+_.uniq([1, 2, 1, 3, 1, 4]);
+=> [1, 2, 3, 4]
+zip_.zip(*arrays)
+Merges together the values of each of the arrays with the values at the corresponding position. Useful when you have separate data sources that are coordinated through matching array indexes. If you're working with a matrix of nested arrays, zip.apply can transpose the matrix in a similar fashion.
+
+_.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
+=> [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
+*/

@@ -11,7 +11,7 @@ class LineInternals
 {
 	public static var arcOffset = -Math.PI / 2;
 	public static var arcMax = 2 * Math.PI - 1e-6;
-	
+
 	public static function linePoints<TData>(data : Array<TData>, x : TData -> Int -> Float, y : TData -> Int -> Float)
 	{
 		var points = [],
@@ -25,7 +25,7 @@ class LineInternals
 		}
 		return points;
 	}
-	
+
 	public static function interpolatePoints(points : Array<Array<Float>>, type : LineInterpolator)
 	{
 		if (null == type)
@@ -43,6 +43,17 @@ class LineInternals
 					p = points[i];
 					path.push("L" + p[0] + "," + p[1]);
 				}
+			case Step:
+				var p1;
+				path.push(p[0] + "," + p[1]);
+				while (++i < n-1)
+				{
+					p  = points[i];
+					p1 = points[i+1];
+					path.push("H" + (p[0]+p1[0])/2 + "V" + p[1]);
+				}
+				p = points[i];
+				path.push("H" + p[0] + "V" + p[1]);
 			case StepBefore:
 				path.push(p[0] + "," + p[1]);
 				while (++i < n)
@@ -110,7 +121,7 @@ class LineInternals
 				var m = n + 4,
 					px = [],
 					py = [];
-					
+
 				while (++i < 4)
 				{
 					p = points[i % n];
@@ -150,11 +161,11 @@ class LineInternals
 		}
 		return path.join("");
 	}
-	
+
 	static var _lineBasisBezier1 = [0, 2 / 3, 1 / 3, 0];
     static var _lineBasisBezier2 = [0, 1 / 3, 2 / 3, 0];
     static var _lineBasisBezier3 = [0, 1 / 6, 2 / 3, 1 / 6];
-	
+
 	static function _lineDot4(a : Array<Float>, b : Array<Float>) {
 		return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
 	}
@@ -169,12 +180,12 @@ class LineInternals
 			"," + _lineDot4(_lineBasisBezier3, x) +
 			"," + _lineDot4(_lineBasisBezier3, y));
 	}
-	
+
 	static function _lineSlope(p0 : Array<Float>, p1 : Array<Float>)
 	{
 		return (p1[1] - p0[1]) / (p1[0] - p0[0]);
 	}
-	
+
 	static function _lineFiniteDifferences(points : Array<Array<Float>>)
 	{
 		var i = 0,
@@ -190,7 +201,7 @@ class LineInternals
 		m[i] = d;
 		return m;
 	}
-	
+
 	static function _lineMonotoneTangents(points : Array<Array<Float>>)
 	{
 		var tangents = [],
@@ -201,7 +212,7 @@ class LineInternals
 			m = _lineFiniteDifferences(points),
 			i = -1,
 			j = points.length - 1;
-		
+
 		while (++i < j)
 		{
 			d = _lineSlope(points[i], points[i + 1]);
@@ -211,7 +222,7 @@ class LineInternals
 			} else {
 				a = m[i] / d;
 				b = m[i + 1] / d;
-				
+
 				s = a * a + b * b;
 				if (s > 9)
 				{
@@ -221,7 +232,7 @@ class LineInternals
 				}
 			}
 		}
-		
+
 		i = -1;
 		while (++i <= j)
 		{
@@ -229,7 +240,7 @@ class LineInternals
 				/ (6 * (1 + m[i] * m[i]));
 			tangents.push([Math.isFinite(s) ? s : 0, Math.isFinite(s = m [i] * s) ? s : 0]);
 		}
-		
+
 		return tangents;
 	}
 
@@ -276,8 +287,8 @@ class LineInternals
 
 		return path;
 	}
-	
-		
+
+
 	static function _lineCardinalTangents(points : Array<Array<Float>>, tension : Float)
 	{
 		var tangents = [],

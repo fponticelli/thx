@@ -8,22 +8,22 @@ using Arrays;
  * @author Franco Ponticelli
  */
 
-class DateParser 
+class DateParser
 {
 	static var daynumeric = "0?[1-9]|[1-2][0-9]|3[0-1]";
-	
+
 	static var months = EnUS.culture.date.months.slice(0, -1).map(function(d, i) return d.toLowerCase());
 	static var shortmonths = EnUS.culture.date.abbrMonths.slice(0, -1).map(function(d, i) return d.toLowerCase());
 	static var days = EnUS.culture.date.days.map(function(d, i) return d.toLowerCase());
 	static var shortdays = EnUS.culture.date.abbrDays.map(function(d, i) return d.toLowerCase());
-	
-	
+
+
 	static var sfullmonths = months.join("|");
 	static var sshortmonths = shortmonths.join("|");
 	static var sfulldays = days.join("|");
 	static var sshortdays = shortdays.join("|");
 //	static var seasons = ["spring","summer","autumn","winter"].join("|");
-	
+
 
 	static var day = "(0?[0-9]|[1-2][0-9]|3[0-1])(?:st|nd|rd|th)?";
 	static var month = "(?:0?[1-9]|1[0-2])";
@@ -35,7 +35,7 @@ class DateParser
 	static var ampm = "(?:(?:in\\s+the\\s+)?(am|pm|evening|morning|afternoon))";
 	static var daypart = "(?:(?:in\\s+the\\s+)?(evening|morning|afternoon|sunsrise|sunset|dawn|dusk|noon|mid-day|midday|mid-night|midnight))";
 	static var period = "minute|minutes|hour|hours|day|days|week|weeks|month|months|year|years|second|seconds";
-	
+
 	static var dateexp = new EReg(
 		"(?:(?:"
 		+ "\\b(" + sfullmonths + ")\\s+"+day+"(?:\\s*,\\s*(\\d{2,4}))?\\b"  // g: 1,2,3
@@ -49,21 +49,21 @@ class DateParser
 		+ "\\b(?:" + day + "\\s+)?(" + sfullmonths + ")\\s+(\\d{2,4})\\b"  // g: 13,14,15
 		+ ")|(?:"
 		+ "\\b(?:" + day + "\\s+)?(" + sshortmonths + ")\\s+(\\d{2,4})\\b"  // g: 16,17,18
-		
+
 		+ ")|(?:"
 		+ "\\b(" + month + ")/" + day + "(?:/(\\d{2,4}))?\\b"  // g: 19,20,21
 		+ ")|(?:"
 		+ "\\b" + day + "/(" + month + ")(?:/(\\d{2,4}))?\\b"  // g: 22,23,24
 		+ ")|(?:"
 		+ "\\b(\\d{2,4})-(" + month + ")-" + day + "\\b"  // g: 25,26,27
-		
+
 		+ ")|(?:"
 		+ "^\\s*" + day + "\\s*$"  // g: 22
-		
+
 		+ "))"
 		, "i"
 	);
-	
+
 	static var absdateexp = new EReg(
 		  "(?:(?:"
 		+ "\\b(today|now|this\\s+second|tomorrow|yesterday)\\b"  // g: 1
@@ -80,7 +80,7 @@ class DateParser
 		+ "))"
 		, "i"
 	);
-	
+
 	static var relexp = new EReg(
 		  "(?:(?:"
 		 // g: 1,2,3
@@ -91,7 +91,7 @@ class DateParser
 		+ "))"
 		, "i"
 	);
-	
+
 	static var timeexp = new EReg(
 		  "(?:\\bat\\s+)?" // at
 		+ "(?:(?:"
@@ -100,14 +100,14 @@ class DateParser
 		+ "\\b("+hour+"):("+minsec+")(?:[:]("+minsec+")(?:\\.(\\d+))?)?\\b" // 20:00, groups: 4,5,6,7
 		+ ")|(?:"
 		+ "(?:^|\\s+)("+hhour+")("+fminsec+")\\s*"+ampm+"?(?:\\s+|$)" // 0800, groups: 8,9,10
-		+ ")|(?:"		
+		+ ")|(?:"
 		+ "\\b(" + hohour + ")\\s*" + ampm + "\\b" // hour am|pm, groups: 11,12
-		+ ")|(?:"		
+		+ ")|(?:"
 		+ "\\b"+daypart+"\\b" // groups: 13
 		+ "))"
 		, "i"
 	);
-	
+
 	// day of the week
 	// month
 	// season
@@ -118,7 +118,7 @@ class DateParser
 	// in multiplier period
 	// 1st|2nd|3rd|4-7th day
 
-	public static function parse(s : String, ?d : Date) : Null<Date> 
+	public static function parse(s : String, ?d : Date) : Null<Date>
 	{
 		var time = parseTime(s), v;
 		if (null == d)
@@ -207,7 +207,7 @@ class DateParser
 			{
 				var t = absdateexp.matched(2),
 					v = months.indexOf(v.toLowerCase());
-				
+
 				if (v == month)
 				{
 					year += (last(t) ? -1 : (next(t) ? 1 : 0));
@@ -223,7 +223,7 @@ class DateParser
 			{
 				var t = absdateexp.matched(4),
 					v = days.indexOf(v.toLowerCase());
-				
+
 				var wd = d.getDay();
 				if (v == wd)
 				{
@@ -253,7 +253,7 @@ class DateParser
 			{
 				var t = absdateexp.matched(8),
 					v = shortdays.indexOf(v.toLowerCase());
-					
+
 				var wd = d.getDay();
 				if (v == wd)
 				{
@@ -272,7 +272,7 @@ class DateParser
 			month = d.getMonth();
 			day = d.getDate();
 		}
-		
+
 		// add modifiers
 		while (relexp.match(s))
 		{
@@ -292,17 +292,17 @@ class DateParser
 				qt = null != (v = relexp.matched(4)) ? Std.parseInt(v) : 1;
 				dir = null != (v = relexp.matched(6)) ? v : "after";
 			}
-			
+
 			dir = dir.toLowerCase();
-			
+
 			switch(dir) {
 				case "plus", "+", "from", "hence", "after":
 					//
 				case "minus", "-", "before", "ago":
 					qt = -qt;
-					
+
 			};
-			
+
 			switch(dir)
 			{
 				case "ago", "in":
@@ -333,12 +333,12 @@ class DateParser
 					year += qt;
 			}
 		}
-		
+
 		if (!found)
 			throw new Error("no date information found in the string '{0}'", s);
 		return Date.fromTime(new Date(year, month, day, time.hour, time.minute, time.second).getTime() + time.millis);
 	}
-	
+
 	public static function parseTime(s : String)
 	{
 		var result = {
@@ -351,7 +351,7 @@ class DateParser
 		if (!timeexp.match(s))
 			return result;
 		result.matched = timeexp.matched(0);
-		
+
 		// hour   1,4,8, 11
 		// min    2,5,9
 		// sec      6
@@ -416,20 +416,20 @@ class DateParser
 		else
 			return y;
 	}
-	
+
 	static function last(s : String)
 	{
 		if (null == s)
 			return false;
-		else 
+		else
 			return "last" == s.toLowerCase();
 	}
-	
+
 	static function next(s : String)
 	{
 		if (null == s)
 			return true;
-		else 
+		else
 			return "next" == s.toLowerCase();
 	}
 

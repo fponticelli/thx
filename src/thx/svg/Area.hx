@@ -21,10 +21,10 @@ class Area<TData>
 
 	public function shape(?data : Array<TData>, ?i : Int)
 	{
-		var second = LineInternals.linePoints(data, _x, _y0);
+		var second = LineInternals.linePoints(data, _x, _y1);
 		second.reverse();
 		return data.length < 1 ? null
-			: "M" + LineInternals.interpolatePoints(LineInternals.linePoints(data, _x, _y1), _interpolator)
+			: "M" + LineInternals.interpolatePoints(LineInternals.linePoints(data, _x, _y0), _interpolator)
 			+ "L" + LineInternals.interpolatePoints(second, _interpolator)
 			+ "Z";
 	}

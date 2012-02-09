@@ -10,7 +10,7 @@ class DynamicsT
 		var hash = new Hash();
 		return copyToHash(ob, hash);
 	}
-	
+
 	public static function copyToHash<T>(ob : Dynamic<T>, hash : Hash<T>) : Hash<T>
 	{
 		for (field in Reflect.fields(ob))

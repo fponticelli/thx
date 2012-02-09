@@ -12,7 +12,7 @@ class Bools
 	{
 		return formatf(param, params, culture)(v);
 	}
-	
+
 	public static function formatf(?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		params = FormatParams.params(param, params, 'B');
@@ -31,12 +31,12 @@ class Bools
 				throw "Unsupported bool format: " + format;
 		}
 	}
-	
+
 	public static function interpolate(v : Float, a : Bool, b : Bool, ?equation : Float -> Float)
 	{
 		return interpolatef(a, b, equation)(v);
 	}
-	
+
 	public static function interpolatef(a : Bool, b : Bool, ?equation : Float -> Float)
 	{
 		if (a == b)
@@ -47,18 +47,18 @@ class Bools
 			return function(v) return f(v) < 0.5 ? a : b;
 		}
 	}
-	
+
 	public static function canParse(s : String)
 	{
 		s = s.toLowerCase();
 		return s == 'true' || s == 'false';
 	}
-	
+
 	public static function parse(s : String)
 	{
 		return s.toLowerCase() == 'true';
 	}
-	
+
 	inline public static function compare(a : Bool, b : Bool)
 	{
 		return a == b ? 0 : (a ? -1 : 1);

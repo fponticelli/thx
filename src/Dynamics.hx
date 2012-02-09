@@ -12,7 +12,7 @@ class Dynamics
 	{
 		return formatf(param, params, nullstring, culture)(v);
 	}
-	
+
 	public static function formatf(?param : String, ?params : Array<String>, nullstring = 'null', ?culture : Culture)
 	{
 		return function(v : Dynamic) : String
@@ -38,17 +38,19 @@ class Dynamics
 					}
 				case TObject:
 					return Objects.format(v, param, params, culture);
+				case TFunction:
+					return "function()";
 				default:
 					return throw new Error("Unsupported type format: {0}", Type.typeof(v));
 			}
 		}
 	}
-	
+
 	public static function interpolate(v : Float, a : Dynamic, b : Dynamic, ?equation : Float -> Float)
 	{
 		return interpolatef(a, b, equation)(v);
 	}
-	
+
 	public static function interpolatef(a : Dynamic, b : Dynamic, ?equation : Float -> Float) : Float -> Dynamic
 	{
 		var ta = Type.typeof(a);
@@ -58,7 +60,7 @@ class Dynamics
 		switch(ta)
 		{
 			case TNull: return function(_) return null;
-			case TInt: 
+			case TInt:
 				if (Std.is(b, Int))
 					return Ints.interpolatef(a, b, equation);
 				else
@@ -77,7 +79,7 @@ class Dynamics
 			default: throw new Error("cannot interpolate on functions/enums/unknown");
 		}
 	}
-	
+
 	public static function string(v : Dynamic)
 	{
 		switch(Type.typeof(v))
@@ -119,7 +121,7 @@ class Dynamics
 				return "<function>";
 		}
 	}
-	
+
 	/**
 	 * @todo add compare over comparison method for custom classes
 	 */
@@ -158,7 +160,7 @@ class Dynamics
 				return 0;
 		}
 	}
-	
+
 	public static function comparef(sample : Dynamic)
 	{
 		switch(Type.typeof(sample))
@@ -186,8 +188,8 @@ class Dynamics
 				return Dynamics.compare;
 		}
 	}
-	
-	public static function clone(v : Dynamic)
+
+	public static function clone(v : Dynamic, cloneInstances = false)
 	{
 		switch(Type.typeof(v))
 		{
@@ -212,14 +214,19 @@ class Dynamics
 					case "String", "Date":
 						return v;
 					default:
-						var o = Type.createEmptyInstance(c);
-						for (field in Reflect.fields(v))
-							Reflect.setField(o, field, clone(Reflect.field(v, field)));
-						return o;
+						if(cloneInstances)
+						{
+							var o = Type.createEmptyInstance(c);
+							for (field in Reflect.fields(v))
+								Reflect.setField(o, field, clone(Reflect.field(v, field)));
+							return o;
+						} else {
+							return v;
+						}
 				}
 		}
 	}
-	
+
 	public static function same<T1, T2>(a : T1, b : T2) : Bool
 	{
 		var ta = Types.typeName(a),
@@ -240,11 +247,11 @@ class Dynamics
 					cb = Type.getClassName(Type.getClass(b));
 				if (ca != cb)
 					return false;
-				
+
 				// string
 				if (Std.is(a, String) && untyped a != b)
 					return false;
-				
+
 				// arrays
 				if (Std.is(a, Array))
 				{
@@ -276,7 +283,7 @@ class Dynamics
 							return false;
 					return true;
 				}
-				
+
 				// iterator or iterable
 				var t = false;
 				if ((t = Iterators.isIterator(a)) || Iterables.isIterable(a))
@@ -285,13 +292,13 @@ class Dynamics
 						vb = t ? Iterators.array(cast b) : Iterables.array(cast b);
 					if (va.length != vb.length)
 						return false;
-					
+
 					for (i in 0...va.length)
 						if (!same(va[i], vb[i]))
 							return false;
 					return true;
 				}
-				
+
 				// custom class
 				var fields = Type.getInstanceFields(Type.getClass(a));
 				for (field in fields)
@@ -304,7 +311,7 @@ class Dynamics
 						return false;
 				}
 				return true;
-				
+
 			case TEnum(e) :
 				var ea = Type.getEnumName(e),
 					eb = Type.getEnumName(Type.getEnum(b));
@@ -337,7 +344,7 @@ class Dynamics
 				}
 				if (fb.length > 0)
 					return false;
-				
+
 				// iterator
 				var t = false;
 				if ((t = Iterators.isIterator(a)) || Iterables.isIterable(a))
@@ -346,8 +353,8 @@ class Dynamics
 						return false;
 					if (!t && !Iterables.isIterable(b))
 						return false;
-					
-					
+
+
 					var aa = t ? Iterators.array(cast a) : Iterables.array(cast a);
 					var ab = t ? Iterators.array(cast b) : Iterables.array(cast b);
 					if (aa.length != ab.length)
@@ -363,7 +370,7 @@ class Dynamics
 		}
 		return throw new Error("Unable to compare values: {0} and {1}", [a, b]);
 	}
-	
+
 	#if js inline #end public static function number(v : Dynamic) : Float
 	{
 #if js

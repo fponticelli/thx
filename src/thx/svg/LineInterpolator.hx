@@ -8,6 +8,7 @@ package thx.svg;
 enum LineInterpolator
 {
 	Linear;
+	Step;
 	StepBefore;
 	StepAfter;
 	Basis;
