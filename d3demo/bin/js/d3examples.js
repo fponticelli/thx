@@ -406,7 +406,7 @@ thx.color.Rgb = $hxClasses["thx.color.Rgb"] = function(r,g,b) {
 }
 thx.color.Rgb.__name__ = ["thx","color","Rgb"];
 thx.color.Rgb.fromFloats = function(r,g,b) {
-	return new thx.color.Rgb(Ints.interpolate(r,0,255),Ints.interpolate(g,0,255),Ints.interpolate(b,0,255));
+	return new thx.color.Rgb(Ints.interpolate(r,0,255,null),Ints.interpolate(g,0,255,null),Ints.interpolate(b,0,255,null));
 }
 thx.color.Rgb.fromInt = function(v) {
 	return new thx.color.Rgb(v >> 16 & 255,v >> 8 & 255,v & 255);
@@ -570,10 +570,12 @@ Dynamics.formatf = function(param,params,nullstring,culture) {
 			break;
 		case 4:
 			return Objects.format(v,param,params,culture);
+		case 5:
+			return "function()";
 		default:
 			return (function($this) {
 				var $r;
-				throw new thx.error.Error("Unsupported type format: {0}",null,Type["typeof"](v),{ fileName : "Dynamics.hx", lineNumber : 42, className : "Dynamics", methodName : "formatf"});
+				throw new thx.error.Error("Unsupported type format: {0}",null,Type["typeof"](v),{ fileName : "Dynamics.hx", lineNumber : 44, className : "Dynamics", methodName : "formatf"});
 				return $r;
 			}(this));
 		}
@@ -585,7 +587,7 @@ Dynamics.interpolate = function(v,a,b,equation) {
 Dynamics.interpolatef = function(a,b,equation) {
 	var ta = Type["typeof"](a);
 	var tb = Type["typeof"](b);
-	if(!((Std["is"](a,Float) || Std["is"](a,Int)) && (Std["is"](b,Float) || Std["is"](b,Int))) && !Type.enumEq(ta,tb)) throw new thx.error.Error("arguments a ({0}) and b ({0}) have different types",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 57, className : "Dynamics", methodName : "interpolatef"});
+	if(!((Std["is"](a,Float) || Std["is"](a,Int)) && (Std["is"](b,Float) || Std["is"](b,Int))) && !Type.enumEq(ta,tb)) throw new thx.error.Error("arguments a ({0}) and b ({0}) have different types",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 59, className : "Dynamics", methodName : "interpolatef"});
 	var $e = (ta);
 	switch( $e[1] ) {
 	case 0:
@@ -610,11 +612,11 @@ Dynamics.interpolatef = function(a,b,equation) {
 		case "Date":
 			return Dates.interpolatef(a,b,equation);
 		default:
-			throw new thx.error.Error("cannot interpolate on instances of {0}",null,name,{ fileName : "Dynamics.hx", lineNumber : 75, className : "Dynamics", methodName : "interpolatef"});
+			throw new thx.error.Error("cannot interpolate on instances of {0}",null,name,{ fileName : "Dynamics.hx", lineNumber : 77, className : "Dynamics", methodName : "interpolatef"});
 		}
 		break;
 	default:
-		throw new thx.error.Error("cannot interpolate on functions/enums/unknown",null,null,{ fileName : "Dynamics.hx", lineNumber : 77, className : "Dynamics", methodName : "interpolatef"});
+		throw new thx.error.Error("cannot interpolate on functions/enums/unknown",null,null,{ fileName : "Dynamics.hx", lineNumber : 79, className : "Dynamics", methodName : "interpolatef"});
 	}
 }
 Dynamics.string = function(v) {
@@ -664,7 +666,7 @@ Dynamics.string = function(v) {
 	}
 }
 Dynamics.compare = function(a,b) {
-	if(!Types.sameType(a,b)) throw new thx.error.Error("cannot compare 2 different types",null,null,{ fileName : "Dynamics.hx", lineNumber : 129, className : "Dynamics", methodName : "compare"});
+	if(!Types.sameType(a,b)) throw new thx.error.Error("cannot compare 2 different types",null,null,{ fileName : "Dynamics.hx", lineNumber : 131, className : "Dynamics", methodName : "compare"});
 	if(null == a && null == b) return 0;
 	if(null == a) return -1;
 	if(null == b) return 1;
@@ -733,7 +735,8 @@ Dynamics.comparef = function(sample) {
 		return Dynamics.compare;
 	}
 }
-Dynamics.clone = function(v) {
+Dynamics.clone = function(v,cloneInstances) {
+	if(cloneInstances == null) cloneInstances = false;
 	var $e = (Type["typeof"](v));
 	switch( $e[1] ) {
 	case 0:
@@ -765,14 +768,16 @@ Dynamics.clone = function(v) {
 		case "String":case "Date":
 			return v;
 		default:
-			var o = Type.createEmptyInstance(c);
-			var _g = 0, _g1 = Reflect.fields(v);
-			while(_g < _g1.length) {
-				var field = _g1[_g];
-				++_g;
-				o[field] = Dynamics.clone(Reflect.field(v,field));
-			}
-			return o;
+			if(cloneInstances) {
+				var o = Type.createEmptyInstance(c);
+				var _g = 0, _g1 = Reflect.fields(v);
+				while(_g < _g1.length) {
+					var field = _g1[_g];
+					++_g;
+					o[field] = Dynamics.clone(Reflect.field(v,field));
+				}
+				return o;
+			} else return v;
 		}
 		break;
 	}
@@ -890,7 +895,7 @@ Dynamics.same = function(a,b) {
 	}
 	return (function($this) {
 		var $r;
-		throw new thx.error.Error("Unable to compare values: {0} and {1}",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 364, className : "Dynamics", methodName : "same"});
+		throw new thx.error.Error("Unable to compare values: {0} and {1}",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 371, className : "Dynamics", methodName : "same"});
 		return $r;
 	}(this));
 }
@@ -1571,6 +1576,21 @@ thx.js.BaseSelection.prototype = {
 		}
 		return this.createSelection(subgroups);
 	}
+	,mapNode: function(f) {
+		var results = [];
+		var _g = 0, _g1 = this.groups;
+		while(_g < _g1.length) {
+			var group = _g1[_g];
+			++_g;
+			var i = -1;
+			var $it0 = group.nodes.iterator();
+			while( $it0.hasNext() ) {
+				var node = $it0.next();
+				if(null != node) results.push(f(node,++i));
+			}
+		}
+		return results;
+	}
 	,onNode: function(type,listener,capture) {
 		if(capture == null) capture = false;
 		var i = type.indexOf("."), typo = i < 0?type:type.substr(0,i);
@@ -1605,7 +1625,7 @@ thx.js.BaseSelection.prototype = {
 	,createSelection: function(groups) {
 		return (function($this) {
 			var $r;
-			throw new thx.error.AbstractMethod({ fileName : "Selection.hx", lineNumber : 634, className : "thx.js.BaseSelection", methodName : "createSelection"});
+			throw new thx.error.AbstractMethod({ fileName : "Selection.hx", lineNumber : 652, className : "thx.js.BaseSelection", methodName : "createSelection"});
 			return $r;
 		}(this));
 	}
@@ -3406,6 +3426,113 @@ thx.culture.Culture.prototype = $extend(thx.culture.Info.prototype,{
 	,percent: null
 	,__class__: thx.culture.Culture
 });
+thx.culture.Language = $hxClasses["thx.culture.Language"] = function() { }
+thx.culture.Language.__name__ = ["thx","culture","Language"];
+thx.culture.Language.__properties__ = {get_languages:"getLanguages"}
+thx.culture.Language.languages = null;
+thx.culture.Language.getLanguages = function() {
+	if(null == thx.culture.Language.languages) thx.culture.Language.languages = new Hash();
+	return thx.culture.Language.languages;
+}
+thx.culture.Language.get = function(name) {
+	return thx.culture.Language.getLanguages().get(name.toLowerCase());
+}
+thx.culture.Language.names = function() {
+	return thx.culture.Language.getLanguages().keys();
+}
+thx.culture.Language.add = function(language) {
+	if(!thx.culture.Language.getLanguages().exists(language.iso2)) thx.culture.Language.getLanguages().set(language.iso2,language);
+}
+thx.culture.Language.__super__ = thx.culture.Info;
+thx.culture.Language.prototype = $extend(thx.culture.Info.prototype,{
+	__class__: thx.culture.Language
+});
+if(!thx.languages) thx.languages = {}
+thx.languages.En = $hxClasses["thx.languages.En"] = function() {
+	this.name = "en";
+	this.english = "English";
+	this["native"] = "English";
+	this.iso2 = "en";
+	this.iso3 = "eng";
+	this.pluralRule = 1;
+	thx.culture.Language.add(this);
+}
+thx.languages.En.__name__ = ["thx","languages","En"];
+thx.languages.En.__properties__ = {get_language:"getLanguage"}
+thx.languages.En.language = null;
+thx.languages.En.getLanguage = function() {
+	if(null == thx.languages.En.language) thx.languages.En.language = new thx.languages.En();
+	return thx.languages.En.language;
+}
+thx.languages.En.__super__ = thx.culture.Language;
+thx.languages.En.prototype = $extend(thx.culture.Language.prototype,{
+	__class__: thx.languages.En
+});
+if(!thx.culture.core) thx.culture.core = {}
+thx.culture.core.DateTimeInfo = $hxClasses["thx.culture.core.DateTimeInfo"] = function(months,abbrMonths,days,abbrDays,shortDays,am,pm,separatorDate,separatorTime,firstWeekDay,patternYearMonth,patternMonthDay,patternDate,patternDateShort,patternDateRfc,patternDateTime,patternUniversal,patternSortable,patternTime,patternTimeShort) {
+	this.months = months;
+	this.abbrMonths = abbrMonths;
+	this.days = days;
+	this.abbrDays = abbrDays;
+	this.shortDays = shortDays;
+	this.am = am;
+	this.pm = pm;
+	this.separatorDate = separatorDate;
+	this.separatorTime = separatorTime;
+	this.firstWeekDay = firstWeekDay;
+	this.patternYearMonth = patternYearMonth;
+	this.patternMonthDay = patternMonthDay;
+	this.patternDate = patternDate;
+	this.patternDateShort = patternDateShort;
+	this.patternDateRfc = patternDateRfc;
+	this.patternDateTime = patternDateTime;
+	this.patternUniversal = patternUniversal;
+	this.patternSortable = patternSortable;
+	this.patternTime = patternTime;
+	this.patternTimeShort = patternTimeShort;
+}
+thx.culture.core.DateTimeInfo.__name__ = ["thx","culture","core","DateTimeInfo"];
+thx.culture.core.DateTimeInfo.prototype = {
+	months: null
+	,abbrMonths: null
+	,days: null
+	,abbrDays: null
+	,shortDays: null
+	,am: null
+	,pm: null
+	,separatorDate: null
+	,separatorTime: null
+	,firstWeekDay: null
+	,patternYearMonth: null
+	,patternMonthDay: null
+	,patternDate: null
+	,patternDateShort: null
+	,patternDateRfc: null
+	,patternDateTime: null
+	,patternUniversal: null
+	,patternSortable: null
+	,patternTime: null
+	,patternTimeShort: null
+	,__class__: thx.culture.core.DateTimeInfo
+}
+thx.culture.core.NumberInfo = $hxClasses["thx.culture.core.NumberInfo"] = function(decimals,decimalsSeparator,groups,groupsSeparator,patternNegative,patternPositive) {
+	this.decimals = decimals;
+	this.decimalsSeparator = decimalsSeparator;
+	this.groups = groups;
+	this.groupsSeparator = groupsSeparator;
+	this.patternNegative = patternNegative;
+	this.patternPositive = patternPositive;
+}
+thx.culture.core.NumberInfo.__name__ = ["thx","culture","core","NumberInfo"];
+thx.culture.core.NumberInfo.prototype = {
+	decimals: null
+	,decimalsSeparator: null
+	,groups: null
+	,groupsSeparator: null
+	,patternNegative: null
+	,patternPositive: null
+	,__class__: thx.culture.core.NumberInfo
+}
 if(!thx.cultures) thx.cultures = {}
 thx.cultures.EnUS = $hxClasses["thx.cultures.EnUS"] = function() {
 	this.language = thx.languages.En.getLanguage();
@@ -4131,6 +4258,39 @@ Arrays.shuffle = function(a) {
 		arr.push(a[index]);
 	}
 	return arr;
+}
+Arrays.scanf = function(arr,weightf,incremental) {
+	if(incremental == null) incremental = true;
+	var tot = 0.0, weights = [];
+	if(incremental) {
+		var _g1 = 0, _g = arr.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			weights[i] = tot += weightf(arr[i],i);
+		}
+	} else {
+		var _g1 = 0, _g = arr.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			weights[i] = weightf(arr[i],i);
+		}
+		tot = weights[weights.length - 1];
+	}
+	var scan = (function($this) {
+		var $r;
+		var scan = null;
+		scan = function(v,start,end) {
+			if(start == end) return arr[start];
+			var mid = Math.floor((end - start) / 2) + start, value = weights[mid];
+			if(v < value) return scan(v,start,mid); else return scan(v,mid + 1,end);
+		};
+		$r = scan;
+		return $r;
+	}(this));
+	return function(v) {
+		if(v < 0 || v > tot) return null;
+		return scan(v,0,weights.length - 1);
+	};
 }
 Arrays.prototype = {
 	__class__: Arrays
@@ -5142,29 +5302,32 @@ thx.color.NamedColors.byName = null;
 thx.color.NamedColors.prototype = {
 	__class__: thx.color.NamedColors
 }
-thx.svg.LineInterpolator = $hxClasses["thx.svg.LineInterpolator"] = { __ename__ : ["thx","svg","LineInterpolator"], __constructs__ : ["Linear","StepBefore","StepAfter","Basis","BasisOpen","BasisClosed","Cardinal","CardinalOpen","CardinalClosed","Monotone"] }
+thx.svg.LineInterpolator = $hxClasses["thx.svg.LineInterpolator"] = { __ename__ : ["thx","svg","LineInterpolator"], __constructs__ : ["Linear","Step","StepBefore","StepAfter","Basis","BasisOpen","BasisClosed","Cardinal","CardinalOpen","CardinalClosed","Monotone"] }
 thx.svg.LineInterpolator.Linear = ["Linear",0];
 thx.svg.LineInterpolator.Linear.toString = $estr;
 thx.svg.LineInterpolator.Linear.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.StepBefore = ["StepBefore",1];
+thx.svg.LineInterpolator.Step = ["Step",1];
+thx.svg.LineInterpolator.Step.toString = $estr;
+thx.svg.LineInterpolator.Step.__enum__ = thx.svg.LineInterpolator;
+thx.svg.LineInterpolator.StepBefore = ["StepBefore",2];
 thx.svg.LineInterpolator.StepBefore.toString = $estr;
 thx.svg.LineInterpolator.StepBefore.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.StepAfter = ["StepAfter",2];
+thx.svg.LineInterpolator.StepAfter = ["StepAfter",3];
 thx.svg.LineInterpolator.StepAfter.toString = $estr;
 thx.svg.LineInterpolator.StepAfter.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.Basis = ["Basis",3];
+thx.svg.LineInterpolator.Basis = ["Basis",4];
 thx.svg.LineInterpolator.Basis.toString = $estr;
 thx.svg.LineInterpolator.Basis.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.BasisOpen = ["BasisOpen",4];
+thx.svg.LineInterpolator.BasisOpen = ["BasisOpen",5];
 thx.svg.LineInterpolator.BasisOpen.toString = $estr;
 thx.svg.LineInterpolator.BasisOpen.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.BasisClosed = ["BasisClosed",5];
+thx.svg.LineInterpolator.BasisClosed = ["BasisClosed",6];
 thx.svg.LineInterpolator.BasisClosed.toString = $estr;
 thx.svg.LineInterpolator.BasisClosed.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.Cardinal = function(tension) { var $x = ["Cardinal",6,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
-thx.svg.LineInterpolator.CardinalOpen = function(tension) { var $x = ["CardinalOpen",7,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
-thx.svg.LineInterpolator.CardinalClosed = function(tension) { var $x = ["CardinalClosed",8,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
-thx.svg.LineInterpolator.Monotone = ["Monotone",9];
+thx.svg.LineInterpolator.Cardinal = function(tension) { var $x = ["Cardinal",7,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
+thx.svg.LineInterpolator.CardinalOpen = function(tension) { var $x = ["CardinalOpen",8,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
+thx.svg.LineInterpolator.CardinalClosed = function(tension) { var $x = ["CardinalClosed",9,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
+thx.svg.LineInterpolator.Monotone = ["Monotone",10];
 thx.svg.LineInterpolator.Monotone.toString = $estr;
 thx.svg.LineInterpolator.Monotone.__enum__ = thx.svg.LineInterpolator;
 d3.Streams = $hxClasses["d3.Streams"] = function() { }
@@ -5996,53 +6159,6 @@ Reflect.makeVarArgs = function(f) {
 Reflect.prototype = {
 	__class__: Reflect
 }
-if(!thx.culture.core) thx.culture.core = {}
-thx.culture.core.DateTimeInfo = $hxClasses["thx.culture.core.DateTimeInfo"] = function(months,abbrMonths,days,abbrDays,shortDays,am,pm,separatorDate,separatorTime,firstWeekDay,patternYearMonth,patternMonthDay,patternDate,patternDateShort,patternDateRfc,patternDateTime,patternUniversal,patternSortable,patternTime,patternTimeShort) {
-	this.months = months;
-	this.abbrMonths = abbrMonths;
-	this.days = days;
-	this.abbrDays = abbrDays;
-	this.shortDays = shortDays;
-	this.am = am;
-	this.pm = pm;
-	this.separatorDate = separatorDate;
-	this.separatorTime = separatorTime;
-	this.firstWeekDay = firstWeekDay;
-	this.patternYearMonth = patternYearMonth;
-	this.patternMonthDay = patternMonthDay;
-	this.patternDate = patternDate;
-	this.patternDateShort = patternDateShort;
-	this.patternDateRfc = patternDateRfc;
-	this.patternDateTime = patternDateTime;
-	this.patternUniversal = patternUniversal;
-	this.patternSortable = patternSortable;
-	this.patternTime = patternTime;
-	this.patternTimeShort = patternTimeShort;
-}
-thx.culture.core.DateTimeInfo.__name__ = ["thx","culture","core","DateTimeInfo"];
-thx.culture.core.DateTimeInfo.prototype = {
-	months: null
-	,abbrMonths: null
-	,days: null
-	,abbrDays: null
-	,shortDays: null
-	,am: null
-	,pm: null
-	,separatorDate: null
-	,separatorTime: null
-	,firstWeekDay: null
-	,patternYearMonth: null
-	,patternMonthDay: null
-	,patternDate: null
-	,patternDateShort: null
-	,patternDateRfc: null
-	,patternDateTime: null
-	,patternUniversal: null
-	,patternSortable: null
-	,patternTime: null
-	,patternTimeShort: null
-	,__class__: thx.culture.core.DateTimeInfo
-}
 d3.Area = $hxClasses["d3.Area"] = function(cid) {
 	d3.Example.call(this,cid);
 }
@@ -6101,48 +6217,6 @@ thx.text.ERegs.escapeERegChars = function(s) {
 thx.text.ERegs.prototype = {
 	__class__: thx.text.ERegs
 }
-thx.culture.Language = $hxClasses["thx.culture.Language"] = function() { }
-thx.culture.Language.__name__ = ["thx","culture","Language"];
-thx.culture.Language.__properties__ = {get_languages:"getLanguages"}
-thx.culture.Language.languages = null;
-thx.culture.Language.getLanguages = function() {
-	if(null == thx.culture.Language.languages) thx.culture.Language.languages = new Hash();
-	return thx.culture.Language.languages;
-}
-thx.culture.Language.get = function(name) {
-	return thx.culture.Language.getLanguages().get(name.toLowerCase());
-}
-thx.culture.Language.names = function() {
-	return thx.culture.Language.getLanguages().keys();
-}
-thx.culture.Language.add = function(language) {
-	if(!thx.culture.Language.getLanguages().exists(language.iso2)) thx.culture.Language.getLanguages().set(language.iso2,language);
-}
-thx.culture.Language.__super__ = thx.culture.Info;
-thx.culture.Language.prototype = $extend(thx.culture.Info.prototype,{
-	__class__: thx.culture.Language
-});
-if(!thx.languages) thx.languages = {}
-thx.languages.En = $hxClasses["thx.languages.En"] = function() {
-	this.name = "en";
-	this.english = "English";
-	this["native"] = "English";
-	this.iso2 = "en";
-	this.iso3 = "eng";
-	this.pluralRule = 1;
-	thx.culture.Language.add(this);
-}
-thx.languages.En.__name__ = ["thx","languages","En"];
-thx.languages.En.__properties__ = {get_language:"getLanguage"}
-thx.languages.En.language = null;
-thx.languages.En.getLanguage = function() {
-	if(null == thx.languages.En.language) thx.languages.En.language = new thx.languages.En();
-	return thx.languages.En.language;
-}
-thx.languages.En.__super__ = thx.culture.Language;
-thx.languages.En.prototype = $extend(thx.culture.Language.prototype,{
-	__class__: thx.languages.En
-});
 d3.Chord = $hxClasses["d3.Chord"] = function(cid) {
 	d3.Example.call(this,cid);
 }
@@ -6364,20 +6438,31 @@ thx.svg.LineInternals.interpolatePoints = function(points,type) {
 		}
 		break;
 	case 1:
+		var p1;
+		path.push(p[0] + "," + p[1]);
+		while(++i < n - 1) {
+			p = points[i];
+			p1 = points[i + 1];
+			path.push("H" + (p[0] + p1[0]) / 2 + "V" + p[1]);
+		}
+		p = points[i];
+		path.push("H" + p[0] + "V" + p[1]);
+		break;
+	case 2:
 		path.push(p[0] + "," + p[1]);
 		while(++i < n) {
 			p = points[i];
 			path.push("V" + p[1] + "H" + p[0]);
 		}
 		break;
-	case 2:
+	case 3:
 		path.push(p[0] + "," + p[1]);
 		while(++i < n) {
 			p = points[i];
 			path.push("H" + p[0] + "V" + p[1]);
 		}
 		break;
-	case 3:
+	case 4:
 		if(points.length < 3) return thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear);
 		i = 1;
 		var x0 = p[0], y0 = p[1], px = [x0,x0,x0,(p = points[1])[0]], py = [y0,y0,y0,p[1]];
@@ -6400,7 +6485,7 @@ thx.svg.LineInternals.interpolatePoints = function(points,type) {
 			thx.svg.LineInternals._lineBasisBezier(path,px,py);
 		}
 		break;
-	case 4:
+	case 5:
 		if(points.length < 4) return thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear);
 		i = -1;
 		var pi, px = [0.0], py = [0.0];
@@ -6420,7 +6505,7 @@ thx.svg.LineInternals.interpolatePoints = function(points,type) {
 			thx.svg.LineInternals._lineBasisBezier(path,px,py);
 		}
 		break;
-	case 5:
+	case 6:
 		i = -1;
 		var m = n + 4, px = [], py = [];
 		while(++i < 4) {
@@ -6439,19 +6524,19 @@ thx.svg.LineInternals.interpolatePoints = function(points,type) {
 			thx.svg.LineInternals._lineBasisBezier(path,px,py);
 		}
 		break;
-	case 6:
+	case 7:
 		var tension = $e[2];
 		if(null == tension) tension = .7;
 		if(points.length < 3) return thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear); else return points[0][0] + "," + points[0][1] + thx.svg.LineInternals._lineHermite(points,thx.svg.LineInternals._lineCardinalTangents(points,tension));
 		break;
-	case 7:
+	case 8:
 		var tension = $e[2];
 		return points.length < 4?thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear):points[1][0] + "," + points[1][1] + thx.svg.LineInternals._lineCardinalTangents(points,tension);
-	case 8:
+	case 9:
 		var tension = $e[2];
 		if(null == tension) tension = .7;
 		return points.length < 3?thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear):points[0][0] + "," + points[0][1] + thx.svg.LineInternals._lineHermite(points,thx.svg.LineInternals._lineCardinalTangents([points[points.length - 2]].concat(points).concat([points[1]]),tension));
-	case 9:
+	case 10:
 		return points.length < 3?thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear):points[0] + thx.svg.LineInternals._lineHermite(points,thx.svg.LineInternals._lineMonotoneTangents(points));
 	}
 	return path.join("");
@@ -6758,7 +6843,7 @@ Dates.snap = function(time,period,mode) {
 	default:
 		return (function($this) {
 			var $r;
-			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 111, className : "Dates", methodName : "snap"});
+			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 113, className : "Dates", methodName : "snap"});
 			return $r;
 		}(this));
 	} else if(mode > 0) switch(period) {
@@ -6783,7 +6868,7 @@ Dates.snap = function(time,period,mode) {
 	default:
 		return (function($this) {
 			var $r;
-			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 136, className : "Dates", methodName : "snap"});
+			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 138, className : "Dates", methodName : "snap"});
 			return $r;
 		}(this));
 	} else switch(period) {
@@ -6808,7 +6893,7 @@ Dates.snap = function(time,period,mode) {
 	default:
 		return (function($this) {
 			var $r;
-			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 162, className : "Dates", methodName : "snap"});
+			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 164, className : "Dates", methodName : "snap"});
 			return $r;
 		}(this));
 	}
@@ -6839,7 +6924,7 @@ Dates.snapToWeekDay = function(time,day) {
 		s = 6;
 		break;
 	default:
-		throw new thx.error.Error("unknown week day '{0}'",null,day,{ fileName : "Dates.hx", lineNumber : 188, className : "Dates", methodName : "snapToWeekDay"});
+		throw new thx.error.Error("unknown week day '{0}'",null,day,{ fileName : "Dates.hx", lineNumber : 190, className : "Dates", methodName : "snapToWeekDay"});
 	}
 	return time - (d - s) % 7 * 24 * 60 * 60 * 1000;
 }
@@ -8368,6 +8453,24 @@ Objects.entries = function(o) {
 	}
 	return arr;
 }
+Objects.each = function(o,handler) {
+	var _g = 0, _g1 = Reflect.fields(o);
+	while(_g < _g1.length) {
+		var key = _g1[_g];
+		++_g;
+		handler(key,Reflect.field(o,key));
+	}
+}
+Objects.map = function(o,handler) {
+	var results = [];
+	var _g = 0, _g1 = Reflect.fields(o);
+	while(_g < _g1.length) {
+		var key = _g1[_g];
+		++_g;
+		results.push(handler(key,Reflect.field(o,key)));
+	}
+	return results;
+}
 Objects["with"] = function(ob,f) {
 	f(ob);
 	return ob;
@@ -8396,7 +8499,7 @@ Objects.interpolatef = function(a,b,equation) {
 		++_g;
 		if(Reflect.hasField(b,key)) {
 			var va = Reflect.field(a,key);
-			i[key] = (Objects.interpolateByName(key,va))(va,Reflect.field(b,key));
+			i[key] = Dynamics.interpolatef(va,Reflect.field(b,key));
 		} else c[key] = Reflect.field(a,key);
 	}
 	keys = Reflect.fields(b);
@@ -8415,9 +8518,6 @@ Objects.interpolatef = function(a,b,equation) {
 		}
 		return c;
 	};
-}
-Objects.interpolateByName = function(k,v) {
-	return Std["is"](v,String) && Objects._reCheckKeyIsColor.match(k)?thx.color.Colors.interpolatef:Dynamics.interpolatef;
 }
 Objects.copyTo = function(src,dst) {
 	var _g = 0, _g1 = Reflect.fields(src);
@@ -8528,7 +8628,7 @@ Objects.formatf = function(param,params,culture) {
 	default:
 		return (function($this) {
 			var $r;
-			throw new thx.error.Error("Unsupported number format: {0}",null,format,{ fileName : "Objects.hx", lineNumber : 245, className : "Objects", methodName : "formatf"});
+			throw new thx.error.Error("Unsupported number format: {0}",null,format,{ fileName : "Objects.hx", lineNumber : 242, className : "Objects", methodName : "formatf"});
 			return $r;
 		}(this));
 	}
@@ -9205,24 +9305,6 @@ thx.js.AccessDataTweenAttribute.prototype = $extend(thx.js.AccessTweenAttribute.
 	}
 	,__class__: thx.js.AccessDataTweenAttribute
 });
-thx.culture.core.NumberInfo = $hxClasses["thx.culture.core.NumberInfo"] = function(decimals,decimalsSeparator,groups,groupsSeparator,patternNegative,patternPositive) {
-	this.decimals = decimals;
-	this.decimalsSeparator = decimalsSeparator;
-	this.groups = groups;
-	this.groupsSeparator = groupsSeparator;
-	this.patternNegative = patternNegative;
-	this.patternPositive = patternPositive;
-}
-thx.culture.core.NumberInfo.__name__ = ["thx","culture","core","NumberInfo"];
-thx.culture.core.NumberInfo.prototype = {
-	decimals: null
-	,decimalsSeparator: null
-	,groups: null
-	,groupsSeparator: null
-	,patternNegative: null
-	,patternPositive: null
-	,__class__: thx.culture.core.NumberInfo
-}
 d3.CalendarVix = $hxClasses["d3.CalendarVix"] = function(cid) {
 	d3.Calendar.call(this,cid);
 	this.startYear = 2003;
@@ -9486,9 +9568,9 @@ thx.svg.Area.prototype = {
 	,_y1: null
 	,_interpolator: null
 	,shape: function(data,i) {
-		var second = thx.svg.LineInternals.linePoints(data,this._x,this._y0);
+		var second = thx.svg.LineInternals.linePoints(data,this._x,this._y1);
 		second.reverse();
-		return data.length < 1?null:"M" + thx.svg.LineInternals.interpolatePoints(thx.svg.LineInternals.linePoints(data,this._x,this._y1),this._interpolator) + "L" + thx.svg.LineInternals.interpolatePoints(second,this._interpolator) + "Z";
+		return data.length < 1?null:"M" + thx.svg.LineInternals.interpolatePoints(thx.svg.LineInternals.linePoints(data,this._x,this._y0),this._interpolator) + "L" + thx.svg.LineInternals.interpolatePoints(second,this._interpolator) + "Z";
 	}
 	,getInterpolator: function() {
 		return this._interpolator;
@@ -9586,6 +9668,7 @@ js.Boot.__init();
 		return f(msg,[url+":"+line]);
 	}
 }
+thx.languages.En.getLanguage();
 thx.cultures.EnUS.getCulture();
 {
 	thx.color.NamedColors.byName = new Hash();
@@ -11240,7 +11323,6 @@ window.Sizzle = Sizzle;
 	thx.js.Sizzle = s;
 	thx.js.Sizzle.select = s;
 }
-thx.languages.En.getLanguage();
 {
 	var d = Date;
 	d.now = function() {
@@ -11447,6 +11529,7 @@ thx.math.Const.HALF_PI = 1.570796326794896619;
 thx.math.Const.TO_DEGREE = 57.29577951308232088;
 thx.math.Const.TO_RADIAN = 0.01745329251994329577;
 thx.math.Const.LN10 = 2.302585092994046;
+thx.math.Const.E = 2.71828182845904523536;
 thx.xml.Namespace.prefix = (function() {
 	var h = new Hash();
 	h.set("svg","http://www.w3.org/2000/svg");
@@ -11475,7 +11558,6 @@ Dates._reparse = new EReg("^\\d{4}-\\d\\d-\\d\\d(( |T)\\d\\d:\\d\\d(:\\d\\d(\\.\
 thx.js.BaseTransition._id = 0;
 thx.js.BaseTransition._inheritid = 0;
 thx.js.Svg._usepage = new EReg("WebKit","").match(js.Lib.window.navigator.userAgent);
-Objects._reCheckKeyIsColor = new EReg("color\\b|\\bbackground\\b|\\bstroke\\b|\\bfill\\b","");
 thx.js.Timer.timeout = 0;
 thx.js.Timer.queue = null;
 thx.js.Timer.interval = 0;

@@ -16,17 +16,17 @@ class Calendar extends Example
 	public var startYear : Int;
 	public var endYear : Int;
 	public var csvPath : String;
-	
+
 	override function runExample()
 	{
 		addCss();
-		
+
 		var w = stageWidth(),
 			pw = 14,
 			z = ~~((w - pw * 2) / 53),
 			ph = Std.int(z) >> 1,
 			h = z * 7;
-			
+
 		var vis = container.selectAll("svg").data(Ints.range(startYear, endYear+1))
 			.enter().append("svg:svg")
 				.attr("width").float(w)
@@ -34,12 +34,12 @@ class Calendar extends Example
 				.attr("class").string("RdGy")
 			.append("svg:g")
 				.attr("transform").string("translate(" + pw + "," + ph + ")");
-		
+
 		vis.append("svg:text")
 			.attr("transform").string("translate(-6," + (h / 2) + ")rotate(-90)")
 			.attr("text-anchor").string("middle")
 			.text().data();
-			
+
 		var day = vis.selectAll("rect.day")
 			.dataf(dates)
 			.enter().append("svg:rect")
@@ -49,7 +49,7 @@ class Calendar extends Example
 				.attr("fill").string("#fff")
 				.attr("width").float(z)
 				.attr("height").float(z);
-				
+
 		vis.selectAll("path.month")
 			.dataf(months)
 			.enter().append("svg:path")
@@ -65,7 +65,7 @@ class Calendar extends Example
 						+ "H" + (d.firstWeek + 1) * z
 						+ "Z";
 				});
-				
+
 		var http = new Http(csvPath);
 		http.async = true;
 		http.onData = function(d : String)
@@ -79,7 +79,7 @@ class Calendar extends Example
 				var value = (d[4] - d[1]) / d[1];
 				data.set(key, value);
 			});
-			
+
 			day
 				.attr("class").stringf(function(d, i) return "day q" + color.scale(data.get(d.date)) + "-9")
 				.append("svg:title")
@@ -87,7 +87,7 @@ class Calendar extends Example
 		};
 		http.request(false);
 	}
-	
+
 	function addCss()
 	{
 		container.append("style")
@@ -1435,7 +1435,7 @@ class Calendar extends Example
 .RdYlGn .q10-11{fill:rgb(0,104,55)}
 ");
 	}
-	
+
 	public static function dates(year : Int, ?_)
 	{
 		var dates = [],
@@ -1456,7 +1456,7 @@ class Calendar extends Example
 		} while (date.getFullYear() == year);
 		return dates;
 	}
-	
+
 	public static function months(year : Int, ?_)
 	{
 		var months = [],

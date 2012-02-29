@@ -1,4 +1,0 @@
--cp src
--cp ../src
--js bin/js/layout.js
--main TreeTest.hx

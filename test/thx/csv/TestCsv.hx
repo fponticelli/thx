@@ -33,10 +33,7 @@ class TestCsv
 		[1999, 		'Chevy',	'Venture "Extended Edition, Very Large"',	'',										5000.99],
 		[1996, 		'Jeep', 	'Grand Cherokee', 							'MUST SELL!\nair, moon roof, loaded',	4799.99]
 	];
-	
 
-	
-		
 	public function testDecode()
 	{
 		assertSame([[1997, "Ford", "E350"]], Csv.decode("1997,Ford,E350"));
@@ -52,16 +49,16 @@ class TestCsv
 		Culture.defaultCulture = old_default;
 
 	}
-	
+
 	public function testEncode()
 	{
 		assertSame(s, Csv.encode(v));
 	}
-	
+
 	function assertSame(expected : Dynamic, test : Dynamic, ?pos : PosInfos)
 	{
 		Assert.same(expected, test, "expected " + Dynamics.string(expected) + " but was " + Dynamics.string(test), pos);
 	}
-	
+
 	public function new(){}
 }

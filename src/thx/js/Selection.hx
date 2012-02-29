@@ -523,6 +523,24 @@ class BaseSelection<This>
 		return createSelection(subgroups);
 	}
 
+	public function mapNode<T>(f : HtmlDom -> Int -> T)
+	{
+		var results = [];
+		for (group in groups)
+		{
+			var i = -1;
+			for (node in group)
+			{
+				if (null != node)
+				{
+					results.push(f(node, ++i));
+				}
+			}
+
+		}
+		return results;
+	}
+
 	static function listenerEnterLeave(f, dom, i)
 	{
 		var e = Dom.event,

@@ -13,8 +13,7 @@ class TestAll
 {
 	public static function addTests(runner : Runner)
 	{
-		TestTypeFactory.addTests(runner);
-		TestTypeServiceLocator.addTests(runner);
+		TestTypeLocator.addTests(runner);
 		runner.addCase(new TestResults());
 	}
 	

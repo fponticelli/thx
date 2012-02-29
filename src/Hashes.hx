@@ -8,6 +8,14 @@ import thx.collection.Set;
 
 class Hashes
 {
+	public static function entries<T>(h : Hash<T> ) : Array<{ key : String, value : T }>
+	{
+		var arr = [];
+		for (key in h.keys())
+			arr.push({ key : key, value : h.get(key) });
+		return arr;
+	}
+
 	public static function toDynamic<T>(hash : Hash<T>) : Dynamic<T>
 	{
 		var o : Dynamic<T> = { };

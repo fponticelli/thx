@@ -593,6 +593,44 @@ class Arrays
 		return arr;
 	}
 
+	public static function scanf<T>(arr : Array<T>, weightf : T -> Int -> Float, incremental = true) : Float -> Null<T>
+	{
+		var tot = 0.0,
+			weights = [];
+		if(incremental)
+		{
+			for(i in 0...arr.length)
+			{
+				weights[i] = (tot += weightf(arr[i], i));
+			}
+		} else {
+			for(i in 0...arr.length)
+			{
+				weights[i] = weightf(arr[i], i);
+			}
+			tot = weights[weights.length-1];
+		}
+
+		function scan(v : Float, start : Int, end : Int)
+		{
+			if(start == end)
+				return arr[start];
+			var mid   = Math.floor((end - start) / 2) + start,
+				value = weights[mid];
+			if(v < value)
+				return scan(v, start, mid);
+			else
+				return scan(v, mid+1, end);
+		}
+
+		return function(v : Float)
+		{
+			if(v < 0 || v > tot) // out of range
+				return null;
+			return scan(v, 0, weights.length - 1);
+		}
+	}
+
 #if (js && js_shims)
 	static function __init__()
 	{
