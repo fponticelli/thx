@@ -2179,7 +2179,7 @@ thx.math.scale.Quantize.prototype = {
 	,i: null
 	,_range: null
 	,scale: function(x,_) {
-		return this._range[Std["int"](Math.max(0,Math.min(this.i,Math.floor(this.kx * (x - this.x0)))))];
+		return this._range[Math.max(0,Math.min(this.i,Math.floor(this.kx * (x - this.x0)))) | 0];
 	}
 	,getDomain: function() {
 		return [this.x0,this.x1];
@@ -2862,7 +2862,7 @@ d3.Calendar.prototype = $extend(d3.Example.prototype,{
 	,csvPath: null
 	,runExample: function() {
 		this.addCss();
-		var w = this.stageWidth(), pw = 14, z = ~~((w - pw * 2) / 53), ph = Std["int"](z) >> 1, h = z * 7;
+		var w = this.stageWidth(), pw = 14, z = ~~((w - pw * 2) / 53), ph = (z | 0) >> 1, h = z * 7;
 		var vis = this.container.selectAll("svg").data(Ints.range(this.startYear,this.endYear + 1)).enter().append("svg:svg").attr("width")["float"](w).attr("height")["float"](h + ph * 2).attr("class").string("RdGy").append("svg:g").attr("transform").string("translate(" + pw + "," + ph + ")");
 		vis.append("svg:text").attr("transform").string("translate(-6," + h / 2 + ")rotate(-90)").attr("text-anchor").string("middle").text().data();
 		var day = vis.selectAll("rect.day").dataf(d3.Calendar.dates).enter().append("svg:rect").attr("x").floatf(function(d,i) {
@@ -7074,9 +7074,9 @@ d3.WebkitTransition.prototype = $extend(d3.Example.prototype,{
 			})).update().style("top").stringf(function(d,i) {
 				return (1 - d) * 300 + "px";
 			}).style("background-color").stringf(function(d,i) {
-				return "rgb(" + Std["int"](d * 255) + ",50,100)";
+				return "rgb(" + (d * 255 | 0) + ",50,100)";
 			}).text().floatf(function(d,i) {
-				return Std["int"](d * 100);
+				return d * 100 | 0;
 			});
 		};
 		this.transform();
@@ -7534,7 +7534,7 @@ thx.culture.FormatDate.format = function(pattern,date,culture,leadingspace) {
 			buf.add(thx.culture.FormatDate.format("%H:%M",date,culture));
 			break;
 		case "s":
-			buf.add("" + Std["int"](date.getTime() / 1000));
+			buf.add("" + (date.getTime() / 1000 | 0));
 			break;
 		case "S":
 			buf.add(thx.culture.FormatNumber.digits(StringTools.lpad("" + date.getSeconds(),"0",2),culture));
@@ -8154,8 +8154,7 @@ Std.string = function(s) {
 	return js.Boot.__string_rec(s,"");
 }
 Std["int"] = function(x) {
-	if(x < 0) return Math.ceil(x);
-	return Math.floor(x);
+	return x | 0;
 }
 Std.parseInt = function(x) {
 	var v = parseInt(x,10);
@@ -9390,7 +9389,7 @@ DateTools.__format_get = function(d,e) {
 			$r = "%";
 			break;
 		case "C":
-			$r = StringTools.lpad(Std.string(Std["int"](d.getFullYear() / 100)),"0",2);
+			$r = StringTools.lpad(Std.string(d.getFullYear() / 100 | 0),"0",2);
 			break;
 		case "d":
 			$r = StringTools.lpad(Std.string(d.getDate()),"0",2);
@@ -9431,7 +9430,7 @@ DateTools.__format_get = function(d,e) {
 			$r = DateTools.__format(d,"%H:%M");
 			break;
 		case "s":
-			$r = Std.string(Std["int"](d.getTime() / 1000));
+			$r = Std.string(d.getTime() / 1000 | 0);
 			break;
 		case "S":
 			$r = StringTools.lpad(Std.string(d.getSeconds()),"0",2);
@@ -9511,7 +9510,7 @@ DateTools.parse = function(t) {
 	var s = t / 1000;
 	var m = s / 60;
 	var h = m / 60;
-	return { ms : t % 1000, seconds : Std["int"](s % 60), minutes : Std["int"](m % 60), hours : Std["int"](h % 24), days : Std["int"](h / 24)};
+	return { ms : t % 1000, seconds : s % 60 | 0, minutes : m % 60 | 0, hours : h % 24 | 0, days : h / 24 | 0};
 }
 DateTools.make = function(o) {
 	return o.ms + 1000.0 * (o.seconds + 60.0 * (o.minutes + 60.0 * (o.hours + 24.0 * o.days)));
@@ -9568,9 +9567,9 @@ thx.svg.Area.prototype = {
 	,_y1: null
 	,_interpolator: null
 	,shape: function(data,i) {
-		var second = thx.svg.LineInternals.linePoints(data,this._x,this._y1);
+		var second = thx.svg.LineInternals.linePoints(data,this._x,this._y0);
 		second.reverse();
-		return data.length < 1?null:"M" + thx.svg.LineInternals.interpolatePoints(thx.svg.LineInternals.linePoints(data,this._x,this._y0),this._interpolator) + "L" + thx.svg.LineInternals.interpolatePoints(second,this._interpolator) + "Z";
+		return data.length < 1?null:"M" + thx.svg.LineInternals.interpolatePoints(thx.svg.LineInternals.linePoints(data,this._x,this._y1),this._interpolator) + "L" + thx.svg.LineInternals.interpolatePoints(second,this._interpolator) + "Z";
 	}
 	,getInterpolator: function() {
 		return this._interpolator;
@@ -11492,7 +11491,8 @@ js["XMLHttpRequest"] = window.XMLHttpRequest?XMLHttpRequest:window.ActiveXObject
 	Dynamic = $hxClasses["Dynamic"] = { __name__ : ["Dynamic"]};
 	Float = $hxClasses["Float"] = Number;
 	Float.__name__ = ["Float"];
-	Bool = $hxClasses["Bool"] = { __ename__ : ["Bool"]};
+	Bool = $hxClasses["Bool"] = Boolean;
+	Bool.__ename__ = ["Bool"];
 	Class = $hxClasses["Class"] = { __name__ : ["Class"]};
 	Enum = { };
 	Void = $hxClasses["Void"] = { __ename__ : ["Void"]};

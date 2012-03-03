@@ -39,12 +39,12 @@ class Inflections
 	{
 		return process(singular, plural_rules);
 	}
-	
+
 	public static function singularize(plural : String)
 	{
 		return process(plural, singular_rules);
 	}
-	
+
 	static function process(word : String, rules : Array<{ pattern : EReg, replace : String }>)
 	{
 		if (Lambda.has(uncountable_words, word))
@@ -54,9 +54,9 @@ class Inflections
 				return rule.pattern.replace(word, rule.replace);
 		return word;
 	}
-	
+
 	static var uncountable_words = ['equipment','information','rice','money','species','series','fish','sheep','moose','deer','news'];
-	
+
 	static var plural_rules = [
 		{ pattern : ~/(m)an$/gi, replace : '$1en' },
 		{ pattern : ~/(pe)rson$/gi, replace : '$1ople' },
@@ -79,7 +79,7 @@ class Inflections
 		{ pattern : ~/s$/gi, replace : 's' },
 		{ pattern : ~/$/gi, replace : 's' }
 	];
-	
+
 	static var singular_rules = [
 		{ pattern : ~/(m)en$/gi, replace : '$1an' },
 		{ pattern : ~/(pe)ople$/gi, replace : '$1rson' },
@@ -107,5 +107,5 @@ class Inflections
 		{ pattern : ~/(quiz)zes$/gi, replace :  '$1' },
 		{ pattern : ~/s$/gi, replace :  '' }
 	];
-	
+
 }

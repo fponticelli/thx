@@ -60,6 +60,6 @@ class Quantile<TRange> implements IScale<Float, TRange>
 
 	public function getQuantiles()
 	{
-		return _thresolds.copy;
+		return function() return _thresolds.copy();
 	}
 }
