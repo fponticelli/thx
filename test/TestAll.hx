@@ -15,12 +15,10 @@ class TestAll
 		Imports.pack("thx.json", true);
 		Imports.pack("thx.svg", true);
 		Imports.pack("thx.geo", true);
-		
-		
+
+
 		Culture.defaultCulture = thx.cultures.EnUS.culture;
-#if js
-		thx.js.TestAll.addTests(runner);
-#end
+
 		thx.collection.TestAll.addTests(runner);
 		thx.color.TestAll.addTests(runner);
 		runner.addCase(new thx.data.TestValueEncoder());
@@ -39,7 +37,7 @@ class TestAll
 		thx.type.TestAll.addTests(runner);
 		thx.util.TestAll.addTests(runner);
 		thx.validation.TestAll.addTests(runner);
-		
+
 		TestArrays.addTests(runner);
 		TestFloats.addTests(runner);
 		runner.addCase(new TestDates());
@@ -48,10 +46,10 @@ class TestAll
 		TestHashes.addTests(runner);
 		TestObjects.addTests(runner);
 		TestStrings.addTests(runner);
-		
+
 //		TestAllExp.addTests(runner);
 	}
-	
+
 	public static function main()
 	{
 		var runner = new Runner();
