@@ -80,10 +80,15 @@ class CsvDecoder
 			var pos = _s.indexOf(quote, 1);
 			
 			if (pos != -1){
-    			if (doublequotations){
-    				while (_s.substr(pos+1, 1) == quote) // DOUBLE DOUBLE QUOTE
-    					pos = _s.indexOf(quote, pos + 2);
-    			}
+				if (doublequotations){
+					while (_s.substr(pos+1, 1) == quote){ // DOUBLE DOUBLE QUOTE
+						pos = _s.indexOf(quote, pos + 2);
+						if (pos == -1) {
+							pos = _s.length;
+							break;
+						}
+					}		
+				}
 			} else pos = _s.length;
 			
 			var v = _s.substr(1, pos - 1);
