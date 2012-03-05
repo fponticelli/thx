@@ -1,4 +1,0 @@
--cp src
--cp ../src
--js bin/js/d3examples.js
--main D3Examples

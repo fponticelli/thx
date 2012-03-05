@@ -1,9 +1,9 @@
-package thx.data;
-
 /**
  * ...
  * @author Franco Ponticelli
  */
+
+package thx.data;
 
 interface IDataHandler
 {

@@ -1,7 +1,7 @@
-<project name="thx" url="http://code.google.com/p/thx-core/" license="BSD">
+<project name="thx" url="http://github.com/fponticelli/thx/" license="BSD">
     <user name="fponticelli"/>
     <tag v="cross"/>
 	<tag v="std"/>
     <description>General purpose library</description>
-    <version name="0.4.0">fixes and improvments</version>
+    <version name="0.5.0">split D3 manipulation (moved to dhx)</version>
 </project>

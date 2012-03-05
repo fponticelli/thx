@@ -1,10 +1,10 @@
-package thx.data;
-import thx.error.Error;
-
 /**
  * ...
  * @author Franco Ponticelli
  */
+
+package thx.data;
+import thx.error.Error;
 
 class ValueEncoder
 {
@@ -13,14 +13,14 @@ class ValueEncoder
 	{
 		this.handler = handler;
 	}
-	
+
 	public function encode(o : Dynamic)
 	{
 		handler.start();
 		encodeValue(o);
 		handler.end();
 	}
-	
+
 	function encodeValue(o : Dynamic)
 	{
 		switch(Type.typeof(o))
@@ -57,7 +57,7 @@ class ValueEncoder
 				throw new Error("unable to encode TUnknown type");
 		}
 	}
-	
+
 	function encodeObject(o : { } )
 	{
 		handler.startObject();
@@ -69,7 +69,7 @@ class ValueEncoder
 		}
 		handler.endObject();
 	}
-	
+
 	function encodeHash(o : Hash<Dynamic>)
 	{
 		handler.startObject();
@@ -81,7 +81,7 @@ class ValueEncoder
 		}
 		handler.endObject();
 	}
-	
+
 	function encodeList(list : List<Dynamic>)
 	{
 		handler.startArray();
@@ -93,7 +93,7 @@ class ValueEncoder
 		}
 		handler.endArray();
 	}
-	
+
 	function encodeArray(a : Array<Dynamic>)
 	{
 		handler.startArray();

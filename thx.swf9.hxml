@@ -1,7 +1,6 @@
 -cp src
 -cp test
 -lib utest
--swf bin/test.10.swf
--swf-version 10
+-swf bin/test.9.swf
 -main TestAll
 -debug

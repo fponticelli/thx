@@ -1,0 +1,1914 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"continu",
+				"continuedText"
+			],
+			[
+				"cl",
+				"classed"
+			],
+			[
+				"sort",
+				"sortf"
+			],
+			[
+				"po",
+				"positives() : NodeData, Dynamic>>"
+			],
+			[
+				"ea",
+				"each"
+			],
+			[
+				"nodes",
+				"nodes"
+			],
+			[
+				"w",
+				"weight"
+			],
+			[
+				"ord",
+				"order(...) : NodeData, Dynamic>>"
+			],
+			[
+				"getD",
+				"getDate"
+			],
+			[
+				"get",
+				"getMonth"
+			],
+			[
+				"stri",
+				"stringf"
+			],
+			[
+				"pare",
+				"parent"
+			],
+			[
+				"dep",
+				"dependentVariable"
+			],
+			[
+				"ed",
+				"edgeClass [var]"
+			],
+			[
+				"disp",
+				"displayExit [var]"
+			],
+			[
+				"la",
+				"layout"
+			],
+			[
+				"glob",
+				"globalReady"
+			],
+			[
+				"glo",
+				"globalReady [var]"
+			],
+			[
+				"T",
+				"Timer [class]"
+			],
+			[
+				"char",
+				"chartsCounter [var]"
+			],
+			[
+				"chart",
+				"chartsLoaded"
+			],
+			[
+				"h",
+				"host : String"
+			],
+			[
+				"con",
+				"config"
+			],
+			[
+				"na",
+				"navigator : js.Navigator"
+			],
+			[
+				"js",
+				"json [package]"
+			],
+			[
+				"a",
+				"append(...) : thx.js.Selection"
+			],
+			[
+				"fi",
+				"fields( o : Dynamic ) : Array<String>"
+			],
+			[
+				"remo",
+				"removeEmpties [function]"
+			],
+			[
+				"fra",
+				"factory [package]"
+			],
+			[
+				"RG",
+				"RGLegacyRenderer [class]"
+			],
+			[
+				"mat",
+				"matchedRight"
+			],
+			[
+				"sv",
+				"svgs"
+			],
+			[
+				"in",
+				"innerHTML"
+			],
+			[
+				"f",
+				"function"
+			],
+			[
+				"charts",
+				"chartsLoaded [var]"
+			],
+			[
+				"addRe",
+				"addReadyOnce(...) : Void"
+			],
+			[
+				"re",
+				"reanchor"
+			],
+			[
+				"curre",
+				"currentNode"
+			],
+			[
+				"curr",
+				"currentNode"
+			],
+			[
+				"sele",
+				"selectNode"
+			],
+			[
+				"s",
+				"style"
+			],
+			[
+				"bottom",
+				"bottomleft"
+			],
+			[
+				"pa",
+				"parentNode"
+			],
+			[
+				"ax",
+				"axis"
+			],
+			[
+				"v",
+				"values"
+			],
+			[
+				"flo",
+				"floatMax"
+			],
+			[
+				"_",
+				"_moveTo"
+			],
+			[
+				"ma",
+				"map"
+			],
+			[
+				"extract",
+				"extractEdges"
+			],
+			[
+				"fie",
+				"field"
+			],
+			[
+				"TF",
+				"TFunction"
+			],
+			[
+				"clon",
+				"cloneInstances"
+			],
+			[
+				"pro",
+				"prototype"
+			],
+			[
+				"Indep",
+				"VariableIndependent"
+			],
+			[
+				"dis",
+				"dispatch"
+			],
+			[
+				"add",
+				"addOnce"
+			],
+			[
+				"da",
+				"data"
+			],
+			[
+				"Data",
+				"DataProcessor [class]"
+			],
+			[
+				"data",
+				"datacontexts"
+			],
+			[
+				"fac",
+				"factoryDataContext [var]"
+			],
+			[
+				"selec",
+				"selector"
+			],
+			[
+				"su",
+				"subnode"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"sup",
+				"supportsStyleMethods"
+			],
+			[
+				"tr",
+				"trace"
+			],
+			[
+				"attent",
+				"attentionValues"
+			],
+			[
+				"lo",
+				"chartContainer : thx.js.Selection"
+			],
+			[
+				"app",
+				"applyLightness"
+			],
+			[
+				"gradi",
+				"gradientLightness"
+			],
+			[
+				"inter",
+				"interpolate"
+			],
+			[
+				"dependen",
+				"VariableDependent"
+			],
+			[
+				"len",
+				"length"
+			],
+			[
+				"cont",
+				"continue"
+			],
+			[
+				"infoSamp",
+				"infoSample"
+			],
+			[
+				"first",
+				"firstsubmit"
+			],
+			[
+				"goo",
+				"google"
+			],
+			[
+				"convers",
+				"conversion"
+			],
+			[
+				"go",
+				"google"
+			],
+			[
+				"google",
+				"googleinfo"
+			],
+			[
+				"set",
+				"setGlobalVars"
+			],
+			[
+				"setGlo",
+				"setGlobalVar"
+			],
+			[
+				"min",
+				"min"
+			],
+			[
+				"ho",
+				"horizontal"
+			],
+			[
+				"variableIndependents",
+				"VariableIndependent [class]"
+			],
+			[
+				"Bool",
+				"Bool [class]"
+			],
+			[
+				"hor",
+				"horizontal"
+			],
+			[
+				"int",
+				"int"
+			],
+			[
+				"attr",
+				"attr"
+			],
+			[
+				"class",
+				"class"
+			],
+			[
+				"append",
+				"append"
+			],
+			[
+				"str",
+				"string"
+			],
+			[
+				"att",
+				"attr"
+			],
+			[
+				"stringf",
+				"stringf"
+			],
+			[
+				"cll",
+				"Ponticelli"
+			],
+			[
+				"string",
+				"stringf"
+			],
+			[
+				"Int",
+				"Int [class]"
+			],
+			[
+				"va",
+				"value"
+			],
+			[
+				"function",
+				"WeakFunctionClosure [flash9.events]"
+			],
+			[
+				"is",
+				"is"
+			],
+			[
+				"style",
+				"style"
+			],
+			[
+				"ap",
+				"append"
+			],
+			[
+				"strin",
+				"stringf"
+			],
+			[
+				"te",
+				"text"
+			],
+			[
+				"at",
+				"attr"
+			],
+			[
+				"appen",
+				"append"
+			],
+			[
+				"opt",
+				"options"
+			],
+			[
+				"Has",
+				"Hash [class]"
+			],
+			[
+				"String",
+				"String [class]"
+			],
+			[
+				"Selecti",
+				"Selection [class]"
+			],
+			[
+				"node",
+				"node() : js.HtmlDom"
+			],
+			[
+				"se",
+				"select(...) : thx.js.Selection"
+			],
+			[
+				"Ch",
+				"childNodes : HtmlDom>"
+			],
+			[
+				"l",
+				"length : Int"
+			],
+			[
+				"bod",
+				"body : js.Body"
+			],
+			[
+				"d",
+				"document : js.Document"
+			],
+			[
+				"getT",
+				"getTime() : Float"
+			],
+			[
+				"now",
+				"now() : Date"
+			],
+			[
+				"push",
+				"push( x : Array<Unknown<0>> ) : Int"
+			],
+			[
+				"o",
+				"options"
+			],
+			[
+				"joi",
+				"join( sep : String ) : String"
+			],
+			[
+				"pus",
+				"push( x : String ) : Int"
+			],
+			[
+				"hosts",
+				"hosts"
+			],
+			[
+				"sh",
+				"shift() : Null<String>"
+			],
+			[
+				"le",
+				"length : Int"
+			],
+			[
+				"shi",
+				"shift() : Null<String>"
+			],
+			[
+				"Dynamic",
+				"Dynamic [class]"
+			],
+			[
+				"hx",
+				"gen-hx-classes"
+			],
+			[
+				"wi",
+				"window : js.Window"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "release.sh",
+			"settings":
+			{
+				"buffer_size": 204,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "thx.js.hxml",
+			"settings":
+			{
+				"buffer_size": 58,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "doc.hxml",
+			"settings":
+			{
+				"buffer_size": 1184,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/thx/text/Inflections.hx",
+			"settings":
+			{
+				"buffer_size": 4563,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Searching 479 files for \"IniEncoder\"\n\n/Users/francoponticelli/Projects/thx/src/thx/ini/Ini.hx:\n   13  	public static function encode(value : {})\n   14  	{\n   15: 		var handler = new IniEncoder();\n   16  		new ValueEncoder(handler).encode(value);\n   17  		return handler.encodedString;\n\n/Users/francoponticelli/Projects/thx/src/thx/ini/IniDecoder.hx:\n  130  	function dec(s : String)\n  131  	{\n  132: 		for (i in 0...IniEncoder.encoded.length)\n  133: 			s = StringTools.replace(s, IniEncoder.encoded[i], IniEncoder.decoded[i]);\n  134  		return s;\n  135  	}\n\n/Users/francoponticelli/Projects/thx/src/thx/ini/IniEncoder.hx:\n    9  import thx.error.Error;\n   10  \n   11: class IniEncoder implements IDataHandler\n   12  {\n   13  	public var ignorecomments(default, null) : Bool;\n\n5 matches across 3 files\n",
+			"settings":
+			{
+				"buffer_size": 800,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "src/thx/ini/IniEncoder.hx",
+			"settings":
+			{
+				"buffer_size": 3105,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "thx.swf9.hxml",
+			"settings":
+			{
+				"buffer_size": 69,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "thx.swf.hxml",
+			"settings":
+			{
+				"buffer_size": 86,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/HaXe/Hxml.sublime-build",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"tr",
+				"Trailing Spaces: Delete Trailing Spaces"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"pac",
+				"Package Control: Remove Package"
+			],
+			[
+				"t",
+				"Trailing Spaces: Delete Trailing Spaces"
+			],
+			[
+				"todo",
+				"Show TODOs in project and open files"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"upda",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"ter",
+				"Preferences: Terminal Settings – Default"
+			],
+			[
+				"clas",
+				"Snippet: Class"
+			],
+			[
+				"tre",
+				"Set Syntax: Regular Expression"
+			],
+			[
+				"re",
+				"Set Syntax: Regular Expression"
+			],
+			[
+				"tri",
+				"Trailing Spaces: Delete Trailing Spaces"
+			],
+			[
+				"tra",
+				"Trailing Spaces: Delete Trailing Spaces"
+			],
+			[
+				"tria",
+				"Trailing Spaces: Delete Trailing Spaces"
+			],
+			[
+				"trai",
+				"Trailing Spaces: Delete Trailing Spaces"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"insl",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Set Syntax: HaXe2"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 310.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/francoponticelli/Projects/thx/haxelib.xml",
+		"/Users/francoponticelli/Projects/dhx/release.sh",
+		"/Users/francoponticelli/Projects/thx/thx.swf.hxml",
+		"/Users/francoponticelli/Projects/thx/src/thx/ini/IniEncoder.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/data/IDataHandler.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/data/ValueHandler.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/data/ValueEncoder.hx",
+		"/Users/francoponticelli/Projects/thx/release.bat",
+		"/Users/francoponticelli/Projects/thx/test/TestAll.hx",
+		"/Users/francoponticelli/Projects/reportgrid/client-libraries/js/src/v1/precog.js",
+		"/Users/francoponticelli/Desktop/first.html",
+		"/Users/francoponticelli/Desktop/second.html",
+		"/Users/francoponticelli/Projects/reportgrid/client-libraries/js/src/v1/quirrel.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/info/InfoSankey.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/visualization/VisualizationSankey.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/chart/Sankey.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/widget/ElbowArea.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/src/rg/app/charts/JSBridge.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/samples/charts/BB002-percent on max value.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/samples/charts/BB001-simple.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/samples/samples/charts/FC003-flat.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/samples/charts/FC003-flat.js",
+		"/Users/francoponticelli/Projects/reportgrid/website/queriowebsite/queries.html",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/chart/GradientEffects.hx",
+		"/Users/francoponticelli/Projects/reportgrid/client-libraries/doc/src/charts-api.v1.rst",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/build.hxml",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/src/rg/app/charts/App.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/svg/LineInterpolators.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/samples/css/sample.css",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/util/SymbolCache.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/svg/Symbol.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/graph/GNode.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/graph/GraphEdges.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/chart/PieChart.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/graph/GraphLayout.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/info/InfoVisualizationOption.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/info/InfoDownload.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/RGConst.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/samples/data/usa-debt.json",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/samples/data/boulder-weather-2011-1Q.json",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/util/Periodicity.hx",
+		"/Users/francoponticelli/Projects/thx/src/Dates.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/samples/data/boulder-weather-2011.json",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/samples/charts/XX001-test brand position.js",
+		"/Users/francoponticelli/Desktop/sample.xhtml",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/layer/RulesOrtho.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/interactive/RGLegacyRenderer.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/js/AccessAttribute.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/chart/LineChart.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/css/rg-charts.css",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/axis/AxisTime.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/axis/ScaleDistributions.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/samples/data/usa-population-and-area-1790-2000.json",
+		"/Users/francoponticelli/Projects/thx/src/thx/svg/Line.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/widget/DiagonalArea.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/widget/HookConnectorArea.hx",
+		"/Users/francoponticelli/Desktop/viz 2.html",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/html/widget/Tooltip.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/chart/Chart.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/chart/Geo.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/panel/Panels.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/samples/charts/XX006-heart.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/chart/StreamGraph.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/chart/FunnelChart.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/chart/BarChart.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/html/chart/Leadeboard.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/info/InfoLineChart.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/svg/LineInterpolator.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/samples/charts/FC001-simple.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/samples/samples/charts/XX005-heart.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/panel/Panel.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/version",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/js/reportgrid-charts.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/interactive/RGDownloader.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/renderer/index.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/release.hxml",
+		"/private/tmp/WK_4f3d26fda0e1d.html",
+		"/private/tmp/WK_4f3d26fda0fc5.png",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/info/InfoTrack.hx",
+		"/Users/francoponticelli/Desktop/sample.html",
+		"/Users/francoponticelli/Projects/reportgrid/client-libraries/js/src/v1/reportgrid-core.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/index.html",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/index.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/template.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/util/Js.hx",
+		"/Users/francoponticelli/Documents/scripts/haxesrc/haxe/std/haxe/Http.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/factory/FactoryLayout.hx",
+		"/Users/francoponticelli/Projects/reportgrid/client-libraries/js/src/v1/reportgrid-query.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/servicessrc/charts/www/.htaccess",
+		"/Users/francoponticelli/Projects/thx/src/thx/text/Paths.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/util/TypeFactory.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/util/TypeServiceLocator.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/util/RG.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/js/Selection.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/interactive/Downloader.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/util/MacroVersion.hx",
+		"/Users/francoponticelli/Projects/reportgrid/client-libraries/js/src/v1/reportgrid-charts.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/graph/GraphNodes.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/graph/GraphCollection.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/charts/lib/ufront/web/IHttpModule.interface.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/charts/lib/ufront/web/module/ITraceModule.interface.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/samples/samples/charts/XX005-sankey flixmaster.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/css/rg-charts.css",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/widget/Map.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/util/RGColors.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/visualization/VisualizationGeo.hx",
+		"/Users/francoponticelli/tmp/wkhtmltopdf/src/pdf/pdf.pro",
+		"/Users/francoponticelli/tmp/wkhtmltopdf/src/image/image.pro",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/info/InfoPieChart.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/charts/lib/controller/DownloadAPIController.class.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/charts/lib/model/RenderableGateway.class.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/charts/lib/template/FormAPI.class.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/charts/lib/template/DownloadError.class.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/charts/lib/template/MongoDBStatus.class.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/charts/lib/template/FormUpload.class.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/charts/lib/template/UploadAPIOutput.class.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/charts/lib/template/Home.class.php",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/charts/lib/template/HomeTemplate.class.php",
+		"/Users/francoponticelli/Documents/scripts/haxesrc/haxe/genphp.ml",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/js/charts.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/samples/charts/BS002-inverted axis.js",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/visualizations/version",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/chart/ScatterGraph.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/svg/chart/HeatGrid.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/html/chart/PivotTable.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/info/InfoDataSource.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/visualization/VisualizationHeatGrid.hx",
+		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/samples/samples/charts/XX004-1M in a week.js"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"/Users/francoponticelli/Projects/thx,*.hx",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/lib,*.hx",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/charts,*.hx",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations,*.hx",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/charts,*.hx",
+			"/Users/francoponticelli/Projects/reportgrid/charts,*.hx",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations,*.hx",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/,*.hx",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/*.hx",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations",
+			"/Users/francoponticelli/Projects/",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/lib",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/charts",
+			"/Users/francoponticelli/Projects/reportgrid/website",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations",
+			"/Users/francoponticelli/Projects/thx/src/thx/js",
+			"/Users/francoponticelli/Projects/thx/src/js",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/visualizations/src",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/visualizations/test",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/visualizations/src",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/visualizations",
+			"/Users/francoponticelli/Projects/reportgrid/visualizations/src/main/haxe/vis"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"IniEncoder",
+			"ValueHandler",
+			"rmdir",
+			"xcopy",
+			"thx.js.Dom",
+			"thx.js.Selection",
+			"thx.js.Dom",
+			"thx.js.Selection",
+			"Quirrel",
+			"defaultQuery",
+			"filter",
+			"sanitizeProperty",
+			"removeDuplicateSlashes",
+			"removeTrailingSlash",
+			"reportgrid",
+			"reportgrid.com",
+			"reportgrid",
+			"ReportGrid",
+			"ReportGr",
+			"filter",
+			"log",
+			"continuedText",
+			"layoutDataWithMap",
+			"dummySpacing",
+			"url",
+			"translate",
+			"nodes.",
+			"9999999999",
+			"00000000000",
+			"000000000000",
+			" class=\"major\"",
+			"stroke",
+			"</line",
+			" x2=\"0\"",
+			" x1=\"0\"",
+			" y1=\"1\" x1=\"0\"",
+			"<line",
+			"line",
+			"translate(0,10)",
+			"<g transform=\"rotate(90)\">",
+			"translate(0,10)",
+			"</g></g></g>",
+			"<line",
+			"<g",
+			"ScaleDistributions",
+			"new Date",
+			"-",
+			"2011-",
+			"text-rendering",
+			"shape-rendering: crispEdges;",
+			"userSpaceOnUse",
+			"linearGradient",
+			"string(\"1\")",
+			"string(\"0\")",
+			"gradient",
+			"y :",
+			",",
+			"htmlContainer",
+			"new Tooltip",
+			"nodeCla",
+			"extra-in",
+			"fall-off",
+			"entrance",
+			"extraout",
+			"extrain",
+			"extraout",
+			"extrain",
+			"extra",
+			"onmouseoverextraout",
+			"onmouseoverextrain",
+			"extra",
+			"trace",
+			"rect",
+			"layoutDataWithMap",
+			"max",
+			"charts",
+			"	}",
+			"<",
+			"new Layout",
+			"visualization",
+			"console.log",
+			"whereConditions",
+			"addQueryParameters",
+			"Downloader",
+			"viz",
+			"=>",
+			"_hx_ano",
+			"gen_constant",
+			"$host",
+			"toolt",
+			"tool",
+			"0.5",
+			"handlerDataPointOver",
+			"moveTooltip",
+			"onmouseover",
+			"trace",
+			"mouseOver",
+			"onover",
+			"trace",
+			"onmouseoveredge",
+			"storeColorForSelection",
+			"displayGradient",
+			"colors",
+			"onmouseover",
+			"applyGradient",
+			"applyGra",
+			"handlerDataPointOver",
+			"toolt",
+			"new Tooltip()",
+			" ",
+			"over",
+			", animated : Bool",
+			"animated = true",
+			"0.25",
+			"too",
+			"Balloon",
+			"colorMode",
+			"rg.data.AxisOrdinal",
+			"rg.data.AxisTime",
+			"import rg.data.AxisNumeric;",
+			"rg.data.AxisOrdinalStats",
+			"rg.data.AxisOrdinalFixedValues",
+			"rg.data.AxisGroupByTime",
+			"rg.data.ITickmark",
+			"rg.data.IAxis",
+			"rg.data.Stats",
+			"rg.data.ScaleDistribution",
+			"rg.Visualizations"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"dhx.Dom",
+			"dhx.Selection",
+			"dhx.Dom",
+			"dhx.Selection",
+			"rg.axis.AxisOrdinal",
+			"rg.axis.AxisTime",
+			"import rg.axis.AxisNumeric;",
+			"rg.axis.AxisOrdinalStats",
+			"rg.axis.AxisOrdinalFixedValues",
+			"rg.axis.AxisGroupByTime",
+			"rg.axis.ITickmark",
+			"rg.axis.IAxis",
+			"rg.axis.Stats",
+			"rg.axis.ScaleDistribution",
+			"rg.visualization.Visualizations",
+			"rg.",
+			"VariableProcessor",
+			", \"",
+			" : ",
+			"},\n	",
+			",\n	",
+			" }",
+			"{ ",
+			"\\1\n\\2",
+			"\nL",
+			"\\1\"",
+			"\\1, summerGold : \\2, summerSilver : \\3, summerBronze : \\4, summerTotal : \\5, winters : \\6, winterGold : \\7, winterSilver : \\8, winterBronze : \\9, winterTotal : \\10, games : \\11, golds : \\12, silvers : \\13, bronzes : \\14, total : \\15 },",
+			"\"\\1\", code : \"\\2\", summers : ",
+			"	",
+			"	{ model : \"\\1\",	region : \"\\2\",	market : \"\\3\",	 quarter : \"\\4\",	value : \\5.0 },",
+			"{ model : \"\\1\",	region : \"\\2\",	market : \"\\3\",	 quarter : \"\\4\",	value : \"\\5\" },",
+			" : ",
+			"{ ",
+			"	",
+			"\",",
+			"{ model : \"\\1\", region : \"\\2\", market : \"\\3\", quarter : \"\\4\", value : \\5 },",
+			"snowCover",
+			"precipitation",
+			"tAverage",
+			"tMax",
+			"tMin",
+			"	deathRate : \\2,	race : \"\\1\"",
+			"{ year : \\1,	deathRate : \\2 },",
+			"snowcover : 0",
+			"snow : 0.0",
+			"precip : 0.00",
+			", tmax : \\1, tmin : \\2, precip : \\3, snow : \\4, snowcover : \\5 }, ",
+			"null",
+			"\"\\1\\2",
+			"{ \"time:day\" : \"\\1-0\\2-0\\3\", ",
+			", tmax : \\1, tmin : \\2, precip : \\3, snow : \\4, snowcover : \\5 },",
+			"null",
+			"\"\\1\\2",
+			"\"\\1-\\2",
+			"{ \"time:day\" : \"\\1-0\\2-0\\3\", ",
+			"{ \"time:day\" : \"\\1-\\2-\\3\", ",
+			"{ \"time:day\" : \"%1-%2-%3\", ",
+			"head",
+			"tail",
+			"head",
+			"tail",
+			"newhead",
+			"parallelExecution"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "release.sh",
+					"settings":
+					{
+						"buffer_size": 204,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								178,
+								178
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "thx.js.hxml",
+					"settings":
+					{
+						"buffer_size": 58,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HaXe/Hxml.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "doc.hxml",
+					"settings":
+					{
+						"buffer_size": 1184,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HaXe/Hxml.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/thx/text/Inflections.hx",
+					"settings":
+					{
+						"buffer_size": 4563,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2768,
+								2768
+							]
+						],
+						"settings":
+						{
+							"haxe-build-id": 0,
+							"syntax": "Packages/HaXe/HaXe.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 840.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"settings":
+					{
+						"buffer_size": 800,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										182,
+										192
+									],
+									[
+										416,
+										426
+									],
+									[
+										480,
+										490
+									],
+									[
+										503,
+										513
+									],
+									[
+										673,
+										683
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								593,
+								593
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/thx/ini/IniEncoder.hx",
+					"settings":
+					{
+						"buffer_size": 3105,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"haxe-build-id": 0,
+							"syntax": "Packages/HaXe/HaXe.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "thx.swf9.hxml",
+					"settings":
+					{
+						"buffer_size": 69,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								47,
+								47
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HaXe/Hxml.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "thx.swf.hxml",
+					"settings":
+					{
+						"buffer_size": 86,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								64,
+								64
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HaXe/Hxml.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 32.0
+	},
+	"input":
+	{
+		"height": 27.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"jsbri",
+				"charts/src/rg/app/charts/JSBridge.hx"
+			],
+			[
+				"elbo",
+				"lib/src/rg/svg/widget/ElbowArea.hx"
+			],
+			[
+				"gradien",
+				"lib/src/rg/svg/chart/GradientEffects.hx"
+			],
+			[
+				"inter",
+				"src/thx/svg/LineInterpolators.hx"
+			],
+			[
+				"symbolca",
+				"lib/src/rg/svg/util/SymbolCache.hx"
+			],
+			[
+				"symb",
+				"src/thx/svg/Symbol.hx"
+			],
+			[
+				"jsb",
+				"charts/src/rg/app/charts/JSBridge.hx"
+			],
+			[
+				"attr",
+				"thx/src/thx/js/AccessAttribute.hx"
+			],
+			[
+				"linec",
+				"lib/src/rg/svg/chart/LineChart.hx"
+			],
+			[
+				"rg-cha",
+				"lib/css/rg-charts.css"
+			],
+			[
+				"orth",
+				"lib/src/rg/svg/layer/RulesOrtho.hx"
+			],
+			[
+				"scale",
+				"lib/src/rg/axis/ScaleDistributions.hx"
+			],
+			[
+				"period",
+				"lib/src/rg/util/Periodicity.hx"
+			],
+			[
+				"time",
+				"lib/src/rg/axis/AxisTime.hx"
+			],
+			[
+				"linech",
+				"lib/src/rg/svg/chart/LineChart.hx"
+			],
+			[
+				"rgcon",
+				"lib/src/rg/RGConst.hx"
+			],
+			[
+				"app",
+				"charts/src/rg/app/charts/App.hx"
+			],
+			[
+				"infoo",
+				"lib/src/rg/info/InfoVisualizationOption.hx"
+			],
+			[
+				"infodo",
+				"lib/src/rg/info/InfoDownload.hx"
+			],
+			[
+				"lega",
+				"lib/src/rg/interactive/RGLegacyRenderer.hx"
+			],
+			[
+				"sane",
+				"lib/src/rg/svg/chart/Sankey.hx"
+			],
+			[
+				"rg-c",
+				"lib/css/rg-charts.css"
+			],
+			[
+				"line",
+				"src/thx/svg/Line.hx"
+			],
+			[
+				"rule",
+				"lib/src/rg/svg/layer/RulesOrtho.hx"
+			],
+			[
+				"piec",
+				"lib/src/rg/svg/chart/PieChart.hx"
+			],
+			[
+				"buil",
+				"charts/build.hxml"
+			],
+			[
+				"infolin",
+				"lib/src/rg/info/InfoLineChart.hx"
+			],
+			[
+				"pan",
+				"lib/src/rg/svg/panel/Panel.hx"
+			],
+			[
+				"pane",
+				"lib/src/rg/svg/panel/Panel.hx"
+			],
+			[
+				"panels",
+				"lib/src/rg/svg/panel/Panels.hx"
+			],
+			[
+				"too",
+				"lib/src/rg/html/widget/Tooltip.hx"
+			],
+			[
+				"el",
+				"lib/src/rg/svg/widget/ElbowArea.hx"
+			],
+			[
+				"sank",
+				"lib/src/rg/svg/chart/Sankey.hx"
+			],
+			[
+				"diag",
+				"lib/src/rg/svg/widget/DiagonalArea.hx"
+			],
+			[
+				"hoo",
+				"lib/src/rg/svg/widget/HookConnectorArea.hx"
+			],
+			[
+				"visua",
+				"lib/src/rg/visualization/VisualizationSankey.hx"
+			],
+			[
+				"sankey",
+				"lib/src/rg/svg/chart/Sankey.hx"
+			],
+			[
+				"rgco",
+				"lib/src/rg/RGConst.hx"
+			],
+			[
+				"rgc",
+				"lib/src/rg/RGConst.hx"
+			],
+			[
+				"rg.",
+				"lib/src/rg/util/RG.hx"
+			],
+			[
+				"selec",
+				"src/thx/js/Selection.hx"
+			],
+			[
+				"macro",
+				"src/thx/util/MacroVersion.hx"
+			],
+			[
+				"infosank",
+				"lib/src/rg/info/InfoSankey.hx"
+			],
+			[
+				"templ",
+				"charts/bin/service/template.php"
+			],
+			[
+				"graphcollection",
+				"lib/src/rg/graph/GraphCollection.hx"
+			],
+			[
+				"gn",
+				"lib/src/rg/graph/GraphNodes.hx"
+			],
+			[
+				"visualizations",
+				"lib/src/rg/visualization/VisualizationSankey.hx"
+			],
+			[
+				"sanke",
+				"lib/src/rg/svg/chart/Sankey.hx"
+			],
+			[
+				"infosan",
+				"lib/src/rg/info/InfoSankey.hx"
+			],
+			[
+				"infopie",
+				"lib/src/rg/info/InfoPieChart.hx"
+			],
+			[
+				"funn",
+				"lib/src/rg/svg/chart/FunnelChart.hx"
+			],
+			[
+				"tool",
+				"lib/src/rg/html/widget/Tooltip.hx"
+			],
+			[
+				"map",
+				"lib/src/rg/svg/widget/Map.hx"
+			],
+			[
+				"elb",
+				"lib/src/rg/svg/widget/ElbowArea.hx"
+			],
+			[
+				"dia",
+				"lib/src/rg/svg/widget/DiagonalArea.hx"
+			],
+			[
+				"toolt",
+				"lib/src/rg/html/widget/Tooltip.hx"
+			],
+			[
+				"chart.",
+				"lib/src/rg/svg/chart/Chart.hx"
+			],
+			[
+				"pivo",
+				"lib/src/rg/html/chart/PivotTable.hx"
+			],
+			[
+				"infovisualizationoption",
+				"lib/src/rg/info/InfoVisualizationOption.hx"
+			],
+			[
+				"",
+				"lib/src/rg/svg/chart/Chart.hx"
+			],
+			[
+				"carte",
+				"lib/src/rg/svg/chart/CartesianChart.hx"
+			],
+			[
+				"chart",
+				"lib/src/rg/svg/chart/Chart.hx"
+			],
+			[
+				"lo",
+				"charts/src/rg/html/widget/Logo.hx"
+			],
+			[
+				"rg.c",
+				"lib/css/rg.css"
+			],
+			[
+				"logo",
+				"charts/src/rg/html/widget/Logo.hx"
+			],
+			[
+				"panel",
+				"lib/src/rg/svg/panel/Panel.hx"
+			],
+			[
+				"axist",
+				"lib/src/rg/axis/AxisTime.hx"
+			],
+			[
+				"iaxis",
+				"lib/src/rg/axis/IAxisOrdinal.hx"
+			],
+			[
+				"iax",
+				"lib/src/rg/axis/IAxisDiscrete.hx"
+			],
+			[
+				"var",
+				"lib/src/rg/data/Variable.hx"
+			],
+			[
+				"strea",
+				"lib/src/rg/svg/chart/StreamGraph.hx"
+			],
+			[
+				"rgstr",
+				"lib/src/rg/util/RGStrings.hx"
+			],
+			[
+				"prope",
+				"lib/src/rg/util/Properties.hx"
+			],
+			[
+				"ballo",
+				"lib/src/rg/view/svg/widget/Balloon.hx"
+			],
+			[
+				"visu",
+				"lib/src/rg/controller/visualization/Visualization.hx"
+			],
+			[
+				"ball",
+				"lib/src/rg/view/svg/widget/Balloon.hx"
+			],
+			[
+				"area",
+				"src/thx/svg/Area.hx"
+			],
+			[
+				"lineinte",
+				"src/thx/svg/LineInternals.hx"
+			],
+			[
+				"lineinter",
+				"src/thx/svg/LineInterpolator.hx"
+			],
+			[
+				"lineinterpo",
+				"src/thx/svg/LineInterpolators.hx"
+			],
+			[
+				"dynami",
+				"thx/src/Dynamics.hx"
+			],
+			[
+				"erro",
+				"src/thx/error/Error.hx"
+			],
+			[
+				"dynamic",
+				"thx/src/Dynamics.hx"
+			],
+			[
+				"strings",
+				"src/Strings.hx"
+			],
+			[
+				"dynamics",
+				"src/Dynamics.hx"
+			],
+			[
+				"object",
+				"src/Objects.hx"
+			],
+			[
+				"datalo",
+				"lib/src/rg/data/DataLoader.hx"
+			],
+			[
+				"chain",
+				"lib/src/rg/util/ChainedExecutor.hx"
+			],
+			[
+				"san",
+				"lib/src/rg/view/svg/chart/Sankey.hx"
+			],
+			[
+				"chained",
+				"lib/src/rg/util/ChainedExecutor.hx"
+			],
+			[
+				"datal",
+				"lib/src/rg/data/DataLoader.hx"
+			],
+			[
+				"dataco",
+				"lib/src/rg/data/DataContext.hx"
+			],
+			[
+				"factor",
+				"lib/src/rg/controller/factory/FactoryVariable.hx"
+			],
+			[
+				"facto",
+				"lib/src/rg/controller/factory/FactoryDataSource.hx"
+			],
+			[
+				"datare",
+				"lib/src/rg/data/DataRequest.hx"
+			],
+			[
+				"fact",
+				"lib/src/rg/controller/factory/FactoryVariable.hx"
+			],
+			[
+				"sele",
+				"src/thx/js/Selection.hx"
+			],
+			[
+				"dom.",
+				"src/thx/js/Dom.hx"
+			],
+			[
+				"accesst",
+				"src/thx/js/AccessText.hx"
+			],
+			[
+				"app.",
+				"charts/src/rg/controller/App.hx"
+			],
+			[
+				"logo.",
+				"charts/src/rg/view/html/widget/Logo.hx"
+			],
+			[
+				"layout.",
+				"lib/src/rg/view/layout/Layout.hx"
+			],
+			[
+				"space",
+				"lib/src/rg/view/svg/panel/Space.hx"
+			],
+			[
+				"hsl.",
+				"src/thx/color/Hsl.hx"
+			],
+			[
+				"dow",
+				"lib/src/rg/view/html/widget/DownloaderPositions.hx"
+			],
+			[
+				"down",
+				"lib/src/rg/view/html/widget/DownloaderMenu.hx"
+			],
+			[
+				"downl",
+				"lib/src/rg/view/html/widget/DownloaderMenu.hx"
+			],
+			[
+				"rgcolo",
+				"lib/src/rg/util/RGColors.hx"
+			],
+			[
+				"hsl",
+				"src/thx/color/Hsl.hx"
+			],
+			[
+				"cmyk",
+				"src/thx/color/Cmyk.hx"
+			],
+			[
+				"gre",
+				"src/thx/color/Grey.hx"
+			],
+			[
+				"rgb",
+				"src/thx/color/Rgb.hx"
+			],
+			[
+				"rgcss",
+				"lib/src/rg/view/svg/util/RGCss.hx"
+			],
+			[
+				"colo",
+				"lib/src/rg/view/svg/chart/ColorScaleMode.hx"
+			],
+			[
+				"labe",
+				"lib/src/rg/view/svg/widget/Label.hx"
+			],
+			[
+				"lab",
+				"lib/src/rg/view/svg/widget/LabelOrientations.hx"
+			],
+			[
+				"orient",
+				"lib/src/rg/view/svg/widget/LabelOrientations.hx"
+			],
+			[
+				"bal",
+				"lib/src/rg/view/svg/widget/Balloon.hx"
+			],
+			[
+				"grap",
+				"lib/src/rg/graph/GraphLayout.hx"
+			],
+			[
+				"datapo",
+				"lib/src/rg/util/DataPoints.hx"
+			],
+			[
+				"longe",
+				"lib/src/rg/graph/LongestPathLayer.hx"
+			],
+			[
+				"sug",
+				"lib/src/rg/graph/SugiyamaMethod.hx"
+			],
+			[
+				"colors",
+				"lib/src/rg/view/svg/chart/ColorScaleMode.hx"
+			],
+			[
+				"stre",
+				"lib/src/rg/view/svg/chart/StreamEffects.hx"
+			],
+			[
+				"labelor",
+				"lib/src/rg/view/svg/widget/LabelOrientations.hx"
+			],
+			[
+				"infod",
+				"lib/src/rg/controller/info/InfoDownload.hx"
+			],
+			[
+				"downloader",
+				"lib/src/rg/controller/interactive/Downloader.hx"
+			],
+			[
+				"infodataso",
+				"visualizations/src/rg/controller/info/InfoDataSource.hx"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"tr",
+				"/Users/francoponticelli/Projects/reportgrid/test/account/account.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 285.0,
+	"status_bar_visible": true
+}

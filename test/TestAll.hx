@@ -16,7 +16,6 @@ class TestAll
 		Imports.pack("thx.svg", true);
 		Imports.pack("thx.geo", true);
 
-
 		Culture.defaultCulture = thx.cultures.EnUS.culture;
 
 		thx.collection.TestAll.addTests(runner);
