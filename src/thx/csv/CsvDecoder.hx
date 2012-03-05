@@ -24,8 +24,8 @@ class CsvDecoder
 	public var column(default, null) : Int;
 	public var check_type(default, null) : Bool;
 	var handler : IDataHandler;
-	
-	public function new(handler : IDataHandler, check_type = true, delimiter = ",", emptytonull = false, newline = "\r\n|\n|\r", 
+
+	public function new(handler : IDataHandler, check_type = true, delimiter = ",", emptytonull = false, newline = "\r\n|\n|\r",
 						quote = '"', doublequotations = true, trim_whitespace = true)
 	{
 		this.handler = handler;
@@ -35,18 +35,18 @@ class CsvDecoder
 		this.doublequotations = doublequotations;
 		this.trim_whitespace = trim_whitespace;
 		this.check_type = check_type;
-		
+
 		if (newline != "\r\n|\n|\r")
 			newline = ERegs.escapeERegChars(newline);
 
 		this.newline = newline;
 		_end = new EReg("(" + ERegs.escapeERegChars(delimiter) + "|" + newline + "|$)", "");
 	}
-	
+
 	var _s : String;
 	var _end : EReg;
 	var _typers : Array<String->Dynamic>;
-	
+
 	public function decode(s : String)
 	{
 		_s = s;
@@ -59,7 +59,7 @@ class CsvDecoder
 		handler.endArray();
 		handler.end();
 	}
-	
+
 	function parseLine()
 	{
 		handler.startItem();
@@ -70,15 +70,15 @@ class CsvDecoder
 		handler.endArray();
 		line++;
 		handler.endItem();
-			
+
 	}
-	
+
 	function parseValue()
-	{	
+	{
 		if (_s.substr(0, 1) == quote) // QUOTED VALUE
 		{
 			var pos = _s.indexOf(quote, 1);
-			
+
 			if (pos != -1){
 				if (doublequotations){
 					while (_s.substr(pos+1, 1) == quote){ // DOUBLE DOUBLE QUOTE
@@ -90,7 +90,7 @@ class CsvDecoder
 					}		
 				}
 			} else pos = _s.length;
-			
+
 			var v = _s.substr(1, pos - 1);
 			_s = _s.substr(pos + 1);
 			typeString(StringTools.replace(v, quote+quote, quote));
@@ -103,7 +103,7 @@ class CsvDecoder
 		// UNQUOTED VALUE
 		if (!_end.match(_s))
 			error(_s);
-		
+
 		_s = _end.matchedRight();
 		if(line == 1){
 			var v = _end.matchedLeft();
@@ -122,13 +122,13 @@ class CsvDecoder
 			return false;
 		}
 	}
-	
+
 	function error(e)
 	{
 		return throw new Error("invalid string value '{0}' at line {1}, column {2}", [Strings.ellipsis(e, 50), line, column]);
 	}
-	
-	
+
+
 	function getTyper(s : String)
 	{
 		var typer = _typers[column];
@@ -136,13 +136,13 @@ class CsvDecoder
 		{
 
 			if (s == '') // can't guess type ... delegate to next
-				return typeToken;	
+				return typeToken;
 			if (!check_type)
 				typer = _typers[column] = typeString;
 			else if (Ints.canParse(s))
 				typer = _typers[column] = typeInt;
 			else if (NumberParser.canParse(s,Culture.defaultCulture))
-				typer = _typers[column] = typeCultureFloat;	
+				typer = _typers[column] = typeCultureFloat;
 			else if (Floats.canParse(s))
 				typer = _typers[column] = typeFloat;
 			else if (Bools.canParse(s))
@@ -154,7 +154,7 @@ class CsvDecoder
 		}
 		return typer;
 	}
-	
+
 	function typeToken(s : String)
 	{
 
@@ -171,7 +171,7 @@ class CsvDecoder
 		else
 			typeString(s);
 	}
-	
+
 	function typeInt(s : String)
 	{
 		handler.startItem();
@@ -184,28 +184,28 @@ class CsvDecoder
 		handler.float(NumberParser.parse(s,Culture.defaultCulture));
 		handler.endItem();
 	}
-	
+
 	function typeFloat(s : String)
 	{
 		handler.startItem();
 		handler.float(Floats.parse(s));
 		handler.endItem();
 	}
-	
+
 	function typeBool(s : String)
 	{
 		handler.startItem();
 		handler.bool(Bools.parse(s));
 		handler.endItem();
 	}
-	
+
 	function typeDate(s : String)
 	{
 		handler.startItem();
 		handler.date(Dates.parse(s));
 		handler.endItem();
 	}
-	
+
 	function typeString(s : String)
 	{
 		handler.startItem();

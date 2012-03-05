@@ -13,7 +13,7 @@ class IniEncoder implements IDataHandler
 	public var ignorecomments(default, null) : Bool;
 	public var newline(default, null) : String;
 	var buf : StringBuf;
-	
+
 	public var encodedString(default, null) : String;
 
 	public function new(newline = "\n", ignorecomments = true)
@@ -21,24 +21,24 @@ class IniEncoder implements IDataHandler
 		this.newline = newline;
 		this.ignorecomments = ignorecomments;
 	}
-	
+
 	var inarray : Int;
 	var cache : Hash<Array<String>>;
 	var value : String;
 	var stack : Array<String>;
-	
+
 	public function start()
 	{
 		inarray = 0;
 		stack = [];
 		cache = new Hash();
 	}
-	
+
 	public function end()
 	{
 		var keys = Iterators.order(cache.keys());
 		var lines = [];
-		
+
 		for (key in keys)
 		{
 			if ("" != key)
@@ -50,20 +50,20 @@ class IniEncoder implements IDataHandler
 		}
 		encodedString = StringTools.trim(lines.join(newline));
 	}
-	
-	
+
+
 	public function startObject()
 	{
 		if (inarray > 0)
 			throw new Error("arrays must contain only primitive values");
 	}
-	
+
 	public function startField(name : String)
 	{
 		stack.push(enc(name));
 		value = "";
 	}
-	
+
 	public function endField() : Void
 	{
 		if (null == value)
@@ -74,7 +74,7 @@ class IniEncoder implements IDataHandler
 		section.push(key + "=" + value);
 		value = null;
 	}
-	
+
 	function getSection(name : String)
 	{
 		var section = cache.get(name);
@@ -85,12 +85,12 @@ class IniEncoder implements IDataHandler
 		}
 		return section;
 	}
-	
+
 	public function endObject()
 	{
 		stack.pop();
 	}
-	
+
 	public function startArray()
 	{
 		if (inarray > 0)
@@ -98,7 +98,7 @@ class IniEncoder implements IDataHandler
 		inarray = 1;
 		value = "";
 	}
-	
+
 	public function startItem()
 	{
 		if (inarray == 1)
@@ -106,17 +106,17 @@ class IniEncoder implements IDataHandler
 		else
 			value += ", ";
 	}
-	
+
 	public function endItem()
 	{
-		
+
 	}
-	
+
 	public function endArray()
 	{
 		inarray = 0;
 	}
-	
+
 	public function date(d : Date)
 	{
 		if (d.getSeconds() == 0 && d.getMinutes() == 0 && d.getHours() == 0)
@@ -131,22 +131,22 @@ class IniEncoder implements IDataHandler
 		else
 			value += quote(s);
 	}
-	
+
 	public static var decoded = ['\\', String.fromCharCode(0), String.fromCharCode(7), String.fromCharCode(8), '\t', '\r', '\n', ';', '#', '=', ':'];
 	public static var encoded = ['\\\\', '\\0', '\\a', '\\b', '\\t', '\\r', '\\n', '\\;', '\\#', '\\=', '\\:'];
-	
+
 	function enc(s)
 	{
 		for (i in 0...decoded.length)
 			s = StringTools.replace(s, decoded[i], encoded[i]);
 		return s;
 	}
-	
+
 	function quote(s)
 	{
 		return '"' + StringTools.replace(enc(s), '"', '\\"') + '"';
 	}
-	
+
 	public function int(i : Int)
 	{
 		value += i;
@@ -164,7 +164,7 @@ class IniEncoder implements IDataHandler
 		if(!ignorecomments)
 			value += "#" + s;
 	}
-	
+
 	public function bool(b : Bool)
 	{
 		value += b ? "ON" : "OFF";

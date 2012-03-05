@@ -55,7 +55,7 @@ class Rttis
 				return opt ? 'Null<'+t+'>' : t;
 		}
 	}
-	
+
 	public static function typePath(type : CType)
 	{
 		switch(type)
@@ -66,7 +66,19 @@ class Rttis
 				return name;
 		}
 	}
-	
+
+	public static function methodArgumentTypes(cls : Class<Dynamic>, method : String) : Null<Array<String>>
+	{
+		var fields = getClassFields(cls);
+		if(null == fields) return null;
+		var field = fields.get(method);
+		if(null == field) return null;
+		var result = [];
+		for(arg in methodArguments(field))
+			result.push(typeName(arg.t, arg.opt));
+		return result;
+	}
+
 	public static function methodArguments(field : ClassField)
 	{
 		switch(field.type)
@@ -77,7 +89,7 @@ class Rttis
 				return null;
 		}
 	}
-	
+
 	public static function methodReturnType(field : ClassField)
 	{
 		switch(field.type)
@@ -88,7 +100,7 @@ class Rttis
 				return null;
 		}
 	}
-	
+
 	public static function argumentAcceptNull(arg : {name : String, opt : Bool, t : CType})
 	{
 		if(arg.opt)
@@ -101,12 +113,12 @@ class Rttis
 				return false;
 		}
 	}
-	
+
 	public static function getClassFields(cls : Class<Dynamic>)
 	{
 		return unifyFields(getClassDef(cls));
 	}
-	
+
 	public static function typeParametersMap(cls : Class<Dynamic>, ?hash : Hash<CType>)
 	{
 		if(null == hash)
@@ -160,10 +172,10 @@ class Rttis
 		var name = Type.getClassName(cls);
 		if (_cache.exists(name))
 			return _cache.get(name);
-		
+
 		var x = Xml.parse(untyped cls.__rtti).firstElement();
 		var infos = new haxe.rtti.XmlParser().processElement(x);
-		
+
 		switch(infos)
 		{
 			case TClassdecl(c):
@@ -173,7 +185,7 @@ class Rttis
 				return throw new Error("not a class!");
 		}
 	}
-	
+
 	public static function isMethod(field : ClassField)
 	{
 		return switch(field.type)

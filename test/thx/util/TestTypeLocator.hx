@@ -12,12 +12,12 @@ import utest.ui.Report;
 import thx.util.type.ITest;
 import thx.util.type.TestImplementation;
 
-class TestTypeFactory
+class TestTypeLocator
 {
 	public function testBind()
 	{
-		var factory = new TypeFactory().bind(ITest, function() return new TestImplementation() );
-		var o = factory.get(ITest);
+		var locator = new TypeLocator().bind(ITest, function() return new TestImplementation() );
+		var o = locator.get(ITest);
 		Assert.is(o, ITest);
 		Assert.is(o, TestImplementation);
 		Assert.equals("hi", o.sayHello());
@@ -25,9 +25,9 @@ class TestTypeFactory
 	
 	public function testUnbinded()
 	{
-		var factory = new TypeFactory();
-		Assert.isNull(factory.get(ITest));
-		factory.unbinded = function(cls : Class<Dynamic>)
+		var locator = new TypeLocator();
+		Assert.isNull(locator.get(ITest));
+		locator.unbinded = function(cls : Class<Dynamic>)
 		{
 			if ('thx.util.type.ITest' == Type.getClassName(cls)) // prevent js from instantiating a interface ob
 				return null;
@@ -38,44 +38,44 @@ class TestTypeFactory
 				return null;
 			}
 		}
-		Assert.isNull(factory.get(ITest));
-		Assert.notNull(factory.get(TestImplementation));
-		Assert.is(factory.get(TestImplementation), TestImplementation);
+		Assert.isNull(locator.get(ITest));
+		Assert.notNull(locator.get(TestImplementation));
+		Assert.is(locator.get(TestImplementation), TestImplementation);
 	}
 	
 	public function testInstance()
 	{
-		var factory = new TypeFactory().instance(ITest, new TestImplementation());
-		var o = factory.get(ITest);
+		var locator = new TypeLocator().instance(ITest, new TestImplementation());
+		var o = locator.get(ITest);
 		Assert.equals(0, o.counter);
 		o.counter++;
-		o = factory.get(ITest);
+		o = locator.get(ITest);
 		Assert.equals(1, o.counter);
 	}
 	
 	public function testMultipleInstances()
 	{
-		var factory = new TypeFactory().bind(ITest, function() return new TestImplementation() );
-		var o = factory.get(ITest);
+		var locator = new TypeLocator().bind(ITest, function() return new TestImplementation() );
+		var o = locator.get(ITest);
 		Assert.equals(0, o.counter);
 		o.counter++;
-		o = factory.get(ITest);
+		o = locator.get(ITest);
 		Assert.equals(0, o.counter);
 	}
 	
 	public function testMemoize()
 	{
-		var factory = new TypeFactory().memoize(ITest, function() return new TestImplementation() );
-		var o = factory.get(ITest);
+		var locator = new TypeLocator().memoize(ITest, function() return new TestImplementation() );
+		var o = locator.get(ITest);
 		Assert.equals(0, o.counter);
 		o.counter++;
-		o = factory.get(ITest);
+		o = locator.get(ITest);
 		Assert.equals(1, o.counter);
 	}
 	
 	public static function addTests(runner : Runner)
 	{
-    	runner.addCase(new TestTypeFactory());
+    	runner.addCase(new TestTypeLocator());
 	}
 	
 	public static function main()

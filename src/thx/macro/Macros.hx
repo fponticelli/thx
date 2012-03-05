@@ -11,7 +11,7 @@ class Macros
 	{
 		return stringOfExprDef(e.expr);
 	}
-	
+
 	public static function stringOfExprDef(exp : ExprDef) : String
 	{
 		return switch(exp)
@@ -50,7 +50,7 @@ class Macros
 				"ERROR";
 		}
 	}
-	
+
 	static function wrap<T>(elements : Array<T>, handler : T -> String, prefix = "", suffix = "", separator = ",") : String
 	{
 		var buf = new StringBuf();
@@ -64,7 +64,7 @@ class Macros
 		buf.add(suffix);
 		return buf.toString();
 	}
-	
+
 	public static function stringOfBinop(b : Binop)
 	{
 		return switch(b)
@@ -93,7 +93,7 @@ class Macros
 			case OpInterval: 	"...";
 		}
 	}
-	
+
 	public static function stringOfConstant(c : Constant)
 	{
 		return switch(c)
@@ -103,7 +103,7 @@ class Macros
 			case CRegexp(r, opt): "new EReg('" + StringTools.replace(r, "'", "\\'") + "')";
 		}
 	}
-	
+
 	public static function stringOfUnop(o : Unop)
 	{
 		return switch(o)
@@ -115,14 +115,14 @@ class Macros
 			case OpNegBits:		"~";
 		}
 	}
-	
+
 	public static function stringOfTypePath(t : TypePath)
 	{
 		var pack = t.pack.length == 0 ? "" : t.pack.join(".") + ".";
 		var params = t.params.length == 0 ? "" : wrap(t.params, stringOfTypeParam, "<", ">");
 		return pack + t.name + params;
 	}
-	
+
 	public static function stringOfComplexType(t : ComplexType)
 	{
 		return switch(t)
@@ -134,7 +134,7 @@ class Macros
 			case TExtend(p, fields):	"{>" + stringOfTypePath(p) + "," + wrap(fields, stringOfField, "", "}");
 		}
 	}
-	
+
 	public static function stringOfTypeParam(p : TypeParam)
 	{
 		return switch(p)
@@ -143,19 +143,19 @@ class Macros
 			case TPConst(c):	stringOfConstant(c);
 		}
 	}
-	
+
 	public static function stringOfTypeParams(p : Array<{ name : String, constraints : Array<ComplexType> }>)
 	{
 		return wrap(p, function(item) {
-			return item.name + (null == item.constraints || item.constraints.length == 0 ? "" : " " + Arrays.map(item.constraints, function(d, i) return stringOfComplexType(d)).join(", ")); 
+			return item.name + (null == item.constraints || item.constraints.length == 0 ? "" : " " + Arrays.map(item.constraints, function(d, i) return stringOfComplexType(d)).join(", "));
 		}, "<", ">");
 	}
-	
+
 	public static function stringOfFunction(f : Function)
 	{
 		return "function" + wrap(f.args, stringOfFunctionArg, "(", ")") + (null != f.ret ? " : " + stringOfComplexType(f.ret) : "") + stringOfExpr(f.expr);
 	}
-	
+
 	public static function stringOfFunctionArg(a : FunctionArg)
 	{
 		return
@@ -164,7 +164,7 @@ class Macros
 			+ (null != a.type ? " : " + stringOfComplexType(a.type) : "")
 			+ (null != a.value ? " = " + stringOfExpr(a.value) : "");
 	}
-	
+
 	public static function stringOfField(f : Field)
 	{
 		var s = "";
@@ -188,7 +188,7 @@ class Macros
 		}
 		return s + stringOfFieldType(f.kind, f.name) + ";";
 	}
-	
+
 	public static function stringOfFieldType(f : FieldType, name : String)
 	{
 		return switch(f)

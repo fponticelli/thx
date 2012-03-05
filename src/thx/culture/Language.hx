@@ -12,7 +12,7 @@ class Language extends Info
 			languages = new Hash();
 		return languages;
 	}
-	
+
 	public static function get(name : String) : Language {
 		return languages.get(name.toLowerCase());
 	}

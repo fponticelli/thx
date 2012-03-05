@@ -12,7 +12,7 @@ import utest.ui.Report;
 import thx.util.type.ITest;
 import thx.util.type.TestImplementation;
 
-class TestTypeServiceLocator
+class TestTypeLocator
 {
 	public function testBind()
 	{
@@ -22,7 +22,7 @@ class TestTypeServiceLocator
 		Assert.is(o, TestImplementation);
 		Assert.equals("hi", o.sayHello());
 	}
-	
+
 	public function testUnbinded()
 	{
 		var locator = new TypeServiceLocator();
@@ -42,7 +42,7 @@ class TestTypeServiceLocator
 		Assert.notNull(locator.get(TestImplementation));
 		Assert.is(locator.get(TestImplementation), TestImplementation);
 	}
-	
+
 	public function testInstance()
 	{
 		var locator = new TypeServiceLocator().instance(ITest, new TestImplementation());
@@ -52,7 +52,7 @@ class TestTypeServiceLocator
 		o = locator.get(ITest);
 		Assert.equals(1, o.counter);
 	}
-	
+
 	public function testMultipleInstances()
 	{
 		var locator = new TypeServiceLocator().bind(ITest, function() return new TestImplementation() );
@@ -62,7 +62,7 @@ class TestTypeServiceLocator
 		o = locator.get(ITest);
 		Assert.equals(0, o.counter);
 	}
-	
+
 	public function testMemoize()
 	{
 		var locator = new TypeServiceLocator().memoize(ITest, function() return new TestImplementation() );
@@ -72,12 +72,12 @@ class TestTypeServiceLocator
 		o = locator.get(ITest);
 		Assert.equals(1, o.counter);
 	}
-	
+
 	public static function addTests(runner : Runner)
 	{
     	runner.addCase(new TestTypeServiceLocator());
 	}
-	
+
 	public static function main()
 	{
 		var runner = new Runner();
@@ -85,6 +85,6 @@ class TestTypeServiceLocator
 		Report.create(runner);
 		runner.run();
 	}
-	
+
 	public function new(){}
 }

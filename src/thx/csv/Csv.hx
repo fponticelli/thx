@@ -18,15 +18,11 @@ class Csv
 	}
 /**
  *  Parses and decodes well structured csv data.
- **/	
+ **/
 	public static function decode(value : String, ?check_type:Bool, ?delimiter : String,  ?emptytonull:Bool, ?newline: String, ?quote: String, ?doublequotations: Bool, ?skipwhitespace: Bool) : Array<Array<Dynamic>>
 	{
 		var handler = new ValueHandler();
 		new CsvDecoder(handler, check_type, delimiter , emptytonull, newline, quote, doublequotations, skipwhitespace).decode(value);
 		return handler.value;
 	}
-	
-
-
-	
 }

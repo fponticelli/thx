@@ -14,14 +14,14 @@ import thx.error.Error;
 class IniDecoder
 {
 	static var linesplitter = ~/[^\\](#|;)/;
-	
+
 	public var emptytonull(default, null) : Bool;
 	public var explodesections(default, null) : Bool;
 	var handler : IDataHandler;
 	var other : IDataHandler;
 	var value : ValueHandler;
 	var insection : Bool;
-	
+
 	public function new(handler : IDataHandler, explodesections = true, emptytonull = true)
 	{
 		this.explodesections = explodesections;
@@ -34,12 +34,12 @@ class IniDecoder
 		}
 		this.emptytonull = emptytonull;
 	}
-	
+
 	public function decode(s : String)
 	{
 		handler.start();
 		handler.startObject();
-		
+
 		insection = false;
 		decodeLines(s);
 		if (insection)
@@ -49,13 +49,13 @@ class IniDecoder
 		}
 		handler.endObject();
 		handler.end();
-		
+
 		if (explodesections)
 		{
 			new ValueEncoder(other).encode(explodeSections(value.value));
 		}
 	}
-	
+
 	static function explodeSections(o : { } )
 	{
 		for (field in Reflect.fields(o))
@@ -78,14 +78,14 @@ class IniDecoder
 		}
 		return o;
 	}
-	
+
 	function decodeLines(s)
 	{
 		var lines = (~/(\n\r|\n|\r)/g).split(s);
 		for (line in lines)
 			decodeLine(line);
 	}
-	
+
 	function decodeLine(line : String)
 	{
 		if (StringTools.trim(line) == '')
@@ -108,7 +108,7 @@ class IniDecoder
 				handler.comment(line.substr(1));
 				return;
 		}
-		
+
 		var pos = 0;
 		do
 		{
@@ -126,14 +126,14 @@ class IniDecoder
 			handler.comment(parts[1]);
 		handler.endField();
 	}
-	
+
 	function dec(s : String)
 	{
 		for (i in 0...IniEncoder.encoded.length)
 			s = StringTools.replace(s, IniEncoder.encoded[i], IniEncoder.decoded[i]);
 		return s;
 	}
-	
+
 	function decodeValue(s : String)
 	{
 		s = StringTools.trim(s);

@@ -16,9 +16,9 @@ class NestedKey extends Example
 	{
 		var data = Ints.range(10).map(function(_,_) return Ints.range(10).map(function(_,_) return Std.random(360))),
 			container = this.container;
-		
+
 		var table = container.append("table").attr("class").string("nestedkey");
-		
+
 		function transform()
 		{
 			var t = table
@@ -28,17 +28,15 @@ class NestedKey extends Example
 			t.enter().append("tr")
 				.selectAll("td")
 					.selfData()
-				.enter().append("td")
-					.style("background-color").stringf(function(d, i) return new Hsl(d, 1, .5).toHslString())
-					.text().data();
-					
+				.enter().append("td");
+
 			t.update().selectAll("td")
 				.selfData()
 				.update()
 				.style("background-color").stringf(function(d, i) return new Hsl(d, 1, .5).toHslString())
 				.text().data();
 		}
-		
+
 		_refresh = function(_)
 		{
 			for (i in 0...10)
@@ -50,7 +48,7 @@ class NestedKey extends Example
 			}
 			transform();
 		}
-		
+
 		transform();
 
 		untyped Lib.window.addEventListener("keypress", _refresh, false);
@@ -60,6 +58,6 @@ class NestedKey extends Example
 	{
 		untyped Lib.window.removeEventListener("keypress", _refresh, false);
 	}
-	
+
 	override function description() return "Html table filled with data from a 2 dimensional array. Press any key to increment the values."
 }

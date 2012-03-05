@@ -13,7 +13,7 @@ class ValueHandler implements IDataHandler
 	var _stack : Array<Dynamic>;
 	var _names : Array<String>;
 	public function new(){}
-	
+
 	public function start()
 	{
 		_stack = [];
@@ -23,30 +23,30 @@ class ValueHandler implements IDataHandler
 	{
 		value = _stack.pop();
 	}
-	
+
 	public function startObject()
 	{
 		_stack.push({ });
 	}
-	
+
 	public function endObject(){}
 	public function startField(name : String)
 	{
 		_names.push(name);
 	}
-	
+
 	public function endField()
 	{
 		var value = _stack.pop();
 		var last = _stack.last();
 		Reflect.setField(last, _names.pop(), value);
 	}
-	
+
 	public function startArray()
 	{
 		_stack.push([]);
 	}
-	
+
 	public function endArray(){}
 	public function startItem(){}
 	public function endItem()
@@ -55,7 +55,7 @@ class ValueHandler implements IDataHandler
 		var last = _stack.last();
 		last.push(value);
 	}
-	
+
 	public function date(d : Date) _stack.push(d)
 	public function string(s : String) _stack.push(s)
 	public function int(i : Int) _stack.push(i)

@@ -506,7 +506,7 @@ thx.color.Rgb = $hxClasses["thx.color.Rgb"] = function(r,g,b) {
 }
 thx.color.Rgb.__name__ = ["thx","color","Rgb"];
 thx.color.Rgb.fromFloats = function(r,g,b) {
-	return new thx.color.Rgb(Ints.interpolate(r,0,255),Ints.interpolate(g,0,255),Ints.interpolate(b,0,255));
+	return new thx.color.Rgb(Ints.interpolate(r,0,255,null),Ints.interpolate(g,0,255,null),Ints.interpolate(b,0,255,null));
 }
 thx.color.Rgb.fromInt = function(v) {
 	return new thx.color.Rgb(v >> 16 & 255,v >> 8 & 255,v & 255);
@@ -515,9 +515,10 @@ thx.color.Rgb.equals = function(a,b) {
 	return a.red == b.red && a.green == b.green && a.blue == b.blue;
 }
 thx.color.Rgb.darker = function(color,t,equation) {
-	var interpolator = Ints.interpolatef(0,255,equation);
-	t /= 255;
-	return new thx.color.Rgb(interpolator(t * color.red),interpolator(t * color.green),interpolator(t * color.blue));
+	return new thx.color.Rgb(Ints.interpolate(t,color.red,0,equation),Ints.interpolate(t,color.green,0,equation),Ints.interpolate(t,color.blue,0,equation));
+}
+thx.color.Rgb.lighter = function(color,t,equation) {
+	return new thx.color.Rgb(Ints.interpolate(t,color.red,255,equation),Ints.interpolate(t,color.green,255,equation),Ints.interpolate(t,color.blue,255,equation));
 }
 thx.color.Rgb.interpolate = function(a,b,t,equation) {
 	return new thx.color.Rgb(Ints.interpolate(t,a.red,b.red,equation),Ints.interpolate(t,a.green,b.green,equation),Ints.interpolate(t,a.blue,b.blue,equation));
@@ -562,7 +563,7 @@ thx.color.Rgb.interpolateRainbowf = function(equation) {
 thx.color.Rgb.interpolateStepsf = function(steps,equation) {
 	if(steps.length <= 0) return (function($this) {
 		var $r;
-		throw new thx.error.Error("invalid number of steps",null,null,{ fileName : "Rgb.hx", lineNumber : 157, className : "thx.color.Rgb", methodName : "interpolateStepsf"});
+		throw new thx.error.Error("invalid number of steps",null,null,{ fileName : "Rgb.hx", lineNumber : 164, className : "thx.color.Rgb", methodName : "interpolateStepsf"});
 		return $r;
 	}(this)); else if(steps.length == 1) return function(t) {
 		return steps[0];
@@ -600,6 +601,74 @@ thx.color.Rgb.prototype = {
 		return this.toRgbString();
 	}
 	,__class__: thx.color.Rgb
+}
+var Ints = $hxClasses["Ints"] = function() { }
+Ints.__name__ = ["Ints"];
+Ints.range = function(start,stop,step) {
+	if(step == null) step = 1;
+	if(null == stop) {
+		stop = start;
+		start = 0;
+	}
+	if((stop - start) / step == Math.POSITIVE_INFINITY) throw new thx.error.Error("infinite range",null,null,{ fileName : "Ints.hx", lineNumber : 19, className : "Ints", methodName : "range"});
+	var range = [], i = -1, j;
+	if(step < 0) while((j = start + step * ++i) > stop) range.push(j); else while((j = start + step * ++i) < stop) range.push(j);
+	return range;
+}
+Ints.sign = function(v) {
+	return v < 0?-1:1;
+}
+Ints.abs = function(a) {
+	return a < 0?-a:a;
+}
+Ints.min = function(a,b) {
+	return a < b?a:b;
+}
+Ints.max = function(a,b) {
+	return a > b?a:b;
+}
+Ints.wrap = function(v,min,max) {
+	return Math.round(Floats.wrap(v,min,max));
+}
+Ints.clamp = function(v,min,max) {
+	if(v < min) return min; else if(v > max) return max; else return v;
+}
+Ints.clampSym = function(v,max) {
+	if(v < -max) return -max; else if(v > max) return max; else return v;
+}
+Ints.interpolate = function(f,min,max,equation) {
+	if(max == null) max = 100.0;
+	if(min == null) min = 0.0;
+	if(null == equation) equation = thx.math.Equations.linear;
+	return Math.round(min + equation(f) * (max - min));
+}
+Ints.interpolatef = function(min,max,equation) {
+	if(max == null) max = 1.0;
+	if(min == null) min = 0.0;
+	if(null == equation) equation = thx.math.Equations.linear;
+	var d = max - min;
+	return function(f) {
+		return Math.round(min + equation(f) * d);
+	};
+}
+Ints.format = function(v,param,params,culture) {
+	return (Ints.formatf(param,params,culture))(v);
+}
+Ints.formatf = function(param,params,culture) {
+	return Floats.formatf(null,thx.culture.FormatParams.params(param,params,"I"),culture);
+}
+Ints.canParse = function(s) {
+	return Ints._reparse.match(s);
+}
+Ints.parse = function(s) {
+	if(s.substr(0,1) == "+") s = s.substr(1);
+	return Std.parseInt(s);
+}
+Ints.compare = function(a,b) {
+	return a - b;
+}
+Ints.prototype = {
+	__class__: Ints
 }
 thx.color.NamedColors = $hxClasses["thx.color.NamedColors"] = function() { }
 thx.color.NamedColors.__name__ = ["thx","color","NamedColors"];
@@ -754,6 +823,37 @@ thx.color.NamedColors.byName = null;
 thx.color.NamedColors.prototype = {
 	__class__: thx.color.NamedColors
 }
+thx.util.TypeLocator = $hxClasses["thx.util.TypeLocator"] = function() {
+	this._binders = new Hash();
+}
+thx.util.TypeLocator.__name__ = ["thx","util","TypeLocator"];
+thx.util.TypeLocator.prototype = {
+	_binders: null
+	,instance: function(cls,o) {
+		return this.bind(cls,function() {
+			return o;
+		});
+	}
+	,bind: function(cls,f) {
+		this._binders.set(Type.getClassName(cls),f);
+		return this;
+	}
+	,memoize: function(cls,f) {
+		var r = null;
+		return this.bind(cls,function() {
+			if(null == r) r = f();
+			return r;
+		});
+	}
+	,unbinded: function(cls) {
+		return null;
+	}
+	,get: function(cls) {
+		var f = this._binders.get(Type.getClassName(cls));
+		if(null == f) return this.unbinded(cls); else return f();
+	}
+	,__class__: thx.util.TypeLocator
+}
 var IntHash = $hxClasses["IntHash"] = function() {
 	this.h = {}
 	if(this.h.__proto__ != null) {
@@ -857,7 +957,6 @@ thx.xml.XmlFormat.prototype = {
 }
 if(!thx.html) thx.html = {}
 thx.html.XHtmlFormat = $hxClasses["thx.html.XHtmlFormat"] = function(autoformat,indent,newline) {
-	if(autoformat == null) autoformat = true;
 	thx.xml.XmlFormat.call(this,autoformat,indent,newline);
 }
 thx.html.XHtmlFormat.__name__ = ["thx","html","XHtmlFormat"];
@@ -911,19 +1010,19 @@ thx.csv.TestCsv = $hxClasses["thx.csv.TestCsv"] = function() {
 thx.csv.TestCsv.__name__ = ["thx","csv","TestCsv"];
 thx.csv.TestCsv.prototype = {
 	testDecode: function() {
-		this.assertSame([[1997,"Ford","E350"]],thx.csv.Csv.decode("1997,Ford,E350"),{ fileName : "TestCsv.hx", lineNumber : 42, className : "thx.csv.TestCsv", methodName : "testDecode"});
-		this.assertSame([[1997," Ford "," E350"]],thx.csv.Csv.decode("1997, Ford , E350",null,null,null,null,null,null,false),{ fileName : "TestCsv.hx", lineNumber : 43, className : "thx.csv.TestCsv", methodName : "testDecode"});
-		this.assertSame([[1997,"Ford","E350"]],thx.csv.Csv.decode("1997, Ford , E350",null,null,null,null,null,null,true),{ fileName : "TestCsv.hx", lineNumber : 44, className : "thx.csv.TestCsv", methodName : "testDecode"});
-		this.assertSame([[1997,"Ford","E350","Super, \"luxurious\" truck"]],thx.csv.Csv.decode("1997,Ford,E350,\"Super, \"\"luxurious\"\" truck\""),{ fileName : "TestCsv.hx", lineNumber : 45, className : "thx.csv.TestCsv", methodName : "testDecode"});
-		this.assertSame([[1997,"Ford","E350","Go get one now\nthey are going fast"]],thx.csv.Csv.decode("1997,Ford,E350,\"Go get one now\nthey are going fast\""),{ fileName : "TestCsv.hx", lineNumber : 46, className : "thx.csv.TestCsv", methodName : "testDecode"});
-		this.assertSame(thx.csv.TestCsv.v,thx.csv.Csv.decode(thx.csv.TestCsv.s),{ fileName : "TestCsv.hx", lineNumber : 48, className : "thx.csv.TestCsv", methodName : "testDecode"});
+		this.assertSame([[1997,"Ford","E350"]],thx.csv.Csv.decode("1997,Ford,E350"),{ fileName : "TestCsv.hx", lineNumber : 39, className : "thx.csv.TestCsv", methodName : "testDecode"});
+		this.assertSame([[1997," Ford "," E350"]],thx.csv.Csv.decode("1997, Ford , E350",null,null,null,null,null,null,false),{ fileName : "TestCsv.hx", lineNumber : 40, className : "thx.csv.TestCsv", methodName : "testDecode"});
+		this.assertSame([[1997,"Ford","E350"]],thx.csv.Csv.decode("1997, Ford , E350",null,null,null,null,null,null,true),{ fileName : "TestCsv.hx", lineNumber : 41, className : "thx.csv.TestCsv", methodName : "testDecode"});
+		this.assertSame([[1997,"Ford","E350","Super, \"luxurious\" truck"]],thx.csv.Csv.decode("1997,Ford,E350,\"Super, \"\"luxurious\"\" truck\""),{ fileName : "TestCsv.hx", lineNumber : 42, className : "thx.csv.TestCsv", methodName : "testDecode"});
+		this.assertSame([[1997,"Ford","E350","Go get one now\nthey are going fast"]],thx.csv.Csv.decode("1997,Ford,E350,\"Go get one now\nthey are going fast\""),{ fileName : "TestCsv.hx", lineNumber : 43, className : "thx.csv.TestCsv", methodName : "testDecode"});
+		this.assertSame(thx.csv.TestCsv.v,thx.csv.Csv.decode(thx.csv.TestCsv.s),{ fileName : "TestCsv.hx", lineNumber : 45, className : "thx.csv.TestCsv", methodName : "testDecode"});
 		var old_default = thx.culture.Culture.getDefaultCulture();
 		thx.culture.Culture.setDefaultCulture(thx.cultures.DeDE.getCulture());
-		this.assertSame(thx.csv.TestCsv.v,thx.csv.Csv.decode(thx.csv.TestCsv.t,null,";"),{ fileName : "TestCsv.hx", lineNumber : 51, className : "thx.csv.TestCsv", methodName : "testDecode"});
+		this.assertSame(thx.csv.TestCsv.v,thx.csv.Csv.decode(thx.csv.TestCsv.t,null,";"),{ fileName : "TestCsv.hx", lineNumber : 48, className : "thx.csv.TestCsv", methodName : "testDecode"});
 		thx.culture.Culture.setDefaultCulture(old_default);
 	}
 	,testEncode: function() {
-		this.assertSame(thx.csv.TestCsv.s,thx.csv.Csv.encode(thx.csv.TestCsv.v),{ fileName : "TestCsv.hx", lineNumber : 58, className : "thx.csv.TestCsv", methodName : "testEncode"});
+		this.assertSame(thx.csv.TestCsv.s,thx.csv.Csv.encode(thx.csv.TestCsv.v),{ fileName : "TestCsv.hx", lineNumber : 55, className : "thx.csv.TestCsv", methodName : "testEncode"});
 	}
 	,assertSame: function(expected,test,pos) {
 		utest.Assert.same(expected,test,null,"expected " + Dynamics.string(expected) + " but was " + Dynamics.string(test),pos);
@@ -1201,6 +1300,7 @@ thx.culture.Info.prototype = {
 }
 thx.culture.Culture = $hxClasses["thx.culture.Culture"] = function() { }
 thx.culture.Culture.__name__ = ["thx","culture","Culture"];
+thx.culture.Culture.__properties__ = {set_defaultCulture:"setDefaultCulture",get_defaultCulture:"getDefaultCulture",get_cultures:"getCultures"}
 thx.culture.Culture.cultures = null;
 thx.culture.Culture.getCultures = function() {
 	if(null == thx.culture.Culture.cultures) thx.culture.Culture.cultures = new Hash();
@@ -1254,73 +1354,6 @@ thx.culture.Culture.prototype = $extend(thx.culture.Info.prototype,{
 	,percent: null
 	,__class__: thx.culture.Culture
 });
-thx.util.TestTypeServiceLocator = $hxClasses["thx.util.TestTypeServiceLocator"] = function() {
-}
-thx.util.TestTypeServiceLocator.__name__ = ["thx","util","TestTypeServiceLocator"];
-thx.util.TestTypeServiceLocator.addTests = function(runner) {
-	runner.addCase(new thx.util.TestTypeServiceLocator());
-}
-thx.util.TestTypeServiceLocator.main = function() {
-	var runner = new utest.Runner();
-	thx.util.TestTypeServiceLocator.addTests(runner);
-	utest.ui.Report.create(runner);
-	runner.run();
-}
-thx.util.TestTypeServiceLocator.prototype = {
-	testBind: function() {
-		var locator = new thx.util.TypeServiceLocator().bind(thx.util.type.ITest,function() {
-			return new thx.util.type.TestImplementation();
-		});
-		var o = locator.get(thx.util.type.ITest);
-		utest.Assert["is"](o,thx.util.type.ITest,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 21, className : "thx.util.TestTypeServiceLocator", methodName : "testBind"});
-		utest.Assert["is"](o,thx.util.type.TestImplementation,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 22, className : "thx.util.TestTypeServiceLocator", methodName : "testBind"});
-		utest.Assert.equals("hi",o.sayHello(),null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 23, className : "thx.util.TestTypeServiceLocator", methodName : "testBind"});
-	}
-	,testUnbinded: function() {
-		var locator = new thx.util.TypeServiceLocator();
-		utest.Assert.isNull(locator.get(thx.util.type.ITest),null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 29, className : "thx.util.TestTypeServiceLocator", methodName : "testUnbinded"});
-		locator.unbinded = function(cls) {
-			if("thx.util.type.ITest" == Type.getClassName(cls)) return null;
-			try {
-				return Type.createInstance(cls,[]);
-			} catch( e ) {
-				return null;
-			}
-		};
-		utest.Assert.isNull(locator.get(thx.util.type.ITest),null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 41, className : "thx.util.TestTypeServiceLocator", methodName : "testUnbinded"});
-		utest.Assert.notNull(locator.get(thx.util.type.TestImplementation),null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 42, className : "thx.util.TestTypeServiceLocator", methodName : "testUnbinded"});
-		utest.Assert["is"](locator.get(thx.util.type.TestImplementation),thx.util.type.TestImplementation,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 43, className : "thx.util.TestTypeServiceLocator", methodName : "testUnbinded"});
-	}
-	,testInstance: function() {
-		var locator = new thx.util.TypeServiceLocator().instance(thx.util.type.ITest,new thx.util.type.TestImplementation());
-		var o = locator.get(thx.util.type.ITest);
-		utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 50, className : "thx.util.TestTypeServiceLocator", methodName : "testInstance"});
-		o.counter++;
-		o = locator.get(thx.util.type.ITest);
-		utest.Assert.equals(1,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 53, className : "thx.util.TestTypeServiceLocator", methodName : "testInstance"});
-	}
-	,testMultipleInstances: function() {
-		var locator = new thx.util.TypeServiceLocator().bind(thx.util.type.ITest,function() {
-			return new thx.util.type.TestImplementation();
-		});
-		var o = locator.get(thx.util.type.ITest);
-		utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 60, className : "thx.util.TestTypeServiceLocator", methodName : "testMultipleInstances"});
-		o.counter++;
-		o = locator.get(thx.util.type.ITest);
-		utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 63, className : "thx.util.TestTypeServiceLocator", methodName : "testMultipleInstances"});
-	}
-	,testMemoize: function() {
-		var locator = new thx.util.TypeServiceLocator().memoize(thx.util.type.ITest,function() {
-			return new thx.util.type.TestImplementation();
-		});
-		var o = locator.get(thx.util.type.ITest);
-		utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 70, className : "thx.util.TestTypeServiceLocator", methodName : "testMemoize"});
-		o.counter++;
-		o = locator.get(thx.util.type.ITest);
-		utest.Assert.equals(1,o.counter,null,{ fileName : "TestTypeServiceLocator.hx", lineNumber : 73, className : "thx.util.TestTypeServiceLocator", methodName : "testMemoize"});
-	}
-	,__class__: thx.util.TestTypeServiceLocator
-}
 thx.validation.IValidator = $hxClasses["thx.validation.IValidator"] = function() { }
 thx.validation.IValidator.__name__ = ["thx","validation","IValidator"];
 thx.validation.IValidator.prototype = {
@@ -1513,6 +1546,7 @@ thx.geo.Albers.prototype = {
 		return this._scale;
 	}
 	,__class__: thx.geo.Albers
+	,__properties__: {set_scale:"setScale",get_scale:"getScale",set_translate:"setTranslate",get_translate:"getTranslate",set_parallels:"setParallels",get_parallels:"getParallels",set_origin:"setOrigin",get_origin:"getOrigin"}
 }
 var Dates = $hxClasses["Dates"] = function() { }
 Dates.__name__ = ["Dates"];
@@ -1648,7 +1682,7 @@ Dates.snap = function(time,period,mode) {
 	default:
 		return (function($this) {
 			var $r;
-			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 111, className : "Dates", methodName : "snap"});
+			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 113, className : "Dates", methodName : "snap"});
 			return $r;
 		}(this));
 	} else if(mode > 0) switch(period) {
@@ -1673,7 +1707,7 @@ Dates.snap = function(time,period,mode) {
 	default:
 		return (function($this) {
 			var $r;
-			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 136, className : "Dates", methodName : "snap"});
+			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 138, className : "Dates", methodName : "snap"});
 			return $r;
 		}(this));
 	} else switch(period) {
@@ -1698,7 +1732,7 @@ Dates.snap = function(time,period,mode) {
 	default:
 		return (function($this) {
 			var $r;
-			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 162, className : "Dates", methodName : "snap"});
+			throw new thx.error.Error("unknown period '{0}'",null,period,{ fileName : "Dates.hx", lineNumber : 164, className : "Dates", methodName : "snap"});
 			return $r;
 		}(this));
 	}
@@ -1729,7 +1763,7 @@ Dates.snapToWeekDay = function(time,day) {
 		s = 6;
 		break;
 	default:
-		throw new thx.error.Error("unknown week day '{0}'",null,day,{ fileName : "Dates.hx", lineNumber : 188, className : "Dates", methodName : "snapToWeekDay"});
+		throw new thx.error.Error("unknown week day '{0}'",null,day,{ fileName : "Dates.hx", lineNumber : 190, className : "Dates", methodName : "snapToWeekDay"});
 	}
 	return time - (d - s) % 7 * 24 * 60 * 60 * 1000;
 }
@@ -1819,6 +1853,113 @@ thx.math.Ease.mode = function(easemode,f) {
 thx.math.Ease.prototype = {
 	__class__: thx.math.Ease
 }
+thx.culture.Language = $hxClasses["thx.culture.Language"] = function() { }
+thx.culture.Language.__name__ = ["thx","culture","Language"];
+thx.culture.Language.__properties__ = {get_languages:"getLanguages"}
+thx.culture.Language.languages = null;
+thx.culture.Language.getLanguages = function() {
+	if(null == thx.culture.Language.languages) thx.culture.Language.languages = new Hash();
+	return thx.culture.Language.languages;
+}
+thx.culture.Language.get = function(name) {
+	return thx.culture.Language.getLanguages().get(name.toLowerCase());
+}
+thx.culture.Language.names = function() {
+	return thx.culture.Language.getLanguages().keys();
+}
+thx.culture.Language.add = function(language) {
+	if(!thx.culture.Language.getLanguages().exists(language.iso2)) thx.culture.Language.getLanguages().set(language.iso2,language);
+}
+thx.culture.Language.__super__ = thx.culture.Info;
+thx.culture.Language.prototype = $extend(thx.culture.Info.prototype,{
+	__class__: thx.culture.Language
+});
+if(!thx.languages) thx.languages = {}
+thx.languages.It = $hxClasses["thx.languages.It"] = function() {
+	this.name = "it";
+	this.english = "Italian";
+	this["native"] = "italiano";
+	this.iso2 = "it";
+	this.iso3 = "ita";
+	this.pluralRule = 1;
+	thx.culture.Language.add(this);
+}
+thx.languages.It.__name__ = ["thx","languages","It"];
+thx.languages.It.__properties__ = {get_language:"getLanguage"}
+thx.languages.It.language = null;
+thx.languages.It.getLanguage = function() {
+	if(null == thx.languages.It.language) thx.languages.It.language = new thx.languages.It();
+	return thx.languages.It.language;
+}
+thx.languages.It.__super__ = thx.culture.Language;
+thx.languages.It.prototype = $extend(thx.culture.Language.prototype,{
+	__class__: thx.languages.It
+});
+if(!thx.culture.core) thx.culture.core = {}
+thx.culture.core.DateTimeInfo = $hxClasses["thx.culture.core.DateTimeInfo"] = function(months,abbrMonths,days,abbrDays,shortDays,am,pm,separatorDate,separatorTime,firstWeekDay,patternYearMonth,patternMonthDay,patternDate,patternDateShort,patternDateRfc,patternDateTime,patternUniversal,patternSortable,patternTime,patternTimeShort) {
+	this.months = months;
+	this.abbrMonths = abbrMonths;
+	this.days = days;
+	this.abbrDays = abbrDays;
+	this.shortDays = shortDays;
+	this.am = am;
+	this.pm = pm;
+	this.separatorDate = separatorDate;
+	this.separatorTime = separatorTime;
+	this.firstWeekDay = firstWeekDay;
+	this.patternYearMonth = patternYearMonth;
+	this.patternMonthDay = patternMonthDay;
+	this.patternDate = patternDate;
+	this.patternDateShort = patternDateShort;
+	this.patternDateRfc = patternDateRfc;
+	this.patternDateTime = patternDateTime;
+	this.patternUniversal = patternUniversal;
+	this.patternSortable = patternSortable;
+	this.patternTime = patternTime;
+	this.patternTimeShort = patternTimeShort;
+}
+thx.culture.core.DateTimeInfo.__name__ = ["thx","culture","core","DateTimeInfo"];
+thx.culture.core.DateTimeInfo.prototype = {
+	months: null
+	,abbrMonths: null
+	,days: null
+	,abbrDays: null
+	,shortDays: null
+	,am: null
+	,pm: null
+	,separatorDate: null
+	,separatorTime: null
+	,firstWeekDay: null
+	,patternYearMonth: null
+	,patternMonthDay: null
+	,patternDate: null
+	,patternDateShort: null
+	,patternDateRfc: null
+	,patternDateTime: null
+	,patternUniversal: null
+	,patternSortable: null
+	,patternTime: null
+	,patternTimeShort: null
+	,__class__: thx.culture.core.DateTimeInfo
+}
+thx.culture.core.NumberInfo = $hxClasses["thx.culture.core.NumberInfo"] = function(decimals,decimalsSeparator,groups,groupsSeparator,patternNegative,patternPositive) {
+	this.decimals = decimals;
+	this.decimalsSeparator = decimalsSeparator;
+	this.groups = groups;
+	this.groupsSeparator = groupsSeparator;
+	this.patternNegative = patternNegative;
+	this.patternPositive = patternPositive;
+}
+thx.culture.core.NumberInfo.__name__ = ["thx","culture","core","NumberInfo"];
+thx.culture.core.NumberInfo.prototype = {
+	decimals: null
+	,decimalsSeparator: null
+	,groups: null
+	,groupsSeparator: null
+	,patternNegative: null
+	,patternPositive: null
+	,__class__: thx.culture.core.NumberInfo
+}
 if(!thx.cultures) thx.cultures = {}
 thx.cultures.ItIT = $hxClasses["thx.cultures.ItIT"] = function() {
 	this.language = thx.languages.It.getLanguage();
@@ -1849,6 +1990,7 @@ thx.cultures.ItIT = $hxClasses["thx.cultures.ItIT"] = function() {
 	thx.culture.Culture.add(this);
 }
 thx.cultures.ItIT.__name__ = ["thx","cultures","ItIT"];
+thx.cultures.ItIT.__properties__ = {get_culture:"getCulture"}
 thx.cultures.ItIT.culture = null;
 thx.cultures.ItIT.getCulture = function() {
 	if(null == thx.cultures.ItIT.culture) thx.cultures.ItIT.culture = new thx.cultures.ItIT();
@@ -1970,8 +2112,10 @@ thx.color.Hsl.equals = function(a,b) {
 	return a.hue == b.hue && a.saturation == b.saturation && a.lightness == b.lightness;
 }
 thx.color.Hsl.darker = function(color,t,equation) {
-	var v = color.lightness * t;
-	return new thx.color.Hsl(color.hue,color.saturation,Floats.interpolate(v,0,1,equation));
+	return new thx.color.Hsl(color.hue,color.saturation,Floats.interpolate(t,color.lightness,0,equation));
+}
+thx.color.Hsl.lighter = function(color,t,equation) {
+	return new thx.color.Hsl(color.hue,color.saturation,Floats.interpolate(t,color.lightness,1,equation));
 }
 thx.color.Hsl.interpolate = function(a,b,t,equation) {
 	return new thx.color.Hsl(Floats.interpolate(t,a.hue,b.hue,equation),Floats.interpolate(t,a.saturation,b.saturation,equation),Floats.interpolate(t,a.lightness,b.lightness,equation));
@@ -1991,6 +2135,213 @@ thx.color.Hsl.prototype = $extend(thx.color.Rgb.prototype,{
 	}
 	,__class__: thx.color.Hsl
 });
+var Floats = $hxClasses["Floats"] = function() { }
+Floats.__name__ = ["Floats"];
+Floats.normalize = function(v) {
+	if(v < 0.0) return 0.0; else if(v > 1.0) return 1.0; else return v;
+}
+Floats.clamp = function(v,min,max) {
+	if(v < min) return min; else if(v > max) return max; else return v;
+}
+Floats.clampSym = function(v,max) {
+	if(v < -max) return -max; else if(v > max) return max; else return v;
+}
+Floats.range = function(start,stop,step) {
+	if(step == null) step = 1.0;
+	if(null == stop) {
+		stop = start;
+		start = 0.0;
+	}
+	if((stop - start) / step == Math.POSITIVE_INFINITY) throw new thx.error.Error("infinite range",null,null,{ fileName : "Floats.hx", lineNumber : 50, className : "Floats", methodName : "range"});
+	var range = [], i = -1.0, j;
+	if(step < 0) while((j = start + step * ++i) > stop) range.push(j); else while((j = start + step * ++i) < stop) range.push(j);
+	return range;
+}
+Floats.sign = function(v) {
+	return v < 0?-1:1;
+}
+Floats.abs = function(a) {
+	return a < 0?-a:a;
+}
+Floats.min = function(a,b) {
+	return a < b?a:b;
+}
+Floats.max = function(a,b) {
+	return a > b?a:b;
+}
+Floats.wrap = function(v,min,max) {
+	var range = max - min + 1;
+	if(v < min) v += range * ((min - v) / range + 1);
+	return min + (v - min) % range;
+}
+Floats.circularWrap = function(v,max) {
+	v = v % max;
+	if(v < 0) v += max;
+	return v;
+}
+Floats.interpolate = function(f,a,b,equation) {
+	if(b == null) b = 1.0;
+	if(a == null) a = 0.0;
+	if(null == equation) equation = thx.math.Equations.linear;
+	return a + equation(f) * (b - a);
+}
+Floats.interpolatef = function(a,b,equation) {
+	if(b == null) b = 1.0;
+	if(a == null) a = 0.0;
+	if(null == equation) equation = thx.math.Equations.linear;
+	var d = b - a;
+	return function(f) {
+		return a + equation(f) * d;
+	};
+}
+Floats.interpolateClampf = function(min,max,equation) {
+	if(null == equation) equation = thx.math.Equations.linear;
+	return function(a,b) {
+		var d = b - a;
+		return function(f) {
+			return a + equation(Floats.clamp(f,min,max)) * d;
+		};
+	};
+}
+Floats.format = function(v,param,params,culture) {
+	return (Floats.formatf(param,params,culture))(v);
+}
+Floats.formatf = function(param,params,culture) {
+	params = thx.culture.FormatParams.params(param,params,"D");
+	var format = params.shift();
+	var decimals = params.length > 0?Std.parseInt(params[0]):null;
+	switch(format) {
+	case "D":
+		return function(v) {
+			return thx.culture.FormatNumber.decimal(v,decimals,culture);
+		};
+	case "I":
+		return function(v) {
+			return thx.culture.FormatNumber["int"](v,culture);
+		};
+	case "C":
+		var s = params.length > 1?params[1]:null;
+		return function(v) {
+			return thx.culture.FormatNumber.currency(v,s,decimals,culture);
+		};
+	case "P":
+		return function(v) {
+			return thx.culture.FormatNumber.percent(v,decimals,culture);
+		};
+	case "M":
+		return function(v) {
+			return thx.culture.FormatNumber.permille(v,decimals,culture);
+		};
+	default:
+		return (function($this) {
+			var $r;
+			throw new thx.error.Error("Unsupported number format: {0}",null,format,{ fileName : "Floats.hx", lineNumber : 145, className : "Floats", methodName : "formatf"});
+			return $r;
+		}(this));
+	}
+}
+Floats.canParse = function(s) {
+	return Floats._reparse.match(s);
+}
+Floats.parse = function(s) {
+	if(s.substr(0,1) == "+") s = s.substr(1);
+	return Std.parseFloat(s);
+}
+Floats.compare = function(a,b) {
+	return a < b?-1:a > b?1:0;
+}
+Floats.isNumeric = function(v) {
+	return Std["is"](v,Float) || Std["is"](v,Int);
+}
+Floats.equals = function(a,b,approx) {
+	if(approx == null) approx = 1e-5;
+	if(Math.isNaN(a)) return Math.isNaN(b); else if(Math.isNaN(b)) return false; else if(!Math.isFinite(a) && !Math.isFinite(b)) return a > 0 == b > 0;
+	return Math.abs(b - a) < approx;
+}
+Floats.uninterpolatef = function(a,b) {
+	b = 1 / (b - a);
+	return function(x) {
+		return (x - a) * b;
+	};
+}
+Floats.uninterpolateClampf = function(a,b) {
+	b = 1 / (b - a);
+	return function(x) {
+		return Floats.clamp((x - a) * b,0.0,1.0);
+	};
+}
+Floats.round = function(number,precision) {
+	if(precision == null) precision = 2;
+	number *= Math.pow(10,precision);
+	return Math.round(number) / Math.pow(10,precision);
+}
+Floats.prototype = {
+	__class__: Floats
+}
+thx.math.Equations = $hxClasses["thx.math.Equations"] = function() { }
+thx.math.Equations.__name__ = ["thx","math","Equations"];
+thx.math.Equations.linear = function(v) {
+	return v;
+}
+thx.math.Equations.polynomial = function(t,e) {
+	return Math.pow(t,e);
+}
+thx.math.Equations.quadratic = function(t) {
+	return thx.math.Equations.polynomial(t,2);
+}
+thx.math.Equations.cubic = function(t) {
+	return thx.math.Equations.polynomial(t,3);
+}
+thx.math.Equations.sin = function(t) {
+	return 1 - Math.cos(t * Math.PI / 2);
+}
+thx.math.Equations.exponential = function(t) {
+	return t != 0?Math.pow(2,10 * (t - 1)) - 1e-3:0;
+}
+thx.math.Equations.circle = function(t) {
+	return 1 - Math.sqrt(1 - t * t);
+}
+thx.math.Equations.elastic = function(t,a,p) {
+	var s;
+	if(null == p) p = 0.45;
+	if(null == a) {
+		a = 1;
+		s = p / 4;
+	} else s = p / (2 * Math.PI) / Math.asin(1 / a);
+	return 1 + a * Math.pow(2,10 * -t) * Math.sin((t - s) * 2 * Math.PI / p);
+}
+thx.math.Equations.elasticf = function(a,p) {
+	var s;
+	if(null == p) p = 0.45;
+	if(null == a) {
+		a = 1;
+		s = p / 4;
+	} else s = p / (2 * Math.PI) / Math.asin(1 / a);
+	return function(t) {
+		return 1 + a * Math.pow(2,10 * -t) * Math.sin((t - s) * 2 * Math.PI / p);
+	};
+}
+thx.math.Equations.back = function(t,s) {
+	if(null == s) s = 1.70158;
+	return t * t * ((s + 1) * t - s);
+}
+thx.math.Equations.backf = function(s) {
+	if(null == s) s = 1.70158;
+	return function(t) {
+		return t * t * ((s + 1) * t - s);
+	};
+}
+thx.math.Equations.bounce = function(t) {
+	return t < 1 / 2.75?7.5625 * t * t:t < 2 / 2.75?7.5625 * (t -= 1.5 / 2.75) * t + .75:t < 2.5 / 2.75?7.5625 * (t -= 2.25 / 2.75) * t + .9375:7.5625 * (t -= 2.625 / 2.75) * t + .984375;
+}
+thx.math.Equations.polynomialf = function(e) {
+	return function(t) {
+		thx.math.Equations.polynomial(t,e);
+	};
+}
+thx.math.Equations.prototype = {
+	__class__: thx.math.Equations
+}
 thx.math.scale.Linears = $hxClasses["thx.math.scale.Linears"] = function() { }
 thx.math.scale.Linears.__name__ = ["thx","math","scale","Linears"];
 thx.math.scale.Linears.forString = function() {
@@ -2280,8 +2631,7 @@ Std.string = function(s) {
 	return js.Boot.__string_rec(s,"");
 }
 Std["int"] = function(x) {
-	if(x < 0) return Math.ceil(x);
-	return Math.floor(x);
+	return x | 0;
 }
 Std.parseInt = function(x) {
 	var v = parseInt(x,10);
@@ -2382,6 +2732,12 @@ thx.js.BaseSelection.isChild = function(parent,child) {
 		if(child == parent) return true;
 	}
 	return false;
+}
+thx.js.BaseSelection.addEvent = function(node,typo,handler,capture) {
+	node.addEventListener(typo,handler,capture);
+}
+thx.js.BaseSelection.removeEvent = function(node,typo,type,capture) {
+	node.removeEventListener(typo,Reflect.field(node,"__on" + type),capture);
 }
 thx.js.BaseSelection.bindJoin = function(join,group,groupData,update,enter,exit) {
 	var n = group.nodes.length, m = groupData.length, updateHtmlDoms = [], exitHtmlDoms = [], enterHtmlDoms = [], node, nodeData;
@@ -2584,6 +2940,21 @@ thx.js.BaseSelection.prototype = {
 		}
 		return this.createSelection(subgroups);
 	}
+	,mapNode: function(f) {
+		var results = [];
+		var _g = 0, _g1 = this.groups;
+		while(_g < _g1.length) {
+			var group = _g1[_g];
+			++_g;
+			var i = -1;
+			var $it0 = group.nodes.iterator();
+			while( $it0.hasNext() ) {
+				var node = $it0.next();
+				if(null != node) results.push(f(node,++i));
+			}
+		}
+		return results;
+	}
 	,onNode: function(type,listener,capture) {
 		if(capture == null) capture = false;
 		var i = type.indexOf("."), typo = i < 0?type:type.substr(0,i);
@@ -2618,7 +2989,7 @@ thx.js.BaseSelection.prototype = {
 	,createSelection: function(groups) {
 		return (function($this) {
 			var $r;
-			throw new thx.error.AbstractMethod({ fileName : "Selection.hx", lineNumber : 575, className : "thx.js.BaseSelection", methodName : "createSelection"});
+			throw new thx.error.AbstractMethod({ fileName : "Selection.hx", lineNumber : 652, className : "thx.js.BaseSelection", methodName : "createSelection"});
 			return $r;
 		}(this));
 	}
@@ -2717,6 +3088,7 @@ thx.js.Selection = $hxClasses["thx.js.Selection"] = function(groups) {
 	thx.js.UnboundSelection.call(this,groups);
 }
 thx.js.Selection.__name__ = ["thx","js","Selection"];
+thx.js.Selection.__properties__ = {get_currentNode:"getCurrentNode",get_current:"getCurrent"}
 thx.js.Selection.current = null;
 thx.js.Selection.currentNode = null;
 thx.js.Selection.create = function(groups) {
@@ -2803,26 +3175,6 @@ thx.xml.NormalizeWhitespaceValueFormat.prototype = $extend(thx.xml.ValueFormat.p
 		if(v == " ") return ""; else return v;
 	}
 	,__class__: thx.xml.NormalizeWhitespaceValueFormat
-});
-thx.culture.Language = $hxClasses["thx.culture.Language"] = function() { }
-thx.culture.Language.__name__ = ["thx","culture","Language"];
-thx.culture.Language.languages = null;
-thx.culture.Language.getLanguages = function() {
-	if(null == thx.culture.Language.languages) thx.culture.Language.languages = new Hash();
-	return thx.culture.Language.languages;
-}
-thx.culture.Language.get = function(name) {
-	return thx.culture.Language.getLanguages().get(name.toLowerCase());
-}
-thx.culture.Language.names = function() {
-	return thx.culture.Language.getLanguages().keys();
-}
-thx.culture.Language.add = function(language) {
-	if(!thx.culture.Language.getLanguages().exists(language.iso2)) thx.culture.Language.getLanguages().set(language.iso2,language);
-}
-thx.culture.Language.__super__ = thx.culture.Info;
-thx.culture.Language.prototype = $extend(thx.culture.Info.prototype,{
-	__class__: thx.culture.Language
 });
 thx.js.TestAll = $hxClasses["thx.js.TestAll"] = function() {
 }
@@ -3196,7 +3548,7 @@ utest.ui.text.HtmlReport.prototype = {
 		var buf = new StringBuf();
 		if(!utest.ui.common.ReportTools.hasHeader(this,this.result.stats)) return "";
 		var end = haxe.Timer.stamp();
-		var time = Std["int"]((end - this.startTime) * 1000) / 1000;
+		var time = ((end - this.startTime) * 1000 | 0) / 1000;
 		var msg = "TEST OK";
 		if(this.result.stats.hasErrors) msg = "TEST ERRORS"; else if(this.result.stats.hasFailures) msg = "TEST FAILED"; else if(this.result.stats.hasWarnings) msg = "WARNING REPORTED";
 		buf.add("<h1 class=\"" + this.cls(this.result.stats) + "bg header\">" + msg + "</h1>\n");
@@ -3608,53 +3960,6 @@ thx.validation.TestDateRange.prototype = $extend(thx.validation.TestAll.prototyp
 	}
 	,__class__: thx.validation.TestDateRange
 });
-if(!thx.culture.core) thx.culture.core = {}
-thx.culture.core.DateTimeInfo = $hxClasses["thx.culture.core.DateTimeInfo"] = function(months,abbrMonths,days,abbrDays,shortDays,am,pm,separatorDate,separatorTime,firstWeekDay,patternYearMonth,patternMonthDay,patternDate,patternDateShort,patternDateRfc,patternDateTime,patternUniversal,patternSortable,patternTime,patternTimeShort) {
-	this.months = months;
-	this.abbrMonths = abbrMonths;
-	this.days = days;
-	this.abbrDays = abbrDays;
-	this.shortDays = shortDays;
-	this.am = am;
-	this.pm = pm;
-	this.separatorDate = separatorDate;
-	this.separatorTime = separatorTime;
-	this.firstWeekDay = firstWeekDay;
-	this.patternYearMonth = patternYearMonth;
-	this.patternMonthDay = patternMonthDay;
-	this.patternDate = patternDate;
-	this.patternDateShort = patternDateShort;
-	this.patternDateRfc = patternDateRfc;
-	this.patternDateTime = patternDateTime;
-	this.patternUniversal = patternUniversal;
-	this.patternSortable = patternSortable;
-	this.patternTime = patternTime;
-	this.patternTimeShort = patternTimeShort;
-}
-thx.culture.core.DateTimeInfo.__name__ = ["thx","culture","core","DateTimeInfo"];
-thx.culture.core.DateTimeInfo.prototype = {
-	months: null
-	,abbrMonths: null
-	,days: null
-	,abbrDays: null
-	,shortDays: null
-	,am: null
-	,pm: null
-	,separatorDate: null
-	,separatorTime: null
-	,firstWeekDay: null
-	,patternYearMonth: null
-	,patternMonthDay: null
-	,patternDate: null
-	,patternDateShort: null
-	,patternDateRfc: null
-	,patternDateTime: null
-	,patternUniversal: null
-	,patternSortable: null
-	,patternTime: null
-	,patternTimeShort: null
-	,__class__: thx.culture.core.DateTimeInfo
-}
 thx.js.Timer = $hxClasses["thx.js.Timer"] = function() { }
 thx.js.Timer.__name__ = ["thx","js","Timer"];
 thx.js.Timer.timer = function(f,delay) {
@@ -3747,7 +4052,7 @@ thx.math.scale.Quantile.prototype = {
 	,rescale: function() {
 		var k = 0, n = this._domain.length, q = this._range.length, i, j;
 		this._thresolds[Ints.max(0,q - 2)] = 0.0;
-		while(++k < q) this._thresolds[k - 1] = 0 != (j = n * k / q) % 1?this._domain[Std["int"](~~j)]:(this._domain[i = Std["int"](~~j)] + this._domain[i - 1]) / 2;
+		while(++k < q) this._thresolds[k - 1] = 0 != (j = n * k / q) % 1?this._domain[~~j | 0]:(this._domain[i = ~~j | 0] + this._domain[i - 1]) / 2;
 	}
 	,scale: function(v,_) {
 		return this._range[Arrays.bisectRight(this._thresolds,v,0,null)];
@@ -3824,6 +4129,26 @@ thx.util.Imports.__name__ = ["thx","util","Imports"];
 thx.util.Imports.prototype = {
 	__class__: thx.util.Imports
 }
+thx.languages.En = $hxClasses["thx.languages.En"] = function() {
+	this.name = "en";
+	this.english = "English";
+	this["native"] = "English";
+	this.iso2 = "en";
+	this.iso3 = "eng";
+	this.pluralRule = 1;
+	thx.culture.Language.add(this);
+}
+thx.languages.En.__name__ = ["thx","languages","En"];
+thx.languages.En.__properties__ = {get_language:"getLanguage"}
+thx.languages.En.language = null;
+thx.languages.En.getLanguage = function() {
+	if(null == thx.languages.En.language) thx.languages.En.language = new thx.languages.En();
+	return thx.languages.En.language;
+}
+thx.languages.En.__super__ = thx.culture.Language;
+thx.languages.En.prototype = $extend(thx.culture.Language.prototype,{
+	__class__: thx.languages.En
+});
 thx.cultures.EnUS = $hxClasses["thx.cultures.EnUS"] = function() {
 	this.language = thx.languages.En.getLanguage();
 	this.name = "en-US";
@@ -3853,6 +4178,7 @@ thx.cultures.EnUS = $hxClasses["thx.cultures.EnUS"] = function() {
 	thx.culture.Culture.add(this);
 }
 thx.cultures.EnUS.__name__ = ["thx","cultures","EnUS"];
+thx.cultures.EnUS.__properties__ = {get_culture:"getCulture"}
 thx.cultures.EnUS.culture = null;
 thx.cultures.EnUS.getCulture = function() {
 	if(null == thx.cultures.EnUS.culture) thx.cultures.EnUS.culture = new thx.cultures.EnUS();
@@ -4086,26 +4412,6 @@ thx.date.DateParser.plusPm = function(s) {
 thx.date.DateParser.prototype = {
 	__class__: thx.date.DateParser
 }
-if(!thx.languages) thx.languages = {}
-thx.languages.En = $hxClasses["thx.languages.En"] = function() {
-	this.name = "en";
-	this.english = "English";
-	this["native"] = "English";
-	this.iso2 = "en";
-	this.iso3 = "eng";
-	this.pluralRule = 1;
-	thx.culture.Language.add(this);
-}
-thx.languages.En.__name__ = ["thx","languages","En"];
-thx.languages.En.language = null;
-thx.languages.En.getLanguage = function() {
-	if(null == thx.languages.En.language) thx.languages.En.language = new thx.languages.En();
-	return thx.languages.En.language;
-}
-thx.languages.En.__super__ = thx.culture.Language;
-thx.languages.En.prototype = $extend(thx.culture.Language.prototype,{
-	__class__: thx.languages.En
-});
 thx.xml.NodeFormat = $hxClasses["thx.xml.NodeFormat"] = function() {
 }
 thx.xml.NodeFormat.__name__ = ["thx","xml","NodeFormat"];
@@ -4223,37 +4529,7 @@ thx.translation.ITranslation.prototype = {
 	,_: null
 	,__: null
 	,__class__: thx.translation.ITranslation
-}
-thx.util.TypeServiceLocator = $hxClasses["thx.util.TypeServiceLocator"] = function() {
-	this._binders = new Hash();
-}
-thx.util.TypeServiceLocator.__name__ = ["thx","util","TypeServiceLocator"];
-thx.util.TypeServiceLocator.prototype = {
-	_binders: null
-	,instance: function(cls,o) {
-		return this.bind(cls,function() {
-			return o;
-		});
-	}
-	,bind: function(cls,f) {
-		this._binders.set(Type.getClassName(cls),f);
-		return this;
-	}
-	,memoize: function(cls,f) {
-		var r = null;
-		return this.bind(cls,function() {
-			if(null == r) r = f();
-			return r;
-		});
-	}
-	,unbinded: function(cls) {
-		return null;
-	}
-	,get: function(cls) {
-		var f = this._binders.get(Type.getClassName(cls));
-		if(null == f) return this.unbinded(cls); else return f();
-	}
-	,__class__: thx.util.TypeServiceLocator
+	,__properties__: {set_domain:"setDomain",get_domain:"getDomain"}
 }
 thx.number.TestParse = $hxClasses["thx.number.TestParse"] = function() {
 }
@@ -4674,149 +4950,7 @@ thx.xml.TestXmlWriter.prototype = {
 		return new thx.xml.XmlWriter();
 	}
 	,__class__: thx.xml.TestXmlWriter
-}
-var Floats = $hxClasses["Floats"] = function() { }
-Floats.__name__ = ["Floats"];
-Floats.normalize = function(v) {
-	if(v < 0.0) return 0.0; else if(v > 1.0) return 1.0; else return v;
-}
-Floats.clamp = function(v,min,max) {
-	if(v < min) return min; else if(v > max) return max; else return v;
-}
-Floats.clampSym = function(v,max) {
-	if(v < -max) return -max; else if(v > max) return max; else return v;
-}
-Floats.range = function(start,stop,step) {
-	if(step == null) step = 1.0;
-	if(null == stop) {
-		stop = start;
-		start = 0.0;
-	}
-	if((stop - start) / step == Math.POSITIVE_INFINITY) throw new thx.error.Error("infinite range",null,null,{ fileName : "Floats.hx", lineNumber : 50, className : "Floats", methodName : "range"});
-	var range = [], i = -1.0, j;
-	if(step < 0) while((j = start + step * ++i) > stop) range.push(j); else while((j = start + step * ++i) < stop) range.push(j);
-	return range;
-}
-Floats.sign = function(v) {
-	return v < 0?-1:1;
-}
-Floats.abs = function(a) {
-	return a < 0?-a:a;
-}
-Floats.min = function(a,b) {
-	return a < b?a:b;
-}
-Floats.max = function(a,b) {
-	return a > b?a:b;
-}
-Floats.wrap = function(v,min,max) {
-	var range = max - min + 1;
-	if(v < min) v += range * ((min - v) / range + 1);
-	return min + (v - min) % range;
-}
-Floats.circularWrap = function(v,max) {
-	v = v % max;
-	if(v < 0) v += max;
-	return v;
-}
-Floats.interpolate = function(f,a,b,equation) {
-	if(b == null) b = 1.0;
-	if(a == null) a = 0.0;
-	if(null == equation) equation = thx.math.Equations.linear;
-	return a + equation(f) * (b - a);
-}
-Floats.interpolatef = function(a,b,equation) {
-	if(b == null) b = 1.0;
-	if(a == null) a = 0.0;
-	if(null == equation) equation = thx.math.Equations.linear;
-	var d = b - a;
-	return function(f) {
-		return a + equation(f) * d;
-	};
-}
-Floats.interpolateClampf = function(min,max,equation) {
-	if(null == equation) equation = thx.math.Equations.linear;
-	return function(a,b) {
-		var d = b - a;
-		return function(f) {
-			return a + equation(Floats.clamp(f,min,max)) * d;
-		};
-	};
-}
-Floats.format = function(v,param,params,culture) {
-	return (Floats.formatf(param,params,culture))(v);
-}
-Floats.formatf = function(param,params,culture) {
-	params = thx.culture.FormatParams.params(param,params,"D");
-	var format = params.shift();
-	var decimals = params.length > 0?Std.parseInt(params[0]):null;
-	switch(format) {
-	case "D":
-		return function(v) {
-			return thx.culture.FormatNumber.decimal(v,decimals,culture);
-		};
-	case "I":
-		return function(v) {
-			return thx.culture.FormatNumber["int"](v,culture);
-		};
-	case "C":
-		var s = params.length > 1?params[1]:null;
-		return function(v) {
-			return thx.culture.FormatNumber.currency(v,s,decimals,culture);
-		};
-	case "P":
-		return function(v) {
-			return thx.culture.FormatNumber.percent(v,decimals,culture);
-		};
-	case "M":
-		return function(v) {
-			return thx.culture.FormatNumber.permille(v,decimals,culture);
-		};
-	default:
-		return (function($this) {
-			var $r;
-			throw new thx.error.Error("Unsupported number format: {0}",null,format,{ fileName : "Floats.hx", lineNumber : 145, className : "Floats", methodName : "formatf"});
-			return $r;
-		}(this));
-	}
-}
-Floats.canParse = function(s) {
-	return Floats._reparse.match(s);
-}
-Floats.parse = function(s) {
-	if(s.substr(0,1) == "+") s = s.substr(1);
-	return Std.parseFloat(s);
-}
-Floats.compare = function(a,b) {
-	return a < b?-1:a > b?1:0;
-}
-Floats.isNumeric = function(v) {
-	return Std["is"](v,Float) || Std["is"](v,Int);
-}
-Floats.equals = function(a,b,approx) {
-	if(approx == null) approx = 1e-5;
-	if(Math.isNaN(a)) return Math.isNaN(b); else if(Math.isNaN(b)) return false; else if(!Math.isFinite(a) && !Math.isFinite(b)) return a > 0 == b > 0;
-	return Math.abs(b - a) < approx;
-}
-Floats.uninterpolatef = function(a,b) {
-	b = 1 / (b - a);
-	return function(x) {
-		return (x - a) * b;
-	};
-}
-Floats.uninterpolateClampf = function(a,b) {
-	b = 1 / (b - a);
-	return function(x) {
-		return Floats.clamp((x - a) * b,0.0,1.0);
-	};
-}
-Floats.round = function(number,precision) {
-	if(precision == null) precision = 2;
-	number *= Math.pow(10,precision);
-	return Math.round(number) / Math.pow(10,precision);
-}
-Floats.prototype = {
-	__class__: Floats
+	,__properties__: {get_w:"getWriter"}
 }
 thx.color.TestCmyk = $hxClasses["thx.color.TestCmyk"] = function() {
 }
@@ -4982,8 +5116,7 @@ thx.validation.TestStringLength.prototype = $extend(thx.validation.TestAll.proto
 thx.util.TestAll = $hxClasses["thx.util.TestAll"] = function() { }
 thx.util.TestAll.__name__ = ["thx","util","TestAll"];
 thx.util.TestAll.addTests = function(runner) {
-	thx.util.TestTypeFactory.addTests(runner);
-	thx.util.TestTypeServiceLocator.addTests(runner);
+	thx.util.TestTypeLocator.addTests(runner);
 	runner.addCase(new thx.util.TestResults());
 }
 thx.util.TestAll.main = function() {
@@ -5072,24 +5205,6 @@ thx.validation.PatternValidator.prototype = $extend(thx.validation.Validator.pro
 	}
 	,__class__: thx.validation.PatternValidator
 });
-thx.culture.core.NumberInfo = $hxClasses["thx.culture.core.NumberInfo"] = function(decimals,decimalsSeparator,groups,groupsSeparator,patternNegative,patternPositive) {
-	this.decimals = decimals;
-	this.decimalsSeparator = decimalsSeparator;
-	this.groups = groups;
-	this.groupsSeparator = groupsSeparator;
-	this.patternNegative = patternNegative;
-	this.patternPositive = patternPositive;
-}
-thx.culture.core.NumberInfo.__name__ = ["thx","culture","core","NumberInfo"];
-thx.culture.core.NumberInfo.prototype = {
-	decimals: null
-	,decimalsSeparator: null
-	,groups: null
-	,groupsSeparator: null
-	,patternNegative: null
-	,patternPositive: null
-	,__class__: thx.culture.core.NumberInfo
-}
 haxe.macro.Constant = $hxClasses["haxe.macro.Constant"] = { __ename__ : ["haxe","macro","Constant"], __constructs__ : ["CInt","CFloat","CString","CIdent","CType","CRegexp"] }
 haxe.macro.Constant.CInt = function(v) { var $x = ["CInt",0,v]; $x.__enum__ = haxe.macro.Constant; $x.toString = $estr; return $x; }
 haxe.macro.Constant.CFloat = function(f) { var $x = ["CFloat",1,f]; $x.__enum__ = haxe.macro.Constant; $x.toString = $estr; return $x; }
@@ -5213,12 +5328,13 @@ haxe.macro.ExprDef.EDisplay = function(e,isCall) { var $x = ["EDisplay",26,e,isC
 haxe.macro.ExprDef.EDisplayNew = function(t) { var $x = ["EDisplayNew",27,t]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
 haxe.macro.ExprDef.ETernary = function(econd,eif,eelse) { var $x = ["ETernary",28,econd,eif,eelse]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
 haxe.macro.ExprDef.ECheckType = function(e,t) { var $x = ["ECheckType",29,e,t]; $x.__enum__ = haxe.macro.ExprDef; $x.toString = $estr; return $x; }
-haxe.macro.ComplexType = $hxClasses["haxe.macro.ComplexType"] = { __ename__ : ["haxe","macro","ComplexType"], __constructs__ : ["TPath","TFunction","TAnonymous","TParent","TExtend"] }
+haxe.macro.ComplexType = $hxClasses["haxe.macro.ComplexType"] = { __ename__ : ["haxe","macro","ComplexType"], __constructs__ : ["TPath","TFunction","TAnonymous","TParent","TExtend","TOptional"] }
 haxe.macro.ComplexType.TPath = function(p) { var $x = ["TPath",0,p]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
 haxe.macro.ComplexType.TFunction = function(args,ret) { var $x = ["TFunction",1,args,ret]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
 haxe.macro.ComplexType.TAnonymous = function(fields) { var $x = ["TAnonymous",2,fields]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
 haxe.macro.ComplexType.TParent = function(t) { var $x = ["TParent",3,t]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
 haxe.macro.ComplexType.TExtend = function(p,fields) { var $x = ["TExtend",4,p,fields]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
+haxe.macro.ComplexType.TOptional = function(t) { var $x = ["TOptional",5,t]; $x.__enum__ = haxe.macro.ComplexType; $x.toString = $estr; return $x; }
 haxe.macro.TypeParam = $hxClasses["haxe.macro.TypeParam"] = { __ename__ : ["haxe","macro","TypeParam"], __constructs__ : ["TPType","TPExpr"] }
 haxe.macro.TypeParam.TPType = function(t) { var $x = ["TPType",0,t]; $x.__enum__ = haxe.macro.TypeParam; $x.toString = $estr; return $x; }
 haxe.macro.TypeParam.TPExpr = function(e) { var $x = ["TPExpr",1,e]; $x.__enum__ = haxe.macro.TypeParam; $x.toString = $estr; return $x; }
@@ -5327,7 +5443,7 @@ js.Boot.__string_rec = function(o,s) {
 		if(hasp && !o.hasOwnProperty(k)) {
 			continue;
 		}
-		if(k == "prototype" || k == "__class__" || k == "__super__" || k == "__interfaces__") {
+		if(k == "prototype" || k == "__class__" || k == "__super__" || k == "__interfaces__" || k == "__properties__") {
 			continue;
 		}
 		if(str.length != 2) str += ", \n";
@@ -5418,7 +5534,7 @@ js.Boot.__init = function() {
 	if(String.prototype.cca == null) String.prototype.cca = String.prototype.charCodeAt;
 	String.prototype.charCodeAt = function(i) {
 		var x = this.cca(i);
-		if(x != x) return null;
+		if(x != x) return undefined;
 		return x;
 	};
 	var oldsub = String.prototype.substr;
@@ -5478,10 +5594,12 @@ Dynamics.formatf = function(param,params,nullstring,culture) {
 			break;
 		case 4:
 			return Objects.format(v,param,params,culture);
+		case 5:
+			return "function()";
 		default:
 			return (function($this) {
 				var $r;
-				throw new thx.error.Error("Unsupported type format: {0}",null,Type["typeof"](v),{ fileName : "Dynamics.hx", lineNumber : 42, className : "Dynamics", methodName : "formatf"});
+				throw new thx.error.Error("Unsupported type format: {0}",null,Type["typeof"](v),{ fileName : "Dynamics.hx", lineNumber : 44, className : "Dynamics", methodName : "formatf"});
 				return $r;
 			}(this));
 		}
@@ -5493,7 +5611,7 @@ Dynamics.interpolate = function(v,a,b,equation) {
 Dynamics.interpolatef = function(a,b,equation) {
 	var ta = Type["typeof"](a);
 	var tb = Type["typeof"](b);
-	if(!((Std["is"](a,Float) || Std["is"](a,Int)) && (Std["is"](b,Float) || Std["is"](b,Int))) && !Type.enumEq(ta,tb)) throw new thx.error.Error("arguments a ({0}) and b ({0}) have different types",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 57, className : "Dynamics", methodName : "interpolatef"});
+	if(!((Std["is"](a,Float) || Std["is"](a,Int)) && (Std["is"](b,Float) || Std["is"](b,Int))) && !Type.enumEq(ta,tb)) throw new thx.error.Error("arguments a ({0}) and b ({0}) have different types",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 59, className : "Dynamics", methodName : "interpolatef"});
 	var $e = (ta);
 	switch( $e[1] ) {
 	case 0:
@@ -5518,11 +5636,11 @@ Dynamics.interpolatef = function(a,b,equation) {
 		case "Date":
 			return Dates.interpolatef(a,b,equation);
 		default:
-			throw new thx.error.Error("cannot interpolate on instances of {0}",null,name,{ fileName : "Dynamics.hx", lineNumber : 75, className : "Dynamics", methodName : "interpolatef"});
+			throw new thx.error.Error("cannot interpolate on instances of {0}",null,name,{ fileName : "Dynamics.hx", lineNumber : 77, className : "Dynamics", methodName : "interpolatef"});
 		}
 		break;
 	default:
-		throw new thx.error.Error("cannot interpolate on functions/enums/unknown",null,null,{ fileName : "Dynamics.hx", lineNumber : 77, className : "Dynamics", methodName : "interpolatef"});
+		throw new thx.error.Error("cannot interpolate on functions/enums/unknown",null,null,{ fileName : "Dynamics.hx", lineNumber : 79, className : "Dynamics", methodName : "interpolatef"});
 	}
 }
 Dynamics.string = function(v) {
@@ -5572,7 +5690,7 @@ Dynamics.string = function(v) {
 	}
 }
 Dynamics.compare = function(a,b) {
-	if(!Types.sameType(a,b)) throw new thx.error.Error("cannot compare 2 different types",null,null,{ fileName : "Dynamics.hx", lineNumber : 129, className : "Dynamics", methodName : "compare"});
+	if(!Types.sameType(a,b)) throw new thx.error.Error("cannot compare 2 different types",null,null,{ fileName : "Dynamics.hx", lineNumber : 131, className : "Dynamics", methodName : "compare"});
 	if(null == a && null == b) return 0;
 	if(null == a) return -1;
 	if(null == b) return 1;
@@ -5641,7 +5759,8 @@ Dynamics.comparef = function(sample) {
 		return Dynamics.compare;
 	}
 }
-Dynamics.clone = function(v) {
+Dynamics.clone = function(v,cloneInstances) {
+	if(cloneInstances == null) cloneInstances = false;
 	var $e = (Type["typeof"](v));
 	switch( $e[1] ) {
 	case 0:
@@ -5673,14 +5792,16 @@ Dynamics.clone = function(v) {
 		case "String":case "Date":
 			return v;
 		default:
-			var o = Type.createEmptyInstance(c);
-			var _g = 0, _g1 = Reflect.fields(v);
-			while(_g < _g1.length) {
-				var field = _g1[_g];
-				++_g;
-				o[field] = Dynamics.clone(Reflect.field(v,field));
-			}
-			return o;
+			if(cloneInstances) {
+				var o = Type.createEmptyInstance(c);
+				var _g = 0, _g1 = Reflect.fields(v);
+				while(_g < _g1.length) {
+					var field = _g1[_g];
+					++_g;
+					o[field] = Dynamics.clone(Reflect.field(v,field));
+				}
+				return o;
+			} else return v;
 		}
 		break;
 	}
@@ -5798,7 +5919,7 @@ Dynamics.same = function(a,b) {
 	}
 	return (function($this) {
 		var $r;
-		throw new thx.error.Error("Unable to compare values: {0} and {1}",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 364, className : "Dynamics", methodName : "same"});
+		throw new thx.error.Error("Unable to compare values: {0} and {1}",[a,b],null,{ fileName : "Dynamics.hx", lineNumber : 371, className : "Dynamics", methodName : "same"});
 		return $r;
 	}(this));
 }
@@ -6004,12 +6125,11 @@ thx.js.AccessTweenStyle.prototype = $extend(thx.js.AccessTween.prototype,{
 		return this.floatTweenNodef(this.transitionFloatTween(value),priority);
 	}
 	,floatTweenNodef: function(tween,priority) {
-		if(null == priority) priority = null;
 		var name = this.name;
 		var styleTween = function(d,i) {
-			var f = tween(d,i,Std.parseFloat(js.Lib.window.getComputedStyle(d,null).getPropertyValue(name)));
+			var f = tween(d,i,Std.parseFloat(window.getComputedStyle(d,null).getPropertyValue(name)));
 			return function(t) {
-				d.style.setProperty(name,"" + f(t),priority);
+				d.style.setProperty(name,"" + f(t),null == priority?"":priority);
 			};
 		};
 		this.tweens.set("style." + name,styleTween);
@@ -6025,9 +6145,9 @@ thx.js.AccessTweenStyle.prototype = $extend(thx.js.AccessTween.prototype,{
 		if(null == priority) priority = null;
 		var name = this.name;
 		var styleTween = function(d,i) {
-			var f = tween(d,i,js.Lib.window.getComputedStyle(d,null).getPropertyValue(name));
+			var f = tween(d,i,window.getComputedStyle(d,null).getPropertyValue(name));
 			return function(t) {
-				d.style.setProperty(name,f(t),priority);
+				d.style.setProperty(name,f(t),null == priority?"":priority);
 			};
 		};
 		this.tweens.set("style." + name,styleTween);
@@ -6043,9 +6163,9 @@ thx.js.AccessTweenStyle.prototype = $extend(thx.js.AccessTween.prototype,{
 		if(null == priority) priority = null;
 		var name = this.name;
 		var styleTween = function(d,i) {
-			var f = tween(d,i,thx.color.Colors.parse(js.Lib.window.getComputedStyle(d,null).getPropertyValue(name)));
+			var f = tween(d,i,thx.color.Colors.parse(window.getComputedStyle(d,null).getPropertyValue(name)));
 			return function(t) {
-				d.style.setProperty(name,f(t).toRgbString(),priority);
+				d.style.setProperty(name,f(t).toRgbString(),null == priority?"":priority);
 			};
 		};
 		this.tweens.set("style." + name,styleTween);
@@ -6068,9 +6188,9 @@ thx.js.AccessDataTweenStyle.prototype = $extend(thx.js.AccessTweenStyle.prototyp
 		if(null == priority) priority = null;
 		var name = this.name;
 		var styleTween = function(d,i) {
-			var f = tween(Reflect.field(d,"__data__"),i,Std.parseFloat(js.Lib.window.getComputedStyle(d,null).getPropertyValue(name)));
+			var f = tween(Reflect.field(d,"__data__"),i,Std.parseFloat(window.getComputedStyle(d,null).getPropertyValue(name)));
 			return function(t) {
-				d.style.setProperty(name,"" + f(t),priority);
+				d.style.setProperty(name,"" + f(t),null == priority?"":priority);
 			};
 		};
 		this.tweens.set("style." + name,styleTween);
@@ -6085,9 +6205,9 @@ thx.js.AccessDataTweenStyle.prototype = $extend(thx.js.AccessTweenStyle.prototyp
 		if(null == priority) priority = null;
 		var name = this.name;
 		var styleTween = function(d,i) {
-			var f = tween(Reflect.field(d,"__data__"),i,js.Lib.window.getComputedStyle(d,null).getPropertyValue(name));
+			var f = tween(Reflect.field(d,"__data__"),i,window.getComputedStyle(d,null).getPropertyValue(name));
 			return function(t) {
-				d.style.setProperty(name,f(t),priority);
+				d.style.setProperty(name,f(t),null == priority?"":priority);
 			};
 		};
 		this.tweens.set("style." + name,styleTween);
@@ -6102,9 +6222,9 @@ thx.js.AccessDataTweenStyle.prototype = $extend(thx.js.AccessTweenStyle.prototyp
 		if(null == priority) priority = null;
 		var name = this.name;
 		var styleTween = function(d,i) {
-			var f = tween(Reflect.field(d,"__data__"),i,thx.color.Colors.parse(js.Lib.window.getComputedStyle(d,null).getPropertyValue(name)));
+			var f = tween(Reflect.field(d,"__data__"),i,thx.color.Colors.parse(window.getComputedStyle(d,null).getPropertyValue(name)));
 			return function(t) {
-				d.style.setProperty(name,f(t).toRgbString(),priority);
+				d.style.setProperty(name,f(t).toRgbString(),null == priority?"":priority);
 			};
 		};
 		this.tweens.set("style." + name,styleTween);
@@ -7395,6 +7515,7 @@ thx.cultures.EnIN = $hxClasses["thx.cultures.EnIN"] = function() {
 	thx.culture.Culture.add(this);
 }
 thx.cultures.EnIN.__name__ = ["thx","cultures","EnIN"];
+thx.cultures.EnIN.__properties__ = {get_culture:"getCulture"}
 thx.cultures.EnIN.culture = null;
 thx.cultures.EnIN.getCulture = function() {
 	if(null == thx.cultures.EnIN.culture) thx.cultures.EnIN.culture = new thx.cultures.EnIN();
@@ -7543,7 +7664,7 @@ thx.csv.CsvDecoder.prototype = {
 	,error: function(e) {
 		return (function($this) {
 			var $r;
-			throw new thx.error.Error("invalid string value '{0}' at line {1}, column {2}",[Strings.ellipsis(e,50),$this.line,$this.column],null,{ fileName : "CsvDecoder.hx", lineNumber : 125, className : "thx.csv.CsvDecoder", methodName : "error"});
+			throw new thx.error.Error("invalid string value '{0}' at line {1}, column {2}",[Strings.ellipsis(e,50),$this.line,$this.column],null,{ fileName : "CsvDecoder.hx", lineNumber : 123, className : "thx.csv.CsvDecoder", methodName : "error"});
 			return $r;
 		}(this));
 	}
@@ -7641,7 +7762,7 @@ thx.math.scale.Linear.prototype = $extend(thx.math.scale.NumericScale.prototype,
 		return this;
 	}
 	,tickRange: function() {
-		var start = Arrays.min(this._domain), stop = Arrays.max(this._domain), span = stop - start, step = Math.pow(this.m,Math.floor(Math.log(span / this.m) / 2.302585092994046)), err = this.m / (span / step);
+		var start = Arrays.min(this._domain), stop = Arrays.max(this._domain), span = stop - start, step = Math.pow(10,Math.floor(Math.log(span / this.m) / 2.302585092994046)), err = this.m / (span / step);
 		if(err <= .15) step *= 10; else if(err <= .35) step *= 5; else if(err <= .75) step *= 2;
 		return { start : Math.ceil(start / step) * step, stop : Math.floor(stop / step) * step + step * .5, step : step};
 	}
@@ -7650,7 +7771,7 @@ thx.math.scale.Linear.prototype = $extend(thx.math.scale.NumericScale.prototype,
 		return Floats.range(range.start,range.stop,range.step);
 	}
 	,tickFormat: function(v,i) {
-		var n = Math.max(this.m,-Math.floor(Math.log(this.tickRange().step) / 2.302585092994046 + .01));
+		var n = Math.max(0,-Math.floor(Math.log(this.tickRange().step) / 2.302585092994046 + .01));
 		return Floats.format(v,"D:" + n);
 	}
 	,__class__: thx.math.scale.Linear
@@ -7732,73 +7853,6 @@ thx.xml.AutoDocumentFormat.prototype = $extend(thx.xml.DocumentFormat.prototype,
 	}
 	,__class__: thx.xml.AutoDocumentFormat
 });
-thx.util.TestTypeFactory = $hxClasses["thx.util.TestTypeFactory"] = function() {
-}
-thx.util.TestTypeFactory.__name__ = ["thx","util","TestTypeFactory"];
-thx.util.TestTypeFactory.addTests = function(runner) {
-	runner.addCase(new thx.util.TestTypeFactory());
-}
-thx.util.TestTypeFactory.main = function() {
-	var runner = new utest.Runner();
-	thx.util.TestTypeFactory.addTests(runner);
-	utest.ui.Report.create(runner);
-	runner.run();
-}
-thx.util.TestTypeFactory.prototype = {
-	testBind: function() {
-		var factory = new thx.util.TypeFactory().bind(thx.util.type.ITest,function() {
-			return new thx.util.type.TestImplementation();
-		});
-		var o = factory.get(thx.util.type.ITest);
-		utest.Assert["is"](o,thx.util.type.ITest,null,{ fileName : "TestTypeFactory.hx", lineNumber : 21, className : "thx.util.TestTypeFactory", methodName : "testBind"});
-		utest.Assert["is"](o,thx.util.type.TestImplementation,null,{ fileName : "TestTypeFactory.hx", lineNumber : 22, className : "thx.util.TestTypeFactory", methodName : "testBind"});
-		utest.Assert.equals("hi",o.sayHello(),null,{ fileName : "TestTypeFactory.hx", lineNumber : 23, className : "thx.util.TestTypeFactory", methodName : "testBind"});
-	}
-	,testUnbinded: function() {
-		var factory = new thx.util.TypeFactory();
-		utest.Assert.isNull(factory.get(thx.util.type.ITest),null,{ fileName : "TestTypeFactory.hx", lineNumber : 29, className : "thx.util.TestTypeFactory", methodName : "testUnbinded"});
-		factory.unbinded = function(cls) {
-			if("thx.util.type.ITest" == Type.getClassName(cls)) return null;
-			try {
-				return Type.createInstance(cls,[]);
-			} catch( e ) {
-				return null;
-			}
-		};
-		utest.Assert.isNull(factory.get(thx.util.type.ITest),null,{ fileName : "TestTypeFactory.hx", lineNumber : 41, className : "thx.util.TestTypeFactory", methodName : "testUnbinded"});
-		utest.Assert.notNull(factory.get(thx.util.type.TestImplementation),null,{ fileName : "TestTypeFactory.hx", lineNumber : 42, className : "thx.util.TestTypeFactory", methodName : "testUnbinded"});
-		utest.Assert["is"](factory.get(thx.util.type.TestImplementation),thx.util.type.TestImplementation,null,{ fileName : "TestTypeFactory.hx", lineNumber : 43, className : "thx.util.TestTypeFactory", methodName : "testUnbinded"});
-	}
-	,testInstance: function() {
-		var factory = new thx.util.TypeFactory().instance(thx.util.type.ITest,new thx.util.type.TestImplementation());
-		var o = factory.get(thx.util.type.ITest);
-		utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeFactory.hx", lineNumber : 50, className : "thx.util.TestTypeFactory", methodName : "testInstance"});
-		o.counter++;
-		o = factory.get(thx.util.type.ITest);
-		utest.Assert.equals(1,o.counter,null,{ fileName : "TestTypeFactory.hx", lineNumber : 53, className : "thx.util.TestTypeFactory", methodName : "testInstance"});
-	}
-	,testMultipleInstances: function() {
-		var factory = new thx.util.TypeFactory().bind(thx.util.type.ITest,function() {
-			return new thx.util.type.TestImplementation();
-		});
-		var o = factory.get(thx.util.type.ITest);
-		utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeFactory.hx", lineNumber : 60, className : "thx.util.TestTypeFactory", methodName : "testMultipleInstances"});
-		o.counter++;
-		o = factory.get(thx.util.type.ITest);
-		utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeFactory.hx", lineNumber : 63, className : "thx.util.TestTypeFactory", methodName : "testMultipleInstances"});
-	}
-	,testMemoize: function() {
-		var factory = new thx.util.TypeFactory().memoize(thx.util.type.ITest,function() {
-			return new thx.util.type.TestImplementation();
-		});
-		var o = factory.get(thx.util.type.ITest);
-		utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeFactory.hx", lineNumber : 70, className : "thx.util.TestTypeFactory", methodName : "testMemoize"});
-		o.counter++;
-		o = factory.get(thx.util.type.ITest);
-		utest.Assert.equals(1,o.counter,null,{ fileName : "TestTypeFactory.hx", lineNumber : 73, className : "thx.util.TestTypeFactory", methodName : "testMemoize"});
-	}
-	,__class__: thx.util.TestTypeFactory
-}
 thx.svg.Arc = $hxClasses["thx.svg.Arc"] = function() {
 	this._r0 = function(_,_1) {
 		return 0;
@@ -8407,16 +8461,16 @@ thx.math.scale.TestLinear.prototype = $extend(thx.math.scale.TestAll.prototype,{
 	}
 	,testTicks: function() {
 		var scale = new thx.math.scale.Linear();
-		utest.Assert.equals("0.0, 1.0",scale.modulo(1).ticks().map(function(d,_) {
+		utest.Assert.equals("0, 1",scale.modulo(1).ticks().map(function(d,_) {
 			return scale.tickFormat(d);
 		}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 51, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
-		utest.Assert.equals("0.00, 0.50, 1.00",scale.modulo(2).ticks().map(function(d,_) {
+		utest.Assert.equals("0.0, 0.5, 1.0",scale.modulo(2).ticks().map(function(d,_) {
 			return scale.tickFormat(d);
 		}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 52, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
-		utest.Assert.equals("0.00000, 0.20000, 0.40000, 0.60000, 0.80000, 1.00000",scale.modulo(5).ticks().map(function(d,_) {
+		utest.Assert.equals("0.0, 0.2, 0.4, 0.6, 0.8, 1.0",scale.modulo(5).ticks().map(function(d,_) {
 			return scale.tickFormat(d);
 		}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 53, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
-		utest.Assert.equals("0.0000000000, 0.1000000000, 0.2000000000, 0.3000000000, 0.4000000000, 0.5000000000, 0.6000000000, 0.7000000000, 0.8000000000, 0.9000000000, 1.0000000000",scale.modulo(10).ticks().map(function(d,_) {
+		utest.Assert.equals("0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0",scale.modulo(10).ticks().map(function(d,_) {
 			return scale.tickFormat(d);
 		}).join(", "),null,{ fileName : "TestLinear.hx", lineNumber : 54, className : "thx.math.scale.TestLinear", methodName : "testTicks"});
 	}
@@ -8531,25 +8585,6 @@ thx.js.AccessDataAttribute.prototype = $extend(thx.js.AccessAttribute.prototype,
 		});
 	}
 	,__class__: thx.js.AccessDataAttribute
-});
-thx.languages.It = $hxClasses["thx.languages.It"] = function() {
-	this.name = "it";
-	this.english = "Italian";
-	this["native"] = "italiano";
-	this.iso2 = "it";
-	this.iso3 = "ita";
-	this.pluralRule = 1;
-	thx.culture.Language.add(this);
-}
-thx.languages.It.__name__ = ["thx","languages","It"];
-thx.languages.It.language = null;
-thx.languages.It.getLanguage = function() {
-	if(null == thx.languages.It.language) thx.languages.It.language = new thx.languages.It();
-	return thx.languages.It.language;
-}
-thx.languages.It.__super__ = thx.culture.Language;
-thx.languages.It.prototype = $extend(thx.culture.Language.prototype,{
-	__class__: thx.languages.It
 });
 thx.math.TestEquations = $hxClasses["thx.math.TestEquations"] = function() {
 }
@@ -8874,7 +8909,7 @@ thx.culture.FormatDate.format = function(pattern,date,culture,leadingspace) {
 			buf.add(thx.culture.FormatDate.format("%H:%M",date,culture));
 			break;
 		case "s":
-			buf.add("" + Std["int"](date.getTime() / 1000));
+			buf.add("" + (date.getTime() / 1000 | 0));
 			break;
 		case "S":
 			buf.add(thx.culture.FormatNumber.digits(StringTools.lpad("" + date.getSeconds(),"0",2),culture));
@@ -9433,6 +9468,7 @@ Xml.prototype = {
 		return s.b.join("");
 	}
 	,__class__: Xml
+	,__properties__: {get_parent:"getParent",set_nodeValue:"setNodeValue",get_nodeValue:"getNodeValue",set_nodeName:"setNodeName",get_nodeName:"getNodeName"}
 }
 if(!thx.geom) thx.geom = {}
 thx.geom.Polygon = $hxClasses["thx.geom.Polygon"] = function(coordinates) {
@@ -9539,7 +9575,7 @@ DateTools.__format_get = function(d,e) {
 			$r = "%";
 			break;
 		case "C":
-			$r = StringTools.lpad(Std.string(Std["int"](d.getFullYear() / 100)),"0",2);
+			$r = StringTools.lpad(Std.string(d.getFullYear() / 100 | 0),"0",2);
 			break;
 		case "d":
 			$r = StringTools.lpad(Std.string(d.getDate()),"0",2);
@@ -9580,7 +9616,7 @@ DateTools.__format_get = function(d,e) {
 			$r = DateTools.__format(d,"%H:%M");
 			break;
 		case "s":
-			$r = Std.string(Std["int"](d.getTime() / 1000));
+			$r = Std.string(d.getTime() / 1000 | 0);
 			break;
 		case "S":
 			$r = StringTools.lpad(Std.string(d.getSeconds()),"0",2);
@@ -9660,7 +9696,7 @@ DateTools.parse = function(t) {
 	var s = t / 1000;
 	var m = s / 60;
 	var h = m / 60;
-	return { ms : t % 1000, seconds : Std["int"](s % 60), minutes : Std["int"](m % 60), hours : Std["int"](h % 24), days : Std["int"](h / 24)};
+	return { ms : t % 1000, seconds : s % 60 | 0, minutes : m % 60 | 0, hours : h % 24 | 0, days : h / 24 | 0};
 }
 DateTools.make = function(o) {
 	return o.ms + 1000.0 * (o.seconds + 60.0 * (o.minutes + 60.0 * (o.hours + 24.0 * o.days)));
@@ -9704,6 +9740,26 @@ thx.xml.NormalizeNewlineValueFormat.prototype = $extend(thx.xml.ValueFormat.prot
 	}
 	,__class__: thx.xml.NormalizeNewlineValueFormat
 });
+thx.languages.Ar = $hxClasses["thx.languages.Ar"] = function() {
+	this.name = "ar";
+	this.english = "Arabic";
+	this["native"] = "العربية";
+	this.iso2 = "ar";
+	this.iso3 = "ara";
+	this.pluralRule = 12;
+	thx.culture.Language.add(this);
+}
+thx.languages.Ar.__name__ = ["thx","languages","Ar"];
+thx.languages.Ar.__properties__ = {get_language:"getLanguage"}
+thx.languages.Ar.language = null;
+thx.languages.Ar.getLanguage = function() {
+	if(null == thx.languages.Ar.language) thx.languages.Ar.language = new thx.languages.Ar();
+	return thx.languages.Ar.language;
+}
+thx.languages.Ar.__super__ = thx.culture.Language;
+thx.languages.Ar.prototype = $extend(thx.culture.Language.prototype,{
+	__class__: thx.languages.Ar
+});
 thx.cultures.ArMA = $hxClasses["thx.cultures.ArMA"] = function() {
 	this.language = thx.languages.Ar.getLanguage();
 	this.name = "ar-MA";
@@ -9733,6 +9789,7 @@ thx.cultures.ArMA = $hxClasses["thx.cultures.ArMA"] = function() {
 	thx.culture.Culture.add(this);
 }
 thx.cultures.ArMA.__name__ = ["thx","cultures","ArMA"];
+thx.cultures.ArMA.__properties__ = {get_culture:"getCulture"}
 thx.cultures.ArMA.culture = null;
 thx.cultures.ArMA.getCulture = function() {
 	if(null == thx.cultures.ArMA.culture) thx.cultures.ArMA.culture = new thx.cultures.ArMA();
@@ -9878,37 +9935,6 @@ haxe.Stack.makeStack = function(s) {
 haxe.Stack.prototype = {
 	__class__: haxe.Stack
 }
-thx.util.TypeFactory = $hxClasses["thx.util.TypeFactory"] = function() {
-	this._binders = new Hash();
-}
-thx.util.TypeFactory.__name__ = ["thx","util","TypeFactory"];
-thx.util.TypeFactory.prototype = {
-	_binders: null
-	,instance: function(cls,o) {
-		return this.bind(cls,function() {
-			return o;
-		});
-	}
-	,bind: function(cls,f) {
-		this._binders.set(Type.getClassName(cls),f);
-		return this;
-	}
-	,memoize: function(cls,f) {
-		var r = null;
-		return this.bind(cls,function() {
-			if(null == r) r = f();
-			return r;
-		});
-	}
-	,unbinded: function(cls) {
-		return null;
-	}
-	,get: function(cls) {
-		var f = this._binders.get(Type.getClassName(cls));
-		if(null == f) return this.unbinded(cls); else return f();
-	}
-	,__class__: thx.util.TypeFactory
-}
 thx.geo.Mercator = $hxClasses["thx.geo.Mercator"] = function() {
 	this.setScale(500);
 	this.setTranslate([480.0,250]);
@@ -9940,6 +9966,7 @@ thx.geo.Mercator.prototype = {
 		return translate;
 	}
 	,__class__: thx.geo.Mercator
+	,__properties__: {set_translate:"setTranslate",get_translate:"getTranslate",set_scale:"setScale",get_scale:"getScale"}
 }
 thx.svg.PathGeoJson = $hxClasses["thx.svg.PathGeoJson"] = function() {
 	this.setPointRadius(4.5);
@@ -10054,6 +10081,7 @@ thx.svg.PathGeoJson.prototype = {
 		return this.projection = projection;
 	}
 	,__class__: thx.svg.PathGeoJson
+	,__properties__: {set_projection:"setProjection",set_pointRadius:"setPointRadius"}
 }
 thx.svg.PathTypes = $hxClasses["thx.svg.PathTypes"] = function(geo) {
 	this.geo = geo;
@@ -11410,6 +11438,39 @@ Arrays.shuffle = function(a) {
 	}
 	return arr;
 }
+Arrays.scanf = function(arr,weightf,incremental) {
+	if(incremental == null) incremental = true;
+	var tot = 0.0, weights = [];
+	if(incremental) {
+		var _g1 = 0, _g = arr.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			weights[i] = tot += weightf(arr[i],i);
+		}
+	} else {
+		var _g1 = 0, _g = arr.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			weights[i] = weightf(arr[i],i);
+		}
+		tot = weights[weights.length - 1];
+	}
+	var scan = (function($this) {
+		var $r;
+		var scan = null;
+		scan = function(v,start,end) {
+			if(start == end) return arr[start];
+			var mid = Math.floor((end - start) / 2) + start, value = weights[mid];
+			if(v < value) return scan(v,start,mid); else return scan(v,mid + 1,end);
+		};
+		$r = scan;
+		return $r;
+	}(this));
+	return function(v) {
+		if(v < 0 || v > tot) return null;
+		return scan(v,0,weights.length - 1);
+	};
+}
 Arrays.prototype = {
 	__class__: Arrays
 }
@@ -11756,7 +11817,7 @@ utest.ui.text.PlainTextReport.prototype = {
 	,addHeader: function(buf,result) {
 		if(!utest.ui.common.ReportTools.hasHeader(this,result.stats)) return;
 		var end = haxe.Timer.stamp();
-		var time = Std["int"]((end - this.startTime) * 1000) / 1000;
+		var time = ((end - this.startTime) * 1000 | 0) / 1000;
 		buf.add("results: " + (result.stats.isOk?"ALL TESTS OK":"SOME TESTS FAILURES") + this.newline + " " + this.newline);
 		buf.add("assertations: " + result.stats.assertations + this.newline);
 		buf.add("successes: " + result.stats.successes + this.newline);
@@ -11895,10 +11956,10 @@ TestObjects.main = function() {
 }
 TestObjects.prototype = {
 	testKeys: function() {
-		utest.Assert.same(["a","b","c"],Arrays.order(Reflect.fields(TestObjects.testObject)),null,null,{ fileName : "TestObjects.hx", lineNumber : 12, className : "TestObjects", methodName : "testKeys"});
+		utest.Assert.same(["a","b","c"],Arrays.order(Reflect.fields(TestObjects.testObject),null),null,null,{ fileName : "TestObjects.hx", lineNumber : 12, className : "TestObjects", methodName : "testKeys"});
 	}
 	,testValues: function() {
-		utest.Assert.same([1,2,3],Arrays.order(Objects.values(TestObjects.testObject)),null,null,{ fileName : "TestObjects.hx", lineNumber : 17, className : "TestObjects", methodName : "testValues"});
+		utest.Assert.same([1,2,3],Arrays.order(Objects.values(TestObjects.testObject),null),null,null,{ fileName : "TestObjects.hx", lineNumber : 17, className : "TestObjects", methodName : "testValues"});
 	}
 	,testEntries: function() {
 		utest.Assert.same([{ key : "a", value : 1},{ key : "b", value : 2},{ key : "c", value : 3}],Arrays.order(Objects.entries(TestObjects.testObject),function(a,b) {
@@ -11909,7 +11970,7 @@ TestObjects.prototype = {
 		var a = { a : 10, b : "x1y2", color : "hsl(30, 0.1, 0.5)", d : "extra"};
 		var b = { a : 20, b : "x3y4", color : "hsl(330, 0.3, 0.7)", e : "other"};
 		var f = Objects.interpolatef(a,b);
-		utest.Assert.same({ d : "extra", e : "other", a : 15, b : "x2y3", color : "rgb(171,142,147)"},f(0.5),null,null,{ fileName : "TestObjects.hx", lineNumber : 42, className : "TestObjects", methodName : "testInterpolate"});
+		utest.Assert.same({ d : "extra", e : "other", a : 15, b : "x2y3", color : "hsl(180, 0.2, 0.6)"},f(0.5),null,null,{ fileName : "TestObjects.hx", lineNumber : 42, className : "TestObjects", methodName : "testInterpolate"});
 	}
 	,testFlatten: function() {
 		utest.Assert.same([],Objects.flatten({ }),null,null,{ fileName : "TestObjects.hx", lineNumber : 54, className : "TestObjects", methodName : "testFlatten"});
@@ -12773,8 +12834,10 @@ thx.color.Cmyk.equals = function(a,b) {
 	return a.black == b.black && a.cyan == b.cyan && a.magenta == b.magenta && a.yellow == b.yellow;
 }
 thx.color.Cmyk.darker = function(color,t,equation) {
-	var v = t * color.black;
-	return new thx.color.Cmyk(color.cyan,color.magenta,color.yellow,Floats.interpolate(v,0,1,equation));
+	return new thx.color.Cmyk(color.cyan,color.magenta,color.yellow,Floats.interpolate(t,color.black,0,equation));
+}
+thx.color.Cmyk.lighter = function(color,t,equation) {
+	return new thx.color.Cmyk(color.cyan,color.magenta,color.yellow,Floats.interpolate(t,color.black,1,equation));
 }
 thx.color.Cmyk.interpolate = function(a,b,t,equation) {
 	return new thx.color.Cmyk(Floats.interpolate(t,a.cyan,b.cyan,equation),Floats.interpolate(t,a.magenta,b.magenta,equation),Floats.interpolate(t,a.yellow,b.yellow,equation),Floats.interpolate(t,a.black,b.black,equation));
@@ -12955,8 +13018,10 @@ thx.color.Grey.equals = function(a,b) {
 	return a.grey == b.grey;
 }
 thx.color.Grey.darker = function(color,t,equation) {
-	var v = t * color.grey;
-	return new thx.color.Grey(Floats.interpolate(v,0,1,equation));
+	return new thx.color.Grey(Floats.interpolate(t,color.grey,0,equation));
+}
+thx.color.Grey.lighter = function(color,t,equation) {
+	return new thx.color.Grey(Floats.interpolate(t,color.grey,1,equation));
 }
 thx.color.Grey.interpolate = function(a,b,t,equation) {
 	return new thx.color.Grey(Floats.interpolate(t,a.grey,b.grey,equation));
@@ -13054,6 +13119,7 @@ thx.languages.De = $hxClasses["thx.languages.De"] = function() {
 	thx.culture.Language.add(this);
 }
 thx.languages.De.__name__ = ["thx","languages","De"];
+thx.languages.De.__properties__ = {get_language:"getLanguage"}
 thx.languages.De.language = null;
 thx.languages.De.getLanguage = function() {
 	if(null == thx.languages.De.language) thx.languages.De.language = new thx.languages.De();
@@ -13296,19 +13362,29 @@ thx.geo.AlbersUsa.prototype = {
 		return this.lower48.getTranslate();
 	}
 	,__class__: thx.geo.AlbersUsa
+	,__properties__: {set_scale:"setScale",get_scale:"getScale",set_translate:"setTranslate",get_translate:"getTranslate"}
 }
 thx.js.AccessStyle = $hxClasses["thx.js.AccessStyle"] = function(name,selection) {
 	thx.js.Access.call(this,selection);
 	this.name = name;
 }
 thx.js.AccessStyle.__name__ = ["thx","js","AccessStyle"];
+thx.js.AccessStyle.getComputedStyleValue = function(node,key) {
+	return window.getComputedStyle(node,null).getPropertyValue(key);
+}
+thx.js.AccessStyle.setStyleProperty = function(node,key,value,priority) {
+	node.style.setProperty(key,value,null == priority?"":priority);
+}
+thx.js.AccessStyle.removeStyleProperty = function(node,key) {
+	node.style.removeProperty(key);
+}
 thx.js.AccessStyle.__super__ = thx.js.Access;
 thx.js.AccessStyle.prototype = $extend(thx.js.Access.prototype,{
 	name: null
 	,get: function() {
-		var n = this.name;
+		var me = this;
 		return this.selection.firstNode(function(node) {
-			return js.Lib.window.getComputedStyle(node,null).getPropertyValue(n);
+			return window.getComputedStyle(node,null).getPropertyValue(me.name);
 		});
 	}
 	,getFloat: function() {
@@ -13316,33 +13392,31 @@ thx.js.AccessStyle.prototype = $extend(thx.js.Access.prototype,{
 		if(thx.js.AccessStyle.refloat.match(v)) return Std.parseFloat(thx.js.AccessStyle.refloat.matched(1)); else return Math.NaN;
 	}
 	,remove: function() {
-		var n = this.name;
+		var me = this;
 		this.selection.eachNode(function(node,i) {
-			node.style.removeProperty(n);
+			node.style.removeProperty(me.name);
 		});
 		return this.selection;
 	}
 	,string: function(v,priority) {
-		var n = this.name;
-		if(null == priority) priority = "";
+		var me = this;
 		this.selection.eachNode(function(node,i) {
-			node.style.setProperty(n,v,priority);
+			node.style.setProperty(me.name,v,null == priority?"":priority);
 		});
 		return this.selection;
 	}
 	,'float': function(v,priority) {
-		var s = "" + v, n = this.name;
-		if(null == priority) priority = "";
+		var me = this;
 		this.selection.eachNode(function(node,i) {
-			node.style.setProperty(n,s,priority);
+			node.style.setProperty(me.name,v,null == priority?"":priority);
 		});
 		return this.selection;
 	}
 	,color: function(v,priority) {
-		var s = v.toRgbString(), n = this.name;
-		if(null == priority) priority = "";
+		var me = this;
+		var s = v.toRgbString();
 		this.selection.eachNode(function(node,i) {
-			node.style.setProperty(n,s,priority);
+			node.style.setProperty(me.name,s,null == priority?"":priority);
 		});
 		return this.selection;
 	}
@@ -13355,29 +13429,26 @@ thx.js.AccessDataStyle.__name__ = ["thx","js","AccessDataStyle"];
 thx.js.AccessDataStyle.__super__ = thx.js.AccessStyle;
 thx.js.AccessDataStyle.prototype = $extend(thx.js.AccessStyle.prototype,{
 	stringf: function(v,priority) {
-		var n = this.name;
-		if(null == priority) priority = "";
+		var me = this;
 		this.selection.eachNode(function(node,i) {
 			var s = v(Reflect.field(node,"__data__"),i);
-			if(s == null) node.style.removeProperty(n); else node.style.setProperty(n,s,priority);
+			if(s == null) node.style.removeProperty(me.name); else node.style.setProperty(me.name,s,null == priority?"":priority);
 		});
 		return this.selection;
 	}
 	,floatf: function(v,priority) {
-		var n = this.name;
-		if(null == priority) priority = "";
+		var me = this;
 		this.selection.eachNode(function(node,i) {
 			var s = v(Reflect.field(node,"__data__"),i);
-			if(s == null) node.style.removeProperty(n); else node.style.setProperty(n,"" + s,priority);
+			if(s == null) node.style.removeProperty(me.name); else node.style.setProperty(me.name,"" + s,null == priority?"":priority);
 		});
 		return this.selection;
 	}
 	,colorf: function(v,priority) {
-		var n = this.name;
-		if(null == priority) priority = "";
+		var me = this;
 		this.selection.eachNode(function(node,i) {
 			var s = v(Reflect.field(node,"__data__"),i);
-			if(s == null) node.style.removeProperty(n); else node.style.setProperty(n,"" + s.toRgbString(),priority);
+			if(s == null) node.style.removeProperty(me.name); else node.style.setProperty(me.name,"" + s.toRgbString(),null == priority?"":priority);
 		});
 		return this.selection;
 	}
@@ -13786,6 +13857,7 @@ thx.cultures.DeDE = $hxClasses["thx.cultures.DeDE"] = function() {
 	thx.culture.Culture.add(this);
 }
 thx.cultures.DeDE.__name__ = ["thx","cultures","DeDE"];
+thx.cultures.DeDE.__properties__ = {get_culture:"getCulture"}
 thx.cultures.DeDE.culture = null;
 thx.cultures.DeDE.getCulture = function() {
 	if(null == thx.cultures.DeDE.culture) thx.cultures.DeDE.culture = new thx.cultures.DeDE();
@@ -13955,74 +14027,6 @@ thx.html.HtmlAttributeFormat.prototype = $extend(thx.xml.AttributeFormat.prototy
 	}
 	,__class__: thx.html.HtmlAttributeFormat
 });
-var Ints = $hxClasses["Ints"] = function() { }
-Ints.__name__ = ["Ints"];
-Ints.range = function(start,stop,step) {
-	if(step == null) step = 1;
-	if(null == stop) {
-		stop = start;
-		start = 0;
-	}
-	if((stop - start) / step == Math.POSITIVE_INFINITY) throw new thx.error.Error("infinite range",null,null,{ fileName : "Ints.hx", lineNumber : 19, className : "Ints", methodName : "range"});
-	var range = [], i = -1, j;
-	if(step < 0) while((j = start + step * ++i) > stop) range.push(j); else while((j = start + step * ++i) < stop) range.push(j);
-	return range;
-}
-Ints.sign = function(v) {
-	return v < 0?-1:1;
-}
-Ints.abs = function(a) {
-	return a < 0?-a:a;
-}
-Ints.min = function(a,b) {
-	return a < b?a:b;
-}
-Ints.max = function(a,b) {
-	return a > b?a:b;
-}
-Ints.wrap = function(v,min,max) {
-	return Math.round(Floats.wrap(v,min,max));
-}
-Ints.clamp = function(v,min,max) {
-	if(v < min) return min; else if(v > max) return max; else return v;
-}
-Ints.clampSym = function(v,max) {
-	if(v < -max) return -max; else if(v > max) return max; else return v;
-}
-Ints.interpolate = function(f,min,max,equation) {
-	if(max == null) max = 100.0;
-	if(min == null) min = 0.0;
-	if(null == equation) equation = thx.math.Equations.linear;
-	return Math.round(min + equation(f) * (max - min));
-}
-Ints.interpolatef = function(min,max,equation) {
-	if(max == null) max = 1.0;
-	if(min == null) min = 0.0;
-	if(null == equation) equation = thx.math.Equations.linear;
-	var d = max - min;
-	return function(f) {
-		return Math.round(min + equation(f) * d);
-	};
-}
-Ints.format = function(v,param,params,culture) {
-	return (Ints.formatf(param,params,culture))(v);
-}
-Ints.formatf = function(param,params,culture) {
-	return Floats.formatf(null,thx.culture.FormatParams.params(param,params,"I"),culture);
-}
-Ints.canParse = function(s) {
-	return Ints._reparse.match(s);
-}
-Ints.parse = function(s) {
-	if(s.substr(0,1) == "+") s = s.substr(1);
-	return Std.parseInt(s);
-}
-Ints.compare = function(a,b) {
-	return a - b;
-}
-Ints.prototype = {
-	__class__: Ints
-}
 thx.svg.Line = $hxClasses["thx.svg.Line"] = function(x,y,interpolator) {
 	this._x = x;
 	this._y = y;
@@ -14198,12 +14202,14 @@ Type.getInstanceFields = function(c) {
 	var a = [];
 	for(var i in c.prototype) a.push(i);
 	a.remove("__class__");
+	a.remove("__properties__");
 	return a;
 }
 Type.getClassFields = function(c) {
 	var a = Reflect.fields(c);
 	a.remove("__name__");
 	a.remove("__interfaces__");
+	a.remove("__properties__");
 	a.remove("__super__");
 	a.remove("prototype");
 	return a;
@@ -14655,6 +14661,14 @@ Reflect.field = function(o,field) {
 Reflect.setField = function(o,field,value) {
 	o[field] = value;
 }
+Reflect.getProperty = function(o,field) {
+	var tmp;
+	return o == null?null:o.__properties__ && (tmp = o.__properties__["get_" + field])?o[tmp]():o[field];
+}
+Reflect.setProperty = function(o,field,value) {
+	var tmp;
+	if(o.__properties__ && (tmp = o.__properties__["set_" + field])) o[tmp](value); else o[field] = value;
+}
 Reflect.callMethod = function(o,func,args) {
 	return func.apply(o,args);
 }
@@ -14898,8 +14912,8 @@ TestFloats.prototype = {
 		utest.Assert.floatEquals(1.0,Floats.normalize(10.0),null,null,{ fileName : "TestFloats.hx", lineNumber : 15, className : "TestFloats", methodName : "testNormalize"});
 	}
 	,testAbs: function() {
-		utest.Assert.floatEquals(0.1,0.1 < 0?-0.1:0.1,null,null,{ fileName : "TestFloats.hx", lineNumber : 20, className : "TestFloats", methodName : "testAbs"});
-		utest.Assert.floatEquals(0.1,-0.1 < 0?0.1:-0.1,null,null,{ fileName : "TestFloats.hx", lineNumber : 21, className : "TestFloats", methodName : "testAbs"});
+		utest.Assert.floatEquals(0.1,0.1,null,null,{ fileName : "TestFloats.hx", lineNumber : 20, className : "TestFloats", methodName : "testAbs"});
+		utest.Assert.floatEquals(0.1,0.1,null,null,{ fileName : "TestFloats.hx", lineNumber : 21, className : "TestFloats", methodName : "testAbs"});
 	}
 	,testClamp: function() {
 		utest.Assert.floatEquals(10,Floats.clamp(0,10,100),null,null,{ fileName : "TestFloats.hx", lineNumber : 27, className : "TestFloats", methodName : "testClamp"});
@@ -14927,8 +14941,8 @@ TestFloats.prototype = {
 		utest.Assert.same([0.1,0.2,0.3,0.4],Floats.range(0.1,0.5,0.1),null,null,{ fileName : "TestFloats.hx", lineNumber : 57, className : "TestFloats", methodName : "testRange"});
 	}
 	,testSign: function() {
-		utest.Assert.isTrue((0.1 < 0?-1:1) > 0,null,{ fileName : "TestFloats.hx", lineNumber : 62, className : "TestFloats", methodName : "testSign"});
-		utest.Assert.isTrue((-0.1 < 0?-1:1) < 0,null,{ fileName : "TestFloats.hx", lineNumber : 63, className : "TestFloats", methodName : "testSign"});
+		utest.Assert.isTrue(1 > 0,null,{ fileName : "TestFloats.hx", lineNumber : 62, className : "TestFloats", methodName : "testSign"});
+		utest.Assert.isTrue(-1 < 0,null,{ fileName : "TestFloats.hx", lineNumber : 63, className : "TestFloats", methodName : "testSign"});
 	}
 	,testWrap: function() {
 		utest.Assert.floatEquals(5,Floats.wrap(-1,5,10),null,null,{ fileName : "TestFloats.hx", lineNumber : 68, className : "TestFloats", methodName : "testWrap"});
@@ -15087,25 +15101,6 @@ thx.color.TestColors.prototype = {
 	}
 	,__class__: thx.color.TestColors
 }
-thx.languages.Ar = $hxClasses["thx.languages.Ar"] = function() {
-	this.name = "ar";
-	this.english = "Arabic";
-	this["native"] = "العربية";
-	this.iso2 = "ar";
-	this.iso3 = "ara";
-	this.pluralRule = 12;
-	thx.culture.Language.add(this);
-}
-thx.languages.Ar.__name__ = ["thx","languages","Ar"];
-thx.languages.Ar.language = null;
-thx.languages.Ar.getLanguage = function() {
-	if(null == thx.languages.Ar.language) thx.languages.Ar.language = new thx.languages.Ar();
-	return thx.languages.Ar.language;
-}
-thx.languages.Ar.__super__ = thx.culture.Language;
-thx.languages.Ar.prototype = $extend(thx.culture.Language.prototype,{
-	__class__: thx.languages.Ar
-});
 thx.math.Random = $hxClasses["thx.math.Random"] = function(seed) {
 	if(seed == null) seed = 1;
 	this.seed = seed;
@@ -15150,6 +15145,9 @@ thx.svg.LineInterpolators.parse = function(s,sep) {
 		case "monotone":
 			$r = thx.svg.LineInterpolator.Monotone;
 			break;
+		case "step":
+			$r = thx.svg.LineInterpolator.Step;
+			break;
 		case "stepafter":
 			$r = thx.svg.LineInterpolator.StepAfter;
 			break;
@@ -15168,6 +15166,73 @@ thx.svg.LineInterpolators.argument = function(s) {
 }
 thx.svg.LineInterpolators.prototype = {
 	__class__: thx.svg.LineInterpolators
+}
+thx.util.TestTypeLocator = $hxClasses["thx.util.TestTypeLocator"] = function() {
+}
+thx.util.TestTypeLocator.__name__ = ["thx","util","TestTypeLocator"];
+thx.util.TestTypeLocator.addTests = function(runner) {
+	runner.addCase(new thx.util.TestTypeLocator());
+}
+thx.util.TestTypeLocator.main = function() {
+	var runner = new utest.Runner();
+	thx.util.TestTypeLocator.addTests(runner);
+	utest.ui.Report.create(runner);
+	runner.run();
+}
+thx.util.TestTypeLocator.prototype = {
+	testBind: function() {
+		var locator = new thx.util.TypeLocator().bind(thx.util.type.ITest,function() {
+			return new thx.util.type.TestImplementation();
+		});
+		var o = locator.get(thx.util.type.ITest);
+		utest.Assert["is"](o,thx.util.type.ITest,null,{ fileName : "TestTypeLocator.hx", lineNumber : 21, className : "thx.util.TestTypeLocator", methodName : "testBind"});
+		utest.Assert["is"](o,thx.util.type.TestImplementation,null,{ fileName : "TestTypeLocator.hx", lineNumber : 22, className : "thx.util.TestTypeLocator", methodName : "testBind"});
+		utest.Assert.equals("hi",o.sayHello(),null,{ fileName : "TestTypeLocator.hx", lineNumber : 23, className : "thx.util.TestTypeLocator", methodName : "testBind"});
+	}
+	,testUnbinded: function() {
+		var locator = new thx.util.TypeLocator();
+		utest.Assert.isNull(locator.get(thx.util.type.ITest),null,{ fileName : "TestTypeLocator.hx", lineNumber : 29, className : "thx.util.TestTypeLocator", methodName : "testUnbinded"});
+		locator.unbinded = function(cls) {
+			if("thx.util.type.ITest" == Type.getClassName(cls)) return null;
+			try {
+				return Type.createInstance(cls,[]);
+			} catch( e ) {
+				return null;
+			}
+		};
+		utest.Assert.isNull(locator.get(thx.util.type.ITest),null,{ fileName : "TestTypeLocator.hx", lineNumber : 41, className : "thx.util.TestTypeLocator", methodName : "testUnbinded"});
+		utest.Assert.notNull(locator.get(thx.util.type.TestImplementation),null,{ fileName : "TestTypeLocator.hx", lineNumber : 42, className : "thx.util.TestTypeLocator", methodName : "testUnbinded"});
+		utest.Assert["is"](locator.get(thx.util.type.TestImplementation),thx.util.type.TestImplementation,null,{ fileName : "TestTypeLocator.hx", lineNumber : 43, className : "thx.util.TestTypeLocator", methodName : "testUnbinded"});
+	}
+	,testInstance: function() {
+		var locator = new thx.util.TypeLocator().instance(thx.util.type.ITest,new thx.util.type.TestImplementation());
+		var o = locator.get(thx.util.type.ITest);
+		utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeLocator.hx", lineNumber : 50, className : "thx.util.TestTypeLocator", methodName : "testInstance"});
+		o.counter++;
+		o = locator.get(thx.util.type.ITest);
+		utest.Assert.equals(1,o.counter,null,{ fileName : "TestTypeLocator.hx", lineNumber : 53, className : "thx.util.TestTypeLocator", methodName : "testInstance"});
+	}
+	,testMultipleInstances: function() {
+		var locator = new thx.util.TypeLocator().bind(thx.util.type.ITest,function() {
+			return new thx.util.type.TestImplementation();
+		});
+		var o = locator.get(thx.util.type.ITest);
+		utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeLocator.hx", lineNumber : 60, className : "thx.util.TestTypeLocator", methodName : "testMultipleInstances"});
+		o.counter++;
+		o = locator.get(thx.util.type.ITest);
+		utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeLocator.hx", lineNumber : 63, className : "thx.util.TestTypeLocator", methodName : "testMultipleInstances"});
+	}
+	,testMemoize: function() {
+		var locator = new thx.util.TypeLocator().memoize(thx.util.type.ITest,function() {
+			return new thx.util.type.TestImplementation();
+		});
+		var o = locator.get(thx.util.type.ITest);
+		utest.Assert.equals(0,o.counter,null,{ fileName : "TestTypeLocator.hx", lineNumber : 70, className : "thx.util.TestTypeLocator", methodName : "testMemoize"});
+		o.counter++;
+		o = locator.get(thx.util.type.ITest);
+		utest.Assert.equals(1,o.counter,null,{ fileName : "TestTypeLocator.hx", lineNumber : 73, className : "thx.util.TestTypeLocator", methodName : "testMemoize"});
+	}
+	,__class__: thx.util.TestTypeLocator
 }
 thx.json.TestJson = $hxClasses["thx.json.TestJson"] = function() {
 }
@@ -15262,20 +15327,31 @@ thx.svg.LineInternals.interpolatePoints = function(points,type) {
 		}
 		break;
 	case 1:
+		var p1;
+		path.push(p[0] + "," + p[1]);
+		while(++i < n - 1) {
+			p = points[i];
+			p1 = points[i + 1];
+			path.push("H" + (p[0] + p1[0]) / 2 + "V" + p[1]);
+		}
+		p = points[i];
+		path.push("H" + p[0] + "V" + p[1]);
+		break;
+	case 2:
 		path.push(p[0] + "," + p[1]);
 		while(++i < n) {
 			p = points[i];
 			path.push("V" + p[1] + "H" + p[0]);
 		}
 		break;
-	case 2:
+	case 3:
 		path.push(p[0] + "," + p[1]);
 		while(++i < n) {
 			p = points[i];
 			path.push("H" + p[0] + "V" + p[1]);
 		}
 		break;
-	case 3:
+	case 4:
 		if(points.length < 3) return thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear);
 		i = 1;
 		var x0 = p[0], y0 = p[1], px = [x0,x0,x0,(p = points[1])[0]], py = [y0,y0,y0,p[1]];
@@ -15298,7 +15374,7 @@ thx.svg.LineInternals.interpolatePoints = function(points,type) {
 			thx.svg.LineInternals._lineBasisBezier(path,px,py);
 		}
 		break;
-	case 4:
+	case 5:
 		if(points.length < 4) return thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear);
 		i = -1;
 		var pi, px = [0.0], py = [0.0];
@@ -15318,7 +15394,7 @@ thx.svg.LineInternals.interpolatePoints = function(points,type) {
 			thx.svg.LineInternals._lineBasisBezier(path,px,py);
 		}
 		break;
-	case 5:
+	case 6:
 		i = -1;
 		var m = n + 4, px = [], py = [];
 		while(++i < 4) {
@@ -15337,19 +15413,19 @@ thx.svg.LineInternals.interpolatePoints = function(points,type) {
 			thx.svg.LineInternals._lineBasisBezier(path,px,py);
 		}
 		break;
-	case 6:
+	case 7:
 		var tension = $e[2];
 		if(null == tension) tension = .7;
 		if(points.length < 3) return thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear); else return points[0][0] + "," + points[0][1] + thx.svg.LineInternals._lineHermite(points,thx.svg.LineInternals._lineCardinalTangents(points,tension));
 		break;
-	case 7:
+	case 8:
 		var tension = $e[2];
 		return points.length < 4?thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear):points[1][0] + "," + points[1][1] + thx.svg.LineInternals._lineCardinalTangents(points,tension);
-	case 8:
+	case 9:
 		var tension = $e[2];
 		if(null == tension) tension = .7;
 		return points.length < 3?thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear):points[0][0] + "," + points[0][1] + thx.svg.LineInternals._lineHermite(points,thx.svg.LineInternals._lineCardinalTangents([points[points.length - 2]].concat(points).concat([points[1]]),tension));
-	case 9:
+	case 10:
 		return points.length < 3?thx.svg.LineInternals.interpolatePoints(points,thx.svg.LineInterpolator.Linear):points[0] + thx.svg.LineInternals._lineHermite(points,thx.svg.LineInternals._lineMonotoneTangents(points));
 	}
 	return path.join("");
@@ -15449,7 +15525,7 @@ thx.math.scale.Quantize.prototype = {
 	,i: null
 	,_range: null
 	,scale: function(x,_) {
-		return this._range[Std["int"](Math.max(0,Math.min(this.i,Math.floor(this.kx * (x - this.x0)))))];
+		return this._range[Math.max(0,Math.min(this.i,Math.floor(this.kx * (x - this.x0)))) | 0];
 	}
 	,getDomain: function() {
 		return [this.x0,this.x1];
@@ -15916,6 +15992,7 @@ thx.geo.Azimuthal.prototype = {
 		return this.mode;
 	}
 	,__class__: thx.geo.Azimuthal
+	,__properties__: {set_translate:"setTranslate",get_translate:"getTranslate",set_scale:"setScale",get_scale:"getScale",set_origin:"setOrigin",get_origin:"getOrigin",set_mode:"setMode",get_mode:"getMode"}
 }
 thx.geo.ProjectionMode = $hxClasses["thx.geo.ProjectionMode"] = { __ename__ : ["thx","geo","ProjectionMode"], __constructs__ : ["Orthographic","Stereographic"] }
 thx.geo.ProjectionMode.Orthographic = ["Orthographic",0];
@@ -15934,7 +16011,7 @@ thx.validation.IncrementValidator.prototype = $extend(thx.validation.Validator.p
 	increment: null
 	,validate: function(value) {
 		var test = value / this.increment;
-		if(test == Std["int"](test)) return thx.util.Result.Ok; else return thx.util.Result.Failure([new thx.util.Message("value must be an increment of {0}",[this.increment],null)]);
+		if(test == (test | 0)) return thx.util.Result.Ok; else return thx.util.Result.Failure([new thx.util.Message("value must be an increment of {0}",[this.increment],null)]);
 	}
 	,__class__: thx.validation.IncrementValidator
 });
@@ -15966,6 +16043,24 @@ Objects.entries = function(o) {
 	}
 	return arr;
 }
+Objects.each = function(o,handler) {
+	var _g = 0, _g1 = Reflect.fields(o);
+	while(_g < _g1.length) {
+		var key = _g1[_g];
+		++_g;
+		handler(key,Reflect.field(o,key));
+	}
+}
+Objects.map = function(o,handler) {
+	var results = [];
+	var _g = 0, _g1 = Reflect.fields(o);
+	while(_g < _g1.length) {
+		var key = _g1[_g];
+		++_g;
+		results.push(handler(key,Reflect.field(o,key)));
+	}
+	return results;
+}
 Objects["with"] = function(ob,f) {
 	f(ob);
 	return ob;
@@ -15994,7 +16089,7 @@ Objects.interpolatef = function(a,b,equation) {
 		++_g;
 		if(Reflect.hasField(b,key)) {
 			var va = Reflect.field(a,key);
-			i[key] = (Objects.interpolateByName(key,va))(va,Reflect.field(b,key));
+			i[key] = Dynamics.interpolatef(va,Reflect.field(b,key));
 		} else c[key] = Reflect.field(a,key);
 	}
 	keys = Reflect.fields(b);
@@ -16013,9 +16108,6 @@ Objects.interpolatef = function(a,b,equation) {
 		}
 		return c;
 	};
-}
-Objects.interpolateByName = function(k,v) {
-	return Std["is"](v,String) && Objects._reCheckKeyIsColor.match(k)?thx.color.Colors.interpolatef:Dynamics.interpolatef;
 }
 Objects.copyTo = function(src,dst) {
 	var _g = 0, _g1 = Reflect.fields(src);
@@ -16126,7 +16218,7 @@ Objects.formatf = function(param,params,culture) {
 	default:
 		return (function($this) {
 			var $r;
-			throw new thx.error.Error("Unsupported number format: {0}",null,format,{ fileName : "Objects.hx", lineNumber : 245, className : "Objects", methodName : "formatf"});
+			throw new thx.error.Error("Unsupported number format: {0}",null,format,{ fileName : "Objects.hx", lineNumber : 242, className : "Objects", methodName : "formatf"});
 			return $r;
 		}(this));
 	}
@@ -16493,29 +16585,32 @@ TestInts.prototype = {
 	}
 	,__class__: TestInts
 }
-thx.svg.LineInterpolator = $hxClasses["thx.svg.LineInterpolator"] = { __ename__ : ["thx","svg","LineInterpolator"], __constructs__ : ["Linear","StepBefore","StepAfter","Basis","BasisOpen","BasisClosed","Cardinal","CardinalOpen","CardinalClosed","Monotone"] }
+thx.svg.LineInterpolator = $hxClasses["thx.svg.LineInterpolator"] = { __ename__ : ["thx","svg","LineInterpolator"], __constructs__ : ["Linear","Step","StepBefore","StepAfter","Basis","BasisOpen","BasisClosed","Cardinal","CardinalOpen","CardinalClosed","Monotone"] }
 thx.svg.LineInterpolator.Linear = ["Linear",0];
 thx.svg.LineInterpolator.Linear.toString = $estr;
 thx.svg.LineInterpolator.Linear.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.StepBefore = ["StepBefore",1];
+thx.svg.LineInterpolator.Step = ["Step",1];
+thx.svg.LineInterpolator.Step.toString = $estr;
+thx.svg.LineInterpolator.Step.__enum__ = thx.svg.LineInterpolator;
+thx.svg.LineInterpolator.StepBefore = ["StepBefore",2];
 thx.svg.LineInterpolator.StepBefore.toString = $estr;
 thx.svg.LineInterpolator.StepBefore.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.StepAfter = ["StepAfter",2];
+thx.svg.LineInterpolator.StepAfter = ["StepAfter",3];
 thx.svg.LineInterpolator.StepAfter.toString = $estr;
 thx.svg.LineInterpolator.StepAfter.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.Basis = ["Basis",3];
+thx.svg.LineInterpolator.Basis = ["Basis",4];
 thx.svg.LineInterpolator.Basis.toString = $estr;
 thx.svg.LineInterpolator.Basis.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.BasisOpen = ["BasisOpen",4];
+thx.svg.LineInterpolator.BasisOpen = ["BasisOpen",5];
 thx.svg.LineInterpolator.BasisOpen.toString = $estr;
 thx.svg.LineInterpolator.BasisOpen.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.BasisClosed = ["BasisClosed",5];
+thx.svg.LineInterpolator.BasisClosed = ["BasisClosed",6];
 thx.svg.LineInterpolator.BasisClosed.toString = $estr;
 thx.svg.LineInterpolator.BasisClosed.__enum__ = thx.svg.LineInterpolator;
-thx.svg.LineInterpolator.Cardinal = function(tension) { var $x = ["Cardinal",6,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
-thx.svg.LineInterpolator.CardinalOpen = function(tension) { var $x = ["CardinalOpen",7,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
-thx.svg.LineInterpolator.CardinalClosed = function(tension) { var $x = ["CardinalClosed",8,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
-thx.svg.LineInterpolator.Monotone = ["Monotone",9];
+thx.svg.LineInterpolator.Cardinal = function(tension) { var $x = ["Cardinal",7,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
+thx.svg.LineInterpolator.CardinalOpen = function(tension) { var $x = ["CardinalOpen",8,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
+thx.svg.LineInterpolator.CardinalClosed = function(tension) { var $x = ["CardinalClosed",9,tension]; $x.__enum__ = thx.svg.LineInterpolator; $x.toString = $estr; return $x; }
+thx.svg.LineInterpolator.Monotone = ["Monotone",10];
 thx.svg.LineInterpolator.Monotone.toString = $estr;
 thx.svg.LineInterpolator.Monotone.__enum__ = thx.svg.LineInterpolator;
 thx.data.TestValueEncoder = $hxClasses["thx.data.TestValueEncoder"] = function() {
@@ -16649,70 +16744,6 @@ thx.svg.Symbol.star = function(size) {
 }
 thx.svg.Symbol.prototype = {
 	__class__: thx.svg.Symbol
-}
-thx.math.Equations = $hxClasses["thx.math.Equations"] = function() { }
-thx.math.Equations.__name__ = ["thx","math","Equations"];
-thx.math.Equations.linear = function(v) {
-	return v;
-}
-thx.math.Equations.polynomial = function(t,e) {
-	return Math.pow(t,e);
-}
-thx.math.Equations.quadratic = function(t) {
-	return thx.math.Equations.polynomial(t,2);
-}
-thx.math.Equations.cubic = function(t) {
-	return thx.math.Equations.polynomial(t,3);
-}
-thx.math.Equations.sin = function(t) {
-	return 1 - Math.cos(t * Math.PI / 2);
-}
-thx.math.Equations.exponential = function(t) {
-	return t != 0?Math.pow(2,10 * (t - 1)) - 1e-3:0;
-}
-thx.math.Equations.circle = function(t) {
-	return 1 - Math.sqrt(1 - t * t);
-}
-thx.math.Equations.elastic = function(t,a,p) {
-	var s;
-	if(null == p) p = 0.45;
-	if(null == a) {
-		a = 1;
-		s = p / 4;
-	} else s = p / (2 * Math.PI) / Math.asin(1 / a);
-	return 1 + a * Math.pow(2,10 * -t) * Math.sin((t - s) * 2 * Math.PI / p);
-}
-thx.math.Equations.elasticf = function(a,p) {
-	var s;
-	if(null == p) p = 0.45;
-	if(null == a) {
-		a = 1;
-		s = p / 4;
-	} else s = p / (2 * Math.PI) / Math.asin(1 / a);
-	return function(t) {
-		return 1 + a * Math.pow(2,10 * -t) * Math.sin((t - s) * 2 * Math.PI / p);
-	};
-}
-thx.math.Equations.back = function(t,s) {
-	if(null == s) s = 1.70158;
-	return t * t * ((s + 1) * t - s);
-}
-thx.math.Equations.backf = function(s) {
-	if(null == s) s = 1.70158;
-	return function(t) {
-		return t * t * ((s + 1) * t - s);
-	};
-}
-thx.math.Equations.bounce = function(t) {
-	return t < 1 / 2.75?7.5625 * t * t:t < 2 / 2.75?7.5625 * (t -= 1.5 / 2.75) * t + .75:t < 2.5 / 2.75?7.5625 * (t -= 2.25 / 2.75) * t + .9375:7.5625 * (t -= 2.625 / 2.75) * t + .984375;
-}
-thx.math.Equations.polynomialf = function(e) {
-	return function(t) {
-		thx.math.Equations.polynomial(t,e);
-	};
-}
-thx.math.Equations.prototype = {
-	__class__: thx.math.Equations
 }
 js.Boot.__res = {}
 js.Boot.__init();
@@ -16964,7 +16995,21 @@ js.Boot.__init();
 	thx.color.NamedColors.byName.set("yellowgreen",thx.color.NamedColors.yellowgreen = thx.color.Rgb.fromInt(10145074));
 	thx.color.NamedColors.byName.set("yellow green",thx.color.NamedColors.yellowgreen);
 }
+thx.languages.It.getLanguage();
 thx.cultures.ItIT.getCulture();
+{
+	Math.__name__ = ["Math"];
+	Math.NaN = Number["NaN"];
+	Math.NEGATIVE_INFINITY = Number["NEGATIVE_INFINITY"];
+	Math.POSITIVE_INFINITY = Number["POSITIVE_INFINITY"];
+	$hxClasses["Math"] = Math;
+	Math.isFinite = function(i) {
+		return isFinite(i);
+	};
+	Math.isNaN = function(i) {
+		return isNaN(i);
+	};
+}
 {
 	String.prototype.__class__ = $hxClasses["String"] = String;
 	String.__name__ = ["String"];
@@ -16974,7 +17019,8 @@ thx.cultures.ItIT.getCulture();
 	Dynamic = $hxClasses["Dynamic"] = { __name__ : ["Dynamic"]};
 	Float = $hxClasses["Float"] = Number;
 	Float.__name__ = ["Float"];
-	Bool = $hxClasses["Bool"] = { __ename__ : ["Bool"]};
+	Bool = $hxClasses["Bool"] = Boolean;
+	Bool.__ename__ = ["Bool"];
 	Class = $hxClasses["Class"] = { __name__ : ["Class"]};
 	Enum = { };
 	Void = $hxClasses["Void"] = { __ename__ : ["Void"]};
@@ -16995,8 +17041,8 @@ window.requestAnimationFrame = window.requestAnimationFrame
     || window.oRequestAnimationFrame
     || window.msRequestAnimationFrame
     || function(callback) { setTimeout(callback, 1000 / 60); } ;
-thx.cultures.EnUS.getCulture();
 thx.languages.En.getLanguage();
+thx.cultures.EnUS.getCulture();
 {
 	var JSON;
 	if(null != (JSON = JSON)) {
@@ -17093,7 +17139,6 @@ thx.languages.En.getLanguage();
 	}(this));
 }
 thx.cultures.EnIN.getCulture();
-thx.languages.It.getLanguage();
 {
 	Xml.Element = "element";
 	Xml.PCData = "pcdata";
@@ -17103,6 +17148,7 @@ thx.languages.It.getLanguage();
 	Xml.Prolog = "prolog";
 	Xml.Document = "document";
 }
+thx.languages.Ar.getLanguage();
 thx.cultures.ArMA.getCulture();
 {
 	var d = Date;
@@ -17150,19 +17196,6 @@ thx.cultures.ArMA.getCulture();
 }
 thx.languages.De.getLanguage();
 thx.cultures.DeDE.getCulture();
-{
-	Math.__name__ = ["Math"];
-	Math.NaN = Number["NaN"];
-	Math.NEGATIVE_INFINITY = Number["NEGATIVE_INFINITY"];
-	Math.POSITIVE_INFINITY = Number["POSITIVE_INFINITY"];
-	$hxClasses["Math"] = Math;
-	Math.isFinite = function(i) {
-		return isFinite(i);
-	};
-	Math.isNaN = function(i) {
-		return isNaN(i);
-	};
-}
 {
 	/*!
  * Sizzle CSS Selector Engine
@@ -18568,14 +18601,15 @@ window.Sizzle = Sizzle;
 	thx.js.Sizzle = s;
 	thx.js.Sizzle.select = s;
 }
-thx.languages.Ar.getLanguage();
 if(typeof(haxe_timers) == "undefined") haxe_timers = [];
 thx.error.Error.errorPositionPattern = "{0}.{1}({2}): ";
 thx.svg.TestAll._renumber = new EReg("([+-]?\\d+(\\.\\d+)?(e-?\\d+)?)","");
+Ints._reparse = new EReg("^([+-])?\\d+$","");
 thx.csv.TestCsv.s = "Year,Make,Model,Description,Price\n1997,Ford,E350,\"ac, abs, moon\",3000.99\n1999,Chevy,\"Venture \"\"Extended Edition\"\"\",,4900.99\n1999,Chevy,\"Venture \"\"Extended Edition, Very Large\"\"\",,5000.99\n1996,Jeep,Grand Cherokee,\"MUST SELL!\nair, moon roof, loaded\",4799.99";
 thx.csv.TestCsv.t = "Year;Make;Model;Description;Price\n1997;Ford;E350;\"ac, abs, moon\";3000,99\n1999;Chevy;\"Venture \"\"Extended Edition\"\"\";;4900,99\n1999;Chevy;\"Venture \"\"Extended Edition, Very Large\"\"\";;5000,99\n1996;Jeep;Grand Cherokee;\"MUST SELL!\nair, moon roof, loaded\";4799,99";
 thx.csv.TestCsv.v = [["Year","Make","Model","Description","Price"],[1997,"Ford","E350","ac, abs, moon",3000.99],[1999,"Chevy","Venture \"Extended Edition\"","",4900.99],[1999,"Chevy","Venture \"Extended Edition, Very Large\"","",5000.99],[1996,"Jeep","Grand Cherokee","MUST SELL!\nair, moon roof, loaded",4799.99]];
 Dates._reparse = new EReg("^\\d{4}-\\d\\d-\\d\\d(( |T)\\d\\d:\\d\\d(:\\d\\d(\\.\\d{1,3})?)?)?Z?$","");
+Floats._reparse = new EReg("^(\\+|-)?\\d+(\\.\\d+)?(e-?\\d+)?$","");
 thx.math.scale.Linears._default_color = new thx.color.Hsl(0,0,0);
 js.Lib.onerror = null;
 thx.js.Dom.doc = (function() {
@@ -18628,7 +18662,7 @@ thx.math.Const.HALF_PI = 1.570796326794896619;
 thx.math.Const.TO_DEGREE = 57.29577951308232088;
 thx.math.Const.TO_RADIAN = 0.01745329251994329577;
 thx.math.Const.LN10 = 2.302585092994046;
-Floats._reparse = new EReg("^(\\+|-)?\\d+(\\.\\d+)?(e-?\\d+)?$","");
+thx.math.Const.E = 2.71828182845904523536;
 Strings._re = new EReg("[{](\\d+)(?::[^}]*)?[}]","m");
 Strings._reSplitWC = new EReg("(\r\n|\n\r|\n|\r)","g");
 Strings._reReduceWS = new EReg("\\s+","");
@@ -18640,7 +18674,6 @@ Strings.__ucwordswsPattern = new EReg("\\s([a-z])","");
 Strings.__alphaNumPattern = new EReg("^[a-z0-9]+$","i");
 Strings.__digitsPattern = new EReg("^[0-9]+$","");
 Strings._reInterpolateNumber = new EReg("[-+]?(?:\\d+\\.\\d+|\\d+\\.|\\.\\d+|\\d+)(?:[eE][-]?\\d+)?","");
-thx.csv.CsvDecoder.leading_space = new EReg(" *","");
 thx.html.HtmlParser.startTag = new EReg("^<(\\w+)((?:\\s+\\w+(?:\\s*=\\s*(?:(?:\"[^\"]*\")|(?:'[^']*')|[^>\\s]+))?)*)\\s*(/?)>","");
 thx.html.HtmlParser.endTag = new EReg("^</(\\w+)[^>]*>","");
 thx.html.HtmlParser.attr = new EReg("(\\w+)(?:\\s*=\\s*(?:(?:\"((?:\\\\.|[^\"])*)\")|(?:'((?:\\\\.|[^'])*)')|([^>\\s]+)))?","g");
@@ -18687,7 +18720,6 @@ utest.TestHandler.POLLING_TIME = 10;
 thx.js.BaseTransition._id = 0;
 thx.js.BaseTransition._inheritid = 0;
 thx.ini.IniDecoder.linesplitter = new EReg("[^\\\\](#|;)","");
-Ints._reparse = new EReg("^([+-])?\\d+$","");
 thx.xml.Namespace.prefix = (function() {
 	var h = new Hash();
 	h.set("svg","http://www.w3.org/2000/svg");
@@ -18708,7 +18740,6 @@ thx.svg.LineInternals.arcMax = 2 * Math.PI - 1e-6;
 thx.svg.LineInternals._lineBasisBezier1 = [0,2 / 3,1 / 3,0];
 thx.svg.LineInternals._lineBasisBezier2 = [0,1 / 3,2 / 3,0];
 thx.svg.LineInternals._lineBasisBezier3 = [0,1 / 6,2 / 3,1 / 6];
-Objects._reCheckKeyIsColor = new EReg("color\\b|\\bbackground\\b|\\bstroke\\b|\\bfill\\b","");
 thx.color.Colors._reParse = new EReg("^(?:(hsl|rgb|rgba|cmyk)\\(([^)]+)\\))|(?:(?:0x|#)([a-f0-9]{3,6}))$","i");
 thx.svg.Symbol.sqrt3 = Math.sqrt(3);
 thx.svg.Symbol.tan30 = Math.tan(30 * Math.PI / 180);

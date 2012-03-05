@@ -46,8 +46,12 @@ class Grey extends Rgb
 
 	public static function darker(color : Grey, t : Float, ?equation : Float -> Float) : Grey
 	{
-		var v = t * color.grey;
-		return new Grey(Floats.interpolate(v, 0, 1, equation));
+		return new Grey(Floats.interpolate(t, color.grey, 0, equation));
+	}
+
+	public static function lighter(color : Grey, t : Float, ?equation : Float -> Float) : Grey
+	{
+		return new Grey(Floats.interpolate(t, color.grey, 1, equation));
 	}
 
 	public static function interpolate(a : Grey, b : Grey, t : Float, ?equation : Float -> Float)

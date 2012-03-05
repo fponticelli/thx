@@ -12,7 +12,7 @@ class NumericScale<This> implements IScale<Float, Float>
 {
 	var _domain : Array<Float>;
 	var _range : Array<Float>;
-	
+
 	var f : Float -> Float -> (Float -> Float) -> (Float -> Float);
 	var _clamp : Bool;
 	var _output : Float -> Float;
@@ -21,12 +21,12 @@ class NumericScale<This> implements IScale<Float, Float>
 	{
 		_domain = [0.0, 1.0];
 		_range = [0.0, 1.0];
-		
+
 		f = Floats.interpolatef;
 		_clamp = false;
 		rescale();
 	}
-	
+
 	function rescale()
 	{
 		var linear = _domain.length == 2 ? scaleBilinear : scalePolylinear,
@@ -35,12 +35,12 @@ class NumericScale<This> implements IScale<Float, Float>
 		_input = linear(_range, _domain, uninterpolate, Floats.interpolatef);
 		return _this();
 	}
-	
+
 	public function scale(x : Float, ?_) : Float
 	{
 		return _output(x);
 	}
-	
+
 	public function invert(y : Float, ?_) : Float
 	{
 		return _input(y);
@@ -52,7 +52,7 @@ class NumericScale<This> implements IScale<Float, Float>
 		_domain = d;
 		return rescale();
 	}
-	
+
 	public function getRange() : Array<Float> return _range
 	public function range(r : Array<Float>) : This
 	{
@@ -73,14 +73,14 @@ class NumericScale<This> implements IScale<Float, Float>
 		f = x;
 		return rescale();
 	}
-	
+
 	public function getClamp() : Bool return _clamp
 	public function clamp(v : Bool) : This
 	{
 		this._clamp = v;
 		return rescale();
 	}
-	
+
 	public function ticks() : Array<Float>
 	{
 		return throw new AbstractMethod();
@@ -90,7 +90,7 @@ class NumericScale<This> implements IScale<Float, Float>
 	{
 		return throw new AbstractMethod();
 	}
-	
+
 	public function transform(scale : Float, t : Float, a : Float, b : Float) : This
 	{
 		var range = getRange().map(function(v, _) return (v - t) / scale);
@@ -99,16 +99,16 @@ class NumericScale<This> implements IScale<Float, Float>
 		domain(r);
 		return _this();
 	}
-	
+
 	inline function _this() : This return cast this
-	
+
 	static function scaleBilinear(domain : Array<Float>, range : Array<Float>, uninterpolate : Float -> Float -> (Float -> Float), interpolate : Float -> Float -> (Float -> Float) -> (Float -> Float))
 	{
 		var u = uninterpolate(domain[0], domain[1]),
 			i = interpolate(range[0], range[1], null);
 		return function(x : Float) return i(u(x));
 	}
-	
+
 	static function scalePolylinear(domain : Array<Float>, range : Array<Float>, uninterpolate : Float -> Float -> (Float -> Float), interpolate : Float -> Float -> (Float -> Float) -> (Float -> Float))
 	{
 		var u = [],
@@ -118,7 +118,7 @@ class NumericScale<This> implements IScale<Float, Float>
 			u.push(uninterpolate(domain[j - 1], domain[j]));
 			i.push(interpolate(range[j - 1], range[j], null));
 		}
-		
+
 		return function(x)
 		{
 			var j = Arrays.bisect(domain, x, 1, domain.length - 1) - 1;

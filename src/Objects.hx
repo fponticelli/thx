@@ -3,7 +3,6 @@
  * @author Franco Ponticelli
  */
 
-import thx.color.Colors;
 import thx.culture.Culture;
 import thx.culture.FormatParams;
 import thx.error.Error;
@@ -14,20 +13,20 @@ class Objects
 	{
 		return Reflect.hasField(o, fieldname) ? Reflect.field(o, fieldname) : alt;
 	}
-	
+
 	inline public static function keys(o : { } ) : Array<String>
 	{
 		return Reflect.fields(o);
 	}
-	
-	public static function values(o : { } ) : Array<Dynamic>
+
+	public static function values<T>(o : { } ) : Array<T>
 	{
 		var arr = [];
 		for (key in Reflect.fields(o))
 			arr.push(Reflect.field(o, key));
 		return arr;
 	}
-	
+
 	public static function entries(o : { } ) : Array<Entry>
 	{
 		var arr = [];
@@ -35,31 +34,49 @@ class Objects
 			arr.push({ key : key, value : Reflect.field(o, key) });
 		return arr;
 	}
-	
+
+	public static function each<T>(o : { }, handler : String -> T -> Void)
+	{
+		for(key in Reflect.fields(o))
+		{
+			handler(key, Reflect.field(o, key));
+		}
+	}
+
+	public static function map<TIn, TOut>(o : { }, handler : String -> TIn -> TOut) : Array<TOut>
+	{
+		var results = [];
+		for(key in Reflect.fields(o))
+		{
+			results.push(handler(key, Reflect.field(o, key)));
+		}
+		return results;
+	}
+
 	public static inline function with<T>(ob : T, f : T -> Void)
 	{
 		f(ob);
 		return ob;
 	}
-	
+
 	public static function toHash(ob : {}) : Hash<Dynamic>
 	{
 		var hash = new Hash();
 		return copyToHash(ob, hash);
 	}
-	
+
 	public static function copyToHash(ob : {}, hash : Hash<Dynamic>) : Hash<Dynamic>
 	{
 		for (field in Reflect.fields(ob))
 			hash.set(field, Reflect.field(ob, field));
 		return hash;
 	}
-	
+
 	public static function interpolate<T>(v : Float, a : T, b : T, ?equation : Float -> Float) : T
 	{
 		return interpolatef(a, b, equation)(v);
 	}
-	
+
 	public static function interpolatef<T>(a : T, b : T, ?equation : Float -> Float) : Float -> T
 	{
 		var i : Dynamic = { },
@@ -70,45 +87,25 @@ class Objects
 			if (Reflect.hasField(b, key))
 			{
 				var va = Reflect.field(a, key);
-				Reflect.setField(i, key, interpolateByName(key, va)(va, Reflect.field(b, key)));
+				Reflect.setField(i, key, Dynamics.interpolatef(va, Reflect.field(b, key)));
 			} else
 				Reflect.setField(c, key, Reflect.field(a, key));
 		}
-		
+
 		keys = Reflect.fields(b);
 		for (key in keys)
 		{
 			if (!Reflect.hasField(a, key))
 				Reflect.setField(c, key, Reflect.field(b, key));
 		}
-		
+
 		return function(t) {
 			for (k in Reflect.fields(i))
 				Reflect.setField(c, k, Reflect.callMethod(i, Reflect.field(i, k), [t]));
 			return c;
 		};
 	}
-	
-	static var _reCheckKeyIsColor = ~/color\b|\bbackground\b|\bstroke\b|\bfill\b/;
-	static function interpolateByName(k : String, v : Dynamic)
-	{
-		return Std.is(v, String) && _reCheckKeyIsColor.match(k) ? Colors.interpolatef : Dynamics.interpolatef;
-	}
-	/*
-	public static function applyTo(src : { }, dst : { } )
-	{
-		for (field in Reflect.fields(src))
-		{
-			if (!Reflect.hasField(dst, field))
-				continue;
-			if (Reflect.isObject(Reflect.field(src, field)) && Reflect.isObject(Reflect.field(dst, field)))
-				applyTo(Reflect.field(src, field), Reflect.field(dst, field))
-			else
-				Reflect.setField(dst, field, Reflect.field(src, field));
-		}
-		return dst;
-	}
-	*/
+
 	// @todo: add support for Array
 	public static function copyTo(src : { }, dst : { } )
 	{
@@ -125,13 +122,13 @@ class Objects
 		}
 		return dst;
 	}
-	
+
 	public static function clone<T>(src : T) : T
 	{
 		var dst = { };
 		return cast copyTo(src, dst);
 	}
-	
+
 	public static function mergef(ob : {}, new_ob : {}, f : String->{}->{}->{}) : Void
 		{
 	/*		if (!Types.isAnonymous(ob)) return;*/
@@ -152,7 +149,7 @@ class Objects
 		{
 			mergef(ob, new_ob, function(key, old_v, new_v) return new_v );
 		}
-	
+
 	static function _flatten(src : { }, cum : { fields : Array<String>, value : Dynamic }, arr : Array<{ fields : Array<String>, value : Dynamic }>, levels : Int, level : Int)
 	{
 		for (field in Reflect.fields(src))
@@ -169,7 +166,7 @@ class Objects
 			}
 		}
 	}
-	
+
 	public static function flatten(src : { }, levels = 0) : Array<{ fields : Array<String>, value : Dynamic }>
 	{
 		var arr = [];
@@ -184,7 +181,7 @@ class Objects
 				};
 				_flatten(v, item, arr, levels, 1);
 			} else {
-				arr.push({ 
+				arr.push({
 					fields : [field],
 					value : v
 				});
@@ -192,7 +189,7 @@ class Objects
 		}
 		return arr;
 	}
-	
+
 	public static function compare(a : { }, b : { } )
 	{
 		var v, fields;
@@ -203,28 +200,28 @@ class Objects
 			if ((v = Dynamics.compare(Reflect.field(a, field), Reflect.field(b, field))) != 0)
 				return v;
 		}
-		
+
 		return 0;
 	}
-	
+
 	public static function addFields(o : { }, fields : Array<String>, values : Array<Dynamic>)
 	{
 		for (i in 0...fields.length)
-			addField(o, fields[i], values[i]); 
+			addField(o, fields[i], values[i]);
 		return o;
 	}
-	
+
 	public static function addField(o : { }, field : String, value : Dynamic)
 	{
-		Reflect.setField(o, field, value); 
+		Reflect.setField(o, field, value);
 		return o;
 	}
-	
+
 	public static function format(v : Float, ?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return formatf(param, params, culture)(v);
 	}
-	
+
 	public static function formatf(?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		params = FormatParams.params(param, params, 'R');
@@ -248,3 +245,25 @@ class Objects
 }
 
 typedef Entry = { key : String, value : Dynamic };
+
+/* TODO
+
+pluck_.pluck(list, propertyName)
+A convenient version of what is perhaps the most common use-case for map: extracting a list of property values.
+
+var stooges = [{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}];
+_.pluck(stooges, 'name');
+=> ["moe", "larry", "curly"]
+
+defaults_.defaults(object, *defaults)
+Fill in missing properties in object with default values from the defaults objects. As soon as the property is filled, further defaults will have no effect.
+
+var iceCream = {flavor : "chocolate"};
+_.defaults(iceCream, {flavor : "vanilla", sprinkles : "lots"});
+=> {flavor : "chocolate", sprinkles : "lots"}
+
+times_.times(n, iterator)
+Invokes the given iterator function n times.
+
+_(3).times(function(){ genie.grantWish(); });
+*/

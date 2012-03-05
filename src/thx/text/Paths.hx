@@ -20,8 +20,8 @@ class Paths
 		return path;
 #end
 	}
-	
-	
+
+
 	// TODO test me
 	// TODO check that the php version works the same as others
 	public static function dir(path : String) : String
@@ -39,12 +39,12 @@ class Paths
 		return (~/(\\\/)+/).replace(p, '/');
 #end
 	}
-	
+
 	public static function ext(path : String)
 	{
 		return path.split(".").pop();
 	}
-	
+
 	public static function removeExt(filename : String)
 	{
 		var t = filename.split(".");

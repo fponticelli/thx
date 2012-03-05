@@ -27,8 +27,8 @@ class Chord extends Example
 					.attr("opacity").float(opacity);
 		}
 	}
-	
-	function groupTicks(d, i)
+
+	function groupTicks(d : ItemType, i)
 	{
 		var k = (d.endAngle - d.startAngle) / d.value;
 		return Floats.range(0, d.value, 1000).map(function(v, i) {
@@ -38,38 +38,38 @@ class Chord extends Example
 			};
 		});
 	}
-	
+
 	override function runExample()
 	{
 		var chord = new thx.geom.layout.Chord()
 			.padding(0.05)
-			.sortSubgroups(Floats.descending)
+			.sortSubgroups(Floats.compare)
 			.matrix([
 				[11975,  5871, 8916, 2868],
 				[ 1951, 10048, 2060, 6171],
 				[ 8010, 16145, 8090, 8045],
 				[ 1013,   990,  940, 6907]
 			]);
-		
+
 		var w = 600,
 			h = 600,
 			r0 = Math.min(w, h) * .41,
 			r1 = r0 * 1.1;
-			
+
 		var fill = new thx.math.scale.Ordinal()
 			.domain(Ints.range(4))
 			.range(["#000000", "#FFDD89", "#957244", "#F26223"]);
-			
+
 		var data = chord.groups();
-		
+
 		var svg = container
 			.append("svg:svg")
 				.attr("width").float(w)
 				.attr("height").float(h)
 			.append("svg:g")
 				.attr("transform").string("translate(" + w / 2 + "," + h / 2 + ")");
-		
-		
+
+
 		var choice = svg.append("svg:g")
 			.selectAll("path")
 				.data(data);
@@ -92,7 +92,7 @@ class Chord extends Example
 				.attr("transform").stringf(function(d, i) {
 					return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")" + "translate(" + r1 + ",0)";
 				});
-		
+
 		ticks.append("svg:line")
 			.attr("x1").float(1)
 			.attr("y1").float(0)
@@ -110,9 +110,9 @@ class Chord extends Example
 				return d.angle > Math.PI ? "rotate(180)translate(-16)" : null;
 			})
 			.text().stringf(function(d, i) return d.label);
-		
+
 		var chords = chord.chords();
-		
+
 		svg.append("svg:g")
 			.attr("class").string("chord")
 			.selectAll("path")
@@ -121,9 +121,9 @@ class Chord extends Example
 					.attr("fill").stringf(function(d, i) return fill.scale(d.target.index))
 					.attr("d").stringf(cast thx.svg.Chord.pathObject().radius(r0).shape)
 					.attr("opacity").float(1);
-					
+
 		update = svg.selectAll("g.chord path").data(chords).update();
 	}
-	
+
 	override function description() return "Chord Diagram from fixed values. Move the mouse over the circle permiter."
 }
