@@ -14,9 +14,9 @@ import thx.error.NullArgument;
 
 class HtmlParser {
 	// Regular Expressions for parsing tags and attributes
-	static var startTag = ~/^<(\w+)((?:\s+\w+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/;
+	static var startTag = ~/^<(\w+)((?:\s+[\w-]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/;
 	static var endTag = ~/^<\/(\w+)[^>]*>/;
-	static var attr = ~/(\w+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/g;
+	static var attr = ~/([\w-]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/gi;
 	static var comment = ~/<!--(.*?)-->/g;
 	static var cdata = ~/<!\[CDATA\[(.*?)]]>/g;
 	static var doctype = ~/<!DOCTYPE(.*?)>/gi;
