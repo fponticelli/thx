@@ -8,9 +8,9 @@ class TestValueEncoder
 	{
 		var handler = new CustomerEncoder();
 		var encoder = new ValueEncoder(handler);
-		
+
 		encoder.encode( { name : "thx", values : [Date.fromString("2010-01-01"),2,"a",{a:0,b:true}] } );
-		
+
 		Assert.same([
 			"start",
 			"startObject",
@@ -44,7 +44,7 @@ class TestValueEncoder
 			"end"
 		], handler.result);
 	}
-	
+
 	public function new(){}
 }
 
@@ -52,20 +52,20 @@ class CustomerEncoder implements IDataHandler
 {
 	public function new(){}
 	public var result : Array<String>;
-	
+
 	public function start() result = ["start"]
 	public function end() result.push("end")
-	
+
 	public function startObject() result.push("startObject")
 	public function startField(name : String) result.push("startField:" + name)
 	public function endField() result.push("endField")
 	public function endObject() result.push("endObject")
-	
+
 	public function startArray() result.push("startArray")
 	public function startItem() result.push("startItem")
 	public function endItem() result.push("endItem")
 	public function endArray() result.push("endArray")
-	
+
 	public function date(d : Date) result.push("date:"+d.getTime())
 	public function string(s : String) result.push("string:"+s)
 	public function int(i : Int) result.push("int:"+i)

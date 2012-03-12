@@ -8,15 +8,15 @@ using Lambda;
 class JsonEncoder implements IDataHandler
 {
 	public var encodedString(default, null) : String;
-	
+
 	var buf : StringBuf;
 	var lvl : Int;
 	var count : Array<Int>;
-	
+
 	public function new()
 	{
 	}
-	
+
 	public function start()
 	{
 		lvl = 0;
@@ -29,7 +29,7 @@ class JsonEncoder implements IDataHandler
 		encodedString = buf.toString();
 		buf = null;
 	}
-	
+
 	public function startObject()
 	{
 		buf.add("{");
@@ -48,7 +48,7 @@ class JsonEncoder implements IDataHandler
 		buf.add("}");
 		count.pop();
 	}
-	
+
 	public function startArray()
 	{
 		buf.add("[");
@@ -65,7 +65,7 @@ class JsonEncoder implements IDataHandler
 		buf.add("]");
 		count.pop();
 	}
-	
+
 	public function date(d : Date)
 	{
 		buf.add(d.getTime());
@@ -94,7 +94,7 @@ class JsonEncoder implements IDataHandler
 	{
 		// Json does not support comments
 	}
-		
+
 	function quote(s)
 	{
 		return '"' + ~/./.customReplace (~/(\n)/g.replace (~/("|\\)/g.replace (s, "\\$1"), "\\n"), function (r) {

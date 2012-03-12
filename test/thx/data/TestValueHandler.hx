@@ -21,7 +21,7 @@ class TestValueHandler
 		assertHandler(null,		function(h) h.null());
 		assertHandler(ed,		function(h) h.date(td));
 	}
-	
+
 	public function testArray()
 	{
 		assertHandler([], function(h) {
@@ -42,7 +42,7 @@ class TestValueHandler
 			h.endArray();
 		});
 	}
-	
+
 	public function testObject()
 	{
 		assertHandler({}, function(h) {
@@ -60,7 +60,7 @@ class TestValueHandler
 			h.endObject();
 		});
 	}
-	
+
 	public function testNested()
 	{
 		assertHandler({values : [{id : 0, value : 0.1}, {id : 1, value : 0.2, notes : [1,2,3]}]}, function(h) {
@@ -105,7 +105,7 @@ class TestValueHandler
 			h.endObject();
 		});
 	}
-	
+
 	function assertHandler(expected : Dynamic, f : ValueHandler -> Void, ?pos : PosInfos)
 	{
 		var h = new ValueHandler();
@@ -114,6 +114,6 @@ class TestValueHandler
 		h.end();
 		Assert.same(expected, h.value, "expected: " + Dynamics.string(expected) + " but was " + Dynamics.string(h.value), pos);
 	}
-		
+
 	public function new(){}
 }

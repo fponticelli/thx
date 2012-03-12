@@ -1,7 +1,0 @@
--cp src
--cp test
--cp test-exp
--cp src-exp
--lib utest
--neko bin/test.n
--main TestAll

@@ -21,15 +21,15 @@ class JsonDecoder
 	var src : String;
 	var char : String;
 	var pos : Int;
-	
+
 	var handler : IDataHandler;
-	
+
 	public function new(handler : IDataHandler, tabsize = 4)
 	{
 		this.handler = handler;
 		this.tabsize = tabsize;
 	}
-	
+
 	public function decode(s : String) : Void
 	{
 		col = 0;
@@ -38,7 +38,7 @@ class JsonDecoder
 		char = null;
 		pos = 0;
 		ignoreWhiteSpace();
-		
+
 		var p = null;
 		handler.start();
 		try
@@ -53,7 +53,7 @@ class JsonDecoder
 			error("the stream contains unrecognized characters at its end");
 		handler.end();
 	}
-	
+
 	function ignoreWhiteSpace()
 	{
 		while (pos < src.length)
@@ -75,7 +75,7 @@ class JsonDecoder
 			}
 		}
 	}
-	
+
 	function parse()
 	{
 		var c = readChar();
@@ -97,7 +97,7 @@ class JsonDecoder
 				return parseValue();
 		}
 	}
-	
+
 	function readChar()
 	{
 		if (null == char)
@@ -111,7 +111,7 @@ class JsonDecoder
 			return c;
 		}
 	}
-	
+
 	function expect(word : String)
 	{
 		var test = null == char ? src.substr(pos, word.length) : char + src.substr(pos, word.length - 1);
@@ -129,7 +129,7 @@ class JsonDecoder
 			return false;
 		}
 	}
-	
+
 	function parseObject()
 	{
 		var first = true;
@@ -145,7 +145,7 @@ class JsonDecoder
 				ignoreWhiteSpace();
 			else
 				error("expected ','");
-				
+
 			var k = _parseString();
 			ignoreWhiteSpace();
 			if (!expect(":"))
@@ -157,7 +157,7 @@ class JsonDecoder
 		}
 		handler.endObject();
 	}
-	
+
 	function parseArray()
 	{
 		ignoreWhiteSpace();
@@ -180,7 +180,7 @@ class JsonDecoder
 		}
 		handler.endArray();
 	}
-	
+
 	function parseValue()
 	{
 		if (expect("true"))
@@ -192,12 +192,12 @@ class JsonDecoder
 		else
 			parseFloat();
 	}
-	
+
 	function parseString()
 	{
 		handler.string(_parseString());
 	}
-	
+
 	function _parseString()
 	{
 		if (!expect('"'))
@@ -254,7 +254,7 @@ class JsonDecoder
 		}
 		return buf;
 	}
-	
+
 	function parseHexa()
 	{
 		var v = [];
@@ -269,7 +269,7 @@ class JsonDecoder
 		handler.int(Std.parseInt("0x" + v.join("")));
 		return Std.parseInt("0x" + v.join(""));
 	}
-	
+
 	function parseFloat()
 	{
 		var v = "";
@@ -304,13 +304,13 @@ class JsonDecoder
 				handler.int(Std.parseInt(v));
 				return;
 			}
-			
+
 			if (expect("e") || expect("E"))
 			{
 				v += "e";
 				if (expect("+"))
 				{
-					
+
 				} else if (expect("-")) {
 					v += "-";
 				}
@@ -323,7 +323,7 @@ class JsonDecoder
 		}
 		handler.float(Std.parseFloat(v));
 	}
-	
+
 	function parseDigits(atleast = 0)
 	{
 		var buf = "";
@@ -351,7 +351,7 @@ class JsonDecoder
 		}
 		return null; // should nver reach this point
 	}
-	
+
 	function error(msg : String)
 	{
 		var context = pos == src.length ? "" : "\nrest: " + (null != char ? char : "") + src.substr(pos) + "...";
