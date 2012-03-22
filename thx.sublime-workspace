@@ -519,70 +519,11 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "src/thx/color/Rgb.hx",
-			"settings":
-			{
-				"buffer_size": 4726,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/thx/csv/CsvEncoder.hx",
-			"settings":
-			{
-				"buffer_size": 2299,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/thx/data/IDataHandler.hx",
-			"settings":
-			{
-				"buffer_size": 752,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/thx/data/ValueHandler.hx",
-			"settings":
-			{
-				"buffer_size": 1204,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/thx/ini/IniEncoder.hx",
-			"settings":
-			{
-				"buffer_size": 3110,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/francoponticelli/Projects/test/testint/build.hxml",
-			"settings":
-			{
-				"buffer_size": 37,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "class Main\n{\n	static function main()\n	{\n		trace(TestStatic.int());\n		trace(new TestInstance().int());\n		trace(new TestInterface().int());\n	}\n}\n\ninterface IInt \n{\n	public function int() : Int;\n}\n\nclass TestInstance\n{\n	public function new() {}\n	public function int() return 7\n}\n\nclass TestInterface implements IInt\n{\n	public function new() {}\n	public function int() return 7\n}\n\nclass TestStatic\n{\n	public static function int() return 7\n}",
-			"file": "/Users/francoponticelli/Projects/test/testint/src/Main.hx",
-			"file_size": 437,
-			"file_write_time": 1331045704000000,
-			"settings":
-			{
-				"buffer_size": 435,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Packages/HaXe/Hxml.sublime-build",
 	"command_palette":
 	{
-		"height": 392.0,
+		"height": 375.0,
 		"selected_items":
 		[
 			[
@@ -682,7 +623,7 @@
 				"Set Syntax: HaXe2"
 			]
 		],
-		"width": 449.0
+		"width": 435.0
 	},
 	"console":
 	{
@@ -699,16 +640,45 @@
 	},
 	"file_history":
 	[
+		"/Users/francoponticelli/Projects/thx/test.swf9.hxml",
+		"/Users/francoponticelli/Projects/thx/test.swf.hxml",
+		"/Users/francoponticelli/Projects/thx/src/Bools.hx",
+		"/Users/francoponticelli/Projects/thx/test.php.hxml",
+		"/Users/francoponticelli/Projects/thx/src/Ints.hx",
+		"/Users/francoponticelli/Projects/thx/bin/lib/thx/svg/LineInternals.class.php",
+		"/Users/francoponticelli/Projects/thx/src/thx/svg/LineInternals.hx",
+		"/Users/francoponticelli/Projects/thx/test.cpp.hxml",
+		"/Users/francoponticelli/Projects/thx/src/Enums.hx",
+		"/Users/francoponticelli/Projects/thx/bin/test/src/thx/translation/ITranslation.cpp",
+		"/Users/francoponticelli/Projects/thx/src/thx/translation/ITranslation.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/util/Message.hx",
+		"/Users/francoponticelli/Projects/thx/src/Arrays.hx",
+		"/Users/francoponticelli/Projects/thx/src/Objects.hx",
+		"/Users/francoponticelli/Projects/thx/bin/flash.html",
+		"/Users/francoponticelli/Projects/thx/test/TestObjects.hx",
+		"/Users/francoponticelli/Projects/thx/test/TestArrays.hx",
+		"/Users/francoponticelli/Projects/thx/test/TestAll.hx",
+		"/Users/francoponticelli/Projects/thx/thx.swf.hxml",
+		"/Users/francoponticelli/Projects/thx/src/thx/color/Rgb.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/csv/CsvDecoder.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/csv/CsvEncoder.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/data/IDataHandler.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/data/ValueEncoder.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/data/ValueHandler.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/ini/IniDecoder.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/ini/IniEncoder.hx",
+		"/Users/francoponticelli/Projects/thx/src/thx/json/JsonDecoder.hx",
 		"/Users/francoponticelli/Projects/thx/src/thx/json/JsonEncoder.hx",
 		"/Users/francoponticelli/Projects/thx/test/thx/data/TestValueEncoder.hx",
+		"/Users/francoponticelli/Projects/thx/test/thx/data/TestValueHandler.hx",
+		"/Users/francoponticelli/Projects/test/testint/build.hxml",
+		"/Users/francoponticelli/Projects/test/testint/src/Main.hx",
+		"/Users/francoponticelli/Projects/thx/src/Dynamics.hx",
+		"/Users/francoponticelli/Projects/thx/build.hxml",
+		"/Users/francoponticelli/Projects/test/testint/src/build.hxml",
 		"/Users/francoponticelli/Projects/thx/src/Floats.hx",
 		"/Users/francoponticelli/Projects/thx/src/thx/culture/FormatNumber.hx",
 		"/Users/francoponticelli/Projects/thx/src/thx/math/Random.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/csv/CsvDecoder.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/data/ValueEncoder.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/ini/IniDecoder.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/json/JsonDecoder.hx",
-		"/Users/francoponticelli/Projects/thx/test/thx/data/TestValueHandler.hx",
 		"/Users/francoponticelli/Projects/thx/src/thx/collection/CascadeHash.hx",
 		"/Users/francoponticelli/Projects/thx/src/thx/error/NullArgument.hx",
 		"/Users/francoponticelli/Projects/thx/src/thx/html/HtmlParser.hx",
@@ -719,15 +689,7 @@
 		"/Users/francoponticelli/Projects/thx/test/thx/util/TestTypeLocator.hx",
 		"/Users/francoponticelli/Projects/thx/test/thx/util/TestTypeServiceLocator.hx",
 		"/Users/francoponticelli/Projects/thx/src/thx/culture/FormatDate.hx",
-		"/Users/francoponticelli/Projects/thx/src/Dynamics.hx",
-		"/Users/francoponticelli/Projects/thx/src/Enums.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/color/Rgb.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/csv/CsvEncoder.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/data/ValueHandler.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/ini/IniEncoder.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/data/IDataHandler.hx",
 		"/Users/francoponticelli/Projects/thx/src/Dates.hx",
-		"/Users/francoponticelli/Projects/thx/thx.swf.hxml",
 		"/Users/francoponticelli/Projects/thx/thx.swf9.hxml",
 		"/Users/francoponticelli/Projects/thx/src/thx/text/Inflections.hx",
 		"/Users/francoponticelli/Projects/thx/doc.hxml",
@@ -736,7 +698,6 @@
 		"/Users/francoponticelli/Projects/thx/haxelib.xml",
 		"/Users/francoponticelli/Projects/dhx/release.sh",
 		"/Users/francoponticelli/Projects/thx/release.bat",
-		"/Users/francoponticelli/Projects/thx/test/TestAll.hx",
 		"/Users/francoponticelli/Projects/reportgrid/client-libraries/js/src/v1/precog.js",
 		"/Users/francoponticelli/Desktop/first.html",
 		"/Users/francoponticelli/Desktop/second.html",
@@ -806,27 +767,7 @@
 		"/private/tmp/WK_4f3d26fda0e1d.html",
 		"/private/tmp/WK_4f3d26fda0fc5.png",
 		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/info/InfoTrack.hx",
-		"/Users/francoponticelli/Desktop/sample.html",
-		"/Users/francoponticelli/Projects/reportgrid/client-libraries/js/src/v1/reportgrid-core.js",
-		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/index.html",
-		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/index.php",
-		"/Users/francoponticelli/Projects/reportgrid/visualizations/charts/bin/service/template.php",
-		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/util/Js.hx",
-		"/Users/francoponticelli/Documents/scripts/haxesrc/haxe/std/haxe/Http.hx",
-		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/factory/FactoryLayout.hx",
-		"/Users/francoponticelli/Projects/reportgrid/client-libraries/js/src/v1/reportgrid-query.js",
-		"/Users/francoponticelli/Projects/reportgrid/visualizations/servicessrc/charts/www/.htaccess",
-		"/Users/francoponticelli/Projects/thx/src/thx/text/Paths.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/util/TypeFactory.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/util/TypeServiceLocator.hx",
-		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/util/RG.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/js/Selection.hx",
-		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/interactive/Downloader.hx",
-		"/Users/francoponticelli/Projects/thx/src/thx/util/MacroVersion.hx",
-		"/Users/francoponticelli/Projects/reportgrid/client-libraries/js/src/v1/reportgrid-charts.js",
-		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/graph/GraphNodes.hx",
-		"/Users/francoponticelli/Projects/reportgrid/visualizations/lib/src/rg/graph/GraphCollection.hx",
-		"/Users/francoponticelli/Projects/reportgrid/visualizations/services/charts/lib/ufront/web/IHttpModule.interface.php"
+		"/Users/francoponticelli/Desktop/sample.html"
 	],
 	"find":
 	{
@@ -834,7 +775,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"/Users/francoponticelli/Projects/thx,*.hx",
@@ -871,6 +812,8 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"est.swf",
+			"intValue",
 			"h.int(",
 			"handler.int(",
 			"function int(",
@@ -996,9 +939,7 @@
 			"applyGra",
 			"handlerDataPointOver",
 			"toolt",
-			"new Tooltip()",
-			" ",
-			"over"
+			"new Tooltip()"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1006,6 +947,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"int",
 			"h.intValue(",
 			"handler.intValue(",
 			"function intValue(",
@@ -1088,208 +1030,14 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-			"selected": 6,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "src/thx/color/Rgb.hx",
-					"settings":
-					{
-						"buffer_size": 4726,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"haxe-build-id": 0,
-							"syntax": "Packages/HaXe/HaXe.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/thx/csv/CsvEncoder.hx",
-					"settings":
-					{
-						"buffer_size": 2299,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"haxe-build-id": 0,
-							"syntax": "Packages/HaXe/HaXe.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/thx/data/IDataHandler.hx",
-					"settings":
-					{
-						"buffer_size": 752,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"haxe-build-id": 0,
-							"syntax": "Packages/HaXe/HaXe.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/thx/data/ValueHandler.hx",
-					"settings":
-					{
-						"buffer_size": 1204,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"haxe-build-id": 0,
-							"syntax": "Packages/HaXe/HaXe.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/thx/ini/IniEncoder.hx",
-					"settings":
-					{
-						"buffer_size": 3110,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								636,
-								636
-							]
-						],
-						"settings":
-						{
-							"haxe-build-id": 0,
-							"syntax": "Packages/HaXe/HaXe.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 776.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/Users/francoponticelli/Projects/test/testint/build.hxml",
-					"settings":
-					{
-						"buffer_size": 37,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								22,
-								22
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HaXe/Hxml.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/Users/francoponticelli/Projects/test/testint/src/Main.hx",
-					"settings":
-					{
-						"buffer_size": 435,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								435,
-								435
-							]
-						],
-						"settings":
-						{
-							"haxe-build-id": 0,
-							"syntax": "Packages/HaXe/HaXe.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -1326,7 +1074,11 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 112.0
+		"height": 359.0
+	},
+	"output.haxe":
+	{
+		"height": 409.0
 	},
 	"replace":
 	{
@@ -1338,6 +1090,30 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"linei",
+				"src/thx/svg/LineInternals.hx"
+			],
+			[
+				"",
+				"src/Arrays.hx"
+			],
+			[
+				"arra",
+				"src/Arrays.hx"
+			],
+			[
+				"testa",
+				"test/TestArrays.hx"
+			],
+			[
+				"objects",
+				"src/Objects.hx"
+			],
+			[
+				"testob",
+				"test/TestObjects.hx"
+			],
 			[
 				"rand",
 				"src/thx/math/Random.hx"
@@ -1599,10 +1375,6 @@
 				"lib/src/rg/info/InfoVisualizationOption.hx"
 			],
 			[
-				"",
-				"lib/src/rg/svg/chart/Chart.hx"
-			],
-			[
 				"carte",
 				"lib/src/rg/svg/chart/CartesianChart.hx"
 			],
@@ -1829,26 +1601,6 @@
 			[
 				"orient",
 				"lib/src/rg/view/svg/widget/LabelOrientations.hx"
-			],
-			[
-				"bal",
-				"lib/src/rg/view/svg/widget/Balloon.hx"
-			],
-			[
-				"grap",
-				"lib/src/rg/graph/GraphLayout.hx"
-			],
-			[
-				"datapo",
-				"lib/src/rg/util/DataPoints.hx"
-			],
-			[
-				"longe",
-				"lib/src/rg/graph/LongestPathLayer.hx"
-			],
-			[
-				"sug",
-				"lib/src/rg/graph/SugiyamaMethod.hx"
 			]
 		],
 		"width": 0.0

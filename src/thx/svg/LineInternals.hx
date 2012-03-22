@@ -72,9 +72,10 @@ class LineInternals
 				if (points.length < 3)
 					return interpolatePoints(points, Linear);
 				i = 1;
+				p = points[1];
 				var x0 = p[0],
 					y0 = p[1],
-					px = [x0, x0, x0, (p = points[1])[0]],
+					px = [x0, x0, x0, p[0]],
 					py = [y0, y0, y0, p[1]];
 				path.push(x0 + "," + y0);
 				_lineBasisBezier(path, px, py);

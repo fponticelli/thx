@@ -23,30 +23,30 @@ class TestAll
 		runner.addCase(new thx.data.TestValueEncoder());
 		runner.addCase(new thx.data.TestValueHandler());
 		thx.date.TestAll.addTests(runner);
-		runner.addCase(new thx.csv.TestCsv());
+//		runner.addCase(new thx.csv.TestCsv());
 		runner.addCase(new thx.json.TestJson());
 		runner.addCase(new thx.ini.TestIni());
 		runner.addCase(new thx.number.TestParse());
 		thx.error.TestAll.addTests(runner);
 		thx.text.TestAll.addTests(runner);
-		thx.html.TestAll.addTests(runner);
+//		thx.html.TestAll.addTests(runner);
 		thx.math.TestAll.addTests(runner);
 		thx.svg.TestAll.addTests(runner);
-		thx.xml.TestAll.addTests(runner);
+//		thx.xml.TestAll.addTests(runner);
 		thx.type.TestAll.addTests(runner);
 		thx.util.TestAll.addTests(runner);
 		thx.validation.TestAll.addTests(runner);
 
-		TestArrays.addTests(runner);
+//		TestArrays.addTests(runner);
 		TestFloats.addTests(runner);
 		runner.addCase(new TestDates());
 		TestInts.addTests(runner);
 		TestIterators.addTests(runner);
 		TestHashes.addTests(runner);
-		TestObjects.addTests(runner);
+//		TestObjects.addTests(runner);
 		TestStrings.addTests(runner);
 
-//		TestAllExp.addTests(runner);
+////		TestAllExp.addTests(runner);
 	}
 
 	public static function main()

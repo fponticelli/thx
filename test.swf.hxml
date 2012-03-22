@@ -5,3 +5,5 @@
 -swf-version 10
 -main TestAll
 -debug
+-swf-header 960:920:30:ffffff
+-cmd open bin/test.10.swf

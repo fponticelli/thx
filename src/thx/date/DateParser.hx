@@ -123,7 +123,8 @@ class DateParser
 		var time = parseTime(s), v;
 		if (null == d)
 			d = Date.now();
-		s = StringTools.replace(s, time.matched, ""); // strip off parsed time
+		if(null != time.matched)
+			s = StringTools.replace(s, time.matched, ""); // strip off parsed time
 		// set base date
 		var year = 0, month = 0, day = 0, found = null != time.matched;
 		if (dateexp.match(s)) {

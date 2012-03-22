@@ -87,7 +87,7 @@ class CsvDecoder
 							pos = _s.length;
 							break;
 						}
-					}		
+					}
 				}
 			} else pos = _s.length;
 
