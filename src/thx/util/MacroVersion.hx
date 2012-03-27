@@ -19,9 +19,7 @@ class MacroVersion
 	{
 		incrementBuild();
 		saveInfo();
-		var v = getInfo();
-		neko.Lib.println("Application Version: " + v.fullVersion());
-		return expr(v);
+		return expr(getInfo());
 	}
 #if macro
 	static var info : Version;
