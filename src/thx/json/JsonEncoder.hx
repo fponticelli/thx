@@ -66,27 +66,27 @@ class JsonEncoder implements IDataHandler
 		count.pop();
 	}
 
-	public function date(d : Date)
+	public function valueDate(d : Date)
 	{
 		buf.add(d.getTime());
 	}
-	public function string(s : String)
+	public function valueString(s : String)
 	{
 		buf.add(quote(s));
 	}
-	public function int(i : Int)
+	public function valueInt(i : Int)
 	{
 		buf.add(i);
 	}
-	public function float(f : Float)
+	public function valueFloat(f : Float)
 	{
 		buf.add(f);
 	}
-	public function null()
+	public function valueNull()
 	{
 		buf.add("null");
 	}
-	public function bool(b : Bool)
+	public function valueBool(b : Bool)
 	{
 		buf.add(b ? "true" : "false");
 	}

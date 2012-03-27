@@ -184,18 +184,18 @@ class JsonDecoder
 	function parseValue()
 	{
 		if (expect("true"))
-			handler.bool(true);
+			handler.valueBool(true);
 		else if (expect("false"))
-			handler.bool(false);
+			handler.valueBool(false);
 		else if (expect("null"))
-			handler.null();
+			handler.valueNull();
 		else
 			parseFloat();
 	}
 
 	function parseString()
 	{
-		handler.string(_parseString());
+		handler.valueString(_parseString());
 	}
 
 	function _parseString()
@@ -266,7 +266,7 @@ class JsonDecoder
 				error("invalid hexadecimal value " + c);
 			v.push(c);
 		}
-		handler.int(Std.parseInt("0x" + v.join("")));
+		handler.valueInt(Std.parseInt("0x" + v.join("")));
 		return Std.parseInt("0x" + v.join(""));
 	}
 
@@ -291,7 +291,7 @@ class JsonDecoder
 		{
 			v += parseDigits();
 		} catch (e : StreamError) {
-			handler.int(Std.parseInt(v));
+			handler.valueInt(Std.parseInt(v));
 			return;
 		}
 
@@ -301,7 +301,7 @@ class JsonDecoder
 			{
 				v += "." + parseDigits(1);
 			} else {
-				handler.int(Std.parseInt(v));
+				handler.valueInt(Std.parseInt(v));
 				return;
 			}
 
@@ -318,10 +318,10 @@ class JsonDecoder
 			}
 		} catch (e : StreamError)
 		{
-			handler.float(Std.parseFloat(v)); // TODO remove
+			handler.valueFloat(Std.parseFloat(v)); // TODO remove
 			return; // TODO remove
 		}
-		handler.float(Std.parseFloat(v));
+		handler.valueFloat(Std.parseFloat(v));
 	}
 
 	function parseDigits(atleast = 0)

@@ -20,11 +20,12 @@ interface IDataHandler
 	public function endItem() : Void;
 	public function endArray() : Void;
 
-	public function date(d : Date) : Void;
-	public function string(s : String) : Void;
-	public function int(i : Int) : Void;
-	public function float(f : Float) : Void;
-	public function null() : Void;
-	public function bool(b : Bool) : Void;
+	public function valueDate(d : Date) : Void;
+	public function valueString(s : String) : Void;
+	public function valueInt(i : Int) : Void;
+	public function valueFloat(f : Float) : Void;
+	public function valueNull() : Void;
+	public function valueBool(b : Bool) : Void;
+
 	public function comment(s : String) : Void;
 }

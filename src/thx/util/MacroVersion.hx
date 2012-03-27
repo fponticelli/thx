@@ -12,61 +12,61 @@ class MacroVersion
 {
 	@:macro public static function currentVersion()
 	{
-		return expr(getInfo());
+		return expr(getVersion());
 	}
 
-	@:macro public static function incrementBuildVersion()
+	@:macro public static function incrementBuild()
 	{
-		incrementBuild();
-		saveInfo();
-		return expr(getInfo());
+		return saveAndReturn(getVersion().incrementBuild());
 	}
+
+	@:macro public static function incrementMaintenance()
+	{
+		return saveAndReturn(getVersion().incrementMaintenance());
+	}
+
+	@:macro public static function incrementMinor()
+	{
+		return saveAndReturn(getVersion().incrementMinor());
+	}
+
+	@:macro public static function incrementMajor()
+	{
+		return saveAndReturn(getVersion().incrementMajor());
+	}
+
+	@:macro public static function setVersionFile(file : String)
+	{
+		VERSION_FILE = file;
+		return null;
+	}
+
 #if macro
-	static var info : Version;
 	static var VERSION_FILE = "version";
-	static function getInfo() : Version
+	static function getVersion() : Version
 	{
-		if (null == info)
-		{
-			var parts = if (!neko.FileSystem.exists(VERSION_FILE))
-			{
-				[0, 0, 0, 0];
-			} else {
-				var out = [],
-					t = neko.io.File.getContent(VERSION_FILE).split(".");
-				for (i in 0...4)
-				{
-					if (null == t[i])
-						out[i] = 0;
-					else
-						out[i] = Std.parseInt(t[i]);
-				}
-				out;
-			}
-			info = new Version(parts[0], parts[1], parts[2], parts[3]);
-		}
-		return info;
+		return !neko.FileSystem.exists(VERSION_FILE)
+				? new Version(0, 0, 0, 0)
+				: Version.fromString(neko.io.File.getContent(VERSION_FILE));
 	}
 
-	static function incrementBuild()
+	static function saveAndReturn(version : Version)
 	{
-		var i = getInfo();
-		info = new Version(i.major, i.minor, i.maintenance, i.build + 1);
-		return info;
+		saveVersion(version);
+		return expr(version);
 	}
 
-	static function saveInfo()
+	static function saveVersion(version : Version)
 	{
-		var info = getInfo();
 		var file = neko.io.File.write(VERSION_FILE, false);
-		file.writeString(info.fullVersion());
+		file.writeString(version.fullVersion());
 		file.close();
 	}
 
-	static function expr(ver : Version)
+	static function expr(version : Version)
 	{
 		return {
-			expr : ExprDef.EConst(Constant.CString(ver.fullVersion())),
+			expr : ExprDef.EConst(Constant.CString(version.fullVersion())),
 			pos : Context.currentPos()
 		};
 	}

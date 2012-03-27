@@ -56,11 +56,11 @@ class ValueHandler implements IDataHandler
 		last.push(value);
 	}
 
-	public function date(d : Date) _stack.push(d)
-	public function string(s : String) _stack.push(s)
-	public function int(i : Int) _stack.push(i)
-	public function float(f : Float) _stack.push(f)
-	public function null() _stack.push(null)
-	public function bool(b : Bool) _stack.push(b)
+	public function valueDate(d : Date) _stack.push(d)
+	public function valueString(s : String) _stack.push(s)
+	public function valueInt(i : Int) _stack.push(i)
+	public function valueFloat(f : Float) _stack.push(f)
+	public function valueNull() _stack.push(null)
+	public function valueBool(b : Bool) _stack.push(b)
 	public function comment(s : String){}
 }

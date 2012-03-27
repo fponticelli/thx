@@ -26,24 +26,24 @@ class ValueEncoder
 		switch(Type.typeof(o))
 		{
 			case TNull:
-				handler.null();
+				handler.valueNull();
 			case TInt:
-				handler.int(o);
+				handler.valueInt(o);
 			case TFloat:
-				handler.float(o);
+				handler.valueFloat(o);
 			case TBool:
-				handler.bool(o);
+				handler.valueBool(o);
 			case TObject:
 				encodeObject(o);
 			case TFunction:
 				throw new Error("unable to encode TFunction type");
 			case TClass(c):
 				if (Std.is(o, String))
-					handler.string(o);
+					handler.valueString(o);
 				else if (Std.is(o, Array))
 					encodeArray(o);
 				else if (Std.is(o, Date))
-					handler.date(o);
+					handler.valueDate(o);
 				else if (Std.is(o, Hash))
 					encodeHash(o);
 				else if (Std.is(o, List))
