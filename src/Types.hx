@@ -6,12 +6,12 @@ class Types
 	{
 		return fullName(o).split('.').pop();
 	}
-	
+
 	inline public static function fullName(o : Dynamic)
 	{
 		return Type.getClassName(Type.getClass(o));
 	}
-	
+
 	public static function typeName(o : Dynamic) : String
 	{
 		return switch(Type.typeof(o))
@@ -27,7 +27,7 @@ class Types
 			case TUnknown : "Unknown";
 		}
 	}
-	
+
 	public static function hasSuperClass(type : Class<Dynamic>, sup : Class<Dynamic>)
 	{
 		while(null != type)
@@ -38,29 +38,29 @@ class Types
 		}
 		return false;
 	}
-	
+
 	public static inline function isAnonymous(v : Dynamic) : Bool
 	{
 		return Reflect.isObject(v) && null == Type.getClass(v);
 	}
-	
+
 	static public #if !php inline #end function as<T1, T2>(value : T1, type : Class<T2>) : Null<T2>
 	{
 		return (Std.is(value, type) ? cast value : null);
 	}
-	
+
 	static public function ifIs<T1, T2>(value : T1, type : Class<T2>, handler : T2 -> Void) : T1
 	{
 		if (Std.is(value, type))
 			handler(cast value);
 		return value;
 	}
-	
+
 	static public inline function of<T>(type : Class<T>, value : Dynamic) : Null<T>
 	{
 		return (Std.is(value, type) ? cast value : null);
 	}
-	
+
 	public static function sameType(a : Dynamic, b : Dynamic) : Bool
 	{
 		if (null == a && b == null) return true;
@@ -76,7 +76,7 @@ class Types
 				return Type.typeof(a) == tb;
 		}
 	}
-	
+
 	public static function isPrimitive(v : String)
 	{
 		return switch(Type.typeof(v))

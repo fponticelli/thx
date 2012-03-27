@@ -8,15 +8,20 @@ package thx.util;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 #end
-class MacroVersion 
+class MacroVersion
 {
-	@:macro public static function fullVersion()
+	@:macro public static function currentVersion()
 	{
-		var v = getInfo().fullVersion();
-		return {
-			expr : ExprDef.EConst(Constant.CString(v)),
-			pos : Context.currentPos()
-		};
+		return expr(getInfo());
+	}
+
+	@:macro public static function incrementBuildVersion()
+	{
+		incrementBuild();
+		saveInfo();
+		var v = getInfo();
+		neko.Lib.println("Application Version: " + v.fullVersion());
+		return expr(v);
 	}
 #if macro
 	static var info : Version;
@@ -40,13 +45,32 @@ class MacroVersion
 				}
 				out;
 			}
-			parts[3]++;
 			info = new Version(parts[0], parts[1], parts[2], parts[3]);
-			var file = neko.io.File.write(VERSION_FILE, false);
-			file.writeString(parts.join("."));
-			file.close();
 		}
 		return info;
+	}
+
+	static function incrementBuild()
+	{
+		var i = getInfo();
+		info = new Version(i.major, i.minor, i.maintenance, i.build + 1);
+		return info;
+	}
+
+	static function saveInfo()
+	{
+		var info = getInfo();
+		var file = neko.io.File.write(VERSION_FILE, false);
+		file.writeString(info.fullVersion());
+		file.close();
+	}
+
+	static function expr(ver : Version)
+	{
+		return {
+			expr : ExprDef.EConst(Constant.CString(ver.fullVersion())),
+			pos : Context.currentPos()
+		};
 	}
 #end
 }
