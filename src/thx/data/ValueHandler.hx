@@ -24,32 +24,32 @@ class ValueHandler implements IDataHandler
 		value = _stack.pop();
 	}
 
-	public function startObject()
+	public function objectStart()
 	{
 		_stack.push({ });
 	}
 
-	public function endObject(){}
-	public function startField(name : String)
+	public function objectEnd(){}
+	public function objectFieldStart(name : String)
 	{
 		_names.push(name);
 	}
 
-	public function endField()
+	public function objectFieldEnd()
 	{
 		var value = _stack.pop();
 		var last = _stack.last();
 		Reflect.setField(last, _names.pop(), value);
 	}
 
-	public function startArray()
+	public function arrayStart()
 	{
 		_stack.push([]);
 	}
 
-	public function endArray(){}
-	public function startItem(){}
-	public function endItem()
+	public function arrayEnd(){}
+	public function arrayItemStart(){}
+	public function arrayItemEnd()
 	{
 		var value = _stack.pop();
 		var last = _stack.last();

@@ -53,23 +53,23 @@ class CsvDecoder
 		_typers = [];
 		line = 1;
 		handler.start();
-		handler.startArray();
+		handler.arrayStart();
 		while (_s.length > 0)
 			parseLine();
-		handler.endArray();
+		handler.arrayEnd();
 		handler.end();
 	}
 
 	function parseLine()
 	{
-		handler.startItem();
+		handler.arrayItemStart();
 		column = 1;
-		handler.startArray();
+		handler.arrayStart();
 		while (parseValue())
 			column++;
-		handler.endArray();
+		handler.arrayEnd();
 		line++;
-		handler.endItem();
+		handler.arrayItemEnd();
 
 	}
 
@@ -174,45 +174,45 @@ class CsvDecoder
 
 	function typeInt(s : String)
 	{
-		handler.startItem();
+		handler.arrayItemStart();
 		handler.int(Ints.parse(s));
-		handler.endItem();
+		handler.arrayItemEnd();
 	}
 	function typeCultureFloat(s : String)
 	{
-		handler.startItem();
+		handler.arrayItemStart();
 		handler.float(NumberParser.parse(s,Culture.defaultCulture));
-		handler.endItem();
+		handler.arrayItemEnd();
 	}
 
 	function typeFloat(s : String)
 	{
-		handler.startItem();
+		handler.arrayItemStart();
 		handler.float(Floats.parse(s));
-		handler.endItem();
+		handler.arrayItemEnd();
 	}
 
 	function typeBool(s : String)
 	{
-		handler.startItem();
+		handler.arrayItemStart();
 		handler.bool(Bools.parse(s));
-		handler.endItem();
+		handler.arrayItemEnd();
 	}
 
 	function typeDate(s : String)
 	{
-		handler.startItem();
+		handler.arrayItemStart();
 		handler.date(Dates.parse(s));
-		handler.endItem();
+		handler.arrayItemEnd();
 	}
 
 	function typeString(s : String)
 	{
-		handler.startItem();
+		handler.arrayItemStart();
 		if (s == "" && emptytonull)
 			handler.null();
 		else
 			handler.string(s);
-		handler.endItem();
+		handler.arrayItemEnd();
 	}
 }

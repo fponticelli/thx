@@ -43,19 +43,19 @@ class CsvEncoder implements IDataHandler
 		encodedString = buf.toString();
 	}
 
-	public function startObject()
+	public function objectStart()
 	{
 		throw new Error("objects cannot be encoded to CSV");
 	}
-	public function startField(name : String) : Void {}
-	public function endField() : Void {}
-	public function endObject() : Void {}
+	public function objectFieldStart(name : String) : Void {}
+	public function objectFieldEnd() : Void {}
+	public function objectEnd() : Void {}
 
-	public function startArray()
+	public function arrayStart()
 	{
 
 	}
-	public function startItem()
+	public function arrayItemStart()
 	{
 		if (lineContext)
 		{
@@ -72,11 +72,11 @@ class CsvEncoder implements IDataHandler
 				buf.add(delimiter);
 		}
 	}
-	public function endItem()
+	public function arrayItemEnd()
 	{
 
 	}
-	public function endArray()
+	public function arrayEnd()
 	{
 		if (!lineContext)
 			lineContext = true;

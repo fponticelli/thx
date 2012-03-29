@@ -6,7 +6,7 @@ cp -R src/* release
 cp haxelib.xml release
 cp haxedoc.xml release
 cd release
-zip -r ../release.zip .
+zip -i ".*" -r ../release.zip .
 cd ..
 rm -r release
 haxelib submit release.zip

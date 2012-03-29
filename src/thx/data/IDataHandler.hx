@@ -10,15 +10,15 @@ interface IDataHandler
 	public function start() : Void;
 	public function end() : Void;
 
-	public function startObject() : Void;
-	public function startField(name : String) : Void;
-	public function endField() : Void;
-	public function endObject() : Void;
+	public function objectStart() : Void;
+	public function objectFieldStart(name : String) : Void;
+	public function objectFieldEnd() : Void;
+	public function objectEnd() : Void;
 
-	public function startArray() : Void;
-	public function startItem() : Void;
-	public function endItem() : Void;
-	public function endArray() : Void;
+	public function arrayStart() : Void;
+	public function arrayItemStart() : Void;
+	public function arrayItemEnd() : Void;
+	public function arrayEnd() : Void;
 
 	public function valueDate(d : Date) : Void;
 	public function valueString(s : String) : Void;

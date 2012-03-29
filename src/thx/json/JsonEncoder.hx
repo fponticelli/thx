@@ -30,37 +30,37 @@ class JsonEncoder implements IDataHandler
 		buf = null;
 	}
 
-	public function startObject()
+	public function objectStart()
 	{
 		buf.add("{");
 		count.push(0);
 	}
-	public function startField(name : String)
+	public function objectFieldStart(name : String)
 	{
 		if (count[count.length - 1]++ > 0)
 			buf.add(",");
 		buf.add(quote(name) + ":");
 	}
-	public function endField(){}
+	public function objectFieldEnd(){}
 
-	public function endObject()
+	public function objectEnd()
 	{
 		buf.add("}");
 		count.pop();
 	}
 
-	public function startArray()
+	public function arrayStart()
 	{
 		buf.add("[");
 		count.push(0);
 	}
-	public function startItem()
+	public function arrayItemStart()
 	{
 		if (count[count.length - 1]++ > 0)
 			buf.add(",");
 	}
-	public function endItem(){}
-	public function endArray()
+	public function arrayItemEnd(){}
+	public function arrayEnd()
 	{
 		buf.add("]");
 		count.pop();

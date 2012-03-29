@@ -52,19 +52,19 @@ class IniEncoder implements IDataHandler
 	}
 
 
-	public function startObject()
+	public function objectStart()
 	{
 		if (inarray > 0)
 			throw new Error("arrays must contain only primitive values");
 	}
 
-	public function startField(name : String)
+	public function objectFieldStart(name : String)
 	{
 		stack.push(enc(name));
 		value = "";
 	}
 
-	public function endField() : Void
+	public function objectFieldEnd() : Void
 	{
 		if (null == value)
 			return;
@@ -86,12 +86,12 @@ class IniEncoder implements IDataHandler
 		return section;
 	}
 
-	public function endObject()
+	public function objectEnd()
 	{
 		stack.pop();
 	}
 
-	public function startArray()
+	public function arrayStart()
 	{
 		if (inarray > 0)
 			throw new Error("nested arrays are not supported in the .ini format");
@@ -99,7 +99,7 @@ class IniEncoder implements IDataHandler
 		value = "";
 	}
 
-	public function startItem()
+	public function arrayItemStart()
 	{
 		if (inarray == 1)
 			inarray = 2;
@@ -107,24 +107,24 @@ class IniEncoder implements IDataHandler
 			value += ", ";
 	}
 
-	public function endItem()
+	public function arrayItemEnd()
 	{
 
 	}
 
-	public function endArray()
+	public function arrayEnd()
 	{
 		inarray = 0;
 	}
 
-	public function date(d : Date)
+	public function valueDate(d : Date)
 	{
 		if (d.getSeconds() == 0 && d.getMinutes() == 0 && d.getHours() == 0)
 			value += Dates.format(d, "C", ["%Y-%m-%d"]);
 		else
 			value += Dates.format(d, "C", ["%Y-%m-%d %H:%M:%S"]);
 	}
-	public function string(s : String)
+	public function valueString(s : String)
 	{
 		if (StringTools.trim(s) == s) // no trailing spaces
 			value += enc(s);
@@ -147,15 +147,15 @@ class IniEncoder implements IDataHandler
 		return '"' + StringTools.replace(enc(s), '"', '\\"') + '"';
 	}
 
-	public function int(i : Int)
+	public function valueInt(i : Int)
 	{
 		value += i;
 	}
-	public function float(f : Float)
+	public function valueFloat(f : Float)
 	{
 		value += f;
 	}
-	public function null()
+	public function valueNull()
 	{
 		value += "";
 	}
@@ -165,7 +165,7 @@ class IniEncoder implements IDataHandler
 			value += "#" + s;
 	}
 
-	public function bool(b : Bool)
+	public function valueBool(b : Bool)
 	{
 		value += b ? "ON" : "OFF";
 	}

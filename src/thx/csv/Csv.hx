@@ -61,61 +61,61 @@ class CsvObjectHandler extends ValueHandler
 			super.start();
 	}
 
-	override public function startArray()
+	override public function arrayStart()
 	{
 		if(flag == CAPTURE_LINE)
 		{
 			pos = 0;
 			flag = CAPTURE_FIELDS;
-			super.startItem();
-			startObject();
+			super.arrayItemStart();
+			objectStart();
 		} else
-			super.startArray();
+			super.arrayStart();
 	}
 
-	override public function endArray()
+	override public function arrayEnd()
 	{
 		if(flag == CAPTURE_HEADERS)
 		{
 			flag = HEADERS_CAPTURED;
-			super.endArray();
+			super.arrayEnd();
 		} else if(flag == CAPTURE_FIELDS) {
-			endObject();
-			super.endItem();
+			objectEnd();
+			super.arrayItemEnd();
 			flag = CAPTURE_LINE;
 		} else
-			super.endArray();
+			super.arrayEnd();
 	}
 
-	override public function startItem()
+	override public function arrayItemStart()
 	{
 		if(flag == CAPTURE_FIELDS)
 		{
-			startField(headers[pos++]);
+			objectFieldStart(headers[pos++]);
 		} else
-			super.startItem();
+			super.arrayItemStart();
 	}
 
-	override public function endItem()
+	override public function arrayItemEnd()
 	{
 		if(flag == HEADERS_CAPTURED)
 		{
-			super.endItem();
+			super.arrayItemEnd();
 			super.end();
 			headers = value[0];
 			value = null;
 			flag = CAPTURE_LINE;
 			super.start();
-			super.startItem();
-			super.startArray();
+			super.arrayItemStart();
+			super.arrayStart();
 		} else if(flag == CAPTURE_FIELDS)
 		{
-			endField();
+			objectFieldEnd();
 		} else if(flag == CAPTURE_LINE) 
 		{
 
 		} else {
-			super.endItem();
+			super.arrayItemEnd();
 		}
 	}
 }

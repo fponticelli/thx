@@ -60,49 +60,49 @@ class ValueEncoder
 
 	function encodeObject(o : { } )
 	{
-		handler.startObject();
+		handler.objectStart();
 		for (key in Reflect.fields(o))
 		{
-			handler.startField(key);
+			handler.objectFieldStart(key);
 			encodeValue(Reflect.field(o, key));
-			handler.endField();
+			handler.objectFieldEnd();
 		}
-		handler.endObject();
+		handler.objectEnd();
 	}
 
 	function encodeHash(o : Hash<Dynamic>)
 	{
-		handler.startObject();
+		handler.objectStart();
 		for (key in o.keys())
 		{
-			handler.startField(key);
+			handler.objectFieldStart(key);
 			encodeValue(o.get(key));
-			handler.endField();
+			handler.objectFieldEnd();
 		}
-		handler.endObject();
+		handler.objectEnd();
 	}
 
 	function encodeList(list : List<Dynamic>)
 	{
-		handler.startArray();
+		handler.arrayStart();
 		for (item in list)
 		{
-			handler.startItem();
+			handler.arrayItemStart();
 			encodeValue(item);
-			handler.endItem();
+			handler.arrayItemEnd();
 		}
-		handler.endArray();
+		handler.arrayEnd();
 	}
 
 	function encodeArray(a : Array<Dynamic>)
 	{
-		handler.startArray();
+		handler.arrayStart();
 		for (item in a)
 		{
-			handler.startItem();
+			handler.arrayItemStart();
 			encodeValue(item);
-			handler.endItem();
+			handler.arrayItemEnd();
 		}
-		handler.endArray();
+		handler.arrayEnd();
 	}
 }

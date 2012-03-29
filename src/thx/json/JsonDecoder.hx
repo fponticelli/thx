@@ -133,7 +133,7 @@ class JsonDecoder
 	function parseObject()
 	{
 		var first = true;
-		handler.startObject();
+		handler.objectStart();
 		while (true)
 		{
 			ignoreWhiteSpace();
@@ -151,18 +151,18 @@ class JsonDecoder
 			if (!expect(":"))
 				error("expected ':'");
 			ignoreWhiteSpace();
-			handler.startField(k);
+			handler.objectFieldStart(k);
 			parse();
-			handler.endField();
+			handler.objectFieldEnd();
 		}
-		handler.endObject();
+		handler.objectEnd();
 	}
 
 	function parseArray()
 	{
 		ignoreWhiteSpace();
 		var first = true;
-		handler.startArray();
+		handler.arrayStart();
 		while (true)
 		{
 			ignoreWhiteSpace();
@@ -174,11 +174,11 @@ class JsonDecoder
 				ignoreWhiteSpace();
 			else
 				error("expected ','");
-			handler.startItem();
+			handler.arrayItemStart();
 			parse();
-			handler.endItem();
+			handler.arrayItemEnd();
 		}
-		handler.endArray();
+		handler.arrayEnd();
 	}
 
 	function parseValue()

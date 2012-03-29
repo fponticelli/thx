@@ -25,84 +25,84 @@ class TestValueHandler
 	public function testArray()
 	{
 		assertHandler([], function(h) {
-			h.startArray();
-			h.endArray();
+			h.arrayStart();
+			h.arrayEnd();
 		});
 		assertHandler(["a", 1, true], function(h) {
-			h.startArray();
-			h.startItem();
+			h.arrayStart();
+			h.arrayItemStart();
 			h.string("a");
-			h.endItem();
-			h.startItem();
+			h.arrayItemEnd();
+			h.arrayItemStart();
 			h.int(1);
-			h.endItem();
-			h.startItem();
+			h.arrayItemEnd();
+			h.arrayItemStart();
 			h.bool(true);
-			h.endItem();
-			h.endArray();
+			h.arrayItemEnd();
+			h.arrayEnd();
 		});
 	}
 
 	public function testObject()
 	{
 		assertHandler({}, function(h) {
-			h.startObject();
-			h.endObject();
+			h.objectStart();
+			h.objectEnd();
 		});
 		assertHandler({name : "thx", coolness : 5}, function(h) {
-			h.startObject();
-			h.startField("name");
+			h.objectStart();
+			h.objectFieldStart("name");
 			h.string("thx");
-			h.endField();
-			h.startField("coolness");
+			h.objectFieldEnd();
+			h.objectFieldStart("coolness");
 			h.int(5);
-			h.endField();
-			h.endObject();
+			h.objectFieldEnd();
+			h.objectEnd();
 		});
 	}
 
 	public function testNested()
 	{
 		assertHandler({values : [{id : 0, value : 0.1}, {id : 1, value : 0.2, notes : [1,2,3]}]}, function(h) {
-			h.startObject();
-			h.startField("values");
-				h.startArray();
-				h.startItem();
-				h.startObject();
-				h.startField("id");
+			h.objectStart();
+			h.objectFieldStart("values");
+				h.arrayStart();
+				h.arrayItemStart();
+				h.objectStart();
+				h.objectFieldStart("id");
 				h.int(0);
-				h.endField();
-				h.startField("value");
+				h.objectFieldEnd();
+				h.objectFieldStart("value");
 				h.float(0.1);
-				h.endField();
-				h.endObject();
-				h.endItem();
-				h.startItem();
-				h.startObject();
-				h.startField("id");
+				h.objectFieldEnd();
+				h.objectEnd();
+				h.arrayItemEnd();
+				h.arrayItemStart();
+				h.objectStart();
+				h.objectFieldStart("id");
 				h.int(1);
-				h.endField();
-				h.startField("value");
+				h.objectFieldEnd();
+				h.objectFieldStart("value");
 				h.float(0.2);
-				h.endField();
-				h.startField("notes");
-				h.startArray();
-				h.startItem();
+				h.objectFieldEnd();
+				h.objectFieldStart("notes");
+				h.arrayStart();
+				h.arrayItemStart();
 				h.int(1);
-				h.endItem();
-				h.startItem();
+				h.arrayItemEnd();
+				h.arrayItemStart();
 				h.int(2);
-				h.endItem();
-				h.startItem();
+				h.arrayItemEnd();
+				h.arrayItemStart();
 				h.int(3);
-				h.endItem();
-				h.endArray();
-				h.endField();
-				h.endObject();
-				h.endItem();
-				h.endArray();
-			h.endField();
-			h.endObject();
+				h.arrayItemEnd();
+				h.arrayEnd();
+				h.objectFieldEnd();
+				h.objectEnd();
+				h.arrayItemEnd();
+				h.arrayEnd();
+			h.objectFieldEnd();
+			h.objectEnd();
 		});
 	}
 
