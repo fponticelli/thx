@@ -15,22 +15,34 @@ class MacroVersion
 		return expr(getVersion());
 	}
 
-	@:macro public static function incrementBuild()
+	@:macro public static function next()
+#if major
+		return saveAndReturn(getVersion().incrementMajor())
+#elseif minor
+		return saveAndReturn(getVersion().incrementMinor())
+#elseif (maintenance || release)
+		return saveAndReturn(getVersion().incrementMaintenance())
+#else
+		return saveAndReturn(getVersion().incrementBuild())
+#end
+
+
+	@:macro public static function nextBuild()
 	{
 		return saveAndReturn(getVersion().incrementBuild());
 	}
 
-	@:macro public static function incrementMaintenance()
+	@:macro public static function nextMaintenance()
 	{
 		return saveAndReturn(getVersion().incrementMaintenance());
 	}
 
-	@:macro public static function incrementMinor()
+	@:macro public static function nextMinor()
 	{
 		return saveAndReturn(getVersion().incrementMinor());
 	}
 
-	@:macro public static function incrementMajor()
+	@:macro public static function nextMajor()
 	{
 		return saveAndReturn(getVersion().incrementMajor());
 	}

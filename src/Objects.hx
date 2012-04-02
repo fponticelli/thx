@@ -59,13 +59,13 @@ class Objects
 		return ob;
 	}
 
-	public static function toHash(ob : {}) : Hash<Dynamic>
+	public static function toHash<T>(ob : {}) : Hash<T>
 	{
 		var hash = new Hash();
 		return copyToHash(ob, hash);
 	}
 
-	public static function copyToHash(ob : {}, hash : Hash<Dynamic>) : Hash<Dynamic>
+	public static function copyToHash<T>(ob : {}, hash : Hash<T>) : Hash<T>
 	{
 		for (field in Reflect.fields(ob))
 			hash.set(field, Reflect.field(ob, field));

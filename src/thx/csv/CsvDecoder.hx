@@ -175,34 +175,34 @@ class CsvDecoder
 	function typeInt(s : String)
 	{
 		handler.arrayItemStart();
-		handler.int(Ints.parse(s));
+		handler.valueInt(Ints.parse(s));
 		handler.arrayItemEnd();
 	}
 	function typeCultureFloat(s : String)
 	{
 		handler.arrayItemStart();
-		handler.float(NumberParser.parse(s,Culture.defaultCulture));
+		handler.valueFloat(NumberParser.parse(s,Culture.defaultCulture));
 		handler.arrayItemEnd();
 	}
 
 	function typeFloat(s : String)
 	{
 		handler.arrayItemStart();
-		handler.float(Floats.parse(s));
+		handler.valueFloat(Floats.parse(s));
 		handler.arrayItemEnd();
 	}
 
 	function typeBool(s : String)
 	{
 		handler.arrayItemStart();
-		handler.bool(Bools.parse(s));
+		handler.valueBool(Bools.parse(s));
 		handler.arrayItemEnd();
 	}
 
 	function typeDate(s : String)
 	{
 		handler.arrayItemStart();
-		handler.date(Dates.parse(s));
+		handler.valueDate(Dates.parse(s));
 		handler.arrayItemEnd();
 	}
 
@@ -210,9 +210,9 @@ class CsvDecoder
 	{
 		handler.arrayItemStart();
 		if (s == "" && emptytonull)
-			handler.null();
+			handler.valueNull();
 		else
-			handler.string(s);
+			handler.valueString(s);
 		handler.arrayItemEnd();
 	}
 }
