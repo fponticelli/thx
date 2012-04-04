@@ -135,6 +135,7 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 	public function new(){
 		super();
 		_treeHierarchy = hierarchy;
+		_separation = Tree.treeSeparation;
 	}
 
 	public function links(x){
