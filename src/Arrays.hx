@@ -497,7 +497,7 @@ class Arrays
 			hi = a.length;
 		while (lo < hi)
 		{
-			var mid = (lo + hi) >> 1;
+			var mid = lo + hi >> 1;
 			if (x < a[mid])
 				hi = mid;
 			else
@@ -512,7 +512,7 @@ class Arrays
 			hi = a.length;
 		while (lo < hi)
 		{
-			var mid = (lo + hi) >> 1;
+			var mid = lo + hi >> 1;
 			if (a[mid] < x)
 				lo = mid + 1;
 			else

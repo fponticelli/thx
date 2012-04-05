@@ -1,6 +1,0 @@
--cp src
--cp test
--lib utest
--swf bin/core.swf
--main TestAll
-#-debug

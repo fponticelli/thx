@@ -8,43 +8,43 @@ class TestValueEncoder
 	{
 		var handler = new CustomerEncoder();
 		var encoder = new ValueEncoder(handler);
-		
+
 		encoder.encode( { name : "thx", values : [Date.fromString("2010-01-01"),2,"a",{a:0,b:true}] } );
-		
+
 		Assert.same([
 			"start",
-			"startObject",
-			"startField:name",
+			"objectStart",
+			"objectFieldStart:name",
 			"string:thx",
-			"endField",
-			"startField:values",
-			"startArray",
-			"startItem",
+			"objectFieldEnd",
+			"objectFieldStart:values",
+			"arrayStart",
+			"arrayItemStart",
 			"date:"+Date.fromString("2010-01-01").getTime(),
-			"endItem",
-			"startItem",
+			"arrayItemEnd",
+			"arrayItemStart",
 			"int:2",
-			"endItem",
-			"startItem",
+			"arrayItemEnd",
+			"arrayItemStart",
 			"string:a",
-			"endItem",
-			"startItem",
-			"startObject",
-			"startField:a",
+			"arrayItemEnd",
+			"arrayItemStart",
+			"objectStart",
+			"objectFieldStart:a",
 			"int:0",
-			"endField",
-			"startField:b",
+			"objectFieldEnd",
+			"objectFieldStart:b",
 			"bool:true",
-			"endField",
-			"endObject",
-			"endItem",
-			"endArray",
-			"endField",
-			"endObject",
+			"objectFieldEnd",
+			"objectEnd",
+			"arrayItemEnd",
+			"arrayEnd",
+			"objectFieldEnd",
+			"objectEnd",
 			"end"
 		], handler.result);
 	}
-	
+
 	public function new(){}
 }
 
@@ -52,20 +52,20 @@ class CustomerEncoder implements IDataHandler
 {
 	public function new(){}
 	public var result : Array<String>;
-	
+
 	public function start() result = ["start"]
 	public function end() result.push("end")
-	
-	public function startObject() result.push("startObject")
-	public function startField(name : String) result.push("startField:" + name)
-	public function endField() result.push("endField")
-	public function endObject() result.push("endObject")
-	
-	public function startArray() result.push("startArray")
-	public function startItem() result.push("startItem")
-	public function endItem() result.push("endItem")
-	public function endArray() result.push("endArray")
-	
+
+	public function objectStart() result.push("objectStart")
+	public function objectFieldStart(name : String) result.push("objectFieldStart:" + name)
+	public function objectFieldEnd() result.push("objectFieldEnd")
+	public function objectEnd() result.push("objectEnd")
+
+	public function arrayStart() result.push("arrayStart")
+	public function arrayItemStart() result.push("arrayItemStart")
+	public function arrayItemEnd() result.push("arrayItemEnd")
+	public function arrayEnd() result.push("arrayEnd")
+
 	public function date(d : Date) result.push("date:"+d.getTime())
 	public function string(s : String) result.push("string:"+s)
 	public function int(i : Int) result.push("int:"+i)

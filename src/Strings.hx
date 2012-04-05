@@ -446,6 +446,14 @@ Other things to do. Nested placeholders
 				f.push(null);
 			}
 		}
+		function decimals(v : Float)
+		{
+			var s = ""+v,
+				p = s.indexOf('.');
+			if(p < 0)
+				return 0;
+			return s.length - p - 1;
+		}
 		var sa = [],
 			fa = [],
 			sb = [],
@@ -467,7 +475,8 @@ Other things to do. Nested placeholders
 					functions.push(function(_) return s);
 				} else {
 					var f = Floats.interpolatef(fa[i], fb[i], equation);
-					functions.push(function(t) return "" + f(t));
+					var dec = Math.pow(10, Ints.max(decimals(fa[i]), decimals(fb[i])));
+					functions.push(function(t) return "" + Math.round(f(t)*dec)/dec);
 				}
 			} else {
 				var s = sa[i];

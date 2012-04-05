@@ -313,15 +313,16 @@ class Dynamics
 				return true;
 
 			case TEnum(e) :
-				var ea = Type.getEnumName(e),
-					eb = Type.getEnumName(Type.getEnum(b));
+				var ea  = Type.getEnumName(e),
+					teb = Type.getEnum(cast b),
+					eb  = Type.getEnumName(teb);
 				if (ea != eb)
 					return false;
 
-				if (Type.enumIndex(a) != Type.enumIndex(b))
+				if (Type.enumIndex(cast a) != Type.enumIndex(cast b))
 					return false;
-				var pa = Type.enumParameters(a),
-					pb = Type.enumParameters(b);
+				var pa = Type.enumParameters(cast a),
+					pb = Type.enumParameters(cast b);
 				for (i in 0...pa.length)
 					if (!same(pa[i], pb[i]))
 						return false;

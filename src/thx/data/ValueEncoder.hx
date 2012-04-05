@@ -1,10 +1,10 @@
-package thx.data;
-import thx.error.Error;
-
 /**
  * ...
  * @author Franco Ponticelli
  */
+
+package thx.data;
+import thx.error.Error;
 
 class ValueEncoder
 {
@@ -13,37 +13,37 @@ class ValueEncoder
 	{
 		this.handler = handler;
 	}
-	
+
 	public function encode(o : Dynamic)
 	{
 		handler.start();
 		encodeValue(o);
 		handler.end();
 	}
-	
+
 	function encodeValue(o : Dynamic)
 	{
 		switch(Type.typeof(o))
 		{
 			case TNull:
-				handler.null();
+				handler.valueNull();
 			case TInt:
-				handler.int(o);
+				handler.valueInt(o);
 			case TFloat:
-				handler.float(o);
+				handler.valueFloat(o);
 			case TBool:
-				handler.bool(o);
+				handler.valueBool(o);
 			case TObject:
 				encodeObject(o);
 			case TFunction:
 				throw new Error("unable to encode TFunction type");
 			case TClass(c):
 				if (Std.is(o, String))
-					handler.string(o);
+					handler.valueString(o);
 				else if (Std.is(o, Array))
 					encodeArray(o);
 				else if (Std.is(o, Date))
-					handler.date(o);
+					handler.valueDate(o);
 				else if (Std.is(o, Hash))
 					encodeHash(o);
 				else if (Std.is(o, List))
@@ -57,52 +57,52 @@ class ValueEncoder
 				throw new Error("unable to encode TUnknown type");
 		}
 	}
-	
+
 	function encodeObject(o : { } )
 	{
-		handler.startObject();
+		handler.objectStart();
 		for (key in Reflect.fields(o))
 		{
-			handler.startField(key);
+			handler.objectFieldStart(key);
 			encodeValue(Reflect.field(o, key));
-			handler.endField();
+			handler.objectFieldEnd();
 		}
-		handler.endObject();
+		handler.objectEnd();
 	}
-	
+
 	function encodeHash(o : Hash<Dynamic>)
 	{
-		handler.startObject();
+		handler.objectStart();
 		for (key in o.keys())
 		{
-			handler.startField(key);
+			handler.objectFieldStart(key);
 			encodeValue(o.get(key));
-			handler.endField();
+			handler.objectFieldEnd();
 		}
-		handler.endObject();
+		handler.objectEnd();
 	}
-	
+
 	function encodeList(list : List<Dynamic>)
 	{
-		handler.startArray();
+		handler.arrayStart();
 		for (item in list)
 		{
-			handler.startItem();
+			handler.arrayItemStart();
 			encodeValue(item);
-			handler.endItem();
+			handler.arrayItemEnd();
 		}
-		handler.endArray();
+		handler.arrayEnd();
 	}
-	
+
 	function encodeArray(a : Array<Dynamic>)
 	{
-		handler.startArray();
+		handler.arrayStart();
 		for (item in a)
 		{
-			handler.startItem();
+			handler.arrayItemStart();
 			encodeValue(item);
-			handler.endItem();
+			handler.arrayItemEnd();
 		}
-		handler.endArray();
+		handler.arrayEnd();
 	}
 }

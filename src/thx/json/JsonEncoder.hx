@@ -8,15 +8,15 @@ using Lambda;
 class JsonEncoder implements IDataHandler
 {
 	public var encodedString(default, null) : String;
-	
+
 	var buf : StringBuf;
 	var lvl : Int;
 	var count : Array<Int>;
-	
+
 	public function new()
 	{
 	}
-	
+
 	public function start()
 	{
 		lvl = 0;
@@ -29,64 +29,64 @@ class JsonEncoder implements IDataHandler
 		encodedString = buf.toString();
 		buf = null;
 	}
-	
-	public function startObject()
+
+	public function objectStart()
 	{
 		buf.add("{");
 		count.push(0);
 	}
-	public function startField(name : String)
+	public function objectFieldStart(name : String)
 	{
 		if (count[count.length - 1]++ > 0)
 			buf.add(",");
 		buf.add(quote(name) + ":");
 	}
-	public function endField(){}
+	public function objectFieldEnd(){}
 
-	public function endObject()
+	public function objectEnd()
 	{
 		buf.add("}");
 		count.pop();
 	}
-	
-	public function startArray()
+
+	public function arrayStart()
 	{
 		buf.add("[");
 		count.push(0);
 	}
-	public function startItem()
+	public function arrayItemStart()
 	{
 		if (count[count.length - 1]++ > 0)
 			buf.add(",");
 	}
-	public function endItem(){}
-	public function endArray()
+	public function arrayItemEnd(){}
+	public function arrayEnd()
 	{
 		buf.add("]");
 		count.pop();
 	}
-	
-	public function date(d : Date)
+
+	public function valueDate(d : Date)
 	{
 		buf.add(d.getTime());
 	}
-	public function string(s : String)
+	public function valueString(s : String)
 	{
 		buf.add(quote(s));
 	}
-	public function int(i : Int)
+	public function valueInt(i : Int)
 	{
 		buf.add(i);
 	}
-	public function float(f : Float)
+	public function valueFloat(f : Float)
 	{
 		buf.add(f);
 	}
-	public function null()
+	public function valueNull()
 	{
 		buf.add("null");
 	}
-	public function bool(b : Bool)
+	public function valueBool(b : Bool)
 	{
 		buf.add(b ? "true" : "false");
 	}
@@ -94,7 +94,7 @@ class JsonEncoder implements IDataHandler
 	{
 		// Json does not support comments
 	}
-		
+
 	function quote(s)
 	{
 		return '"' + ~/./.customReplace (~/(\n)/g.replace (~/("|\\)/g.replace (s, "\\$1"), "\\n"), function (r) {

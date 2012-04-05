@@ -1,12 +1,15 @@
+/**
+ * ...
+ * @author Franco Ponticelli
+ */
+
 package thx.csv;
 
 import thx.culture.Culture;
 import thx.data.ValueEncoder;
 import thx.data.ValueHandler;
-/**
- * ...
- * @author Franco Ponticelli
- */
+
+using Arrays;
 
 class Csv
 {
@@ -24,5 +27,18 @@ class Csv
 		var handler = new ValueHandler();
 		new CsvDecoder(handler, check_type, delimiter , emptytonull, newline, quote, doublequotations, skipwhitespace).decode(value);
 		return handler.value;
+	}
+
+	public static function decodeObjects(value : String, ?check_type:Bool, ?delimiter : String,  ?emptytonull:Bool, ?newline: String, ?quote: String, ?doublequotations: Bool, ?skipwhitespace: Bool) : Array<Dynamic>
+	{
+		var values  = decode(value, check_type, delimiter,  emptytonull, newline, quote, doublequotations, skipwhitespace),
+			headers = values.shift().map(function(v, _) return "" + v),
+			len     = headers.length;
+		return values.map(function(arr, _) {
+			var ob : Dynamic = {};
+			for(i in 0...len)
+				Reflect.setField(ob, headers[i], arr[i]);
+			return ob;
+		});
 	}
 }

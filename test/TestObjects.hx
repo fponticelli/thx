@@ -60,6 +60,9 @@ class TestObjects
 		);
 
 		// two levels
+		var result = Objects.flatten({ a : { b : 1, c : 2}, d : { e : 3, f : 4 } });
+		// order is no guaranteed
+		result.sort(function(a, b) return Std.int(a.value - b.value));
 		Assert.same(
 			[
 				{ fields : ['a', 'b'], value : 1 },
@@ -67,10 +70,14 @@ class TestObjects
 				{ fields : ['d', 'e'], value : 3 },
 				{ fields : ['d', 'f'], value : 4 },
 			],
-			Objects.flatten({ a : { b : 1, c : 2}, d : { e : 3, f : 4 } })
+			result
 		);
-
 		// multiple levels
+		var result = Objects.flatten({ a : { b : 1, c : { d : 2, e : 3, f : { g : 4 }}}, h : 5 });
+		// order is no guaranteed
+		result.sort(function(a, b) return Std.int(a.value - b.value));
+
+trace(result);
 		Assert.same(
 			[
 				{ fields : ['a', 'b'], value : 1 },
@@ -79,8 +86,9 @@ class TestObjects
 				{ fields : ['a', 'c', 'f', 'g'], value : 4 },
 				{ fields : ['h'], value : 5 },
 			],
-			Objects.flatten({ a : { b : 1, c : { d : 2, e : 3, f : { g : 4 }}}, h : 5 })
+			Objects.flatten(result)
 		);
+
 	}
 
 	public static function addTests(runner : Runner)

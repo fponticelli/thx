@@ -1,13 +1,12 @@
 haxe doc.hxml
-rmdir /S /Q release
-rmdir release.zip
+rm -r release
+rm release.zip
 mkdir release
-xcopy src release /S
-xcopy haxelib.xml release
-xcopy haxedoc.xml release
+cp -R src/* release
+cp haxelib.xml release
+cp haxedoc.xml release
 cd release
-7z a -tzip ..\release.zip *
+zip -i ".*" -r ../release.zip .
 cd ..
-rmdir /S /Q release
+rm -r release
 haxelib submit release.zip
-pause

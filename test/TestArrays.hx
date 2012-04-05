@@ -121,8 +121,10 @@ class TestArrays
 		{
 			for (i in 0...p.el.length)
 			{
-				Assert.equals(p.el[i], Arrays.bisectLeft(a, t[i], p.lo, p.hi));
-				Assert.equals(p.er[i], Arrays.bisectRight(a, t[i], p.lo, p.hi));
+				var bl = Arrays.bisectLeft(a, t[i], p.lo, p.hi),
+					br = Arrays.bisectRight(a, t[i], p.lo, p.hi);
+				Assert.equals(p.el[i], bl, "bisectLeft expected "  + p.el[i] + " but was " + bl + " for test val: " + t[i] + ", low:" + p.lo + ", hi:" + p.hi + " with " + a);
+				Assert.equals(p.er[i], br, "bisectRight expected " + p.er[i] + " but was " + br + " for test val: " + t[i] + ", low:" + p.lo + ", hi:" + p.hi + " with " + a);
 			}
 		}
 	}

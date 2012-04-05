@@ -19,7 +19,7 @@ class PathGeoJson
 	var pathTypes : PathTypes;
 	var centroidTypes : CentroidTypes;
 	var areaTypes : AreaTypes;
-	public function new() 
+	public function new()
 	{
 		pointRadius = 4.5;
 		projection = new AlbersUsa();
@@ -27,29 +27,29 @@ class PathGeoJson
 		centroidTypes = new CentroidTypes(this);
 		areaTypes = new AreaTypes(this);
 	}
-	
+
 	public function path(d : Geometry, ?_)
 	{
 		return pathTypes.path(d);
 	}
-	
+
 	public function centroid(d : Geometry, ?_)
 	{
 		return centroidTypes.centroid(d);
 	}
-	
+
 	public function area(d : Geometry, ?_)
 	{
 		return areaTypes.area(d);
 	}
-	
+
 	function setPointRadius(r : Float)
 	{
 		this.pointRadius = r;
 		this.pathCircle = circle(r);
 		return r;
 	}
-	
+
 	function setProjection(projection : IProjection)
 	{
 		return this.projection = projection;
@@ -62,14 +62,14 @@ class PathGeoJson
 			+ "a" + r + "," + r + " 0 1,1 0," + ( 2 * r)
 			+ "z";
 	}
-	
+
 	public static function bounds(d : Geometry)
 	{
 		var left   = Math.POSITIVE_INFINITY,
 			bottom = Math.POSITIVE_INFINITY,
 			right  = Math.NEGATIVE_INFINITY,
 			top    = Math.NEGATIVE_INFINITY;
-	
+
 		applyBounds(d, function(x : Float, y : Float) {
 			if (x < left) left = x;
 			if (x > right) right = x;
@@ -78,7 +78,7 @@ class PathGeoJson
 		});
 		return [[left, bottom], [right, top]];
 	}
-	
+
 	static function applyBounds(d : Geometry, f : Float -> Float -> Void)
 	{
 		switch(d.type)
@@ -122,7 +122,7 @@ class PathTypes
 	{
 		this.geo = geo;
 	}
-	
+
 	public function path(geo : Geometry) : String
 	{
 		var field = Reflect.field(this, Strings.lcfirst(geo.type));
@@ -130,7 +130,7 @@ class PathTypes
 			return "";
 		return Reflect.callMethod(this, field, [geo]);
 	}
-	
+
 	public function featureCollection(f : Geometry)
 	{
 		var p = [],
@@ -139,17 +139,17 @@ class PathTypes
 			p.push(path(features[i].geometry));
 		return p.join("");
 	}
-	
+
 	public function feature(f : Geometry)
 	{
 		return path(f.geometry);
 	}
-	
+
 	public function point(o : Geometry)
 	{
 		return "M" + project(o.coordinates) + geo.pathCircle;
 	}
-	
+
 	public function multiPoint(o : Geometry)
 	{
 		var p = [],
@@ -158,7 +158,7 @@ class PathTypes
 			p.push("M" + project(coordinates[i]) + geo.pathCircle);
 		return p.join("");
 	}
-	
+
 	public function lineString(o : Geometry)
 	{
 		var p = ["M"],
@@ -167,7 +167,7 @@ class PathTypes
 			p.push(project(coordinates[i]));
 		return p.join("L");
 	}
-	
+
 	public function multiLineString(o : Geometry)
 	{
 		var p = [],
@@ -184,7 +184,7 @@ class PathTypes
 		}
 		return p.join("");
 	}
-	
+
 	public function polygon(o : Geometry)
 	{
 		var p = [],
@@ -201,7 +201,7 @@ class PathTypes
 		}
 		return p.join("");
 	}
-	
+
 	public function multiPolygon(o : Geometry)
 	{
 		var p = [],
@@ -221,7 +221,7 @@ class PathTypes
 		}
 		return p.join("");
 	}
-	
+
 	public function geometryCollection(o : Geometry)
 	{
 		var p = [];
@@ -229,7 +229,7 @@ class PathTypes
 			p.push(path(geometry));
 		return p.join("");
 	}
-	
+
 	function project(coords : Array<Float>) return geo.projection.project(coords).join(",")
 }
 
@@ -240,7 +240,7 @@ class AreaTypes
 	{
 		this.geo = geo;
 	}
-	
+
 	public function area(geo : Geometry) : Float
 	{
 		var field = Reflect.field(this, Strings.lcfirst(geo.type));
@@ -248,7 +248,7 @@ class AreaTypes
 			return 0.0;
 		return Reflect.callMethod(this, field, [geo]);
 	}
-	
+
 	public function featureCollection(f : Geometry)
 	{
 		var a = 0.0;
@@ -256,18 +256,18 @@ class AreaTypes
 			a += area(feat.geometry);
 		return a;
 	}
-	
+
 	public function feature(f : Geometry)
 	{
 		return area(f.geometry);
 	}
-	
+
 	public function point(o : Geometry) return 0.0
 	public function multiPoint(o : Geometry) return 0.0
 	public function lineString(o : Geometry) return 0.0
 	public function multiLineString(o : Geometry) return 0.0
 	public function polygon(o : Geometry) return polygonArea(o.coordinates)
-	
+
 	public function multiPolygon(o : Geometry)
 	{
 		var sum = 0.0,
@@ -276,7 +276,7 @@ class AreaTypes
 			sum += polygonArea(coordinates);
 		return sum;
 	}
-	
+
 	public function geometryCollection(o : Geometry)
 	{
 		var sum = 0.0;
@@ -284,7 +284,7 @@ class AreaTypes
 			sum += area(geometry);
 		return sum;
 	}
-	
+
 	function polygonArea(coords : Array<Array<Array<Float>>>)
 	{
 		var sum = parea(coords[0]);
@@ -292,7 +292,7 @@ class AreaTypes
 			sum -= parea(coords[i]);
 		return sum;
 	}
-	
+
 	function parea(coords : Array<Array<Float>>) return Math.abs(new Polygon(coords.map(project)).area())
 	function project(d : Array<Float>, _) return geo.projection.project(d)
 }
@@ -304,7 +304,7 @@ class CentroidTypes
 	{
 		this.geo = geo;
 	}
-	
+
 	public function centroid(geo : Geometry) : Array<Float>
 	{
 		var field = Reflect.field(this, Strings.lcfirst(geo.type));
@@ -312,23 +312,23 @@ class CentroidTypes
 			return [0.0, 0.0];
 		return Reflect.callMethod(this, field, [geo]);
 	}
-	
+
     // TODO FeatureCollection
     // TODO MultiPoint
     // TODO LineString
     // TODO MultiLineString
     // TODO GeometryCollection
-	
+
 	public function point(o : Geometry) return project(o.coordinates)
-	
+
 	public function feature(f : Geometry) return centroid(f.geometry)
-	
+
 	public function polygon(o : Geometry)
 	{
 		var centroid = polygonCentroid(o.coordinates);
 		return [centroid[0] / centroid[2], centroid[1] / centroid[2]];
 	}
-	
+
 	public function multiPolygon(o : Geometry)
 	{
 		var area = 0.0,
@@ -346,7 +346,7 @@ class CentroidTypes
 		}
 		return [x / z, y / z];
 	}
-	
+
 	function polygonCentroid(coordinates : Array<Array<Array<Float>>>)
 	{
 		var polygon = new Polygon(coordinates[0].map(project)), // exterior ring
@@ -364,6 +364,6 @@ class CentroidTypes
 		}
 		return [x, y, 6 * z]; // weighted centroid
 	}
-	
+
 	function project(d : Array<Float>, ?_) return geo.projection.project(d)
 }

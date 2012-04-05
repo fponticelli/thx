@@ -107,10 +107,8 @@ class Dates
 				case "year":
 					var d = Date.fromTime(time);
 					return new Date(d.getFullYear(), 0, 1, 0, 0, 0).getTime();
-				case "eternity":
-					return 0;
 				default:
-					return throw new Error("unknown period '{0}'", period);
+					return 0;
 			}
 		} else if (mode > 0)
 		{
@@ -132,10 +130,8 @@ class Dates
 				case "year":
 					var d = Date.fromTime(time);
 					return new Date(d.getFullYear() + 1, 0, 1, 0, 0, 0).getTime();
-				case "eternity":
-					return 0;
 				default:
-					return throw new Error("unknown period '{0}'", period);
+					return 0;
 			}
 		} else {
 			switch(period)
@@ -158,10 +154,8 @@ class Dates
 					var d = Date.fromTime(time),
 						mod = time > new Date(d.getFullYear(), 6, 2, 0, 0, 0).getTime() ? 1 : 0;
 					return new Date(d.getFullYear() + mod, 0, 1, 0, 0, 0).getTime();
-				case "eternity":
-					return 0;
 				default:
-					return throw new Error("unknown period '{0}'", period);
+					return 0;
 			}
 		}
 	}

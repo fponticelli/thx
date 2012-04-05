@@ -38,16 +38,16 @@ class IniDecoder
 	public function decode(s : String)
 	{
 		handler.start();
-		handler.startObject();
+		handler.objectStart();
 
 		insection = false;
 		decodeLines(s);
 		if (insection)
 		{
-			handler.endObject();
-			handler.endField();
+			handler.objectEnd();
+			handler.objectFieldEnd();
 		}
-		handler.endObject();
+		handler.objectEnd();
 		handler.end();
 
 		if (explodesections)
@@ -97,12 +97,12 @@ class IniDecoder
 			case "[": // section
 				if (insection)
 				{
-					handler.endObject();
-					handler.endField();
+					handler.objectEnd();
+					handler.objectFieldEnd();
 				} else
 					insection = true;
-				handler.startField(line.substr(1, line.indexOf("]")-1));
-				handler.startObject();
+				handler.objectFieldStart(line.substr(1, line.indexOf("]")-1));
+				handler.objectStart();
 				return;
 			case "#", ";": // comment
 				handler.comment(line.substr(1));
@@ -120,11 +120,11 @@ class IniDecoder
 		var key = StringTools.trim(dec(line.substr(0, pos)));
 		var value = line.substr(pos + 1);
 		var parts = linesplitter.split(value);
-		handler.startField(key);
+		handler.objectFieldStart(key);
 		decodeValue(parts[0]);
 		if (parts.length > 1)
 			handler.comment(parts[1]);
-		handler.endField();
+		handler.objectFieldEnd();
 	}
 
 	function dec(s : String)
@@ -141,41 +141,41 @@ class IniDecoder
 		var c = s.substr(0, 1);
 		if (c == '"' || c == "'" && s.substr(-1) == c)
 		{
-			handler.string(dec(s.substr(1, s.length-2)));
+			handler.valueString(dec(s.substr(1, s.length-2)));
 			return;
 		}
 
 		if (Ints.canParse(s))
-			handler.int(Ints.parse(s));
+			handler.valueInt(Ints.parse(s));
 		else if (Floats.canParse(s))
-			handler.float(Floats.parse(s));
+			handler.valueFloat(Floats.parse(s));
 		else if (Dates.canParse(s))
-			handler.date(Dates.parse(s));
+			handler.valueDate(Dates.parse(s));
 		else if (emptytonull && "" == s)
-			handler.null();
+			handler.valueNull();
 		else
 		{
 			switch(s.toLowerCase())
 			{
 				case 'yes', 'true', 'on':
-					handler.bool(true);
+					handler.valueBool(true);
 				case 'no', 'false', 'off':
-					handler.bool(false);
+					handler.valueBool(false);
 				default:
 					var parts = s.split(", ");
 					if (parts.length > 1)
 					{
-						handler.startArray();
+						handler.arrayStart();
 						for (part in parts)
 						{
-							handler.startItem();
+							handler.arrayItemStart();
 							decodeValue(part);
-							handler.endItem();
+							handler.arrayItemEnd();
 						}
-						handler.endArray();
+						handler.arrayEnd();
 					} else {
 						s = dec(s);
-						handler.string(s);
+						handler.valueString(s);
 					}
 			}
 		}

@@ -15,7 +15,7 @@ class Json
 		new ValueEncoder(handler).encode(value);
 		return handler.encodedString;
 	}
-	
+
 	public static function decode<T>(value : String) : T
 	{
 		if (null != nativeDecoder)
@@ -24,15 +24,15 @@ class Json
 		var r = new JsonDecoder(handler).decode(value);
 		return handler.value;
 	}
-	
+
 	static function __init__()
 	{
 #if js
-		var JSON;
-		if (null != (JSON = untyped __js__("JSON")))
+		var j;
+		if (null != (j = untyped __js__("window.JSON")))
 		{
-			nativeDecoder = JSON.parse;
-			nativeEncoder = JSON.stringify;
+			nativeDecoder = j.parse;
+			nativeEncoder = j.stringify;
 		}
 #end
 	}

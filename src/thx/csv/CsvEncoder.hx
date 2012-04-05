@@ -43,19 +43,19 @@ class CsvEncoder implements IDataHandler
 		encodedString = buf.toString();
 	}
 
-	public function startObject()
+	public function objectStart()
 	{
 		throw new Error("objects cannot be encoded to CSV");
 	}
-	public function startField(name : String) : Void {}
-	public function endField() : Void {}
-	public function endObject() : Void {}
+	public function objectFieldStart(name : String) : Void {}
+	public function objectFieldEnd() : Void {}
+	public function objectEnd() : Void {}
 
-	public function startArray()
+	public function arrayStart()
 	{
 
 	}
-	public function startItem()
+	public function arrayItemStart()
 	{
 		if (lineContext)
 		{
@@ -72,24 +72,24 @@ class CsvEncoder implements IDataHandler
 				buf.add(delimiter);
 		}
 	}
-	public function endItem()
+	public function arrayItemEnd()
 	{
 
 	}
-	public function endArray()
+	public function arrayEnd()
 	{
 		if (!lineContext)
 			lineContext = true;
 	}
 
-	public function date(d : Date)
+	public function valueDate(d : Date)
 	{
 		if (d.getSeconds() == 0 && d.getMinutes() == 0 && d.getHours() == 0)
 			buf.add(Dates.format(d, "C", ["%Y-%m-%d"]));
 		else
 			buf.add(Dates.format(d, "C", ["%Y-%m-%d %H:%M:%S"]));
 	}
-	public function string(s : String)
+	public function valueString(s : String)
 	{
 		if (re.match(s))
 		{
@@ -98,21 +98,21 @@ class CsvEncoder implements IDataHandler
 			buf.add(s);
 		}
 	}
-	public function int(i : Int)
+	public function valueInt(i : Int)
 	{
 		buf.add(i);
 	}
-	public function float(f : Float)
+	public function valueFloat(f : Float)
 	{
 		buf.add(f);
 	}
-	public function null()
+	public function valueNull()
 	{
 		if (!nulltoempty)
 			buf.add("null");
 	}
 
-	public function bool(b : Bool)
+	public function valueBool(b : Bool)
 	{
 		buf.add(b ? "true" : "false");
 	}

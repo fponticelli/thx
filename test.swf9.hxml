@@ -1,0 +1,7 @@
+-cp src
+-cp test
+-lib utest
+-swf bin/test.9.swf
+-main TestAll
+-debug
+-cmd open cmd/test.9.swf

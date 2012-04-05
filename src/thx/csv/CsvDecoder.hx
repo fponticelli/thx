@@ -53,23 +53,23 @@ class CsvDecoder
 		_typers = [];
 		line = 1;
 		handler.start();
-		handler.startArray();
+		handler.arrayStart();
 		while (_s.length > 0)
 			parseLine();
-		handler.endArray();
+		handler.arrayEnd();
 		handler.end();
 	}
 
 	function parseLine()
 	{
-		handler.startItem();
+		handler.arrayItemStart();
 		column = 1;
-		handler.startArray();
+		handler.arrayStart();
 		while (parseValue())
 			column++;
-		handler.endArray();
+		handler.arrayEnd();
 		line++;
-		handler.endItem();
+		handler.arrayItemEnd();
 
 	}
 
@@ -87,7 +87,7 @@ class CsvDecoder
 							pos = _s.length;
 							break;
 						}
-					}		
+					}
 				}
 			} else pos = _s.length;
 
@@ -174,45 +174,45 @@ class CsvDecoder
 
 	function typeInt(s : String)
 	{
-		handler.startItem();
-		handler.int(Ints.parse(s));
-		handler.endItem();
+		handler.arrayItemStart();
+		handler.valueInt(Ints.parse(s));
+		handler.arrayItemEnd();
 	}
 	function typeCultureFloat(s : String)
 	{
-		handler.startItem();
-		handler.float(NumberParser.parse(s,Culture.defaultCulture));
-		handler.endItem();
+		handler.arrayItemStart();
+		handler.valueFloat(NumberParser.parse(s,Culture.defaultCulture));
+		handler.arrayItemEnd();
 	}
 
 	function typeFloat(s : String)
 	{
-		handler.startItem();
-		handler.float(Floats.parse(s));
-		handler.endItem();
+		handler.arrayItemStart();
+		handler.valueFloat(Floats.parse(s));
+		handler.arrayItemEnd();
 	}
 
 	function typeBool(s : String)
 	{
-		handler.startItem();
-		handler.bool(Bools.parse(s));
-		handler.endItem();
+		handler.arrayItemStart();
+		handler.valueBool(Bools.parse(s));
+		handler.arrayItemEnd();
 	}
 
 	function typeDate(s : String)
 	{
-		handler.startItem();
-		handler.date(Dates.parse(s));
-		handler.endItem();
+		handler.arrayItemStart();
+		handler.valueDate(Dates.parse(s));
+		handler.arrayItemEnd();
 	}
 
 	function typeString(s : String)
 	{
-		handler.startItem();
+		handler.arrayItemStart();
 		if (s == "" && emptytonull)
-			handler.null();
+			handler.valueNull();
 		else
-			handler.string(s);
-		handler.endItem();
+			handler.valueString(s);
+		handler.arrayItemEnd();
 	}
 }
