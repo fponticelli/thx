@@ -3,10 +3,10 @@ rm -r release
 rm release.zip
 mkdir release
 cp -R src/* release
-cp haxelib.xml release
 cp haxedoc.xml release
+cp haxelib.xml release
 cd release
-zip -i ".*" -r ../release.zip .
+zip -i "*.*" -r ../release.zip .
 cd ..
-rm -r release
-haxelib submit release.zip
+#rm -r release
+#haxelib submit release.zip
