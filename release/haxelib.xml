@@ -1,7 +1,0 @@
-<project name="thx" url="http://github.com/fponticelli/thx/" license="BSD">
-    <user name="fponticelli"/>
-    <tag v="cross"/>
-	<tag v="std"/>
-    <description>General purpose library</description>
-    <version name="0.6.0">update for 2.09</version>
-</project>
