@@ -96,9 +96,8 @@ class Dates
 				case "hour":
 					return Math.floor(time / 3600000.0) * 3600000.0;
 				case "day":
-//					var d = Date.fromTime(time);
-//					return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0).getTime();
-					return Math.floor(time / (24.0 * 3600000.0)) * (24.0 * 3600000.0);
+					var d = Date.fromTime(time);
+					return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0).getTime();
 				case "week":
 					return Math.floor(time / (7.0 * 24.0 * 3600000.0)) * (7.0 * 24.0 * 3600000.0);
 				case "month":
@@ -121,7 +120,8 @@ class Dates
 				case "hour":
 					return Math.ceil(time / 3600000.0) * 3600000.0;
 				case "day":
-					return Math.ceil(time / (24.0 * 3600000.0)) * (24.0 * 3600000.0);
+					var d = Date.fromTime(time);
+					return new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1, 0, 0, 0).getTime();
 				case "week":
 					return Math.ceil(time / (7.0 * 24.0 * 3600000.0)) * (7.0 * 24.0 * 3600000.0);
 				case "month":
@@ -143,7 +143,9 @@ class Dates
 				case "hour":
 					return Math.round(time / 3600000.0) * 3600000.0;
 				case "day":
-					return Math.round(time / (24.0 * 3600000.0)) * (24.0 * 3600000.0);
+					var d = Date.fromTime(time),
+						mod = (d.getHours() >= 12) ? 1 : 0;
+					return new Date(d.getFullYear(), d.getMonth(), d.getDate() + mod, 0, 0, 0).getTime();
 				case "week":
 					return Math.round(time / (7.0 * 24.0 * 3600000.0)) * (7.0 * 24.0 * 3600000.0);
 				case "month":
