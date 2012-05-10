@@ -146,7 +146,7 @@ class Floats
 		}
 	}
 
-	static var _reparse = ~/[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/;
+	static var _reparse = ~/^[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/;
 	public static function canParse(s : String)
 	{
 		return _reparse.match(s);
