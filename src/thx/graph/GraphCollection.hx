@@ -1,13 +1,16 @@
 package thx.graph;
 
+#if hxevents
 import hxevents.Dispatcher;
+#end
 using IntHashes;
 
 class GraphCollection<TNodeData, TEdgeData, TData, TListItem : GraphElement<TData, TNodeData, TEdgeData>>
 {
+#if hxevents
 	public var onRemove(default, null) : Dispatcher<TListItem>;
 	public var onCreate(default, null) : Dispatcher<TListItem>;
-
+#end
 	var graph : Graph<TNodeData, TEdgeData>;
 	var collection : IntHash<TListItem>;
 	var nextid : Int;
@@ -37,8 +40,10 @@ class GraphCollection<TNodeData, TEdgeData, TData, TListItem : GraphElement<TDat
 				rem(item);
 			}
 		}
+#if hxevents
 		onRemove = new Dispatcher();
 		onCreate = new Dispatcher();
+#end
 	}
 
 	public function getById(id : String) : TListItem
@@ -54,14 +59,18 @@ class GraphCollection<TNodeData, TEdgeData, TData, TListItem : GraphElement<TDat
 
 	dynamic function collectionCreate(item : TListItem)
 	{
+#if hxevents
 		onCreate.dispatch(item);
+#end
 		collection.set(item.id, item);
 	}
 
 	dynamic function collectionRemove(item : TListItem)
 	{
 		collection.remove(item.id);
+#if hxevents
 		onRemove.dispatch(item);
+#end
 	}
 
 	inline public function iterator() return collection.iterator()

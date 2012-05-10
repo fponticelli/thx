@@ -19,7 +19,9 @@ class GraphLayout<TNodeData, TEdgeData>
 		this.friendCell = this._cell = new LayoutCell();
 		_updateMap();
 		length = _layers.length;
+#if hxevents
 		graph.nodes.onRemove.add(_nodeRemove);
+#end
 	}
 
 	// not very efficient when just one node is removed

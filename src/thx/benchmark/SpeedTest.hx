@@ -2,8 +2,8 @@
 
 #if (flash || js)
 import haxe.Timer;
-import thx.culture.Culture;
 #end
+import thx.culture.Culture;
 
 class SpeedTest
 {
@@ -16,7 +16,7 @@ class SpeedTest
 		this.descriptions = [];
 		this.reference = -1;
 	}
-	
+
 	public function add(description : String, f : Int -> Void, isReference = false)
 	{
 		descriptions.push(description);
@@ -25,8 +25,8 @@ class SpeedTest
 		tests.push(f);
 		return this;
 	}
-	
-	
+
+
 	public function execute(?handler : String -> Void)
 	{
 		this.handler = handler;
@@ -39,7 +39,7 @@ class SpeedTest
 		start = getTimer();
 		handleRound();
 	}
-	
+
 	var reference : Int;
 	var testDelay : Int;
 	var averages : Int;
@@ -50,14 +50,14 @@ class SpeedTest
 	var toPerform : Int;
 	var handler : String -> Void;
 	var start : Float;
-	
+
 	function test(f : Int -> Void)
 	{
 		var start = getTimer();
 		f(repetitions);
 		return getTimer() - start;
 	}
-	
+
 	static inline function getTimer() : Float
 	{
 #if flash
@@ -72,7 +72,7 @@ class SpeedTest
 		return Date.now().getTime();
 #end
 	}
-	
+
 	function takeRound()
 	{
 		var indexes = Arrays.shuffle(Ints.range(0, tests.length));
@@ -80,7 +80,7 @@ class SpeedTest
 			results[i] += test(tests[i]);
 		handleRound();
 	}
-	
+
 	function handleRound()
 	{
 		toPerform--;
@@ -96,7 +96,7 @@ class SpeedTest
 		else
 			handler(getOutput());
 	}
-	
+
 	function getOutput()
 	{
 		var total = getTimer() - start;
@@ -113,7 +113,7 @@ class SpeedTest
 				sl = d.length;
 			if (slowest < 0 || slowest > results[i])
 				slowest = results[i];
-			
+
 			var v = Floats.format(results[i] / averages, "D:1");
 			var n = (v).split(sep);
 			if (bd < n[0].length)
@@ -123,20 +123,20 @@ class SpeedTest
 		sl += 3;
 		var s = new StringBuf();
 		s.add("test repeated " + Ints.format(repetitions) + " time(s), average on " + Ints.format(averages) + " cycle(s)\n\n");
-		
+
 		if (reference >= 0)
 			slowest = results[reference];
-		
+
 		for (i in 0...descriptions.length)
 		{
 			var d = descriptions[i];
 			s.add(StringTools.rpad(d, ".", sl));
 			s.add(": ");
-			
+
 			s.add(StringTools.lpad(r[i][0], " ", bd));
 			s.add(".");
 			s.add(r[i][1]);
-			
+
 			s.add(" ms. ");
 			if (reference < 0)
 			{

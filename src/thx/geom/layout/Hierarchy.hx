@@ -4,7 +4,6 @@
  */
 
 package thx.geom.layout;
-import dhx.Selection;
 import thx.geom.layout.Hierarchy.Node;
 
 class Hierarchy<T> extends AbstractHierarchy<T,Hierarchy<T>> {

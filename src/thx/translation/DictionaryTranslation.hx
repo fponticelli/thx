@@ -8,11 +8,11 @@ class DictionaryTranslation implements ITranslation
 {
 	public var domain(getDomain, setDomain) : String;
 	var _domain : String;
-	
+
 	var _infos : Hash<Info>;
 	var _domainss : Hash<Hash<String>>;
 	var _domainsp : Hash<Hash<Array<String>>>;
-	
+
 	public function new(?domain : String, ?info : Info)
 	{
 		_infos = new Hash();
@@ -20,7 +20,7 @@ class DictionaryTranslation implements ITranslation
 		_domainsp = new Hash();
 		addDomain(domain, info);
 	}
-	
+
 	public function addDomain(?domain : String, ?info : Info)
 	{
 		if (null == domain && null == info)
@@ -31,22 +31,22 @@ class DictionaryTranslation implements ITranslation
 			domain = info.name;
 		if (_infos.exists(domain))
 			throw "domain already added: " + domain;
-		
+
 		_infos.set(domain, info);
 		_domainss.set(domain, new Hash());
 		_domainsp.set(domain, new Hash());
-		
+
 		if (null == _domain)
 			this.domain = domain;
 	}
-	
+
 	public function addSingular(id : String, text : String, ?domain : String)
 	{
 		if (null == domain)
 			domain = this.domain;
 		_domainss.get(domain).set(id, text);
 	}
-	
+
 	public function addPlural(ids : String, idp : String, texts : Array<String>, ?domain : String)
 	{
 		if (null == domain)
@@ -54,8 +54,8 @@ class DictionaryTranslation implements ITranslation
 		_domainss.get(domain).set(ids, texts[0]);
 		_domainsp.get(domain).set(idp, texts);
 	}
-	
-	public function _(id : String, ?domain : String) : String
+
+	public function singular(id : String, ?domain : String) : String
 	{
 		if (null == domain)
 			domain = this.domain;
@@ -65,8 +65,8 @@ class DictionaryTranslation implements ITranslation
 		else
 			return v;
 	}
-	
-	public function __(?ids : String, idp : String, quantifier : Int, ?domain : String) : String
+
+	public function plural(ids : String, idp : String, quantifier : Int, ?domain : String) : String
 	{
 		if (null == domain)
 			domain = this.domain;
@@ -82,7 +82,7 @@ class DictionaryTranslation implements ITranslation
 		} else
 			return v;
 	}
-	
+
 	function getDomain()
 	{
 		if (null == _domain)

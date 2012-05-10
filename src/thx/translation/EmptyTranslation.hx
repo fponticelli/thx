@@ -8,24 +8,24 @@ class EmptyTranslation implements ITranslation
 {
 	public var domain(getDomain, setDomain) : String;
 	var _domain : String;
-	
+
 	public function new()
 	{
 	}
 
-	public function _(id : String, ?domain : String) : String
+	public function singular(id : String, ?domain : String) : String
 	{
 		return id;
 	}
-	
-	public function __(?ids : String, idp : String, quantifier : Int, ?domain : String) : String
+
+	public function plural(ids : String, idp : String, quantifier : Int, ?domain : String) : String
 	{
 		if (null != ids && quantifier == 1)
 			return ids;
 		else
 			return idp;
 	}
-	
+
 	function getDomain()
 	{
 		return null;

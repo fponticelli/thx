@@ -57,6 +57,5 @@
 # --no-output
 
 # HAXEDOC.XML
--cmd del _
--cmd copy doc\doc.js.xml haxedoc.xml
--cmd PAUSE
+-cmd rm _
+-cmd cp doc/doc.js.xml haxedoc.xml

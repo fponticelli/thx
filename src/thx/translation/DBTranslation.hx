@@ -21,12 +21,12 @@ class DBTranslation implements ITranslation
 	public static inline var TABLE_MESSAGES = "MSG_MESSAGES";
 	public static inline var TABLE_DOMAINS = "MSG_DOMAINS";
 	public var conn(default, null) : Connection;
-	
+
 	var _domain : String;
 	var _tablePrefix : String;
 	var _domains : Hash<{ id : Int, pluralRule : Int }>;
 	var _automaticallyAddUntranslatedMessages : Bool;
-	
+
 	public function new(?domain : String, conn : Connection, automaticallyAddUntranslatedMessages = false, tableprefix = "translation_")
 	{
 		if (null == conn) throw "null argument conn";
@@ -36,14 +36,14 @@ class DBTranslation implements ITranslation
 		this._tablePrefix = tableprefix;
 		this.domain = domain;
 	}
-	
+
 	public var domain(getDomain, setDomain) : String;
-	
+
 	public function hasSchema()
 	{
 		return conn.request("SHOW TABLES LIKE " + conn.quote(getTableIds()) +";").hasNext();
 	}
-	
+
 	public function createSchema()
 	{
 		conn.request("CREATE TABLE IF NOT EXISTS `" + getTableIds() + "` (
@@ -72,7 +72,7 @@ PRIMARY KEY ( `id` ) ,
 INDEX ( `msgid` , `domainid` )
 ) ENGINE = MYISAM DEFAULT CHARACTER SET = utf8;");
 	}
-	
+
 	public function addDomain(?domain : String, ?info : Info)
 	{
 		if (null == domain && null == info)
@@ -83,13 +83,13 @@ INDEX ( `msgid` , `domainid` )
 			domain = info.iso2;
 		if (null != _getDBDomainInfo(domain))
 			throw "domain already added: " + domain;
-		
+
 		conn.request("INSERT INTO " + getTableDomains() + " (id, domain, pluralRule) VALUES (NULL, " + conn.quote(domain) + ", " + Std.int(info.pluralRule) + ");");
-		
+
 		if (null == _domain)
 			this.domain = domain;
 	}
-	
+
 	function _insertOrChangeMessage(msgid : Int, domainid : Int, msg : String, quantifier : Null<Int>)
 	{
 		var rs = conn.request("SELECT id FROM " + getTableMessages() + " WHERE msgid = " + msgid + " AND domainid = " + domainid + " AND quantifier " + (null == quantifier ? "IS NULL" : " = " + quantifier));
@@ -100,7 +100,7 @@ INDEX ( `msgid` , `domainid` )
 			conn.request("UPDATE " + getTableMessages() + " SET message = " + conn.quote(msg) + " WHERE id = "+rs.getIntResult(0)+";");
 		}
 	}
-	
+
 	function _retrieveOrAddMessageId(msgid : String) : Int
 	{
 		var rs = conn.request("SELECT id FROM " + getTableIds() + " WHERE msgid = " + conn.quote(msgid) + ";");
@@ -109,7 +109,7 @@ INDEX ( `msgid` , `domainid` )
 		conn.request("INSERT INTO " + getTableIds() + " (id, msgid) VALUES (NULL, " + conn.quote(msgid) + ");");
 		return conn.lastInsertId();
 	}
-	
+
 	public function addSingular(id : String, text : String, ?domain : String)
 	{
 		if (null == domain)
@@ -118,7 +118,7 @@ INDEX ( `msgid` , `domainid` )
 		var info = _getDomainInfo(domain);
 		_insertOrChangeMessage(msgid, info.id, text, 0);
 	}
-	
+
 	public function addPlural(ids : String, idp : String, texts : Array<String>, ?domain : String)
 	{
 		if (null == domain)
@@ -134,7 +134,7 @@ INDEX ( `msgid` , `domainid` )
 			_insertOrChangeMessage(midp, info.id, txt, i);
 		}
 	}
-	
+
 	function _getMessage(id : String, domain : String, quantifier : Int)
 	{
 		var tids = getTableIds();
@@ -149,10 +149,10 @@ INDEX ( `msgid` , `domainid` )
 		else
 			return rs.getResult(0);
 	}
-	
-	public function _(id : String, ?domain : String)
+
+	public function singular(id : String, ?domain : String)
 	{
-		
+
 		if (null == domain)
 			domain = this.domain;
 		var result = _getMessage(id, domain, 0);
@@ -165,15 +165,15 @@ INDEX ( `msgid` , `domainid` )
 		} else
 			return result;
 	}
-	
-	public function __(?ids : String, idp : String, quantifier : Int, ?domain : String)
+
+	public function plural(ids : String, idp : String, quantifier : Int, ?domain : String)
 	{
 		if (null == domain)
 			domain = this.domain;
 		var info = _getDomainInfo(domain);
 		var q = PluralForms.pluralRules[info.pluralRule](quantifier);
 		if (0 == q)
-			return _(null == ids ? idp : ids, domain);
+			return singular(null == ids ? idp : ids, domain);
 		else {
 			var result = _getMessage(idp, domain, q);
 			if (null == result)
@@ -185,16 +185,16 @@ INDEX ( `msgid` , `domainid` )
 				return result;
 		}
 	}
-	
+
 	public function countMessages()
 	{
 		return conn.request("SELECT count(*) FROM " + getTableIds() + ";").getIntResult(0);
 	}
-	
+
 	public function listTranslations(?start : Int, ?count : Int) : List<Translations>
 	{
 		var domains = conn.request("SELECT id, domain FROM " + getTableDomains() + ";").results();
-		
+
 		var limit = "";
 		if (null != start && null != count)
 		{
@@ -226,14 +226,14 @@ INDEX ( `msgid` , `domainid` )
 		}
 		return result;
 	}
-	
+
 	public function loadTranslations(id : String) : Translations
 	{
 		var domains = conn.request("SELECT id, domain FROM " + getTableDomains() + ";").results();
 		var rs = conn.request("SELECT msgid, id FROM " + getTableIds() + " WHERE msgid = " + conn.quote(id) + ";");
 		if (!rs.hasNext())
 			return null;
-			
+
 		var msg = rs.next();
 		var message = { msgid : msg.msgid, messages : [] };
 		for (domain in domains)
@@ -252,7 +252,7 @@ INDEX ( `msgid` , `domainid` )
 		}
 		return message;
 	}
-	
+
 	public function removeTranslations(id : String) : Bool
 	{
 		var count = 0;
@@ -264,21 +264,21 @@ INDEX ( `msgid` , `domainid` )
 		}
 		return count > 0;
 	}
-	
+
 	function getDomain()
 	{
 		if (null == _domain)
 			throw "default domain is not set";
 		return _domain;
 	}
-	
+
 	function setDomain(value : String)
 	{
 		if (value != null &&!conn.request("SELECT COUNT(*) FROM " + getTableDomains() + " WHERE domain = " + conn.quote(value)).hasNext())
 			throw "invalid domain " + value;
 		return _domain = value;
 	}
-	
+
 	function _getDomainInfo(domain : String)
 	{
 		if (_domains.exists(domain))
@@ -289,7 +289,7 @@ INDEX ( `msgid` , `domainid` )
 		_domains.set(domain, d);
 		return d;
 	}
-	
+
 	function _getDBDomainInfo(domain : String) : Null<{ id : Int, pluralRule : Int }>
 	{
 		var sql = "SELECT id, pluralRule FROM " + getTableDomains() + " WHERE domain = " + conn.quote(domain) + ";";
@@ -299,7 +299,7 @@ INDEX ( `msgid` , `domainid` )
 		else
 			return rs.next();
 	}
-	
+
 	inline function getTableIds() return _tablePrefix + TABLE_IDS
 	inline function getTableMessages() return _tablePrefix + TABLE_MESSAGES
 	inline function getTableDomains() return _tablePrefix + TABLE_DOMAINS

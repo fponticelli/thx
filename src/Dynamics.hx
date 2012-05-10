@@ -137,8 +137,7 @@ class Dynamics
 			return 1;
 		switch(Type.typeof(a))
 		{
-			case TInt: return Ints.compare(a, b);
-			case TFloat: return Floats.compare(a, b);
+			case TInt, TFloat: return Floats.compare(a, b);
 			case TBool: return Bools.compare(a, b);
 			case TObject: return Objects.compare(a, b);
 			case TClass(c):
@@ -165,8 +164,7 @@ class Dynamics
 	{
 		switch(Type.typeof(sample))
 		{
-			case TInt: return Ints.compare;
-			case TFloat: return Floats.compare;
+			case TInt, TFloat: return Floats.compare;
 			case TBool: return Bools.compare;
 			case TObject: return Objects.compare;
 			case TClass(c):
