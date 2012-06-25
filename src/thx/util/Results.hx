@@ -22,7 +22,7 @@ class Results
 					return arr.join(glue);
 		}
 	}
-	
+
 	inline public static function failure(msg : String, ?params : Array<Dynamic>, ?param : Dynamic, ?pos : PosInfos) : Result
 	{
 		return Result.Failure([new Message(msg, params, param)]);

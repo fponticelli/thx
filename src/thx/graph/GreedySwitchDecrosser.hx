@@ -64,25 +64,28 @@ class GreedySwitchDecrosser
 
 	public static function combined<TNodeData, TEdgeData>()
 	{
+		function decross<TNodeData, TEdgeData>(layout : GraphLayout<TNodeData, TEdgeData>) : GraphLayout<TNodeData, TEdgeData>
+		{
+			layout = new GreedySwitchDecrosser().decross(layout);
+			return new GreedySwitch2Decrosser().decross(layout);
+		}
+
 		return {
-			decross : function<TNodeData, TEdgeData>(layout : GraphLayout<TNodeData, TEdgeData>) : GraphLayout<TNodeData, TEdgeData>
-			{
-				layout = new GreedySwitchDecrosser().decross(layout);
-				return new GreedySwitch2Decrosser().decross(layout);
-			}
+			decross : decross
 		}
 	}
 
 	public static function best<TNodeData, TEdgeData>()
 	{
+		function decross<TNodeData, TEdgeData>(layout : GraphLayout<TNodeData, TEdgeData>) : GraphLayout<TNodeData, TEdgeData>
+		{
+			var attempts = [new GreedySwitchDecrosser().decross(layout),
+				new GreedySwitch2Decrosser().decross(layout),
+				combined().decross(layout)];
+			return attempts.min(function(layout) return layout.crossings());
+		};
 		return {
-			decross : function<TNodeData, TEdgeData>(layout : GraphLayout<TNodeData, TEdgeData>) : GraphLayout<TNodeData, TEdgeData>
-			{
-				var attempts = [new GreedySwitchDecrosser().decross(layout),
-					new GreedySwitch2Decrosser().decross(layout),
-					combined().decross(layout)];
-				return attempts.min(function(layout) return layout.crossings());
-			}
+			decross : decross
 		}
 	}
 }

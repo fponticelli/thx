@@ -127,8 +127,6 @@ class Dynamics
 	 */
 	public static function compare(a : Dynamic, b : Dynamic)
 	{
-		if (!Types.sameType(a, b))
-			throw new Error("cannot compare 2 different types");
 		if (null == a && null == b)
 			return 0;
 		if (null == a)
@@ -160,7 +158,7 @@ class Dynamics
 		}
 	}
 
-	public static function comparef(sample : Dynamic)
+	public static function comparef(sample : Dynamic) : Dynamic -> Dynamic -> Int
 	{
 		switch(Type.typeof(sample))
 		{

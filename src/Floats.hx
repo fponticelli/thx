@@ -40,7 +40,7 @@ class Floats
 			return v;
 	}
 
-	public static function range(start : Float, ?stop : Float, step = 1.0) : Array<Float>
+	public static function range(start : Float, ?stop : Float, step = 1.0, inclusive = false) : Array<Float>
 	{
 		if (null == stop)
 		{
@@ -49,10 +49,17 @@ class Floats
 		}
 		if ((stop - start) / step == Math.POSITIVE_INFINITY) throw new Error("infinite range");
 		var range = [], i = -1.0, j;
-		if (step < 0)
-			while ((j = start + step * ++i) > stop) range.push(j);
-		else
-			while ((j = start + step * ++i) < stop) range.push(j);
+		if(inclusive) {
+			if (step < 0)
+				while ((j = start + step * ++i) >= stop) range.push(j);
+			else
+				while ((j = start + step * ++i) <= stop) range.push(j);
+		} else {
+			if (step < 0)
+				while ((j = start + step * ++i) > stop) range.push(j);
+			else
+				while ((j = start + step * ++i) < stop) range.push(j);
+		}
 		return range;
 	}
 

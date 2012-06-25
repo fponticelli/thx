@@ -9,7 +9,7 @@ import thx.culture.core.NumberInfo;
 class Culture extends Info
 {
 	public var language(default, null) : Language;
-	
+
 	public var date(default, null) : DateTimeInfo;
 	public var englishCurrency(default, null) : String;
 	public var nativeCurrency(default, null) : String;
@@ -42,7 +42,7 @@ class Culture extends Info
 			cultures = new Hash();
 		return cultures;
 	}
-	
+
 	public static function get(name : String) : Culture
 	{
 		return cultures.get(name.toLowerCase());
@@ -60,7 +60,7 @@ class Culture extends Info
 
 	static var _defaultCulture : Culture;
 	public static var defaultCulture(getDefaultCulture, setDefaultCulture) : Culture;
-	
+
 	static function getDefaultCulture()
 	{
 		if (null == _defaultCulture)
@@ -73,7 +73,7 @@ class Culture extends Info
 	{
 		return _defaultCulture = culture;
 	}
-	
+
 	public static function add(culture : Culture)
 	{
 		if (null == _defaultCulture)
@@ -82,14 +82,20 @@ class Culture extends Info
 		if(!cultures.exists(name))
 			cultures.set(name, culture);
 	}
-	
+
 
 	public static function loadAll()
 	{
 #if php
+#if haxe3
+		var dir = Sys.getCwd() + "lib/thx/cultures/";
+		for (file in sys.FileSystem.readDirectory(dir))
+			untyped __call__("require_once", dir + file);
+#else
 		var dir = php.Sys.getCwd() + "lib/thx/cultures/";
 		for (file in php.FileSystem.readDirectory(dir))
 			untyped __call__("require_once", dir + file);
+#end
 #end
 	}
 }
