@@ -18,8 +18,9 @@ class LineInternals
 			value : TData;
 		for(i in 0...data.length)
 		{
+			value = data[i];
 			points.push([
-				x(value = data[i], i),
+				x(value, i),
 				y(value, i)
 			]);
 		}

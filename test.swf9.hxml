@@ -4,4 +4,4 @@
 -swf bin/test.9.swf
 -main TestAll
 -debug
--cmd open cmd/test.9.swf
+-cmd open bin/test.9.swf

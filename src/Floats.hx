@@ -154,9 +154,13 @@ class Floats
 	}
 
 	static var _reparse = ~/^[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/;
-	public static function canParse(s : String)
+	static var _reparseStrict = ~/^[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?$/;
+	public static function canParse(s : String, strict = false)
 	{
-		return _reparse.match(s);
+		if(strict)
+			return _reparseStrict.match(s);
+		else
+			return _reparse.match(s);
 	}
 
 	public static function parse(s : String)

@@ -147,7 +147,7 @@ class IniDecoder
 
 		if (Ints.canParse(s))
 			handler.valueInt(Ints.parse(s));
-		else if (Floats.canParse(s))
+		else if (Floats.canParse(s, true))
 			handler.valueFloat(Floats.parse(s));
 		else if (Dates.canParse(s))
 			handler.valueDate(Dates.parse(s));
