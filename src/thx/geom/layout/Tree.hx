@@ -182,7 +182,7 @@ class AbstractTree<T,This> extends AbstractHierarchy<T,This>{
 			var sim = vim._tree.mod;
 			var som = vom._tree.mod;
 
-			var shift = null;
+			var shift = Math.NaN;
 			vim = Tree.right(vim);
 			vip = Tree.left(vip);
 

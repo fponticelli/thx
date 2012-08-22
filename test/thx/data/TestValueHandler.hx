@@ -13,13 +13,13 @@ class TestValueHandler
 	{
 		var ed = Date.fromString("2001-01-02");
 		var td = Date.fromString("2001-01-02");
-		assertHandler(7,		function(h) h.int(7));
-		assertHandler(0.007,	function(h) h.float(0.007));
-		assertHandler(true,		function(h) h.bool(true));
-		assertHandler(false,	function(h) h.bool(false));
-		assertHandler("hello",	function(h) h.string("hello"));
-		assertHandler(null,		function(h) h.null());
-		assertHandler(ed,		function(h) h.date(td));
+		assertHandler(7,		function(h) h.valueInt(7));
+		assertHandler(0.007,	function(h) h.valueFloat(0.007));
+		assertHandler(true,		function(h) h.valueBool(true));
+		assertHandler(false,	function(h) h.valueBool(false));
+		assertHandler("hello",	function(h) h.valueString("hello"));
+		assertHandler(null,		function(h) h.valueNull());
+		assertHandler(ed,		function(h) h.valueDate(td));
 	}
 
 	public function testArray()
@@ -31,13 +31,13 @@ class TestValueHandler
 		assertHandler(["a", 1, true], function(h) {
 			h.arrayStart();
 			h.arrayItemStart();
-			h.string("a");
+			h.valueString("a");
 			h.arrayItemEnd();
 			h.arrayItemStart();
-			h.int(1);
+			h.valueInt(1);
 			h.arrayItemEnd();
 			h.arrayItemStart();
-			h.bool(true);
+			h.valueBool(true);
 			h.arrayItemEnd();
 			h.arrayEnd();
 		});
@@ -52,10 +52,10 @@ class TestValueHandler
 		assertHandler({name : "thx", coolness : 5}, function(h) {
 			h.objectStart();
 			h.objectFieldStart("name");
-			h.string("thx");
+			h.valueString("thx");
 			h.objectFieldEnd();
 			h.objectFieldStart("coolness");
-			h.int(5);
+			h.valueInt(5);
 			h.objectFieldEnd();
 			h.objectEnd();
 		});
@@ -70,31 +70,31 @@ class TestValueHandler
 				h.arrayItemStart();
 				h.objectStart();
 				h.objectFieldStart("id");
-				h.int(0);
+				h.valueInt(0);
 				h.objectFieldEnd();
 				h.objectFieldStart("value");
-				h.float(0.1);
+				h.valueFloat(0.1);
 				h.objectFieldEnd();
 				h.objectEnd();
 				h.arrayItemEnd();
 				h.arrayItemStart();
 				h.objectStart();
 				h.objectFieldStart("id");
-				h.int(1);
+				h.valueInt(1);
 				h.objectFieldEnd();
 				h.objectFieldStart("value");
-				h.float(0.2);
+				h.valueFloat(0.2);
 				h.objectFieldEnd();
 				h.objectFieldStart("notes");
 				h.arrayStart();
 				h.arrayItemStart();
-				h.int(1);
+				h.valueInt(1);
 				h.arrayItemEnd();
 				h.arrayItemStart();
-				h.int(2);
+				h.valueInt(2);
 				h.arrayItemEnd();
 				h.arrayItemStart();
-				h.int(3);
+				h.valueInt(3);
 				h.arrayItemEnd();
 				h.arrayEnd();
 				h.objectFieldEnd();

@@ -161,11 +161,11 @@ class PathTypes
 
 	public function lineString(o : Geometry)
 	{
-		var p = ["M"],
+		var p = [],
 			coordinates = o.coordinates;
 		for (i in 0...coordinates.length)
 			p.push(project(coordinates[i]));
-		return p.join("L");
+		return "M"+p.join("L");
 	}
 
 	public function multiLineString(o : Geometry)

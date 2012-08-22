@@ -84,7 +84,7 @@ class Chord
 		{
 			x0 = x;
 			j = -1;
-			var di = null;
+			var di = -1;
 			while (++j < _n)
 			{
 				di = groupIndex[i];
@@ -100,7 +100,7 @@ class Chord
 			}
 			_groups.push({
 				index : di,
-				subindex : null, ///
+				subindex : -1, ///
 				startAngle : x0,
 				endAngle : x,
 				value : (x - x0) / k
@@ -219,5 +219,5 @@ typedef ItemType =
 	subindex : Int,
 	startAngle : Float,
 	endAngle : Float,
-	value : Float
+	value : Null<Float>
 }

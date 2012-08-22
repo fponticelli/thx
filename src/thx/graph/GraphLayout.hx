@@ -68,9 +68,9 @@ class GraphLayout<TNodeData, TEdgeData>
 		var arr = _layers[layer];
 		if(null == arr)
 			return null;
-		var id = arr[position];
-		if(null == id)
+		if(position >= arr.length)
 			return null;
+		var id = arr[position];
 		return graph.nodes.get(id);
 	}
 

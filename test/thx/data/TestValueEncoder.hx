@@ -66,11 +66,11 @@ class CustomerEncoder implements IDataHandler
 	public function arrayItemEnd() result.push("arrayItemEnd")
 	public function arrayEnd() result.push("arrayEnd")
 
-	public function date(d : Date) result.push("date:"+d.getTime())
-	public function string(s : String) result.push("string:"+s)
-	public function int(i : Int) result.push("int:"+i)
-	public function float(f : Float) result.push("float:"+f)
-	public function null() result.push("null")
-	public function bool(b : Bool) result.push("bool:" + b)
+	public function valueDate(d : Date) result.push("date:"+d.getTime())
+	public function valueString(s : String) result.push("string:"+s)
+	public function valueInt(i : Int) result.push("int:"+i)
+	public function valueFloat(f : Float) result.push("float:"+f)
+	public function valueNull() result.push("null")
+	public function valueBool(b : Bool) result.push("bool:" + b)
 	public function comment(s : String) result.push("comment:" + s)
 }

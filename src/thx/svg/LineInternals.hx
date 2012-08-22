@@ -158,7 +158,7 @@ class LineInternals
 			case Monotone:
 				return points.length < 3
 					? interpolatePoints(points, Linear)
-					: points[0] + _lineHermite(points, _lineMonotoneTangents(points));
+					: points[0][0] + "," + points[0][1] + _lineHermite(points, _lineMonotoneTangents(points));
 		}
 		return path.join("");
 	}

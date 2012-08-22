@@ -20,12 +20,12 @@ class Chord<TData, TChord>
 		this._startAngle = startAngle;
 		this._endAngle = endAngle;
 	}
-	
+
 	public function shape(d, i)
 	{
 		var s = subgroup(_source, d, i),
 			t = subgroup(_target, d, i);
-		return "M" + s.p0
+		return "M" + s.p0[0] + "," + s.p0[1]
 			+ arc(s.r, s.p1) + (equals(s, t)
 			? curve(s.r, s.p1, s.r, s.p0)
 			: curve(s.r, s.p1, t.r, t.p0)
@@ -33,7 +33,7 @@ class Chord<TData, TChord>
 			+ curve(t.r, t.p1, s.r, s.p0))
 			+ "Z";
 	}
-	
+
 	function subgroup(f : TData -> Int -> TChord, d, i)
 	{
 		var sub = f(d, i),
@@ -48,17 +48,17 @@ class Chord<TData, TChord>
 			p1 : [r * Math.cos(a1), r * Math.sin(a1)]
 		};
 	}
-	
+
 	function equals(a, b)
 	{
 		return a.a0 == b.a0 && a.a1 == b.a1;
 	}
-	
+
 	function arc(r : Float, p : Array<Float>)
 	{
 		return "A" + r + "," + r + " 0 0,1 " + p;
 	}
-	
+
 	function curve(r0 : Float, p0 : Array<Float>, r1 : Float, p1 : Array<Float>)
 	{
 		return "Q 0,0 " + p1;
@@ -75,7 +75,7 @@ class Chord<TData, TChord>
 		_source = v;
 		return this;
 	}
-	
+
 	public function getTarget() return _target
 	public function target(v : TChord)
 	{
@@ -87,7 +87,7 @@ class Chord<TData, TChord>
 		_target = v;
 		return this;
 	}
-	
+
 	public function getRadius() return _radius
 	public function radius(v : Float)
 	{
@@ -99,7 +99,7 @@ class Chord<TData, TChord>
 		_radius = v;
 		return this;
 	}
-	
+
 	public function getStartAngle() return _startAngle
 	public function startAngle(v : Float)
 	{
@@ -111,7 +111,7 @@ class Chord<TData, TChord>
 		_startAngle = v;
 		return this;
 	}
-	
+
 	public function getEndAngle() return _endAngle
 	public function endAngle(v : Float)
 	{
@@ -123,7 +123,7 @@ class Chord<TData, TChord>
 		_endAngle = v;
 		return this;
 	}
-	
+
 	public static function pathObject()
 	{
 		return new Chord<{source:ChordType,target:ChordType,radius:Float,startAngle:Float,endAngle:Float},ChordType>(

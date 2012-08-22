@@ -12,7 +12,7 @@ using Arrays;
 class TestDateParser
 {
 	static var now = Date.fromString("2011-05-31 16:20:00");
-	
+
 	public function testParseSpecificDates()
 	{
 		var tests = [
@@ -43,7 +43,7 @@ class TestDateParser
 			Assert.same(e, r, (i+1) + ". expected " + test.expected + " but was " + r + " for '" + test.test + "'");
 		}
 	}
-	
+
 	public function testParseSimpleDates()
 	{
 		var tests = [
@@ -60,7 +60,7 @@ class TestDateParser
 			{ expected : "2011-05-31", test : "today" },
 			{ expected : "2011-05-31 16:20:00", test : "now" },
 			{ expected : "2011-06-01", test : "tomorrow" },
-			
+
 			{ expected : "2011-05-30", test : "this monday" },
 			{ expected : "2011-05-31", test : "this tuesday" },
 			{ expected : "2011-06-01", test : "this wednesday" },
@@ -70,7 +70,7 @@ class TestDateParser
 			{ expected : "2011-06-06", test : "next monday" },
 			{ expected : "2011-06-07", test : "next tuesday" },
 			{ expected : "2011-06-01", test : "next wednesday" },
-			
+
 			{ expected : "2011-04-01", test : "this april" },
 			{ expected : "2011-05-01", test : "this may" },
 			{ expected : "2011-06-01", test : "this june" },
@@ -80,7 +80,7 @@ class TestDateParser
 			{ expected : "2012-04-01", test : "next april" },
 			{ expected : "2012-05-01", test : "next may" },
 			{ expected : "2011-06-01", test : "next june" },
-			
+
 //			{ expected : "2011-06-01", test : "next month" },
 			{ expected : "2011-05-31 08:00:00", test : "this morning" },
 //			{ expected : "2011-05-30 21:00:00", test : "last night" },
@@ -140,10 +140,10 @@ class TestDateParser
 			var test = tests[i],
 				e = Date.fromString(test.expected),
 				r = DateParser.parse(test.test, now);
-			Assert.same(e, r, (i+1) + ". expected " + test.expected + " but was " + r + " for '" + test.test + "'");
+			Assert.same(e, r, (i+1) + ". expected " + e + " but was " + r + " for '" + test.test + "'");
 		}
 	}
-	
+
 	public function testParseTime()
 	{
 		var tests = [
@@ -168,7 +168,7 @@ class TestDateParser
 		for (test in tests)
 			Assert.same(test.expected, DateParser.parseTime(test.test));
 	}
-	
-	
+
+
 	public function new() {}
 }

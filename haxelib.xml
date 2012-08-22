@@ -3,5 +3,5 @@
     <tag v="cross"/>
 	<tag v="std"/>
     <description>General purpose library</description>
-    <version name="0.6.0">update for 2.09</version>
+    <version name="0.6.1">update for 2.10</version>
 </project>

@@ -41,8 +41,8 @@ class Contour
 			y = s[1],
 			dx = 0,
 			dy = 0,
-			pdx = null,
-			pdy = null,
+			pdx = 666,
+			pdy = 666,
 			i = 0;
 
 		do

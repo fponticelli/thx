@@ -93,11 +93,11 @@ class DateParser
 	);
 
 	static var timeexp = new EReg(
-		  "(?:\\bat\\s+)?" // at
+		  "(?:\\bat\\s+)?" // at or T
 		+ "(?:(?:"
 		+ "\\b("+hohour+"):("+minsec+")\\s*"+ampm+"\\b" // 08:00 pm, groups: 1,2,3
 		+ ")|(?:"
-		+ "\\b("+hour+"):("+minsec+")(?:[:]("+minsec+")(?:\\.(\\d+))?)?\\b" // 20:00, groups: 4,5,6,7
+		+ "(?:\\b|T)("+hour+"):("+minsec+")(?:[:]("+minsec+")(?:\\.(\\d+))?)?\\b" // 20:00, groups: 4,5,6,7
 		+ ")|(?:"
 		+ "(?:^|\\s+)("+hhour+")("+fminsec+")\\s*"+ampm+"?(?:\\s+|$)" // 0800, groups: 8,9,10
 		+ ")|(?:"

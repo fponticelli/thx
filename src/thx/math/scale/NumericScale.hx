@@ -36,12 +36,12 @@ class NumericScale<This> implements IScale<Float, Float>
 		return _this();
 	}
 
-	public function scale(x : Float, ?_) : Float
+	public function scale(x : Float, ?i : Int) : Float
 	{
 		return _output(x);
 	}
 
-	public function invert(y : Float, ?_) : Float
+	public function invert(y : Float, ?i : Int) : Float
 	{
 		return _input(y);
 	}

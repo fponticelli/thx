@@ -31,7 +31,7 @@ typedef Node<T> = {
 	data:T,
 	children:Array<Node<T>>,
 	parent:Node<T>,
-	value:Float
+	value:Null<Float>
 }
 
 class AbstractHierarchy<T, This> extends IThis<This> {
