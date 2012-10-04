@@ -69,12 +69,12 @@ class Colors
 
 	static function _c(s : String) : Int
 	{
-		return Std.parseInt(s.trim());
+		return Std.parseInt(StringTools.trim(s));
 	}
 
 	static function _d(s : String) : Float
 	{
-		var s = s.trim();
+		var s = StringTools.trim(s);
 		if (s.substr( -3) == 'deg')
 			s = s.substr(0, -3);
 		else if (s.substr( -1) == 'º')
@@ -84,7 +84,7 @@ class Colors
 
 	static function _p(s : String) : Float
 	{
-		var s = s.trim();
+		var s = StringTools.trim(s);
 		if (s.substr( -1) == "%")
 			return Std.parseFloat(s.substr(0, -1)) / 100;
 		else
