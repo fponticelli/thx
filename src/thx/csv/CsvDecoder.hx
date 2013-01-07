@@ -45,7 +45,7 @@ class CsvDecoder
 
 	var _s : String;
 	var _end : EReg;
-	var _typers : Array<String->Dynamic>;
+	var _typers : Array<String->#if haxe_211 Void #else Dynamic #end>;
 
 	public function decode(s : String)
 	{
