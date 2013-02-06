@@ -24,20 +24,20 @@ class DBTranslation implements ITranslation
 
 	var _domain : String;
 	var _tablePrefix : String;
-	var _domains : Hash<{ id : Int, pluralRule : Int }>;
+	var _domains : Map <{ id : Int, pluralRule : Int }>;
 	var _automaticallyAddUntranslatedMessages : Bool;
 
 	public function new(?domain : String, conn : Connection, automaticallyAddUntranslatedMessages = false, tableprefix = "translation_")
 	{
 		if (null == conn) throw "null argument conn";
 		this.conn = conn;
-		this._domains = new Hash();
+		this._domains = new Map ();
 		this._automaticallyAddUntranslatedMessages = automaticallyAddUntranslatedMessages;
 		this._tablePrefix = tableprefix;
 		this.domain = domain;
 	}
 
-	public var domain(getDomain, setDomain) : String;
+	public var domain(get, set) : String;
 
 	public function hasSchema()
 	{
@@ -115,7 +115,7 @@ INDEX ( `msgid` , `domainid` )
 		if (null == domain)
 			domain = this.domain;
 		var msgid = _retrieveOrAddMessageId(id);
-		var info = _getDomainInfo(domain);
+		var info = _get_domainInfo(domain);
 		_insertOrChangeMessage(msgid, info.id, text, 0);
 	}
 
@@ -125,7 +125,7 @@ INDEX ( `msgid` , `domainid` )
 			domain = this.domain;
 		addSingular(ids, texts[0], domain);
 		var midp = _retrieveOrAddMessageId(idp);
-		var info = _getDomainInfo(domain);
+		var info = _get_domainInfo(domain);
 		for (i in 1...PluralForms.pluralForms[info.pluralRule])
 		{
 			var txt = texts[i];
@@ -139,7 +139,7 @@ INDEX ( `msgid` , `domainid` )
 	{
 		var tids = getTableIds();
 		var tmsg = getTableMessages();
-		var info = _getDomainInfo(domain);
+		var info = _get_domainInfo(domain);
 		var sql = "SELECT message FROM " + tmsg +
 				" LEFT JOIN " + tids + " ON " + tmsg + ".msgid = " + tids + ".id" +
 				" WHERE " + tids + ".msgid = " + conn.quote(id) + " AND " + tmsg + ".domainid = " +info.id + " AND quantifier = " + quantifier + ";";
@@ -170,7 +170,7 @@ INDEX ( `msgid` , `domainid` )
 	{
 		if (null == domain)
 			domain = this.domain;
-		var info = _getDomainInfo(domain);
+		var info = _get_domainInfo(domain);
 		var q = PluralForms.pluralRules[info.pluralRule](quantifier);
 		if (0 == q)
 			return singular(null == ids ? idp : ids, domain);
@@ -265,21 +265,21 @@ INDEX ( `msgid` , `domainid` )
 		return count > 0;
 	}
 
-	function getDomain()
+	function get_domain()
 	{
 		if (null == _domain)
 			throw "default domain is not set";
 		return _domain;
 	}
 
-	function setDomain(value : String)
+	function set_domain(value : String)
 	{
 		if (value != null &&!conn.request("SELECT COUNT(*) FROM " + getTableDomains() + " WHERE domain = " + conn.quote(value)).hasNext())
 			throw "invalid domain " + value;
 		return _domain = value;
 	}
 
-	function _getDomainInfo(domain : String)
+	function _get_domainInfo(domain : String)
 	{
 		if (_domains.exists(domain))
 			return _domains.get(domain);

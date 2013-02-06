@@ -20,7 +20,7 @@ class TestAll
 		runner.addCase(new TestChord());
 		runner.addCase(new TestLine());
 	}
-	
+
 	public static function main()
 	{
 		var runner = new Runner();
@@ -28,7 +28,7 @@ class TestAll
 		Report.create(runner);
 		runner.run();
 	}
-	
+
 	function assertSamePath(expected : String, value : String, ?pos : PosInfos)
 	{
 		var e = splitValues(expected);
@@ -43,7 +43,7 @@ class TestAll
 				var b = v[i];
 				if (a.isFloat != b.isFloat)
 					Assert.fail("paths do not match:" + expected + " VS " + value, pos);
-				else 
+				else
 				{
 					if (a.isFloat)
 						Assert.floatEquals(a.value, b.value, pos);
@@ -53,7 +53,7 @@ class TestAll
 			}
 		}
 	}
-	
+
 	static var _renumber = ~/([+-]?\d+(\.\d+)?(e-?\d+)?)/;
 	function splitValues(s : String)
 	{
@@ -75,7 +75,7 @@ class TestAll
 		}
 		return result;
 	}
-/*	
+/*
 	function split(s : String)
 	{
 		return (~/[, A-Z]/g).split(s).filter(function(s) return "" != s).map(function(v, _) return Floats.parse(v));

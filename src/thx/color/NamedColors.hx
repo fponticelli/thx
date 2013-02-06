@@ -154,11 +154,11 @@ class NamedColors
 	public static var whitesmoke(default, null) : Rgb;
 	public static var yellow(default, null) : Rgb;
 	public static var yellowgreen(default, null) : Rgb;
-	public static var byName(default, null) : Hash<Rgb>;
+	public static var byName(default, null) : Map<String, Rgb>;
 
 	static function __init__()
 	{
-		byName = new Hash();
+		byName = new Map ();
 		byName.set("aliceblue", aliceblue = Rgb.fromInt(0xf0f8ff));
 		byName.set("alice blue", aliceblue);
 		byName.set("antiquewhite", antiquewhite = Rgb.fromInt(0xfaebd7));

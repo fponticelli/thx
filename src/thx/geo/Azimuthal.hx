@@ -8,23 +8,23 @@ import thx.math.Const;
 
 class Azimuthal implements IProjection
 {
-	public var mode(getMode, setMode) : ProjectionMode;
-	public var origin(getOrigin, setOrigin) : Array<Float>;
-	public var scale(getScale, setScale) : Float;
-	public var translate(getTranslate, setTranslate) : Array<Float>;
+	@:isVar public var mode(get, set) : ProjectionMode;
+	@:isVar public var origin(get, set) : Array<Float>;
+	@:isVar public var scale(get, set) : Float;
+	@:isVar public var translate(get, set) : Array<Float>;
 	var x0 : Float;
 	var y0 : Float;
 	var cy0 : Float;
 	var sy0 : Float;
 
-	public function new() 
+	public function new()
 	{
 		mode = Orthographic;
 		scale = 200;
 		translate = [480.0, 250];
 		origin = [0.0, 0];
 	}
-	
+
 	public function project(coords : Array<Float>)
 	{
 		var x1 = coords[0] * Const.TO_RADIAN - x0,
@@ -44,7 +44,7 @@ class Azimuthal implements IProjection
 			scale * y + translate[1]
 		];
 	}
-	
+
 	public function invert(coords : Array<Float>)
 	{
 		var x = (coords[0] - translate[0]) / scale,
@@ -62,9 +62,9 @@ class Azimuthal implements IProjection
 			Math.asin(cc * sy0 - (y * sc * cy0) / p) / Const.TO_RADIAN
 		];
 	}
-	
-	function getOrigin() return origin.copy()
-	function setOrigin(origin : Array<Float>)
+
+	function get_origin() return origin.copy()
+	function set_origin(origin : Array<Float>)
 	{
 		this.origin = [origin[0], origin[1]];
 		x0 = origin[0] * Const.TO_RADIAN;
@@ -73,18 +73,18 @@ class Azimuthal implements IProjection
 		sy0 = Math.sin(y0);
 		return origin;
 	}
-	
-	function getTranslate() return translate.copy()
-	function setTranslate(translate : Array<Float>)
+
+	function get_translate() return translate.copy()
+	function set_translate(translate : Array<Float>)
 	{
 		this.translate = [translate[0], translate[1]];
 		return translate;
 	}
-	
-	function setScale(scale : Float) return this.scale = scale
-	function getScale() return scale
-	function setMode(mode : ProjectionMode) return this.mode = mode
-	function getMode() return mode
+
+	function set_scale(scale : Float) return this.scale = scale
+	function get_scale() return scale
+	function set_mode(mode : ProjectionMode) return this.mode = mode
+	function get_mode() return mode
 }
 
 enum ProjectionMode

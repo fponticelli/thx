@@ -19,7 +19,7 @@ class GreedySwitch2Decrosser extends GreedySwitchDecrosser
 			a, b, c;
 		do
 		{
-			newlayers = layers.map(function(arr, _) return arr.copy());
+			newlayers = layers.map(function(arr) return arr.copy());
 			newlayout = new GraphLayout(graph, layers);
 			totbefore = newlayout.crossings();
 			for(i in 0...len)

@@ -13,7 +13,7 @@ class HashList<T>
 	{
 		length = 0;
 		__keys = [];
-		__hash = new Hash();
+		__hash = new Map ();
 	}
 	
 	public function set( key : String, value : T ) : Void
@@ -96,7 +96,7 @@ class HashList<T>
 	
 	public function clear() : Void
 	{
-		__hash = new Hash();
+		__hash = new Map ();
 		__keys = [];
 		length = 0;
 	}
@@ -126,5 +126,5 @@ class HashList<T>
 	}
 	
 	var __keys : Array<String>;
-	var __hash : Hash<T>;
+	var __hash : Map<String, T>;
 }

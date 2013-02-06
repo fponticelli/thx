@@ -18,7 +18,7 @@ class Diagonal<T> {
 			p3 = _target(d, i),
 			m = (p0[1] + p3[1]) / 2,
 			p:Array<Array<Float>> = [p0, [p0[0], m], [p3[0], m], p3];
-		var p2 = p.map(_projection);
+		var p2 = Arrays.map(p, _projection);
 		return "M " + p2[0][0] + " " + p2[0][1] + " C " + p2[1][0] + " " + p2[1][1] + " " + p2[2][0] + " " + p2[2][1] + " " + p2[3][0] + " " + p2[3][1];
 	}
 

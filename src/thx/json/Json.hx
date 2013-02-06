@@ -21,7 +21,7 @@ class Json
 		if (null != nativeDecoder)
 			return nativeDecoder(value);
 		var handler = new ValueHandler();
-		var r = new JsonDecoder(handler).decode(value);
+		new JsonDecoder(handler).decode(value);
 		return handler.value;
 	}
 

@@ -75,8 +75,8 @@ class Stack
 				return Ints.range(data.length);
 			case InsideOut:
 				var n = data.length,
-					max = data.map(stackMaxIndex),
-					sums = data.map(stackReduceSum),
+					max = Arrays.map(data, stackMaxIndex),
+					sums = Arrays.map(data, stackReduceSum),
 					index = Ints.range(n),
 					top = 0.0,
 					bottom = 0.0,

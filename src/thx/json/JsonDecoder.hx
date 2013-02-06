@@ -39,11 +39,10 @@ class JsonDecoder
 		pos = 0;
 		ignoreWhiteSpace();
 
-		var p = null;
 		handler.start();
 		try
 		{
-			p = parse();
+			parse();
 		} catch (e : StreamError)
 		{
 			error("unexpected end of stream");
@@ -84,17 +83,17 @@ class JsonDecoder
 			case "{":
 				col++;
 				ignoreWhiteSpace();
-				return parseObject();
+				parseObject();
 			case "[":
 				col++;
 				ignoreWhiteSpace();
-				return parseArray();
+				parseArray();
 			case '"':
 				char = c;
-				return parseString();
+				parseString();
 			default: // value or error
 				char = c;
-				return parseValue();
+				parseValue();
 		}
 	}
 

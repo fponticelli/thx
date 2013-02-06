@@ -7,7 +7,7 @@ class Graphs
 {
 	public static function crossings(a : Array<Node>, b : Array<Node>)
 	{
-		var map = new Hash(), c = 0;
+		var map = new Map (), c = 0;
 		for(i in 0...b.length)
 			map.set(b[i].vertex, i);
 		if(a.length <= 1 || b.length <= 1)
@@ -47,9 +47,9 @@ class Graphs
 		return tot;
 	}
 
-	public static function toMap(layout : Array<Array<Node>>) : Hash<Node>
+	public static function toMap(layout : Array<Array<Node>>) : Map<String, Node>
 	{
-		var map = new Hash();
+		var map = new Map ();
 		for(i in 0...layout.length)
 		{
 			for(j in 0...layout[i].length)
@@ -88,7 +88,7 @@ class Graphs
 		return result;
 	}
 
-	public static function findMaxPositiveOverNegative(graph : Hash<Node>)
+	public static function findMaxPositiveOverNegative(graph : Map<String, Node>)
 	{
 		var n = null, l = 0;
 		for(node in graph)
@@ -106,7 +106,7 @@ class Graphs
 	public static inline function isSink(node : Node) return node.edgesp.length == 0 && node.edgesn.length > 0
 	public static inline function isSource(node : Node) return node.edgesn.length == 0 && node.edgesp.length == 0
 
-	public static function findSink(graph : Hash<Node>)
+	public static function findSink(graph : Map<String, Node>)
 	{
 		for(node in graph)
 		{
@@ -116,7 +116,7 @@ class Graphs
 		return null;
 	}
 
-	public static function findSource(graph : Hash<Node>)
+	public static function findSource(graph : Map<String, Node>)
 	{
 		for(node in graph)
 		{
@@ -126,7 +126,7 @@ class Graphs
 		return null;
 	}
 
-	public static function findAllIsolated(graph : Hash<Node>)
+	public static function findAllIsolated(graph : Map<String, Node>)
 	{
 		var isolated = [];
 		for(node in graph)
@@ -137,7 +137,7 @@ class Graphs
 		return isolated;
 	}
 
-	public static function addConnection(graph : Hash<Node>, a : String, b : String)
+	public static function addConnection(graph : Map<String, Node>, a : String, b : String)
 	{
 		var path = findPath(graph, b, a);
 		if(null != path && path.every(function(v,i) return i == 0 || i == path.length -1 || isDummy(v)))
@@ -151,7 +151,7 @@ class Graphs
 		}
 	}
 
-	public static function addConnections(graph : Hash<Node>, arr : Array<String>)
+	public static function addConnections(graph : Map<String, Node>, arr : Array<String>)
 	{
 		for(i in 0...arr.length - 1)
 		{
@@ -162,7 +162,7 @@ class Graphs
 		}
 	}
 
-	public static function reverseConnection(graph : Hash<Node>, a : String, b : String)
+	public static function reverseConnection(graph : Map<String, Node>, a : String, b : String)
 	{
 		var path = findPath(graph, a, b);
 		trace("REVERSING " + a + ", " + b);
@@ -183,7 +183,7 @@ class Graphs
 		return true;
 	}
 
-	public static function findPath(graph : Hash<Node>, a : String, b : String)
+	public static function findPath(graph : Map<String, Node>, a : String, b : String)
 	{
 		var traveled = new Set(),
 			paths = [], t, r;
@@ -197,7 +197,7 @@ class Graphs
 				else if(isSource(t = graph.get(parent)))
 				 	continue;
 				else
-					totraverse.push(callback(traverse, path.concat([parent]), t));
+					totraverse.push(traverse.bind(path.concat([parent]), t));
 			}
 			for(t in totraverse)
 			{
@@ -217,12 +217,12 @@ class Graphs
 	static var id = 0;
 	public static function createDummy(a : String, b : String, lvl : Int) return '#' + (++id)
 
-	public static inline function removeNode(graph : Hash<Node>, node : Node) graph.remove(node.vertex)
-	public static inline function addNode(graph : Hash<Node>, node : Node) graph.set(node.vertex, node)
+	public static inline function removeNode(graph : Map<String, Node>, node : Node) graph.remove(node.vertex)
+	public static inline function addNode(graph : Map<String, Node>, node : Node) graph.set(node.vertex, node)
 
-	public static function clone(graph : Hash<Node>)
+	public static function clone(graph : Map<String, Node>)
 	{
-		var o = new Hash();
+		var o = new Map ();
 		for(node in graph)
 		{
 			addNode(o, {
@@ -234,6 +234,6 @@ class Graphs
 		return o;
 	}
 
-	public static inline function empty(graph : Hash<Node>) return Hashes.empty(graph)
-	public static inline function count(graph : Hash<Node>) return Hashes.count(graph)
+	public static inline function empty(graph : Map<String, Node>) return Hashes.empty(graph)
+	public static inline function count(graph : Map<String, Node>) return Hashes.count(graph)
 }

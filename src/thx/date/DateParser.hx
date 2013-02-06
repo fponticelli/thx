@@ -12,10 +12,10 @@ class DateParser
 {
 	static var daynumeric = "0?[1-9]|[1-2][0-9]|3[0-1]";
 
-	static var months = EnUS.culture.date.months.slice(0, -1).map(function(d, i) return d.toLowerCase());
-	static var shortmonths = EnUS.culture.date.abbrMonths.slice(0, -1).map(function(d, i) return d.toLowerCase());
-	static var days = EnUS.culture.date.days.map(function(d, i) return d.toLowerCase());
-	static var shortdays = EnUS.culture.date.abbrDays.map(function(d, i) return d.toLowerCase());
+	static var months = EnUS.culture.date.months.slice(0, -1).map(function(d) return d.toLowerCase());
+	static var shortmonths = EnUS.culture.date.abbrMonths.slice(0, -1).map(function(d) return d.toLowerCase());
+	static var days = EnUS.culture.date.days.map(function(d) return d.toLowerCase());
+	static var shortdays = EnUS.culture.date.abbrDays.map(function(d) return d.toLowerCase());
 
 
 	static var sfullmonths = months.join("|");

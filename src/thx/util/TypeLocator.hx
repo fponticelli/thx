@@ -7,10 +7,10 @@ package thx.util;
 
 class TypeLocator
 {
-	var _binders : Hash<Void -> Dynamic>;
+	var _binders : Map<String, Void -> Dynamic>;
 	public function new()
 	{
-		_binders = new Hash();
+		_binders = new Map ();
 	}
 
 	public function instance<T>(cls : Class<T>, o : T)

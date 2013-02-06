@@ -37,13 +37,13 @@ class Pie<T>
 			});
 		}
 
-		var values = data.map(_value);
+		var values = Arrays.map(data, _value);
 
 		k /= values.reduce(function(p, d, _) return p + d, 0.0);
 		if (!Math.isFinite(k))
 			k = 0;
 		var d;
-		var arcs = index.map(function(_, i) {
+		var arcs = Arrays.map(index, function(_, i) {
 			d = values[i];
 			return {
 				value : d,
@@ -52,7 +52,7 @@ class Pie<T>
 			}
 		});
 
-		return data.map(function(d, i) {
+		return Arrays.map(data, function(d, i) {
 			return arcs[index[i]];
 		});
 	}

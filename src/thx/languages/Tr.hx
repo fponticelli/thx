@@ -12,6 +12,6 @@ class Tr extends Language {
 		pluralRule = 0;
 		Language.add(this);
 	}
-	public static var language(getLanguage, null) : Language; static function getLanguage() { if(null == language) language = new Tr(); return language; }
-	static function __init__() { getLanguage(); }
+	@:isVar public static var language(get_language, null) : Language; static function get_language() { if(null == language) language = new Tr(); return language; }
+	static function __init__() { get_language(); }
 }

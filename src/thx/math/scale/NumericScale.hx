@@ -41,7 +41,7 @@ class NumericScale<This> implements IScale<Float, Float>
 		return _output(x);
 	}
 
-	public function invert(y : Float, ?i : Int) : Float
+	public function invert(y : Float) : Float
 	{
 		return _input(y);
 	}
@@ -93,7 +93,7 @@ class NumericScale<This> implements IScale<Float, Float>
 
 	public function transform(scale : Float, t : Float, a : Float, b : Float) : This
 	{
-		var range = getRange().map(function(v, _) return (v - t) / scale);
+		var range = getRange().map(function(v) return (v - t) / scale);
 		domain([a, b]);
 		var r = range.map(invert);
 		domain(r);

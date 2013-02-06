@@ -9,8 +9,8 @@ import thx.error.NullArgument;
 
 class CascadeHash<T>
 {	
-	var _h : List<Hash<T>>;
-	public function new(hashes : Array<Hash<T>>)
+	var _h : List<Map<String, T>>;
+	public function new(hashes : Array<Map<String, T>>)
 	{
 		NullArgument.throwIfNull(hashes);
 		_h = new List();

@@ -44,7 +44,7 @@ class Types
 		return Reflect.isObject(v) && null == Type.getClass(v);
 	}
 
-	static public #if !php inline #end function as<T1, T2>(value : T1, type : Class<T2>) : Null<T2>
+	static public #if !php inline #end function as<T1, T2>(value : T1, type : Dynamic) : Null<T2>
 	{
 		return (Std.is(value, type) ? cast value : null);
 	}
@@ -56,7 +56,7 @@ class Types
 		return value;
 	}
 
-	static public inline function of<T>(type : Class<T>, value : Dynamic) : Null<T>
+	static public inline function of<T>(type : Dynamic, value : Dynamic) : Null<T>
 	{
 		return (Std.is(value, type) ? cast value : null);
 	}

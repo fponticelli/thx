@@ -113,7 +113,7 @@ class Dynamics
 					default:
 						return Std.string(v);
 				}
-			case TEnum(e):
+			case TEnum(_):
 				return Enums.string(v);
 			case TUnknown:
 				return "<unknown>";
@@ -151,7 +151,7 @@ class Dynamics
 					default:
 						return Strings.compare(Std.string(a), Std.string(b));
 				}
-			case TEnum(e):
+			case TEnum(_):
 				return Enums.compare(a, b);
 			default:
 				return 0;
@@ -178,7 +178,7 @@ class Dynamics
 					default:
 						return function(a, b) return Strings.compare(Std.string(a), Std.string(b));
 				}
-			case TEnum(e):
+			case TEnum(_):
 				return Enums.compare;
 			default:
 				return Dynamics.compare;
@@ -265,11 +265,11 @@ class Dynamics
 				if(Std.is(a, Date))
 					return untyped a.getTime() == b.getTime();
 
-				// hash, inthash
-				if (Std.is(a, Hash) || Std.is(a, IntHash))
+				// Map , Map 
+				if (Std.is(a, Map ) || Std.is(a, Map ))
 				{
-					var ha : Hash<Dynamic> = cast a,
-						hb : Hash<Dynamic> = cast b;
+					var ha : Map<String, Dynamic> = cast a,
+						hb : Map<String, Dynamic> = cast b;
 					var ka = Iterators.array(ha.keys()),
 						kb = Iterators.array(hb.keys());
 					if (ka.length != kb.length)

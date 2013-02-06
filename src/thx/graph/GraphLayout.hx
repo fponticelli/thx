@@ -10,12 +10,12 @@ class GraphLayout<TNodeData, TEdgeData>
 
 	var _layers : Array<Array<Int>>;
 	var _cell : LayoutCell;
-	var _map : IntHash<Array<Int>>;
+	var _map : Map<Int, Array<Int>>;
 	var friendCell : FriendLayoutCell;
 	public function new(graph : Graph<TNodeData, TEdgeData>, layers : Array<Array<Int>>)
 	{
 		this.graph = graph;
-		this._layers = layers.map(function(arr, _) return arr.copy());
+		this._layers = layers.map(function(arr) return arr.copy());
 		this.friendCell = this._cell = new LayoutCell();
 		_updateMap();
 		length = _layers.length;
@@ -27,7 +27,7 @@ class GraphLayout<TNodeData, TEdgeData>
 	// not very efficient when just one node is removed
 	function _updateMap()
 	{
-		_map = new IntHash();
+		_map = new Map ();
 		each(function(cell, node) {
 			_map.set(node.id, [cell.layer, cell.position]);
 		});
@@ -76,7 +76,7 @@ class GraphLayout<TNodeData, TEdgeData>
 
 	public function layer(i : Int)
 	{
-		return _layers[i].map(function(id, _) return graph.nodes.get(id));
+		return _layers[i].map(function(id) return graph.nodes.get(id));
 	}
 
 	public function layers()
@@ -97,7 +97,7 @@ class GraphLayout<TNodeData, TEdgeData>
 
 	public static function arrayCrossings<TNodeData, TEdgeData>(graph : Graph<TNodeData, TEdgeData>, a : Array<Int>, b : Array<Int>)
 	{
-		var map = new IntHash(), c = 0;
+		var map = new Map (), c = 0;
 		for(i in 0...b.length)
 			map.set(b[i], i);
 		if(a.length <= 1 || b.length <= 1)
@@ -141,7 +141,7 @@ class GraphLayout<TNodeData, TEdgeData>
 		_updateMap();
 	}
 
-	public function toString() return Std.format("GraphLayout (${graph}, layers: ${_layers.length}, crossings : ${crossings()})")
+	public function toString() return 'GraphLayout (${graph}, layers: ${_layers.length}, crossings : ${crossings()})'
 }
 
 class LayoutCell
@@ -168,7 +168,7 @@ class LayoutCell
 
 	public function toString()
 	{
-		return Std.format("LayoutCell, layer $layer ($layers), position $position ($positions)");
+		return 'LayoutCell, layer $layer ($layers), position $position ($positions)';
 	}
 }
 

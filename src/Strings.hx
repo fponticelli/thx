@@ -140,14 +140,18 @@ Other things to do. Nested placeholders
 			var left = _reFormat.matchedLeft();
 			buf.push(function(_) return left);
 			var df = Dynamics.formatf(format, params, nullstring, culture);
+#if haxe3
+			buf.push((function(i : Int, v : Array<Dynamic>) return df(v[i])).bind(pos));
+#else
 			buf.push(callback(function(i : Int, v : Array<Dynamic>) return df(v[i]), pos));
+#end
 			pattern = _reFormat.matchedRight();
 		}
 		return function(values : Array<Dynamic>)
 		{
 			if (null == values)
 				values = [];
-			return buf.map(function(df,_) return df(values)).join("");
+			return buf.map(function(df) return df(values)).join("");
 		}
 	}
 

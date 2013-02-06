@@ -27,7 +27,7 @@ class Milli
 		time  : 1
 	}];
 	static var map = (function() {
-		var m = new Hash();
+		var m = new Map ();
 		intervals.each(function(item, _) {
 			m.set(item.name,  item.time);
 			m.set(item.short, item.time);

@@ -44,7 +44,7 @@ class ValueEncoder
 					encodeArray(o);
 				else if (Std.is(o, Date))
 					handler.valueDate(o);
-				else if (Std.is(o, Hash))
+				else if (Std.is(o, Map ))
 					encodeHash(o);
 				else if (Std.is(o, List))
 					encodeList(o);
@@ -70,7 +70,7 @@ class ValueEncoder
 		handler.objectEnd();
 	}
 
-	function encodeHash(o : Hash<Dynamic>)
+	function encodeHash(o : Map<String, Dynamic>)
 	{
 		handler.objectStart();
 		for (key in o.keys())

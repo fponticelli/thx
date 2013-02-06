@@ -27,7 +27,7 @@ class SugiyamaMethod<TNodeData, TEdgeData>
 			twocycles = new TwoCycleRemover().remove(graph);
 
 		var partitions = partitioner.partition(graph),
-			reversed = new Hash();
+			reversed = new Map ();
 		(partitions.left.length > partitions.right.length ? partitions.right : partitions.left).each(function(edge, _) {
 			reversed.set(edge.tail.id +"-"+edge.head.id, [edge.invert()]);
 		});

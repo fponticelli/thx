@@ -8,7 +8,7 @@ import thx.svg.LineInterpolator;
 
 class LineInterpolators
 {
-	public static function parse(s : String, sep = "-")
+	public static function parse(s : String, sep = ":")
 	{
 
 		var interp = s.split(sep)[0].toLowerCase();
@@ -21,11 +21,11 @@ class LineInterpolators
 			case "basisclosed":
 				LineInterpolator.BasisClosed;
 			case "cardinal":
-				LineInterpolator.Cardinal(argument(s));
+				LineInterpolator.Cardinal(argument(s, sep));
 			case "cardinalopen":
-				LineInterpolator.CardinalOpen(argument(s));
+				LineInterpolator.CardinalOpen(argument(s, sep));
 			case "cardinalclosed":
-				LineInterpolator.CardinalClosed(argument(s));
+				LineInterpolator.CardinalClosed(argument(s, sep));
 			case "monotone":
 				LineInterpolator.Monotone;
 			case "step":
@@ -40,9 +40,9 @@ class LineInterpolators
 		}
 	}
 
-	static function argument(s : String) : Null<Float>
+	static function argument(s : String, sep : String) : Null<Float>
 	{
-		var v = s.split("-")[1];
+		var v = s.split(sep)[1];
 		if (null == v)
 			return null;
 		else

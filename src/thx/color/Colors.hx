@@ -1,7 +1,7 @@
 package thx.color;
 
-using StringTools;
 using Strings;
+using StringTools;
 using Arrays;
 
 /**
@@ -61,7 +61,7 @@ class Colors
 		}
 		var color = _reParse.matched(3);
 		if (color.length == 3)
-			color = color.split("").map(function(d, _) return d + d).join("");
+			color = color.split("").map(function(d) return d + d).join("");
 		else if (color.length != 6)
 			return null;
 		return Rgb.fromInt(Std.parseInt("0x" + color));

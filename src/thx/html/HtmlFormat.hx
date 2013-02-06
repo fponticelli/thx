@@ -16,7 +16,7 @@ class HtmlFormat extends XHtmlFormat
 		useCloseSelf = false;
 		quotesRemoval = false;
 	}
-	
+
 	override function createAttributeFormat() : AttributeFormat
 	{
 		if(quotesRemoval)
@@ -24,7 +24,7 @@ class HtmlFormat extends XHtmlFormat
 		else
 			return new HtmlAttributeFormat();
 	}
-	
+
 	override function createNodeFormat() : NodeFormat
 	{
 		if(useCloseSelf)
@@ -32,13 +32,13 @@ class HtmlFormat extends XHtmlFormat
 		else
 			return new HtmlNodeFormat();
 	}
-	
+
 	override function createDocumentFormat()
 	{
 		var doc = super.createDocumentFormat();
 		if (null == specialElementContentFormat)
 			return doc;
-		var html = doc.as(HtmlDocumentFormat);
+		var html : HtmlDocumentFormat = doc.as(HtmlDocumentFormat);
 		if (null == html)
 			return doc;
 		html.specialElementContentFormat = specialElementContentFormat;

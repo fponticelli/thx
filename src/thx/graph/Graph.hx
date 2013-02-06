@@ -79,7 +79,7 @@ class Graph<TNodeData, TEdgeData>
 				else if(other == b)
 				 	paths.push(path.concat([edge]));
 				else if(!other.isSource())
-					totraverse.push(callback(traverse, path.concat([edge]), other));
+					totraverse.push(traverse.bind(path.concat([edge]), other));
 				traveled.add(edge.id);
 			}
 			for(t in totraverse)
@@ -109,7 +109,7 @@ class Graph<TNodeData, TEdgeData>
 				else if(other == b)
 				 	paths.push(path.concat([edge]));
 				else if(!other.isSink() && !other.isSource())
-					totraverse.push(callback(traverse, path.concat([edge]), other));
+					totraverse.push(traverse.bind(path.concat([edge]), other));
 				traveled.add(edge.id);
 			}
 			for(t in totraverse)
@@ -141,7 +141,7 @@ class Graph<TNodeData, TEdgeData>
 		}
 	}
 
-	public function toString() return Std.format("Graph (nodes: ${nodes.length}, edges: ${edges.length})")
+	public function toString() return 'Graph (nodes: ${nodes.length}, edges: ${edges.length})'
 
 	static inline function friendNodes<TNodeData, TEdgeData>(friend : GraphNodes<TNodeData, TEdgeData>) : FriendNodesCopy<TNodeData, TEdgeData> return friend
 	static inline function friendEdges<TNodeData, TEdgeData>(friend : GraphEdges<TNodeData, TEdgeData>) : FriendEdgesCopy<TNodeData, TEdgeData> return friend

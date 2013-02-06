@@ -11,7 +11,7 @@ class TestIni
 {
 	static var s = '
 root=value
-	
+
 [owner]
 name=John Doe
 organization=Acme Widgets Inc.
@@ -55,7 +55,7 @@ organization=Acme Widgets Inc.';
 			}
 		}
 	};
-	
+
 	public function testEncode()
 	{
 		// Neko doesn't preserve object fields declaration order
@@ -63,12 +63,12 @@ organization=Acme Widgets Inc.';
 		// it generates a correct output
 		Assert.same(v, Ini.decode(Ini.encode(v)));
 	}
-	
+
 	public function testDecode()
 	{
 		var t = Ini.decode(s);
 		Assert.same(v, t);
 	}
-	
+
 	public function new(){}
 }

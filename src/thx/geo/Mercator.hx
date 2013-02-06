@@ -8,15 +8,15 @@ import thx.math.Const;
 
 class Mercator implements IProjection
 {
-	public var scale(getScale, setScale) : Float;
-	public var translate(getTranslate, setTranslate) : Array<Float>;
-	
-	public function new() 
+	@:isVar public var scale(get, set) : Float;
+	@:isVar public var translate(get, set) : Array<Float>;
+
+	public function new()
 	{
 		scale = 500;
 		translate = [480.0, 250];
 	}
-	
+
 	public function project(coords : Array<Float>)
 	{
 		var x = coords[0] / 360,
@@ -26,7 +26,7 @@ class Mercator implements IProjection
 			scale * Math.max( -.5, Math.min(.5, y)) + translate[1]
 		];
 	}
-	
+
 	public function invert(coords : Array<Float>)
 	{
 		var x = (coords[0] - translate[0]) / scale,
@@ -36,12 +36,12 @@ class Mercator implements IProjection
 			2 * Math.atan(Math.exp(-360 * y * Const.TO_RADIAN)) / Const.TO_RADIAN - 90
 		];
 	}
-	
-	function setScale(scale : Float) return this.scale = scale
-	function getScale() return scale
-	
-	function getTranslate() return translate.copy()
-	function setTranslate(translate : Array<Float>)
+
+	function set_scale(scale : Float) return this.scale = scale
+	function get_scale() return scale
+
+	function get_translate() return translate.copy()
+	function set_translate(translate : Array<Float>)
 	{
 		this.translate = [translate[0], translate[1]];
 		return translate;

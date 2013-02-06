@@ -7,14 +7,14 @@ class GraphEdges<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeD
 {
 	static public function newInstance<TNodeData, TEdgeData>(graph : Graph<TNodeData, TEdgeData>, ?edgeidf : TEdgeData -> String) return new GraphEdges(graph, edgeidf)
 
-	var edgesp : IntHash<Array<Int>>;
-	var edgesn : IntHash<Array<Int>>;
+	var edgesp : Map<Int, Array<Int>>;
+	var edgesn : Map<Int, Array<Int>>;
 
 	function new(graph : Graph<TNodeData, TEdgeData>, ?edgeidf : TEdgeData -> String)
 	{
 		super(graph, edgeidf);
-		edgesp = new IntHash();
-		edgesn = new IntHash();
+		edgesp = new Map ();
+		edgesn = new Map ();
 	}
 
 	function copyTo(graph : Graph<TNodeData, TEdgeData>) : GraphEdges<TNodeData, TEdgeData> 
@@ -92,7 +92,7 @@ class GraphEdges<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeD
 		_sort(node, sortf, edgesn);
 	}
 
-	function _sort(node : GNode<TNodeData, TEdgeData>, sortf : GEdge<TNodeData, TEdgeData> -> GEdge<TNodeData, TEdgeData> -> Int, collection : IntHash<Array<Int>>)
+	function _sort(node : GNode<TNodeData, TEdgeData>, sortf : GEdge<TNodeData, TEdgeData> -> GEdge<TNodeData, TEdgeData> -> Int, collection : Map<Int, Array<Int>>)
 	{
 		var arr = collection.get(node.id);
 		if(null == arr)
@@ -124,7 +124,7 @@ class GraphEdges<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeD
 		return _edgeids(node.id, edgesp).length + _edgeids(node.id, edgesn).length;
 	}
 
-	function _edgeids(id : Int, collection : IntHash<Array<Int>>)
+	function _edgeids(id : Int, collection : Map<Int, Array<Int>>)
 	{
 		var r = collection.get(id);
 		if(null == r)
@@ -132,9 +132,9 @@ class GraphEdges<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeD
 		return r;
 	}
 
-	function _edges(id : Int, collection : IntHash<Array<Int>>) : Array<GEdge<TNodeData, TEdgeData>>
+	function _edges(id : Int, collection : Map<Int, Array<Int>>) : Array<GEdge<TNodeData, TEdgeData>>
 	{
-		return _edgeids(id, collection).map(function(eid, _) return get(eid));
+		return _edgeids(id, collection).map(function(eid) return get(eid));
 	}
 
 	function unlinkPositives(node : GNode<TNodeData, TEdgeData>)
@@ -151,7 +151,7 @@ class GraphEdges<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeD
 		_unlink(node, edgesn);
 	}
 
-	function _unlink(node : GNode<TNodeData, TEdgeData>, connections : IntHash<Array<Int>>)
+	function _unlink(node : GNode<TNodeData, TEdgeData>, connections : Map<Int, Array<Int>>)
 	{
 		var ids = connections.get(node.id);
 		if(null == ids)
@@ -174,7 +174,7 @@ class GraphEdges<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeD
 			remove(item);
 	}
 
-	function connections(id : Int, connections : IntHash<Array<Int>>)
+	function connections(id : Int, connections : Map<Int, Array<Int>>)
 	{
 		var c = connections.get(id);
 		if(null == c)
@@ -182,7 +182,7 @@ class GraphEdges<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeD
 		return c;
 	}
 
-	function removeConnection(edgeid : Int, nodeid : Int, connections : IntHash<Array<Int>>)
+	function removeConnection(edgeid : Int, nodeid : Int, connections : Map<Int, Array<Int>>)
 	{
 		var c = connections.get(nodeid);
 		if(null == c)
@@ -192,7 +192,7 @@ class GraphEdges<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeD
 			connections.remove(nodeid);
 	}
 
-	override public function toString() return Std.format("GraphEdges ($length): ") + super.toString()
+	override public function toString() return 'GraphEdges ($length): ${super.toString()}'
 }
 
 typedef FriendGraphEdges<TNodeData, TEdgeData> =

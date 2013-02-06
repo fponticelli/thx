@@ -24,7 +24,7 @@ class Chord
 
 	function relayout()
 	{
-		var subgroups : Hash<ItemType> = new Hash(),
+		var subgroups : Map<String, ItemType> = new Map (),
 			groupSums = [],
 			groupIndex = Ints.range(_n),
 			subgroupIndex = [],

@@ -119,29 +119,29 @@ class Rttis
 		return unifyFields(getClassDef(cls));
 	}
 
-	public static function typeParametersMap(cls : Class<Dynamic>, ?hash : Hash<CType>)
+	public static function typeParametersMap(cls : Class<Dynamic>, ?Map  : Map<String, CType>)
 	{
-		if(null == hash)
-			hash = new Hash();
+		if(null == Map )
+			Map  = new Map ();
 		var c = getClassDef(cls);
 		if (null != c.superClass)
 		{
 			var sp = c.superClass.path;
 			var sc = Type.resolveClass(sp);
-			typeParametersMap(sc, hash);
+			typeParametersMap(sc, Map );
 			var s = getClassDef(sc);
 
 			var i = 0;
 			for (param in c.superClass.params)
-				hash.set(sp + "." + s.params[i++], param);
+				Map .set(sp + "." + s.params[i++], param);
 		}
-		return hash;
+		return Map ;
 	}
 
-	public static function unifyFields(cls : Classdef, ?h : Hash<ClassField>) : Hash<ClassField>
+	public static function unifyFields(cls : Classdef, ?h : Map<String, ClassField>) : Map<String, ClassField>
 	{
 		if(h == null)
-			h = new Hash();
+			h = new Map ();
 		for(f in cls.fields)
 			if(!h.exists(f.name))
 				h.set(f.name, f);
@@ -166,7 +166,7 @@ class Rttis
 		return null != untyped cls.__rtti;
 	}
 
-	static var _cache = new Hash();
+	static var _cache = new Map ();
 	public static function getClassDef(cls : Class<Dynamic>)
 	{
 		var name = Type.getClassName(cls);

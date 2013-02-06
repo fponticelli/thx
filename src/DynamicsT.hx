@@ -5,16 +5,16 @@
 
 class DynamicsT
 {
-	public static function toHash<T>(ob : Dynamic<T>) : Hash<T>
+	public static function toHash<T>(ob : Dynamic<T>) : Map<String, T>
 	{
-		var hash = new Hash();
-		return copyToHash(ob, hash);
+		var Map  = new Map ();
+		return copyToHash(ob, Map );
 	}
 
-	public static function copyToHash<T>(ob : Dynamic<T>, hash : Hash<T>) : Hash<T>
+	public static function copyToHash<T>(ob : Dynamic<T>, Map  : Map<String, T>) : Map<String, T>
 	{
 		for (field in Reflect.fields(ob))
-			hash.set(field, Reflect.field(ob, field));
-		return hash;
+			Map .set(field, Reflect.field(ob, field));
+		return Map ;
 	}
 }

@@ -23,7 +23,7 @@ class IniEncoder implements IDataHandler
 	}
 
 	var inarray : Int;
-	var cache : Hash<Array<String>>;
+	var cache : Map<String, Array<String>>;
 	var value : String;
 	var stack : Array<String>;
 
@@ -31,7 +31,7 @@ class IniEncoder implements IDataHandler
 	{
 		inarray = 0;
 		stack = [];
-		cache = new Hash();
+		cache = new Map ();
 	}
 
 	public function end()

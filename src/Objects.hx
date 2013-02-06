@@ -59,17 +59,17 @@ class Objects
 		return ob;
 	}
 
-	public static function toHash<T>(ob : {}) : Hash<T>
+	public static function toHash<T>(ob : {}) : Map<String, T>
 	{
-		var hash = new Hash();
-		return copyToHash(ob, hash);
+		var Map  = new Map ();
+		return copyToHash(ob, Map );
 	}
 
-	public static function copyToHash<T>(ob : {}, hash : Hash<T>) : Hash<T>
+	public static function copyToHash<T>(ob : {}, Map  : Map<String, T>) : Map<String, T>
 	{
 		for (field in Reflect.fields(ob))
-			hash.set(field, Reflect.field(ob, field));
-		return hash;
+			Map .set(field, Reflect.field(ob, field));
+		return Map ;
 	}
 
 	public static function interpolate<T>(v : Float, a : T, b : T, ?equation : Float -> Float) : T
@@ -126,7 +126,7 @@ class Objects
 	public static function clone<T>(src : T) : T
 	{
 		var dst = { };
-		return cast copyTo(src, dst);
+		return cast copyTo(cast src, cast dst);
 	}
 
 	public static function mergef(ob : {}, new_ob : {}, f : String->{}->{}->{}) : Void

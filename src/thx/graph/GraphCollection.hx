@@ -3,6 +3,8 @@ package thx.graph;
 #if hxevents
 import hxevents.Dispatcher;
 #end
+import haxe.ds.StringMap;
+import haxe.ds.IntMap;
 using IntHashes;
 
 class GraphCollection<TNodeData, TEdgeData, TData, TListItem : GraphElement<TData, TNodeData, TEdgeData>>
@@ -12,10 +14,10 @@ class GraphCollection<TNodeData, TEdgeData, TData, TListItem : GraphElement<TDat
 	public var onCreate(default, null) : Dispatcher<TListItem>;
 #end
 	var graph : Graph<TNodeData, TEdgeData>;
-	var collection : IntHash<TListItem>;
+	var collection : IntMap<TListItem>;
 	var nextid : Int;
 	var idf : TData -> String;
-	var _map : Hash<TListItem>;
+	var _map : StringMap<TListItem>;
 
 	public var length(get_length, null) : Int;
 	function new(graph : Graph<TNodeData, TEdgeData>, ?idf : TData -> String)
@@ -23,8 +25,8 @@ class GraphCollection<TNodeData, TEdgeData, TData, TListItem : GraphElement<TDat
 		nextid = 0;
 		this.graph = graph;
 		this.idf = idf;
-		collection = new IntHash();
-		_map = new Hash();
+		collection = new IntMap();
+		_map = new StringMap();
 		if(null != idf)
 		{
 			var add = collectionCreate;

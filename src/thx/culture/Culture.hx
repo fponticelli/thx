@@ -35,11 +35,11 @@ class Culture extends Info
 	public var currency(default, null) : NumberInfo;
 	public var percent(default, null) : NumberInfo;
 
-	static var cultures(getCultures, null) : Hash<Culture>;
-	static function getCultures()
+	@:isVar static var cultures(get_cultures, null) : Map<String, Culture>;
+	static function get_cultures()
 	{
 		if (null == cultures)
-			cultures = new Hash();
+			cultures = new Map ();
 		return cultures;
 	}
 
@@ -59,9 +59,9 @@ class Culture extends Info
 	}
 
 	static var _defaultCulture : Culture;
-	public static var defaultCulture(getDefaultCulture, setDefaultCulture) : Culture;
+	public static var defaultCulture(get, set) : Culture;
 
-	static function getDefaultCulture()
+	static function get_defaultCulture()
 	{
 		if (null == _defaultCulture)
 			return thx.cultures.EnUS.culture;
@@ -69,7 +69,7 @@ class Culture extends Info
 			return _defaultCulture;
 	}
 
-	static function setDefaultCulture(culture : Culture)
+	static function set_defaultCulture(culture : Culture)
 	{
 		return _defaultCulture = culture;
 	}

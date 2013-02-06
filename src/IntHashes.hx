@@ -1,27 +1,29 @@
+import haxe.ds.IntMap;
+
 class IntHashes
 {
-	public static inline function empty(hash : IntHash<Dynamic>) return count(hash) == 0
+	public static inline function empty(Map  : IntMap<Dynamic>) return count(Map ) == 0
 
-	public static function count(hash : IntHash<Dynamic>)
+	public static function count(Map  : IntMap<Dynamic>)
 	{
 		#if neko
-		return untyped __dollar__hsize(hash.h);
+		return untyped __dollar__hsize(Map .h);
 		#elseif php
-		return untyped __call__('count', hash.h);
+		return untyped __call__('count', Map .h);
 		#else
 		var i = 0;
-		for (_ in hash)
+		for (_ in Map )
 			i++;
 		return i;
 		#end
 	}
 
-	public static function clear(hash : IntHash<Dynamic>)
+	public static function clear(Map  : IntMap<Dynamic>)
 	{
 		#if cpp
-		untyped hash.h = __global__.__int_hash_create();
+		untyped Map .h = __global__.__int_hash_create();
 		#else
-		var _hash : FriendIntHash = hash;
+		var _hash : FriendIntMap = Map ;
 		#if flash9
 		_hash.h = new flash.utils.Dictionary();
 		#elseif flash
@@ -43,7 +45,7 @@ class IntHashes
 	}
 }
 
-typedef FriendIntHash = {
+typedef FriendIntMap = {
 	private var h :
 		#if flash9 flash.utils.Dictionary
 		#elseif php ArrayAccess<Dynamic>

@@ -13,8 +13,8 @@ using Arrays;
 
 class PathGeoJson
 {
-	public var pointRadius(default, setPointRadius) : Float;
-	public var projection(default, setProjection) : IProjection;
+	public var pointRadius(default, set) : Float;
+	public var projection(default, set) : IProjection;
 	public var pathCircle : String;
 	var pathTypes : PathTypes;
 	var centroidTypes : CentroidTypes;
@@ -43,14 +43,14 @@ class PathGeoJson
 		return areaTypes.area(d);
 	}
 
-	function setPointRadius(r : Float)
+	function set_pointRadius(r : Float)
 	{
 		this.pointRadius = r;
 		this.pathCircle = circle(r);
 		return r;
 	}
 
-	function setProjection(projection : IProjection)
+	function set_projection(projection : IProjection)
 	{
 		return this.projection = projection;
 	}
@@ -293,7 +293,7 @@ class AreaTypes
 		return sum;
 	}
 
-	function parea(coords : Array<Array<Float>>) return Math.abs(new Polygon(coords.map(project)).area())
+	function parea(coords : Array<Array<Float>>) return Math.abs(new Polygon(Arrays.map(coords, project)).area())
 	function project(d : Array<Float>, _) return geo.projection.project(d)
 }
 
@@ -349,14 +349,14 @@ class CentroidTypes
 
 	function polygonCentroid(coordinates : Array<Array<Array<Float>>>)
 	{
-		var polygon = new Polygon(coordinates[0].map(project)), // exterior ring
+		var polygon = new Polygon(Arrays.map(coordinates[0], project)), // exterior ring
 			centroid = polygon.centroid(1),
 			x = centroid[0],
 			y = centroid[1],
 			z = Math.abs(polygon.area());
 		for (i in 1...coordinates.length)
 		{
-			polygon = new Polygon(coordinates[i].map(project));
+			polygon = new Polygon(Arrays.map(coordinates[i], project));
 			centroid = polygon.centroid(1);
 			x -= centroid[0];
 			y -= centroid[1];

@@ -6,7 +6,7 @@ import thx.translation.PluralForms;
 
 class EmptyTranslation implements ITranslation
 {
-	public var domain(getDomain, setDomain) : String;
+	public var domain(get, set) : String;
 	var _domain : String;
 
 	public function new()
@@ -26,9 +26,9 @@ class EmptyTranslation implements ITranslation
 			return idp;
 	}
 
-	function getDomain()
+	function get_domain()
 	{
 		return null;
 	}
-	function setDomain(v : String) return v
+	function set_domain(v : String) return v
 }

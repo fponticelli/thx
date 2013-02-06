@@ -6,18 +6,18 @@ import thx.translation.PluralForms;
 
 class DictionaryTranslation implements ITranslation
 {
-	public var domain(getDomain, setDomain) : String;
+	public var domain(get, set) : String;
 	var _domain : String;
 
-	var _infos : Hash<Info>;
-	var _domainss : Hash<Hash<String>>;
-	var _domainsp : Hash<Hash<Array<String>>>;
+	var _infos : Map<String, Info>;
+	var _domainss : Map<String, Map<String, String>>;
+	var _domainsp : Map<String, Map<String, Array<String>>>;
 
 	public function new(?domain : String, ?info : Info)
 	{
-		_infos = new Hash();
-		_domainss = new Hash();
-		_domainsp = new Hash();
+		_infos = new Map ();
+		_domainss = new Map ();
+		_domainsp = new Map ();
 		addDomain(domain, info);
 	}
 
@@ -33,8 +33,8 @@ class DictionaryTranslation implements ITranslation
 			throw "domain already added: " + domain;
 
 		_infos.set(domain, info);
-		_domainss.set(domain, new Hash());
-		_domainsp.set(domain, new Hash());
+		_domainss.set(domain, new Map ());
+		_domainsp.set(domain, new Map ());
 
 		if (null == _domain)
 			this.domain = domain;
@@ -83,11 +83,11 @@ class DictionaryTranslation implements ITranslation
 			return v;
 	}
 
-	function getDomain()
+	function get_domain()
 	{
 		if (null == _domain)
 			throw "default domain not yet set";
 		return _domain;
 	}
-	function setDomain(v : String) return _domain = v
+	function set_domain(v : String) return _domain = v
 }

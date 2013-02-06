@@ -56,7 +56,6 @@ class TestLine extends TestAll
 
 		assertSamePath("M0,0", line.shape([[0.0, 0.0]]));
 		assertSamePath("M0,0L1,1", line.shape([[0.0, 0.0], [1.0, 1.0]]));
-		trace(line.shape([[0.0, 0.0], [6.0, 6.0], [12.0, 0.0]]));
 		assertSamePath("M0,0C0,0,0,0,1,1C2,2,4,4,6,4C8,4,10,2,11,1C12,0,12,0,12,0", line.shape([[0.0, 0.0], [6.0, 6.0], [12.0, 0.0]]));
 	}
 

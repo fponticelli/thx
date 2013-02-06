@@ -169,11 +169,11 @@ class Arrays
 
 	inline public static function map<TIn,TOut>(arr : Array<TIn>, f : TIn -> Int -> TOut) : Array<TOut>
 	{
-#if js
-		return untyped arr.map(f);
-#else
+//#if js
+//		return untyped arr.map(f);
+//#else
 		return Iterators.map(arr.iterator(), f);
-#end
+//#end
 	}
 
 	inline public static function reduce<TIn,TOut>(arr : Array<TIn>, f : TOut -> TIn -> Int -> TOut, initialValue : TOut) : TOut

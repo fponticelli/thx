@@ -51,6 +51,6 @@ class EsDO extends Culture {
 		isMetric = false;
 		Culture.add(this);
 	}
-	public static var culture(getCulture, null) : Culture; static function getCulture() { if(null == culture) culture = new EsDO(); return culture; }
-	static function __init__() { getCulture(); }
+	@:isVar public static var culture(get, null) : Culture; static function get_culture() { if(null == culture) culture = new EsDO(); return culture; }
+	static function __init__() { get_culture(); }
 }

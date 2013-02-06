@@ -53,5 +53,5 @@ class GraphNodes<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeD
 		for(item in items)
 			remove(item);
 	}
-	override public function toString() return Std.format("GraphNodes ($length): ") + super.toString()
+	override public function toString() return 'GraphNodes ($length): ${super.toString()}'
 }

@@ -13,7 +13,7 @@ class IntHashList<T>
 	{
 		length = 0;
 		__keys = [];
-		__hash = new IntHash();
+		__hash = new Map ();
 	}
 	
 	public function set( key : Int, value : T ) : Void
@@ -74,7 +74,7 @@ class IntHashList<T>
 	
 	public function clear() : Void
 	{
-		__hash = new IntHash();
+		__hash = new Map ();
 		__keys = [];
 		length = 0;
 	}
@@ -105,5 +105,5 @@ class IntHashList<T>
 	}
 	
 	var __keys : Array<Int>;
-	var __hash : IntHash<T>;
+	var __hash : Map<Int, T>;
 }

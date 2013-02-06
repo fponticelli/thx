@@ -19,7 +19,7 @@ class FormatParams
 		else
 			return p;
 	}
-	
+
 	// TODO: add support for nested formats (usefull for Arrays.format)
 	public static function params(p : String, ps : Array<String>, alt : String)
 	{
@@ -30,7 +30,7 @@ class FormatParams
 		if (null == ps || ps.length == 0)
 		{
 			var parts = p.split(":");
-			return [parts[0]].concat(parts.length == 1 ? [] : parts[1].split(",").map(function(s, i) if (0 == i) return s else return cleanQuotes(s)));
+			return [parts[0]].concat(parts.length == 1 ? [] : Arrays.map(parts[1].split(","), function(s, i) if (0 == i) return s else return cleanQuotes(s)));
 		}
 		return ps;
 	}

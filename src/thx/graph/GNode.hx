@@ -155,5 +155,5 @@ class GNode<TNodeData, TEdgeData> extends GraphElement<TNodeData, TNodeData, TEd
 
 	public function toString() return null == graph
 		? "Node Destroyed"
-		: Std.format("Node (n.$id, positives ${positiveCount()}, negatives: ${negativeCount()}${null == data ? '' : ', data: '+data})")
+		: 'Node (n.$id, positives ${positiveCount()}, negatives: ${negativeCount()}${null == data ? "" : ", data: "+data})'
 }

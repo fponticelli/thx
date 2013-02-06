@@ -11,21 +11,21 @@ import thx.math.Const;
 
 class Albers implements IProjection
 {
-	public var origin(getOrigin, setOrigin) : Array<Float>;
-	public var parallels(getParallels, setParallels) : Array<Float>;
-	public var translate(getTranslate, setTranslate) : Array<Float>;
-	public var scale(getScale, setScale) : Float;
+	public var origin(get, set) : Array<Float>;
+	public var parallels(get, set) : Array<Float>;
+	public var translate(get, set) : Array<Float>;
+	public var scale(get, set) : Float;
 	var lng0 : Float;
 	var n : Float;
 	var C : Float;
 	var p0 : Float;
-	
+
 	var _origin : Array<Float>;
 	var _parallels : Array<Float>;
 	var _translate : Array<Float>;
 	var _scale : Float;
 
-	public function new() 
+	public function new()
 	{
 		_origin    = [-98.0, 38];
 		_parallels = [ 29.5, 45.5];
@@ -33,7 +33,7 @@ class Albers implements IProjection
 		_translate = [480.0, 250];
 		reload();
 	}
-	
+
 	public function project(coords : Array<Float>)
 	{
 		var t = n * (Const.TO_RADIAN * coords[0] - lng0),
@@ -43,7 +43,7 @@ class Albers implements IProjection
 			scale * (p * Math.cos(t) - p0) + translate[1]
 		];
 	}
-	
+
 	public function invert(coords : Array<Float>)
 	{
 		var x = (coords[0] - translate[0]) / scale,
@@ -56,30 +56,30 @@ class Albers implements IProjection
 			Math.asin((C - p * p * n * n) / (2 * n)) / Const.TO_RADIAN
 		];
 	}
-	
-	function getOrigin() return _origin.copy()
-	function setOrigin(origin : Array<Float>)
+
+	function get_origin() return _origin.copy()
+	function set_origin(origin : Array<Float>)
 	{
 		_origin = [origin[0], origin[1]];
 		reload();
 		return origin;
 	}
-	
-	function getParallels() return _parallels.copy()
-	function setParallels(parallels : Array<Float>)
+
+	function get_parallels() return _parallels.copy()
+	function set_parallels(parallels : Array<Float>)
 	{
 		_parallels = [parallels[0], parallels[1]];
 		reload();
 		return parallels;
 	}
-	
-	function getTranslate() return _translate.copy()
-	function setTranslate(translate : Array<Float>)
+
+	function get_translate() return _translate.copy()
+	function set_translate(translate : Array<Float>)
 	{
 		_translate = [translate[0], translate[1]];
 		return translate;
 	}
-	
+
 	function reload()
 	{
 		var phi1 = Const.TO_RADIAN * parallels[0],
@@ -94,6 +94,6 @@ class Albers implements IProjection
 		return this;
 	}
 
-	function setScale(scale : Float) return _scale = scale
-	function getScale() return _scale
+	function set_scale(scale : Float) return _scale = scale
+	function get_scale() return _scale
 }

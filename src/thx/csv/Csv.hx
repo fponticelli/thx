@@ -32,9 +32,9 @@ class Csv
 	public static function decodeObjects(value : String, ?check_type:Bool, ?delimiter : String,  ?emptytonull:Bool, ?newline: String, ?quote: String, ?doublequotations: Bool, ?skipwhitespace: Bool) : Array<Dynamic>
 	{
 		var values  = decode(value, check_type, delimiter,  emptytonull, newline, quote, doublequotations, skipwhitespace),
-			headers = values.shift().map(function(v, _) return "" + v),
+			headers = values.shift().map(function(v) return "" + v),
 			len     = headers.length;
-		return values.map(function(arr, _) {
+		return values.map(function(arr) {
 			var ob : Dynamic = {};
 			for(i in 0...len)
 				Reflect.setField(ob, headers[i], arr[i]);
