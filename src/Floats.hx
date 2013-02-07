@@ -203,9 +203,31 @@ class Floats
 		return function(x : Float) return clamp((x - a) * b, 0.0, 1.0);
 	}
 
-	public static function round( number : Float, precision = 2): Float {
+	/**
+		Uses Math.round to fix a floating point number to a set precision.
+	 **/
+	public static function round( number : Float, precision = 2): Float
+	{
 		number *= Math.pow(10, precision);
 		return Math.round( number ) / Math.pow(10, precision);
+	}
+
+	/**
+		Uses Math.floor to fix a floating point number to a set precision.
+	 **/
+	public static function floor( number : Float, precision = 2): Float
+	{
+		number *= Math.pow(10, precision);
+		return Math.floor( number ) / Math.pow(10, precision);
+	}
+
+	/**
+		Uses Math.ceil to fix a floating point number to a set precision.
+	 **/
+	public static function ceil( number : Float, precision = 2): Float
+	{
+		number *= Math.pow(10, precision);
+		return Math.ceil( number ) / Math.pow(10, precision);
 	}
 
 
