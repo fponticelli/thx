@@ -34,13 +34,12 @@ typedef Node<T> = {
 	value:Null<Float>
 }
 
-class AbstractHierarchy<T, This> extends IThis<This> {
+class AbstractHierarchy<T, That> {
 	var _sort : T->T->Int;
 	var _children : T->Int->Array<T>;
 	var _value : T->Int->Float;
 
 	public function new(){ //
-		super();
 /*		_sort = function(x : T, y : T) : Int { return untyped Std.int(x.value - y.value); }
 		_children = function(n : T, _) { return  untyped n.children; }
 		_value = function(n : T, _) { return  untyped n.value; }	*/
@@ -99,10 +98,13 @@ class AbstractHierarchy<T, This> extends IThis<This> {
 		return v;
 	}
 
+	function _that() : That{
+		return cast this;
+	}
 
 	public function sort(f : T->T->Int) {
 		_sort = f;
-		return This();
+		return _that();
 	}
 
 	public function getSort() {
@@ -111,7 +113,7 @@ class AbstractHierarchy<T, This> extends IThis<This> {
 
 	public function children(c : T->Int->Array<T>){
 		_children = c;
-		return This();
+		return _that();
 	}
 
 	public function getChildren(){
@@ -120,7 +122,7 @@ class AbstractHierarchy<T, This> extends IThis<This> {
 
 	public function value(v : T->Int->Float) {
 		_value = v;
-		return This();
+		return _that();
 	}
 
 	public function getValue(){
@@ -133,7 +135,3 @@ class AbstractHierarchy<T, This> extends IThis<This> {
 	}
 }
 
-private class IThis<This>{
-	public function new(){}
-	function This():This {return cast this;}
-}
