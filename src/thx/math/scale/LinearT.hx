@@ -42,28 +42,28 @@ class LinearT<T> implements IScale<Float, T>
 		return _output(x);
 	}
 
-	public function getDomain() : Array<Float> return _domain
+	public function getDomain() : Array<Float> return _domain;
 	public function domain(d : Array<Float>)
 	{
 		_domain = d;
 		return rescale();
 	}
 	
-	public function getRange() : Array<T> return _range
+	public function getRange() : Array<T> return _range;
 	public function range(r : Array<T>)
 	{
 		_range = r;
 		return rescale();
 	}
 
-	public function getInterpolate() : T -> T -> (Float -> Float) -> (Float -> T) return f
+	public function getInterpolate() : T -> T -> (Float -> Float) -> (Float -> T) return f;
 	public function interpolatef(x : T -> T -> (Float -> Float) -> (Float -> T))
 	{
 		f = x;
 		return rescale();
 	}
 	
-	public function getClamp() : Bool return _clamp
+	public function getClamp() : Bool return _clamp;
 	public function clamp(v : Bool)
 	{
 		this._clamp = v;

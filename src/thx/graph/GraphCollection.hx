@@ -53,11 +53,11 @@ class GraphCollection<TNodeData, TEdgeData, TData, TListItem : GraphElement<TDat
 		return _map.get(id);
 	}
 
-	public function get(id : Int) : TListItem return collection.get(id)
+	public function get(id : Int) : TListItem return collection.get(id);
 
-	public function has(item : TListItem) return item.graph == graph && collection.exists(item.id)
+	public function has(item : TListItem) return item.graph == graph && collection.exists(item.id);
 
-	inline function get_length() : Int return collection.count()
+	inline function get_length() : Int return collection.count();
 
 	dynamic function collectionCreate(item : TListItem)
 	{
@@ -75,7 +75,7 @@ class GraphCollection<TNodeData, TEdgeData, TData, TListItem : GraphElement<TDat
 #end
 	}
 
-	inline public function iterator() return collection.iterator()
+	inline public function iterator() return collection.iterator();
 
-	public function toString() return Iterables.map(collection, function(item : TListItem, _) : String return Std.string(item)).join(", ")
+	public function toString() return Iterables.map(collection, function(item : TListItem, _) : String return Std.string(item)).join(", ");
 }

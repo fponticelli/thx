@@ -230,7 +230,7 @@ class PathTypes
 		return p.join("");
 	}
 
-	function project(coords : Array<Float>) return geo.projection.project(coords).join(",")
+	function project(coords : Array<Float>) return geo.projection.project(coords).join(",");
 }
 
 class AreaTypes
@@ -262,11 +262,11 @@ class AreaTypes
 		return area(f.geometry);
 	}
 
-	public function point(o : Geometry) return 0.0
-	public function multiPoint(o : Geometry) return 0.0
-	public function lineString(o : Geometry) return 0.0
-	public function multiLineString(o : Geometry) return 0.0
-	public function polygon(o : Geometry) return polygonArea(o.coordinates)
+	public function point(o : Geometry) return 0.0;
+	public function multiPoint(o : Geometry) return 0.0;
+	public function lineString(o : Geometry) return 0.0;
+	public function multiLineString(o : Geometry) return 0.0;
+	public function polygon(o : Geometry) return polygonArea(o.coordinates);
 
 	public function multiPolygon(o : Geometry)
 	{
@@ -293,8 +293,8 @@ class AreaTypes
 		return sum;
 	}
 
-	function parea(coords : Array<Array<Float>>) return Math.abs(new Polygon(Arrays.map(coords, project)).area())
-	function project(d : Array<Float>, _) return geo.projection.project(d)
+	function parea(coords : Array<Array<Float>>) return Math.abs(new Polygon(Arrays.map(coords, project)).area());
+	function project(d : Array<Float>, _) return geo.projection.project(d);
 }
 
 class CentroidTypes
@@ -319,9 +319,9 @@ class CentroidTypes
     // TODO MultiLineString
     // TODO GeometryCollection
 
-	public function point(o : Geometry) return project(o.coordinates)
+	public function point(o : Geometry) return project(o.coordinates);
 
-	public function feature(f : Geometry) return centroid(f.geometry)
+	public function feature(f : Geometry) return centroid(f.geometry);
 
 	public function polygon(o : Geometry)
 	{
@@ -365,5 +365,5 @@ class CentroidTypes
 		return [x, y, 6 * z]; // weighted centroid
 	}
 
-	function project(d : Array<Float>, ?_) return geo.projection.project(d)
+	function project(d : Array<Float>, ?_) return geo.projection.project(d);
 }

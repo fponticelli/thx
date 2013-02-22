@@ -141,10 +141,10 @@ class Graph<TNodeData, TEdgeData>
 		}
 	}
 
-	public function toString() return 'Graph (nodes: ${nodes.length}, edges: ${edges.length})'
+	public function toString() return 'Graph (nodes: ${nodes.length}, edges: ${edges.length})';
 
-	static inline function friendNodes<TNodeData, TEdgeData>(friend : GraphNodes<TNodeData, TEdgeData>) : FriendNodesCopy<TNodeData, TEdgeData> return friend
-	static inline function friendEdges<TNodeData, TEdgeData>(friend : GraphEdges<TNodeData, TEdgeData>) : FriendEdgesCopy<TNodeData, TEdgeData> return friend
+	static inline function friendNodes<TNodeData, TEdgeData>(friend : GraphNodes<TNodeData, TEdgeData>) : FriendNodesCopy<TNodeData, TEdgeData> return friend;
+	static inline function friendEdges<TNodeData, TEdgeData>(friend : GraphEdges<TNodeData, TEdgeData>) : FriendEdgesCopy<TNodeData, TEdgeData> return friend;
 }
 
 typedef FriendNodesCopy<TNodeData, TEdgeData> = {

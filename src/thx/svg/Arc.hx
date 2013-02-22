@@ -19,32 +19,32 @@ class Arc<T>
 		_a1 = function(_,_) return Math.PI;
 	}
 
-	public function getInnerRadius() return _r0
-	public function innerRadius(v : Float) return innerRadiusf(function(_,_) return v)
+	public function getInnerRadius() return _r0;
+	public function innerRadius(v : Float) return innerRadiusf(function(_,_) return v);
 	public function innerRadiusf(v : T -> Int -> Float)
 	{
 		_r0 = v;
 		return this;
 	}
 
-	public function getOuterRadius() return _r1
-	public function outerRadius(v : Float) return outerRadiusf(function(_,_) return v)
+	public function getOuterRadius() return _r1;
+	public function outerRadius(v : Float) return outerRadiusf(function(_,_) return v);
 	public function outerRadiusf(v : T -> Int -> Float)
 	{
 		_r1 = v;
 		return this;
 	}
 
-	public function getStartAngle() return _a0
-	public function startAngle(v : Float) return startAnglef(function(_,_) return v)
+	public function getStartAngle() return _a0;
+	public function startAngle(v : Float) return startAnglef(function(_,_) return v);
 	public function startAnglef(v : T -> Int -> Float)
 	{
 		_a0 = v;
 		return this;
 	}
 
-	public function getEndAngle() return _a1
-	public function endAngle(v : Float) return endAnglef(function(_,_) return v)
+	public function getEndAngle() return _a1;
+	public function endAngle(v : Float) return endAnglef(function(_,_) return v);
 	public function endAnglef(v : T -> Int -> Float)
 	{
 		_a1 = v;

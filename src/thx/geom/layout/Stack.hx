@@ -53,14 +53,14 @@ class Stack
 		return result;
 	}
 
-	public function getOrder() return _order
+	public function getOrder() return _order;
 	public function order(x : StackOrder)
 	{
 		_order = x;
 		return this;
 	}
 
-	public function getOffset() return _offset
+	public function getOffset() return _offset;
 	public function offset(x : StackOffset)
 	{
 		_offset = x;

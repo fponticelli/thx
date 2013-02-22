@@ -56,7 +56,7 @@ class Hashes
 		return set;
 	}
 
-	public static inline function empty(Map  : Map<String, Dynamic>) return count(Map ) == 0
+	public static inline function empty(Map  : Map<String, Dynamic>) return count(Map ) == 0;
 
 	public static function count(Map  : Map<String, Dynamic>)
 	{

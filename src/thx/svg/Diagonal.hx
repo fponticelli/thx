@@ -22,21 +22,21 @@ class Diagonal<T> {
 		return "M " + p2[0][0] + " " + p2[0][1] + " C " + p2[1][0] + " " + p2[1][1] + " " + p2[2][0] + " " + p2[2][1] + " " + p2[3][0] + " " + p2[3][1];
 	}
 
-	public function getSource() return _source
+	public function getSource() return _source;
 	public function sourcef(x : T->Int->Array<Float>)
 	{
 		_source = x;
 		return this;
 	}
 
-	public function getTarget() return _target
+	public function getTarget() return _target;
 	public function targetf(x : T->Int->Array<Float>)
 	{
 		_target = x;
 		return this;
 	}
 
-	public function getProjection() return _projection
+	public function getProjection() return _projection;
 	public function projection(x)
 	{
 		_projection = x;
@@ -44,9 +44,7 @@ class Diagonal<T> {
 	}
 
 	public static function diagonalProjection(d:Array<Float>, ?_) : Array<Float>
-	{
 		return d;
-	}
 
 	public static function forObject()
 	{

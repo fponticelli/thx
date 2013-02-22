@@ -25,14 +25,14 @@ class Line<TData>
 		return data.length < 1 ? null : "M" + LineInternals.interpolatePoints(LineInternals.linePoints(data, _x, _y), _interpolator);
 	}
 
-	public function getInterpolator() return _interpolator
+	public function getInterpolator() return _interpolator;
 	public function interpolator(type : LineInterpolator)
 	{
 		_interpolator = type;
 		return this;
 	}
 
-	public function getX() return _x
+	public function getX() return _x;
 
 	public function x(v : TData -> Int -> Float)
 	{
@@ -40,7 +40,7 @@ class Line<TData>
 		return this;
 	}
 
-	public function getY() return _y
+	public function getY() return _y;
 
 	public function y(v : TData -> Int -> Float)
 	{

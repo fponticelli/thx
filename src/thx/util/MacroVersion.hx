@@ -17,13 +17,13 @@ class MacroVersion
 
 	macro public static function next()
 #if major
-		return saveAndReturn(getVersion().incrementMajor())
+		return saveAndReturn(getVersion().incrementMajor());
 #elseif minor
-		return saveAndReturn(getVersion().incrementMinor())
+		return saveAndReturn(getVersion().incrementMinor());
 #elseif (maintenance || release)
-		return saveAndReturn(getVersion().incrementMaintenance())
+		return saveAndReturn(getVersion().incrementMaintenance());
 #else
-		return saveAndReturn(getVersion().incrementBuild())
+		return saveAndReturn(getVersion().incrementBuild());
 #end
 
 /*

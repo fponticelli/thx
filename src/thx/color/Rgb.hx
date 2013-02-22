@@ -40,7 +40,7 @@ class Rgb
 		return prefix + red.hex(2) + green.hex(2) + blue.hex(2);
 	}
 
-	inline public function toCss() return hex('#')
+	inline public function toCss() return hex('#');
 
 	public function toRgbString()
 	{
@@ -124,7 +124,7 @@ class Rgb
 			return new Hsl(nc.hue, nc.saturation, 0);
 	}
 
-	public static function interpolateBrightness(t : Float, ?equation : Float -> Float) return interpolateBrightnessf(equation)(t)
+	public static function interpolateBrightness(t : Float, ?equation : Float -> Float) return interpolateBrightnessf(equation)(t);
 	public static function interpolateBrightnessf(?equation : Float -> Float)
 	{
 		var i = Ints.interpolatef(0, 255, equation);
@@ -136,7 +136,7 @@ class Rgb
 	}
 
 
-	public static function interpolateHeat(t : Float, ?middle, ?equation : Float -> Float) return interpolateHeatf(middle, equation)(t)
+	public static function interpolateHeat(t : Float, ?middle, ?equation : Float -> Float) return interpolateHeatf(middle, equation)(t);
 	public static function interpolateHeatf(?middle : Rgb, ?equation : Float -> Float)
 	{
 		return interpolateStepsf([
@@ -146,7 +146,7 @@ class Rgb
 		], equation);
 	}
 
-	public static function interpolateRainbow(t : Float, ?equation : Float -> Float) return interpolateRainbowf(equation)(t)
+	public static function interpolateRainbow(t : Float, ?equation : Float -> Float) return interpolateRainbowf(equation)(t);
 	public static function interpolateRainbowf(?equation : Float -> Float)
 	{
 		return interpolateStepsf([

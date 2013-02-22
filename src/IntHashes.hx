@@ -2,7 +2,7 @@ import haxe.ds.IntMap;
 
 class IntHashes
 {
-	public static inline function empty(Map  : IntMap<Dynamic>) return count(Map ) == 0
+	public static inline function empty(Map  : IntMap<Dynamic>) return count(Map ) == 0;
 
 	public static function count(Map  : IntMap<Dynamic>)
 	{

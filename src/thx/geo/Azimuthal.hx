@@ -63,7 +63,7 @@ class Azimuthal implements IProjection
 		];
 	}
 
-	function get_origin() return origin.copy()
+	function get_origin() return origin.copy();
 	function set_origin(origin : Array<Float>)
 	{
 		this.origin = [origin[0], origin[1]];
@@ -74,17 +74,17 @@ class Azimuthal implements IProjection
 		return origin;
 	}
 
-	function get_translate() return translate.copy()
+	function get_translate() return translate.copy();
 	function set_translate(translate : Array<Float>)
 	{
 		this.translate = [translate[0], translate[1]];
 		return translate;
 	}
 
-	function set_scale(scale : Float) return this.scale = scale
-	function get_scale() return scale
-	function set_mode(mode : ProjectionMode) return this.mode = mode
-	function get_mode() return mode
+	function set_scale(scale : Float) return this.scale = scale;
+	function get_scale() return scale;
+	function set_mode(mode : ProjectionMode) return this.mode = mode;
+	function get_mode() return mode;
 }
 
 enum ProjectionMode

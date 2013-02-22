@@ -5,7 +5,7 @@ using Arrays;
 
 class GraphEdges<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeData, TEdgeData, GEdge<TNodeData, TEdgeData>>
 {
-	static public function newInstance<TNodeData, TEdgeData>(graph : Graph<TNodeData, TEdgeData>, ?edgeidf : TEdgeData -> String) return new GraphEdges(graph, edgeidf)
+	static public function newInstance<TNodeData, TEdgeData>(graph : Graph<TNodeData, TEdgeData>, ?edgeidf : TEdgeData -> String) return new GraphEdges(graph, edgeidf);
 
 	var edgesp : Map<Int, Array<Int>>;
 	var edgesn : Map<Int, Array<Int>>;
@@ -192,7 +192,7 @@ class GraphEdges<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeD
 			connections.remove(nodeid);
 	}
 
-	override public function toString() return 'GraphEdges ($length): ${super.toString()}'
+	override public function toString() return 'GraphEdges ($length): ${super.toString()}';
 }
 
 typedef FriendGraphEdges<TNodeData, TEdgeData> =

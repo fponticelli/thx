@@ -57,7 +57,7 @@ class Albers implements IProjection
 		];
 	}
 
-	function get_origin() return _origin.copy()
+	function get_origin() return _origin.copy();
 	function set_origin(origin : Array<Float>)
 	{
 		_origin = [origin[0], origin[1]];
@@ -65,7 +65,7 @@ class Albers implements IProjection
 		return origin;
 	}
 
-	function get_parallels() return _parallels.copy()
+	function get_parallels() return _parallels.copy();
 	function set_parallels(parallels : Array<Float>)
 	{
 		_parallels = [parallels[0], parallels[1]];
@@ -73,7 +73,7 @@ class Albers implements IProjection
 		return parallels;
 	}
 
-	function get_translate() return _translate.copy()
+	function get_translate() return _translate.copy();
 	function set_translate(translate : Array<Float>)
 	{
 		_translate = [translate[0], translate[1]];
@@ -94,6 +94,6 @@ class Albers implements IProjection
 		return this;
 	}
 
-	function set_scale(scale : Float) return _scale = scale
-	function get_scale() return _scale
+	function set_scale(scale : Float) return _scale = scale;
+	function get_scale() return _scale;
 }

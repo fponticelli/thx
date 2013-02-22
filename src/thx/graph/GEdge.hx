@@ -74,9 +74,9 @@ class GEdge<TNodeData, TEdgeData> extends GraphElement<TEdgeData, TNodeData, TEd
 		return inverted;
 	}
 
-	inline public function remove() friendRemove()._remove(this)
+	inline public function remove() friendRemove()._remove(this);
 
-	inline function friendRemove() : { private function _remove(edge : GEdge<TNodeData, TEdgeData>) : Void; } return graph.edges
+	inline function friendRemove() : { private function _remove(edge : GEdge<TNodeData, TEdgeData>) : Void; } return graph.edges;
 
-	public function toString() return null == graph ? "Edge Destroyed" : 'Edge (n.$id, tail: n.${tail.id}, head: n.${head.id}, weight : $weight${null == data ? "" : ", data: "+data})'
+	public function toString() return null == graph ? "Edge Destroyed" : 'Edge (n.$id, tail: n.${tail.id}, head: n.${head.id}, weight : $weight${null == data ? "" : ", data: "+data})';
 }

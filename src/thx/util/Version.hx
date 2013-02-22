@@ -20,9 +20,9 @@ class Version
 		this.build = build;
 	}
 
-	public function fullVersion() return major + "." + minor + "." + maintenance + "." + build
+	public function fullVersion() return major + "." + minor + "." + maintenance + "." + build;
 
-	public function toString() return "V." + fullVersion()
+	public function toString() return "V." + fullVersion();
 
 	public static function fromString(s : String)
 	{

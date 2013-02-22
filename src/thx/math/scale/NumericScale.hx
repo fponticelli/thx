@@ -46,14 +46,14 @@ class NumericScale<This> implements IScale<Float, Float>
 		return _input(y);
 	}
 
-	public function getDomain() : Array<Float> return _domain
+	public function getDomain() : Array<Float> return _domain;
 	public function domain(d : Array<Float>) : This
 	{
 		_domain = d;
 		return rescale();
 	}
 
-	public function getRange() : Array<Float> return _range
+	public function getRange() : Array<Float> return _range;
 	public function range(r : Array<Float>) : This
 	{
 		_range = r;
@@ -67,14 +67,14 @@ class NumericScale<This> implements IScale<Float, Float>
 		return _this();
 	}
 
-	public function getInterpolate() : Float -> Float -> (Float -> Float) -> (Float -> Float) return f
+	public function getInterpolate() : Float -> Float -> (Float -> Float) -> (Float -> Float) return f;
 	public function interpolatef(x : Float -> Float -> (Float -> Float) -> (Float -> Float)) : This
 	{
 		f = x;
 		return rescale();
 	}
 
-	public function getClamp() : Bool return _clamp
+	public function getClamp() : Bool return _clamp;
 	public function clamp(v : Bool) : This
 	{
 		this._clamp = v;
@@ -100,7 +100,7 @@ class NumericScale<This> implements IScale<Float, Float>
 		return _this();
 	}
 
-	inline function _this() : This return cast this
+	inline function _this() : This return cast this;
 
 	static function scaleBilinear(domain : Array<Float>, range : Array<Float>, uninterpolate : Float -> Float -> (Float -> Float), interpolate : Float -> Float -> (Float -> Float) -> (Float -> Float))
 	{

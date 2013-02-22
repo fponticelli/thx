@@ -141,7 +141,7 @@ class GraphLayout<TNodeData, TEdgeData>
 		_updateMap();
 	}
 
-	public function toString() return 'GraphLayout (${graph}, layers: ${_layers.length}, crossings : ${crossings()})'
+	public function toString() return 'GraphLayout (${graph}, layers: ${_layers.length}, crossings : ${crossings()})';
 }
 
 class LayoutCell

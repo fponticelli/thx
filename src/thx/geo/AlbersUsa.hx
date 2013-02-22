@@ -77,7 +77,7 @@ class AlbersUsa implements IProjection
 		return scale;
 	}
 
-	function get_scale() return lower48.scale
+	function get_scale() return lower48.scale;
 
 	function set_translate(translate : Array<Float>)
 	{
@@ -90,5 +90,5 @@ class AlbersUsa implements IProjection
 		puertoRico.translate = [dx + 580 * dz, dy + 430 * dz];
 		return translate;
 	}
-	function get_translate() return lower48.translate
+	function get_translate() return lower48.translate;
 }

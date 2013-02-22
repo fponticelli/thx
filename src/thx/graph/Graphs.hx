@@ -103,8 +103,8 @@ class Graphs
 		return n;
 	}
 
-	public static inline function isSink(node : Node) return node.edgesp.length == 0 && node.edgesn.length > 0
-	public static inline function isSource(node : Node) return node.edgesn.length == 0 && node.edgesp.length == 0
+	public static inline function isSink(node : Node) return node.edgesp.length == 0 && node.edgesn.length > 0;
+	public static inline function isSource(node : Node) return node.edgesn.length == 0 && node.edgesp.length == 0;
 
 	public static function findSink(graph : Map<String, Node>)
 	{
@@ -213,12 +213,12 @@ class Graphs
 		return p;
 	}
 
-	public static function isDummy(v : String) return v.substr(0, 1) == '#'
+	public static function isDummy(v : String) return v.substr(0, 1) == '#';
 	static var id = 0;
-	public static function createDummy(a : String, b : String, lvl : Int) return '#' + (++id)
+	public static function createDummy(a : String, b : String, lvl : Int) return '#' + (++id);
 
-	public static inline function removeNode(graph : Map<String, Node>, node : Node) graph.remove(node.vertex)
-	public static inline function addNode(graph : Map<String, Node>, node : Node) graph.set(node.vertex, node)
+	public static inline function removeNode(graph : Map<String, Node>, node : Node) graph.remove(node.vertex);
+	public static inline function addNode(graph : Map<String, Node>, node : Node) graph.set(node.vertex, node);
 
 	public static function clone(graph : Map<String, Node>)
 	{
@@ -234,6 +234,6 @@ class Graphs
 		return o;
 	}
 
-	public static inline function empty(graph : Map<String, Node>) return Hashes.empty(graph)
-	public static inline function count(graph : Map<String, Node>) return Hashes.count(graph)
+	public static inline function empty(graph : Map<String, Node>) return Hashes.empty(graph);
+	public static inline function count(graph : Map<String, Node>) return Hashes.count(graph);
 }

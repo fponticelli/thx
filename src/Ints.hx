@@ -109,5 +109,5 @@ class Ints
 		return Std.parseInt(s);
 	}
 
-	inline public static function compare(a : Int, b : Int) return a - b
+	inline public static function compare(a : Int, b : Int) return a - b;
 }

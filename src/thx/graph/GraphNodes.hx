@@ -5,7 +5,7 @@ import thx.graph.GraphElement;
 
 class GraphNodes<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeData, TNodeData, GNode<TNodeData, TEdgeData>>
 {
-	static public function newInstance<TNodeData, TEdgeData>(graph : Graph<TNodeData, TEdgeData>, ?nodeidf : TNodeData -> String) return new GraphNodes(graph, nodeidf)
+	static public function newInstance<TNodeData, TEdgeData>(graph : Graph<TNodeData, TEdgeData>, ?nodeidf : TNodeData -> String) return new GraphNodes(graph, nodeidf);
 
 	function new(graph : Graph<TNodeData, TEdgeData>,?nodeidf : TNodeData -> String)
 	{
@@ -53,5 +53,5 @@ class GraphNodes<TNodeData, TEdgeData> extends GraphCollection<TNodeData, TEdgeD
 		for(item in items)
 			remove(item);
 	}
-	override public function toString() return 'GraphNodes ($length): ${super.toString()}'
+	override public function toString() return 'GraphNodes ($length): ${super.toString()}';
 }

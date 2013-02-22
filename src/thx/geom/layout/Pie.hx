@@ -57,30 +57,30 @@ class Pie<T>
 		});
 	}
 
-	public function getStartAngle() return _startAngle
-	public function startAngle(v : Float) return startAnglef(function(_, _) return v)
+	public function getStartAngle() return _startAngle;
+	public function startAngle(v : Float) return startAnglef(function(_, _) return v);
 	public function startAnglef(v : Array<T> -> Int -> Float)
 	{
 		_startAngle = v;
 		return this;
 	}
 
-	public function getEndAngle() return _endAngle
-	public function endAngle(v : Float) return endAnglef(function(_, _) return v)
+	public function getEndAngle() return _endAngle;
+	public function endAngle(v : Float) return endAnglef(function(_, _) return v);
 	public function endAnglef(v : Array<T> -> Int -> Float)
 	{
 		_endAngle = v;
 		return this;
 	}
 
-	public function getSort() return _sort
+	public function getSort() return _sort;
 	public function sort(v : T -> T -> Int)
 	{
 		_sort = v;
 		return this;
 	}
 
-	public function getValue() return _value
+	public function getValue() return _value;
 	public function valuef(v : T -> Int -> Float)
 	{
 		_value = v;

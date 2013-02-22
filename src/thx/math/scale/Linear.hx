@@ -19,7 +19,7 @@ class Linear extends NumericScale<Linear>
 		m = 10;
 	}
 
-	public function getModulo() : Float return m
+	public function getModulo() : Float return m;
 	public function modulo(m : Int) : Linear
 	{
 		this.m = m;

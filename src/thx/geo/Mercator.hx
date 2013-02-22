@@ -37,10 +37,10 @@ class Mercator implements IProjection
 		];
 	}
 
-	function set_scale(scale : Float) return this.scale = scale
-	function get_scale() return scale
+	function set_scale(scale : Float) return this.scale = scale;
+	function get_scale() return scale;
 
-	function get_translate() return translate.copy()
+	function get_translate() return translate.copy();
 	function set_translate(translate : Array<Float>)
 	{
 		this.translate = [translate[0], translate[1]];

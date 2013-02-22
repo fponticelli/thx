@@ -565,5 +565,5 @@ Other things to do. Nested placeholders
 		}
 	}
 
-	public static function compare(a : String, b : String) return a < b ? -1 : a > b ? 1 : 0
+	public static function compare(a : String, b : String) return a < b ? -1 : a > b ? 1 : 0;
 }

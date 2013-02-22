@@ -18,9 +18,9 @@ class GraphElement<TData, TNodeData, TEdgeData>
 		id = -1;
 	}
 
-	public function destroyed() return null == graph
+	public function destroyed() return null == graph;
 
-	public static inline function friendDestroy<TData, TNodeData, TEdgeData>(item : GraphElement<TData, TNodeData, TEdgeData>) : FriendDestroy return item
+	public static inline function friendDestroy<TData, TNodeData, TEdgeData>(item : GraphElement<TData, TNodeData, TEdgeData>) : FriendDestroy return item;
 }
 
 typedef FriendDestroy = {

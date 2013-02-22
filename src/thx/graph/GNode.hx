@@ -147,13 +147,13 @@ class GNode<TNodeData, TEdgeData> extends GraphElement<TNodeData, TNodeData, TEd
 	{
 		return friendEdges().negativeCount(this);
 	}
-	inline public function remove() friendRemove()._remove(this)
+	inline public function remove() friendRemove()._remove(this);
 
-	inline function friendRemove() : { private function _remove(node : GNode<TNodeData, TEdgeData>) : Void; } return graph.nodes
+	inline function friendRemove() : { private function _remove(node : GNode<TNodeData, TEdgeData>) : Void; } return graph.nodes;
 
-	inline function friendEdges() : FriendGraphEdges<TNodeData, TEdgeData> return graph.edges
+	inline function friendEdges() : FriendGraphEdges<TNodeData, TEdgeData> return graph.edges;
 
 	public function toString() return null == graph
 		? "Node Destroyed"
-		: 'Node (n.$id, positives ${positiveCount()}, negatives: ${negativeCount()}${null == data ? "" : ", data: "+data})'
+		: 'Node (n.$id, positives ${positiveCount()}, negatives: ${negativeCount()}${null == data ? "" : ", data: "+data})';
 }
