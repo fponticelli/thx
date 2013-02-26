@@ -89,5 +89,5 @@ class DictionaryTranslation implements ITranslation
 			throw "default domain not yet set";
 		return _domain;
 	}
-	function set_domain(v : String) return _domain = v
+	function set_domain(v : String) return _domain = v;
 }

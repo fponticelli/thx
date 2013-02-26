@@ -41,6 +41,6 @@ class DomHandler implements HtmlHandler {
 	}
 	
 	public function declaration(text : String) {
-		current.addChild(Xml.createProlog(text));
+		current.addChild(Xml.createProcessingInstruction(text));
 	}
 }

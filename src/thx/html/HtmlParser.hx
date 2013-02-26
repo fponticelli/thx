@@ -60,7 +60,7 @@ class HtmlParser {
 					if (endTag.match(html))
 					{
 						html = endTag.matchedRight();
-						endTag.customReplace(endTag.matched(0), function(re) { me.parseEndTag(re.matched(1)); return ""; });
+						endTag.map(endTag.matched(0), function(re) { me.parseEndTag(re.matched(1)); return ""; });
 						chars = false;
 					}
 				// start tag
@@ -69,7 +69,7 @@ class HtmlParser {
 					if (startTag.match(html))
 					{
 						html = startTag.matchedRight();
-						startTag.customReplace(startTag.matched(0), function(re) { me.parseStartTag(re.matched(1), re.matched(2), re.matched(3) == '/'); return ""; });
+						startTag.map(startTag.matched(0), function(re) { me.parseStartTag(re.matched(1), re.matched(2), re.matched(3) == '/'); return ""; });
 						chars = false;
 					} else if (declaration.match(html)) {
 						html = declaration.matchedRight();
@@ -130,7 +130,7 @@ class HtmlParser {
 
 		var attrs = [];
 
-		attr.customReplace(rest, function(re : EReg)
+		attr.map(rest, function(re : EReg)
 		{
 			var name = re.matched(1);
 			var value = re.matched(2);

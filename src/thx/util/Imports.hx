@@ -10,7 +10,7 @@ import haxe.macro.Expr;
 
 class Imports
 {
-	@:macro public static function pack(s : String, rec : Bool) : Expr
+	macro public static function pack(s : String, rec : Bool) : Expr
 	{
 //		switch(expr.expr)
 //		{

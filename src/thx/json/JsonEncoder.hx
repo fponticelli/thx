@@ -97,7 +97,7 @@ class JsonEncoder implements IDataHandler
 
 	function quote(s)
 	{
-		return '"' + ~/./.customReplace (~/(\n)/g.replace (~/("|\\)/g.replace (s, "\\$1"), "\\n"), function (r) {
+		return '"' + ~/./.map (~/(\n)/g.replace (~/("|\\)/g.replace (s, "\\$1"), "\\n"), function (r) {
 			var c = r.matched (0).charCodeAt (0);
 			return c >= 32 && c <= 127 ? String.fromCharCode (c) : "\\u" + StringTools.hex (c, 4);
 		}) + '"';
