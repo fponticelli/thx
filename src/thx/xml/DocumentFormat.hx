@@ -28,7 +28,7 @@ class DocumentFormat
 			return formatDocument(node);
 		} else if(Xml.DocType == t) {
             return formatDocType(node);
-		} else if(Xml.Prolog == t) {
+		} else if(Xml.ProcessingInstruction == t) {
             return formatProlog(node);
 	    } else if(Xml.Comment == t) {
             return formatComment(node);

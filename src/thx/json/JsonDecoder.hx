@@ -2,11 +2,7 @@ package thx.json;
 import thx.data.IDataHandler;
 import thx.error.Error;
 
-#if neko
-import neko.Utf8;
-#elseif php
-import php.Utf8;
-#end
+import haxe.Utf8;
 
 /**
  * ...
