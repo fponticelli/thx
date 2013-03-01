@@ -15,7 +15,7 @@ class Rttis
 				return opt ? "Null<unknown>" : "unknown";
 			case CAnonymous(_), CDynamic(_):
 				return opt ? "Null<Dynamic>" : "Dynamic";
-			case CTypedef(name, params):
+			case CTypedef(name, params), CAbstract(name, params):
 				if(name == "Null")
 				{
 					if(opt)
@@ -60,7 +60,7 @@ class Rttis
 	{
 		switch(type)
 		{
-			case CFunction(_,_), CUnknown, CAnonymous(_), CDynamic(_), CTypedef(_, _):
+			case CFunction(_,_), CUnknown, CAnonymous(_), CDynamic(_), CTypedef(_, _), CAbstract(_, _):
 				return null;
 			case CEnum(name, _), CClass(name, _):
 				return name;

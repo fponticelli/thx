@@ -291,7 +291,7 @@ Other things to do. Nested placeholders
 
 	public static function ucwords(value : String) : String
 	{
-		return __ucwordsPattern.customReplace(ucfirst(value), __upperMatch);
+		return __ucwordsPattern.map(ucfirst(value), __upperMatch);
 	}
 
 	/**
@@ -304,7 +304,7 @@ Other things to do. Nested placeholders
 #if php
 		return untyped __call__("ucwords", value);
 #else
-		return __ucwordswsPattern.customReplace(ucfirst(value), __upperMatch);
+		return __ucwordswsPattern.map(ucfirst(value), __upperMatch);
 #end
 	}
 

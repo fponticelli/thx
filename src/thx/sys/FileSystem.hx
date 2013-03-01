@@ -5,7 +5,9 @@
 
 package thx.sys;
 
-#if neko
+#if haxe3
+typedef FileSystem = sys.FileSystem;
+#elseif neko
 typedef FileSystem = neko.FileSystem;
 #elseif php
 typedef FileSystem = php.FileSystem;
