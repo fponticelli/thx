@@ -83,6 +83,17 @@ class Dates
 		return function(v) return Date.fromTime(f(v));
 	}
 
+	/** 
+	*	Snaps a time to the nearest second, minute, hour, day, week, month or year.
+	*
+	*	Note, I'm not sure if "week" is functioning correctly yet.
+	*	
+	*	@param time The unix time in milliseconds.  See date.getTime()
+	*	@param period Either "second", "minute", "hour", "day", "week", "month" or "year"
+	*	@param mode Defines whether to snap up (1), snap down (-1) or round (0)
+	*	
+	*	@return the unix time of the snapped date (In milliseconds).  Or 0 if "period" was invalid.
+	*/
 	public static function snap(time : Float, period : String, mode = 0) : Float
 	{
 		if (mode < 0)
@@ -162,39 +173,69 @@ class Dates
 		}
 	}
 
-	public static function snapToWeekDay(time : Float, day : String)
+	/** 
+	*	Snaps a time to a given weekday in the current week.  The time within the day will stay the same.
+	*	
+	*	@param time The unix time in milliseconds.  See date.getTime()
+	*	@param day Day to snap to.  Either "sunday", "monday", "tuesday" etc. Case insensitive.
+	* 	@param mondayStart If true, the current week will be defined as Monday-Sunday.  Default is false, meaning Sunday-Saturday.
+	*	
+	*	@throws String if invalid weekday was entered.
+	*	
+	*	@return The unix time of the day you have snapped to.
+	*/
+	public static function snapToWeekDay(time : Float, day : String, ?mondayStart = false)
 	{
 		var d = Date.fromTime(time).getDay();
 		var s = 0;
-		switch(day.toLowerCase())
+		var s = switch(day.toLowerCase())
 		{
-			case "sunday":
-				s = 0;
-			case "monday":
-				s = 1;
-			case "tuesday":
-				s = 2;
-			case "wednesday":
-				s = 3;
-			case "thursday":
-				s = 4;
-			case "friday":
-				s = 5;
-			case "saturday":
-				s = 6;
+			case "sunday": (mondayStart) ? 7 : 0;
+			case "monday": 1;
+			case "tuesday": 2;
+			case "wednesday": 3;
+			case "thursday": 4;
+			case "friday": 5;
+			case "saturday": 6;
 			default:
 				throw new Error("unknown week day '{0}'", day);
+				-1;
 		}
 
 		return time - ((d - s) % 7) * 24 * 60 * 60 * 1000;
 	}
 
 	static var _reparse = ~/^\d{4}-\d\d-\d\d(( |T)\d\d:\d\d(:\d\d(\.\d{1,3})?)?)?Z?$/;
+	
+	/** 
+	*	Let's you know if a string can be parsed into a valid date format
+	*	
+	*	String formats allowed include: "2010-10-01", "2010-10-01 05:05", 
+	*   "2010-10-01T05:05Z", "2010-10-01 05:05:05", "2010-10-01T05:05:05Z", 
+	*	"2010-10-01T05:05:05", "2010-10-01 05:05:05.005"]
+	* 
+	*	@param s String to check.  
+	*
+	*	@return True if the string can be parsed as a date. 
+	*
+	*	@see Dates.parse()
+	*/
 	public static function canParse(s : String)
 	{
 		return _reparse.match(s);
 	}
 
+	/**
+	*	Parses a string into a Date object.
+	*	
+	*	Use Dates.canParse() to see if a string is in a parsable format.
+	* 
+	*	@param s String to parse.  See canParse() docs for valid string formats.
+	*
+	*	@return A Date object for the given time.
+	*
+	*	@see Dates.canParse()
+	*/
 	public static function parse(s : String) : Date
 	{
 		var parts = s.split(".");
@@ -204,6 +245,17 @@ class Dates
 		return date;
 	}
 
+	/**
+	*	A comparison function for dates.
+	*
+	*	Can be used to sort an array of dates from earliest to latest:
+	*
+	*		arrayOfDates.sort(Dates.compare); 
+	* 
+	*	@param a First Date to compare.
+	*	@param b Second Date to compare.
+	*	@return 1 if A is before B, -1 if B is before A and 0 if they represent the same point in time.
+	*/
 	inline public static function compare(a : Date, b : Date)
 	{
 		return Floats.compare(a.getTime(), b.getTime());
