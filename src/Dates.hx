@@ -42,7 +42,7 @@ class Dates
 	* @param params An array containing a number of parameters.  Mostly useful if you use "C", and then need a second parameter to describe the format.
 	* @param culture The culture to use.
 	*/
-	public static function format(d : Date, ?param : String, ?params : Array<String>, ?culture : Culture)
+	public static function formatOld(d : Date, ?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return formatf(param, params, culture)(d);
 	}
@@ -103,7 +103,7 @@ class Dates
 				if (null == f)
 					return function(d) return FormatDate.date(d, culture);
 				else
-					return function(d) return FormatDate.format(f, d, culture, (params[1] != null ? (params[1] == 'true') : true));
+					return function(d) return FormatDate.format(d, f, culture, (params[1] != null ? (params[1] == 'true') : true));
 			default:
 				throw new Error("Unsupported date format: {0}", format);
 		}
@@ -298,3 +298,5 @@ class Dates
 		return Floats.compare(a.getTime(), b.getTime());
 	}
 }
+
+typedef FormatDate = thx.culture.FormatDate;

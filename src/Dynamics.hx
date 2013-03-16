@@ -32,7 +32,7 @@ class Dynamics
 					} else if (c == Array) {
 						return Arrays.format(v, param, params, culture);
 					} else if(c == Date) {
-						return Dates.format(v, param, params, culture);
+						return Dates.formatOld(v, param, params, culture);
 					} else {
 						return Objects.format(v, param, params, culture);
 					}
@@ -109,7 +109,7 @@ class Dynamics
 						else
 							return '"' + StringTools.replace(s, '"', '\\"') + '"';
 					case "Date":
-						return Dates.format(v);
+						return Dates.formatOld(v);
 					default:
 						return Std.string(v);
 				}

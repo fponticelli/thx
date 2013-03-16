@@ -95,7 +95,7 @@ customs for missing features
     leadingspace.
 </pre>
 	*/
-	static public function format(pattern : String, date : Date, ?culture : Culture, leadingspace = true) : String {
+	static public function format(date : Date, pattern : String, ?culture : Culture, leadingspace = true) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
 		var pos = 0;
@@ -119,7 +119,7 @@ customs for missing features
 				case 'c': buf.add(dateTime(date, culture));
 				case 'C': buf.add(FormatNumber.digits(''+Math.floor(date.getFullYear()/100), culture));
 				case 'd': buf.add(FormatNumber.digits(StringTools.lpad(''+date.getDate(), '0', 2), culture));
-				case 'D': buf.add(format("%m/%d/%y", date, culture));
+				case 'D': buf.add(format(date, "%m/%d/%y", culture));
 				case 'e': buf.add(FormatNumber.digits(leadingspace ? StringTools.lpad(''+date.getDate(), ' ', 2) : ''+date.getDate(), culture));
 				case 'f': buf.add(FormatNumber.digits(leadingspace ? StringTools.lpad(''+(date.getMonth()+1), ' ', 2) : ''+(date.getMonth()+1), culture));
 				case 'G': throw "Not Implemented Yet";
@@ -136,12 +136,12 @@ customs for missing features
 				case 'p': buf.add(date.getHours() > 11 ? info.pm : info.am);
 				case 'P': buf.add((date.getHours() > 11 ? info.pm : info.am).toLowerCase());
 				case 'q': buf.add(FormatNumber.digits(leadingspace ? StringTools.lpad(''+date.getSeconds(), ' ', 2) : ''+date.getSeconds(), culture));
-				case 'r': buf.add(format("%I:%M:%S %p", date, culture));
-				case 'R': buf.add(format("%H:%M", date, culture));
+				case 'r': buf.add(format(date, "%I:%M:%S %p", culture));
+				case 'R': buf.add(format(date, "%H:%M", culture));
 				case 's': buf.add(''+Std.int(date.getTime()/1000));
 				case 'S': buf.add(FormatNumber.digits(StringTools.lpad(''+date.getSeconds(), '0', 2), culture));
 				case 't': buf.add('\t');
-				case 'T': buf.add(format("%H:%M:%S", date, culture));
+				case 'T': buf.add(format(date, "%H:%M:%S", culture));
 				case 'u': var d = date.getDay(); buf.add(FormatNumber.digits(d == 0 ? '7' : ''+d, culture));
 				case 'U': throw "Not Implemented Yet";
 				case 'V': throw "Not Implemented Yet";
@@ -170,70 +170,82 @@ customs for missing features
 	static public function yearMonth(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return format(culture.date.patternYearMonth, date, culture, false);
+		return format(date, culture.date.patternYearMonth, culture, false);
 	}
 
 	static public function monthDay(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return format(culture.date.patternMonthDay, date, culture, false);
+		return format(date, culture.date.patternMonthDay, culture, false);
 	}
 
 	static public function date(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return format(culture.date.patternDate, date, culture, false);
+		return format(date, culture.date.patternDate, culture, false);
 	}
 
 	static public function dateShort(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return format(culture.date.patternDateShort, date, culture, false);
+		return format(date, culture.date.patternDateShort, culture, false);
+	}
+
+	static public function dateShortTime(d : Date, ?culture : Culture) : String {
+		return dateShort(d, culture)+' '+time(d, culture);
+	}
+
+	static public function dateShortTimeShort(d : Date, ?culture : Culture) : String {
+		return dateShort(d, culture)+' '+timeShort(d, culture);
+	}
+
+	static public function dateTimeShort(d : Date, ?culture : Culture) : String {
+		return date(d, culture)+' '+timeShort(d, culture);
 	}
 
 	static public function dateRfc(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return format(culture.date.patternDateRfc, date, culture, false);
+		return format(date, culture.date.patternDateRfc, culture, false);
 	}
 
 	static public function dateTime(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return format(culture.date.patternDateTime, date, culture, false);
+		return format(date, culture.date.patternDateTime, culture, false);
 	}
 
 	static public function universal(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return format(culture.date.patternUniversal, date, culture, false);
+		return format(date, culture.date.patternUniversal, culture, false);
 	}
 
 	static public function sortable(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return format(culture.date.patternSortable, date, culture, false);
+		return format(date, culture.date.patternSortable, culture, false);
 	}
 
 	static public function time(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return format(culture.date.patternTime, date, culture, false);
+		return format(date, culture.date.patternTime, culture, false);
 	}
 
 	static public function timeShort(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return format(culture.date.patternTimeShort, date, culture, false);
+		return format(date, culture.date.patternTimeShort, culture, false);
 	}
 	
 	static public function hourShort(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
 		if (null == culture.date.am)
-			return format("%H", date, culture, false);
+			return format(date, "%H", culture, false);
 		else
-			return format("%l %p", date, culture, false);
+			return format(date, "%l %p", culture, false);
 	}
 
 	static public function year(date : Date, ?culture : Culture) : String {
