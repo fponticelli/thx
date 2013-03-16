@@ -24,12 +24,12 @@ class Pow extends NumericScale<Pow>
 		powb = powp = function(v) return v;
 	}
 	
-	override public function scale(x : Float, ?i : Int)
+	override public function scale(x : Float)
 	{
 		return super.scale(powp(x));
 	}
 	
-	override public function invert(x : Float, ?i : Int)
+	override public function invert(x : Float)
 	{
 		return powb(super.invert(x));
 	}

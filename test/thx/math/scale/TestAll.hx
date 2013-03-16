@@ -31,10 +31,10 @@ class TestAll
 		runner.run();
 	}
 	
-	function assertScale(scalef : Float -> Int -> Float, expected : Array<Float>, values : Array<Float>, ?pos : PosInfos)
+	function assertScale(scalef : Float -> Float, expected : Array<Float>, values : Array<Float>, ?pos : PosInfos)
 	{
 		for (i in 0...expected.length)
-			Assert.floatEquals(expected[i], scalef(values[i], i), 1e-3, pos);
+			Assert.floatEquals(expected[i], scalef(values[i]), 1e-3, pos);
 	}
 	
 	public function new(){}

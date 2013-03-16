@@ -41,7 +41,7 @@ class Log extends NumericScale<Log>
 		pow = _pow;
 	}
 	
-	override public function scale(x : Float, ?i : Int)
+	override public function scale(x : Float)
 	{
 		return super.scale(log(x));
 	}

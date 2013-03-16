@@ -20,7 +20,8 @@ class Ini
 	public static function decode(value : String) : Dynamic
 	{
 		var handler = new ValueHandler();
-		var r = new IniDecoder(handler).decode(value);
+		var r = new IniDecoder(handler);
+		r.decode(value);
 		return handler.value;
 	}
 }

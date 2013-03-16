@@ -21,7 +21,7 @@ class Quantize<TRange> implements IScale<Float, TRange>
 		_range = [];
 	}
 
-	public function scale(x : Float, ?_)
+	public function scale(x : Float)
 	{
 		return _range[Std.int(Math.max(0, Math.min(i, Math.floor(kx * (x - x0)))))];
 	}

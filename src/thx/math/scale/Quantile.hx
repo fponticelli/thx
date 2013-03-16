@@ -34,7 +34,7 @@ class Quantile<TRange> implements IScale<Float, TRange>
 		}
 	}
 
-	public function scale(v : Float, ?_)
+	public function scale(v : Float)
 	{
 //		if (Math.isNaN(v)) return Math.NaN;
 		return _range[Arrays.bisect(_thresolds, v)];
