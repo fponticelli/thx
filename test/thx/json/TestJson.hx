@@ -4,7 +4,7 @@ import utest.Assert;
 
 class TestJson
 {
-	static var tests = [
+	static var tests:Array<Dynamic> = [
 		{ c : null,			s : "null" },
 		{ c : 'a\nb',		s : '"a\\nb"' },
 		{ c : 1,			s : "1" },

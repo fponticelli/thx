@@ -13,5 +13,5 @@ class TestImplementation implements ITest
 		counter = 0;
 	}
 	
-	public function sayHello() return "hi"
+	public function sayHello() return "hi";
 }

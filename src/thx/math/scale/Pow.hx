@@ -36,7 +36,7 @@ class Pow extends NumericScale<Pow>
 	
 	override public function getDomain() {
 		var me = this;
-		return super.getDomain().map(function(d, _) return me.powb(d));
+		return super.getDomain().map(function(d) return me.powb(d));
 	}
 	
 	override public function domain(d : Array<Float>)
@@ -59,7 +59,7 @@ class Pow extends NumericScale<Pow>
 		return tick.tickFormat(v, i);
 	}
 	
-	public function getModulo() return tick.getModulo()
+	public function getModulo() return tick.getModulo();
 	public function modulo(v : Int)
 	{
 		tick.modulo(v);

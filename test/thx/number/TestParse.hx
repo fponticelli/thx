@@ -11,8 +11,8 @@ import thx.cultures.EnIN;
 
 import utest.Assert;
 import thx.number.NumberParser;
-typedef N = NumberParser;
 using Math;
+typedef N = NumberParser;
 
 
 class TestParse
