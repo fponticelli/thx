@@ -10,11 +10,48 @@ import thx.error.Error;
 
 class Dates
 {
+	/**
+	* Format a date.
+	* 
+	* Output examples:
+	* 	date.format("D");		Tuesday, October 16, 2012
+	* 	date.format("DS");		10/16/2012
+	* 	date.format("DST");		10/16/2012 12:31:05 PM
+	* 	date.format("DSTS");	10/16/2012 12:31 PM
+	* 	date.format("DTS");		Tuesday, October 16, 2012 12:31 PM
+	* 	date.format("Y");		2012
+	* 	date.format("YM");		October, 2012
+	* 	date.format("M");		10
+	* 	date.format("MN");		October
+	* 	date.format("MS");		Oct
+	* 	date.format("MD");		October 16
+	* 	date.format("WD");		2
+	* 	date.format("WDN");		Tuesday
+	* 	date.format("WDS");		Tue
+	* 	date.format("R");		Tue, 16 Oct 2012 12:31:05 GMT
+	* 	date.format("DT");		Tuesday, October 16, 2012 12:31:05 PM
+	* 	date.format("U");		2012-10-16 12:31:05Z
+	* 	date.format("S");		2012-10-16T12:31:05
+	* 	date.format("T");		12:31:05 PM
+	* 	date.format("TS");		12:31 PM
+	* 	date.format("C");		Tuesday, October 16, 2012
+	* 	date.format(["C", "This happened on %A at %r"]);	This happened on Tuesday at 12:31:05 PM
+	*
+	* @param d The Date object to format
+	* @param param A String with the parameter describing the desired output.  See the description above for a list of codes.
+	* @param params An array containing a number of parameters.  Mostly useful if you use "C", and then need a second parameter to describe the format.
+	* @param culture The culture to use.
+	*/
 	public static function format(d : Date, ?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return formatf(param, params, culture)(d);
 	}
 
+	/** 
+	*	Return a function for formatting a date.  The function returned depends on the format code used here.
+	*
+	*	@see format()
+	*/
 	public static function formatf(?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		params = FormatParams.params(param, params, 'D');
