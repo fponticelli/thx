@@ -269,12 +269,12 @@ customs for missing features
 	static public function weekDayName(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return culture.date.abbrDays[date.getDay()];
+		return culture.date.days[date.getDay()];
 	}
 
 	static public function weekDayNameShort(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return culture.date.days[date.getDay()];
+		return culture.date.abbrDays[date.getDay()];
 	}
 }
