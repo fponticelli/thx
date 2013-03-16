@@ -46,14 +46,14 @@ class Log extends NumericScale<Log>
 		return super.scale(log(x));
 	}
 	
-	override public function invert(x : Float, ?i : Int)
+	override public function invert(x : Float)
 	{
 		return pow(super.invert(x));
 	}
 	
 	override public function getDomain() {
 		var me = this;
-		return super.getDomain().map(function(d, _) return me.pow(d));
+		return super.getDomain().map(function(d) return me.pow(d));
 	}
 	
 	override public function domain(d : Array<Float>)

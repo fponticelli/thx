@@ -19,7 +19,7 @@ class Ordinal<TDomain, TRange> implements IScale<TDomain, TRange>
 		rangeBand = 0.0;
 	}
 
-	public function scale(x : TDomain, ?_) : TRange
+	public function scale(x : TDomain) : TRange
 	{
 		var i = _domain.indexOf(x);
 		if (i < 0)
