@@ -251,13 +251,13 @@ customs for missing features
 	static public function monthName(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return culture.date.abbrMonths[date.getMonth()];
+		return culture.date.months[date.getMonth()];
 	}
 
 	static public function monthNameShort(date : Date, ?culture : Culture) : String {
 		if (null == culture)
 			culture = Culture.defaultCulture;
-		return culture.date.months[date.getMonth()];
+		return culture.date.abbrMonths[date.getMonth()];
 	}
 
 	static public function weekDay(date : Date, ?culture : Culture) : String {
