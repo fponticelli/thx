@@ -300,4 +300,6 @@ class Dates
 	}
 }
 
+// Also allow static methods in these classes to be accessed with "using Dates;"
 typedef FormatDate = thx.culture.FormatDate;
+typedef HaxeDateTools = DateTools;
