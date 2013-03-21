@@ -123,7 +123,8 @@ class Dates
 	/** 
 	*	Snaps a time to the nearest second, minute, hour, day, week, month or year.
 	*
-	*	Note, I'm not sure if "week" is functioning correctly yet.
+	*	Note, I'm not sure if "week" is functioning correctly yet. It rounds up/down to the
+	*	nearest 7 days, but the epoch didn't begin on a sunday or monday, so that's probably wrong
 	*	
 	*	@param time The unix time in milliseconds.  See date.getTime()
 	*	@param period Either "second", "minute", "hour", "day", "week", "month" or "year"
