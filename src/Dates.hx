@@ -375,9 +375,9 @@ class Dates
 	/** Returns a new date, exactly 1 week after the given date/time. */
 	inline public static function nextWeek(d) d.deltaWeek(1);
 	/** Returns a new date, exactly 1 day before the given date/time. */
-	inline public static function yesterday(d) d.deltaDay(-1);
+	inline public static function prevDay(d) d.deltaDay(-1);
 	/** Returns a new date, exactly 1 day after the given date/time. */
-	inline public static function tomorrow(d) d.deltaDay(1);
+	inline public static function nextDay(d) d.deltaDay(1);
 
 
 	static var _reparse = ~/^\d{4}-\d\d-\d\d(( |T)\d\d:\d\d(:\d\d(\.\d{1,3})?)?)?Z?$/;
