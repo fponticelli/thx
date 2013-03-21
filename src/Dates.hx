@@ -213,22 +213,24 @@ class Dates
 
 	/** 
 	*	Snaps a time to a given weekday in the current week.  The time within the day will stay the same.
+	*
+	*	If you are already on the given day, the date will not change.
 	*	
 	*	@param time The unix time in milliseconds.  See date.getTime()
 	*	@param day Day to snap to.  Either "sunday", "monday", "tuesday" etc. Case insensitive.
-	* 	@param mondayStart If true, the current week will be defined as Monday-Sunday.  Default is false, meaning Sunday-Saturday.
+	*	@param mode Whether to go the next day, the previous day, or in the current week.
+	*	@param firstDayOfWk The first day of the week.  Default to 0 (Sunday).  Monday = 1.
 	*	
 	*	@throws String if invalid weekday was entered.
 	*	
 	*	@return The unix time of the day you have snapped to.
 	*/
-	public static function snapToWeekDay(time : Float, day : String, ?mondayStart = false)
+	public static function snapToWeekDay(time : Float, day : String, ?mode=0, ?firstDayOfWk = 0)
 	{
 		var d = Date.fromTime(time).getDay();
-		var s = 0;
-		var s = switch(day.toLowerCase())
+		var s:Int = switch(day.toLowerCase())
 		{
-			case "sunday": (mondayStart) ? 7 : 0;
+			case "sunday": 0;
 			case "monday": 1;
 			case "tuesday": 2;
 			case "wednesday": 3;
@@ -240,8 +242,143 @@ class Dates
 				-1;
 		}
 
-		return time - ((d - s) % 7) * 24 * 60 * 60 * 1000;
+		if (mode < 0) 
+		{
+			// get the previous occurence of that day (backward in time)
+			if (s > d) s = s - 7;
+			return time - (d-s) * 24 * 60 * 60 * 1000; 
+		}
+		else if (mode > 0) 
+		{
+			// get the next occurence of that day (forward in time)
+			if (s < d) s = s + 7;
+			return time + (s-d) * 24 * 60 * 60 * 1000;
+		}
+		else 
+		{
+			// get whichever occurence happened in the current week.
+
+			if (s < firstDayOfWk) s = s+7;
+			if (d < firstDayOfWk)  d = d+7;
+			// var offset = s-d;
+			return time + (s-d) * 24 * 60 * 60 * 1000;
+		}
 	}
+
+	/**
+	* Tells if a year is a leap year
+	* @param year The year, represented as a 4 digit integer
+	* @return True if a leap year, false otherwise.
+	*/
+	public static function isLeapYear(year:Int)
+	{
+		// Only every 4th year
+		if ((year % 4) != 0) return false;
+		// Except every 100, unless it's the 400th year
+		if ((year % 100) == 0) 
+			return ((year % 400) == 0);
+		// It's divisible by 4, and it's not divisible by 100 - it's leap
+		return true;
+	}
+
+	/**
+	* Tells if the given date is inside a leap year.
+	* @param date The date object to check.
+	* @return True if it is in a leap year, false otherwise.
+	*/
+	inline public static function isInLeapYear(d:Date) return isLeapYear(d.getFullYear());
+
+	/**
+	* Returns the number of days in a month.
+	* @param month An integer representing the month. (Jan=0, Dec=11)
+	* @param year An 4 digit integer representing the year.
+	* @return Int, the number of days in the month.
+	* @throws Error if the month is not between 0 and 11.
+	*/
+	public static function numDaysInMonth(month:Int, year:Int)
+	{
+		// 31: Jan, Mar, May, Jul, Aug, Oct, Dec
+		// 30: Apr, Jun, Sep, Nov
+		// 28or29 Feb
+		return switch (month)
+		{
+			case 0 | 2 | 4 | 6 | 7 | 9 | 11: 31;
+			case 3 | 5 | 8 | 10: 30;
+			case 1: isLeapYear(year) ? 29 : 28;
+			default: throw new Error("Invalid month '{0}'.  Month should be a number, Jan=0, Dec=11", month); 0;
+		}
+	}
+
+	/**
+	* Tells how many days in the month of the given date.
+	* @param date The date representing the month we are checking.
+	* @return Int, the number of days in the month.
+	* @throws Error if the month is not between 0 and 11.
+	*/
+	public static function numDaysInThisMonth(d:Date) return numDaysInMonth(d.getMonth(), d.getFullYear());
+
+	/** Return a new date, offset by `numSec` seconds */
+	inline public static function deltaSec(d, numSec:Int) return DateTools.delta(d, numSec*1000);
+
+	/** Return a new date, offset by `numMin` minutes */
+	inline public static function deltaMin(d, numMin:Int) return DateTools.delta(d, numMin*60*1000);
+	
+	/** Return a new date, offset by `numHrs` hours */
+	inline public static function deltaHour(d, numHrs:Int) return DateTools.delta(d, numHrs*60*60*1000);
+	
+	/** Return a new date, offset by `numDays` days */
+	inline public static function deltaDay(d, numDays:Int) return DateTools.delta(d, numDays*24*60*60*1000);
+	
+	/** Return a new date, offset by `numWks` weeks */
+	inline public static function deltaWeek(d, numWks:Int) return DateTools.delta(d, numWks*7*24*60*60*1000);
+	
+	/** Return a new date, offset by `numMonths` months */
+	public static function deltaMonth(d:Date, numMonths:Int) 
+	{
+		// var daysInMonth = numDaysInThisMonth(d);
+		// return DateTools.delta(d, numMonths*daysInMonth*24*60*60*1000);
+
+		var newM = d.getMonth() + numMonths;
+		var newY = d.getFullYear();
+
+		while (newM > 11)
+		{
+			newM = newM - 12;
+			newY++;
+		}
+		while (newM < 0)
+		{
+			newM = newM + 12;
+			newY--;
+		}
+
+		return new Date(newY, newM, d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
+	}
+	
+	/** Return a new date, offset by `numYrs` years */
+	public static function deltaYear(d:Date, numYrs:Int) 
+	{
+		var newY = d.getFullYear() + numYrs;
+		return new Date(newY, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
+	}
+
+	/** Returns a new date, exactly 1 year before the given date/time. */
+	inline public static function prevYear(d) d.deltaYear(-1);
+	/** Returns a new date, exactly 1 year after the given date/time. */
+	inline public static function nextYear(d) d.deltaYear(1);
+	/** Returns a new date, exactly 1 month before the given date/time. */
+	inline public static function prevMonth(d) d.deltaMonth(-1);
+	/** Returns a new date, exactly 1 month after the given date/time. */
+	inline public static function nextMonth(d) d.deltaMonth(1);
+	/** Returns a new date, exactly 1 week before the given date/time. */
+	inline public static function prevWeek(d) d.deltaWeek(-1);
+	/** Returns a new date, exactly 1 week after the given date/time. */
+	inline public static function nextWeek(d) d.deltaWeek(1);
+	/** Returns a new date, exactly 1 day before the given date/time. */
+	inline public static function yesterday(d) d.deltaDay(-1);
+	/** Returns a new date, exactly 1 day after the given date/time. */
+	inline public static function tomorrow(d) d.deltaDay(1);
+
 
 	static var _reparse = ~/^\d{4}-\d\d-\d\d(( |T)\d\d:\d\d(:\d\d(\.\d{1,3})?)?)?Z?$/;
 	
