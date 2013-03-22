@@ -363,21 +363,21 @@ class Dates
 	}
 
 	/** Returns a new date, exactly 1 year before the given date/time. */
-	inline public static function prevYear(d) d.deltaYear(-1);
+	inline public static function prevYear(d) return deltaYear(d, -1);
 	/** Returns a new date, exactly 1 year after the given date/time. */
-	inline public static function nextYear(d) d.deltaYear(1);
+	inline public static function nextYear(d) return deltaYear(d, 1);
 	/** Returns a new date, exactly 1 month before the given date/time. */
-	inline public static function prevMonth(d) d.deltaMonth(-1);
+	inline public static function prevMonth(d) return deltaMonth(d, -1);
 	/** Returns a new date, exactly 1 month after the given date/time. */
-	inline public static function nextMonth(d) d.deltaMonth(1);
+	inline public static function nextMonth(d) return deltaMonth(d, 1);
 	/** Returns a new date, exactly 1 week before the given date/time. */
-	inline public static function prevWeek(d) d.deltaWeek(-1);
+	inline public static function prevWeek(d) return deltaWeek(d, -1);
 	/** Returns a new date, exactly 1 week after the given date/time. */
-	inline public static function nextWeek(d) d.deltaWeek(1);
+	inline public static function nextWeek(d) return deltaWeek(d, 1);
 	/** Returns a new date, exactly 1 day before the given date/time. */
-	inline public static function prevDay(d) d.deltaDay(-1);
+	inline public static function prevDay(d) return deltaDay(d, -1);
 	/** Returns a new date, exactly 1 day after the given date/time. */
-	inline public static function nextDay(d) d.deltaDay(1);
+	inline public static function nextDay(d) return deltaDay(d, 1);
 
 
 	static var _reparse = ~/^\d{4}-\d\d-\d\d(( |T)\d\d:\d\d(:\d\d(\.\d{1,3})?)?)?Z?$/;
