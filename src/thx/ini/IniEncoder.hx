@@ -120,9 +120,9 @@ class IniEncoder implements IDataHandler
 	public function valueDate(d : Date)
 	{
 		if (d.getSeconds() == 0 && d.getMinutes() == 0 && d.getHours() == 0)
-			value += Dates.formatOld(d, "C", ["%Y-%m-%d"]);
+			value += Dates.format(d, "C", ["%Y-%m-%d"]);
 		else
-			value += Dates.formatOld(d, "C", ["%Y-%m-%d %H:%M:%S"]);
+			value += Dates.format(d, "C", ["%Y-%m-%d %H:%M:%S"]);
 	}
 	public function valueString(s : String)
 	{

@@ -36,13 +36,15 @@ class Dates
 	* 	date.format("TS");		12:31 PM
 	* 	date.format("C");		Tuesday, October 16, 2012
 	* 	date.format(["C", "This happened on %A at %r"]);	This happened on Tuesday at 12:31:05 PM
+	*   
+	*   If the provided format does not match one of these strings, it is passed to FormatDate.format() and is used.
 	*
 	* @param d The Date object to format
 	* @param param A String with the parameter describing the desired output.  See the description above for a list of codes.
 	* @param params An array containing a number of parameters.  Mostly useful if you use "C", and then need a second parameter to describe the format.
 	* @param culture The culture to use.
 	*/
-	public static function formatOld(d : Date, ?param : String, ?params : Array<String>, ?culture : Culture)
+	public static function format(d : Date, ?param : String, ?params : Array<String>, ?culture : Culture)
 	{
 		return formatf(param, params, culture)(d);
 	}
@@ -105,7 +107,8 @@ class Dates
 				else
 					return function(d) return FormatDate.format(d, f, culture, (params[1] != null ? (params[1] == 'true') : true));
 			default:
-				throw new Error("Unsupported date format: {0}", format);
+				// Attempt to use FormatDate.format()
+				return function (d) return FormatDate.format(d, format, culture, (params[0] != null ? (params[0] == 'true') : true));
 		}
 	}
 
