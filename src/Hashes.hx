@@ -16,17 +16,17 @@ class Hashes
 		return arr;
 	}
 
-	public static function toDynamic<T>(Map  : Map<String, T>) : Dynamic<T>
+	public static function toDynamic<T>(hash : Map<String, T>) : Dynamic<T>
 	{
 		var o : Dynamic<T> = { };
-		for (key in Map .keys())
-			Reflect.setField(o, key, Map .get(key));
+		for (key in hash.keys())
+			Reflect.setField(o, key, hash.get(key));
 		return o;
 	}
 
-	public static function importObject<T>(Map  : Map<String, T>, ob : Dynamic<T>) : Map<String, T>
+	public static function importObject<T>(hash : Map<String, T>, ob : Dynamic<T>) : Map<String, T>
 	{
-		return DynamicsT.copyToHash(ob, Map );
+		return DynamicsT.copyToHash(ob, hash);
 	}
 
 	public static function copyTo<T>(from : Map<String, T>, to : Map<String, T>)
@@ -43,60 +43,60 @@ class Hashes
 		return h;
 	}
 
-	public static inline function arrayOfKeys(Map  : Map<String, Dynamic>)
+	public static inline function arrayOfKeys(hash : Map<String, Dynamic>)
 	{
-		return Iterators.array(Map .keys());
+		return Iterators.array(hash.keys());
 	}
 
-	public static function setOfKeys(Map  : Map<String, Dynamic>) : Set<String>
+	public static function setOfKeys(hash : Map<String, Dynamic>) : Set<String>
 	{
 		var set = new Set();
-		for(k in Map .keys())
+		for(k in hash.keys())
 			set.add(k);
 		return set;
 	}
 
-	public static inline function empty(Map  : Map<String, Dynamic>) return count(Map ) == 0;
+	public static inline function empty(hash : Map<String, Dynamic>) return count(hash) == 0;
 
-	public static function count(Map  : Map<String, Dynamic>)
+	public static function count(hash : Map<String, Dynamic>)
 	{
 		#if neko
-		return untyped __dollar__hsize(Map .h);
+		return untyped __dollar__hsize(hash.h);
 		#elseif php
-		return untyped __call__('count', Map .h);
+		return untyped __call__('count', hash.h);
 		#else
 		var i = 0;
-		for (_ in Map )
+		for (_ in hash)
 			i++;
 		return i;
 		#end
 	}
 
-	public static function mergef<T>(Map  : Map<String, T> , new_hash : Map<String, T> , f:String->T->T->T)
+	public static function mergef<T>(hash : Map<String, T> , new_hash : Map<String, T> , f:String->T->T->T)
 	{
 		for (k in new_hash.keys()){
 			var new_val = new_hash.get(k);
-			if (Map .exists(k)){
+			if (hash.exists(k)){
 				var old_val = Map .get(k);
-				Map .set(k, f(k, old_val, new_val));
+				hash.set(k, f(k, old_val, new_val));
 			} else{
-				Map .set(k,new_val);
+				hash.set(k,new_val);
 			}
 		}
 	}
 
-	public static function merge<T>(Map  : Map<String, T> , new_hash : Map<String, T>)
+	public static function merge<T>(hash : Map<String, T> , new_hash : Map<String, T>)
 	{
-		mergef(Map ,new_hash, function(key, old_v,new_v) return new_v);
+		mergef(hash, new_hash, function(key, old_v,new_v) return new_v);
 	}
 
-	public static function clear(Map  : Map<String, Dynamic>)
+	public static function clear(hash : Map<String, Dynamic>)
 	{
 		#if cpp
-		var _hash : { private var __Internal : Dynamic; } = Map ;
+		var _hash : { private var __Internal : Dynamic; } = hash;
 		_hash.__Internal = {};
 		#else
-		var _hash : FriendHash = Map ;
+		var _hash : FriendHash = hash;
 		#if flash9
 		_hash.h = new flash.utils.Dictionary();
 		#elseif flash
