@@ -24,19 +24,19 @@ class Pow extends NumericScale<Pow>
 		powb = powp = function(v) return v;
 	}
 	
-	override public function scale(x : Float, ?i : Int)
+	override public function scale(x : Float)
 	{
 		return super.scale(powp(x));
 	}
 	
-	override public function invert(x : Float, ?i : Int)
+	override public function invert(x : Float)
 	{
 		return powb(super.invert(x));
 	}
 	
 	override public function getDomain() {
 		var me = this;
-		return super.getDomain().map(function(d, _) return me.powb(d));
+		return super.getDomain().map(function(d) return me.powb(d));
 	}
 	
 	override public function domain(d : Array<Float>)
@@ -59,7 +59,7 @@ class Pow extends NumericScale<Pow>
 		return tick.tickFormat(v, i);
 	}
 	
-	public function getModulo() return tick.getModulo()
+	public function getModulo() return tick.getModulo();
 	public function modulo(v : Int)
 	{
 		tick.modulo(v);

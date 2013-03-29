@@ -36,7 +36,7 @@ class NumericScale<This> implements IScale<Float, Float>
 		return _this();
 	}
 
-	public function scale(x : Float, ?i : Int) : Float
+	public function scale(x : Float) : Float
 	{
 		return _output(x);
 	}

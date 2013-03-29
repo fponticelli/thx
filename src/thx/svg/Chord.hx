@@ -64,7 +64,7 @@ class Chord<TData, TChord>
 		return "Q 0,0 " + p1;
 	}
 
-	public function getSource() return _source
+	public function getSource() return _source;
 	public function source(v : TChord)
 	{
 		_source = function(_,_) return v;
@@ -76,7 +76,7 @@ class Chord<TData, TChord>
 		return this;
 	}
 
-	public function getTarget() return _target
+	public function getTarget() return _target;
 	public function target(v : TChord)
 	{
 		_target = function(_,_) return v;
@@ -88,7 +88,7 @@ class Chord<TData, TChord>
 		return this;
 	}
 
-	public function getRadius() return _radius
+	public function getRadius() return _radius;
 	public function radius(v : Float)
 	{
 		_radius = function(_,_) return v;
@@ -100,7 +100,7 @@ class Chord<TData, TChord>
 		return this;
 	}
 
-	public function getStartAngle() return _startAngle
+	public function getStartAngle() return _startAngle;
 	public function startAngle(v : Float)
 	{
 		_startAngle = function(_,_) return v;
@@ -112,7 +112,7 @@ class Chord<TData, TChord>
 		return this;
 	}
 
-	public function getEndAngle() return _endAngle
+	public function getEndAngle() return _endAngle;
 	public function endAngle(v : Float)
 	{
 		_endAngle = function(_,_) return v;

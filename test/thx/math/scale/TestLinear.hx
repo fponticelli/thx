@@ -48,10 +48,10 @@ class TestLinear extends TestAll
 	{
 		var scale = new Linear();
 
-		Assert.equals("0, 1", scale.modulo(1).ticks().map(function(d, _)  return scale.tickFormat(d)).join(", "));
-		Assert.equals("0.0, 0.5, 1.0", scale.modulo(2).ticks().map(function(d, _)  return scale.tickFormat(d)).join(", "));
-		Assert.equals("0.0, 0.2, 0.4, 0.6, 0.8, 1.0", scale.modulo(5).ticks().map(function(d, _)  return scale.tickFormat(d)).join(", "));
-		Assert.equals("0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0", scale.modulo(10).ticks().map(function(d, _) return scale.tickFormat(d)).join(", "));
+		Assert.equals("0, 1", scale.modulo(1).ticks().map(function(d)  return scale.tickFormat(d)).join(", "));
+		Assert.equals("0.0, 0.5, 1.0", scale.modulo(2).ticks().map(function(d)  return scale.tickFormat(d)).join(", "));
+		Assert.equals("0.0, 0.2, 0.4, 0.6, 0.8, 1.0", scale.modulo(5).ticks().map(function(d)  return scale.tickFormat(d)).join(", "));
+		Assert.equals("0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0", scale.modulo(10).ticks().map(function(d) return scale.tickFormat(d)).join(", "));
 	}
 }
 

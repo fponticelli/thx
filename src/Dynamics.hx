@@ -1,5 +1,7 @@
 import thx.culture.Culture;
 import thx.error.Error;
+import haxe.ds.StringMap;
+import haxe.ds.IntMap;
 
 /**
  * ...
@@ -265,8 +267,8 @@ class Dynamics
 				if(Std.is(a, Date))
 					return untyped a.getTime() == b.getTime();
 
-				// Map , Map 
-				if (Std.is(a, Map ) || Std.is(a, Map ))
+				// Map, StringMap, IntMap
+				if (Std.is(a, Map) || Std.is(a, StringMap) || Std.is(a, IntMap))
 				{
 					var ha : Map<String, Dynamic> = cast a,
 						hb : Map<String, Dynamic> = cast b;

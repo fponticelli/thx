@@ -34,13 +34,13 @@ class Quantile<TRange> implements IScale<Float, TRange>
 		}
 	}
 
-	public function scale(v : Float, ?_)
+	public function scale(v : Float)
 	{
 //		if (Math.isNaN(v)) return Math.NaN;
 		return _range[Arrays.bisect(_thresolds, v)];
 	}
 
-	public function getDomain() return _domain
+	public function getDomain() return _domain;
 
 	public function domain(x : Array<Float>)
 	{
@@ -50,7 +50,7 @@ class Quantile<TRange> implements IScale<Float, TRange>
 		return this;
 	}
 
-	public function getRange() return _range
+	public function getRange() return _range;
 	public function range(x : Array<TRange>)
 	{
 		_range = x.copy();

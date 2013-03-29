@@ -77,7 +77,7 @@ class TestDateParser
 			{ expected : "2011-04-01 00:00:00", test : "last april" },
 			{ expected : "2010-05-01 00:00:00", test : "last may" },
 			{ expected : "2010-06-01 00:00:00", test : "last june" },
-			{ expected : "2012-04-01 00:00:00", test : "next april" },
+			{ expected : "2012-04-01 00:00:00", test : "next april" }, // Weird weird failure on neko.  But even this fails: 
 			{ expected : "2012-05-01 00:00:00", test : "next may" },
 			{ expected : "2011-06-01 00:00:00", test : "next june" },
 

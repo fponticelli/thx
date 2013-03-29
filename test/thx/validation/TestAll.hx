@@ -16,7 +16,7 @@ class TestAll
 		switch(result)
 		{
 			case Ok: Assert.isTrue(ok, message, pos);
-			case Failure(e): Assert.isFalse(ok, message, pos);
+			case Failure(_): Assert.isFalse(ok, message, pos);
 		}
 	}
 	

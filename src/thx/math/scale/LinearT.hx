@@ -37,7 +37,7 @@ class LinearT<T> implements IScale<Float, T>
 		return this;
 	}
 	
-	public function scale(x : Float, ?_) : T
+	public function scale(x : Float) : T
 	{
 		return _output(x);
 	}

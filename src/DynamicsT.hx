@@ -11,10 +11,10 @@ class DynamicsT
 		return copyToHash(ob, Map );
 	}
 
-	public static function copyToHash<T>(ob : Dynamic<T>, Map  : Map<String, T>) : Map<String, T>
+	public static function copyToHash<T>(ob : Dynamic<T>, hash : Map<String, T>) : Map<String, T>
 	{
 		for (field in Reflect.fields(ob))
-			Map .set(field, Reflect.field(ob, field));
-		return Map ;
+			hash.set(field, Reflect.field(ob, field));
+		return hash;
 	}
 }

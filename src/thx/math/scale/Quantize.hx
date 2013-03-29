@@ -21,12 +21,12 @@ class Quantize<TRange> implements IScale<Float, TRange>
 		_range = [];
 	}
 
-	public function scale(x : Float, ?_)
+	public function scale(x : Float)
 	{
 		return _range[Std.int(Math.max(0, Math.min(i, Math.floor(kx * (x - x0)))))];
 	}
 
-	public function getDomain() return [x0, x1]
+	public function getDomain() return [x0, x1];
 	public function domain(x0 : Float, x1 : Float)
 	{
 		this.x0 = x0;
@@ -35,7 +35,7 @@ class Quantize<TRange> implements IScale<Float, TRange>
 		return this;
 	}
 
-	public function getRange() return _range.copy()
+	public function getRange() return _range.copy();
 	public function range(x : Array<TRange>)
 	{
 		_range = x.copy();

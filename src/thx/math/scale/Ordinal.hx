@@ -19,7 +19,7 @@ class Ordinal<TDomain, TRange> implements IScale<TDomain, TRange>
 		rangeBand = 0.0;
 	}
 
-	public function scale(x : TDomain, ?_) : TRange
+	public function scale(x : TDomain) : TRange
 	{
 		var i = _domain.indexOf(x);
 		if (i < 0)
@@ -30,14 +30,14 @@ class Ordinal<TDomain, TRange> implements IScale<TDomain, TRange>
 		return _range[i];
 	}
 
-	public function getDomain() return _domain.copy()
+	public function getDomain() return _domain.copy();
 	public function domain(x : Array<TDomain>)
 	{
 		_domain = x.copy();
 		return this;
 	}
 
-	public function getRange() return _range.copy()
+	public function getRange() return _range.copy();
 	public function range(a : Array<TRange>)
 	{
 		_range = a.copy();

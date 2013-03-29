@@ -291,7 +291,7 @@ Other things to do. Nested placeholders
 
 	public static function ucwords(value : String) : String
 	{
-		return __ucwordsPattern.customReplace(ucfirst(value), __upperMatch);
+		return __ucwordsPattern.map(ucfirst(value), __upperMatch);
 	}
 
 	/**
@@ -304,7 +304,7 @@ Other things to do. Nested placeholders
 #if php
 		return untyped __call__("ucwords", value);
 #else
-		return __ucwordswsPattern.customReplace(ucfirst(value), __upperMatch);
+		return __ucwordswsPattern.map(ucfirst(value), __upperMatch);
 #end
 	}
 
@@ -312,9 +312,9 @@ Other things to do. Nested placeholders
 	{
 		return re.matched(0).toUpperCase();
 	}
-	static var __ucwordsPattern = new EReg('[^a-zA-Z]([a-z])', '');
+	static var __ucwordsPattern = new EReg('[^a-zA-Z]([a-z])', 'g');
 #if !php
-	static var __ucwordswsPattern = new EReg('\\s([a-z])', '');
+	static var __ucwordswsPattern = new EReg('\\s([a-z])', 'g');
 	static var __alphaNumPattern = new EReg('^[a-z0-9]+$', 'i');
 	static var __digitsPattern = new EReg('^[0-9]+$', '');
 #end
