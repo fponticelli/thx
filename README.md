@@ -4,4 +4,4 @@
 
 The library has not been abandoned but it has been split in micro libraries covering specific aspects of software development.
 
-The new libraries are documented on the (website thx-lib.org)[http://thx-lib.org/].
+The new libraries are documented on the [website thx-lib.org](http://thx-lib.org/).
